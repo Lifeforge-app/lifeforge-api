@@ -318,7 +318,8 @@
     "videos": "Search Videos...",
     "iconSets": "Search Icons Sets...",
     "filterIconSets": "Filter Icon Sets...",
-    "icons": "Search Icons..."
+    "icons": "Search Icons...",
+    "amongMillionsOfBooks": "Search among millions of books..."
   },
   "button": {
     "create": "Create",
@@ -424,7 +425,12 @@
     "fileUpload": "Upload File",
     "folderUpload": "Upload Folder",
     "hideAmount": "Hide amount",
-    "removeFromFolder": "Remove from Folder"
+    "removeFromFolder": "Remove from Folder",
+    "addBook": "Add Book",
+    "uploadFromDevice": "Upload from Device",
+    "downloadFromLibgen": "Download from Library Genesis",
+    "viewDetails": "View Details",
+    "addToLibrary": "Add to Library"
   },
   "modals": {
     "header": {
@@ -496,7 +502,8 @@
       "createPriority": "Create Priority",
       "updatePriority": "Update Priority",
       "updateJournalEntry": "Update Journal Entry",
-      "createJournalEntry": "Create Journal Entry"
+      "createJournalEntry": "Create Journal Entry",
+      "libraryGenesis": "Library Genesis"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -824,6 +831,18 @@
     "notes": {
       "title": "No Notes Here",
       "description": "Time to upload some notes here!"
+    },
+    "booksLibrary": {
+      "searchQuery": {
+        "title": "No Search Query",
+        "description": "Start exploring Library Genensis. Try searching for a book to get started."
+      },
+      "noSearchQuery": {},
+      "results": {
+        "title": "No Books Found",
+        "description": "No matching books found in Library Genesis."
+      },
+      "noResults": {}
     }
   },
   "todoList": {

@@ -1,64 +1,64 @@
-import express, { Request, Response } from 'express'
-import { successWithBaseResponse } from '../../../utils/response.js'
-import asyncWrapper from '../../../utils/asyncWrapper.js'
+import express, { Request, Response } from "express";
+import { successWithBaseResponse } from "../../../utils/response.js";
+import asyncWrapper from "../../../utils/asyncWrapper.js";
 
-const router = express.Router()
+const router = express.Router();
 
 router.get(
-    '/:id',
-    asyncWrapper(async (req: Request, res: Response) => {
-        const { pb } = req
-        const subjects = await pb.collection('notes_subjects').getFullList({
-            filter: `workspace = "${req.params.id}"`
-        })
+  "/:id",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    const subjects = await pb.collection("notes_subjects").getFullList({
+      filter: `workspace = "${req.params.id}"`,
+    });
 
-        successWithBaseResponse(res, subjects)
-    })
-)
+    successWithBaseResponse(res, subjects);
+  })
+);
 
 router.post(
-    '/',
-    asyncWrapper(async (req: Request, res: Response) => {
-        const { pb } = req
+  "/",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
 
-        const { title } = req.body
-        const existing = await pb.collection('notes_subjects').getFullList({
-            filter: `title = "${title}" && workspace = "${req.body.workspace}"`
-        })
-        if (existing.length > 0) {
-            res.status(400).json({
-                state: 'error',
-                message: 'Subject already exists'
-            })
+    const { title } = req.body;
+    const existing = await pb.collection("notes_subjects").getFullList({
+      filter: `title = "${title}" && workspace = "${req.body.workspace}"`,
+    });
+    if (existing.length > 0) {
+      res.status(400).json({
+        state: "error",
+        message: "Subject already exists",
+      });
 
-            return
-        }
-        const subject = await pb.collection('notes_subjects').create(req.body)
+      return;
+    }
+    const subject = await pb.collection("notes_subjects").create(req.body);
 
-        successWithBaseResponse(res, subject)
-    })
-)
+    successWithBaseResponse(res, subject);
+  })
+);
 
 router.patch(
-    '/:id',
-    asyncWrapper(async (req: Request, res: Response) => {
-        const { pb } = req
-        const subject = await pb
-            .collection('notes_subjects')
-            .update(req.params.id, req.body)
+  "/:id",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    const subject = await pb
+      .collection("notes_subjects")
+      .update(req.params.id, req.body);
 
-        successWithBaseResponse(res, subject)
-    })
-)
+    successWithBaseResponse(res, subject);
+  })
+);
 
 router.delete(
-    '/:id',
-    asyncWrapper(async (req: Request, res: Response) => {
-        const { pb } = req
-        await pb.collection('notes_subjects').delete(req.params.id)
+  "/:id",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    await pb.collection("notes_subjects").delete(req.params.id);
 
-        successWithBaseResponse(res, null)
-    })
-)
+    successWithBaseResponse(res, null);
+  })
+);
 
-export default router
+export default router;

@@ -58,7 +58,7 @@ router.patch(
 
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

@@ -20,11 +20,10 @@ const router = express.Router();
 router.get(
   "/:difficulty",
   param("difficulty").isString().isIn(["easy", "medium", "hard", "impossible"]),
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IAchievementEntry[]>>) =>
-      list<IAchievementEntry>(req, res, "achievements_entries", {
-        filter: `difficulty = "${req.params.difficulty}"`,
-      })
+  asyncWrapper(async (req, res: Response<BaseResponse<IAchievementEntry[]>>) =>
+    list<IAchievementEntry>(req, res, "achievements_entries", {
+      filter: `difficulty = "${req.params.difficulty}"`,
+    })
   )
 );
 
@@ -47,24 +46,22 @@ router.post(
     body("title").isString(),
     body("thoughts").isString(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IAchievementEntry>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IAchievementEntry>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { difficulty, title, thoughts } = req.body;
+    const { pb } = req;
+    const { difficulty, title, thoughts } = req.body;
 
-      const achievement: IAchievementEntry = await pb
-        .collection("achievements_entries")
-        .create({
-          difficulty,
-          title,
-          thoughts,
-        });
+    const achievement: IAchievementEntry = await pb
+      .collection("achievements_entries")
+      .create({
+        difficulty,
+        title,
+        thoughts,
+      });
 
-      successWithBaseResponse(res, achievement, 201);
-    }
-  )
+    successWithBaseResponse(res, achievement, 201);
+  })
 );
 
 /**
@@ -87,7 +84,7 @@ router.patch(
     body("title").exists().notEmpty(),
     body("thoughts").exists().notEmpty(),
   ],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
@@ -118,7 +115,7 @@ router.patch(
 router.delete(
   "/:id",
   [param("id").isString()],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;

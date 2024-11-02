@@ -17,9 +17,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListList[]>>) =>
-      list(req, res, "todo_lists")
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListList[]>>) =>
+    list(req, res, "todo_lists")
   )
 );
 
@@ -39,22 +38,20 @@ router.post(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListList>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListList>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { name, icon, color } = req.body;
 
-      const list: ITodoListList = await pb.collection("todo_lists").create({
-        name,
-        icon,
-        color,
-      });
+    const list: ITodoListList = await pb.collection("todo_lists").create({
+      name,
+      icon,
+      color,
+    });
 
-      successWithBaseResponse(res, list);
-    }
-  )
+    successWithBaseResponse(res, list);
+  })
 );
 
 /**
@@ -74,23 +71,21 @@ router.patch(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListList>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListList>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon, color } = req.body;
 
-      const list: ITodoListList = await pb.collection("todo_lists").update(id, {
-        name,
-        icon,
-        color,
-      });
+    const list: ITodoListList = await pb.collection("todo_lists").update(id, {
+      name,
+      icon,
+      color,
+    });
 
-      successWithBaseResponse(res, list);
-    }
-  )
+    successWithBaseResponse(res, list);
+  })
 );
 
 /**
@@ -102,7 +97,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

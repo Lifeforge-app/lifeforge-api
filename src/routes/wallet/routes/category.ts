@@ -18,9 +18,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IWalletCategory[]>>) =>
-      list(req, res, "wallet_categories")
+  asyncWrapper(async (req, res: Response<BaseResponse<IWalletCategory[]>>) =>
+    list(req, res, "wallet_categories")
   )
 );
 
@@ -42,25 +41,23 @@ router.post(
     body("color").isHexColor(),
     body("type").isIn(["expenses", "income"]),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IWalletCategory>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IWalletCategory>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, icon, color, type } = req.body;
+    const { pb } = req;
+    const { name, icon, color, type } = req.body;
 
-      const category: IWalletCategory = await pb
-        .collection("wallet_categories")
-        .create({
-          name,
-          icon,
-          color,
-          type,
-        });
+    const category: IWalletCategory = await pb
+      .collection("wallet_categories")
+      .create({
+        name,
+        icon,
+        color,
+        type,
+      });
 
-      successWithBaseResponse(res, category, 201);
-    }
-  )
+    successWithBaseResponse(res, category, 201);
+  })
 );
 
 /**
@@ -80,28 +77,26 @@ router.patch(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IWalletCategory>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IWalletCategory>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon, color } = req.body;
 
-      const found = await checkExistence(req, res, "wallet_categories", id);
-      if (!found) return;
+    const found = await checkExistence(req, res, "wallet_categories", id);
+    if (!found) return;
 
-      const category: IWalletCategory = await pb
-        .collection("wallet_categories")
-        .update(id, {
-          name,
-          icon,
-          color,
-        });
+    const category: IWalletCategory = await pb
+      .collection("wallet_categories")
+      .update(id, {
+        name,
+        icon,
+        color,
+      });
 
-      successWithBaseResponse(res, category);
-    }
-  )
+    successWithBaseResponse(res, category);
+  })
 );
 
 /**
@@ -113,7 +108,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

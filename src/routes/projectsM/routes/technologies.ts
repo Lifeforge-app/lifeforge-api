@@ -18,7 +18,7 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMTechnology[]>>) =>
+    async (req, res: Response<BaseResponse<IProjectsMTechnology[]>>) =>
       list(req, res, "projects_m_technologies", {
         sort: "name",
       })
@@ -37,7 +37,7 @@ router.post(
   "/",
   [body("name").isString(), body("icon").isString()],
   asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMTechnology>>) => {
+    async (req, res: Response<BaseResponse<IProjectsMTechnology>>) => {
       if (hasError(req, res)) return;
 
       const { pb } = req;
@@ -68,7 +68,7 @@ router.patch(
   "/:id",
   [body("name").isString(), body("icon").isString()],
   asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMTechnology>>) => {
+    async (req, res: Response<BaseResponse<IProjectsMTechnology>>) => {
       const { pb } = req;
       const { id } = req.params;
       const { name, icon } = req.body;
@@ -94,7 +94,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

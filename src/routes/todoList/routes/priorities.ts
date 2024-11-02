@@ -17,9 +17,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoPriority[]>>) =>
-      list(req, res, "todo_priorities")
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority[]>>) =>
+    list(req, res, "todo_priorities")
   )
 );
 
@@ -34,23 +33,21 @@ router.get(
 router.post(
   "/",
   [body("name").exists().notEmpty(), body("color").exists().isHexColor()],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoPriority>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, color } = req.body;
+    const { pb } = req;
+    const { name, color } = req.body;
 
-      const priority: ITodoPriority = await pb
-        .collection("todo_priorities")
-        .create({
-          name,
-          color,
-        });
+    const priority: ITodoPriority = await pb
+      .collection("todo_priorities")
+      .create({
+        name,
+        color,
+      });
 
-      successWithBaseResponse(res, priority);
-    }
-  )
+    successWithBaseResponse(res, priority);
+  })
 );
 
 /**
@@ -65,24 +62,22 @@ router.post(
 router.patch(
   "/:id",
   [body("name").exists().notEmpty(), body("color").exists().isHexColor()],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoPriority>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, color } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, color } = req.body;
 
-      const priority: ITodoPriority = await pb
-        .collection("todo_priorities")
-        .update(id, {
-          name,
-          color,
-        });
+    const priority: ITodoPriority = await pb
+      .collection("todo_priorities")
+      .update(id, {
+        name,
+        color,
+      });
 
-      successWithBaseResponse(res, priority);
-    }
-  )
+    successWithBaseResponse(res, priority);
+  })
 );
 
 /**
@@ -94,7 +89,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

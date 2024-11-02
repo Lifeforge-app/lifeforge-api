@@ -1,106 +1,103 @@
-import express, { Request, Response } from 'express'
-import bcrypt from 'bcrypt'
-import { v4 } from 'uuid'
-import { successWithBaseResponse } from '../../../utils/response.js'
-import asyncWrapper from '../../../utils/asyncWrapper.js'
-import { decrypt2 } from '../../../utils/encryption.js'
-import { body } from 'express-validator'
-import hasError from '../../../utils/checkError.js'
-import { BaseResponse } from '../../../interfaces/base_response.js'
+import express, { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import { v4 } from "uuid";
+import { successWithBaseResponse } from "../../../utils/response.js";
+import asyncWrapper from "../../../utils/asyncWrapper.js";
+import { decrypt2 } from "../../../utils/encryption.js";
+import { body } from "express-validator";
+import hasError from "../../../utils/checkError.js";
+import { BaseResponse } from "../../../interfaces/base_response.js";
 
-const router = express.Router()
+const router = express.Router();
 
-let challenge = v4()
+let challenge = v4();
 
 setTimeout(() => {
-    challenge = v4()
-}, 1000 * 60)
+  challenge = v4();
+}, 1000 * 60);
 
 router.get(
-    '/challenge',
-    asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
-        successWithBaseResponse(res, challenge)
-    })
-)
+  "/challenge",
+  asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
+    successWithBaseResponse(res, challenge);
+  })
+);
 
 router.post(
-    '/',
-    [body('id').exists().notEmpty(), body('password').exists().notEmpty()],
-    asyncWrapper(async (req: Request, res: Response) => {
-        if (hasError(req, res)) return
+  "/",
+  [body("id").exists().notEmpty(), body("password").exists().notEmpty()],
+  asyncWrapper(async (req, res) => {
+    if (hasError(req, res)) return;
 
-        const { id, password } = req.body
-        const { pb } = req
+    const { id, password } = req.body;
+    const { pb } = req;
 
-        const salt = await bcrypt.genSalt(10)
-        const masterPasswordHash = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10);
+    const masterPasswordHash = await bcrypt.hash(password, salt);
 
-        await pb.collection('users').update(id, {
-            masterPasswordHash
-        })
+    await pb.collection("users").update(id, {
+      masterPasswordHash,
+    });
 
-        successWithBaseResponse(res)
-    })
-)
-
-router.post(
-    '/verify',
-    asyncWrapper(async (req: Request, res: Response<BaseResponse<boolean>>) => {
-        const { id, password } = req.body
-        const { pb } = req
-
-        const decryptedMaster = decrypt2(password, challenge)
-
-        const user = await pb.collection('users').getOne(id)
-        const { masterPasswordHash } = user
-
-        const isMatch = await bcrypt.compare(
-            decryptedMaster,
-            masterPasswordHash
-        )
-
-        successWithBaseResponse(res, isMatch)
-    })
-)
+    successWithBaseResponse(res);
+  })
+);
 
 router.post(
-    '/otp',
-    [body('otp').exists().notEmpty()],
-    asyncWrapper(async (req: Request, res: Response<BaseResponse<boolean>>) => {
-        if (hasError(req, res)) return
+  "/verify",
+  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
+    const { id, password } = req.body;
+    const { pb } = req;
 
-        const { otp } = req.body
-        const { pb } = req
-        const id = pb.authStore.model?.id
+    const decryptedMaster = decrypt2(password, challenge);
 
-        if (!id) {
-            successWithBaseResponse(res, false)
-            return
-        }
+    const user = await pb.collection("users").getOne(id);
+    const { masterPasswordHash } = user;
 
-        const decryptedOTP = decrypt2(otp, challenge)
-        const storedOTP = pb.authStore.model?.otp
+    const isMatch = await bcrypt.compare(decryptedMaster, masterPasswordHash);
 
-        if (!storedOTP) {
-            successWithBaseResponse(res, false)
-            return
-        }
+    successWithBaseResponse(res, isMatch);
+  })
+);
 
-        const [OTPKey, OTPExpire] = storedOTP.split('.')
-        const expire = new Date(OTPExpire)
-        const now = new Date()
+router.post(
+  "/otp",
+  [body("otp").exists().notEmpty()],
+  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
+    if (hasError(req, res)) return;
 
-        if (now > expire || decryptedOTP !== OTPKey) {
-            successWithBaseResponse(res, false)
-            return
-        }
+    const { otp } = req.body;
+    const { pb } = req;
+    const id = pb.authStore.model?.id;
 
-        await pb.collection('users').update(id, {
-            otp: ''
-        })
+    if (!id) {
+      successWithBaseResponse(res, false);
+      return;
+    }
 
-        successWithBaseResponse(res, true)
-    })
-)
+    const decryptedOTP = decrypt2(otp, challenge);
+    const storedOTP = pb.authStore.model?.otp;
 
-export default router
+    if (!storedOTP) {
+      successWithBaseResponse(res, false);
+      return;
+    }
+
+    const [OTPKey, OTPExpire] = storedOTP.split(".");
+    const expire = new Date(OTPExpire);
+    const now = new Date();
+
+    if (now > expire || decryptedOTP !== OTPKey) {
+      successWithBaseResponse(res, false);
+      return;
+    }
+
+    await pb.collection("users").update(id, {
+      otp: "",
+    });
+
+    successWithBaseResponse(res, true);
+  })
+);
+
+export default router;

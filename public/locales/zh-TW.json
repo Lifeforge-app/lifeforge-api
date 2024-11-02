@@ -318,7 +318,8 @@
     "videos": "搜尋影片...",
     "iconSets": "搜尋圖示集...",
     "filterIconSets": "篩選圖示集...",
-    "icons": "搜尋圖示..."
+    "icons": "搜尋圖示...",
+    "amongMillionsOfBooks": "在數百萬本書中搜尋..."
   },
   "button": {
     "create": "創建",
@@ -424,7 +425,12 @@
     "fileUpload": "上傳檔案",
     "folderUpload": "上傳檔案夾",
     "hideAmount": "隱藏金額",
-    "removeFromFolder": "從檔案夾中移除"
+    "removeFromFolder": "從檔案夾中移除",
+    "addBook": "新增書籍",
+    "uploadFromDevice": "從裝置上傳",
+    "downloadFromLibgen": "從 Library Genesis 下載",
+    "viewDetails": "查看詳情",
+    "addToLibrary": "加入書籍庫"
   },
   "modals": {
     "header": {
@@ -496,7 +502,8 @@
       "createPriority": "新增優先級",
       "updatePriority": "更新優先順序",
       "updateJournalEntry": "更新日誌項目",
-      "createJournalEntry": "建立日誌"
+      "createJournalEntry": "建立日誌",
+      "libraryGenesis": "創世紀圖書館"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
@@ -823,6 +830,18 @@
     "notes": {
       "title": "尚未有任何筆記",
       "description": "現在是時間上傳筆記囉!"
+    },
+    "booksLibrary": {
+      "searchQuery": {
+        "title": "尚無搜尋關鍵詞",
+        "description": "開始探索創世圖書馆。試試搜尋一本書来开始吧。"
+      },
+      "noSearchQuery": {},
+      "results": {
+        "title": "沒有查到圖書",
+        "description": "創世圖書館中沒有找到匹配的書籍。"
+      },
+      "noResults": {}
     }
   },
   "todoList": {

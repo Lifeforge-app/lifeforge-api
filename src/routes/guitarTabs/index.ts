@@ -67,48 +67,32 @@ router.get(
 
 router.get(
   "/",
-  asyncWrapper(
-    async (
-      req: Request<
-        {},
-        {},
-        {},
-        {
-          query: string;
-          page: number;
-          category: string;
-          author: string;
-          starred: boolean;
-        }
-      >,
-      res: Response<BaseResponse<ListResult<IGuitarTabsEntry[]>>>
-    ) => {
-      const { pb } = req;
-      const page = req.query.page || 1;
-      const search = decodeURIComponent(req.query.query || "");
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    const page = parseInt((req.query.page as string) || "1") || 1;
+    const search = decodeURIComponent((req.query.query as string) || "");
 
-      const category = req.query.category === "all" ? "" : req.query.category;
-      const author = req.query.author === "all" ? "" : req.query.author;
-      const starred = req.query.starred;
+    const category = req.query.category === "all" ? "" : req.query.category;
+    const author = req.query.author === "all" ? "" : req.query.author;
+    const starred = req.query.starred;
 
-      const entries = await pb
-        .collection("guitar_tabs_entries")
-        .getList<IGuitarTabsEntry[]>(page, 20, {
-          filter: `(name~"${search}" || author~"${search}") && ${
-            category === "uncategorized" ? "type=''" : `type~"${category}"`
-          } && author~"${author}" && isFavourite=${starred}`,
-          sort: "name",
-        });
+    const entries = await pb
+      .collection("guitar_tabs_entries")
+      .getList<IGuitarTabsEntry[]>(page, 20, {
+        filter: `(name~"${search}" || author~"${search}") && ${
+          category === "uncategorized" ? "type=''" : `type~"${category}"`
+        } && author~"${author}" && isFavourite=${starred}`,
+        sort: "name",
+      });
 
-      successWithBaseResponse(res, entries);
-    }
-  )
+    successWithBaseResponse(res, entries);
+  })
 );
 
 router.post(
   "/upload",
   uploadMiddleware,
-  asyncWrapper(async (req: Request, res: Response<BaseResponse>) => {
+  asyncWrapper(async (req, res: Response<BaseResponse>) => {
     const { pb } = req;
     const files = req.files;
 
@@ -289,28 +273,26 @@ router.put(
     body("author").isString(),
     body("type").optional().isIn(["fingerstyle", "singalong"]),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IGuitarTabsEntry>>) => {
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, author, type } = req.body;
+  asyncWrapper(async (req, res: Response<BaseResponse<IGuitarTabsEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, author, type } = req.body;
 
-      const updatedentries: IGuitarTabsEntry = await pb
-        .collection("guitar_tabs_entries")
-        .update(id, {
-          name,
-          author,
-          type,
-        });
+    const updatedentries: IGuitarTabsEntry = await pb
+      .collection("guitar_tabs_entries")
+      .update(id, {
+        name,
+        author,
+        type,
+      });
 
-      successWithBaseResponse(res, updatedentries);
-    }
-  )
+    successWithBaseResponse(res, updatedentries);
+  })
 );
 
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response<BaseResponse>) => {
+  asyncWrapper(async (req, res: Response<BaseResponse>) => {
     const { pb } = req;
     const { id } = req.params;
 
@@ -322,7 +304,7 @@ router.delete(
 
 router.get(
   "/download-all",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const entries = await pb
       .collection("guitar_tabs_entries")

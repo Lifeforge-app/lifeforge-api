@@ -104,7 +104,7 @@ const mainRouter = express.Router();
 
 mainRouter.use("/", router);
 
-mainRouter.get("/status", async (req: Request, res: Response) => {
+mainRouter.get("/status", async (req, res) => {
   res.json({
     state: "success",
   });
@@ -158,7 +158,7 @@ mainRouter.get(
 mainRouter.get(
   "/media/:collectionId/:entriesId/:photoId",
   [query("thumb").optional().isString(), query("token").optional().isString()],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
     const { thumb, token } = req.query as {
@@ -183,13 +183,13 @@ mainRouter.get(
   })
 );
 
-mainRouter.get("/cron", async (req: Request, res: Response) => {
+mainRouter.get("/cron", async (req, res) => {
   res.json({
     state: "success",
   });
 });
 
-mainRouter.use((req: Request, res: Response) => {
+mainRouter.use((req, res) => {
   res.status(404);
 
   res.json({

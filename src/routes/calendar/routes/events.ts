@@ -18,9 +18,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ICalendarEvent[]>>) =>
-      list<ICalendarEvent>(req, res, "calendar_events")
+  asyncWrapper(async (req, res: Response<BaseResponse<ICalendarEvent[]>>) =>
+    list<ICalendarEvent>(req, res, "calendar_events")
   )
 );
 
@@ -44,31 +43,29 @@ router.post(
       validateExistence(meta.req.pb, "calendar_categories", value, true)
     ),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ICalendarEvent>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ICalendarEvent>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { title, start, end, category } = req.body;
+    const { pb } = req;
+    const { title, start, end, category } = req.body;
 
-      const events: ICalendarEvent = await pb
-        .collection("calendar_events")
-        .create({
-          title,
-          start,
-          end,
-          category: category || "",
-        });
+    const events: ICalendarEvent = await pb
+      .collection("calendar_events")
+      .create({
+        title,
+        start,
+        end,
+        category: category || "",
+      });
 
-      if (category) {
-        await pb.collection("calendar_categories").update(category, {
-          "amount+": 1,
-        });
-      }
-
-      successWithBaseResponse(res, events);
+    if (category) {
+      await pb.collection("calendar_categories").update(category, {
+        "amount+": 1,
+      });
     }
-  )
+
+    successWithBaseResponse(res, events);
+  })
 );
 
 /**
@@ -92,41 +89,39 @@ router.patch(
       validateExistence(meta.req.pb, "calendar_categories", value, true)
     ),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ICalendarEvent>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ICalendarEvent>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { title, start, end, category } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { title, start, end, category } = req.body;
 
-      const oldEvent = await pb.collection("calendar_events").getOne(id);
-      const events: ICalendarEvent = await pb
-        .collection("calendar_events")
-        .update(id, {
-          title,
-          start,
-          end,
-          category: category || "",
+    const oldEvent = await pb.collection("calendar_events").getOne(id);
+    const events: ICalendarEvent = await pb
+      .collection("calendar_events")
+      .update(id, {
+        title,
+        start,
+        end,
+        category: category || "",
+      });
+
+    if (oldEvent.category !== category) {
+      if (oldEvent.category) {
+        await pb.collection("calendar_categories").update(oldEvent.category, {
+          "amount-": 1,
         });
-
-      if (oldEvent.category !== category) {
-        if (oldEvent.category) {
-          await pb.collection("calendar_categories").update(oldEvent.category, {
-            "amount-": 1,
-          });
-        }
-
-        if (category) {
-          await pb.collection("calendar_categories").update(category, {
-            "amount+": 1,
-          });
-        }
       }
 
-      successWithBaseResponse(res, events);
+      if (category) {
+        await pb.collection("calendar_categories").update(category, {
+          "amount+": 1,
+        });
+      }
     }
-  )
+
+    successWithBaseResponse(res, events);
+  })
 );
 
 /**
@@ -138,7 +133,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

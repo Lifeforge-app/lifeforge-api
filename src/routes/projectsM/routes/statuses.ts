@@ -21,9 +21,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMStatus[]>>) =>
-      list(req, res, "projects_m_statuses")
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMStatus[]>>) =>
+    list(req, res, "projects_m_statuses")
   )
 );
 
@@ -43,24 +42,22 @@ router.post(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMStatus>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMStatus>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { name, icon, color } = req.body;
 
-      const status: IProjectsMStatus = await pb
-        .collection("projects_m_statuses")
-        .create({
-          name,
-          icon,
-          color,
-        });
+    const status: IProjectsMStatus = await pb
+      .collection("projects_m_statuses")
+      .create({
+        name,
+        icon,
+        color,
+      });
 
-      successWithBaseResponse(res, status);
-    }
-  )
+    successWithBaseResponse(res, status);
+  })
 );
 
 /**
@@ -79,27 +76,25 @@ router.patch(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMStatus>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMStatus>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon, color } = req.body;
 
-      if (!(await checkExistence(req, res, "projects_m_statuses", id))) return;
+    if (!(await checkExistence(req, res, "projects_m_statuses", id))) return;
 
-      const status: IProjectsMStatus = await pb
-        .collection("projects_m_statuses")
-        .update(id, {
-          name,
-          icon,
-          color,
-        });
+    const status: IProjectsMStatus = await pb
+      .collection("projects_m_statuses")
+      .update(id, {
+        name,
+        icon,
+        color,
+      });
 
-      successWithBaseResponse(res, status);
-    }
-  )
+    successWithBaseResponse(res, status);
+  })
 );
 
 /**
@@ -111,7 +106,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

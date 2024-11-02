@@ -318,7 +318,8 @@
     "videos": "Carian Video...",
     "iconSets": "Cari Icon Set...",
     "filterIconSets": "Tetapan Ikon Penapis...",
-    "icons": "Cari Ikon..."
+    "icons": "Cari Ikon...",
+    "amongMillionsOfBooks": "Cari antara jutaan buku..."
   },
   "button": {
     "create": "Cipta",
@@ -424,7 +425,12 @@
     "fileUpload": "Muat Naik Fail",
     "folderUpload": "Muat Naik Folder",
     "hideAmount": "Sembunyikan jumlah",
-    "removeFromFolder": "Alih Keluar dari Folder"
+    "removeFromFolder": "Alih Keluar dari Folder",
+    "addBook": "Tambah Buku",
+    "uploadFromDevice": "Muat naik dari Peranti",
+    "downloadFromLibgen": "Muat Turun dari Library Genesis",
+    "viewDetails": "Lihat Butiran",
+    "addToLibrary": "Tambah ke Perpustakaan"
   },
   "modals": {
     "header": {
@@ -496,7 +502,8 @@
       "createPriority": "Cipta Kepentingan",
       "updatePriority": "Kemaskini Kepentingan",
       "updateJournalEntry": "Kemaskini Catatan Harian",
-      "createJournalEntry": "Buat Catatan Journal"
+      "createJournalEntry": "Buat Catatan Journal",
+      "libraryGenesis": "Perpustakaan Genesis"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -823,6 +830,18 @@
     "notes": {
       "title": "Tiada Nota Di Sini",
       "description": "Masa untuk muat naik nota di sini!"
+    },
+    "booksLibrary": {
+      "searchQuery": {
+        "title": "Tiada Pertanyaan Carian",
+        "description": "Mula meneroka perpustakaan Libgen. Cuba cari buku untuk memulakan."
+      },
+      "noSearchQuery": {},
+      "results": {
+        "title": "Tiada Buku Ditemui",
+        "description": "Tiada buku yang sepadan dijumpai dalam perpustakaan Libgen."
+      },
+      "noResults": {}
     }
   },
   "todoList": {

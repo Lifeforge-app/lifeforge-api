@@ -143,6 +143,7 @@ router.get(
  */
 router.post(
   "/",
+  singleUploadMiddleware,
   [
     body("particulars").isString(),
     body("date").custom((value: string) => {
@@ -191,12 +192,12 @@ router.post(
       return true;
     }),
   ],
-  singleUploadMiddleware,
   asyncWrapper(
     async (
       req: Request,
       res: Response<BaseResponse<IWalletTransactionEntry[]>>
     ) => {
+      console.log(req.body);
       if (hasError(req, res)) return;
 
       const { pb } = req;
@@ -236,7 +237,7 @@ router.post(
           asset,
           ledger,
           type,
-          side: type === "income" ? "credit" : "debit",
+          side: type === "income" ? "debit" : "credit",
           receipt:
             file && fs.existsSync(file.path)
               ? (() => {
@@ -326,6 +327,7 @@ router.post(
  */
 router.patch(
   "/:id",
+  singleUploadMiddleware,
   [
     body("particulars").isString(),
     body("date").custom((value: string) => {
@@ -354,7 +356,6 @@ router.patch(
     ),
     body("type").isIn(["income", "expenses"]),
   ],
-  singleUploadMiddleware,
   asyncWrapper(
     async (
       req: Request,
@@ -405,7 +406,7 @@ router.patch(
         asset,
         ledger,
         type,
-        side: type === "income" ? "credit" : "debit",
+        side: type === "income" ? "debit" : "credit",
         receipt: (() => {
           if (file && fs.existsSync(file.path)) {
             const fileBuffer = fs.readFileSync(file.path);
@@ -444,7 +445,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

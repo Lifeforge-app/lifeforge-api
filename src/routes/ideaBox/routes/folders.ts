@@ -22,20 +22,18 @@ const router = express.Router();
  */
 router.get(
   "/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
 
-      const folder: IIdeaBoxFolder = await pb
-        .collection("idea_box_folders")
-        .getOne(id);
+    const folder: IIdeaBoxFolder = await pb
+      .collection("idea_box_folders")
+      .getOne(id);
 
-      successWithBaseResponse(res, folder);
-    }
-  )
+    successWithBaseResponse(res, folder);
+  })
 );
 
 /**
@@ -53,12 +51,11 @@ router.get(
         await validateExistence(meta.req.pb, "idea_box_containers", value)
     ),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxFolder[]>>) =>
-      list(req, res, "idea_box_folders", {
-        filter: `container = "${req.query.container}"`,
-        sort: "name",
-      })
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder[]>>) =>
+    list(req, res, "idea_box_folders", {
+      filter: `container = "${req.query.container}"`,
+      sort: "name",
+    })
   )
 );
 
@@ -71,9 +68,7 @@ router.get(
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req: Request, res: Response<boolean>) =>
-    validate(req, res, "idea_box_folders")
-  )
+  asyncWrapper(async (req, res) => validate(req, res, "idea_box_folders"))
 );
 
 /**
@@ -97,25 +92,23 @@ router.post(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, container, icon, color } = req.body;
+    const { pb } = req;
+    const { name, container, icon, color } = req.body;
 
-      const folder: IIdeaBoxFolder = await pb
-        .collection("idea_box_folders")
-        .create({
-          name,
-          container,
-          icon,
-          color,
-        });
+    const folder: IIdeaBoxFolder = await pb
+      .collection("idea_box_folders")
+      .create({
+        name,
+        container,
+        icon,
+        color,
+      });
 
-      successWithBaseResponse(res, folder, 201);
-    }
-  )
+    successWithBaseResponse(res, folder, 201);
+  })
 );
 
 /**
@@ -135,27 +128,25 @@ router.patch(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon, color } = req.body;
 
-      if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
 
-      const folder: IIdeaBoxFolder = await pb
-        .collection("idea_box_folders")
-        .update(id, {
-          name,
-          icon,
-          color,
-        });
+    const folder: IIdeaBoxFolder = await pb
+      .collection("idea_box_folders")
+      .update(id, {
+        name,
+        icon,
+        color,
+      });
 
-      successWithBaseResponse(res, folder);
-    }
-  )
+    successWithBaseResponse(res, folder);
+  })
 );
 
 /**
@@ -167,7 +158,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response<BaseResponse>) => {
+  asyncWrapper(async (req, res: Response<BaseResponse>) => {
     const { pb } = req;
     const { id } = req.params;
 

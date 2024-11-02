@@ -44,30 +44,28 @@ function removeSensitiveData(userData: Record<string, any>): void {
 router.get(
   "/auth/oauth-endpoint",
   [query("provider").isString()],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<AuthProviderInfo>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<AuthProviderInfo>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
+    const { pb } = req;
 
-      const { provider } = req.query;
+    const { provider } = req.query;
 
-      const oauthEndpoints = await pb.collection("users").listAuthMethods();
+    const oauthEndpoints = await pb.collection("users").listAuthMethods();
 
-      const endpoint = oauthEndpoints.authProviders.find(
-        (item) => item.name === provider
-      );
+    const endpoint = oauthEndpoints.authProviders.find(
+      (item) => item.name === provider
+    );
 
-      if (!endpoint) {
-        clientError(res, "Invalid provider");
-        return;
-      }
-
-      currentCodeVerifier = endpoint.codeVerifier;
-
-      successWithBaseResponse(res, endpoint);
+    if (!endpoint) {
+      clientError(res, "Invalid provider");
+      return;
     }
-  )
+
+    currentCodeVerifier = endpoint.codeVerifier;
+
+    successWithBaseResponse(res, endpoint);
+  })
 );
 
 /**
@@ -81,7 +79,7 @@ router.get(
 router.post(
   "/auth/oauth-verify",
   [body("provider").isString(), body("code").isString()],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
@@ -133,7 +131,7 @@ router.post(
  * @description Request a One-Time Password (OTP) for the user.
  * @response 200 - The OTP has been sent
  */
-router.get("/auth/otp", async (req: Request, res: Response) => {
+router.get("/auth/otp", async (req, res) => {
   const { pb } = req;
 
   const response = await fetch(
@@ -164,7 +162,7 @@ router.get("/auth/otp", async (req: Request, res: Response) => {
 router.post(
   "/auth/login",
   [body("email").isEmail(), body("password").isString()],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { email, password } = req.body;
     const pb = new Pocketbase(process.env.PB_HOST);
 
@@ -209,7 +207,7 @@ router.post(
  */
 router.post(
   "/auth/verify",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const bearerToken = req.headers.authorization?.split(" ")[1];
     const pb = new Pocketbase(process.env.PB_HOST);
 
@@ -249,7 +247,7 @@ router.post(
  */
 router.patch(
   "/module",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { data } = req.body;
     await pb.collection("users").update(req.pb.authStore.model!.id, {
@@ -264,7 +262,7 @@ router.patch(
  * @protected
  * @summary Change the personalization settings
  * @description Change the personalization settings of the user.
- * @body data (object, required) - The personalization settings, including fontFamily, theme, color, bgTemp, language, and dashboardLayout
+ * @body data (object, required, one_of fontFamily|theme|color|bgTemp|language|dashboardLayout) - The personalization settings to update
  * @response 200 - The personalization settings have been updated
  */
 router.patch(
@@ -277,7 +275,7 @@ router.patch(
     body("data.language").optional().isString(),
     body("data.dashboardLayout").optional().isString(),
   ],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { data } = req.body;
     const toBeUpdated: { [key: string]: any } = {};
@@ -317,7 +315,7 @@ router.patch(
 router.put(
   "/settings/avatar",
   singleUploadMiddleware,
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
 
     const file = req.file;
@@ -352,7 +350,7 @@ router.put(
  */
 router.delete(
   "/settings/avatar",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = pb.authStore.model as any;
 
@@ -368,7 +366,7 @@ router.delete(
  * @protected
  * @summary Change the user settings
  * @description Change the user settings of the user.
- * @body data (object, required) - The user settings, including username, email, name, and dateOfBirth
+ * @body data (object, required, one_of username|email|name|dateOfBirth) - The user settings to update
  * @response 200 - The user settings have been updated
  */
 router.patch(
@@ -379,7 +377,7 @@ router.patch(
     body("data.name").optional().isString(),
     body("data.dateOfBirth").optional().isString(),
   ],
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
@@ -415,7 +413,7 @@ router.patch(
  */
 router.post(
   "/settings/request-password-reset",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
 
     await pb

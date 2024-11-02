@@ -34,23 +34,18 @@ const BREAKDOWN_LEVELS = [
  */
 router.get(
   "/list/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoSubtask[]>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoSubtask[]>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      const entries: ITodoListEntry & {
-        expand?: { subtasks: ITodoSubtask[] };
-      } = await pb.collection("todo_entries").getOne(id, {
-        expand: "subtasks",
-      });
+    const entries: ITodoListEntry & {
+      expand?: { subtasks: ITodoSubtask[] };
+    } = await pb.collection("todo_entries").getOne(id, {
+      expand: "subtasks",
+    });
 
-      successWithBaseResponse(
-        res,
-        entries.expand ? entries.expand.subtasks : []
-      );
-    }
-  )
+    successWithBaseResponse(res, entries.expand ? entries.expand.subtasks : []);
+  })
 );
 
 /**
@@ -69,7 +64,7 @@ router.post(
     body("notes").optional().isString(),
     body("level").exists().isInt().isIn([0, 1, 2, 3, 4]),
   ],
-  asyncWrapper(async (req: Request, res: Response<BaseResponse<string[]>>) => {
+  asyncWrapper(async (req, res: Response<BaseResponse<string[]>>) => {
     if (hasError(req, res)) return;
 
     const key = await getAPIKey("groq", req.pb);
@@ -107,22 +102,20 @@ router.post(
  */
 router.patch(
   "/toggle/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoSubtask>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoSubtask>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      const entries = await pb.collection("todo_subtask").getOne(id);
+    const entries = await pb.collection("todo_subtask").getOne(id);
 
-      const subtask: ITodoSubtask = await pb
-        .collection("todo_subtask")
-        .update(id, {
-          done: !entries.done,
-        });
+    const subtask: ITodoSubtask = await pb
+      .collection("todo_subtask")
+      .update(id, {
+        done: !entries.done,
+      });
 
-      successWithBaseResponse(res, subtask);
-    }
-  )
+    successWithBaseResponse(res, subtask);
+  })
 );
 
 export default router;

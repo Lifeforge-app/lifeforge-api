@@ -43,62 +43,60 @@ router.get(
       validateExistence(meta.req.pb, "todo_priorities", value, true)
     ),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListEntry[]>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListEntry[]>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const status = req.query.status || "all";
+    const { pb } = req;
+    const status = req.query.status || "all";
 
-      const filters = {
-        all: "done = false",
-        today: `done = false && due_date >= "${moment()
-          .startOf("day")
-          .utc()
-          .format("YYYY-MM-DD HH:mm:ss")}" && due_date <= "${moment()
-          .endOf("day")
-          .utc()
-          .add(1, "second")
-          .format("YYYY-MM-DD HH:mm:ss")}"`,
-        scheduled: `done = false && due_date != "" && due_date >= "${moment()
-          .utc()
-          .format("YYYY-MM-DD HH:mm:ss")}"`,
-        overdue: `done = false && due_date != "" && due_date < "${moment()
-          .utc()
-          .format("YYYY-MM-DD HH:mm:ss")}"`,
-        completed: "done = true",
-      };
+    const filters = {
+      all: "done = false",
+      today: `done = false && due_date >= "${moment()
+        .startOf("day")
+        .utc()
+        .format("YYYY-MM-DD HH:mm:ss")}" && due_date <= "${moment()
+        .endOf("day")
+        .utc()
+        .add(1, "second")
+        .format("YYYY-MM-DD HH:mm:ss")}"`,
+      scheduled: `done = false && due_date != "" && due_date >= "${moment()
+        .utc()
+        .format("YYYY-MM-DD HH:mm:ss")}"`,
+      overdue: `done = false && due_date != "" && due_date < "${moment()
+        .utc()
+        .format("YYYY-MM-DD HH:mm:ss")}"`,
+      completed: "done = true",
+    };
 
-      let finalFilter = filters[status as keyof typeof filters];
+    let finalFilter = filters[status as keyof typeof filters];
 
-      const { tag, list, priority } = req.query;
-      if (tag) finalFilter += ` && tags ~ "${tag}"`;
-      if (list) finalFilter += ` && list = "${list}"`;
-      if (priority) finalFilter += ` && priority = "${priority}"`;
+    const { tag, list, priority } = req.query;
+    if (tag) finalFilter += ` && tags ~ "${tag}"`;
+    if (list) finalFilter += ` && list = "${list}"`;
+    if (priority) finalFilter += ` && priority = "${priority}"`;
 
-      const entries: (ITodoListEntry & {
-        expand?: { subtasks: ITodoSubtask[] };
-      })[] = await pb.collection("todo_entries").getFullList({
-        filter: finalFilter,
-        expand: "subtasks",
-      });
+    const entries: (ITodoListEntry & {
+      expand?: { subtasks: ITodoSubtask[] };
+    })[] = await pb.collection("todo_entries").getFullList({
+      filter: finalFilter,
+      expand: "subtasks",
+    });
 
-      entries.forEach((entries) => {
-        if (entries.subtasks.length === 0) return;
+    entries.forEach((entries) => {
+      if (entries.subtasks.length === 0) return;
 
-        entries.subtasks =
-          entries.expand?.subtasks.map((subtask: ITodoSubtask) => ({
-            title: subtask.title,
-            done: subtask.done,
-            id: subtask.id,
-          })) ?? [];
+      entries.subtasks =
+        entries.expand?.subtasks.map((subtask: ITodoSubtask) => ({
+          title: subtask.title,
+          done: subtask.done,
+          id: subtask.id,
+        })) ?? [];
 
-        delete entries.expand;
-      });
+      delete entries.expand;
+    });
 
-      successWithBaseResponse(res, entries);
-    }
-  )
+    successWithBaseResponse(res, entries);
+  })
 );
 
 /**
@@ -200,56 +198,54 @@ router.post(
       }
     }),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListEntry>>) => {
-      async function createSubtask() {
-        if (!data.subtasks) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListEntry>>) => {
+    async function createSubtask() {
+      if (!data.subtasks) return;
 
-        const subtasks = [];
+      const subtasks = [];
 
-        for (const task of data.subtasks) {
-          const subtask: ITodoSubtask = await pb
-            .collection("todo_subtasks")
-            .create({
-              title: task.title,
-            });
+      for (const task of data.subtasks) {
+        const subtask: ITodoSubtask = await pb
+          .collection("todo_subtasks")
+          .create({
+            title: task.title,
+          });
 
-          subtasks.push(subtask.id);
-        }
-
-        data.subtasks = subtasks;
+        subtasks.push(subtask.id);
       }
 
-      const { pb } = req;
-      const data = req.body;
-
-      await createSubtask();
-
-      const entries: ITodoListEntry = await pb
-        .collection("todo_entries")
-        .create(data);
-
-      if (entries.list) {
-        await pb.collection("todo_lists").update(entries.list, {
-          "amount+": 1,
-        });
-      }
-
-      if (entries.priority) {
-        await pb.collection("todo_priorities").update(entries.priority, {
-          "amount+": 1,
-        });
-      }
-
-      for (const tag of entries.tags) {
-        await pb.collection("todo_tags").update(tag, {
-          "amount+": 1,
-        });
-      }
-
-      successWithBaseResponse(res, entries);
+      data.subtasks = subtasks;
     }
-  )
+
+    const { pb } = req;
+    const data = req.body;
+
+    await createSubtask();
+
+    const entries: ITodoListEntry = await pb
+      .collection("todo_entries")
+      .create(data);
+
+    if (entries.list) {
+      await pb.collection("todo_lists").update(entries.list, {
+        "amount+": 1,
+      });
+    }
+
+    if (entries.priority) {
+      await pb.collection("todo_priorities").update(entries.priority, {
+        "amount+": 1,
+      });
+    }
+
+    for (const tag of entries.tags) {
+      await pb.collection("todo_tags").update(tag, {
+        "amount+": 1,
+      });
+    }
+
+    successWithBaseResponse(res, entries);
+  })
 );
 
 /**
@@ -405,7 +401,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

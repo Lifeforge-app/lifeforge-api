@@ -19,20 +19,18 @@ const router = express.Router();
  */
 router.get(
   "/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
 
-      const container: IIdeaBoxContainer = await pb
-        .collection("idea_box_containers")
-        .getOne(id);
+    const container: IIdeaBoxContainer = await pb
+      .collection("idea_box_containers")
+      .getOne(id);
 
-      successWithBaseResponse(res, container);
-    }
-  )
+    successWithBaseResponse(res, container);
+  })
 );
 
 /**
@@ -44,9 +42,7 @@ router.get(
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req: Request, res: Response<boolean>) =>
-    validate(req, res, "idea_box_containers")
-  )
+  asyncWrapper(async (req, res) => validate(req, res, "idea_box_containers"))
 );
 
 /**
@@ -57,9 +53,8 @@ router.get(
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxContainer[]>>) =>
-      list(req, res, "idea_box_containers")
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer[]>>) =>
+    list(req, res, "idea_box_containers")
   )
 );
 
@@ -79,24 +74,22 @@ router.post(
     body("color").notEmpty().isHexColor(),
     body("icon").isString(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, color, icon } = req.body;
+    const { pb } = req;
+    const { name, color, icon } = req.body;
 
-      const container: IIdeaBoxContainer = await pb
-        .collection("idea_box_containers")
-        .create({
-          name,
-          color,
-          icon,
-        });
+    const container: IIdeaBoxContainer = await pb
+      .collection("idea_box_containers")
+      .create({
+        name,
+        color,
+        icon,
+      });
 
-      successWithBaseResponse(res, container, 201);
-    }
-  )
+    successWithBaseResponse(res, container, 201);
+  })
 );
 
 /**
@@ -116,28 +109,26 @@ router.patch(
     body("color").notEmpty().isHexColor(),
     body("icon").isString(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
+    const { pb } = req;
+    const { id } = req.params;
 
-      const { name, color, icon } = req.body;
+    const { name, color, icon } = req.body;
 
-      if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
 
-      const container: IIdeaBoxContainer = await pb
-        .collection("idea_box_containers")
-        .update(id, {
-          name,
-          color,
-          icon,
-        });
+    const container: IIdeaBoxContainer = await pb
+      .collection("idea_box_containers")
+      .update(id, {
+        name,
+        color,
+        icon,
+      });
 
-      successWithBaseResponse(res, container);
-    }
-  )
+    successWithBaseResponse(res, container);
+  })
 );
 
 /**
@@ -149,7 +140,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response<BaseResponse>) => {
+  asyncWrapper(async (req, res: Response<BaseResponse>) => {
     const { pb } = req;
     const { id } = req.params;
 

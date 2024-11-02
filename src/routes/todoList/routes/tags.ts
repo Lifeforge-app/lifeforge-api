@@ -17,9 +17,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListTag[]>>) =>
-      list(req, res, "todo_tags")
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag[]>>) =>
+    list(req, res, "todo_tags")
   )
 );
 
@@ -33,20 +32,18 @@ router.get(
 router.post(
   "/",
   body("name").exists().notEmpty(),
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListTag>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name } = req.body;
+    const { pb } = req;
+    const { name } = req.body;
 
-      const tag: ITodoListTag = await pb.collection("todo_tags").create({
-        name,
-      });
+    const tag: ITodoListTag = await pb.collection("todo_tags").create({
+      name,
+    });
 
-      successWithBaseResponse(res, tag);
-    }
-  )
+    successWithBaseResponse(res, tag);
+  })
 );
 
 /**
@@ -60,21 +57,19 @@ router.post(
 router.patch(
   "/:id",
   body("name").exists().notEmpty(),
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<ITodoListTag>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name } = req.body;
 
-      const tag: ITodoListTag = await pb.collection("todo_tags").update(id, {
-        name,
-      });
+    const tag: ITodoListTag = await pb.collection("todo_tags").update(id, {
+      name,
+    });
 
-      successWithBaseResponse(res, tag);
-    }
-  )
+    successWithBaseResponse(res, tag);
+  })
 );
 
 /**
@@ -86,7 +81,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

@@ -18,9 +18,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMEntry[]>>) =>
-      list(req, res, "projects_m_entries")
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry[]>>) =>
+    list(req, res, "projects_m_entries")
   )
 );
 
@@ -33,18 +32,16 @@ router.get(
  */
 router.get(
   "/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMEntry>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      const entry: IProjectsMEntry = await pb
-        .collection("projects_m_entries")
-        .getOne(id);
+    const entry: IProjectsMEntry = await pb
+      .collection("projects_m_entries")
+      .getOne(id);
 
-      successWithBaseResponse(res, entry);
-    }
-  )
+    successWithBaseResponse(res, entry);
+  })
 );
 
 /**
@@ -56,9 +53,7 @@ router.get(
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req: Request, res: Response<boolean>) =>
-    validate(req, res, "projects_m_entries")
-  )
+  asyncWrapper(async (req, res) => validate(req, res, "projects_m_entries"))
 );
 
 /**
@@ -97,29 +92,27 @@ router.post(
         )
     ),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMEntry>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, icon, color, visibility, status, category, technologies } =
-        req.body;
+    const { pb } = req;
+    const { name, icon, color, visibility, status, category, technologies } =
+      req.body;
 
-      const entry: IProjectsMEntry = await pb
-        .collection("projects_m_entries")
-        .create({
-          name,
-          icon,
-          color,
-          visibility,
-          status,
-          category,
-          technologies,
-        });
+    const entry: IProjectsMEntry = await pb
+      .collection("projects_m_entries")
+      .create({
+        name,
+        icon,
+        color,
+        visibility,
+        status,
+        category,
+        technologies,
+      });
 
-      successWithBaseResponse(res, entry);
-    }
-  )
+    successWithBaseResponse(res, entry);
+  })
 );
 
 /**
@@ -159,28 +152,26 @@ router.patch(
         )
     ),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMEntry>>) => {
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon, color, visibility, status, category, technologies } =
-        req.body;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon, color, visibility, status, category, technologies } =
+      req.body;
 
-      const entries: IProjectsMEntry = await pb
-        .collection("projects_m_entries")
-        .update(id, {
-          name,
-          icon,
-          color,
-          visibility,
-          status,
-          category,
-          technologies,
-        });
+    const entries: IProjectsMEntry = await pb
+      .collection("projects_m_entries")
+      .update(id, {
+        name,
+        icon,
+        color,
+        visibility,
+        status,
+        category,
+        technologies,
+      });
 
-      successWithBaseResponse(res, entries);
-    }
-  )
+    successWithBaseResponse(res, entries);
+  })
 );
 
 /**
@@ -192,7 +183,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

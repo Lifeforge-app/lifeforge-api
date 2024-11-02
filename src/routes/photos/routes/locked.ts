@@ -1,33 +1,34 @@
 // @ts-nocheck
-import express, { Request, Response } from 'express'
-import { successWithBaseResponse } from '../../../utils/response.js'
-import asyncWrapper from '../../../utils/asyncWrapper.js'
+import express, { Request, Response } from "express";
+import { successWithBaseResponse } from "../../../utils/response.js";
+import asyncWrapper from "../../../utils/asyncWrapper.js";
 
-const router = express.Router()
+const router = express.Router();
 
 router.get(
-    '/list',
-    asyncWrapper(async (req: Request, res: Response) => {
-        const { pb } = req
+  "/list",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
 
-        let photos = await pb.collection('photos_dimensions').getFullList({
-            filter: 'is_locked = true',
-            expand: 'photo',
-            fields: 'expand.photo.id,expand.photo.image,expand.photo.raw,width,height,id,expand.photo.collectionId',
-            sort: '-shot_time'
-        })
+    let photos = await pb.collection("photos_dimensions").getFullList({
+      filter: "is_locked = true",
+      expand: "photo",
+      fields:
+        "expand.photo.id,expand.photo.image,expand.photo.raw,width,height,id,expand.photo.collectionId",
+      sort: "-shot_time",
+    });
 
-        photos = photos.map(photo => ({
-            width: photo.width,
-            height: photo.height,
-            ...photo.expand.photo,
-            photoId: photo.expand.photo.id,
-            id: photo.id
-        }))
+    photos = photos.map((photo) => ({
+      width: photo.width,
+      height: photo.height,
+      ...photo.expand.photo,
+      photoId: photo.expand.photo.id,
+      id: photo.id,
+    }));
 
-        successWithBaseResponse(res, photos)
-    })
-)
+    successWithBaseResponse(res, photos);
+  })
+);
 
 // router.patch(
 //     '/add-photos',
@@ -36,7 +37,7 @@ router.get(
 //         body('photos.*').isString(),
 //         body('isInAlbum').isBoolean()
 //     ],
-//     asyncWrapper(async (req: Request, res: Response) => {
+//     asyncWrapper(async (req, res) => {
 //         if (hasError(req, res)) return
 
 //         const { pb } = req
@@ -71,4 +72,4 @@ router.get(
 //     })
 // )
 
-export default router
+export default router;

@@ -1,66 +1,52 @@
-import express, { Request, Response } from 'express'
-import asyncWrapper from '../../../utils/asyncWrapper.js'
+import express, { Request, Response } from "express";
+import asyncWrapper from "../../../utils/asyncWrapper.js";
 import {
-    clientError,
-    successWithBaseResponse
-} from '../../../utils/response.js'
+  clientError,
+  successWithBaseResponse,
+} from "../../../utils/response.js";
 
-const cache = new Map()
-const cacheTime = 1000 * 60
-let lastFetch = +new Date()
+const cache = new Map();
+const cacheTime = 1000 * 60;
+let lastFetch = +new Date();
 
-const router = express.Router()
+const router = express.Router();
 
 router.get(
-    '/',
-    asyncWrapper(
-        async (
-            req: Request<
-                {},
-                {},
-                {},
-                {
-                    type: 'arr' | 'dep'
-                }
-            >,
-            res: Response
-        ) => {
-            const type: 'arr' | 'dep' = req.query.type || 'arr'
+  "/",
+  asyncWrapper(async (req, res) => {
+    const type: "arr" | "dep" = (req.query.type as "arr" | "dep") || "arr";
 
-            if (!['arr', 'dep'].includes(type)) {
-                clientError(res, 'Invalid type')
-            }
+    if (!["arr", "dep"].includes(type)) {
+      clientError(res, "Invalid type");
+    }
 
-            if (
-                cache.has('flights') &&
-                cache.get('searchType') === type &&
-                +new Date() - lastFetch < cacheTime
-            ) {
-                const data = cache.get('flights')
+    if (
+      cache.has("flights") &&
+      cache.get("searchType") === type &&
+      +new Date() - lastFetch < cacheTime
+    ) {
+      const data = cache.get("flights");
 
-                successWithBaseResponse(res, data)
-                return
-            }
+      successWithBaseResponse(res, data);
+      return;
+    }
 
-            const API_key = await fetch(
-                'https://www.changiairport.com/en/flights/arrivals.html'
-            )
-                .then(res => res.text())
-                .then(
-                    data =>
-                        data.match(
-                            /&#34;appSyncApiKey&#34;: &#34;(.*?)&#34;,/
-                        )?.[1]
-                )
-                .catch(console.error)
+    const API_key = await fetch(
+      "https://www.changiairport.com/en/flights/arrivals.html"
+    )
+      .then((res) => res.text())
+      .then(
+        (data) => data.match(/&#34;appSyncApiKey&#34;: &#34;(.*?)&#34;,/)?.[1]
+      )
+      .catch(console.error);
 
-            fetch('https://ca-appsync.lz.changiairport.com/graphql', {
-                method: 'POST',
-                headers: {
-                    'x-api-key': API_key ?? ''
-                },
-                body: JSON.stringify({
-                    query: `
+    fetch("https://ca-appsync.lz.changiairport.com/graphql", {
+      method: "POST",
+      headers: {
+        "x-api-key": API_key ?? "",
+      },
+      body: JSON.stringify({
+        query: `
     query {
       getFlights(direction: "${type}", page_size: "500") {
         next_token
@@ -142,18 +128,17 @@ router.get(
         }
       }
     }
-                `
-                })
-            })
-                .then(res => res.json())
-                .then(({ data }) => {
-                    cache.set('flights', data)
-                    cache.set('searchType', type)
-                    lastFetch = +new Date()
-                    successWithBaseResponse(res, data)
-                })
-        }
-    )
-)
+                `,
+      }),
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        cache.set("flights", data);
+        cache.set("searchType", type);
+        lastFetch = +new Date();
+        successWithBaseResponse(res, data);
+      });
+  })
+);
 
-export default router
+export default router;

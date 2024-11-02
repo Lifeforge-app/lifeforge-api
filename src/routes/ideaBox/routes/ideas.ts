@@ -41,7 +41,7 @@ router.get(
     query("archived").isBoolean().optional(),
   ],
   asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry[]>>) =>
+    async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) =>
       await list(req, res, "idea_box_entries", {
         filter: `container = "${req.query.container}" && archived = ${req.query.archived || "false"} ${
           req.query.folder
@@ -103,65 +103,63 @@ router.post(
       return true;
     }),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { container, title, content, type, imageLink, folder } = req.body;
+    const { pb } = req;
+    const { container, title, content, type, imageLink, folder } = req.body;
 
-      const { file } = req;
+    const { file } = req;
 
-      let data: WithoutPBDefault<
-        Omit<IIdeaBoxEntry, "image" | "pinned" | "archived">
-      > & {
-        image?: File;
-      } = {
-        type,
-        container,
-        folder,
-      };
+    let data: WithoutPBDefault<
+      Omit<IIdeaBoxEntry, "image" | "pinned" | "archived">
+    > & {
+      image?: File;
+    } = {
+      type,
+      container,
+      folder,
+    };
 
-      switch (type) {
-        case "text":
-        case "link":
-          data["title"] = title;
-          data["content"] = content;
-          break;
-        case "image":
-          if (imageLink) {
-            await fetch(imageLink).then(async (response) => {
-              const buffer = await response.arrayBuffer();
-              data["image"] = new File([buffer], "image.jpg", {
-                type: "image/jpeg",
-              });
-              data["title"] = title;
-            });
-          } else {
-            if (!file) {
-              clientError(res, "image: Invalid value");
-              return;
-            }
-
-            data["image"] = new File([file.buffer], file.originalname, {
-              type: file.mimetype,
+    switch (type) {
+      case "text":
+      case "link":
+        data["title"] = title;
+        data["content"] = content;
+        break;
+      case "image":
+        if (imageLink) {
+          await fetch(imageLink).then(async (response) => {
+            const buffer = await response.arrayBuffer();
+            data["image"] = new File([buffer], "image.jpg", {
+              type: "image/jpeg",
             });
             data["title"] = title;
+          });
+        } else {
+          if (!file) {
+            clientError(res, "image: Invalid value");
+            return;
           }
-          break;
-      }
 
-      const idea: IIdeaBoxEntry = await pb
-        .collection("idea_box_entries")
-        .create(data);
-
-      await pb.collection("idea_box_containers").update(container, {
-        [`${type}_count+`]: 1,
-      });
-
-      successWithBaseResponse(res, idea, 201);
+          data["image"] = new File([file.buffer], file.originalname, {
+            type: file.mimetype,
+          });
+          data["title"] = title;
+        }
+        break;
     }
-  )
+
+    const idea: IIdeaBoxEntry = await pb
+      .collection("idea_box_entries")
+      .create(data);
+
+    await pb.collection("idea_box_containers").update(container, {
+      [`${type}_count+`]: 1,
+    });
+
+    successWithBaseResponse(res, idea, 201);
+  })
 );
 
 /**
@@ -181,44 +179,42 @@ router.patch(
     body("content").isString(),
     body("type").isIn(["text", "link"]),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { title, content, type } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { title, content, type } = req.body;
 
-      if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-      const oldEntry = await pb.collection("idea_box_entries").getOne(id);
+    const oldEntry = await pb.collection("idea_box_entries").getOne(id);
 
-      let data;
-      switch (type) {
-        case "text":
-        case "link":
-          data = {
-            title,
-            content,
-            type,
-          };
-          break;
-      }
-
-      const entry: IIdeaBoxEntry = await pb
-        .collection("idea_box_entries")
-        .update(id, data);
-
-      if (oldEntry.type !== entry.type) {
-        await pb.collection("idea_box_containers").update(entry.container, {
-          [`${oldEntry.type}_count-`]: 1,
-          [`${entry.type}_count+`]: 1,
-        });
-      }
-
-      successWithBaseResponse(res, entry);
+    let data;
+    switch (type) {
+      case "text":
+      case "link":
+        data = {
+          title,
+          content,
+          type,
+        };
+        break;
     }
-  )
+
+    const entry: IIdeaBoxEntry = await pb
+      .collection("idea_box_entries")
+      .update(id, data);
+
+    if (oldEntry.type !== entry.type) {
+      await pb.collection("idea_box_containers").update(entry.container, {
+        [`${oldEntry.type}_count-`]: 1,
+        [`${entry.type}_count+`]: 1,
+      });
+    }
+
+    successWithBaseResponse(res, entry);
+  })
 );
 
 /**
@@ -230,7 +226,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response<BaseResponse>) => {
+  asyncWrapper(async (req, res: Response<BaseResponse>) => {
     const { pb } = req;
     const { id } = req.params;
 
@@ -255,23 +251,21 @@ router.delete(
  */
 router.post(
   "/pin/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-      const idea = await pb.collection("idea_box_entries").getOne(id);
-      const entry: IIdeaBoxEntry = await pb
-        .collection("idea_box_entries")
-        .update(id, {
-          pinned: !idea.pinned,
-        });
+    const idea = await pb.collection("idea_box_entries").getOne(id);
+    const entry: IIdeaBoxEntry = await pb
+      .collection("idea_box_entries")
+      .update(id, {
+        pinned: !idea.pinned,
+      });
 
-      successWithBaseResponse(res, entry);
-    }
-  )
+    successWithBaseResponse(res, entry);
+  })
 );
 
 /**
@@ -283,24 +277,22 @@ router.post(
  */
 router.post(
   "/archive/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-      const idea = await pb.collection("idea_box_entries").getOne(id);
-      const entry: IIdeaBoxEntry = await pb
-        .collection("idea_box_entries")
-        .update(id, {
-          archived: !idea.archived,
-          pinned: false,
-        });
+    const idea = await pb.collection("idea_box_entries").getOne(id);
+    const entry: IIdeaBoxEntry = await pb
+      .collection("idea_box_entries")
+      .update(id, {
+        archived: !idea.archived,
+        pinned: false,
+      });
 
-      successWithBaseResponse(res, entry);
-    }
-  )
+    successWithBaseResponse(res, entry);
+  })
 );
 
 /**
@@ -317,25 +309,23 @@ router.post(
     async (value, meta) =>
       await validateExistence(meta.req.pb, "idea_box_folders", value)
   ),
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { folder } = req.query;
+    const { pb } = req;
+    const { id } = req.params;
+    const { folder } = req.query;
 
-      if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-      const entry: IIdeaBoxEntry = await pb
-        .collection("idea_box_entries")
-        .update(id, {
-          folder,
-        });
+    const entry: IIdeaBoxEntry = await pb
+      .collection("idea_box_entries")
+      .update(id, {
+        folder,
+      });
 
-      successWithBaseResponse(res, entry);
-    }
-  )
+    successWithBaseResponse(res, entry);
+  })
 );
 
 /**
@@ -347,22 +337,20 @@ router.post(
  */
 router.delete(
   "/folder/:id",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-      const { pb } = req;
-      const { id } = req.params;
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-      if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-      const entry: IIdeaBoxEntry = await pb
-        .collection("idea_box_entries")
-        .update(id, {
-          folder: "",
-        });
+    const entry: IIdeaBoxEntry = await pb
+      .collection("idea_box_entries")
+      .update(id, {
+        folder: "",
+      });
 
-      successWithBaseResponse(res, entry);
-    }
-  )
+    successWithBaseResponse(res, entry);
+  })
 );
 
 export default router;

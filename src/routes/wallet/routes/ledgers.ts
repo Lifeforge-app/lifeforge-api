@@ -21,9 +21,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IWalletLedger[]>>) =>
-      list(req, res, "wallet_ledgers")
+  asyncWrapper(async (req, res: Response<BaseResponse<IWalletLedger[]>>) =>
+    list(req, res, "wallet_ledgers")
   )
 );
 
@@ -43,24 +42,20 @@ router.post(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IWalletLedger>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IWalletLedger>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { name, icon, color } = req.body;
 
-      const ledger: IWalletLedger = await pb
-        .collection("wallet_ledgers")
-        .create({
-          name,
-          icon,
-          color,
-        });
+    const ledger: IWalletLedger = await pb.collection("wallet_ledgers").create({
+      name,
+      icon,
+      color,
+    });
 
-      successWithBaseResponse(res, ledger, 201);
-    }
-  )
+    successWithBaseResponse(res, ledger, 201);
+  })
 );
 
 /**
@@ -80,27 +75,25 @@ router.patch(
     body("icon").isString(),
     body("color").isHexColor(),
   ],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IWalletLedger>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IWalletLedger>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon, color } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon, color } = req.body;
 
-      if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
+    if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
 
-      const ledger: IWalletLedger = await pb
-        .collection("wallet_ledgers")
-        .update(id, {
-          name,
-          icon,
-          color,
-        });
+    const ledger: IWalletLedger = await pb
+      .collection("wallet_ledgers")
+      .update(id, {
+        name,
+        icon,
+        color,
+      });
 
-      successWithBaseResponse(res, ledger);
-    }
-  )
+    successWithBaseResponse(res, ledger);
+  })
 );
 
 /**
@@ -112,7 +105,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 

@@ -319,7 +319,8 @@
     "videos": "搜索视频...",
     "iconSets": "搜索图标集...",
     "filterIconSets": "筛选图标集...",
-    "icons": "搜索图标..."
+    "icons": "搜索图标...",
+    "amongMillionsOfBooks": "在数百万本书中搜索..."
   },
   "button": {
     "create": "创建",
@@ -425,7 +426,12 @@
     "fileUpload": "上传文件",
     "folderUpload": "上传文件夹",
     "hideAmount": "隐藏金额",
-    "removeFromFolder": "从文件夹中移除"
+    "removeFromFolder": "从文件夹中移除",
+    "addBook": "添加书籍",
+    "uploadFromDevice": "从设备上传",
+    "downloadFromLibgen": "从 Library Genesis 下载",
+    "viewDetails": "查看详情",
+    "addToLibrary": "添加到图书馆"
   },
   "modals": {
     "header": {
@@ -497,7 +503,8 @@
       "createPriority": "创建优先级",
       "updatePriority": "更新优先级",
       "updateJournalEntry": "更新日志条目",
-      "createJournalEntry": "创建日志"
+      "createJournalEntry": "创建日志",
+      "libraryGenesis": "创世图书馆"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",
@@ -824,6 +831,18 @@
     "notes": {
       "title": "还没有笔记",
       "description": "现在是时候上传笔记啦!"
+    },
+    "booksLibrary": {
+      "searchQuery": {
+        "title": "沒有搜索关键字",
+        "description": "开始探索创世纪图书馆。尝试搜索一本书来开始吧。"
+      },
+      "noSearchQuery": {},
+      "results": {
+        "title": "没有查找到图书",
+        "description": "创世纪图书馆中没有找到匹配的书籍。"
+      },
+      "noResults": {}
     }
   },
   "todoList": {

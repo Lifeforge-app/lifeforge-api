@@ -17,9 +17,8 @@ const router = express.Router();
  */
 router.get(
   "/",
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMCategory[]>>) =>
-      list(req, res, "projects_m_categories")
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMCategory[]>>) =>
+    list(req, res, "projects_m_categories")
   )
 );
 
@@ -34,23 +33,21 @@ router.get(
 router.post(
   "/",
   [body("name").isString(), body("icon").isString()],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMCategory>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMCategory>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { name, icon } = req.body;
+    const { pb } = req;
+    const { name, icon } = req.body;
 
-      const category: IProjectsMCategory = await pb
-        .collection("projects_m_categories")
-        .create({
-          name,
-          icon,
-        });
+    const category: IProjectsMCategory = await pb
+      .collection("projects_m_categories")
+      .create({
+        name,
+        icon,
+      });
 
-      successWithBaseResponse(res, category);
-    }
-  )
+    successWithBaseResponse(res, category);
+  })
 );
 
 /**
@@ -65,24 +62,22 @@ router.post(
 router.patch(
   "/:id",
   [body("name").isString(), body("icon").isString()],
-  asyncWrapper(
-    async (req: Request, res: Response<BaseResponse<IProjectsMCategory>>) => {
-      if (hasError(req, res)) return;
+  asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMCategory>>) => {
+    if (hasError(req, res)) return;
 
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon } = req.body;
+    const { pb } = req;
+    const { id } = req.params;
+    const { name, icon } = req.body;
 
-      const category: IProjectsMCategory = await pb
-        .collection("projects_m_categories")
-        .update(id, {
-          name,
-          icon,
-        });
+    const category: IProjectsMCategory = await pb
+      .collection("projects_m_categories")
+      .update(id, {
+        name,
+        icon,
+      });
 
-      successWithBaseResponse(res, category);
-    }
-  )
+    successWithBaseResponse(res, category);
+  })
 );
 
 /**
@@ -94,7 +89,7 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req: Request, res: Response) => {
+  asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
 
