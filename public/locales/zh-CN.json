@@ -75,7 +75,8 @@
       "visibilities": " 公开状态",
       "authors": "作者",
       "information": "信息",
-      "priorities": "优先级"
+      "priorities": "优先级",
+      "calendarHeatmap": "日历热力图"
     },
     "descriptions": {
       "dashboard": "您的任务控制中心，妙不可言！",
@@ -431,7 +432,10 @@
     "uploadFromDevice": "从设备上传",
     "downloadFromLibgen": "从 Library Genesis 下载",
     "viewDetails": "查看详情",
-    "addToLibrary": "添加到图书馆"
+    "addToLibrary": "添加到图书馆",
+    "alreadyInLibrary": "已在图书馆",
+    "tailwindCssColors": "Tailwind CSS 颜色",
+    "tailwindCssColorPalette": "Tailwind CSS 颜色表"
   },
   "modals": {
     "header": {
@@ -504,7 +508,11 @@
       "updatePriority": "更新优先级",
       "updateJournalEntry": "更新日志条目",
       "createJournalEntry": "创建日志",
-      "libraryGenesis": "创世图书馆"
+      "libraryGenesis": "创世图书馆",
+      "addToLibrary": "添加到图书馆",
+      "tailwindCssColors": "Tailwind CSS 颜色",
+      "tailwindCssColorPalette": "Tailwind CSS 颜色表",
+      "modifyBookData": "修改图书信息"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",
@@ -625,7 +633,19 @@
     "channelUrl": "频道网址",
     "priorityName": "优先级名称",
     "priorityIcon": "优先级图标",
-    "priorityColor": "优先级颜色"
+    "priorityColor": "优先级颜色",
+    "languageName": "语言名称",
+    "languageIcon": "语言图标",
+    "authors": "作者",
+    "edition": "版本",
+    "extension": "文件扩展名",
+    "isbn": "ISBN编码",
+    "libgenId": "库编号",
+    "publisher": "出版者",
+    "bookTitle": "书籍标题",
+    "publicationYear": "出版年份",
+    "fileSize": "文件大小",
+    "md5": "MD5 校验值"
   },
   "table": {
     "date": "日期",
@@ -693,12 +713,14 @@
     },
     "booksLibrary": {
       "starred": "已加星标",
-      "allBooks": "所有书籍"
+      "allBooks": "所有书籍",
+      "favourite": "收藏的图书"
     },
     "projectsM": {
       "allProjects": "所有项目",
       "starred": "收藏的项目"
-    }
+    },
+    "title": {}
   },
   "calendar": {
     "view": {
@@ -709,8 +731,8 @@
     }
   },
   "fetch": {
-    "success": "耶！成功{{action}}该项！",
-    "failure": "嗯...{{action}}该项失败。请重试。;-;",
+    "success": "耶！成功将该项{{action}}！",
+    "failure": "嗯... 无法将该项{{action}}。请重试。;-;",
     "action": {
       "create": "创建",
       "update": "更新",
@@ -733,7 +755,9 @@
       "summarized": "摘要",
       "unlock": "解锁",
       "download": "下载",
-      "NASFilesReady": "文件已就绪，请前往您的NAS下载。"
+      "NASFilesReady": "文件已就绪，请前往您的NAS下载。",
+      "addedToFavourites": "添加到收藏",
+      "removedFromFavourites": "从收藏中删除"
     },
     "fetchError": "从服务器获取数据失败",
     "redirected": "已重定向",
@@ -833,17 +857,26 @@
       "description": "现在是时候上传笔记啦!"
     },
     "booksLibrary": {
-      "searchQuery": {
-        "title": "沒有搜索关键字",
-        "description": "开始探索创世纪图书馆。尝试搜索一本书来开始吧。"
+      "libgen": {
+        "results": {
+          "title": "没有查找到图书",
+          "description": "创世纪图书馆中没有找到匹配的书籍。"
+        },
+        "searchQuery": {
+          "title": "沒有搜索关键字",
+          "description": "开始探索创世纪图书馆。尝试搜索一本书来开始吧。"
+        }
       },
-      "noSearchQuery": {},
+      "empty": {
+        "title": "图书馆为空",
+        "description": "您的书库中没有找到任何书籍。您可以从您的设备上传一些图书，也可以从 Library Genesis 下载。"
+      },
       "results": {
-        "title": "没有查找到图书",
-        "description": "创世纪图书馆中没有找到匹配的书籍。"
-      },
-      "noResults": {}
-    }
+        "title": "没有找到书籍",
+        "description": "未找到匹配结果。请尝试搜索其他项。"
+      }
+    },
+    "languages": "没有找到任何语言"
   },
   "todoList": {
     "header": {

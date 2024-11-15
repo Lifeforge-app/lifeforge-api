@@ -6,7 +6,10 @@ import mime from "mime-types";
 import ExifReader from "exifreader";
 import moment from "moment";
 import axios from "axios";
-import { successWithBaseResponse } from "../../../utils/response.js";
+import {
+  clientError,
+  successWithBaseResponse,
+} from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
 import sizeOf from "image-size";
 
@@ -33,7 +36,10 @@ const RAW_FILE_TYPE = [
   "X3F",
 ];
 
-let progress = 0;
+let progress: {
+  total: number;
+  done: number;
+} | null = null;
 let allPhotosDimensions = undefined;
 
 router.get(
@@ -331,11 +337,12 @@ router.get(
       .format(
         "YYYY-MM-DD HH:mm:ss"
       )} ' ${hideInAlbum === "true" ? ' && album = ""' : ""}`;
+
     let photos = await pb.collection("photos_dimensions").getFullList({
       filter,
       expand: "photo",
       fields:
-        "expand.photo.raw,is_in_album,is_favourite,expand.photo.id,expand.photo.image",
+        "expand.photo.raw,is_in_album,is_favourite,expand.photo.id,expand.photo.image,expand.photo.collectionId",
     });
 
     photos = photos.map((photo) => ({
@@ -408,6 +415,10 @@ router.post(
     const { pb } = req;
     const locked = req.query.locked === "true";
 
+    if (progress !== null) {
+      return clientError(res, "Another import is in progress", 409);
+    }
+
     fs.readdirSync(`/home/pi/${process.env.DATABASE_OWNER}/medium`)
       .filter((file) => file.startsWith("."))
       .forEach((file) =>
@@ -426,10 +437,7 @@ router.post(
       );
 
     if (newFiles.length === 0) {
-      return res.status(401).json({
-        state: "error",
-        message: "No files are detected in the uploads folder",
-      });
+      return clientError(res, "No files to import", 400);
     }
 
     const distinctFiles = {};
@@ -443,8 +451,10 @@ router.post(
       }
     }
 
-    progress = 0;
-    let completed = 0;
+    progress = {
+      total: Object.keys(distinctFiles).length,
+      done: 0,
+    };
 
     res.status(202).json({
       state: "accepted",
@@ -465,8 +475,7 @@ router.post(
       );
 
       if (imageFiles === 0) {
-        completed += 1;
-        progress = completed / Object.keys(distinctFiles).length;
+        progress.done++;
         continue;
       }
 
@@ -502,18 +511,22 @@ router.post(
           }
         }
 
-        const size = await sizeOf(filePath);
+        try {
+          const size = await sizeOf(filePath);
 
-        if (size.orientation === 8) {
-          data.width = size.height;
-          data.height = size.width;
-        } else {
-          data.width = size.width;
-          data.height = size.height;
+          if ([6, 8].includes(tags.Orientation?.value)) {
+            data.width = size.height;
+            data.height = size.width;
+          } else {
+            data.width = size.width;
+            data.height = size.height;
+          }
+        } catch {
+          progress.done++;
+          continue;
         }
       } else {
-        completed += 1;
-        progress = completed / Object.keys(distinctFiles).length;
+        progress.done++;
         continue;
       }
 
@@ -555,16 +568,17 @@ router.post(
         fs.unlinkSync(`/home/pi/${process.env.DATABASE_OWNER}/medium/${file}`);
       }
 
-      completed += 1;
-      progress = completed / Object.keys(distinctFiles).length;
+      progress.done++;
     }
+
+    progress = null;
   })
 );
 
 router.get(
   "/import/progress",
   asyncWrapper(async (req, res) => {
-    successWithBaseResponse(res, progress);
+    successWithBaseResponse(res, progress === null ? "null" : progress);
   })
 );
 
@@ -602,6 +616,17 @@ router.delete(
         is_deleted: true,
         is_in_album: false,
       });
+
+      const albumCover = await pb
+        .collection("photos_albums")
+        .getFirstListItem(`cover = "${dim.photo}"`)
+        .catch(() => null);
+
+      if (albumCover) {
+        await pb.collection("photos_albums").update(albumCover.id, {
+          cover: "",
+        });
+      }
     }
 
     successWithBaseResponse(res);

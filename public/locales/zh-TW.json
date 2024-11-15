@@ -75,7 +75,8 @@
       "visibilities": "公開狀態",
       "authors": "作者",
       "information": "資訊",
-      "priorities": "優先順序"
+      "priorities": "優先順序",
+      "calendarHeatmap": "日曆熱力圖"
     },
     "descriptions": {
       "dashboard": "您的任務控制中心，妙不可言！",
@@ -430,7 +431,10 @@
     "uploadFromDevice": "從裝置上傳",
     "downloadFromLibgen": "從 Library Genesis 下載",
     "viewDetails": "查看詳情",
-    "addToLibrary": "加入書籍庫"
+    "addToLibrary": "加入書籍庫",
+    "alreadyInLibrary": "已在書庫",
+    "tailwindCssColors": "Tailwind CSS 顏色",
+    "tailwindCssColorPalette": "Tailwind CSS 顏色表"
   },
   "modals": {
     "header": {
@@ -503,7 +507,11 @@
       "updatePriority": "更新優先順序",
       "updateJournalEntry": "更新日誌項目",
       "createJournalEntry": "建立日誌",
-      "libraryGenesis": "創世紀圖書館"
+      "libraryGenesis": "創世紀圖書館",
+      "addToLibrary": "新增至圖書館",
+      "tailwindCssColors": "Tailwind CSS 顏色",
+      "tailwindCssColorPalette": "Tailwind CSS 顏色板",
+      "modifyBookData": "修改圖書資料"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
@@ -624,7 +632,19 @@
     "channelUrl": "頻道網址",
     "priorityName": "優先級名稱",
     "priorityIcon": "優先級圖示",
-    "priorityColor": "優先級顏色"
+    "priorityColor": "優先級顏色",
+    "languageName": "語言名稱",
+    "languageIcon": "語言圖示",
+    "authors": "作者",
+    "edition": "版本",
+    "extension": "檔案類型",
+    "isbn": "ISBN碼",
+    "libgenId": "圖書館ID",
+    "publisher": "出版者",
+    "bookTitle": "書籍標題",
+    "publicationYear": "出版年份",
+    "fileSize": "檔案大小",
+    "md5": "MD5 雜湊值"
   },
   "table": {
     "date": "日期",
@@ -692,12 +712,14 @@
     },
     "booksLibrary": {
       "starred": "已加星標",
-      "allBooks": "所有書籍"
+      "allBooks": "所有書籍",
+      "favourite": "收藏的圖書"
     },
     "projectsM": {
       "allProjects": "所有專案",
       "starred": "收藏的專案"
-    }
+    },
+    "title": {}
   },
   "calendar": {
     "view": {
@@ -709,8 +731,8 @@
   },
   "fetch": {
     "fetchError": "從伺服器獲取數據失敗",
-    "success": "耶！成功{{action}}該項！",
-    "failure": "嗯...{{action}}該項失敗。請重試。;-;",
+    "success": "耶！成功將該項{{action}}！",
+    "failure": "嗯...無法將該項{{action}}。請重試。;-;",
     "action": {
       "create": "創建",
       "update": "更新",
@@ -733,7 +755,9 @@
       "summarized": "摘要",
       "unlock": "解鎖",
       "download": "下載",
-      "NASFilesReady": "檔案已就緒，請前往您的NAS下載。"
+      "NASFilesReady": "檔案已就緒，請前往您的NAS下載。",
+      "addedToFavourites": "添加到收藏",
+      "removedFromFavourites": "從收藏中移除"
     },
     "redirected": "已重新導向",
     "otp": {
@@ -832,17 +856,26 @@
       "description": "現在是時間上傳筆記囉!"
     },
     "booksLibrary": {
-      "searchQuery": {
-        "title": "尚無搜尋關鍵詞",
-        "description": "開始探索創世圖書馆。試試搜尋一本書来开始吧。"
+      "libgen": {
+        "results": {
+          "title": "沒有查到圖書",
+          "description": "創世圖書館中沒有找到匹配的書籍。"
+        },
+        "searchQuery": {
+          "title": "尚無搜尋關鍵詞",
+          "description": "開始探索創世圖書馆。試試搜尋一本書来开始吧。"
+        }
       },
-      "noSearchQuery": {},
+      "empty": {
+        "title": "圖書館為空",
+        "description": "您的圖書館中沒有找到任何書籍。您可以從您的裝置上傳一些內容或從 Library Genesis 下載。"
+      },
       "results": {
-        "title": "沒有查到圖書",
-        "description": "創世圖書館中沒有找到匹配的書籍。"
-      },
-      "noResults": {}
-    }
+        "title": "沒有找到書籍",
+        "description": "未找到匹配結果。請嘗試搜尋其他項目。"
+      }
+    },
+    "languages": "沒有找到任何語言"
   },
   "todoList": {
     "header": {

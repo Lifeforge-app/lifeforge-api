@@ -197,7 +197,6 @@ router.post(
       req: Request,
       res: Response<BaseResponse<IWalletTransactionEntry[]>>
     ) => {
-      console.log(req.body);
       if (hasError(req, res)) return;
 
       const { pb } = req;

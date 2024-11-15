@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom";
-import express from "express";
+import express, { Response } from "express";
 import axios from "axios";
 import { spawn } from "child_process";
 import {
@@ -7,10 +7,17 @@ import {
   successWithBaseResponse,
 } from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
+import fs from "fs";
+import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
+import {
+  IBooksLibraryDownloadProcess,
+  IBooksLibraryEntry,
+} from "../../../interfaces/books_library_interfaces.js";
+import { BaseResponse } from "../../../interfaces/base_response.js";
 
 const router = express.Router();
 
-const downloadProcesses = new Map<string, any>();
+const downloadProcesses = new Map<string, IBooksLibraryDownloadProcess>();
 
 const cleanupTitle = (title: Element | null) => {
   if (title === null) return "";
@@ -282,10 +289,155 @@ router.get(
   })
 );
 
+router.get(
+  "/local-library-data/:md5",
+  asyncWrapper(async (req, res) => {
+    const target = new URL("http://libgen.is/book/index.php");
+    target.searchParams.set("md5", req.params.md5);
+    if (req.params.tlm) target.searchParams.set("tlm", req.params.tlm);
+
+    try {
+      const { data } = await axios({
+        method: "GET",
+        url: target.href,
+      });
+      const dom = new JSDOM(data);
+      const document = dom.window.document;
+
+      const everything = Object.fromEntries(
+        Array.from(
+          document.querySelectorAll('body > table[rules="cols"] > tbody > tr')
+        )
+          .slice(2)
+          .map((e) =>
+            !e.querySelector("table")
+              ? Array.from(e.querySelectorAll("td"))
+                  .reduce((all: HTMLTableCellElement[][], one, i) => {
+                    const ch = Math.floor(i / 2);
+                    all[ch] = ([] as HTMLTableCellElement[]).concat(
+                      all[ch] || [],
+                      one as HTMLTableCellElement
+                    );
+                    return all;
+                  }, [])
+                  .map((e) => {
+                    const key =
+                      e[0]?.textContent?.trim().replace(/:$/, "") || "";
+                    if (e[1]?.querySelector("a")) {
+                      return [
+                        "islink|" + key,
+                        Object.fromEntries(
+                          Array.from(e[1].querySelectorAll("a")).map((e) => [
+                            e.textContent?.trim() || "",
+                            (() => {
+                              const href = e.href;
+                              switch (key) {
+                                case "BibTeX":
+                                  return href.replace("bibtex.php", "/bibtex");
+                                case "Desr. old vers.":
+                                  return href.replace(
+                                    "../book/index.php",
+                                    "/book"
+                                  );
+                                default:
+                                  return href;
+                              }
+                            })(),
+                          ])
+                        ),
+                      ];
+                    }
+                    return [key, e[1]?.textContent?.trim() || ""];
+                  })
+              : [
+                  [
+                    e.querySelector("td")?.textContent?.trim(),
+                    zip(
+                      ...(Array.from(
+                        e?.querySelectorAll("table > tbody > tr")
+                      ).map((e) =>
+                        Array.from(e.querySelectorAll("td")).map((e) => {
+                          if (e.querySelector("a")) {
+                            return [
+                              e.querySelector("a")?.textContent?.trim(),
+                              e
+                                .querySelector("a")
+                                ?.href.replace("../", "http://libgen.is/"),
+                            ];
+                          }
+                          return e.textContent?.trim();
+                        })
+                      ) as [Array<string>, Array<any> | null])
+                    ),
+                  ],
+                ]
+          )
+          .flat()
+          .filter(
+            (e) => e?.length === 2 && e[0] !== "Table of contents" && e[1]
+          )
+          .map((e) => [e[0] as string, e[1]]) as [string, any][]
+      );
+
+      const final: Omit<
+        WithoutPBDefault<IBooksLibraryEntry>,
+        "category" | "file"
+      > = {
+        md5: req.params.md5,
+        thumbnail: document.querySelector("img")?.src ?? "",
+        authors: everything["Author(s)"]
+          ?.split(",")
+          .map((e: string) => e.trim())
+          .join(", "),
+        edition: everything["Edition"],
+        extension: everything["Extension"],
+        isbn: everything["ISBN"]
+          ?.split(",")
+          .map((e: string) => e.trim())
+          .join(", "),
+        languages: everything["Language"]
+          ?.split(",")
+          .map((e: string) => e.trim()),
+        publisher: everything["Publisher"],
+        size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
+        title:
+          document
+            .querySelector(
+              'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)'
+            )
+            ?.textContent?.trim() ?? "",
+        year_published: everything["Year"],
+      };
+
+      successWithBaseResponse(res, final);
+    } catch (e: any) {
+      clientError(res, e.message);
+    }
+  })
+);
+
 router.post(
   "/add-to-library/:md5",
   asyncWrapper(async (req, res) => {
-    const target = `http://libgen.li/ads.php?md5=${req.params.md5}`;
+    const { pb } = req;
+    const { metadata } = req.body as {
+      metadata: Omit<IBooksLibraryEntry, "thumbnail" | "file"> & {
+        thumbnail: File;
+        file: File;
+      };
+    };
+    const md5 = req.params.md5;
+    const target = `http://libgen.li/ads.php?md5=${md5}`;
+
+    downloadProcesses.set(req.params.md5, {
+      kill: () => {},
+      downloaded: "0B",
+      total: "0B",
+      percentage: "0%",
+      speed: "0B/s",
+      ETA: "0",
+      metadata,
+    });
 
     try {
       const { data } = await axios({
@@ -302,6 +454,7 @@ router.post(
 
       const downloadProcess = spawn("aria2c", [
         "--dir=./uploads",
+        `--out=${md5}.${metadata.extension}`,
         "--log-level=info",
         "-l-",
         "-x8",
@@ -323,11 +476,13 @@ router.post(
               matches.groups!;
 
             downloadProcesses.set(req.params.md5, {
+              kill: downloadProcess.kill,
               downloaded,
               total,
               percentage,
               speed,
               ETA,
+              metadata,
             });
           }
         }
@@ -338,11 +493,38 @@ router.post(
         clientError(res, data.toString());
       });
 
-      downloadProcess.on("close", () => {
+      downloadProcess.on("close", async () => {
+        console.log(metadata.category);
+        //TODO
+        metadata.languages = [];
+        metadata.category = "";
+
+        await fetch(`http://libgen.is/${metadata.thumbnail}`).then(
+          async (response) => {
+            if (response.ok) {
+              const buffer = await response.arrayBuffer();
+              metadata.thumbnail = new File([buffer], "image.jpg", {
+                type: "image/jpeg",
+              });
+            }
+          }
+        );
+
+        const file = fs.readFileSync(
+          "./uploads/" + md5 + "." + metadata.extension
+        );
+        if (!file) throw new Error("Failed to read file");
+        metadata.file = new File([file], `${md5}.${metadata.extension}`);
+
+        await pb.collection("books_library_entries").create(metadata);
+
         downloadProcesses.delete(req.params.md5);
+
+        fs.unlinkSync(`./uploads/${md5}.${metadata.extension}`);
         console.log("Download process closed");
       });
     } catch (e: any) {
+      downloadProcesses.delete(req.params.md5);
       clientError(res, e.message);
     }
   })
@@ -350,8 +532,40 @@ router.post(
 
 router.get(
   "/download-progresses",
+  asyncWrapper(
+    async (
+      _,
+      res: Response<
+        BaseResponse<Record<string, Omit<IBooksLibraryDownloadProcess, "kill">>>
+      >
+    ) => {
+      successWithBaseResponse(
+        res,
+        Object.fromEntries(
+          Array.from(downloadProcesses.entries()).map(([k, v]) => [
+            k,
+            { ...v, kill: undefined },
+          ])
+        )
+      );
+    }
+  )
+);
+
+router.delete(
+  "/download-progresses/:md5",
   asyncWrapper(async (req, res) => {
-    successWithBaseResponse(res, downloadProcesses.entries());
+    const process = downloadProcesses.get(req.params.md5);
+    if (!process) {
+      clientError(res, "No such download process", 404);
+      return;
+    }
+
+    process.kill();
+
+    downloadProcesses.delete(req.params.md5);
+
+    successWithBaseResponse(res, undefined, 204);
   })
 );
 

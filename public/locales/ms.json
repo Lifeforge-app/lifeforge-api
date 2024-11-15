@@ -74,7 +74,8 @@
       "visibilities": "Keterlihatan",
       "authors": "Pengarang",
       "information": "Maklumat",
-      "priorities": "Keutamaan"
+      "priorities": "Keutamaan",
+      "calendarHeatmap": "Peta Panas Kalendar"
     },
     "descriptions": {
       "dashboard": "Pusat kawalan misi anda untuk yang mengagumkan. 🚀",
@@ -430,7 +431,10 @@
     "uploadFromDevice": "Muat naik dari Peranti",
     "downloadFromLibgen": "Muat Turun dari Library Genesis",
     "viewDetails": "Lihat Butiran",
-    "addToLibrary": "Tambah ke Perpustakaan"
+    "addToLibrary": "Tambah ke Perpustakaan",
+    "alreadyInLibrary": "Sudah dalam Perpustakaan",
+    "tailwindCssColors": "Warna Tailwind CSS",
+    "tailwindCssColorPalette": "Palet Warna Tailwind CSS"
   },
   "modals": {
     "header": {
@@ -503,7 +507,11 @@
       "updatePriority": "Kemaskini Kepentingan",
       "updateJournalEntry": "Kemaskini Catatan Harian",
       "createJournalEntry": "Buat Catatan Journal",
-      "libraryGenesis": "Perpustakaan Genesis"
+      "libraryGenesis": "Perpustakaan Genesis",
+      "addToLibrary": "Tambah ke Koleksi",
+      "tailwindCssColors": "Warna Tailwind CSS",
+      "tailwindCssColorPalette": "Palet Warna Tailwind CSS",
+      "modifyBookData": "Kemaskini Maklumat Buku"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -624,7 +632,19 @@
     "channelUrl": "URL Saluran",
     "priorityName": "Nama Kepentingan",
     "priorityIcon": "Ikons Keutamaan",
-    "priorityColor": "Warna Keutamaan"
+    "priorityColor": "Warna Keutamaan",
+    "languageName": "Nama Bahasa",
+    "languageIcon": "ikon Bahasa",
+    "authors": "Penulis",
+    "edition": "Edisi",
+    "extension": "Jenis Fail",
+    "isbn": "Kod ISBN",
+    "libgenId": "ID Pusat Sumber",
+    "publisher": "Penerbit",
+    "bookTitle": "Tajuk Buku",
+    "publicationYear": "Tahun Penerbitan",
+    "fileSize": "Saiz Fail",
+    "md5": "S Ringkasan MD5"
   },
   "table": {
     "date": "Tarikh",
@@ -692,12 +712,14 @@
     },
     "booksLibrary": {
       "starred": "Berbintang",
-      "allBooks": "Semua Buku"
+      "allBooks": "Semua Buku",
+      "favourite": "Perpustakaan Buku Kegemaran"
     },
     "projectsM": {
       "allProjects": "Semua Projek",
       "starred": "Projek Berbintang"
-    }
+    },
+    "title": {}
   },
   "calendar": {
     "view": {
@@ -733,7 +755,9 @@
       "cleanedup": "membersihkan",
       "unlock": "Buka Kunci",
       "download": "muat turun",
-      "NASFilesReady": "Fail sedia untuk dimuat turunkan. Sila pergi ke NAS anda."
+      "NASFilesReady": "Fail sedia untuk dimuat turunkan. Sila pergi ke NAS anda.",
+      "addedToFavourites": "menambah ke kegemaran",
+      "removedFromFavourites": "membuang dari kegemaran"
     },
     "redirected": "Dilencongkan",
     "otp": {
@@ -832,17 +856,26 @@
       "description": "Masa untuk muat naik nota di sini!"
     },
     "booksLibrary": {
-      "searchQuery": {
-        "title": "Tiada Pertanyaan Carian",
-        "description": "Mula meneroka perpustakaan Libgen. Cuba cari buku untuk memulakan."
+      "libgen": {
+        "results": {
+          "title": "Tiada Buku Ditemui",
+          "description": "Tiada buku yang sepadan dijumpai dalam perpustakaan Libgen."
+        },
+        "searchQuery": {
+          "title": "Tiada Pertanyaan Carian",
+          "description": "Mula meneroka perpustakaan Libgen. Cuba cari buku untuk memulakan."
+        }
       },
-      "noSearchQuery": {},
+      "empty": {
+        "title": "Tiada Buku di Perpustakaan",
+        "description": "Tiada buku dijumpai dalam perpustakaan anda. Anda boleh memuat naik beberapa daripada peranti anda atau memuat turun daripada Library Genesis."
+      },
       "results": {
-        "title": "Tiada Buku Ditemui",
-        "description": "Tiada buku yang sepadan dijumpai dalam perpustakaan Libgen."
-      },
-      "noResults": {}
-    }
+        "title": "Tiada Buku Ditemukan",
+        "description": "Tiada kecocongan ditemui. Cuba cari sesuatu yang lain."
+      }
+    },
+    "languages": "Tiada bahasa ditemui"
   },
   "todoList": {
     "header": {

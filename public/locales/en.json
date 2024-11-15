@@ -74,7 +74,8 @@
       "visibilities": "Visibilities",
       "authors": "Authors",
       "information": "Information",
-      "priorities": "Priorities"
+      "priorities": "Priorities",
+      "calendarHeatmap": "Calendar Heatmap"
     },
     "descriptions": {
       "dashboard": "Your mission control center for awesome. 🚀",
@@ -430,7 +431,10 @@
     "uploadFromDevice": "Upload from Device",
     "downloadFromLibgen": "Download from Library Genesis",
     "viewDetails": "View Details",
-    "addToLibrary": "Add to Library"
+    "addToLibrary": "Add to Library",
+    "alreadyInLibrary": "Already in Library",
+    "tailwindCssColors": "Tailwind CSS Colors",
+    "tailwindCssColorPalette": "Tailwind CSS Color Palette"
   },
   "modals": {
     "header": {
@@ -503,7 +507,11 @@
       "updatePriority": "Update Priority",
       "updateJournalEntry": "Update Journal Entry",
       "createJournalEntry": "Create Journal Entry",
-      "libraryGenesis": "Library Genesis"
+      "libraryGenesis": "Library Genesis",
+      "addToLibrary": "Add to Library",
+      "tailwindCssColors": "Tailwind CSS Colors",
+      "tailwindCssColorPalette": "Tailwind CSS Color Palette",
+      "modifyBookData": "Update Book Information"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -624,7 +632,19 @@
     "channelUrl": "Channel URL",
     "priorityName": "Priority Name",
     "priorityIcon": "Priority Icon",
-    "priorityColor": "Priority Color"
+    "priorityColor": "Priority Color",
+    "languageName": "Language Name",
+    "languageIcon": "Language Icon",
+    "authors": "Authors",
+    "edition": "Version",
+    "extension": "File Type",
+    "isbn": "ISBN Code",
+    "libgenId": "Library ID",
+    "publisher": "Publisher",
+    "bookTitle": "Book Title",
+    "publicationYear": "Publication Year",
+    "fileSize": "File Size",
+    "md5": "MD5 Checksum"
   },
   "table": {
     "date": "Date",
@@ -692,12 +712,14 @@
     },
     "booksLibrary": {
       "starred": "Starred",
-      "allBooks": "All Books"
+      "allBooks": "All Books",
+      "favourite": "Favourite Books"
     },
     "projectsM": {
       "allProjects": "All Projects",
       "starred": "Starred Projects"
-    }
+    },
+    "title": {}
   },
   "calendar": {
     "view": {
@@ -733,7 +755,9 @@
       "summarized": "summarized",
       "unlock": "Unlocked",
       "download": "downloaded",
-      "NASFilesReady": " Files are now ready for download. Head to your NAS."
+      "NASFilesReady": " Files are now ready for download. Head to your NAS.",
+      "addedToFavourites": "added to favourites",
+      "removedFromFavourites": "removed from favourites"
     },
     "redirected": "Redirected",
     "redirecting": "Redirecting...",
@@ -833,17 +857,26 @@
       "description": "Time to upload some notes here!"
     },
     "booksLibrary": {
-      "searchQuery": {
-        "title": "No Search Query",
-        "description": "Start exploring Library Genensis. Try searching for a book to get started."
+      "libgen": {
+        "results": {
+          "title": "No Books Found",
+          "description": "No matching books found in Library Genesis."
+        },
+        "searchQuery": {
+          "title": "No Search Query",
+          "description": "Start exploring Library Genensis. Try searching for a book to get started."
+        }
       },
-      "noSearchQuery": {},
+      "empty": {
+        "title": "No Books in Library",
+        "description": "No books found in your library. You can upload some from your device or download from Library Genesis."
+      },
       "results": {
         "title": "No Books Found",
-        "description": "No matching books found in Library Genesis."
-      },
-      "noResults": {}
-    }
+        "description": "No matches found. Try searching for something else."
+      }
+    },
+    "languages": "No languages found"
   },
   "todoList": {
     "header": {

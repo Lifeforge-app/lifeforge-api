@@ -117,7 +117,7 @@ router.delete(
 
     await pb.collection("wallet_categories").delete(id);
 
-    successWithBaseResponse(res, null, 204);
+    successWithBaseResponse(res, undefined, 204);
   })
 );
 
