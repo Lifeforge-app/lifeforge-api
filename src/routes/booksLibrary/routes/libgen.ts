@@ -381,7 +381,7 @@ router.get(
 
       const final: Omit<
         WithoutPBDefault<IBooksLibraryEntry>,
-        "category" | "file"
+        "category" | "file" | "is_favourite"
       > = {
         md5: req.params.md5,
         thumbnail: document.querySelector("img")?.src ?? "",

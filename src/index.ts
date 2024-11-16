@@ -86,6 +86,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
+      "http://192.168.0.119:5173",
       "https://improved-zebra-55ggwr697jvh47xr-5173.app.github.dev",
       "https://lifeforge.thecodeblog.net",
       "https://api-explorer.lifeforge.thecodeblog.net",
