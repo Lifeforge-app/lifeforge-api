@@ -306,9 +306,11 @@ router.put(
       content: encrypt(Buffer.from(cleanedUp), master).toString("base64"),
       summary: encrypt(Buffer.from(summarized), master).toString("base64"),
       mood,
-      photos: files.map(
-        (file) => new File([fs.readFileSync(file.path)], file.originalname)
-      ),
+      ...(files.length > 0 && {
+        photos: files.map(
+          (file) => new File([fs.readFileSync(file.path)], file.originalname)
+        ),
+      }),
     };
 
     const entry: IJournalEntry = await pb
@@ -383,7 +385,7 @@ router.post(
 
     const rawText = decrypt2(text, decryptedMaster);
 
-    const prompt = `This text is a diary entries. Translate it into grammatically correct and well-punctuated English, maintaining a natural flow with proper paragraph breaks. The diary content should be all normal paragraphs WITHOUT any headings or titles. Focus solely on the diary content itself. Omit any text like "Here is the...", headings like "Diary entries", or closing remarks.
+    const prompt = `The text below is a diary entries. Turn the text into grammatically correct and well-punctuated paragraphs, maintaining a natural flow with proper paragraph breaks. The result should be yeilded in the language being used in the original text without any form of language translation. For example, if the original text is written in Simplified Chinese, the cleaned up version of the text should be in Simplified Chinese as well. DO NOT add or remove anything from the original text. The diary content should be all normal paragraphs WITHOUT any headings or titles. Focus solely on the diary content itself. Omit any text like "Here is the...", headings like "Diary entries", or closing remarks.
         
         ${rawText}
         `;

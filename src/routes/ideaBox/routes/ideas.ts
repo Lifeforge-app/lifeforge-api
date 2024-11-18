@@ -75,8 +75,7 @@ router.post(
         await validateExistence(meta.req.pb, "idea_box_containers", value)
     ),
     body("title").custom((value, { req }) => {
-      if (req.body.type === "image") return true;
-      if (typeof value !== "string" || !value) {
+      if (req.body.type === "link" && (typeof value !== "string" || !value)) {
         throw new Error("Invalid value");
       }
       return true;

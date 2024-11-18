@@ -37,11 +37,11 @@ function getImportStatements(content: string) {
   return Object.fromEntries(
     content
       .match(
-        /(?:(import (.+?) from ['"]\.\/routes\/(.+?)['"]))|(?:const (.+?) = lazyLoad\(\(\) => import\(['"]\.\/routes\/(.+?)['"]\)\))/g
+        /(?:import (?<name1>.+?) from ['"]\.\/routes\/(?<path1>.+?)['"])|(?:const (?<name2>.+?) = lazyLoad\(\s*?\(\) => import\(['"]\.\/routes\/(?<path2>.+?)['"]\)\s*?\))/g
       )
       ?.map((e) => {
         const match =
-          /(?:import (?<name1>.+?) from ['"]\.\/routes\/(?<path1>.+?)['"])|(?:const (?<name2>.+?) = lazyLoad\(\(\) => import\(['"]\.\/routes\/(?<path2>.+?)['"]\)\))/.exec(
+          /(?:import (?<name1>.+?) from ['"]\.\/routes\/(?<path1>.+?)['"])|(?:const (?<name2>.+?) = lazyLoad\(\s*?\(\) => import\(['"]\.\/routes\/(?<path2>.+?)['"]\)\s*?\))/.exec(
             e
           )?.groups;
 
