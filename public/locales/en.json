@@ -434,7 +434,10 @@
     "addToLibrary": "Add to Library",
     "alreadyInLibrary": "Already in Library",
     "tailwindCssColors": "Tailwind CSS Colors",
-    "tailwindCssColorPalette": "Tailwind CSS Color Palette"
+    "tailwindCssColorPalette": "Tailwind CSS Color Palette",
+    "addScore": "Add Score",
+    "downloadFromGuitarWorld": "Download from Guitar World",
+    "proceed": "Proceed"
   },
   "modals": {
     "header": {
@@ -511,7 +514,8 @@
       "addToLibrary": "Add to Library",
       "tailwindCssColors": "Tailwind CSS Colors",
       "tailwindCssColorPalette": "Tailwind CSS Color Palette",
-      "modifyBookData": "Update Book Information"
+      "modifyBookData": "Update Book Information",
+      "guitarWorld": "Guitar World"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -644,7 +648,8 @@
     "bookTitle": "Book Title",
     "publicationYear": "Publication Year",
     "fileSize": "File Size",
-    "md5": "MD5 Checksum"
+    "md5": "MD5 Checksum",
+    "cookie": "Session Cookie"
   },
   "table": {
     "date": "Date",

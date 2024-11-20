@@ -434,7 +434,10 @@
     "addToLibrary": "加入書籍庫",
     "alreadyInLibrary": "已在書庫",
     "tailwindCssColors": "Tailwind CSS 顏色",
-    "tailwindCssColorPalette": "Tailwind CSS 顏色表"
+    "tailwindCssColorPalette": "Tailwind CSS 顏色表",
+    "addScore": "新增樂譜",
+    "downloadFromGuitarWorld": "從吉他世界下載",
+    "proceed": "繼續"
   },
   "modals": {
     "header": {
@@ -511,7 +514,8 @@
       "addToLibrary": "新增至圖書館",
       "tailwindCssColors": "Tailwind CSS 顏色",
       "tailwindCssColorPalette": "Tailwind CSS 顏色板",
-      "modifyBookData": "修改圖書資料"
+      "modifyBookData": "修改圖書資料",
+      "guitarWorld": "吉他世界"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
@@ -644,7 +648,8 @@
     "bookTitle": "書籍標題",
     "publicationYear": "出版年份",
     "fileSize": "檔案大小",
-    "md5": "MD5 雜湊值"
+    "md5": "MD5 雜湊值",
+    "cookie": "工作階段 cookie"
   },
   "table": {
     "date": "日期",

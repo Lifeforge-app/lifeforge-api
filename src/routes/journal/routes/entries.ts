@@ -306,11 +306,16 @@ router.put(
       content: encrypt(Buffer.from(cleanedUp), master).toString("base64"),
       summary: encrypt(Buffer.from(summarized), master).toString("base64"),
       mood,
-      ...(files.length > 0 && {
-        photos: files.map(
-          (file) => new File([fs.readFileSync(file.path)], file.originalname)
-        ),
-      }),
+      ...(files.length > 0
+        ? {
+            photos: files.map(
+              (file) =>
+                new File([fs.readFileSync(file.path)], file.originalname)
+            ),
+          }
+        : {
+            photos: [],
+          }),
     };
 
     const entry: IJournalEntry = await pb
@@ -356,7 +361,7 @@ router.post(
 
     const rawText = decrypt2(text, decryptedMaster);
 
-    const prompt = `This text is a journal entries. Please give me a suitable title for this journal, highlighting the stuff that happended that day. The title should not be longer than 10 words. Give the title in title case, which means the first letter of each word should be in uppercase, and lowercase otherwise. The response should contains ONLY the title, without any other unrelated text, especially those that are in the beginning of the response, like "Here is the..." or "The title is...".
+    const prompt = `This text is a journal entries. Please give me a suitable title for this journal, highlighting the stuff that happended that day. The title should not be longer than 10 words. The result should be yeilded in the language being used in the original text without any form of language translation. For example, if the original text is written in Simplified Chinese, the title should be in Simplified Chinese as well. If applicable, give the title in title case, which means the first letter of each word should be in uppercase, and lowercase otherwise. The response should contains ONLY the title, without any other unrelated text, especially those that are in the beginning of the response, like "Here is the..." or "The title is...".
         
         ${rawText}
         `;
@@ -414,7 +419,7 @@ router.post(
 
     const rawText = decrypt2(text, decryptedMaster);
 
-    const prompt = `Below is a diary entries. Summarize the diary in first person perspective into a single paragraph, not more than three sentences and 50 words, capturing the main idea and key details. All the pronounces should be "I". The response should be just the summarized paragraph itself. Omit any greetings like "Here is the...", headings like "Diary entries", or closing remarks.
+    const prompt = `Below is a diary entries. Summarize the diary in first person perspective into a single paragraph, not more than three sentences and 50 words, capturing the main idea and key details. All the pronounces should be "I". The result should be yeilded in the language being used in the original text without any form of language translation. For example, if the original text is written in Simplified Chinese, the summary should be in Simplified Chinese as well.The response should be just the summarized paragraph itself. Omit any greetings like "Here is the...", headings like "Diary entries", or closing remarks.
         
         ${rawText}
         `;

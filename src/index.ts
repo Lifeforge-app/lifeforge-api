@@ -23,6 +23,8 @@ dotenv.config({
   path: ".env.local",
 });
 
+let routesDataCache: Record<string, IRoute[]> | null = null;
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 250,
@@ -68,6 +70,7 @@ const limiter = rateLimit({
     }
     return false;
   },
+  validate: { xForwardedForHeader: false },
 });
 
 const app = express();
@@ -106,8 +109,8 @@ const mainRouter = express.Router();
 mainRouter.use("/", router);
 
 mainRouter.get("/status", async (req, res) => {
-  res.json({
-    state: "success",
+  successWithBaseResponse(res, {
+    environment: process.env.NODE_ENV,
   });
 });
 
@@ -118,6 +121,11 @@ mainRouter.get(
       _: Request,
       res: Response<BaseResponse<Record<string, IRoute[]>>>
     ) => {
+      if (routesDataCache !== null) {
+        successWithBaseResponse(res, routesDataCache);
+        return;
+      }
+
       const routes: Record<string, IRoute[]> = Object.fromEntries(
         Object.entries(
           flattenRoutes(getRoutes(`./src`, "routes.ts"))
@@ -150,6 +158,8 @@ mainRouter.get(
           }),
         ])
       );
+
+      routesDataCache = routes;
 
       successWithBaseResponse(res, routes);
     }

@@ -434,7 +434,10 @@
     "addToLibrary": "Tambah ke Perpustakaan",
     "alreadyInLibrary": "Sudah dalam Perpustakaan",
     "tailwindCssColors": "Warna Tailwind CSS",
-    "tailwindCssColorPalette": "Palet Warna Tailwind CSS"
+    "tailwindCssColorPalette": "Palet Warna Tailwind CSS",
+    "addScore": "Tambah Skor",
+    "downloadFromGuitarWorld": "Muat turun dari Guitar World",
+    "proceed": "Teruskan"
   },
   "modals": {
     "header": {
@@ -511,7 +514,8 @@
       "addToLibrary": "Tambah ke Koleksi",
       "tailwindCssColors": "Warna Tailwind CSS",
       "tailwindCssColorPalette": "Palet Warna Tailwind CSS",
-      "modifyBookData": "Kemaskini Maklumat Buku"
+      "modifyBookData": "Kemaskini Maklumat Buku",
+      "guitarWorld": "Dunia Gitar"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -644,7 +648,8 @@
     "bookTitle": "Tajuk Buku",
     "publicationYear": "Tahun Penerbitan",
     "fileSize": "Saiz Fail",
-    "md5": "S Ringkasan MD5"
+    "md5": "S Ringkasan MD5",
+    "cookie": "Kuki Sesi"
   },
   "table": {
     "date": "Tarikh",

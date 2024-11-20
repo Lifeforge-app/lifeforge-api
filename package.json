@@ -3,6 +3,7 @@
     "@google/generative-ai": "^0.12.0",
     "@netlify/functions": "^2.8.2",
     "@passwordless-id/webauthn": "^1.6.2",
+    "@types/pdfkit": "^0.13.5",
     "aewx-metar-parser": "^1.0.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
@@ -40,11 +41,13 @@
     "os-utils": "^0.0.14",
     "pdf-page-counter": "^1.0.3",
     "pdf-thumbnail": "^1.0.6",
+    "pdfkit": "^0.15.1",
     "pocketbase": "^0.21.5",
     "probe-image-size": "^7.2.3",
     "redis": "^4.7.0",
     "request": "^2.88.2",
     "serverless-http": "^3.2.0",
+    "sharp": "^0.33.5",
     "systeminformation": "^5.23.5",
     "test": "^3.3.0",
     "ts-jest": "^29.2.5",
@@ -55,8 +58,8 @@
     "zod": "^3.23.8"
   },
   "scripts": {
-    "dev": "tsx watch --env-file=.env.local ./src/index.ts",
-    "start": "tsc && pkgroll --minify --clean-dist && forever start -c \"node --env-file=.env.local\" dist/index.mjs"
+    "dev": "export NODE_ENV=development && forever stopall && tsx watch --env-file=.env.local ./src/index.ts",
+    "start": "export NODE_ENV=production tsc && pkgroll --minify --clean-dist && forever start -c \"node --env-file=.env.local\" dist/index.mjs"
   },
   "exports": "./dist/index.mjs",
   "main": "src/index.ts",
