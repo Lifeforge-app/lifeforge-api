@@ -194,6 +194,10 @@
       "desc": "Choose a font family that matches your preference",
       "tooltip": "For more detailed information on all the fonts, visit the Google Font website.",
       "tooltipTitle": "Powered by Google Fonts"
+    },
+    "bgImageSelector": {
+      "title": "Background Image",
+      "desc": "Upload or search for a background image for your system"
     }
   },
   "dashboard": {
@@ -290,7 +294,8 @@
       "quotes": {
         "description": "A random quote to hopefully motivates you through the day.",
         "title": "Quotes"
-      }
+      },
+      "transactionsCount": "Transactions Count"
     }
   },
   "notFound": {
@@ -320,7 +325,8 @@
     "iconSets": "Search Icons Sets...",
     "filterIconSets": "Filter Icon Sets...",
     "icons": "Search Icons...",
-    "amongMillionsOfBooks": "Search among millions of books..."
+    "amongMillionsOfBooks": "Search among millions of books...",
+    "pixabay": "Search in Pixabay ..."
   },
   "button": {
     "create": "Create",
@@ -437,7 +443,11 @@
     "tailwindCssColorPalette": "Tailwind CSS Color Palette",
     "addScore": "Add Score",
     "downloadFromGuitarWorld": "Download from Guitar World",
-    "proceed": "Proceed"
+    "proceed": "Proceed",
+    "uploadFromLocal": "Upload from Local",
+    "applyFilters": "Apply Filters",
+    "adjust": "Adjust",
+    "saveChanges": "Save Changes"
   },
   "modals": {
     "header": {
@@ -515,7 +525,10 @@
       "tailwindCssColors": "Tailwind CSS Colors",
       "tailwindCssColorPalette": "Tailwind CSS Color Palette",
       "modifyBookData": "Update Book Information",
-      "guitarWorld": "Guitar World"
+      "guitarWorld": "Guitar World",
+      "imageSelector": "Select Image",
+      "searchFilters": "Search Filters",
+      "adjustBackgroundImage": "Adjust Background Image"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -649,7 +662,10 @@
     "publicationYear": "Publication Year",
     "fileSize": "File Size",
     "md5": "MD5 Checksum",
-    "cookie": "Session Cookie"
+    "cookie": "Session Cookie",
+    "imageType": "Image Type",
+    "imageColors": "Image Colors",
+    "editorsChoice": "Editor's Choice"
   },
   "table": {
     "date": "Date",
@@ -659,7 +675,8 @@
     "particulars": "Particulars",
     "category": "Category",
     "amount": "Amount",
-    "receipt": "Receipt"
+    "receipt": "Receipt",
+    "location": "Location"
   },
   "auth": {
     "header": "Welcome Back",
@@ -804,7 +821,8 @@
         "desc": "This Month's Spending"
       }
     },
-    "transactionCount": "transactions"
+    "transactionCount": "transactions",
+    "receiptUploadInfo": "Only PDF and image files are accepted"
   },
   "emptyState": {
     "dashboard": {
@@ -936,5 +954,14 @@
       "hard": "Hard",
       "impossible": "Impossible"
     }
+  },
+  "dnd": {
+    "dropHere": "Drop the item here",
+    "dragAndDropToUpload": "Drag and Drop to Upload"
+  },
+  "imageUpload": {
+    "local": "Upload Local Image",
+    "url": "Image URL",
+    "pixabay": "Download from Pixabay"
   }
 }

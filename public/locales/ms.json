@@ -194,6 +194,10 @@
       "desc": "Pilih keluarga fon yang sepadan dengan pilihan anda",
       "tooltip": "Untuk maklumat lebih terperinci tentang semua fon, lawati tapak web Google Font.",
       "tooltipTitle": "Dikuasakan oleh Google Fonts"
+    },
+    "bgImageSelector": {
+      "title": "Imej Latar Belakang",
+      "desc": "Muat naik atau cari imej latar belakang untuk sistem anda"
     }
   },
   "dashboard": {
@@ -290,7 +294,8 @@
       "quotes": {
         "description": "Petikan rawak yang diharapkan dapat memotivasikan anda sepanjang hari.",
         "title": "Petikan Rawak"
-      }
+      },
+      "transactionsCount": "Jumlah Transaksi"
     }
   },
   "notFound": {
@@ -320,7 +325,8 @@
     "iconSets": "Cari Icon Set...",
     "filterIconSets": "Tetapan Ikon Penapis...",
     "icons": "Cari Ikon...",
-    "amongMillionsOfBooks": "Cari antara jutaan buku..."
+    "amongMillionsOfBooks": "Cari antara jutaan buku...",
+    "pixabay": "Cari di Pixabay ..."
   },
   "button": {
     "create": "Cipta",
@@ -437,7 +443,11 @@
     "tailwindCssColorPalette": "Palet Warna Tailwind CSS",
     "addScore": "Tambah Skor",
     "downloadFromGuitarWorld": "Muat turun dari Guitar World",
-    "proceed": "Teruskan"
+    "proceed": "Teruskan",
+    "uploadFromLocal": "Muat Naik dari Tempatan",
+    "applyFilters": "Terapkan Penapis",
+    "adjust": "Tetapkan semula",
+    "saveChanges": "Simpan Perubahan"
   },
   "modals": {
     "header": {
@@ -515,7 +525,10 @@
       "tailwindCssColors": "Warna Tailwind CSS",
       "tailwindCssColorPalette": "Palet Warna Tailwind CSS",
       "modifyBookData": "Kemaskini Maklumat Buku",
-      "guitarWorld": "Dunia Gitar"
+      "guitarWorld": "Dunia Gitar",
+      "imageSelector": "Pilih Imej",
+      "searchFilters": "Penapis Carian",
+      "adjustBackgroundImage": "Tetapkan Semula Latar Belakang"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -649,7 +662,10 @@
     "publicationYear": "Tahun Penerbitan",
     "fileSize": "Saiz Fail",
     "md5": "S Ringkasan MD5",
-    "cookie": "Kuki Sesi"
+    "cookie": "Kuki Sesi",
+    "imageType": "Jenis Imej",
+    "imageColors": "Warna Imej",
+    "editorsChoice": "Pilihan Editor"
   },
   "table": {
     "date": "Tarikh",
@@ -659,7 +675,8 @@
     "particulars": "Perincian",
     "category": "Kategori",
     "amount": "Jumlah",
-    "receipt": "Resit"
+    "receipt": "Resit",
+    "location": "Lokasi"
   },
   "auth": {
     "header": "Selamat Kembali",
@@ -803,7 +820,8 @@
         "desc": "Perbelanjaan Bulan Ini"
       }
     },
-    "transactionCount": "transaksi"
+    "transactionCount": "transaksi",
+    "receiptUploadInfo": "Hanya fail PDF dan imej diterima"
   },
   "emptyState": {
     "dashboard": {
@@ -935,5 +953,14 @@
       "hard": "Keras",
       "impossible": "Mustahil"
     }
+  },
+  "dnd": {
+    "dropHere": "Lepaskan item di sini",
+    "dragAndDropToUpload": "Seret dan Lepas untuk Muat Naik"
+  },
+  "imageUpload": {
+    "local": "Muat Naik Imej Lokal",
+    "url": "Naik Imej",
+    "pixabay": "Muat Turun dari Pixabay"
   }
 }

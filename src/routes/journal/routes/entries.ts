@@ -297,6 +297,10 @@ router.put(
     summarized = decrypt2(summarized, master);
     mood = JSON.parse(decrypt2(mood, master));
 
+    const oldEntry: IJournalEntry = await pb
+      .collection("journal_entries")
+      .getOne(id);
+
     const newEntry: Omit<WithoutPBDefault<IJournalEntry>, "photos"> & {
       photos: File[];
     } = {
@@ -306,7 +310,7 @@ router.put(
       content: encrypt(Buffer.from(cleanedUp), master).toString("base64"),
       summary: encrypt(Buffer.from(summarized), master).toString("base64"),
       mood,
-      ...(files.length > 0
+      ...(files.length > 0 && oldEntry.photos.length === 0
         ? {
             photos: files.map(
               (file) =>

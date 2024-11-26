@@ -31,7 +31,7 @@ const router = express.Router();
  * @response 200 (object) - The list of airports in the region and the corresponding breadcrumbs
  */
 router.get(
-  "/airports/:id",
+  "/list/:id",
   [param("id").custom((value) => Object.keys(REGIONS).includes(value))],
   asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
@@ -63,11 +63,12 @@ router.get(
  * @protected
  * @summary Get a single airport
  * @description Retrieve a single airport by its ID.
- * @param airportID (string, required, must_exist) - The ID of the airport
+ * @param airportID (string, required, must_exist) - The ID
+ *  of the airport
  * @response 200 (object) - Data of the airport and the corresponding breadcrumbs
  */
 router.get(
-  "/airports/:id",
+  "/:id",
   [
     param("id").custom((value) =>
       AIRPORT_DATA.map((airport) => airport[1]).includes(value)
@@ -118,11 +119,9 @@ router.get(
  * @response 200 (IFlightDataEntry[]) - The list of flights
  */
 router.get(
-  "/airports/:id/flights/:type",
+  "/:id/flights/:type",
   [
-    param("id").custom((value) =>
-      AIRPORT_DATA.map((airport) => airport[1]).includes(value)
-    ),
+    param("id").isString(),
     param("type").isIn(["arrivals", "departures"]),
     query("page").optional().isNumeric(),
   ],
@@ -214,7 +213,7 @@ router.get(
  * @response 200 (object | "none") - The METAR data of the airport
  */
 router.get(
-  "/airports/:id/METAR",
+  "/:id/METAR",
   [
     param("id").custom((value) =>
       AIRPORT_DATA.map((airport) => airport[1]).includes(value)
@@ -264,7 +263,7 @@ router.get(
  * @response 200 (object[] | "none") - The list of NOTAMs
  */
 router.get(
-  "/airports/:id/NOTAM",
+  "/:id/NOTAM",
   [
     param("id").custom((value) =>
       AIRPORT_DATA.map((airport) => airport[1]).includes(value)
@@ -328,7 +327,7 @@ router.get(
  * @response 200 (object[]) - The list of radio frequencies
  */
 router.get(
-  "/airports/:id/radios",
+  "/:id/radios",
   [
     param("id").custom((value) =>
       AIRPORT_DATA.map((airport) => airport[1]).includes(value)
@@ -370,7 +369,7 @@ router.get(
  * @response 200 (object[]) - The list of runways
  */
 router.get(
-  "/airports/:id/runways",
+  "/:id/runways",
   [
     param("id").custom((value) =>
       AIRPORT_DATA.map((airport) => airport[1]).includes(value)

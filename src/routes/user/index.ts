@@ -258,11 +258,75 @@ router.patch(
   })
 );
 
+router.put(
+  "/personalization/bg-image",
+  singleUploadMiddleware,
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+
+    if (req.file) {
+      const fileBuffer = fs.readFileSync(req.file.path);
+
+      const newEntry = await pb
+        .collection("users")
+        .update(req.pb.authStore.model!.id, {
+          bgImage: new File(
+            [fileBuffer],
+            `${req.pb.authStore.model!.id}.${req.file.originalname.split(".").pop()}`
+          ),
+        });
+
+      successWithBaseResponse(
+        res,
+        `media/${newEntry.collectionId}/${newEntry.id}/${newEntry.bgImage}`
+      );
+      fs.unlinkSync(req.file.path);
+
+      return;
+    }
+
+    const { url } = req.body;
+    fetch(url)
+      .then(async (response) => {
+        const fileBuffer = await response.arrayBuffer();
+        const newEntry = await pb
+          .collection("users")
+          .update(req.pb.authStore.model!.id, {
+            bgImage: new File(
+              [new Uint8Array(fileBuffer)],
+              `${req.pb.authStore.model!.id}.png`
+            ),
+          });
+
+        successWithBaseResponse(
+          res,
+          `media/${newEntry.collectionId}/${newEntry.id}/${newEntry.bgImage}`
+        );
+      })
+      .catch(() => {
+        clientError(res, "Invalid file");
+      });
+  })
+);
+
+router.delete(
+  "/personalization/bg-image",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+
+    await pb.collection("users").update(req.pb.authStore.model!.id, {
+      bgImage: null,
+    });
+
+    successWithBaseResponse(res);
+  })
+);
+
 /**
  * @protected
  * @summary Change the personalization settings
  * @description Change the personalization settings of the user.
- * @body data (object, required, one_of fontFamily|theme|color|bgTemp|language|dashboardLayout) - The personalization settings to update
+ * @body data (object, required, one_of fontFamily|theme|color|bgTemp|language|dashboardLayout|backdropFilters) - The personalization settings to update
  * @response 200 - The personalization settings have been updated
  */
 router.patch(
@@ -274,6 +338,7 @@ router.patch(
     body("data.bgTemp").optional().isString(),
     body("data.language").optional().isString(),
     body("data.dashboardLayout").optional().isString(),
+    body("data.backdropFilters").optional().isObject(),
   ],
   asyncWrapper(async (req, res) => {
     const { pb } = req;
@@ -287,6 +352,7 @@ router.patch(
       "bgTemp",
       "language",
       "dashboardLayout",
+      "backdropFilters",
     ]) {
       if (data[item]) {
         toBeUpdated[item] = data[item];
@@ -354,7 +420,7 @@ router.delete(
     const { pb } = req;
     const { id } = pb.authStore.model as any;
 
-    const newRecord = await pb.collection("users").update(id, {
+    await pb.collection("users").update(id, {
       avatar: null,
     });
 

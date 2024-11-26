@@ -20,8 +20,35 @@ import {
   checkExistence,
   validateExistence,
 } from "../../../utils/PBRecordValidator.js";
+import pdfThumbnail from "pdf-thumbnail";
 
 const router = express.Router();
+
+function convertPDFToImage(path: string): Promise<File | undefined> {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const buffer = fs.readFileSync(path);
+      fs.unlinkSync(path);
+
+      const thumbnail = await pdfThumbnail(buffer);
+
+      thumbnail
+        .pipe(fs.createWriteStream(`uploads/receipt.jpg`))
+        .once("close", async () => {
+          const thumbnailBuffer = fs.readFileSync(`uploads/receipt.jpg`);
+          const thumbnailFile = new File([thumbnailBuffer], `receipt.jpg`, {
+            type: "image/jpeg",
+          });
+
+          resolve(thumbnailFile);
+
+          fs.unlinkSync(`uploads/receipt.jpg`);
+        });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 /**
  * @protected
@@ -134,6 +161,7 @@ router.get(
  * @body particulars (string, required) - The particulars of the transaction
  * @body date (string, required) - The date of the transaction (any valid date string that can be parsed by moment.js)
  * @body amount (number, required) - The amount of the transaction
+ * @body location (string, optional) - The location where the transaction took place
  * @body category (string, optional, must_exist) - The ID of the category, will raise an error if the type is transfer
  * @body asset (string, optional, must_exist) - The ID of the asset, will raise an error if the type is transfer
  * @body ledger (string, optional) - The ID of the ledger, will raise an error if the type is transfer
@@ -158,6 +186,7 @@ router.post(
       return true;
     }),
     body("amount").isNumeric(),
+    body("location").optional().isString(),
     body("category").custom(
       async (value: string, meta) =>
         await validateExistence(meta.req.pb, "wallet_categories", value, true)
@@ -205,6 +234,7 @@ router.post(
         date,
         amount,
         category,
+        location,
         asset,
         ledger,
         type,
@@ -214,12 +244,16 @@ router.post(
 
       amount = +amount;
 
-      const file = req.file;
+      let file: File | Express.Multer.File | undefined = req.file;
 
       if (file) file.originalname = decodeURIComponent(file.originalname);
 
       const path = file?.originalname.split("/") ?? [];
       const name = path.pop();
+
+      if (file?.originalname.endsWith(".pdf")) {
+        file = await convertPDFToImage(file.path);
+      }
 
       let created: IWalletTransactionEntry[] = [];
 
@@ -232,20 +266,23 @@ router.post(
           particulars,
           date,
           amount,
+          location,
           category,
           asset,
           ledger,
           type,
           side: type === "income" ? "debit" : "credit",
           receipt:
-            file && fs.existsSync(file.path)
-              ? (() => {
-                  const fileBuffer = fs.readFileSync(file.path);
-                  return new File([fileBuffer], name ?? "receipt.jpg", {
-                    type: file.mimetype,
-                  });
-                })()
-              : "",
+            file instanceof File
+              ? file
+              : file && fs.existsSync(file.path)
+                ? (() => {
+                    const fileBuffer = fs.readFileSync(file.path);
+                    return new File([fileBuffer], name ?? "receipt.jpg", {
+                      type: file.mimetype,
+                    });
+                  })()
+                : "",
         };
 
         const transaction: IWalletTransactionEntry = await pb
@@ -275,14 +312,16 @@ router.post(
           side: "debit",
           asset: "",
           receipt:
-            file && fs.existsSync(file.path)
-              ? (() => {
-                  const fileBuffer = fs.readFileSync(file.path);
-                  return new File([fileBuffer], name ?? "receipt.jpg", {
-                    type: file.mimetype,
-                  });
-                })()
-              : "",
+            file instanceof File
+              ? file
+              : file && fs.existsSync(file.path)
+                ? (() => {
+                    const fileBuffer = fs.readFileSync(file.path);
+                    return new File([fileBuffer], name ?? "receipt.jpg", {
+                      type: file.mimetype,
+                    });
+                  })()
+                : "",
         };
 
         baseTransferData.particulars = `Transfer from ${_from.name}`;
@@ -301,7 +340,7 @@ router.post(
         created = [debit, credit];
       }
 
-      if (file && fs.existsSync(file.path)) {
+      if (!(file instanceof File) && file && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
       }
 
@@ -318,6 +357,7 @@ router.post(
  * @body particulars (string, required) - The particulars of the transaction
  * @body date (string, required) - The date of the transaction (any valid date string that can be parsed by moment.js)
  * @body amount (number, required) - The amount of the transaction
+ * @body location (string, optional) - The location where the transaction took place
  * @body category (string, optional, must_exist) - The ID of the category
  * @body asset (string, optional, must_exist) - The ID of the asset
  * @body ledger (string, optional, must_exist) - The ID of the ledger
@@ -341,6 +381,7 @@ router.patch(
       return true;
     }),
     body("amount").isNumeric(),
+    body("location").optional().isString(),
     body("category").custom(
       async (value: string, meta) =>
         await validateExistence(meta.req.pb, "wallet_categories", value, true)
@@ -369,13 +410,14 @@ router.patch(
         date,
         amount,
         category,
+        location,
         asset,
         ledger,
         type,
         removeReceipt,
       } = req.body;
 
-      const file = req.file;
+      let file: File | Express.Multer.File | undefined = req.file;
 
       if (!(await checkExistence(req, res, "wallet_transactions", id))) {
         if (file) fs.unlinkSync(file.path);
@@ -386,6 +428,10 @@ router.patch(
 
       const path = file?.originalname.split("/") ?? [];
       const name = path.pop();
+
+      if (file?.originalname.endsWith(".pdf")) {
+        file = await convertPDFToImage(file.path);
+      }
 
       const foundTransaction = await pb
         .collection("wallet_transactions")
@@ -402,31 +448,35 @@ router.patch(
         date,
         amount,
         category,
+        location,
         asset,
         ledger,
         type,
         side: type === "income" ? "debit" : "credit",
-        receipt: (() => {
-          if (file && fs.existsSync(file.path)) {
-            const fileBuffer = fs.readFileSync(file.path);
-            return new File([fileBuffer], name ?? "receipt.jpg", {
-              type: file.mimetype,
-            });
-          }
+        receipt:
+          file instanceof File
+            ? file
+            : (() => {
+                if (file && fs.existsSync(file.path)) {
+                  const fileBuffer = fs.readFileSync(file.path);
+                  return new File([fileBuffer], name ?? "receipt.jpg", {
+                    type: file.mimetype,
+                  });
+                }
 
-          if (removeReceipt) {
-            return "";
-          }
+                if (removeReceipt) {
+                  return "";
+                }
 
-          return foundTransaction.receipt;
-        })(),
+                return foundTransaction.receipt;
+              })(),
       };
 
       const transaction: IWalletTransactionEntry = await pb
         .collection("wallet_transactions")
         .update(id, updatedData);
 
-      if (file && fs.existsSync(file.path)) {
+      if (!(file instanceof File) && file && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
       }
 

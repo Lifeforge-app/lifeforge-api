@@ -38,6 +38,7 @@ const youtubeVideosRoutes = lazyLoad(
   () => import("./routes/youtubeVideos/index.js")
 );
 const apiKeysRoutes = lazyLoad(() => import("./routes/apiKeys/index.js"));
+const pixabayRoutes = lazyLoad(() => import("./routes/pixabay/index.js"));
 
 const router = express.Router();
 
@@ -68,5 +69,6 @@ router.use("/mail-inbox", mailInboxRoutes);
 router.use("/dns-records", DNSRecordsRoutes);
 router.use("/server", serverRoutes);
 router.use("/change-log", changeLogRoutes);
+router.use("/pixabay", pixabayRoutes);
 
 export default router;

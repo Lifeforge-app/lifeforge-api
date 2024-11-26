@@ -3,7 +3,7 @@ import asyncWrapper from "../../utils/asyncWrapper.js";
 import { clientError, successWithBaseResponse } from "../../utils/response.js";
 import COUNTRIES from "./data/countries.js";
 import REGIONS from "./data/regions.js";
-import airportsRoutes from "./routes/airports.js";
+import airportRoutes from "./routes/airport.js";
 import NOTAMRoutes from "./routes/NOTAM.js";
 import fs from "fs";
 
@@ -23,7 +23,7 @@ const AIRPORT_DATA: string[][] = JSON.parse(
 
 const router = express.Router();
 
-router.use("/airports", airportsRoutes);
+router.use("/airport", airportRoutes);
 router.use("/NOTAM", NOTAMRoutes);
 
 router.get(

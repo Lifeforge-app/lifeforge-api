@@ -21,7 +21,7 @@ router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IMusicEntry[]>>) =>
     list(req, res, "music_entries", {
-      sort: "name",
+      sort: "-is_favourite, name",
     })
   )
 );

@@ -195,6 +195,10 @@
       "desc": "选择符合您偏好的字体系列",
       "tooltip": "欲查看有关所有字体的更多详细信息，请访问 Google 字体网站。",
       "tooltipTitle": "由 Google Fonts提供支持"
+    },
+    "bgImageSelector": {
+      "title": "背景图片",
+      "desc": "上传或搜索系统背景图片"
     }
   },
   "dashboard": {
@@ -291,7 +295,8 @@
       "quotes": {
         "description": "随机的一个格言，希望能激励您一整天。",
         "title": "格言"
-      }
+      },
+      "transactionsCount": "交易统计"
     }
   },
   "notFound": {
@@ -321,7 +326,8 @@
     "iconSets": "搜索图标集...",
     "filterIconSets": "筛选图标集...",
     "icons": "搜索图标...",
-    "amongMillionsOfBooks": "在数百万本书中搜索..."
+    "amongMillionsOfBooks": "在数百万本书中搜索...",
+    "pixabay": "在Pixabay中搜索 ..."
   },
   "button": {
     "create": "创建",
@@ -438,7 +444,11 @@
     "tailwindCssColorPalette": "Tailwind CSS 颜色表",
     "addScore": "添加乐谱",
     "downloadFromGuitarWorld": "从吉他世界下载",
-    "proceed": "继续"
+    "proceed": "继续",
+    "uploadFromLocal": "从本地上传",
+    "applyFilters": "应用筛选",
+    "adjust": "调整",
+    "saveChanges": "保存修改"
   },
   "modals": {
     "header": {
@@ -516,7 +526,10 @@
       "tailwindCssColors": "Tailwind CSS 颜色",
       "tailwindCssColorPalette": "Tailwind CSS 颜色表",
       "modifyBookData": "修改图书信息",
-      "guitarWorld": "吉他世界"
+      "guitarWorld": "吉他世界",
+      "imageSelector": "选择图片",
+      "searchFilters": "搜索筛选",
+      "adjustBackgroundImage": "调整背景图片"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",
@@ -650,7 +663,10 @@
     "publicationYear": "出版年份",
     "fileSize": "文件大小",
     "md5": "MD5 校验值",
-    "cookie": "会话 cookie"
+    "cookie": "会话 cookie",
+    "imageType": "图像类型",
+    "imageColors": "图像颜色",
+    "editorsChoice": "编辑推荐"
   },
   "table": {
     "date": "日期",
@@ -660,7 +676,8 @@
     "particulars": "详情",
     "category": "类别",
     "amount": "金额",
-    "receipt": "收据"
+    "receipt": "收据",
+    "location": "位置"
   },
   "auth": {
     "header": "欢迎回来",
@@ -804,7 +821,8 @@
         "desc": "本月支出"
       }
     },
-    "transactionCount": "笔交易"
+    "transactionCount": "笔交易",
+    "receiptUploadInfo": "仅接受 PDF 和图像文件"
   },
   "emptyState": {
     "dashboard": {
@@ -936,5 +954,14 @@
       "hard": "困难",
       "impossible": "极限"
     }
+  },
+  "dnd": {
+    "dropHere": "将内容放置于此",
+    "dragAndDropToUpload": "拖拽文件到此处上传"
+  },
+  "imageUpload": {
+    "local": "上传本地图片",
+    "url": "图片网址",
+    "pixabay": "从Pixabay下载"
   }
 }
