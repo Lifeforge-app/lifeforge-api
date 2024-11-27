@@ -26,7 +26,7 @@ router.get(
 
     try {
       fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q)}&key=${key}`
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`
       )
         .then((response) => response.json())
         .then((data) => {

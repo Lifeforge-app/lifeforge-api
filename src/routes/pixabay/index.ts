@@ -4,8 +4,8 @@ import { getAPIKey } from "../../utils/getAPIKey.js";
 import { query } from "express-validator";
 import hasError from "../../utils/checkError.js";
 import { serverError, successWithBaseResponse } from "../../utils/response.js";
-import IPixabaySearchResult from "../../interfaces/pixabay_interfaces.js";
 import { BaseResponse } from "../../interfaces/base_response.js";
+import IPixabaySearchResult from "../../interfaces/pixabay_interfaces.js";
 
 const router = express.Router();
 
