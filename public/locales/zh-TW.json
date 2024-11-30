@@ -120,7 +120,9 @@
       "cfopAlgorithms": "查看並訓練速拧所需的所有公式。",
       "youtubeVideos": "下載、儲存及管理您喜歡的YouTube影片",
       "apiKeys": "管理各種模組所需的API金鑰",
-      "parcelTracking": "追蹤您在線上訂購的所有商品的交付狀態。"
+      "parcelTracking": "追蹤您在線上訂購的所有商品的交付狀態。",
+      "wishlist": "輕鬆記錄和追蹤你的夢想清單！",
+      "budget": "輕鬆規劃和管理你的預算！"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他譜",
@@ -137,7 +139,9 @@
     "parcelTracking": "追蹤包裹",
     "changiAirlineInformation": "樟宜機場航空公司資訊",
     "changiAirport": "樟宜機場",
-    "subsection": {}
+    "subsection": {},
+    "wishlist": "願望清單",
+    "budget": "預算管理"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -447,7 +451,10 @@
     "uploadFromLocal": "從本地上傳",
     "applyFilters": "套用過濾",
     "adjust": "調整",
-    "saveChanges": "儲存變更"
+    "saveChanges": "儲存變更",
+    "favourite": "收藏",
+    "unfavourite": "取消收藏",
+    "newWishlist": "新願望清單"
   },
   "modals": {
     "header": {
@@ -528,7 +535,9 @@
       "guitarWorld": "吉他世界",
       "imageSelector": "選擇圖片",
       "searchFilters": "搜尋篩選",
-      "adjustBackgroundImage": "調整背景圖片"
+      "adjustBackgroundImage": "調整背景圖片",
+      "createWishlist": "創建心願單",
+      "updateWishlist": "更新願望清單"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
@@ -665,7 +674,11 @@
     "cookie": "工作階段 cookie",
     "imageType": "圖像類型",
     "imageColors": "圖像顏色",
-    "editorsChoice": "編輯精選"
+    "editorsChoice": "編輯精選",
+    "wishlistName": "願望清單名稱",
+    "wishlistDescription": "心願單描述",
+    "wishlistIcon": "願望清單圖標",
+    "wishlistColor": "願望清單顏色"
   },
   "table": {
     "date": "日期",
@@ -961,6 +974,13 @@
   "imageUpload": {
     "local": "上傳本機影像",
     "url": "圖片網址",
-    "pixabay": "從Pixabay下載"
+    "pixabay": "從Pixabay下載",
+    "orPasteLink": "或貼上圖片連結"
+  },
+  "sortType": {
+    "newest": "最新",
+    "oldest": "最早時間",
+    "author": "作者",
+    "name": "標題"
   }
 }

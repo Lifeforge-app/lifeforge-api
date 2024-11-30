@@ -18,7 +18,7 @@ const router = express.Router();
  * @summary Get a single idea box folder
  * @description Retrieve a single idea box folder by its ID.
  * @param id (string, required) - The ID of the idea box folder
- * @response 200
+ * @response 200 (IIdeaBoxFolder) - The idea box folder
  */
 router.get(
   "/:id",
@@ -41,7 +41,7 @@ router.get(
  * @summary Get a list of all idea box folders
  * @description Retrieve a list of all idea box folders, filtered by the container ID given in the query.
  * @query container (string, required) - The ID of the container
- * @response 200
+ * @response 200 (IIdeaBoxFolder[]) - The list of idea box folders
  */
 router.get(
   "/",
@@ -64,7 +64,7 @@ router.get(
  * @summary Check if an idea box folder exists
  * @description Check if an idea box folder exists by its ID.
  * @param id (string, required) - The ID of the idea box folder
- * @response 200
+ * @response 200 (boolean) - Whether the idea box folder exists
  */
 router.get(
   "/valid/:id",
@@ -79,7 +79,7 @@ router.get(
  * @body container (string, required) - The ID of the container
  * @body icon (string, required) - The icon of the folder, can be any icon available in Iconify
  * @body color (string, required) - The color of the folder, in hex format
- * @response 201
+ * @response 201 (IIdeaBoxFolder) - The created idea box folder
  */
 router.post(
   "/",
@@ -119,7 +119,7 @@ router.post(
  * @body name (string, required) - The name of the folder
  * @body icon (string, required) - The icon of the folder, can be any icon available in Iconify
  * @body color (string, required) - The color of the folder, in hex format
- * @response 200
+ * @response 200 (IIdeaBoxFolder) - The updated idea box folder
  */
 router.patch(
   "/:id",

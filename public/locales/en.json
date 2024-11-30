@@ -119,7 +119,9 @@
       "cfopAlgorithms": "View and train all the algorithms required for speedcubing.",
       "youtubeVideos": "Download, store, and organize all your favourite videos from YouTube",
       "apiKeys": "Manage the required API keys for all your modules",
-      "parcelTracking": "Track the delivery status of all the goods that you've ordered online."
+      "parcelTracking": "Track the delivery status of all the goods that you've ordered online.",
+      "wishlist": "Dream, save, and track your must-have treasures effortlessly!",
+      "budget": "Master your money with smart planning and tracking!"
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -137,7 +139,9 @@
     "parcelTracking": "Parcel Tracking",
     "changiAirlineInformation": "Changi Airport Airline Information",
     "changiAirport": "Changi Airport",
-    "subsection": {}
+    "subsection": {},
+    "wishlist": "Wishlist",
+    "budget": "Budget"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -447,7 +451,10 @@
     "uploadFromLocal": "Upload from Local",
     "applyFilters": "Apply Filters",
     "adjust": "Adjust",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "favourite": "Favourite",
+    "unfavourite": "Remove Favourite",
+    "newWishlist": "New Wishlist"
   },
   "modals": {
     "header": {
@@ -528,7 +535,9 @@
       "guitarWorld": "Guitar World",
       "imageSelector": "Select Image",
       "searchFilters": "Search Filters",
-      "adjustBackgroundImage": "Adjust Background Image"
+      "adjustBackgroundImage": "Adjust Background Image",
+      "createWishlist": "Create Wishlist",
+      "updateWishlist": "Update Wishlist"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -665,7 +674,11 @@
     "cookie": "Session Cookie",
     "imageType": "Image Type",
     "imageColors": "Image Colors",
-    "editorsChoice": "Editor's Choice"
+    "editorsChoice": "Editor's Choice",
+    "wishlistName": "Wishlist Name",
+    "wishlistDescription": "Wishlist Description",
+    "wishlistIcon": "Wishlist Icon",
+    "wishlistColor": "Wishlist Color"
   },
   "table": {
     "date": "Date",
@@ -962,6 +975,13 @@
   "imageUpload": {
     "local": "Upload Local Image",
     "url": "Image URL",
-    "pixabay": "Download from Pixabay"
+    "pixabay": "Download from Pixabay",
+    "orPasteLink": "Or Paste Image Link"
+  },
+  "sortType": {
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "author": "Author",
+    "name": "Title"
   }
 }

@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import { successWithBaseResponse } from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
 import { body } from "express-validator";
@@ -15,7 +15,7 @@ const router = express.Router();
  * @summary Get a single idea box container
  * @description Retrieve a single idea box container by its ID.
  * @param id (string, required) - The ID of the idea box container
- * @response 200
+ * @response 200 (IIdeaBoxContainer) - The idea box container
  */
 router.get(
   "/:id",
@@ -38,7 +38,7 @@ router.get(
  * @summary Check if an idea box container exists
  * @description Check if an idea box container exists by its ID.
  * @param id (string, required) - The ID of the idea box container
- * @response 200
+ * @response 200 (boolean) - Whether the idea box container exists
  */
 router.get(
   "/valid/:id",
@@ -65,7 +65,7 @@ router.get(
  * @body name (string, required) - The name of the container
  * @body color (string, required) - The color of the container
  * @body icon (string) - The icon of the container
- * @response 201
+ * @response 201 (IIdeaBoxContainer) - The created idea box container
  */
 router.post(
   "/",
@@ -100,7 +100,7 @@ router.post(
  * @body name (string, required) - The name of the container
  * @body color (string, required) - The color of the container
  * @body icon (string) - The icon of the container
- * @response 200
+ * @response 200 (IIdeaBoxContainer) - The updated idea box container
  */
 router.patch(
   "/:id",

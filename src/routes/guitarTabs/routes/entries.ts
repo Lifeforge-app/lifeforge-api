@@ -18,6 +18,7 @@ import {
 import moment from "moment";
 import { body, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -68,11 +69,11 @@ router.get(
 router.get(
   "/",
   [
-    query("page").isNumeric(),
+    query("page").isNumeric().toInt(),
     query("query").optional().isString(),
     query("category").optional().isString(),
     query("author").optional().isString(),
-    query("starred").optional().isBoolean(),
+    query("starred").optional().isBoolean().toBoolean(),
     query("sort").optional().isIn(["name", "author", "newest", "oldest"]),
   ],
   asyncWrapper(async (req, res) => {
@@ -91,13 +92,14 @@ router.get(
       .getList<IGuitarTabsEntry[]>(page, 20, {
         filter: `(name~"${search}" || author~"${search}") && ${
           category === "uncategorized" ? "type=''" : `type~"${category}"`
-        } && author~"${author}" && isFavourite=${starred}`,
-        sort:
+        } && author~"${author}" ${starred ? "&& isFavourite=true" : ""}`,
+        sort: `-isFavourite, ${
           req.query.sort === "newest"
             ? "-created"
             : req.query.sort === "oldest"
               ? "created"
-              : (req.query.sort as string) || "-created",
+              : (req.query.sort as string) || "-created"
+        }`,
       });
 
     successWithBaseResponse(res, entries);
@@ -366,6 +368,28 @@ router.get(
       }
     }
     success(res);
+  })
+);
+
+router.post(
+  "/favourite/:id",
+  asyncWrapper(async (req, res: Response<BaseResponse<IGuitarTabsEntry>>) => {
+    const { pb } = req;
+    const { id } = req.params;
+
+    if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) return;
+
+    const entry = await pb
+      .collection("guitar_tabs_entries")
+      .getOne<IGuitarTabsEntry>(id);
+
+    const updatedEntry = await pb
+      .collection("guitar_tabs_entries")
+      .update<IGuitarTabsEntry>(id, {
+        isFavourite: !entry.isFavourite,
+      });
+
+    successWithBaseResponse(res, updatedEntry);
   })
 );
 

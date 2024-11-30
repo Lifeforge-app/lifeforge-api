@@ -34,6 +34,7 @@ const changeLogRoutes = lazyLoad(() => import("./routes/changeLog/index.js"));
 const DNSRecordsRoutes = lazyLoad(() => import("./routes/dnsRecords/index.js"));
 const mailInboxRoutes = lazyLoad(() => import("./routes/mailInbox/index.js"));
 const walletRoutes = lazyLoad(() => import("./routes/wallet/index.js"));
+const wishlistRoutes = lazyLoad(() => import("./routes/wishlist/index.js"));
 const youtubeVideosRoutes = lazyLoad(
   () => import("./routes/youtubeVideos/index.js")
 );
@@ -56,6 +57,7 @@ router.use("/flashcards", flashcardsRoutes);
 router.use("/journal", journalRoutes);
 router.use("/achievements", achievementsRoutes);
 router.use("/wallet", walletRoutes);
+router.use("/wishlist", wishlistRoutes);
 router.use("/spotify", spotifyRoutes);
 router.use("/photos", photosRoutes);
 router.use("/music", musicRoutes);

@@ -25,7 +25,7 @@ const router = express.Router();
  * @query container (string, required, must_exist) - The container of the idea box entries
  * @query folder (string, optional, must_exist) - The folder of the idea box entries
  * @query archived (boolean, optional) - Whether to include archived entries
- * @response 200
+ * @response 200 (IIdeaBoxEntry[]) - The list of idea box entries
  */
 router.get(
   "/",
@@ -64,7 +64,7 @@ router.get(
  * @body imageLink (string, optional) - The link to the image, will raise an error if type is not image
  * @body folder (string, optional, must_exist) - The folder of the idea box entry
  * @body file (file, required if type is image) - The image file
- * @response 201
+ * @response 201 (IIdeaBoxEntry) - The created idea box entry
  */
 router.post(
   "/",
@@ -169,7 +169,7 @@ router.post(
  * @body title (string, required) - The title of the idea box entry
  * @body content (string, required) - The content of the idea box entry
  * @body type (string, required, one_of text|link) - The type of the idea box entry
- * @response 200
+ * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.patch(
   "/:id",
@@ -221,7 +221,7 @@ router.patch(
  * @summary Delete an idea box entry
  * @description Delete an existing idea box entry with the given ID.
  * @param id (string, required, must_exist) - The ID of the idea box entry to delete
- * @response 204
+ * @response 204 - The idea box entry was successfully deleted
  */
 router.delete(
   "/:id",
@@ -246,7 +246,7 @@ router.delete(
  * @summary Pin/unpin an idea box entry
  * @description Update the pinned status of an existing idea box entry with the given ID.
  * @param id (string, required, must_exist) - The ID of the idea box entry to pin
- * @response 200
+ * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.post(
   "/pin/:id",
@@ -272,7 +272,7 @@ router.post(
  * @summary Archive/unarchive an idea box entry
  * @description Update the archived status of an existing idea box entry with the given ID.
  * @param id (string, required, must_exist) - The ID of the idea box entry to archive
- * @response 200
+ * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.post(
   "/archive/:id",
@@ -300,7 +300,7 @@ router.post(
  * @description Update the folder of an existing idea box entry with the given ID.
  * @param id (string, required, must_exist) - The ID of the idea box entry to move
  * @query folder (string, required, must_exist) - The folder to move the idea box entry to
- * @response 200
+ * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.post(
   "/folder/:id",
@@ -332,7 +332,7 @@ router.post(
  * @summary Remove an idea box entry from a folder
  * @description Update the folder of an existing idea box entry with the given ID to an empty string.
  * @param id (string, required, must_exist) - The ID of the idea box entry to remove from the folder
- * @response 200
+ * @response 204
  */
 router.delete(
   "/folder/:id",
@@ -342,13 +342,11 @@ router.delete(
 
     if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-    const entry: IIdeaBoxEntry = await pb
-      .collection("idea_box_entries")
-      .update(id, {
-        folder: "",
-      });
+    const entry = await pb.collection("idea_box_entries").update(id, {
+      folder: "",
+    });
 
-    successWithBaseResponse(res, entry);
+    successWithBaseResponse(res, undefined, 204);
   })
 );
 

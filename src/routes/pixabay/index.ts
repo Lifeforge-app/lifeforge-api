@@ -9,6 +9,18 @@ import IPixabaySearchResult from "../../interfaces/pixabay_interfaces.js";
 
 const router = express.Router();
 
+/**
+ * @protected
+ * @summary Search for images on Pixabay
+ * @description Search for images on Pixabay with the given query, page, type, category, colors, and editors_choice.
+ * @query q (string, required) - The search query
+ * @query page (number, required) - The page number
+ * @query type (string, one_of all|photo|illustration|vector) - The type of image
+ * @query category (string, one_of backgrounds|fashion|nature|science|education|feelings|health|people|religion|places|animals|industry|computer|food|sports|transportation|travel|buildings|business|music) - The category of image
+ * @query colors (string, one_of grayscale|transparent|red|orange|yellow|green|turquoise|blue|lilac|pink|white|gray|black|brown) - The color of image
+ * @query editors_choice (boolean) - Whether to show only editor's choice images
+ * @response 200 (IPixabaySearchResult) - The search result
+ */
 router.get(
   "/search",
   [

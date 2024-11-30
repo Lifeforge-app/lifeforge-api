@@ -119,7 +119,9 @@
       "cfopAlgorithms": "Lihat dan latih semua algoritma yang diperlukan untuk speedcubing.",
       "youtubeVideos": "Simpan Video YouTube Kegemaran Anda",
       "apiKeys": "Urus kunci API yang diperlukan untuk pelbagai modul",
-      "parcelTracking": "Jejaki status penghantaran semua barangan yang anda pesan dalam talian."
+      "parcelTracking": "Jejaki status penghantaran semua barangan yang anda pesan dalam talian.",
+      "wishlist": "Catat dan jejak senarai impian anda dengan mudah!",
+      "budget": "Rancang dan urus bajet anda dengan mudah!"
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -137,7 +139,9 @@
     "parcelTracking": "Lacak Penghantaran",
     "changiAirlineInformation": "Maklumat Syarikat Penerbangan di Lapangan Terbang Changi",
     "changiAirport": "Lapangan Terbang Changi",
-    "subsection": {}
+    "subsection": {},
+    "wishlist": "Senarai Keinginan",
+    "budget": "Pengurusan Bajet"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -447,7 +451,10 @@
     "uploadFromLocal": "Muat Naik dari Tempatan",
     "applyFilters": "Terapkan Penapis",
     "adjust": "Tetapkan semula",
-    "saveChanges": "Simpan Perubahan"
+    "saveChanges": "Simpan Perubahan",
+    "favourite": "Kegemaran",
+    "unfavourite": "Buang Kegemaran",
+    "newWishlist": "Senarai Keinginan Baru"
   },
   "modals": {
     "header": {
@@ -528,7 +535,9 @@
       "guitarWorld": "Dunia Gitar",
       "imageSelector": "Pilih Imej",
       "searchFilters": "Penapis Carian",
-      "adjustBackgroundImage": "Tetapkan Semula Latar Belakang"
+      "adjustBackgroundImage": "Tetapkan Semula Latar Belakang",
+      "createWishlist": "Buat Senarai Keinginan",
+      "updateWishlist": "Kemaskini Senarai Keinginan"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -665,7 +674,11 @@
     "cookie": "Kuki Sesi",
     "imageType": "Jenis Imej",
     "imageColors": "Warna Imej",
-    "editorsChoice": "Pilihan Editor"
+    "editorsChoice": "Pilihan Editor",
+    "wishlistName": "Nama Senarai Keinginan",
+    "wishlistDescription": "Huraian Senarai Keinginan",
+    "wishlistIcon": "Ikon Senarai Hati",
+    "wishlistColor": "Warna Senarai Keinginan"
   },
   "table": {
     "date": "Tarikh",
@@ -961,6 +974,13 @@
   "imageUpload": {
     "local": "Muat Naik Imej Lokal",
     "url": "Naik Imej",
-    "pixabay": "Muat Turun dari Pixabay"
+    "pixabay": "Muat Turun dari Pixabay",
+    "orPasteLink": "Atau Lampir Pautan Gambar"
+  },
+  "sortType": {
+    "newest": "Baru Dahulu",
+    "oldest": "Terlama Dahulu",
+    "author": "Penulis",
+    "name": "Tajuk"
   }
 }
