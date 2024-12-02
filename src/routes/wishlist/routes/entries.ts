@@ -12,7 +12,7 @@ router.post(
   "/external",
   [
     body("provider").isString().isIn(["shopee", "lazada"]),
-    body("url").isString().isLength({ min: 1 }),
+    body("url").isString().isLength({ min: 1 }).trim(),
   ],
   asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;

@@ -458,7 +458,8 @@
     "newItem": "Barang Baharu",
     "addManually": "Tambah Secara Manual",
     "fromOtherApps": "Dari Aplikasi Lain",
-    "uploadFile": "Muat Naik Fail"
+    "uploadFile": "Muat Naik Fail",
+    "removeFile": "Buang Fail"
   },
   "modals": {
     "header": {
@@ -686,7 +687,8 @@
     "wishlistColor": "Warna Senarai Keinginan",
     "productUrl": "Pautan Produk",
     "productPrice": "Harga Produk",
-    "productName": "Nama Produk"
+    "productName": "Nama Produk",
+    "productImage": "Imej Produk"
   },
   "table": {
     "date": "Tarikh",

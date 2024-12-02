@@ -458,7 +458,8 @@
     "newItem": "New Item",
     "addManually": "Add Manually",
     "fromOtherApps": "From Other Apps",
-    "uploadFile": "Upload File"
+    "uploadFile": "Upload File",
+    "removeFile": "Remove File"
   },
   "modals": {
     "header": {
@@ -686,7 +687,8 @@
     "wishlistColor": "Wishlist Color",
     "productUrl": "Product Link",
     "productPrice": "Product Price",
-    "productName": "Product Name"
+    "productName": "Product Name",
+    "productImage": "Product Image"
   },
   "table": {
     "date": "Date",

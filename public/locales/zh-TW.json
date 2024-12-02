@@ -458,7 +458,8 @@
     "newItem": "新增項目",
     "addManually": "手動新增",
     "fromOtherApps": "來自其他應用程式",
-    "uploadFile": "上傳文件"
+    "uploadFile": "上傳文件",
+    "removeFile": "刪除檔案"
   },
   "modals": {
     "header": {
@@ -686,7 +687,8 @@
     "wishlistColor": "願望清單顏色",
     "productUrl": "產品連結",
     "productPrice": "產品價格",
-    "productName": "產品名稱"
+    "productName": "產品名稱",
+    "productImage": "產品圖片"
   },
   "table": {
     "date": "日期",
