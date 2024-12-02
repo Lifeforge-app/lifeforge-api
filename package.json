@@ -51,6 +51,7 @@
     "serverless-http": "^3.2.0",
     "sharp": "^0.33.5",
     "systeminformation": "^5.23.5",
+    "tesseract.js": "^5.1.1",
     "test": "^3.3.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",

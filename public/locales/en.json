@@ -454,7 +454,11 @@
     "saveChanges": "Save Changes",
     "favourite": "Favourite",
     "unfavourite": "Remove Favourite",
-    "newWishlist": "New Wishlist"
+    "newWishlist": "New Wishlist",
+    "newItem": "New Item",
+    "addManually": "Add Manually",
+    "fromOtherApps": "From Other Apps",
+    "uploadFile": "Upload File"
   },
   "modals": {
     "header": {
@@ -537,7 +541,8 @@
       "searchFilters": "Search Filters",
       "adjustBackgroundImage": "Adjust Background Image",
       "createWishlist": "Create Wishlist",
-      "updateWishlist": "Update Wishlist"
+      "updateWishlist": "Update Wishlist",
+      "importFromOtherApps": "Import from Other Apps"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -678,7 +683,10 @@
     "wishlistName": "Wishlist Name",
     "wishlistDescription": "Wishlist Description",
     "wishlistIcon": "Wishlist Icon",
-    "wishlistColor": "Wishlist Color"
+    "wishlistColor": "Wishlist Color",
+    "productUrl": "Product Link",
+    "productPrice": "Product Price",
+    "productName": "Product Name"
   },
   "table": {
     "date": "Date",

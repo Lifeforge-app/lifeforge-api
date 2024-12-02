@@ -454,7 +454,11 @@
     "saveChanges": "Simpan Perubahan",
     "favourite": "Kegemaran",
     "unfavourite": "Buang Kegemaran",
-    "newWishlist": "Senarai Keinginan Baru"
+    "newWishlist": "Senarai Keinginan Baru",
+    "newItem": "Barang Baharu",
+    "addManually": "Tambah Secara Manual",
+    "fromOtherApps": "Dari Aplikasi Lain",
+    "uploadFile": "Muat Naik Fail"
   },
   "modals": {
     "header": {
@@ -537,7 +541,8 @@
       "searchFilters": "Penapis Carian",
       "adjustBackgroundImage": "Tetapkan Semula Latar Belakang",
       "createWishlist": "Buat Senarai Keinginan",
-      "updateWishlist": "Kemaskini Senarai Keinginan"
+      "updateWishlist": "Kemaskini Senarai Keinginan",
+      "importFromOtherApps": "Import dari Aplikasi Lain"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -678,7 +683,10 @@
     "wishlistName": "Nama Senarai Keinginan",
     "wishlistDescription": "Huraian Senarai Keinginan",
     "wishlistIcon": "Ikon Senarai Hati",
-    "wishlistColor": "Warna Senarai Keinginan"
+    "wishlistColor": "Warna Senarai Keinginan",
+    "productUrl": "Pautan Produk",
+    "productPrice": "Harga Produk",
+    "productName": "Nama Produk"
   },
   "table": {
     "date": "Tarikh",

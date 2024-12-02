@@ -455,7 +455,11 @@
     "saveChanges": "保存修改",
     "favourite": "收藏",
     "unfavourite": "取消收藏",
-    "newWishlist": "新愿望清单"
+    "newWishlist": "新愿望清单",
+    "newItem": "新增条目",
+    "addManually": "手动添加",
+    "fromOtherApps": "来自其他应用",
+    "uploadFile": "上传文件"
   },
   "modals": {
     "header": {
@@ -538,7 +542,8 @@
       "searchFilters": "搜索筛选",
       "adjustBackgroundImage": "调整背景图片",
       "createWishlist": "创建心愿单",
-      "updateWishlist": "更新心愿单"
+      "updateWishlist": "更新心愿单",
+      "importFromOtherApps": "从其他应用导入"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",
@@ -679,7 +684,10 @@
     "wishlistName": "心愿单名称",
     "wishlistDescription": "心愿单描述",
     "wishlistIcon": "心愿单图标",
-    "wishlistColor": "心愿单颜色"
+    "wishlistColor": "心愿单颜色",
+    "productUrl": "产品网址",
+    "productPrice": "产品价格",
+    "productName": "产品名称"
   },
   "table": {
     "date": "日期",

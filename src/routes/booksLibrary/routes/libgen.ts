@@ -461,9 +461,11 @@ router.post(
         downloadLink,
       ]);
 
-      successWithBaseResponse(res, {}, 202);
-
       downloadProcess.stdout.on("data", (data) => {
+        try {
+          successWithBaseResponse(res, {}, 202);
+        } catch {}
+
         data = data.toString();
         if (/ETA:/.test(data)) {
           const matches =
@@ -489,11 +491,24 @@ router.post(
       });
 
       downloadProcess.stderr.on("data", (data) => {
-        console.error(data.toString());
-        clientError(res, data.toString());
+        console.log(data);
+        downloadProcesses.delete(req.params.md5);
+        clientError(res, "Failed to download file");
+      });
+
+      downloadProcess.on("error", (err) => {
+        console.log(err);
+        downloadProcesses.delete(req.params.md5);
+        clientError(res, "Failed to download file");
       });
 
       downloadProcess.on("close", async () => {
+        if (!fs.existsSync(`./uploads/${md5}.${metadata.extension}`)) {
+          downloadProcesses.delete(req.params.md5);
+          clientError(res, "Failed to download file");
+          return;
+        }
+
         console.log(metadata.category);
         //TODO
         metadata.languages = [];

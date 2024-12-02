@@ -454,7 +454,11 @@
     "saveChanges": "儲存變更",
     "favourite": "收藏",
     "unfavourite": "取消收藏",
-    "newWishlist": "新願望清單"
+    "newWishlist": "新願望清單",
+    "newItem": "新增項目",
+    "addManually": "手動新增",
+    "fromOtherApps": "來自其他應用程式",
+    "uploadFile": "上傳文件"
   },
   "modals": {
     "header": {
@@ -537,7 +541,8 @@
       "searchFilters": "搜尋篩選",
       "adjustBackgroundImage": "調整背景圖片",
       "createWishlist": "創建心願單",
-      "updateWishlist": "更新願望清單"
+      "updateWishlist": "更新願望清單",
+      "importFromOtherApps": "從其他應用程式匯入"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
@@ -678,7 +683,10 @@
     "wishlistName": "願望清單名稱",
     "wishlistDescription": "心願單描述",
     "wishlistIcon": "願望清單圖標",
-    "wishlistColor": "願望清單顏色"
+    "wishlistColor": "願望清單顏色",
+    "productUrl": "產品連結",
+    "productPrice": "產品價格",
+    "productName": "產品名稱"
   },
   "table": {
     "date": "日期",
