@@ -18,6 +18,7 @@ import { BaseResponse } from "../../../interfaces/base_response.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
 import { getAPIKey } from "../../../utils/getAPIKey.js";
 import { fetchGroq } from "../../../utils/fetchGroq.js";
+import wordsCount from "words-count";
 
 const router = express.Router();
 
@@ -150,6 +151,8 @@ router.get(
         Buffer.from(journal.title, "base64"),
         decryptedMaster
       ).toString();
+
+      journal.wordCount = wordsCount.wordsCount(journal.content);
 
       journal.content = decrypt(
         Buffer.from(journal.summary ?? "", "base64"),
