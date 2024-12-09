@@ -3,7 +3,7 @@
     "@google/generative-ai": "^0.12.0",
     "@netlify/functions": "^2.8.2",
     "@passwordless-id/webauthn": "^1.6.2",
-    "@types/pdfkit": "^0.13.5",
+    "@types/bcrypt": "^5.0.2", // Moved from devDependencies
     "aewx-metar-parser": "^1.0.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
@@ -12,7 +12,6 @@
     "chalk": "4.1.2",
     "checksum": "^1.0.0",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "csv-parse": "^5.5.6",
     "dotenv": "^16.4.5",
@@ -58,12 +57,11 @@
     "typescript": "^5.6.2",
     "underscore": "^1.13.7",
     "uuid": "^9.0.1",
-    "words-count": "^2.0.2",
     "zod": "^3.23.8"
   },
   "scripts": {
-    "dev": "export NODE_ENV=development && forever stopall && tsx watch --env-file=.env.local ./src/index.ts",
-    "start": "export NODE_ENV=production && forever stopall && tsc && pkgroll --minify --clean-dist && forever start -c \"node --env-file=.env.local\" dist/index.mjs"
+    "dev": "dotenv -e .env.local forever stopall && tsx watch ./src/index.ts",
+    "start": "dotenv -e .env.local forever stopall && tsc && pkgroll --minify --clean-dist && forever start dist/index.mjs"
   },
   "exports": "./dist/index.mjs",
   "main": "src/index.ts",
@@ -71,7 +69,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.12.0",
-    "@types/bcrypt": "^5.0.2",
     "@types/bun": "latest",
     "@types/chai": "^5.0.0",
     "@types/cors": "^2.8.17",
