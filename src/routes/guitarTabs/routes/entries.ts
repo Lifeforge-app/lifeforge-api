@@ -345,26 +345,70 @@ router.get(
       let targetLocation = mediumLocation;
       const folderLocation = `/home/pi/${process.env.DATABASE_OWNER}/database/pb_data/storage/${entry.collectionId}/${entry.id}`;
 
+      let i = 0;
       if (entry.audio || entry.musescore) {
-        fs.mkdirSync(`${mediumLocation}/${entry.name}`);
-        targetLocation = `${mediumLocation}/${entry.name}`;
+        while (true) {
+          const number = i === 0 ? "" : `-${i}`;
+          if (fs.existsSync(`${mediumLocation}/${entry.name}${number}`)) {
+            i++;
+            continue;
+          }
+          fs.mkdirSync(`${mediumLocation}/${entry.name}${number}`);
+          targetLocation = `${mediumLocation}/${entry.name}${number}`;
+          break;
+        }
       }
 
-      fs.copyFileSync(
-        `${folderLocation}/${entry.pdf}`,
-        `${targetLocation}/${entry.name}.pdf`
-      );
-      if (entry.audio) {
+      i = 0;
+      while (true) {
+        const number = i === 0 ? "" : `-${i}`;
+        if (fs.existsSync(`${targetLocation}/${entry.name}${number}.pdf`)) {
+          i++;
+          continue;
+        }
         fs.copyFileSync(
-          `${folderLocation}/${entry.audio}`,
-          `${targetLocation}/${entry.name}.${entry.audio.split(".").pop()}`
+          `${folderLocation}/${entry.pdf}`,
+          `${targetLocation}/${entry.name}${number}.pdf`
         );
+        break;
       }
-      if (entry.musescore) {
-        fs.copyFileSync(
-          `${folderLocation}/${entry.musescore}`,
-          `${targetLocation}/${entry.name}.${entry.musescore.split(".").pop()}`
-        );
+
+      if (entry.audio) {
+        i = 0;
+        const ext = entry.audio.split(".").pop();
+        while (true) {
+          const number = i === 0 ? "" : `-${i}`;
+          if (
+            fs.existsSync(`${targetLocation}/${entry.name}${number}.${ext}`)
+          ) {
+            i++;
+            continue;
+          }
+          fs.copyFileSync(
+            `${folderLocation}/${entry.audio}`,
+            `${targetLocation}/${entry.name}${number}.${ext}`
+          );
+          break;
+        }
+
+        if (entry.musescore) {
+          i = 0;
+          const ext = entry.musescore.split(".").pop();
+          while (true) {
+            const number = i === 0 ? "" : `-${i}`;
+            if (
+              fs.existsSync(`${targetLocation}/${entry.name}${number}.${ext}`)
+            ) {
+              i++;
+              continue;
+            }
+            fs.copyFileSync(
+              `${folderLocation}/${entry.musescore}`,
+              `${targetLocation}/${entry.name}${number}.${ext}`
+            );
+            break;
+          }
+        }
       }
     }
     success(res);
