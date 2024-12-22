@@ -143,7 +143,7 @@ router.get(
     const journals: IJournalEntry[] = await pb
       .collection("journal_entries")
       .getFullList({
-        sort: "-created",
+        sort: "-date",
       });
 
     for (const journal of journals) {

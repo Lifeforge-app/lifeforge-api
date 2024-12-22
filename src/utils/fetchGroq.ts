@@ -15,7 +15,7 @@ export async function fetchGroq(
         content: prompt,
       },
     ],
-    model: "llama-3.2-90b-vision-preview",
+    model: "llama-3.3-70b-versatile",
   });
 
   const res = response.choices[0]?.message?.content;

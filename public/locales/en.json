@@ -141,7 +141,8 @@
     "changiAirport": "Changi Airport",
     "subsection": {},
     "wishlist": "Wishlist",
-    "budget": "Budget"
+    "budget": "Budget",
+    "deprecated": "No longer supported"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -459,7 +460,8 @@
     "addManually": "Add Manually",
     "fromOtherApps": "From Other Apps",
     "uploadFile": "Upload File",
-    "removeFile": "Remove File"
+    "removeFile": "Remove File",
+    "addEntryCard": "Add Entry Card"
   },
   "modals": {
     "header": {
@@ -543,7 +545,9 @@
       "adjustBackgroundImage": "Adjust Background Image",
       "createWishlist": "Create Wishlist",
       "updateWishlist": "Update Wishlist",
-      "importFromOtherApps": "Import from Other Apps"
+      "importFromOtherApps": "Import from Other Apps",
+      "createCard": "New Entry Card",
+      "updateCard": "Edit Entry Card"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",

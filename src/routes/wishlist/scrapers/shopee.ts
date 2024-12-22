@@ -31,14 +31,23 @@ async function getPrice(imageURL: string) {
     const ret = await worker.recognize(buffer);
     await worker.terminate();
 
-    return parseFloat(
+    console.log(
       ret.data.text
         .split("\n")
         .filter((e) => e)
         .pop()
         ?.split("-")
-        .pop() || ""
+        .shift()
     );
+
+    const numbers = ret.data.text
+      .split("\n")
+      .filter((e) => e)
+      .pop()
+      ?.split("-")
+      .map((e) => parseFloat(e?.replace(/,|(?: \.)/g, "") || "")) || [0];
+
+    return Math.max(...numbers);
   } catch (error) {
     console.error("Error getting price");
     return null;
@@ -91,7 +100,7 @@ async function scrapeShopee(url: string, groqKey: string) {
     }
     final.image = await getImageURL(url);
 
-    const prompt = `Extract the most relevant and concise product name from the given product title, removing any unnecessary words or phrases such as descriptions, locations, and promotions. The extracted product name should be a clear and accurate representation of the product being sold. Please provide the extracted product name without any other words other than the product name itself.
+    const prompt = `Extract the most relevant and concise product name from the given product title, removing any unnecessary words or phrases such as descriptions, locations, and promotions. The extracted product name should be a clear and accurate representation of the product being sold. If there is the brand name of the product, the result should be in the format of "{brand} - {product name}". Please provide the extracted product name without any other words other than the product name itself.
   
   ${result.ogTitle}`;
 

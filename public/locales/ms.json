@@ -141,7 +141,8 @@
     "changiAirport": "Lapangan Terbang Changi",
     "subsection": {},
     "wishlist": "Senarai Keinginan",
-    "budget": "Pengurusan Bajet"
+    "budget": "Pengurusan Bajet",
+    "deprecated": "Tidak lagi disokong"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -459,7 +460,8 @@
     "addManually": "Tambah Secara Manual",
     "fromOtherApps": "Dari Aplikasi Lain",
     "uploadFile": "Muat Naik Fail",
-    "removeFile": "Buang Fail"
+    "removeFile": "Buang Fail",
+    "addEntryCard": "Tambah Kad Masuk"
   },
   "modals": {
     "header": {
@@ -543,7 +545,9 @@
       "adjustBackgroundImage": "Tetapkan Semula Latar Belakang",
       "createWishlist": "Buat Senarai Keinginan",
       "updateWishlist": "Kemaskini Senarai Keinginan",
-      "importFromOtherApps": "Import dari Aplikasi Lain"
+      "importFromOtherApps": "Import dari Aplikasi Lain",
+      "createCard": "Tambah Kad Entri",
+      "updateCard": "Edit Kad Entri"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",

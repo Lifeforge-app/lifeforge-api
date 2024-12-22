@@ -141,7 +141,8 @@
     "changiAirport": "樟宜機場",
     "subsection": {},
     "wishlist": "願望清單",
-    "budget": "預算管理"
+    "budget": "預算管理",
+    "deprecated": "已棄用"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -459,7 +460,8 @@
     "addManually": "手動新增",
     "fromOtherApps": "來自其他應用程式",
     "uploadFile": "上傳文件",
-    "removeFile": "刪除檔案"
+    "removeFile": "刪除檔案",
+    "addEntryCard": "新增項目卡"
   },
   "modals": {
     "header": {
@@ -543,7 +545,9 @@
       "adjustBackgroundImage": "調整背景圖片",
       "createWishlist": "創建心願單",
       "updateWishlist": "更新願望清單",
-      "importFromOtherApps": "從其他應用程式匯入"
+      "importFromOtherApps": "從其他應用程式匯入",
+      "createCard": "創建項目卡",
+      "updateCard": "修改项目卡"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",

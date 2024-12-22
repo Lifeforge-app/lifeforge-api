@@ -12,7 +12,7 @@ router.get(
   "/list",
   asyncWrapper(
     async (req: Request, res: Response<BaseResponse<IChangeLogVersion[]>>) => {
-      const pb = new Pocketbase("http://192.168.0.105:8090");
+      const pb = new Pocketbase(process.env.PB_HOST);
       const entries = await pb.collection("change_log_entries").getFullList();
 
       const final: IChangeLogVersion[] = [];

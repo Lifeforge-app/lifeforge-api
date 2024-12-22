@@ -285,6 +285,11 @@ router.put(
       return;
     }
 
+    if (!req.body.url) {
+      clientError(res, "No file uploaded");
+      return;
+    }
+
     const { url } = req.body;
     fetch(url)
       .then(async (response) => {

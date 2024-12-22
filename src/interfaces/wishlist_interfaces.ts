@@ -12,7 +12,19 @@ const WishlistListSchema = s.assign(
   })
 );
 
-type IWishlistList = s.Infer<typeof WishlistListSchema>;
+const WishlistEntrySchema = s.assign(
+  BasePBCollectionSchema,
+  s.object({
+    name: s.string(),
+    url: s.string(),
+    price: s.number(),
+    image: s.string(),
+    list: s.string(),
+  })
+);
 
-export { WishlistListSchema };
-export type { IWishlistList };
+type IWishlistList = s.Infer<typeof WishlistListSchema>;
+type IWishlistEntry = s.Infer<typeof WishlistEntrySchema>;
+
+export { WishlistListSchema, WishlistEntrySchema };
+export type { IWishlistList, IWishlistEntry };
