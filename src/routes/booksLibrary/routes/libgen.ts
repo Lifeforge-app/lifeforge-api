@@ -162,6 +162,27 @@ router.get(
 );
 
 router.get(
+  "/covers/*",
+  asyncWrapper(async (req, res) => {
+    const target = new URL("http://libgen.is/covers/");
+    target.pathname += req.params[0];
+
+    try {
+      const { data } = await axios({
+        method: "GET",
+        url: target.href,
+        responseType: "arraybuffer",
+      });
+
+      res.setHeader("Content-Type", "image/jpeg");
+      res.send(data);
+    } catch (e: any) {
+      clientError(res, e.message);
+    }
+  })
+);
+
+router.get(
   "/details/:md5",
   asyncWrapper(async (req, res) => {
     const target = new URL("http://libgen.is/book/index.php");
@@ -509,11 +530,6 @@ router.post(
           return;
         }
 
-        console.log(metadata.category);
-        //TODO
-        metadata.languages = [];
-        metadata.category = "";
-
         await fetch(`http://libgen.is/${metadata.thumbnail}`).then(
           async (response) => {
             if (response.ok) {
@@ -532,6 +548,24 @@ router.post(
         metadata.file = new File([file], `${md5}.${metadata.extension}`);
 
         await pb.collection("books_library_entries").create(metadata);
+
+        const fileTypeEntry = await pb
+          .collection("books_library_file_types")
+          .getFirstListItem(`name = "${metadata.extension}"`)
+          .catch(() => null);
+
+        if (fileTypeEntry) {
+          await pb
+            .collection("books_library_file_types")
+            .update(fileTypeEntry.id, {
+              count: fileTypeEntry.count + 1,
+            });
+        } else {
+          await pb.collection("books_library_file_types").create({
+            name: metadata.extension,
+            count: 1,
+          });
+        }
 
         downloadProcesses.delete(req.params.md5);
 

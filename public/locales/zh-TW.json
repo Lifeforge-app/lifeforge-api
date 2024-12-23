@@ -76,7 +76,8 @@
       "authors": "作者",
       "information": "資訊",
       "priorities": "優先順序",
-      "calendarHeatmap": "日曆熱力圖"
+      "calendarHeatmap": "日曆熱力圖",
+      "filetypes": "檔案類型"
     },
     "descriptions": {
       "dashboard": "您的任務控制中心，妙不可言！",
@@ -461,7 +462,8 @@
     "fromOtherApps": "來自其他應用程式",
     "uploadFile": "上傳文件",
     "removeFile": "刪除檔案",
-    "addEntryCard": "新增項目卡"
+    "addEntryCard": "新增項目卡",
+    "markAsBought": "標記為已購買"
   },
   "modals": {
     "header": {

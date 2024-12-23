@@ -75,7 +75,8 @@
       "authors": "Pengarang",
       "information": "Maklumat",
       "priorities": "Keutamaan",
-      "calendarHeatmap": "Peta Panas Kalendar"
+      "calendarHeatmap": "Peta Panas Kalendar",
+      "filetypes": "Jenis Fail"
     },
     "descriptions": {
       "dashboard": "Pusat kawalan misi anda untuk yang mengagumkan. 🚀",
@@ -461,7 +462,8 @@
     "fromOtherApps": "Dari Aplikasi Lain",
     "uploadFile": "Muat Naik Fail",
     "removeFile": "Buang Fail",
-    "addEntryCard": "Tambah Kad Masuk"
+    "addEntryCard": "Tambah Kad Masuk",
+    "markAsBought": "Tandai sebagai Dibeli"
   },
   "modals": {
     "header": {

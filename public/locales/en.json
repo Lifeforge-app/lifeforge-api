@@ -75,7 +75,8 @@
       "authors": "Authors",
       "information": "Information",
       "priorities": "Priorities",
-      "calendarHeatmap": "Calendar Heatmap"
+      "calendarHeatmap": "Calendar Heatmap",
+      "filetypes": "File Types"
     },
     "descriptions": {
       "dashboard": "Your mission control center for awesome. 🚀",
@@ -461,7 +462,8 @@
     "fromOtherApps": "From Other Apps",
     "uploadFile": "Upload File",
     "removeFile": "Remove File",
-    "addEntryCard": "Add Entry Card"
+    "addEntryCard": "Add Entry Card",
+    "markAsBought": "Mark as Bought"
   },
   "modals": {
     "header": {

@@ -1,7 +1,10 @@
 import express, { Response } from "express";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
 import { list } from "../../../utils/CRUD.js";
-import { IBooksLibraryEntry } from "../../../interfaces/books_library_interfaces.js";
+import {
+  IBooksLibraryEntry,
+  IBooksLibraryFileType,
+} from "../../../interfaces/books_library_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import {
   checkExistence,
@@ -70,7 +73,7 @@ router.patch(
       ),
     body("publisher").isString(),
     body("title").isString(),
-    body("year_published").isString(),
+    body("year_published").isNumeric(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<IBooksLibraryEntry>>) => {
     if (hasError(req, res)) return;
@@ -132,6 +135,29 @@ router.delete(
     const { id } = req.params;
 
     if (!(await checkExistence(req, res, "books_library_entries", id))) return;
+
+    const entry = await pb
+      .collection("books_library_entries")
+      .getOne<IBooksLibraryEntry>(id);
+
+    const fileTypeEntry = await pb
+      .collection("books_library_file_types")
+      .getFirstListItem<IBooksLibraryFileType>(`name = "${entry.extension}"`)
+      .catch(() => null);
+
+    if (fileTypeEntry) {
+      if (fileTypeEntry.count - 1 > 0) {
+        await pb
+          .collection("books_library_file_types")
+          .update(fileTypeEntry.id, {
+            count: fileTypeEntry.count - 1,
+          });
+      } else {
+        await pb
+          .collection("books_library_file_types")
+          .delete(fileTypeEntry.id);
+      }
+    }
 
     await pb.collection("books_library_entries").delete(id);
 

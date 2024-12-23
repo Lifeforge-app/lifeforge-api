@@ -37,6 +37,14 @@ const BooksLibraryLanguageSchema = s.assign(
   })
 );
 
+const BooksLibraryFileTypeSchema = s.assign(
+  BasePBCollectionSchema,
+  s.object({
+    name: s.string(),
+    count: s.number(),
+  });
+);
+
 const BooksLibraryDownloadProcessSchema = s.object({
   kill: s.func(),
   downloaded: s.string(),
@@ -50,6 +58,7 @@ const BooksLibraryDownloadProcessSchema = s.object({
 type IBooksLibraryEntry = s.Infer<typeof BooksLibraryEntrySchema>;
 type IBooksLibraryCategory = s.Infer<typeof BooksLibraryCategorySchema>;
 type IBooksLibraryLanguage = s.Infer<typeof BooksLibraryLanguageSchema>;
+type IBooksLibraryFileType = s.Infer<typeof BooksLibraryFileTypeSchema>;
 type IBooksLibraryDownloadProcess = s.Infer<
   typeof BooksLibraryDownloadProcessSchema
 >;
@@ -58,11 +67,13 @@ export {
   BooksLibraryEntrySchema,
   BooksLibraryCategorySchema,
   BooksLibraryLanguageSchema,
+  BooksLibraryFileTypeSchema,
   BooksLibraryDownloadProcessSchema,
 };
 export type {
   IBooksLibraryEntry,
   IBooksLibraryCategory,
   IBooksLibraryLanguage,
+  IBooksLibraryFileType,
   IBooksLibraryDownloadProcess,
 };

@@ -17,6 +17,15 @@ import {
 const router = express.Router();
 
 router.get(
+  "/collection-id",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+
+    success(res, pb.collection("wishlist_entries").collectionIdOrName);
+  })
+);
+
+router.get(
   "/:id",
   [param("id").isString().isLength({ min: 1 }).trim()],
   asyncWrapper(async (req, res) => {
