@@ -6,10 +6,7 @@ import {
   IBooksLibraryFileType,
 } from "../../../interfaces/books_library_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
-import {
-  checkExistence,
-  validateExistence,
-} from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 import { successWithBaseResponse } from "../../../utils/response.js";
 import { body } from "express-validator";
 import hasError from "../../../utils/checkError.js";
@@ -50,27 +47,10 @@ router.patch(
   "/:id",
   [
     body("authors").isString(),
-    body("category").custom(
-      async (value: string, meta) =>
-        await validateExistence(
-          meta.req.pb,
-          "books_library_categories",
-          value,
-          true
-        )
-    ),
+    body("category").isString().optional(),
     body("edition").isString(),
     body("isbn").isString(),
-    body("languages")
-      .isArray()
-      .custom(
-        async (value: string[], meta) =>
-          await Promise.all(
-            value.map((v) =>
-              validateExistence(meta.req.pb, "books_library_languages", v, true)
-            )
-          )
-      ),
+    body("languages").isArray(),
     body("publisher").isString(),
     body("title").isString(),
     body("year_published").isNumeric(),
@@ -82,8 +62,42 @@ router.patch(
     const { id } = req.params;
     const data = req.body;
 
-    if (!(await checkExistence(req, res, "books_library_entries", id, "id")))
-      return;
+    const entryExists = await checkExistence(
+      req,
+      res,
+      "books_library_entries",
+      id,
+      "id"
+    );
+
+    const categoryExists = data.category
+      ? await checkExistence(
+          req,
+          res,
+          "books_library_categories",
+          data.category,
+          "category"
+        )
+      : true;
+
+    let languagesExist = true;
+
+    for (const language of data.languages) {
+      const languageExists = await checkExistence(
+        req,
+        res,
+        "books_library_languages",
+        language,
+        "language"
+      );
+
+      if (!languageExists) {
+        languagesExist = false;
+        break;
+      }
+    }
+
+    if (!entryExists || !categoryExists || !languagesExist) return;
 
     const entry: IBooksLibraryEntry = await pb
       .collection("books_library_entries")

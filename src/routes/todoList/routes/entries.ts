@@ -1,9 +1,6 @@
 import express, { Request, Response } from "express";
 import moment from "moment";
-import {
-  clientError,
-  successWithBaseResponse,
-} from "../../../utils/response.js";
+import { successWithBaseResponse } from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
 import { body, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
@@ -13,7 +10,7 @@ import {
   ITodoListStatusCounter,
   ITodoSubtask,
 } from "../../../interfaces/todo_list_interfaces.js";
-import { validateExistence } from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -33,21 +30,28 @@ router.get(
     query("status")
       .optional()
       .isIn(["all", "today", "scheduled", "overdue", "completed"]),
-    query("tag").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_tags", value, true)
-    ),
-    query("list").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_lists", value, true)
-    ),
-    query("priority").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_priorities", value, true)
-    ),
+    query("tag").isString().optional(),
+    query("list").isString().optional(),
+    query("priority").isString().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<ITodoListEntry[]>>) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
     const status = req.query.status || "all";
+    const { tag, list, priority } = req.query as Record<string, string>;
+
+    const tagExists = tag
+      ? await checkExistence(req, res, "todo_tags", tag, "tag")
+      : true;
+    const listExists = list
+      ? await checkExistence(req, res, "todo_lists", list, "list")
+      : true;
+    const priorityExists = priority
+      ? await checkExistence(req, res, "todo_priorities", priority, "priority")
+      : true;
+
+    if (tagExists || listExists || priorityExists) return;
 
     const filters = {
       all: "done = false",
@@ -70,7 +74,6 @@ router.get(
 
     let finalFilter = filters[status as keyof typeof filters];
 
-    const { tag, list, priority } = req.query;
     if (tag) finalFilter += ` && tags ~ "${tag}"`;
     if (list) finalFilter += ` && list = "${list}"`;
     if (priority) finalFilter += ` && priority = "${priority}"`;
@@ -186,17 +189,9 @@ router.post(
         }
       }
     }),
-    body("list").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_lists", value, true)
-    ),
-    body("priority").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_priorities", value, true)
-    ),
-    body("tags").custom((value: string[], meta) => {
-      for (const tag of value) {
-        validateExistence(meta.req.pb, "todo_tags", tag, true);
-      }
-    }),
+    body("list").isString().optional(),
+    body("priority").isString().optional(),
+    body("tags").isArray().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<ITodoListEntry>>) => {
     async function createSubtask() {
@@ -219,6 +214,29 @@ router.post(
 
     const { pb } = req;
     const data = req.body;
+
+    const listExists = data.list
+      ? await checkExistence(req, res, "todo_lists", data.list, "list")
+      : true;
+    const priorityExists = data.priority
+      ? await checkExistence(
+          req,
+          res,
+          "todo_priorities",
+          data.priority,
+          "priority"
+        )
+      : true;
+    let tagsExist = true;
+
+    for (const tag of data.tags || []) {
+      if (!(await checkExistence(req, res, "todo_tags", tag, "tag"))) {
+        tagsExist = false;
+        break;
+      }
+    }
+
+    if (listExists || priorityExists || tagsExist) return;
 
     await createSubtask();
 
@@ -282,17 +300,9 @@ router.patch(
         }
       }
     }),
-    body("list").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_lists", value, true)
-    ),
-    body("priority").custom((value: string, meta) =>
-      validateExistence(meta.req.pb, "todo_priorities", value, true)
-    ),
-    body("tags").custom((value: string[], meta) => {
-      for (const tag of value) {
-        validateExistence(meta.req.pb, "todo_tags", tag, true);
-      }
-    }),
+    body("list").isString().optional(),
+    body("priority").isString().optional(),
+    body("tags").isArray().optional(),
   ],
   asyncWrapper(
     async (
@@ -307,6 +317,35 @@ router.patch(
     ) => {
       const { pb } = req;
       const { id } = req.params;
+
+      const entryExists = await checkExistence(
+        req,
+        res,
+        "todo_entries",
+        id,
+        "id"
+      );
+      const listExists = req.body.list
+        ? await checkExistence(req, res, "todo_lists", req.body.list, "list")
+        : true;
+      const priorityExists = req.body.priority
+        ? await checkExistence(
+            req,
+            res,
+            "todo_priorities",
+            req.body.priority,
+            "priority"
+          )
+        : true;
+      const tagsExist = true;
+
+      for (const tag of req.body.tags || []) {
+        if (!(await checkExistence(req, res, "todo_tags", tag, "tag"))) {
+          return;
+        }
+      }
+
+      if (!entryExists || listExists || priorityExists || tagsExist) return;
 
       const originalentries: Omit<ITodoListEntry, "subtasks"> & {
         subtasks: string[];

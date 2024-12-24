@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
 import { successWithBaseResponse } from "../../../utils/response.js";
 import { list, validate } from "../../../utils/CRUD.js";
@@ -6,7 +6,7 @@ import { BaseResponse } from "../../../interfaces/base_response.js";
 import { IProjectsMEntry } from "../../../interfaces/projects_m_interfaces.js";
 import { body } from "express-validator";
 import hasError from "../../../utils/checkError.js";
-import { validateExistence } from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -75,22 +75,10 @@ router.post(
     body("name").isString(),
     body("icon").isString(),
     body("color").isHexColor(),
-    body("visibility").custom((value, meta) =>
-      validateExistence(meta.req.pb, "projects_m_visibilities", value, true)
-    ),
-    body("status").custom((value, meta) =>
-      validateExistence(meta.req.pb, "projects_m_statuses", value, true)
-    ),
-    body("category").custom((value, meta) =>
-      validateExistence(meta.req.pb, "projects_m_categories", value, true)
-    ),
-    body("technologies").custom(
-      (value, meta) =>
-        Array.isArray(value) &&
-        value.every((tech) =>
-          validateExistence(meta.req.pb, "projects_m_technologies", tech, true)
-        )
-    ),
+    body("visibility").isString().optional(),
+    body("status").isString().optional(),
+    body("category").isString().optional(),
+    body("technologies").isArray().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry>>) => {
     if (hasError(req, res)) return;
@@ -98,6 +86,54 @@ router.post(
     const { pb } = req;
     const { name, icon, color, visibility, status, category, technologies } =
       req.body;
+
+    const visibilityExists = await checkExistence(
+      req,
+      res,
+      "projects_m_visibilities",
+      visibility,
+      "visibility"
+    );
+    const statusExists = await checkExistence(
+      req,
+      res,
+      "projects_m_statuses",
+      status,
+      "status"
+    );
+    const categoryExists = await checkExistence(
+      req,
+      res,
+      "projects_m_categories",
+      category,
+      "category"
+    );
+
+    let technologiesExist = true;
+
+    for (const tech of technologies || []) {
+      const techExists = await checkExistence(
+        req,
+        res,
+        "projects_m_technologies",
+        tech,
+        "technology"
+      );
+
+      if (!techExists) {
+        technologiesExist = false;
+        break;
+      }
+    }
+
+    if (
+      !visibilityExists ||
+      !statusExists ||
+      !categoryExists ||
+      !technologiesExist
+    ) {
+      return;
+    }
 
     const entry: IProjectsMEntry = await pb
       .collection("projects_m_entries")
@@ -135,28 +171,64 @@ router.patch(
     body("name").isString(),
     body("icon").isString(),
     body("color").isHexColor(),
-    body("visibility").custom((value, meta) =>
-      validateExistence(meta.req.pb, "projects_m_visibilities", value, true)
-    ),
-    body("status").custom((value, meta) =>
-      validateExistence(meta.req.pb, "projects_m_statuses", value, true)
-    ),
-    body("category").custom((value, meta) =>
-      validateExistence(meta.req.pb, "projects_m_categories", value, true)
-    ),
-    body("technologies").custom(
-      (value, meta) =>
-        Array.isArray(value) &&
-        value.every((tech) =>
-          validateExistence(meta.req.pb, "projects_m_technologies", tech, true)
-        )
-    ),
+    body("visibility").isString().optional(),
+    body("status").isString().optional(),
+    body("category").isString().optional(),
+    body("technologies").isArray().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry>>) => {
     const { pb } = req;
     const { id } = req.params;
     const { name, icon, color, visibility, status, category, technologies } =
       req.body;
+
+    const visibilityExists = await checkExistence(
+      req,
+      res,
+      "projects_m_visibilities",
+      visibility,
+      "visibility"
+    );
+    const statusExists = await checkExistence(
+      req,
+      res,
+      "projects_m_statuses",
+      status,
+      "status"
+    );
+    const categoryExists = await checkExistence(
+      req,
+      res,
+      "projects_m_categories",
+      category,
+      "category"
+    );
+
+    let technologiesExist = true;
+
+    for (const tech of technologies || []) {
+      const techExists = await checkExistence(
+        req,
+        res,
+        "projects_m_technologies",
+        tech,
+        "technology"
+      );
+
+      if (!techExists) {
+        technologiesExist = false;
+        break;
+      }
+    }
+
+    if (
+      !visibilityExists ||
+      !statusExists ||
+      !categoryExists ||
+      !technologiesExist
+    ) {
+      return;
+    }
 
     const entries: IProjectsMEntry = await pb
       .collection("projects_m_entries")

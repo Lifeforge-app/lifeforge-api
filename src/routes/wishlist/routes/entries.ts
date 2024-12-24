@@ -9,10 +9,7 @@ import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware.js"
 import { IWishlistEntry } from "../../../interfaces/wishlist_interfaces.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
 import { list } from "../../../utils/CRUD.js";
-import {
-  checkExistence,
-  validateExistence,
-} from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -48,10 +45,7 @@ router.post(
     body("url").isString().optional().trim(),
     body("price").isNumeric(),
     body("image").isString().optional().trim(),
-    body("list").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wishlist_lists", value)
-    ),
+    body("list").isString(),
   ],
   asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
@@ -59,6 +53,10 @@ router.post(
     try {
       const { name, url, price, list } = req.body;
       const { pb } = req;
+
+      if (!(await checkExistence(req, res, "wishlist_lists", list, "list"))) {
+        return;
+      }
 
       const finalData: Omit<WithoutPBDefault<IWishlistEntry>, "image"> & {
         image?: File;

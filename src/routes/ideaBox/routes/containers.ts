@@ -72,7 +72,7 @@ router.get(
 router.post(
   "/",
   [
-    body("name").isString().notEmpty(),
+    body("name").isString(),
     body("color").notEmpty().isHexColor(),
     body("icon").isString(),
   ],

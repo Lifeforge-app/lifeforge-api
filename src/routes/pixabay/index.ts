@@ -24,7 +24,7 @@ const router = express.Router();
 router.get(
   "/search",
   [
-    query("q").isString().notEmpty().trim().escape(),
+    query("q").isString().trim().escape(),
     query("page").isInt().toInt(),
     query("type").isString().isIn(["all", "photo", "illustration", "vector"]),
     query("category")

@@ -6,7 +6,7 @@ import hasError from "../../../utils/checkError.js";
 import { list } from "../../../utils/CRUD.js";
 import { ICalendarEvent } from "../../../interfaces/calendar_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
-import { validateExistence } from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -36,18 +36,28 @@ router.get(
 router.post(
   "/",
   [
-    body("title").exists().notEmpty(),
-    body("start").exists().notEmpty(),
-    body("end").exists().notEmpty(),
-    body("category").custom((value, meta) =>
-      validateExistence(meta.req.pb, "calendar_categories", value, true)
-    ),
+    body("title").isString(),
+    body("start").isString(),
+    body("end").isString(),
+    body("category").isString().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<ICalendarEvent>>) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
     const { title, start, end, category } = req.body;
+
+    if (
+      !(await checkExistence(
+        req,
+        res,
+        "calendar_categories",
+        category,
+        "category"
+      ))
+    ) {
+      return;
+    }
 
     const events: ICalendarEvent = await pb
       .collection("calendar_events")
@@ -82,12 +92,10 @@ router.post(
 router.patch(
   "/:id",
   [
-    body("title").exists().notEmpty(),
-    body("start").exists().notEmpty(),
-    body("end").exists().notEmpty(),
-    body("category").custom((value, meta) =>
-      validateExistence(meta.req.pb, "calendar_categories", value, true)
-    ),
+    body("title").isString(),
+    body("start").isString(),
+    body("end").isString(),
+    body("category").isString().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<ICalendarEvent>>) => {
     if (hasError(req, res)) return;
@@ -95,6 +103,28 @@ router.patch(
     const { pb } = req;
     const { id } = req.params;
     const { title, start, end, category } = req.body;
+
+    const eventExists = await checkExistence(
+      req,
+      res,
+      "calendar_events",
+      id,
+      "id"
+    );
+
+    const categoryExists = category
+      ? await checkExistence(
+          req,
+          res,
+          "calendar_categories",
+          category,
+          "category"
+        )
+      : true;
+
+    if (!eventExists || !categoryExists) {
+      return;
+    }
 
     const oldEvent = await pb.collection("calendar_events").getOne(id);
     const events: ICalendarEvent = await pb

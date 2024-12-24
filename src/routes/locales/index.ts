@@ -35,7 +35,7 @@ router.get(
 
 router.post(
   "/ai-generate",
-  [body("key").isString().notEmpty()],
+  [body("key").isString()],
   asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
