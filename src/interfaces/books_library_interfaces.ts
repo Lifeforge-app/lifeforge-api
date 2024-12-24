@@ -42,7 +42,7 @@ const BooksLibraryFileTypeSchema = s.assign(
   s.object({
     name: s.string(),
     count: s.number(),
-  });
+  })
 );
 
 const BooksLibraryDownloadProcessSchema = s.object({
