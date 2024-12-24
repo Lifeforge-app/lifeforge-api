@@ -11,10 +11,8 @@ import { list } from "../../../utils/CRUD.js";
 import { IIdeaBoxEntry } from "../../../interfaces/ideabox_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
-import {
-  checkExistence,
-  validateExistence,
-} from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
+import fs from "fs";
 
 const router = express.Router();
 
@@ -30,27 +28,34 @@ const router = express.Router();
 router.get(
   "/",
   [
-    query("container").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "idea_box_containers", value)
-    ),
-    query("folder").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "idea_box_folders", value, true)
-    ),
+    query("container").isString(),
+    query("folder").isString().optional(),
     query("archived").isBoolean().optional(),
   ],
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) =>
-      await list(req, res, "idea_box_entries", {
-        filter: `container = "${req.query.container}" && archived = ${req.query.archived || "false"} ${
-          req.query.folder
-            ? `&& folder = "${req.query.folder}"`
-            : "&& folder=''"
-        }`,
-        sort: "-pinned,-created",
-      })
-  )
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) => {
+    if (hasError(req, res)) return;
+    const { container, folder, archived } = req.query as Record<string, string>;
+
+    const containerExist = await checkExistence(
+      req,
+      res,
+      "idea_box_containers",
+      container,
+      "container"
+    );
+    const folderExist = folder
+      ? await checkExistence(req, res, "idea_box_folders", folder, "folder")
+      : true;
+
+    if (!containerExist || !folderExist) return;
+
+    await list(req, res, "idea_box_entries", {
+      filter: `container = "${container}" && archived = ${archived || "false"} ${
+        folder ? `&& folder = "${folder}"` : "&& folder=''"
+      }`,
+      sort: "-pinned,-created",
+    });
+  })
 );
 
 /**
@@ -60,7 +65,7 @@ router.get(
  * @body container (string, required, must_exist) - The container of the idea box entry
  * @body type (string, required, one_of text|link|image) - The type of the idea box entry
  * @body title (string, required if type is text or link) - The title of the idea box entry
- * @body content (string, required if type is text or link) - The content of the idea box entry
+ * @body content (string, required if type is link) - The content of the idea box entry
  * @body imageLink (string, optional) - The link to the image, will raise an error if type is not image
  * @body folder (string, optional, must_exist) - The folder of the idea box entry
  * @body file (file, required if type is image) - The image file
@@ -70,10 +75,7 @@ router.post(
   "/",
   multer().single("image"),
   [
-    body("container").custom(
-      async (value, meta) =>
-        await validateExistence(meta.req.pb, "idea_box_containers", value)
-    ),
+    body("container").isString(),
     body("title").custom((value, { req }) => {
       if (req.body.type === "link" && (typeof value !== "string" || !value)) {
         throw new Error("Invalid value");
@@ -109,6 +111,21 @@ router.post(
     const { container, title, content, type, imageLink, folder } = req.body;
 
     const { file } = req;
+
+    if (
+      !(await checkExistence(
+        req,
+        res,
+        "idea_box_containers",
+        container,
+        "container"
+      ))
+    ) {
+      if (file) {
+        fs.unlinkSync(file.path);
+      }
+      return;
+    }
 
     let data: WithoutPBDefault<
       Omit<IIdeaBoxEntry, "image" | "pinned" | "archived">
@@ -185,7 +202,7 @@ router.patch(
     const { id } = req.params;
     const { title, content, type } = req.body;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
     const oldEntry = await pb.collection("idea_box_entries").getOne(id);
 
@@ -229,7 +246,7 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
     const idea = await pb.collection("idea_box_entries").getOne(id);
     await pb.collection("idea_box_entries").delete(id);
@@ -254,7 +271,7 @@ router.post(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
     const idea = await pb.collection("idea_box_entries").getOne(id);
     const entry: IIdeaBoxEntry = await pb
@@ -280,7 +297,7 @@ router.post(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
     const idea = await pb.collection("idea_box_entries").getOne(id);
     const entry: IIdeaBoxEntry = await pb
@@ -304,18 +321,29 @@ router.post(
  */
 router.post(
   "/folder/:id",
-  query("folder").custom(
-    async (value, meta) =>
-      await validateExistence(meta.req.pb, "idea_box_folders", value)
-  ),
+  query("folder").isString(),
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
     const { id } = req.params;
-    const { folder } = req.query;
+    const { folder } = req.query as Record<string, string>;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    const entryExist = await checkExistence(
+      req,
+      res,
+      "idea_box_entries",
+      id,
+      "id"
+    );
+    const folderExist = await checkExistence(
+      req,
+      res,
+      "idea_box_folders",
+      folder,
+      "folder"
+    );
+    if (!(entryExist && folderExist)) return;
 
     const entry: IIdeaBoxEntry = await pb
       .collection("idea_box_entries")
@@ -332,7 +360,7 @@ router.post(
  * @summary Remove an idea box entry from a folder
  * @description Update the folder of an existing idea box entry with the given ID to an empty string.
  * @param id (string, required, must_exist) - The ID of the idea box entry to remove from the folder
- * @response 204
+ * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.delete(
   "/folder/:id",
@@ -340,13 +368,15 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
-    const entry = await pb.collection("idea_box_entries").update(id, {
-      folder: "",
-    });
+    const entry = await pb
+      .collection("idea_box_entries")
+      .update<IIdeaBoxEntry>(id, {
+        folder: "",
+      });
 
-    successWithBaseResponse(res, undefined, 204);
+    successWithBaseResponse(res, entry);
   })
 );
 

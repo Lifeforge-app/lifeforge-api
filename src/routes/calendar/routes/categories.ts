@@ -74,7 +74,8 @@ router.patch(
     const { id } = req.params;
     const { name, icon, color } = req.body;
 
-    if (!(await checkExistence(req, res, "calendar_categories", id))) return;
+    if (!(await checkExistence(req, res, "calendar_categories", id, "id")))
+      return;
 
     const category = await pb.collection("calendar_categories").update(id, {
       name,
@@ -99,7 +100,8 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "calendar_categories", id))) return;
+    if (!(await checkExistence(req, res, "calendar_categories", id, "id")))
+      return;
 
     await pb.collection("calendar_categories").delete(id);
     successWithBaseResponse(res);

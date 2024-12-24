@@ -101,7 +101,7 @@ async function testEntryCountInContainer(
   expect(container[`${type}_count`]).to.equal(count);
 }
 
-describe("GET /idea-box/ideas/:id", async () => {
+describe("GET /idea-box/ideas", async () => {
   postTestCleanup("idea_box_containers");
   postTestCleanup("idea_box_folders");
   postTestCleanup("idea_box_entries", "content");
@@ -157,6 +157,7 @@ describe("GET /idea-box/ideas/:id", async () => {
   testInvalidOrMissingQuery({
     name: "container",
     type: "invalid",
+    expectedCode: 404,
     endpoint: "/idea-box/ideas?container=123",
     method: "get",
   });
@@ -267,7 +268,7 @@ describe("POST /idea-box/ideas", async () => {
     data: async () => {
       const { container } = await generateDummyData();
       return {
-        type: "text",
+        type: "link",
         title: 123,
         content: "~test",
         container: container.id,
@@ -330,7 +331,7 @@ describe("POST /idea-box/ideas", async () => {
       data: async () => {
         const { container } = await generateDummyData();
         const data = {
-          type: "text",
+          type: key === "title" ? "link" : "text",
           title: "~test",
           content: "~test",
           container: container.id,
@@ -666,12 +667,12 @@ describe("POST /idea-box/archive/:id", async () => {
   });
 });
 
-describe("POST /idea-box/folder/:id", async () => {
+describe("POST /idea-box/ideas/folder/:id", async () => {
   postTestCleanup("idea_box_containers");
   postTestCleanup("idea_box_folders");
   postTestCleanup("idea_box_entries", "content");
 
-  testUnauthorized("/idea-box/folder/123", "post");
+  testUnauthorized("/idea-box/ideas/folder/123", "post");
 
   it("should move an idea to a folder", async () => {
     const { folder, entryOutsideFolder } = await generateDummyData();
@@ -689,18 +690,7 @@ describe("POST /idea-box/folder/:id", async () => {
     expect(res.body.data.folder).to.equal(folder.id);
   });
 
-  it("should return 404 if the idea is not found", async () => {
-    const { folder } = await generateDummyData();
-
-    const res = await request(API_HOST)
-      .post(`/idea-box/ideas/folder/123?folder=${folder.id}`)
-      .set("Authorization", `Bearer ${PBAuthToken}`)
-      .expect(404);
-
-    expect(res.body).to.be.an("object");
-    expect(res.body).to.have.property("state", "error");
-    expect(res.body).to.have.property("message", "Entry not found");
-  });
+  testEntryNotFound("/idea-box/ideas/folder/123?folder=123", "post");
 
   testInvalidOrMissingQuery({
     name: "folder",
@@ -712,17 +702,22 @@ describe("POST /idea-box/folder/:id", async () => {
   testInvalidOrMissingQuery({
     name: "folder",
     type: "invalid",
-    endpoint: "/idea-box/ideas/folder/123?folder=123",
+    endpoint: async () => {
+      const { entryOutsideFolder } = await generateDummyData();
+      return `/idea-box/ideas/folder/${entryOutsideFolder.id}?folder=123`;
+    },
+    expectedCode: 404,
     method: "post",
   });
 });
 
-describe("DELETE /idea-box/folder/:id", async () => {
+describe("DELETE /idea-box/ideas/folder/:id", async () => {
   postTestCleanup("idea_box_containers");
   postTestCleanup("idea_box_folders");
   postTestCleanup("idea_box_entries", "content");
 
-  testUnauthorized("/idea-box/folder/123", "delete");
+  testUnauthorized("/idea-box/ideas/folder/123", "delete");
+  testEntryNotFound("/idea-box/ideas/folder/123", "delete");
 
   it("should remove an idea from a folder", async () => {
     const { entryInsideFolder } = await generateDummyData();
@@ -736,16 +731,5 @@ describe("DELETE /idea-box/folder/:id", async () => {
     expect(res.body).to.have.property("state", "success");
     assert(res.body.data, IdeaBoxEntrySchema);
     expect(res.body.data.folder).to.be.empty.string;
-  });
-
-  it("should return 404 if the idea is not found", async () => {
-    const res = await request(API_HOST)
-      .delete("/idea-box/ideas/folder/123")
-      .set("Authorization", `Bearer ${PBAuthToken}`)
-      .expect(404);
-
-    expect(res.body).to.be.an("object");
-    expect(res.body).to.have.property("state", "error");
-    expect(res.body).to.have.property("message", "Entry not found");
   });
 });

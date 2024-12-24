@@ -9,13 +9,15 @@ export default function testInvalidOrMissingQuery({
   type,
   endpoint,
   method,
+  expectedCode = 400,
 }: {
   name: string;
   type: "invalid" | "missing";
-  endpoint: string;
+  endpoint: string | (() => Promise<string>);
   method: "get" | "post" | "patch" | "delete";
+  expectedCode?: 400 | 404;
 }) {
-  it(`should return error 400 on ${type} ${name}`, async () => {
+  it(`should return error ${expectedCode} on ${type} ${name}`, async () => {
     const stuffs = name
       .split("(")[0]
       .trim()
@@ -23,15 +25,20 @@ export default function testInvalidOrMissingQuery({
       .map((e) => e.trim());
 
     const res = await request(API_HOST)
-      [method](endpoint)
+      [method](typeof endpoint !== "string" ? await endpoint() : endpoint)
       .set("Authorization", `Bearer ${PBAuthToken}`)
-      .expect(400);
+      .expect(expectedCode);
 
     expect(res.body).to.be.an("object");
     expect(res.body).to.have.property("state", "error");
     expect(res.body).to.have.property(
       "message",
-      stuffs.map((stuff) => `${stuff}: Invalid value`).join(", ")
+      stuffs
+        .map(
+          (stuff) =>
+            `${stuff}: ${expectedCode === 404 ? "Not found" : "Invalid value"}`
+        )
+        .join(", ")
     );
   });
 }

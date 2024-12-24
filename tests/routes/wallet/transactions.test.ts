@@ -39,6 +39,16 @@ async function createDummyData(isTransfer = false) {
     starting_balance: 1000,
   });
 
+  const dummyEntry = await PBClient.collection("wallet_transactions").create({
+    type: "expenses",
+    particulars: "~test",
+    amount: 100,
+    date: new Date().toISOString(),
+    category: dummyCategory.id,
+    asset: dummyAsset.id,
+    ledger: dummyLedger.id,
+  });
+
   let dummyAsset2;
 
   if (isTransfer) {
@@ -49,7 +59,7 @@ async function createDummyData(isTransfer = false) {
     });
   }
 
-  return { dummyCategory, dummyLedger, dummyAsset, dummyAsset2 };
+  return { dummyCategory, dummyLedger, dummyAsset, dummyAsset2, dummyEntry };
 }
 
 describe("GET /wallet/transactions", () => {
@@ -254,11 +264,16 @@ describe("POST /wallet/transactions", async () => {
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
-    data: {
-      type: "expenses",
-      particulars: 123,
-      amount: 100,
-      date: new Date().toISOString(),
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "expenses",
+        particulars: 123,
+        amount: 100,
+        date: new Date().toISOString(),
+        asset: dummyAsset.id,
+      };
     },
   });
 
@@ -267,11 +282,16 @@ describe("POST /wallet/transactions", async () => {
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
-    data: {
-      type: "expenses",
-      particulars: "~test",
-      amount: "abc",
-      date: new Date().toISOString(),
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "expenses",
+        particulars: "~test",
+        amount: "abc",
+        date: new Date().toISOString(),
+        asset: dummyAsset.id,
+      };
     },
   });
 
@@ -280,11 +300,16 @@ describe("POST /wallet/transactions", async () => {
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
-    data: {
-      type: "expenses",
-      particulars: "~test",
-      amount: 100,
-      date: "abc",
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "expenses",
+        particulars: "~test",
+        amount: 100,
+        date: "abc",
+        asset: dummyAsset.id,
+      };
     },
   });
 
@@ -293,12 +318,18 @@ describe("POST /wallet/transactions", async () => {
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
-    data: {
-      type: "expenses",
-      particulars: "~test",
-      amount: 100,
-      date: new Date().toISOString(),
-      category: "invalid",
+    expectedCode: 404,
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "expenses",
+        particulars: "~test",
+        amount: 100,
+        date: new Date().toISOString(),
+        category: "invalid",
+        asset: dummyAsset.id,
+      };
     },
   });
 
@@ -307,12 +338,18 @@ describe("POST /wallet/transactions", async () => {
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
-    data: {
-      type: "expenses",
-      particulars: "~test",
-      amount: 100,
-      date: new Date().toISOString(),
-      asset: "invalid",
+    expectedCode: 404,
+    data: async () => {
+      const { dummyCategory } = await createDummyData();
+
+      return {
+        type: "expenses",
+        particulars: "~test",
+        amount: 100,
+        date: new Date().toISOString(),
+        category: dummyCategory.id,
+        asset: "invalid",
+      };
     },
   });
 
@@ -321,32 +358,77 @@ describe("POST /wallet/transactions", async () => {
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
+    expectedCode: 404,
+    data: async () => {
+      const { dummyCategory, dummyAsset } = await createDummyData();
+
+      return {
+        type: "expenses",
+        particulars: "~test",
+        amount: 100,
+        date: new Date().toISOString(),
+        category: dummyCategory.id,
+        asset: dummyAsset.id,
+        ledger: "invalid",
+      };
+    },
+  });
+
+  testInvalidOrMissingValue({
+    name: "fromAsset",
+    type: "invalid",
+    method: "post",
+    endpoint: "/wallet/transactions",
+    expectedCode: 404,
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "transfer",
+        particulars: "~test",
+        amount: 100,
+        date: new Date().toISOString(),
+        fromAsset: "invalid",
+        toAsset: dummyAsset.id,
+      };
+    },
+  });
+
+  testInvalidOrMissingValue({
+    name: "toAsset",
+    type: "invalid",
+    method: "post",
+    endpoint: "/wallet/transactions",
+    expectedCode: 404,
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "transfer",
+        particulars: "~test",
+        amount: 100,
+        date: new Date().toISOString(),
+        fromAsset: dummyAsset.id,
+        toAsset: "invalid",
+      };
+    },
+  });
+
+  testInvalidOrMissingValue({
+    name: "asset (expenses type)",
+    type: "invalid",
+    method: "post",
+    endpoint: "/wallet/transactions",
     data: {
       type: "expenses",
       particulars: "~test",
       amount: 100,
       date: new Date().toISOString(),
-      ledger: "invalid",
     },
   });
 
   testInvalidOrMissingValue({
-    name: "fromAsset, toAsset",
-    type: "invalid",
-    method: "post",
-    endpoint: "/wallet/transactions",
-    data: {
-      type: "transfer",
-      particulars: "~test",
-      amount: 100,
-      date: new Date().toISOString(),
-      fromAsset: "invalid",
-      toAsset: "invalid",
-    },
-  });
-
-  testInvalidOrMissingValue({
-    name: "fromAsset, toAsset (expenses type)",
+    name: "asset (income type)",
     type: "invalid",
     method: "post",
     endpoint: "/wallet/transactions",
@@ -355,42 +437,43 @@ describe("POST /wallet/transactions", async () => {
       particulars: "~test",
       amount: 100,
       date: new Date().toISOString(),
-      fromAsset: "invalid",
-      toAsset: "invalid",
     },
   });
 
   testInvalidOrMissingValue({
-    name: "fromAsset, toAsset (income type)",
-    type: "invalid",
+    name: "fromAsset, toAsset (transfer type)",
+    type: "missing",
     method: "post",
     endpoint: "/wallet/transactions",
     data: {
-      type: "expenses",
+      type: "transfer",
       particulars: "~test",
       amount: 100,
       date: new Date().toISOString(),
-      fromAsset: "invalid",
-      toAsset: "invalid",
     },
   });
 
-  for (const field of ["type", "particulars", "amount", "date"]) {
-    const data = {
-      type: "expenses",
-      particulars: "~test",
-      amount: 100,
-      date: new Date().toISOString(),
-    };
-
-    delete data[field as keyof typeof data];
-
+  for (const field of ["asset", "type", "particulars", "amount", "date"]) {
     testInvalidOrMissingValue({
       name: field,
       type: "missing",
       method: "post",
       endpoint: "/wallet/transactions",
-      data,
+      data: async () => {
+        const { dummyAsset } = await createDummyData();
+
+        const data = {
+          asset: dummyAsset.id,
+          type: "expenses",
+          particulars: "~test",
+          amount: 100,
+          date: new Date().toISOString(),
+        };
+
+        delete data[field as keyof typeof data];
+
+        return data;
+      },
     });
   }
 });
@@ -545,8 +628,12 @@ describe("PATCH /wallet/transactions/:id", () => {
   testInvalidOrMissingValue({
     name: "category",
     type: "invalid",
-    endpoint: "/wallet/transactions/1",
+    endpoint: async () => {
+      const { dummyEntry } = await createDummyData();
+      return `/wallet/transactions/${dummyEntry.id}`;
+    },
     method: "patch",
+    expectedCode: 404,
     data: {
       type: "expenses",
       particulars: "~test",
@@ -559,8 +646,12 @@ describe("PATCH /wallet/transactions/:id", () => {
   testInvalidOrMissingValue({
     name: "asset",
     type: "invalid",
-    endpoint: "/wallet/transactions/1",
+    endpoint: async () => {
+      const { dummyEntry } = await createDummyData();
+      return `/wallet/transactions/${dummyEntry.id}`;
+    },
     method: "patch",
+    expectedCode: 404,
     data: {
       type: "expenses",
       particulars: "~test",
@@ -573,14 +664,23 @@ describe("PATCH /wallet/transactions/:id", () => {
   testInvalidOrMissingValue({
     name: "ledger",
     type: "invalid",
-    endpoint: "/wallet/transactions/1",
+    endpoint: async () => {
+      const { dummyEntry } = await createDummyData();
+      return `/wallet/transactions/${dummyEntry.id}`;
+    },
     method: "patch",
-    data: {
-      type: "expenses",
-      particulars: "~test",
-      amount: 100,
-      date: new Date().toISOString(),
-      ledger: "invalid",
+    expectedCode: 404,
+    data: async () => {
+      const { dummyAsset } = await createDummyData();
+
+      return {
+        type: "expenses",
+        asset: dummyAsset.id,
+        particulars: "~test",
+        amount: 100,
+        date: new Date().toISOString(),
+        ledger: "invalid",
+      };
     },
   });
 

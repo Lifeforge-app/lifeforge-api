@@ -91,7 +91,8 @@ router.patch(
     const { id } = req.params;
     const { difficulty, title, thoughts } = req.body;
 
-    if (!(await checkExistence(req, res, "achievements_entries", id))) return;
+    if (!(await checkExistence(req, res, "achievements_entries", id, "id")))
+      return;
 
     const achievement: IAchievementEntry = await pb
       .collection("achievements_entries")
@@ -121,7 +122,8 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "achievements_entries", id))) return;
+    if (!(await checkExistence(req, res, "achievements_entries", id, "id")))
+      return;
 
     await pb.collection("achievements_entries").delete(id);
 

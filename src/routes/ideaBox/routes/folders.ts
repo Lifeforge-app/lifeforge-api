@@ -6,10 +6,7 @@ import hasError from "../../../utils/checkError.js";
 import { list, validate } from "../../../utils/CRUD.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { IIdeaBoxFolder } from "../../../interfaces/ideabox_interfaces.js";
-import {
-  checkExistence,
-  validateExistence,
-} from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -26,7 +23,7 @@ router.get(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_folders", id, "id"))) return;
 
     const folder: IIdeaBoxFolder = await pb
       .collection("idea_box_folders")
@@ -45,18 +42,27 @@ router.get(
  */
 router.get(
   "/",
-  [
-    query("container").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "idea_box_containers", value)
-    ),
-  ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder[]>>) =>
+  query("container").isString(),
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder[]>>) => {
+    if (hasError(req, res)) return;
+    const { container } = req.query as Record<string, string>;
+
+    if (
+      !(await checkExistence(
+        req,
+        res,
+        "idea_box_containers",
+        container,
+        "container"
+      ))
+    )
+      return;
+
     list(req, res, "idea_box_folders", {
       filter: `container = "${req.query.container}"`,
       sort: "name",
-    })
-  )
+    });
+  })
 );
 
 /**
@@ -85,10 +91,7 @@ router.post(
   "/",
   [
     body("name").isString(),
-    body("container").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "idea_box_containers", value)
-    ),
+    body("container").isString(),
     body("icon").isString(),
     body("color").isHexColor(),
   ],
@@ -97,6 +100,17 @@ router.post(
 
     const { pb } = req;
     const { name, container, icon, color } = req.body;
+
+    if (
+      !(await checkExistence(
+        req,
+        res,
+        "idea_box_containers",
+        container,
+        "container"
+      ))
+    )
+      return;
 
     const folder: IIdeaBoxFolder = await pb
       .collection("idea_box_folders")
@@ -135,7 +149,7 @@ router.patch(
     const { id } = req.params;
     const { name, icon, color } = req.body;
 
-    if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_folders", id, "id"))) return;
 
     const folder: IIdeaBoxFolder = await pb
       .collection("idea_box_folders")
@@ -162,7 +176,7 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_folders", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_folders", id, "id"))) return;
 
     await pb.collection("idea_box_folders").delete(id);
 

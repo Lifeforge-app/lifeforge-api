@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import { successWithBaseResponse } from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { list, validate } from "../../../utils/CRUD.js";
 import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
@@ -19,11 +19,13 @@ const router = express.Router();
  */
 router.get(
   "/:id",
+  [param("id").isString()],
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_containers", id, "id")))
+      return;
 
     const container: IIdeaBoxContainer = await pb
       .collection("idea_box_containers")
@@ -117,7 +119,8 @@ router.patch(
 
     const { name, color, icon } = req.body;
 
-    if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_containers", id, "id")))
+      return;
 
     const container: IIdeaBoxContainer = await pb
       .collection("idea_box_containers")
@@ -144,7 +147,8 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_containers", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_containers", id, "id")))
+      return;
 
     await pb.collection("idea_box_containers").delete(id);
 

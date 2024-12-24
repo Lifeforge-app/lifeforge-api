@@ -421,7 +421,8 @@ router.post(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) return;
+    if (!(await checkExistence(req, res, "guitar_tabs_entries", id, "id")))
+      return;
 
     const entry = await pb
       .collection("guitar_tabs_entries")

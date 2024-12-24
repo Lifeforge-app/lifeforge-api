@@ -22,7 +22,7 @@ router.get(
     const { id } = req.params;
     const { pb } = req;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
     if (OGCache.has(id)) {
       successWithBaseResponse(res, OGCache.get(id));

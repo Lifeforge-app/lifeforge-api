@@ -95,7 +95,7 @@ router.patch(
     const { id } = req.params;
     const { name, icon, starting_balance } = req.body;
 
-    if (!(await checkExistence(req, res, "wallet_assets", id))) return;
+    if (!(await checkExistence(req, res, "wallet_assets", id, "id"))) return;
 
     const asset: IWalletAsset = await pb
       .collection("wallet_assets")
@@ -122,7 +122,7 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wallet_assets", id))) return;
+    if (!(await checkExistence(req, res, "wallet_assets", id, "id"))) return;
 
     await pb.collection("wallet_assets").delete(id);
 

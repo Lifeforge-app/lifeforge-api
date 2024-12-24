@@ -185,6 +185,7 @@ describe("POST /idea-box/folders", async () => {
     type: "invalid",
     endpoint: "/idea-box/folders",
     method: "post",
+    expectedCode: 404,
     data: {
       name: "~test",
       icon: "test-icon",

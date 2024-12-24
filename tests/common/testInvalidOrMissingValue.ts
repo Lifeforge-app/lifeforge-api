@@ -10,14 +10,16 @@ export default function testInvalidOrMissingValue({
   endpoint,
   method,
   data,
+  expectedCode = 400,
 }: {
   name: string;
   type: "invalid" | "missing";
-  endpoint: string;
+  endpoint: string | (() => Promise<string>);
   method: "post" | "patch";
   data: Record<string, any> | (() => Promise<Record<string, any>>);
+  expectedCode?: 400 | 404;
 }) {
-  it(`should return error 400 on ${type} ${name}`, async () => {
+  it(`should return error ${expectedCode} on ${type} ${name}`, async () => {
     if (typeof data !== "object") {
       data = await data();
     }
@@ -29,15 +31,21 @@ export default function testInvalidOrMissingValue({
       .map((e) => e.trim());
 
     const res = await request(API_HOST)
-      [method](endpoint)
+      [method](typeof endpoint !== "string" ? await endpoint() : endpoint)
       .set("Authorization", `Bearer ${PBAuthToken}`)
-      .send(data);
+      .send(data)
+      .expect(expectedCode);
 
     expect(res.body).to.be.an("object");
     expect(res.body).to.have.property("state", "error");
     expect(res.body).to.have.property(
       "message",
-      stuffs.map((stuff) => `${stuff}: Invalid value`).join(", ")
+      stuffs
+        .map(
+          (stuff) =>
+            `${stuff}: ${expectedCode === 404 ? "Not found" : "Invalid value"}`
+        )
+        .join(", ")
     );
   });
 }

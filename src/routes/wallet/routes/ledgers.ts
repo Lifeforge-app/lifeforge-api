@@ -82,7 +82,7 @@ router.patch(
     const { id } = req.params;
     const { name, icon, color } = req.body;
 
-    if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
+    if (!(await checkExistence(req, res, "wallet_ledgers", id, "id"))) return;
 
     const ledger: IWalletLedger = await pb
       .collection("wallet_ledgers")
@@ -109,7 +109,7 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
+    if (!(await checkExistence(req, res, "wallet_ledgers", id, "id"))) return;
 
     await pb.collection("wallet_ledgers").delete(id);
 

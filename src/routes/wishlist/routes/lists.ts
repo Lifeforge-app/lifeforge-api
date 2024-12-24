@@ -24,7 +24,7 @@ router.get(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_lists", id, "id"))) return;
 
     const list: IWishlistList = await pb
       .collection("wishlist_lists")
@@ -121,7 +121,7 @@ router.patch(
 
     const { name, description, color, icon } = req.body;
 
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_lists", id, "id"))) return;
 
     const list: IIdeaBoxContainer = await pb
       .collection("wishlist_lists")
@@ -149,7 +149,7 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_lists", id, "id"))) return;
 
     await pb.collection("wishlist_lists").delete(id);
 

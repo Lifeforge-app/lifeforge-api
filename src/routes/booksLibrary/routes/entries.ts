@@ -82,7 +82,8 @@ router.patch(
     const { id } = req.params;
     const data = req.body;
 
-    if (!(await checkExistence(req, res, "books_library_entries", id))) return;
+    if (!(await checkExistence(req, res, "books_library_entries", id, "id")))
+      return;
 
     const entry: IBooksLibraryEntry = await pb
       .collection("books_library_entries")
@@ -105,7 +106,8 @@ router.post(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "books_library_entries", id))) return;
+    if (!(await checkExistence(req, res, "books_library_entries", id, "id")))
+      return;
 
     const book: IBooksLibraryEntry = await pb
       .collection("books_library_entries")
@@ -134,7 +136,8 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "books_library_entries", id))) return;
+    if (!(await checkExistence(req, res, "books_library_entries", id, "id")))
+      return;
 
     const entry = await pb
       .collection("books_library_entries")

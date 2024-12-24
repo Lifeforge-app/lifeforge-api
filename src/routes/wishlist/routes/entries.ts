@@ -32,7 +32,7 @@ router.get(
     if (hasError(req, res)) return;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_lists", id, "id"))) return;
 
     list(req, res, "wishlist_entries", {
       filter: `list = "${id}"`,

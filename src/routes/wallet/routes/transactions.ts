@@ -16,10 +16,7 @@ import {
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
 import { body, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
-import {
-  checkExistence,
-  validateExistence,
-} from "../../../utils/PBRecordValidator.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 import pdfThumbnail from "pdf-thumbnail";
 
 const router = express.Router();
@@ -163,7 +160,7 @@ router.get(
  * @body amount (number, required) - The amount of the transaction
  * @body location (string, optional) - The location where the transaction took place
  * @body category (string, optional, must_exist) - The ID of the category, will raise an error if the type is transfer
- * @body asset (string, optional, must_exist) - The ID of the asset, will raise an error if the type is transfer
+ * @body asset (string, required if type is not transfer, must_exist) - The ID of the asset, will raise an error if the type is transfer
  * @body ledger (string, optional) - The ID of the ledger, will raise an error if the type is transfer
  * @body fromAsset (string, required if type is transfer, must_exist) - The ID of the asset to transfer from
  * @body toAsset (string, required if type is transfer, must_exist) - The ID of the asset to transfer to
@@ -187,38 +184,31 @@ router.post(
     }),
     body("amount").isNumeric(),
     body("location").optional().isString(),
-    body("category").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wallet_categories", value, true)
-    ),
-    body("asset").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wallet_assets", value, true)
-    ),
-    body("ledger").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wallet_ledgers", value, true)
-    ),
-    body("type").isIn(["income", "expenses", "transfer"]),
-    body("fromAsset").custom(async (value: string, meta) => {
-      if (meta.req.body.type === "transfer") {
-        await validateExistence(meta.req.pb, "wallet_assets", value, true);
-        return true;
+    body("category").isString().optional(),
+    body("asset").custom((value: string, { req }) => {
+      if (req.body.type === "transfer") {
+        return !!!value;
       }
 
-      if (value) throw new Error("Invalid value");
-
-      return true;
+      return ["income", "expenses"].includes(req.body.type)
+        ? typeof value === "string" && value.length > 0
+        : true;
     }),
-    body("toAsset").custom(async (value: string, meta) => {
-      if (meta.req.body.type === "transfer") {
-        await validateExistence(meta.req.pb, "wallet_assets", value, true);
-        return true;
+    body("ledger").isString().optional(),
+    body("type").isIn(["income", "expenses", "transfer"]),
+    body("fromAsset").custom((value: string, { req }) => {
+      if (req.body.type !== "transfer") {
+        return !!!value;
       }
 
-      if (value) throw new Error("Invalid value");
+      return typeof value === "string" && value.length > 0;
+    }),
+    body("toAsset").custom((value: string, { req }) => {
+      if (req.body.type !== "transfer") {
+        return !!!value;
+      }
 
-      return true;
+      return typeof value === "string" && value.length > 0;
     }),
   ],
   asyncWrapper(
@@ -241,6 +231,45 @@ router.post(
         fromAsset,
         toAsset,
       } = req.body;
+
+      const categoryExists = category
+        ? await checkExistence(
+            req,
+            res,
+            "wallet_categories",
+            category,
+            "category"
+          )
+        : true;
+      const assetExists = ["income", "expenses"].includes(type)
+        ? await checkExistence(req, res, "wallet_assets", asset, "asset")
+        : true;
+      const ledgerExists = ledger
+        ? await checkExistence(req, res, "wallet_ledgers", ledger, "ledger")
+        : true;
+      const fromAssetExists =
+        type === "transfer"
+          ? await checkExistence(
+              req,
+              res,
+              "wallet_assets",
+              fromAsset,
+              "fromAsset"
+            )
+          : true;
+      const toAssetExists =
+        type === "transfer"
+          ? await checkExistence(req, res, "wallet_assets", toAsset, "toAsset")
+          : true;
+
+      if (
+        !categoryExists ||
+        !assetExists ||
+        !ledgerExists ||
+        !fromAssetExists ||
+        !toAssetExists
+      )
+        return;
 
       amount = +amount;
 
@@ -382,18 +411,9 @@ router.patch(
     }),
     body("amount").isNumeric(),
     body("location").optional().isString(),
-    body("category").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wallet_categories", value, true)
-    ),
-    body("asset").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wallet_assets", value, true)
-    ),
-    body("ledger").custom(
-      async (value: string, meta) =>
-        await validateExistence(meta.req.pb, "wallet_ledgers", value, true)
-    ),
+    body("category").isString().optional(),
+    body("asset").isString().optional(),
+    body("ledger").isString().optional(),
     body("type").isIn(["income", "expenses"]),
   ],
   asyncWrapper(
@@ -417,9 +437,43 @@ router.patch(
         removeReceipt,
       } = req.body;
 
+      const entryExists = await checkExistence(
+        req,
+        res,
+        "wallet_transactions",
+        id,
+        "id"
+      );
+
+      const categoryExists = category
+        ? await checkExistence(
+            req,
+            res,
+            "wallet_categories",
+            category,
+            "category"
+          )
+        : true;
+
+      const assetExists = await checkExistence(
+        req,
+        res,
+        "wallet_assets",
+        asset,
+        "asset"
+      );
+
+      const ledgerExists = ledger
+        ? await checkExistence(req, res, "wallet_ledgers", ledger, "ledger")
+        : true;
+
+      if (!entryExists || !categoryExists || !assetExists || !ledgerExists) {
+        return;
+      }
+
       let file: File | Express.Multer.File | undefined = req.file;
 
-      if (!(await checkExistence(req, res, "wallet_transactions", id))) {
+      if (!(await checkExistence(req, res, "wallet_transactions", id, "id"))) {
         if (file) fs.unlinkSync(file.path);
         return;
       }
@@ -498,7 +552,8 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wallet_transactions", id))) return;
+    if (!(await checkExistence(req, res, "wallet_transactions", id, "id")))
+      return;
 
     await pb.collection("wallet_transactions").getOne(id);
 

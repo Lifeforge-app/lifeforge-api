@@ -84,7 +84,7 @@ router.patch(
     const { id } = req.params;
     const { name, icon, color } = req.body;
 
-    const found = await checkExistence(req, res, "wallet_categories", id);
+    const found = await checkExistence(req, res, "wallet_categories", id, "id");
     if (!found) return;
 
     const category: IWalletCategory = await pb
@@ -112,7 +112,7 @@ router.delete(
     const { pb } = req;
     const { id } = req.params;
 
-    const found = await checkExistence(req, res, "wallet_categories", id);
+    const found = await checkExistence(req, res, "wallet_categories", id, "id");
     if (!found) return;
 
     await pb.collection("wallet_categories").delete(id);
