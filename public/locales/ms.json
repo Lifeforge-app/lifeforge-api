@@ -122,7 +122,9 @@
       "apiKeys": "Urus kunci API yang diperlukan untuk pelbagai modul",
       "parcelTracking": "Jejaki status penghantaran semua barangan yang anda pesan dalam talian.",
       "wishlist": "Catat dan jejak senarai impian anda dengan mudah!",
-      "budget": "Rancang dan urus bajet anda dengan mudah!"
+      "budget": "Rancang dan urus bajet anda dengan mudah!",
+      "workout": "Kekal cergas dengan senaman peribadi dan penjejakan",
+      "3dModels": "Urus dan pratonton model 3D anda dengan mudah di LifeForge!"
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -143,7 +145,9 @@
     "subsection": {},
     "wishlist": "Senarai Keinginan",
     "budget": "Pengurusan Bajet",
-    "deprecated": "Tidak lagi disokong"
+    "deprecated": "Tidak lagi disokong",
+    "workout": "Senaman",
+    "3dModels": "Model 3D"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"

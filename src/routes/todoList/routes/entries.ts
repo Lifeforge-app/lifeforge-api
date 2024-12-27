@@ -51,7 +51,7 @@ router.get(
       ? await checkExistence(req, res, "todo_priorities", priority, "priority")
       : true;
 
-    if (tagExists || listExists || priorityExists) return;
+    if (!tagExists || !listExists || !priorityExists) return;
 
     const filters = {
       all: "done = false",
@@ -236,7 +236,7 @@ router.post(
       }
     }
 
-    if (listExists || priorityExists || tagsExist) return;
+    if (!listExists || !priorityExists || !tagsExist) return;
 
     await createSubtask();
 
@@ -345,7 +345,7 @@ router.patch(
         }
       }
 
-      if (!entryExists || listExists || priorityExists || tagsExist) return;
+      if (!entryExists || !listExists || !priorityExists || !tagsExist) return;
 
       const originalentries: Omit<ITodoListEntry, "subtasks"> & {
         subtasks: string[];
@@ -498,6 +498,8 @@ router.post(
     ) => {
       const { pb } = req;
       const { id } = req.params;
+
+      if (!(await checkExistence(req, res, "todo_entries", id, "id"))) return;
 
       const entries: Omit<ITodoListEntry, "subtasks"> & {
         subtasks: string[];

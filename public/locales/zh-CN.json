@@ -123,7 +123,9 @@
       "apiKeys": "管理各种模组所需要的API密钥",
       "parcelTracking": "跟踪您在线订购的所有商品的运送状态。",
       "wishlist": "轻松记录和追踪你的梦想清单！",
-      "budget": "轻松规划和管理你的预算！"
+      "budget": "轻松规划和管理你的预算！",
+      "workout": "个性化锻炼和跟踪功能保持健康！",
+      "3dModels": "轻松管理和预览您的 3D 模型！"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他谱",
@@ -144,7 +146,9 @@
     "subsection": {},
     "wishlist": "心愿单",
     "budget": "预算管理",
-    "deprecated": "已废弃"
+    "deprecated": "已废弃",
+    "workout": "锻炼",
+    "3dModels": "3D 模型"
   },
   "header": {
     "searchBarPlaceholder": "快速导航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"

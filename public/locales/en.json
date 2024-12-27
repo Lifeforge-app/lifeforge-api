@@ -122,7 +122,9 @@
       "apiKeys": "Manage the required API keys for all your modules",
       "parcelTracking": "Track the delivery status of all the goods that you've ordered online.",
       "wishlist": "Dream, save, and track your must-have treasures effortlessly!",
-      "budget": "Master your money with smart planning and tracking!"
+      "budget": "Master your money with smart planning and tracking!",
+      "workout": "Stay fit with personalized workouts and tracking!",
+      "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime"
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -143,7 +145,9 @@
     "subsection": {},
     "wishlist": "Wishlist",
     "budget": "Budget",
-    "deprecated": "No longer supported"
+    "deprecated": "No longer supported",
+    "workout": "Workout",
+    "3dModels": "3D Models"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
