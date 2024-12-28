@@ -9,7 +9,7 @@ import { BaseResponse } from "../../interfaces/base_response.js";
 const router = express.Router();
 
 router.get(
-  "/list",
+  "/",
   asyncWrapper(
     async (req: Request, res: Response<BaseResponse<IChangeLogVersion[]>>) => {
       const pb = new Pocketbase(process.env.PB_HOST);
