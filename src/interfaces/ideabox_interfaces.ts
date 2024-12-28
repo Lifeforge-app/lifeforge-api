@@ -20,6 +20,7 @@ const IdeaBoxFolderSchema = s.assign(
     icon: s.string(),
     name: s.string(),
     container: s.string(),
+    parent: s.optional(s.string()),
   })
 );
 

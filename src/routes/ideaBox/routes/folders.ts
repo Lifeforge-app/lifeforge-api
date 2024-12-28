@@ -1,37 +1,17 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
-import { successWithBaseResponse } from "../../../utils/response.js";
-import { body, query } from "express-validator";
+import {
+  clientError,
+  successWithBaseResponse,
+} from "../../../utils/response.js";
+import { body, param, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
-import { list, validate } from "../../../utils/CRUD.js";
+import { list } from "../../../utils/CRUD.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { IIdeaBoxFolder } from "../../../interfaces/ideabox_interfaces.js";
 import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
-
-/**
- * @protected
- * @summary Get a single idea box folder
- * @description Retrieve a single idea box folder by its ID.
- * @param id (string, required) - The ID of the idea box folder
- * @response 200 (IIdeaBoxFolder) - The idea box folder
- */
-router.get(
-  "/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "idea_box_folders", id, "id"))) return;
-
-    const folder: IIdeaBoxFolder = await pb
-      .collection("idea_box_folders")
-      .getOne(id);
-
-    successWithBaseResponse(res, folder);
-  })
-);
 
 /**
  * @protected
@@ -41,40 +21,61 @@ router.get(
  * @response 200 (IIdeaBoxFolder[]) - The list of idea box folders
  */
 router.get(
-  "/",
-  query("container").isString(),
+  "/:container/*",
+  [param("container").isString()],
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder[]>>) => {
     if (hasError(req, res)) return;
-    const { container } = req.query as Record<string, string>;
 
-    if (
-      !(await checkExistence(
-        req,
-        res,
-        "idea_box_containers",
-        container,
-        "container"
-      ))
-    )
+    const { pb } = req;
+    const { container } = req.params;
+    const path = req.params[0].split("/").filter((p) => p !== "");
+
+    const containerExists = await checkExistence(
+      req,
+      res,
+      "idea_box_containers",
+      container,
+      "container"
+    );
+
+    let folderExists = true;
+    let lastFolder = "";
+
+    for (const folder of path) {
+      if (
+        !(await checkExistence(req, res, "idea_box_folders", folder, "folder"))
+      ) {
+        folderExists = false;
+        break;
+      }
+
+      const folderEntry = await pb
+        .collection("idea_box_folders")
+        .getOne<IIdeaBoxFolder>(folder);
+
+      if (
+        folderEntry.parent !== lastFolder ||
+        folderEntry.container !== container
+      ) {
+        folderExists = false;
+        break;
+      }
+
+      lastFolder = folder;
+    }
+
+    if (!containerExists || !folderExists) {
+      try {
+        clientError(res, "folder: Not found", 400);
+      } catch {}
       return;
+    }
 
     list(req, res, "idea_box_folders", {
-      filter: `container = "${req.query.container}"`,
+      filter: `container = "${container}" && parent = "${lastFolder}"`,
       sort: "name",
     });
   })
-);
-
-/**
- * @protected
- * @summary Check if an idea box folder exists
- * @description Check if an idea box folder exists by its ID.
- * @param id (string, required) - The ID of the idea box folder
- * @response 200 (boolean) - Whether the idea box folder exists
- */
-router.get(
-  "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "idea_box_folders"))
 );
 
 /**
@@ -92,6 +93,7 @@ router.post(
   [
     body("name").isString(),
     body("container").isString(),
+    body("parent").isString(),
     body("icon").isString(),
     body("color").isHexColor(),
   ],
@@ -117,6 +119,7 @@ router.post(
       .create({
         name,
         container,
+        parent: req.body.parent,
         icon,
         color,
       });
@@ -160,6 +163,60 @@ router.patch(
       });
 
     successWithBaseResponse(res, folder);
+  })
+);
+
+router.post(
+  "/move/:id",
+  query("target").isString(),
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
+    if (hasError(req, res)) return;
+
+    const { pb } = req;
+    const { id } = req.params;
+    const { target } = req.query as Record<string, string>;
+
+    const entryExist = await checkExistence(
+      req,
+      res,
+      "idea_box_folders",
+      id,
+      "id"
+    );
+    const folderExist = await checkExistence(
+      req,
+      res,
+      "idea_box_folders",
+      target,
+      "folder"
+    );
+    if (!(entryExist && folderExist)) return;
+
+    const entry: IIdeaBoxFolder = await pb
+      .collection("idea_box_folders")
+      .update(id, {
+        parent: target,
+      });
+
+    successWithBaseResponse(res, entry);
+  })
+);
+
+router.delete(
+  "/move/:id",
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxFolder>>) => {
+    const { pb } = req;
+    const { id } = req.params;
+
+    if (!(await checkExistence(req, res, "idea_box_folders", id, "id"))) return;
+
+    const entry: IIdeaBoxFolder = await pb
+      .collection("idea_box_folders")
+      .update(id, {
+        parent: "",
+      });
+
+    successWithBaseResponse(res, entry);
   })
 );
 

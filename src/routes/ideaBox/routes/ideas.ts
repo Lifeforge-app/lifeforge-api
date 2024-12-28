@@ -5,10 +5,13 @@ import {
   successWithBaseResponse,
 } from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
-import { body, query } from "express-validator";
+import { body, param, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
 import { list } from "../../../utils/CRUD.js";
-import { IIdeaBoxEntry } from "../../../interfaces/ideabox_interfaces.js";
+import {
+  IIdeaBoxEntry,
+  IIdeaBoxFolder,
+} from "../../../interfaces/ideabox_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
 import { checkExistence } from "../../../utils/PBRecordValidator.js";
@@ -26,15 +29,14 @@ const router = express.Router();
  * @response 200 (IIdeaBoxEntry[]) - The list of idea box entries
  */
 router.get(
-  "/",
-  [
-    query("container").isString(),
-    query("folder").isString().optional(),
-    query("archived").isBoolean().optional(),
-  ],
+  "/:container/*",
+  [query("archived").isBoolean().optional(), param("container").isString()],
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) => {
     if (hasError(req, res)) return;
-    const { container, folder, archived } = req.query as Record<string, string>;
+    const { pb } = req;
+    const path = req.params[0].split("/").filter((e) => e);
+    const { container } = req.params;
+    const { archived } = req.query as Record<string, string>;
 
     const containerExist = await checkExistence(
       req,
@@ -43,15 +45,42 @@ router.get(
       container,
       "container"
     );
-    const folderExist = folder
-      ? await checkExistence(req, res, "idea_box_folders", folder, "folder")
-      : true;
+    let folderExist = true;
+    let lastFolder = "";
 
-    if (!containerExist || !folderExist) return;
+    for (const folder of path) {
+      if (
+        !(await checkExistence(req, res, "idea_box_folders", folder, "folder"))
+      ) {
+        folderExist = false;
+        break;
+      }
+
+      const folderEntry = await pb
+        .collection("idea_box_folders")
+        .getOne<IIdeaBoxFolder>(folder);
+
+      if (
+        folderEntry.parent !== lastFolder ||
+        folderEntry.container !== container
+      ) {
+        folderExist = false;
+        break;
+      }
+
+      lastFolder = folder;
+    }
+
+    if (!containerExist || !folderExist) {
+      try {
+        clientError(res, "folder: Not found", 400);
+      } catch {}
+      return;
+    }
 
     await list(req, res, "idea_box_entries", {
       filter: `container = "${container}" && archived = ${archived || "false"} ${
-        folder ? `&& folder = "${folder}"` : "&& folder=''"
+        lastFolder ? `&& folder = "${lastFolder}"` : "&& folder=''"
       }`,
       sort: "-pinned,-created",
     });
@@ -320,14 +349,14 @@ router.post(
  * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.post(
-  "/folder/:id",
-  query("folder").isString(),
+  "/move/:id",
+  query("target").isString(),
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
     const { id } = req.params;
-    const { folder } = req.query as Record<string, string>;
+    const { target } = req.query as Record<string, string>;
 
     const entryExist = await checkExistence(
       req,
@@ -340,7 +369,7 @@ router.post(
       req,
       res,
       "idea_box_folders",
-      folder,
+      target,
       "folder"
     );
     if (!(entryExist && folderExist)) return;
@@ -348,7 +377,7 @@ router.post(
     const entry: IIdeaBoxEntry = await pb
       .collection("idea_box_entries")
       .update(id, {
-        folder,
+        folder: target,
       });
 
     successWithBaseResponse(res, entry);
@@ -363,7 +392,7 @@ router.post(
  * @response 200 (IIdeaBoxEntry) - The updated idea box entry
  */
 router.delete(
-  "/folder/:id",
+  "/move/:id",
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
     const { pb } = req;
     const { id } = req.params;

@@ -6,7 +6,8 @@ export async function checkExistence(
   res: Response,
   collection: string,
   id: string,
-  item: string
+  item: string,
+  sendError = true
 ): Promise<boolean> {
   const found =
     (await req.pb
@@ -14,7 +15,7 @@ export async function checkExistence(
       .getOne(id)
       .then(() => true)
       .catch((err) => {
-        clientError(res, `${item}: Not found`, 404);
+        sendError && clientError(res, `${item}: Not found`, 404);
       })) ?? false;
 
   return found;

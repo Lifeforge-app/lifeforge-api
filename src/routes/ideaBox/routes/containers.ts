@@ -12,31 +12,6 @@ const router = express.Router();
 
 /**
  * @protected
- * @summary Get a single idea box container
- * @description Retrieve a single idea box container by its ID.
- * @param id (string, required) - The ID of the idea box container
- * @response 200 (IIdeaBoxContainer) - The idea box container
- */
-router.get(
-  "/:id",
-  [param("id").isString()],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "idea_box_containers", id, "id")))
-      return;
-
-    const container: IIdeaBoxContainer = await pb
-      .collection("idea_box_containers")
-      .getOne(id);
-
-    successWithBaseResponse(res, container);
-  })
-);
-
-/**
- * @protected
  * @summary Check if an idea box container exists
  * @description Check if an idea box container exists by its ID.
  * @param id (string, required) - The ID of the idea box container
