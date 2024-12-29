@@ -305,7 +305,7 @@ router.put(
       .getOne(id);
 
     const newEntry: Omit<WithoutPBDefault<IJournalEntry>, "photos"> & {
-      photos: File[];
+      photos?: File[];
     } = {
       date,
       title: encrypt(Buffer.from(title), master).toString("base64"),
@@ -320,9 +320,7 @@ router.put(
                 new File([fs.readFileSync(file.path)], file.originalname)
             ),
           }
-        : {
-            photos: [],
-          }),
+        : {}),
     };
 
     const entry: IJournalEntry = await pb

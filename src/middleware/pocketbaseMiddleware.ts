@@ -38,7 +38,7 @@ const pocketbaseMiddleware = async (
   const bearerToken = req.headers.authorization?.split(" ")[1];
   const pb = new Pocketbase(process.env.PB_HOST);
 
-  if (!bearerToken) {
+  if (!bearerToken || req.url.startsWith("/user/auth")) {
     if (
       req.url === "/" ||
       NO_NEED_AUTH.some((route) => req.url.startsWith(route))

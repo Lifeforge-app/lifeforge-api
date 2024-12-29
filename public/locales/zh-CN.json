@@ -40,7 +40,8 @@
       "assets": "资产",
       "ledgers": "账簿",
       "flightStatus": "航班状态",
-      "airlineInformation": "航空公司信息"
+      "airlineInformation": "航空公司信息",
+      "financialStatements": "财务报表"
     },
     "title": {
       "productivity": "生产力",
@@ -125,7 +126,8 @@
       "wishlist": "轻松记录和追踪你的梦想清单！",
       "budget": "轻松规划和管理你的预算！",
       "workout": "个性化锻炼和跟踪功能保持健康！",
-      "3dModels": "轻松管理和预览您的 3D 模型！"
+      "3dModels": "轻松管理和预览您的 3D 模型！",
+      "financialStatements": "通过详细报表追踪和分析您的财务！"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他谱",
@@ -148,7 +150,8 @@
     "budget": "预算管理",
     "deprecated": "已废弃",
     "workout": "锻炼",
-    "3dModels": "3D 模型"
+    "3dModels": "3D 模型",
+    "financialStatements": "财务报表"
   },
   "header": {
     "searchBarPlaceholder": "快速导航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -337,7 +340,9 @@
     "filterIconSets": "筛选图标集...",
     "icons": "搜索图标...",
     "amongMillionsOfBooks": "在数百万本书中搜索...",
-    "pixabay": "在Pixabay中搜索 ..."
+    "pixabay": "在Pixabay中搜索 ...",
+    "ideas": "搜索创意...",
+    "modules": "搜索模块..."
   },
   "button": {
     "create": "创建",
@@ -468,7 +473,9 @@
     "uploadFile": "上传文件",
     "removeFile": "删除文件",
     "addEntryCard": "添加条目卡",
-    "markAsBought": "标记为已购买"
+    "markAsBought": "标记为已购买",
+    "print": "打印",
+    "showStatement": "查看报表"
   },
   "modals": {
     "header": {
@@ -699,7 +706,9 @@
     "productUrl": "产品网址",
     "productPrice": "产品价格",
     "productName": "产品名称",
-    "productImage": "产品图片"
+    "productImage": "产品图片",
+    "month": "月份",
+    "year": "年度"
   },
   "table": {
     "date": "日期",

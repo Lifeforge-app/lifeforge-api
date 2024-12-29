@@ -11,7 +11,7 @@ import {
   IIdeaBoxFolder,
 } from "../../interfaces/ideabox_interfaces.js";
 import { clientError, successWithBaseResponse } from "../../utils/response.js";
-import { param } from "express-validator";
+import { param, query } from "express-validator";
 import { BaseResponse } from "../../interfaces/base_response.js";
 import hasError from "../../utils/checkError.js";
 
@@ -206,6 +206,41 @@ router.get(
       .catch(() => {
         clientError(res);
       });
+  })
+);
+
+router.get(
+  "/search",
+  [
+    query("q").isString().isLength({ min: 1 }).trim(),
+    query("container").isString().optional().trim(),
+  ],
+  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) => {
+    if (hasError(req, res)) return;
+
+    const { pb } = req;
+    const { q, container } = req.query as Record<string, string>;
+
+    const containerExists = container
+      ? await checkExistence(
+          req,
+          res,
+          "idea_box_containers",
+          container,
+          "container",
+          false
+        )
+      : true;
+
+    if (!containerExists) return;
+
+    const results = await pb
+      .collection("idea_box_entries")
+      .getFullList<IIdeaBoxEntry>({
+        filter: `(content ~ "${q}" || title ~ "${q}") && container = "${container}" && archived = false`,
+      });
+
+    successWithBaseResponse(res, results);
   })
 );
 

@@ -14,6 +14,7 @@ import {
 } from "../../../interfaces/todo_list_interfaces.js";
 import { fetchGroq } from "../../../utils/fetchGroq.js";
 import { getAPIKey } from "../../../utils/getAPIKey.js";
+import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
 const router = express.Router();
 
@@ -106,10 +107,12 @@ router.patch(
     const { pb } = req;
     const { id } = req.params;
 
-    const entries = await pb.collection("todo_subtask").getOne(id);
+    if (!(await checkExistence(req, res, "todo_subtasks", id, "id"))) return;
+
+    const entries = await pb.collection("todo_subtasks").getOne(id);
 
     const subtask: ITodoSubtask = await pb
-      .collection("todo_subtask")
+      .collection("todo_subtasks")
       .update(id, {
         done: !entries.done,
       });

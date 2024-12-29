@@ -40,7 +40,8 @@
       "assets": "Aset",
       "ledgers": "Lejar",
       "flightStatus": "Status Penerbangan",
-      "airlineInformation": "Maklumat Penerbangan"
+      "airlineInformation": "Maklumat Penerbangan",
+      "financialStatements": "Penyata Kewangan"
     },
     "title": {
       "productivity": "Produktiviti",
@@ -124,7 +125,8 @@
       "wishlist": "Catat dan jejak senarai impian anda dengan mudah!",
       "budget": "Rancang dan urus bajet anda dengan mudah!",
       "workout": "Kekal cergas dengan senaman peribadi dan penjejakan",
-      "3dModels": "Urus dan pratonton model 3D anda dengan mudah di LifeForge!"
+      "3dModels": "Urus dan pratonton model 3D anda dengan mudah di LifeForge!",
+      "financialStatements": "Jejak dan analisis kewangan anda dengan penyata terperinci"
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -147,7 +149,8 @@
     "budget": "Pengurusan Bajet",
     "deprecated": "Tidak lagi disokong",
     "workout": "Senaman",
-    "3dModels": "Model 3D"
+    "3dModels": "Model 3D",
+    "financialStatements": "Penyata Kewangan"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -336,7 +339,9 @@
     "filterIconSets": "Tetapan Ikon Penapis...",
     "icons": "Cari Ikon...",
     "amongMillionsOfBooks": "Cari antara jutaan buku...",
-    "pixabay": "Cari di Pixabay ..."
+    "pixabay": "Cari di Pixabay ...",
+    "ideas": "Cari Idea...",
+    "modules": "Cari modul..."
   },
   "button": {
     "create": "Cipta",
@@ -467,7 +472,9 @@
     "uploadFile": "Muat Naik Fail",
     "removeFile": "Buang Fail",
     "addEntryCard": "Tambah Kad Masuk",
-    "markAsBought": "Tandai sebagai Dibeli"
+    "markAsBought": "Tandai sebagai Dibeli",
+    "print": "Cetak",
+    "showStatement": "Papar Penyata"
   },
   "modals": {
     "header": {
@@ -698,7 +705,9 @@
     "productUrl": "Pautan Produk",
     "productPrice": "Harga Produk",
     "productName": "Nama Produk",
-    "productImage": "Imej Produk"
+    "productImage": "Imej Produk",
+    "month": "Bulan",
+    "year": "Tahun"
   },
   "table": {
     "date": "Tarikh",

@@ -40,7 +40,8 @@
       "assets": "Assets",
       "ledgers": "Ledgers",
       "flightStatus": "Flight Status",
-      "airlineInformation": "Airline Information"
+      "airlineInformation": "Airline Information",
+      "financialStatements": "Statements"
     },
     "title": {
       "productivity": "Productivity",
@@ -124,7 +125,8 @@
       "wishlist": "Dream, save, and track your must-have treasures effortlessly!",
       "budget": "Master your money with smart planning and tracking!",
       "workout": "Stay fit with personalized workouts and tracking!",
-      "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime"
+      "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime",
+      "financialStatements": "Track and analyze your finances with detailed statements!"
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -147,7 +149,8 @@
     "budget": "Budget",
     "deprecated": "No longer supported",
     "workout": "Workout",
-    "3dModels": "3D Models"
+    "3dModels": "3D Models",
+    "financialStatements": "Financial Statements"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -336,7 +339,9 @@
     "filterIconSets": "Filter Icon Sets...",
     "icons": "Search Icons...",
     "amongMillionsOfBooks": "Search among millions of books...",
-    "pixabay": "Search in Pixabay ..."
+    "pixabay": "Search in Pixabay ...",
+    "ideas": "Search Ideas...",
+    "modules": "Search modules..."
   },
   "button": {
     "create": "Create",
@@ -467,7 +472,9 @@
     "uploadFile": "Upload File",
     "removeFile": "Remove File",
     "addEntryCard": "Add Entry Card",
-    "markAsBought": "Mark as Bought"
+    "markAsBought": "Mark as Bought",
+    "print": "Print",
+    "showStatement": "View Statement"
   },
   "modals": {
     "header": {
@@ -698,7 +705,9 @@
     "productUrl": "Product Link",
     "productPrice": "Product Price",
     "productName": "Product Name",
-    "productImage": "Product Image"
+    "productImage": "Product Image",
+    "month": "Month",
+    "year": "Year"
   },
   "table": {
     "date": "Date",

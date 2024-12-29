@@ -40,7 +40,8 @@
       "assets": "資產",
       "ledgers": "帳簿",
       "flightStatus": "航班狀態",
-      "airlineInformation": "航空公司資訊"
+      "airlineInformation": "航空公司資訊",
+      "financialStatements": "財務報表"
     },
     "title": {
       "productivity": "生產力",
@@ -125,7 +126,8 @@
       "wishlist": "輕鬆記錄和追蹤你的夢想清單！",
       "budget": "輕鬆規劃和管理你的預算！",
       "workout": "個性化鍛鍊和跟蹤功能保持健康！",
-      "3dModels": "輕鬆管理和預覽您的 3D 模型！"
+      "3dModels": "輕鬆管理和預覽您的 3D 模型！",
+      "financialStatements": "透過詳細報表追蹤和分析您的財務！"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他譜",
@@ -147,7 +149,8 @@
     "budget": "預算管理",
     "deprecated": "已棄用",
     "workout": "鍛鍊",
-    "3dModels": "3D 模型"
+    "3dModels": "3D 模型",
+    "financialStatements": "財務報表"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -336,7 +339,9 @@
     "filterIconSets": "篩選圖示集...",
     "icons": "搜尋圖示...",
     "amongMillionsOfBooks": "在數百萬本書中搜尋...",
-    "pixabay": "在Pixabay中搜尋 ..."
+    "pixabay": "在Pixabay中搜尋 ...",
+    "ideas": "搜尋創意...",
+    "modules": "搜尋模組..."
   },
   "button": {
     "create": "創建",
@@ -467,7 +472,9 @@
     "uploadFile": "上傳文件",
     "removeFile": "刪除檔案",
     "addEntryCard": "新增項目卡",
-    "markAsBought": "標記為已購買"
+    "markAsBought": "標記為已購買",
+    "print": "列印",
+    "showStatement": "查看報表"
   },
   "modals": {
     "header": {
@@ -698,7 +705,9 @@
     "productUrl": "產品連結",
     "productPrice": "產品價格",
     "productName": "產品名稱",
-    "productImage": "產品圖片"
+    "productImage": "產品圖片",
+    "month": "月份",
+    "year": "年度"
   },
   "table": {
     "date": "日期",
