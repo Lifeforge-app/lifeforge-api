@@ -758,7 +758,8 @@
       "transfer": "转账",
       "allLedgers": "所有账本",
       "allAssets": "所有资产",
-      "allCategories": "所有类别"
+      "allCategories": "所有类别",
+      "allTypes": "所有类型"
     },
     "photos": {
       "favourites": "收藏",

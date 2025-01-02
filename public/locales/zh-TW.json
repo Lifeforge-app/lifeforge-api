@@ -757,7 +757,8 @@
       "transfer": "轉帳",
       "allLedgers": "所有帳本",
       "allAssets": "所有資產",
-      "allCategories": "所有類別"
+      "allCategories": "所有類別",
+      "allTypes": "所有類型"
     },
     "photos": {
       "favourites": "收藏",

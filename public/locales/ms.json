@@ -757,7 +757,8 @@
       "transfer": "Pindahan",
       "allLedgers": "Semua Buku",
       "allAssets": "Semua Aset",
-      "allCategories": "Semua Kategori"
+      "allCategories": "Semua Kategori",
+      "allTypes": "Semua Jenis"
     },
     "photos": {
       "favourites": "Kegemaran",

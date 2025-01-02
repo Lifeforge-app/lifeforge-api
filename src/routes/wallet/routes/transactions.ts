@@ -17,30 +17,46 @@ import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
 import { body, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
 import { checkExistence } from "../../../utils/PBRecordValidator.js";
-import pdfThumbnail from "pdf-thumbnail";
+import { fromPath } from "pdf2pic";
 
 const router = express.Router();
 
 function convertPDFToImage(path: string): Promise<File | undefined> {
   return new Promise(async (resolve, reject) => {
     try {
-      const buffer = fs.readFileSync(path);
-      fs.unlinkSync(path);
+      const options = {
+        density: 200,
+        quality: 100,
+        saveFilename: "receipt",
+        savePath: "uploads",
+        format: "png",
+        width: 2000,
+        preserveAspectRatio: true,
+      };
 
-      const thumbnail = await pdfThumbnail(buffer);
+      const convert = fromPath(path, options);
+      const pageToConvertAsImage = 1;
 
-      thumbnail
-        .pipe(fs.createWriteStream(`uploads/receipt.jpg`))
-        .once("close", async () => {
-          const thumbnailBuffer = fs.readFileSync(`uploads/receipt.jpg`);
-          const thumbnailFile = new File([thumbnailBuffer], `receipt.jpg`, {
-            type: "image/jpeg",
-          });
+      convert(pageToConvertAsImage, { responseType: "buffer" }).then(
+        (responseBuffer) => {
+          if (!responseBuffer.buffer) {
+            resolve(undefined);
+            return;
+          }
+
+          const thumbnailFile = new File(
+            [responseBuffer.buffer],
+            `receipt.png`,
+            {
+              type: "image/png",
+            }
+          );
 
           resolve(thumbnailFile);
 
-          fs.unlinkSync(`uploads/receipt.jpg`);
-        });
+          fs.unlinkSync(path);
+        }
+      );
     } catch (error) {
       reject(error);
     }

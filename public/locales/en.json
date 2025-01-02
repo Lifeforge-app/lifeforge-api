@@ -757,7 +757,8 @@
       "transfer": "Transfer",
       "allLedgers": "All Ledgers",
       "allAssets": "All Assets",
-      "allCategories": "All Categories"
+      "allCategories": "All Categories",
+      "allTypes": "All Types"
     },
     "photos": {
       "favourites": "Favourites",
