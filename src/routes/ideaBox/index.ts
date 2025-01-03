@@ -56,6 +56,10 @@ router.get(
         .collection("idea_box_containers")
         .getOne<IIdeaBoxContainer>(container);
 
+      containerEntry.cover = pb.files
+        .getURL(containerEntry, containerEntry.cover)
+        .replace(`${pb.baseURL}/api/files`, "");
+
       let lastFolder = "";
       const fullPath: IIdeaBoxFolder[] = [];
 
