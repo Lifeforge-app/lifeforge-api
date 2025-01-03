@@ -53,7 +53,7 @@ router.get(
 
     const oauthEndpoints = await pb.collection("users").listAuthMethods();
 
-    const endpoint = oauthEndpoints.authProviders.find(
+    const endpoint = oauthEndpoints.oauth2.providers.find(
       (item) => item.name === provider
     );
 
@@ -87,7 +87,7 @@ router.post(
 
     const providers = await pb.collection("users").listAuthMethods();
 
-    const provider = providers.authProviders.find(
+    const provider = providers.oauth2.providers.find(
       (item) => item.name === providerName
     );
 
@@ -129,25 +129,20 @@ router.post(
  * @protected
  * @summary Request an OTP
  * @description Request a One-Time Password (OTP) for the user.
- * @response 200 - The OTP has been sent
+ * @response 200 (string) - The OTP ID
  */
 router.get("/auth/otp", async (req, res) => {
   const { pb } = req;
 
-  const response = await fetch(
-    `${process.env.PB_HOST}/auth/otp/${pb.authStore.model!.id}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${pb.authStore.token}`,
-      },
-    }
-  ).then((res) => res.json());
+  const response = await pb
+    .collection("users")
+    .requestOTP(pb.authStore.record?.email)
+    .catch(() => {
+      clientError(res, "Failed to send OTP");
+    });
 
-  if (response.message === "OTP sent") {
-    successWithBaseResponse(res);
-  } else {
-    clientError(res, response.error);
+  if (response) {
+    successWithBaseResponse(res, response.otpId);
   }
 });
 
@@ -250,7 +245,7 @@ router.patch(
   asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { data } = req.body;
-    await pb.collection("users").update(req.pb.authStore.model!.id, {
+    await pb.collection("users").update(req.pb.authStore.record!.id, {
       enabledModules: data,
     });
 
@@ -269,10 +264,10 @@ router.put(
 
       const newEntry = await pb
         .collection("users")
-        .update(req.pb.authStore.model!.id, {
+        .update(req.pb.authStore.record!.id, {
           bgImage: new File(
             [fileBuffer],
-            `${req.pb.authStore.model!.id}.${req.file.originalname.split(".").pop()}`
+            `${req.pb.authStore.record!.id}.${req.file.originalname.split(".").pop()}`
           ),
         });
 
@@ -296,10 +291,10 @@ router.put(
         const fileBuffer = await response.arrayBuffer();
         const newEntry = await pb
           .collection("users")
-          .update(req.pb.authStore.model!.id, {
+          .update(req.pb.authStore.record!.id, {
             bgImage: new File(
               [new Uint8Array(fileBuffer)],
-              `${req.pb.authStore.model!.id}.png`
+              `${req.pb.authStore.record!.id}.png`
             ),
           });
 
@@ -319,7 +314,7 @@ router.delete(
   asyncWrapper(async (req, res) => {
     const { pb } = req;
 
-    await pb.collection("users").update(req.pb.authStore.model!.id, {
+    await pb.collection("users").update(req.pb.authStore.record!.id, {
       bgImage: null,
     });
 
@@ -370,7 +365,7 @@ router.patch(
 
     await pb
       .collection("users")
-      .update(req.pb.authStore.model!.id, toBeUpdated);
+      .update(req.pb.authStore.record!.id, toBeUpdated);
 
     successWithBaseResponse(res);
   })
@@ -489,7 +484,7 @@ router.post(
 
     await pb
       .collection("users")
-      .requestPasswordReset(pb.authStore.model?.email);
+      .requestPasswordReset(pb.authStore.record?.email);
 
     successWithBaseResponse(res);
   })

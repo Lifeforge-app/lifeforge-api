@@ -59,7 +59,7 @@ router.get(
 
     const user = await pb
       .collection("users")
-      .getFirstListItem(`email = "${pb.authStore.model?.email}"`);
+      .getFirstListItem(`email = "${pb.authStore.record?.email}"`);
     const userId = user.id;
 
     const authOptions = {
@@ -112,7 +112,7 @@ router.get(
 
     const user = await pb
       .collection("users")
-      .getFirstListItem(`email = "${pb.authStore.model?.email}"`);
+      .getFirstListItem(`email = "${pb.authStore.record?.email}"`);
     const userId = user.id;
     const { spotifyRefreshToken: refresh_token } = user;
 

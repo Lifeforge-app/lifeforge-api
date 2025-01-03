@@ -707,7 +707,8 @@
     "productName": "Product Name",
     "productImage": "Product Image",
     "month": "Month",
-    "year": "Year"
+    "year": "Year",
+    "coverImage": "Cover Image"
   },
   "table": {
     "date": "Date",

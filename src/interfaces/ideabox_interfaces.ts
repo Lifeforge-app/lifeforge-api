@@ -4,11 +4,12 @@ import { BasePBCollectionSchema } from "./pocketbase_interfaces.js";
 const IdeaBoxContainerSchema = s.assign(
   BasePBCollectionSchema,
   s.object({
+    name: s.string(),
     color: s.string(),
     icon: s.string(),
+    cover: s.string(),
     image_count: s.number(),
     link_count: s.number(),
-    name: s.string(),
     text_count: s.number(),
   })
 );

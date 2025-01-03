@@ -708,7 +708,8 @@
     "productName": "产品名称",
     "productImage": "产品图片",
     "month": "月份",
-    "year": "年度"
+    "year": "年度",
+    "coverImage": "封面图片"
   },
   "table": {
     "date": "日期",

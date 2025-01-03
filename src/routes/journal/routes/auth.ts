@@ -7,6 +7,7 @@ import { body } from "express-validator";
 import { challenge } from "../index.js";
 import hasError from "../../../utils/checkError.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
+import checkOTP from "../../../utils/checkOTP.js";
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.post(
   asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { password } = req.body;
-    const id = pb.authStore.model?.id;
+    const id = pb.authStore.record?.id;
 
     if (!id) {
       success(res, false);
@@ -65,41 +66,10 @@ router.post(
 
 router.post(
   "/otp",
-  [body("otp").exists().notEmpty()],
+  [body("otp").isString().notEmpty(), body("otpId").isString().notEmpty()],
   asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
     if (hasError(req, res)) return;
-
-    const { otp } = req.body;
-    const { pb } = req;
-    const id = pb.authStore.model?.id;
-
-    if (!id) {
-      successWithBaseResponse(res, false);
-      return;
-    }
-
-    const decryptedOTP = decrypt2(otp, challenge);
-    const storedOTP = pb.authStore.model?.otp;
-
-    if (!storedOTP) {
-      successWithBaseResponse(res, false);
-      return;
-    }
-
-    const [OTPKey, OTPExpire] = storedOTP.split(".");
-    const expire = new Date(OTPExpire);
-    const now = new Date();
-
-    if (now > expire || decryptedOTP !== OTPKey) {
-      successWithBaseResponse(res, false);
-      return;
-    }
-
-    await pb.collection("users").update(id, {
-      otp: "",
-    });
-
-    successWithBaseResponse(res, true);
+    checkOTP(req, res, challenge);
   })
 );
 

@@ -1,12 +1,17 @@
 import express, { Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response.js";
+import {
+  clientError,
+  successWithBaseResponse,
+} from "../../../utils/response.js";
 import asyncWrapper from "../../../utils/asyncWrapper.js";
-import { body, param } from "express-validator";
+import { body } from "express-validator";
 import { list, validate } from "../../../utils/CRUD.js";
 import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { checkExistence } from "../../../utils/PBRecordValidator.js";
 import hasError from "../../../utils/checkError.js";
+import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware.js";
+import fs from "fs";
 
 const router = express.Router();
 
@@ -26,12 +31,19 @@ router.get(
  * @protected
  * @summary Get a list of all idea box containers
  * @description Retrieve a list of all idea box containers.
- * @response 200
+ * @response 200 (IIdeaBoxContainer[]) - The list of idea box containers
  */
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer[]>>) =>
-    list(req, res, "idea_box_containers")
+    list(req, res, "idea_box_containers", {}, (data) =>
+      data.map((d) => ({
+        ...d,
+        cover: req.pb.files
+          .getURL(d, d.cover)
+          .replace(`${req.pb.baseURL}/api/files`, ""),
+      }))
+    )
   )
 );
 
@@ -46,26 +58,68 @@ router.get(
  */
 router.post(
   "/",
-  [
-    body("name").isString(),
-    body("color").notEmpty().isHexColor(),
-    body("icon").isString(),
-  ],
+  singleUploadMiddleware,
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-    if (hasError(req, res)) return;
-
     const { pb } = req;
     const { name, color, icon } = req.body;
 
-    const container: IIdeaBoxContainer = await pb
-      .collection("idea_box_containers")
-      .create({
-        name,
-        color,
-        icon,
-      });
+    if (req.file) {
+      const fileBuffer = fs.readFileSync(req.file.path);
 
-    successWithBaseResponse(res, container, 201);
+      const container: IIdeaBoxContainer = await pb
+        .collection("idea_box_containers")
+        .create({
+          name,
+          color,
+          icon,
+          cover: new File([fileBuffer], req.file.filename),
+        });
+
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
+
+      successWithBaseResponse(res, container, 201);
+      fs.unlinkSync(req.file.path);
+      return;
+    }
+
+    const url = req.body.cover;
+
+    if (url) {
+      fetch(url)
+        .then(async (response) => {
+          const fileBuffer = await response.arrayBuffer();
+          const newEntry: IIdeaBoxContainer = await pb
+            .collection("idea_box_containers")
+            .create({
+              name,
+              color,
+              icon,
+              cover: new File([fileBuffer], "cover.jpg"),
+            });
+
+          newEntry.cover = req.pb.files
+            .getURL(newEntry, newEntry.cover)
+            .replace(`${req.pb.baseURL}/api/files`, "");
+
+          successWithBaseResponse(res, newEntry, 201);
+        })
+        .catch(() => {
+          clientError(res, "Invalid file");
+        });
+    } else {
+      const container: IIdeaBoxContainer = await pb
+        .collection("idea_box_containers")
+        .create({
+          name,
+          color,
+          icon,
+          cover: "",
+        });
+
+      successWithBaseResponse(res, container, 201);
+    }
   })
 );
 
@@ -81,31 +135,90 @@ router.post(
  */
 router.patch(
   "/:id",
-  [
-    body("name").isString(),
-    body("color").notEmpty().isHexColor(),
-    body("icon").isString(),
-  ],
+  singleUploadMiddleware,
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-    if (hasError(req, res)) return;
-
     const { pb } = req;
     const { id } = req.params;
 
     const { name, color, icon } = req.body;
 
-    if (!(await checkExistence(req, res, "idea_box_containers", id, "id")))
+    if (!(await checkExistence(req, res, "idea_box_containers", id, "id"))) {
+      if (req.file) fs.unlinkSync(req.file.path);
       return;
+    }
 
-    const container: IIdeaBoxContainer = await pb
-      .collection("idea_box_containers")
-      .update(id, {
-        name,
-        color,
-        icon,
-      });
+    if (req.file) {
+      const fileBuffer = fs.readFileSync(req.file.path);
 
-    successWithBaseResponse(res, container);
+      const container: IIdeaBoxContainer = await pb
+        .collection("idea_box_containers")
+        .update(id, {
+          name,
+          color,
+          icon,
+          cover: new File([fileBuffer], req.file.filename),
+        });
+
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
+
+      successWithBaseResponse(res, container);
+
+      fs.unlinkSync(req.file.path);
+      return;
+    } else {
+      const url = req.body.cover;
+
+      if (url === "keep") {
+        const container: IIdeaBoxContainer = await pb
+          .collection("idea_box_containers")
+          .update(id, {
+            name,
+            color,
+            icon,
+          });
+
+        container.cover = req.pb.files
+          .getURL(container, container.cover)
+          .replace(`${req.pb.baseURL}/api/files`, "");
+
+        successWithBaseResponse(res, container);
+      } else if (url) {
+        fetch(url)
+          .then(async (response) => {
+            const fileBuffer = await response.arrayBuffer();
+            const newEntry: IIdeaBoxContainer = await pb
+              .collection("idea_box_containers")
+              .update(id, {
+                name,
+                color,
+                icon,
+                cover: new File([fileBuffer], "cover.jpg"),
+              });
+
+            newEntry.cover = req.pb.files
+              .getURL(newEntry, newEntry.cover)
+              .replace(`${req.pb.baseURL}/api/files`, "");
+
+            successWithBaseResponse(res, newEntry);
+          })
+          .catch(() => {
+            clientError(res, "Invalid file");
+          });
+      } else {
+        const container: IIdeaBoxContainer = await pb
+          .collection("idea_box_containers")
+          .update(id, {
+            name,
+            color,
+            icon,
+            cover: "",
+          });
+
+        successWithBaseResponse(res, container);
+      }
+    }
   })
 );
 

@@ -707,7 +707,8 @@
     "productName": "Nama Produk",
     "productImage": "Imej Produk",
     "month": "Bulan",
-    "year": "Tahun"
+    "year": "Tahun",
+    "coverImage": "Imej Sampul"
   },
   "table": {
     "date": "Tarikh",
