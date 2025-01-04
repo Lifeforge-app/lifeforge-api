@@ -77,7 +77,8 @@
       "information": "Information",
       "priorities": "Priorities",
       "calendarHeatmap": "Calendar Heatmap",
-      "filetypes": "File Types"
+      "filetypes": "File Types",
+      "utilities": "Utilities"
     },
     "descriptions": {
       "dashboard": "Your mission control center for awesome. 🚀",
@@ -126,7 +127,8 @@
       "budget": "Master your money with smart planning and tracking!",
       "workout": "Stay fit with personalized workouts and tracking!",
       "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime",
-      "financialStatements": "Track and analyze your finances with detailed statements!"
+      "financialStatements": "Track and analyze your finances with detailed statements!",
+      "sudoku": "Generate printable sudoku boards indefinitely."
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -150,7 +152,8 @@
     "deprecated": "No longer supported",
     "workout": "Workout",
     "3dModels": "3D Models",
-    "financialStatements": "Financial Statements"
+    "financialStatements": "Financial Statements",
+    "sudoku": "Sudoku"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -341,7 +344,8 @@
     "amongMillionsOfBooks": "Search among millions of books...",
     "pixabay": "Search in Pixabay ...",
     "ideas": "Search Ideas...",
-    "modules": "Search modules..."
+    "modules": "Search modules...",
+    "ideasInFolder": "Search ideas in folder..."
   },
   "button": {
     "create": "Create",
@@ -708,7 +712,12 @@
     "productImage": "Product Image",
     "month": "Month",
     "year": "Year",
-    "coverImage": "Cover Image"
+    "coverImage": "Cover Image",
+    "ideaTags": "Idea Tags",
+    "ideaContent": "Idea Content",
+    "ideaLink": "Idea Link",
+    "tagIcon": "Tag Icon",
+    "tagColor": "Tag Color"
   },
   "table": {
     "date": "Date",

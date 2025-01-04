@@ -78,7 +78,8 @@
       "information": "資訊",
       "priorities": "優先順序",
       "calendarHeatmap": "日曆熱力圖",
-      "filetypes": "檔案類型"
+      "filetypes": "檔案類型",
+      "utilities": "實用工具"
     },
     "descriptions": {
       "dashboard": "您的任務控制中心，妙不可言！",
@@ -127,7 +128,8 @@
       "budget": "輕鬆規劃和管理你的預算！",
       "workout": "個性化鍛鍊和跟蹤功能保持健康！",
       "3dModels": "輕鬆管理和預覽您的 3D 模型！",
-      "financialStatements": "透過詳細報表追蹤和分析您的財務！"
+      "financialStatements": "透過詳細報表追蹤和分析您的財務！",
+      "sudoku": "無限生成數獨板"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他譜",
@@ -150,7 +152,8 @@
     "deprecated": "已棄用",
     "workout": "鍛鍊",
     "3dModels": "3D 模型",
-    "financialStatements": "財務報表"
+    "financialStatements": "財務報表",
+    "sudoku": "數獨遊戲"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -340,8 +343,9 @@
     "icons": "搜尋圖示...",
     "amongMillionsOfBooks": "在數百萬本書中搜尋...",
     "pixabay": "在Pixabay中搜尋 ...",
-    "ideas": "搜尋創意...",
-    "modules": "搜尋模組..."
+    "modules": "搜尋模組...",
+    "ideasInFolder": "搜索資料夾中的想法...",
+    "ideas": "搜尋想法..."
   },
   "button": {
     "create": "創建",
@@ -708,7 +712,12 @@
     "productImage": "產品圖片",
     "month": "月份",
     "year": "年度",
-    "coverImage": "封面圖片"
+    "coverImage": "封面圖片",
+    "ideaTags": "想法標籤",
+    "ideaContent": "想法內容",
+    "ideaLink": "想法連結",
+    "tagIcon": "標籤圖示",
+    "tagColor": "標籤顏色"
   },
   "table": {
     "date": "日期",

@@ -77,7 +77,8 @@
       "information": "Maklumat",
       "priorities": "Keutamaan",
       "calendarHeatmap": "Peta Panas Kalendar",
-      "filetypes": "Jenis Fail"
+      "filetypes": "Jenis Fail",
+      "utilities": "Kemudahan"
     },
     "descriptions": {
       "dashboard": "Pusat kawalan misi anda untuk yang mengagumkan. 🚀",
@@ -126,7 +127,8 @@
       "budget": "Rancang dan urus bajet anda dengan mudah!",
       "workout": "Kekal cergas dengan senaman peribadi dan penjejakan",
       "3dModels": "Urus dan pratonton model 3D anda dengan mudah di LifeForge!",
-      "financialStatements": "Jejak dan analisis kewangan anda dengan penyata terperinci"
+      "financialStatements": "Jejak dan analisis kewangan anda dengan penyata terperinci",
+      "sudoku": "Hasilkan Lajur Sudoku Tanpa Henti"
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -150,7 +152,8 @@
     "deprecated": "Tidak lagi disokong",
     "workout": "Senaman",
     "3dModels": "Model 3D",
-    "financialStatements": "Penyata Kewangan"
+    "financialStatements": "Penyata Kewangan",
+    "sudoku": "Tebah Sudoku"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -341,7 +344,8 @@
     "amongMillionsOfBooks": "Cari antara jutaan buku...",
     "pixabay": "Cari di Pixabay ...",
     "ideas": "Cari Idea...",
-    "modules": "Cari modul..."
+    "modules": "Cari modul...",
+    "ideasInFolder": "Cari idea dalam folder..."
   },
   "button": {
     "create": "Cipta",
@@ -708,7 +712,12 @@
     "productImage": "Imej Produk",
     "month": "Bulan",
     "year": "Tahun",
-    "coverImage": "Imej Sampul"
+    "coverImage": "Imej Sampul",
+    "ideaTags": "Tag Idea",
+    "ideaContent": "Kandungan Idea",
+    "ideaLink": "Pautan Idea",
+    "tagIcon": "Ikons Tajuk",
+    "tagColor": "Warna Tag"
   },
   "table": {
     "date": "Tarikh",

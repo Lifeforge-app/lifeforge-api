@@ -1,8 +1,9 @@
-import express, { Response } from "express";
+import express, { Request, Response } from "express";
 import ogs from "open-graph-scraper";
-import container from "./routes/containers.js";
-import folder from "./routes/folders.js";
-import idea from "./routes/ideas.js";
+import containers from "./routes/containers.js";
+import folders from "./routes/folders.js";
+import ideas from "./routes/ideas.js";
+import tags from "./routes/tags.js";
 import asyncWrapper from "../../utils/asyncWrapper.js";
 import { checkExistence } from "../../utils/PBRecordValidator.js";
 import {
@@ -14,14 +15,16 @@ import { clientError, successWithBaseResponse } from "../../utils/response.js";
 import { param, query } from "express-validator";
 import { BaseResponse } from "../../interfaces/base_response.js";
 import hasError from "../../utils/checkError.js";
+import { AnyNaptrRecord } from "node:dns";
 
 const router = express.Router();
 
 const OGCache = new Map<string, any>();
 
-router.use("/containers", container);
-router.use("/folders", folder);
-router.use("/ideas", idea);
+router.use("/containers", containers);
+router.use("/folders", folders);
+router.use("/ideas", ideas);
+router.use("/tags", tags);
 
 router.get(
   "/path/:container/*",
@@ -213,39 +216,113 @@ router.get(
   })
 );
 
+async function recursivelySearchFolder(
+  folderId: string,
+  q: string,
+  container: string,
+  tags: string,
+  req: Request
+) {
+  const pb = req.pb;
+  const folderInsideFolder = await pb
+    .collection("idea_box_folders")
+    .getFullList({
+      filter: `parent = "${folderId}"`,
+    });
+
+  const allResults = await pb.collection("idea_box_entries").getFullList({
+    filter: `(content ~ "${q}" || title ~ "${q}") && container = "${container}" && archived = false ${
+      tags
+        ? "&& " +
+          tags
+            .split(",")
+            .map((tag) => `tags ~ "${tag}"`)
+            .join(" && ")
+        : ""
+    } && folder = "${folderId}"`,
+    expand: "folder",
+  });
+
+  if (folderInsideFolder.length === 0) {
+    return allResults;
+  }
+
+  for (const folder of folderInsideFolder) {
+    const results = await recursivelySearchFolder(
+      folder.id,
+      q,
+      container,
+      tags,
+      req
+    );
+
+    allResults.push(...results);
+  }
+
+  return allResults;
+}
+
 router.get(
   "/search",
   [
-    query("q").isString().isLength({ min: 1 }).trim(),
+    query("q").isString().trim(),
+    query("tags").isString().optional().trim(),
     query("container").isString().optional().trim(),
+    query("folder").isString().optional().trim(),
   ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) => {
-    if (hasError(req, res)) return;
+  asyncWrapper(
+    async (
+      req,
+      res: Response<
+        BaseResponse<
+          (Omit<IIdeaBoxEntry, "folder"> & {
+            folder?: IIdeaBoxFolder;
+            expand: {
+              folder?: IIdeaBoxFolder;
+            };
+          })[]
+        >
+      >
+    ) => {
+      if (hasError(req, res)) return;
 
-    const { pb } = req;
-    const { q, container } = req.query as Record<string, string>;
+      const { pb } = req;
+      const { q, container, tags, folder } = req.query as Record<
+        string,
+        string
+      >;
 
-    const containerExists = container
-      ? await checkExistence(
-          req,
-          res,
-          "idea_box_containers",
-          container,
-          "container",
-          false
-        )
-      : true;
+      const containerExists = container
+        ? await checkExistence(
+            req,
+            res,
+            "idea_box_containers",
+            container,
+            "container",
+            false
+          )
+        : true;
 
-    if (!containerExists) return;
+      if (!containerExists) return;
 
-    const results = await pb
-      .collection("idea_box_entries")
-      .getFullList<IIdeaBoxEntry>({
-        filter: `(content ~ "${q}" || title ~ "${q}") && container = "${container}" && archived = false`,
-      });
+      const results = await recursivelySearchFolder(
+        folder || "",
+        q,
+        container || "",
+        tags || "",
+        req
+      );
 
-    successWithBaseResponse(res, results);
-  })
+      for (const result of results) {
+        if (result.expand.folder) {
+          result.folder = result.expand.folder;
+          delete result.expand;
+        }
+      }
+
+      successWithBaseResponse(res, results);
+    }
+  )
 );
 
 export default router;

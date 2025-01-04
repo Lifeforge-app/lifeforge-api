@@ -78,7 +78,8 @@
       "information": "信息",
       "priorities": "优先级",
       "calendarHeatmap": "日历热力图",
-      "filetypes": "文件类型"
+      "filetypes": "文件类型",
+      "utilities": "实用工具"
     },
     "descriptions": {
       "dashboard": "您的任务控制中心，妙不可言！",
@@ -127,7 +128,8 @@
       "budget": "轻松规划和管理你的预算！",
       "workout": "个性化锻炼和跟踪功能保持健康！",
       "3dModels": "轻松管理和预览您的 3D 模型！",
-      "financialStatements": "通过详细报表追踪和分析您的财务！"
+      "financialStatements": "通过详细报表追踪和分析您的财务！",
+      "sudoku": "无限生成数独板"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他谱",
@@ -151,7 +153,8 @@
     "deprecated": "已废弃",
     "workout": "锻炼",
     "3dModels": "3D 模型",
-    "financialStatements": "财务报表"
+    "financialStatements": "财务报表",
+    "sudoku": "数独游戏"
   },
   "header": {
     "searchBarPlaceholder": "快速导航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -342,7 +345,8 @@
     "amongMillionsOfBooks": "在数百万本书中搜索...",
     "pixabay": "在Pixabay中搜索 ...",
     "ideas": "搜索创意...",
-    "modules": "搜索模块..."
+    "modules": "搜索模块...",
+    "ideasInFolder": "搜索文件夹中的想法..."
   },
   "button": {
     "create": "创建",
@@ -709,7 +713,12 @@
     "productImage": "产品图片",
     "month": "月份",
     "year": "年度",
-    "coverImage": "封面图片"
+    "coverImage": "封面图片",
+    "ideaTags": "想法标签",
+    "ideaContent": "想法内容",
+    "ideaLink": "想法链接",
+    "tagIcon": "标签图标",
+    "tagColor": "标签颜色"
   },
   "table": {
     "date": "日期",

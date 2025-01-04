@@ -11,6 +11,7 @@ import { list } from "../../../utils/CRUD.js";
 import {
   IIdeaBoxEntry,
   IIdeaBoxFolder,
+  IIdeaBoxTag,
 } from "../../../interfaces/ideabox_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
@@ -106,7 +107,10 @@ router.post(
   [
     body("container").isString(),
     body("title").custom((value, { req }) => {
-      if (req.body.type === "link" && (typeof value !== "string" || !value)) {
+      if (
+        ["link", "image"].includes(req.body.type) &&
+        (typeof value !== "string" || !value)
+      ) {
         throw new Error("Invalid value");
       }
       return true;
@@ -132,12 +136,14 @@ router.post(
       }
       return true;
     }),
+    body("tags").isString().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
-    const { container, title, content, type, imageLink, folder } = req.body;
+    const { container, title, content, type, imageLink, folder, tags } =
+      req.body;
 
     const { file } = req;
 
@@ -164,6 +170,7 @@ router.post(
       type,
       container,
       folder,
+      tags: tags || null,
     };
 
     switch (type) {
@@ -203,6 +210,29 @@ router.post(
       [`${type}_count+`]: 1,
     });
 
+    if (idea.tags) {
+      for (const tag of idea.tags) {
+        const tagEntry = await pb
+          .collection("idea_box_tags")
+          .getFirstListItem(
+            `name = "${tag}" && container = "${idea.container}"`
+          )
+          .catch(() => null);
+
+        if (tagEntry) {
+          await pb.collection("idea_box_tags").update(tagEntry.id, {
+            "count+": 1,
+          });
+        } else {
+          await pb.collection("idea_box_tags").create({
+            name: tag,
+            container: idea.container,
+            count: 1,
+          });
+        }
+      }
+    }
+
     successWithBaseResponse(res, idea, 201);
   })
 );
@@ -222,14 +252,15 @@ router.patch(
   [
     body("title").isString(),
     body("content").isString(),
-    body("type").isIn(["text", "link"]),
+    body("type").isIn(["text", "link", "image"]),
+    body("tags").isArray().optional(),
   ],
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
     if (hasError(req, res)) return;
 
     const { pb } = req;
     const { id } = req.params;
-    const { title, content, type } = req.body;
+    const { title, content, type, tags } = req.body;
 
     if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
@@ -243,6 +274,14 @@ router.patch(
           title,
           content,
           type,
+          tags: tags || null,
+        };
+        break;
+      case "image":
+        data = {
+          title,
+          type,
+          tags: tags || null,
         };
         break;
     }
@@ -256,6 +295,48 @@ router.patch(
         [`${oldEntry.type}_count-`]: 1,
         [`${entry.type}_count+`]: 1,
       });
+    }
+
+    for (const tag of oldEntry.tags || []) {
+      if (entry.tags?.includes(tag)) continue;
+
+      const tagEntry = await pb
+        .collection("idea_box_tags")
+        .getFirstListItem<IIdeaBoxTag>(
+          `name = "${tag}" && container = "${entry.container}"`
+        )
+        .catch(() => null);
+
+      if (tagEntry) {
+        if (tagEntry.count === 1) {
+          await pb.collection("idea_box_tags").delete(tagEntry.id);
+        } else {
+          await pb.collection("idea_box_tags").update(tagEntry.id, {
+            "count-": 1,
+          });
+        }
+      }
+    }
+
+    for (const tag of entry.tags || []) {
+      if (oldEntry.tags?.includes(tag)) continue;
+
+      const tagEntry = await pb
+        .collection("idea_box_tags")
+        .getFirstListItem(`name = "${tag}" && container = "${entry.container}"`)
+        .catch(() => null);
+
+      if (tagEntry) {
+        await pb.collection("idea_box_tags").update(tagEntry.id, {
+          "count+": 1,
+        });
+      } else {
+        await pb.collection("idea_box_tags").create({
+          name: tag,
+          container: entry.container,
+          count: 1,
+        });
+      }
     }
 
     successWithBaseResponse(res, entry);
@@ -277,11 +358,34 @@ router.delete(
 
     if (!(await checkExistence(req, res, "idea_box_entries", id, "id"))) return;
 
-    const idea = await pb.collection("idea_box_entries").getOne(id);
+    const idea = await pb
+      .collection("idea_box_entries")
+      .getOne<IIdeaBoxEntry>(id);
     await pb.collection("idea_box_entries").delete(id);
     await pb.collection("idea_box_containers").update(idea.container, {
       [`${idea.type}_count-`]: 1,
     });
+
+    if (idea.tags) {
+      for (const tag of idea.tags) {
+        const tagEntry = await pb
+          .collection("idea_box_tags")
+          .getFirstListItem(
+            `name = "${tag}" && container = "${idea.container}"`
+          )
+          .catch(() => null);
+
+        if (tagEntry) {
+          if (tagEntry.count === 1) {
+            await pb.collection("idea_box_tags").delete(tagEntry.id);
+          } else {
+            await pb.collection("idea_box_tags").update(tagEntry.id, {
+              "count-": 1,
+            });
+          }
+        }
+      }
+    }
 
     successWithBaseResponse(res, undefined, 204);
   })
