@@ -314,13 +314,13 @@ router.get(
       );
 
       for (const result of results) {
-        if (result.expand.folder) {
+        if (result.expand?.folder) {
           result.folder = result.expand.folder;
           delete result.expand;
         }
       }
 
-      successWithBaseResponse(res, results);
+      successWithBaseResponse(res, results as any);
     }
   )
 );
