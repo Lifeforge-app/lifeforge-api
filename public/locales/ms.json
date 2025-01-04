@@ -478,7 +478,8 @@
     "addEntryCard": "Tambah Kad Masuk",
     "markAsBought": "Tandai sebagai Dibeli",
     "print": "Cetak",
-    "showStatement": "Papar Penyata"
+    "showStatement": "Papar Penyata",
+    "viewActive": "Lihat Aktif"
   },
   "modals": {
     "header": {

@@ -478,7 +478,8 @@
     "addEntryCard": "Add Entry Card",
     "markAsBought": "Mark as Bought",
     "print": "Print",
-    "showStatement": "View Statement"
+    "showStatement": "View Statement",
+    "viewActive": "View Active"
   },
   "modals": {
     "header": {

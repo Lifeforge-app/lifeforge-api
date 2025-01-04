@@ -478,7 +478,8 @@
     "addEntryCard": "新增項目卡",
     "markAsBought": "標記為已購買",
     "print": "列印",
-    "showStatement": "查看報表"
+    "showStatement": "查看報表",
+    "viewActive": "查看活躍"
   },
   "modals": {
     "header": {

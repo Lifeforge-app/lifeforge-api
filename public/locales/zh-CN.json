@@ -479,7 +479,8 @@
     "addEntryCard": "添加条目卡",
     "markAsBought": "标记为已购买",
     "print": "打印",
-    "showStatement": "查看报表"
+    "showStatement": "查看报表",
+    "viewActive": "查看活跃"
   },
   "modals": {
     "header": {

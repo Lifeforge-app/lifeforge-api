@@ -34,6 +34,69 @@ router.get(
 );
 
 router.post(
+  "/ai-generate/module-description",
+  [body("name").isString()],
+  asyncWrapper(async (req, res) => {
+    if (hasError(req, res)) return;
+
+    const apiKey = await getAPIKey("groq", req.pb);
+
+    if (!apiKey) {
+      clientError(res, "API key not found");
+      return;
+    }
+
+    const { name } = req.body;
+
+    if (!name.trim()) {
+      clientError(res, "name is required");
+      return;
+    }
+
+    const prompt = `Suggest attractive and informative descriptions for the module name given below. Output a set of descriptions in multiple languages, including English, Chinese Simplified, Chinese Traditional, and Bahasa Malaysia.
+
+    The descriptions should be concise, yet engaging, and highlight the key features and benefits of the module. They should be around 10-15 words in length and be consistent in tone and style across all languages. The output should be in JSON format, with language codes as keys, such as "en" for English, "zh-CN" for Chinese Simplified, "zh-TW" for Chinese Traditional, and "ms" for Bahasa Malaysia.
+
+    For example, if the input module name is "Live ATC Broadcast", the response should be descriptions that capture the essence of the module, such as "Tune in to live air traffic control for a unique behind-the-scenes experience".
+
+    Here is an example of the expected output format:
+    \`\`\`json
+    {
+      "en": "Tune in to live air traffic control for a unique behind-the-scenes experience",
+      "zh-CN": "收听现场空中交通管制，体验独特的幕后体验",
+      "zh-TW": "收聽現場空中交通管制，體驗獨特的幕後體驗",
+      "ms": "Tune in ke kawalan trafik udara langsung untuk pengalaman unik di sebalik tabir"
+    }
+    \`\`\`
+
+    Give only the description for the module name, without any additional context.
+
+    Here is the module name to be translated: "${name}"`;
+
+    const MAX_RETRY = 5;
+    let tries = 0;
+
+    while (tries < MAX_RETRY) {
+      try {
+        const raw = await fetchGroq(apiKey, prompt);
+
+        if (!raw) throw new Error("No response");
+
+        const text = JSON.parse(
+          raw.replace(/`/g, "").trim().replace(/^json/, "")
+        );
+
+        successWithBaseResponse(res, text);
+
+        break;
+      } catch {
+        tries++;
+      }
+    }
+  })
+);
+
+router.post(
   "/ai-generate",
   [body("key").isString()],
   asyncWrapper(async (req, res) => {
@@ -53,7 +116,17 @@ router.post(
       return;
     }
 
-    const prompt = `Translate the text "${key}" into natural language suitable for user interface display, considering the target context of a user interface element (button, label, descriptions, etc.). Provide translations in English (en), Bahasa Malaysia (ms), Simplified Chinese (zh-CN), and Traditional Chinese (zh-TW). The result should be a JSON object with language codes as keys and the respective translations as values. Prioritize conciseness and clarity for the user interface. If the text is a programming term, avoid overly technical language and consider the specific function the term represents within the user interface. If the text is ambiguous, request clarification on the intended meaning or context; if clarification is unavailable, provide a translation that is reasonable based on the general context. If the text is not directly translatable, provide a functionally equivalent translation that aligns with the user interface's purpose. If the text is just a piece of general text, provide a translation as is. Return the results as a JSON string with language codes as keys and the respective translations as values. Ensure the JSON string is valid and can be directly parsed by JavaScript's JSON.parse function. Do not wrap the result in any code environment. Below is an example of the expected format: \`\`\`json { "en": "Hello", "ms": "Halo", "zh-CN": "你好", "zh-TW": "你好" } \`\`\`
+    const prompt = `Translate the text "${key}" into natural language suitable for user interface display, considering the target context of a user interface element (button, label, descriptions, etc.). 
+    
+    Provide translations in English (en), Bahasa Malaysia (ms), Simplified Chinese (zh-CN), and Traditional Chinese (zh-TW). 
+    
+    Prioritize conciseness and clarity for the user interface. 
+    
+    If the text is a programming term, avoid overly technical language and consider the specific function the term represents within the user interface. If the text is ambiguous, request clarification on the intended meaning or context; if clarification is unavailable, provide a translation that is reasonable based on the general context. If the text is not directly translatable, provide a functionally equivalent translation that aligns with the user interface's purpose. If the text is just a piece of general text, provide a translation as is.
+
+    If the text is a key in a JSON object, eg. "object.key", translate the "key" part only, while taking into account the context of the object. For example, if the text is a module name, eg. "modules.xxx", translate the "xxx" part only. 
+    
+    Return the results as a JSON string with language codes as keys and the respective translations as values. Ensure the JSON string is valid and can be directly parsed by JavaScript's JSON.parse function. Do not wrap the result in any code environment. Below is an example of the expected format: \`\`\`json { "en": "Hello", "ms": "Halo", "zh-CN": "你好", "zh-TW": "你好" } \`\`\`
         `;
 
     const MAX_RETRY = 5;
