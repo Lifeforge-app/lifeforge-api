@@ -129,7 +129,8 @@
       "workout": "个性化锻炼和跟踪功能保持健康！",
       "3dModels": "轻松管理和预览您的 3D 模型！",
       "financialStatements": "通过详细报表追踪和分析您的财务！",
-      "sudoku": "无限生成数独板"
+      "sudoku": "无限生成数独板",
+      "minecraftServerList": "发现最佳我的世界服务器，体验无尽游戏乐趣 (Type \"r\" and press enter to get a new suggestion)"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他谱",
@@ -154,7 +155,8 @@
     "workout": "锻炼",
     "3dModels": "3D 模型",
     "financialStatements": "财务报表",
-    "sudoku": "数独游戏"
+    "sudoku": "数独游戏",
+    "minecraftServerList": "我的世界服务器列表"
   },
   "header": {
     "searchBarPlaceholder": "快速导航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -1024,5 +1026,67 @@
     "oldest": "按时间最早",
     "author": "作者",
     "name": "标题"
+  },
+  "moduleTools": {
+    "description": "轻松管理所有模块",
+    "title": "模块工具",
+    "features": {
+      "list": {
+        "summary": {
+          "title": "模块列表摘要",
+          "totalCategories": "类别数量",
+          "totalModules": "模块数量",
+          "togglableModules": "可切换模块数量",
+          "deprecatedModules": "弃用模块数量",
+          "aiEnabledModules": "启用AI的模块数量"
+        },
+        "headers": {
+          "category": "类别",
+          "name": "模块名称",
+          "icon": "图标",
+          "togglable": "可切换启用状态",
+          "routes": "路径",
+          "additionalInfo": "更多信息",
+          "descriptions": "模块描述"
+        }
+      }
+    },
+    "misc": {
+      "yes": "是",
+      "no": "否"
+    },
+    "help": {
+      "command": "命令",
+      "usage": "使用方法:",
+      "options": "选项",
+      "commandsTitle": "命令",
+      "optionsTitle": "选项",
+      "commandDescriptions": {
+        "create": "创建新的模块",
+        "list": "列出所有模块及其详细信息",
+        "delete": "删除特定模块",
+        "update": "更新特定模块的详细信息"
+      },
+      "optionDescriptions": {
+        "help": "显示帮助",
+        "language": "所使用的语言，默认为en",
+        "username": "用户名，身份验证所需，若未提供将会提示",
+        "password": "密码，身份验证所需，若未提供将会提示"
+      }
+    },
+    "auth": {
+      "validatingCredentials": "验证凭证中...",
+      "authenticationSuccess": "登录成功",
+      "authenticationCancelled": "认证已取消",
+      "authenticationFailed": "验证失败",
+      "prompts": {
+        "username": "用户名",
+        "password": "密码"
+      },
+      "empty": {
+        "password": "密码不能为空",
+        "username": "用户名不能为空"
+      }
+    }
   }
 }

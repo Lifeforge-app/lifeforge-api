@@ -129,7 +129,8 @@
       "workout": "個性化鍛鍊和跟蹤功能保持健康！",
       "3dModels": "輕鬆管理和預覽您的 3D 模型！",
       "financialStatements": "透過詳細報表追蹤和分析您的財務！",
-      "sudoku": "無限生成數獨板"
+      "sudoku": "無限生成數獨板",
+      "minecraftServerList": "探索最佳我的世界服务器，體驗無盡遊戲樂趣 (Type \"r\" and press enter to get a new suggestion)"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他譜",
@@ -153,7 +154,8 @@
     "workout": "鍛鍊",
     "3dModels": "3D 模型",
     "financialStatements": "財務報表",
-    "sudoku": "數獨遊戲"
+    "sudoku": "數獨遊戲",
+    "minecraftServerList": "Minecraft 伺服器列表"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -1023,5 +1025,67 @@
     "oldest": "最早時間",
     "author": "作者",
     "name": "標題"
+  },
+  "moduleTools": {
+    "description": "輕鬆管理所有模組",
+    "title": "模組工具",
+    "features": {
+      "list": {
+        "summary": {
+          "title": "模組列表摘要",
+          "totalCategories": "類別數量",
+          "totalModules": "模組數量",
+          "togglableModules": "可切換模組數量",
+          "deprecatedModules": "不薦用模組數量",
+          "aiEnabledModules": "啟用AI的模組數量"
+        },
+        "headers": {
+          "category": "分類",
+          "name": "模組名稱",
+          "icon": "圖示",
+          "togglable": "可切換啟用狀態",
+          "routes": "路徑",
+          "additionalInfo": "更多資訊",
+          "descriptions": "模組描述"
+        }
+      }
+    },
+    "misc": {
+      "yes": "是",
+      "no": "否"
+    },
+    "help": {
+      "command": "命令",
+      "usage": "使用方法:",
+      "options": "選項",
+      "commandsTitle": "命令",
+      "optionsTitle": "選項",
+      "commandDescriptions": {
+        "create": "建立新的模組",
+        "list": "列出所有模組及其詳細信息",
+        "delete": "刪除特定模組",
+        "update": "更新特定模組的詳細信息"
+      },
+      "optionDescriptions": {
+        "help": "顯示幫助",
+        "language": "所使用的語言，預設為en",
+        "username": "用戶名，認證必填，不提供會提示",
+        "password": "密码，認證必填，不提供會提示"
+      }
+    },
+    "auth": {
+      "validatingCredentials": "驗證憑證中...",
+      "authenticationSuccess": "登入成功",
+      "authenticationCancelled": "認證已取消",
+      "authenticationFailed": "認證失敗",
+      "prompts": {
+        "username": "使用者名稱",
+        "password": "密碼"
+      },
+      "empty": {
+        "password": "密碼不能為空",
+        "username": "使用者名稱不能為空"
+      }
+    }
   }
 }

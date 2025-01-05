@@ -40,13 +40,16 @@ const IdeaBoxEntrySchema = s.assign(
   })
 );
 
-const IdeaBoxTagSchema = s.object({
-  name: s.string(),
-  icon: s.string(),
-  color: s.string(),
-  container: s.string(),
-  count: s.number(),
-});
+const IdeaBoxTagSchema = s.assign(
+  BasePBCollectionSchema,
+  s.object({
+    name: s.string(),
+    icon: s.string(),
+    color: s.string(),
+    container: s.string(),
+    count: s.number(),
+  })
+);
 
 type IIdeaBoxContainer = s.Infer<typeof IdeaBoxContainerSchema>;
 type IIdeaBoxFolder = s.Infer<typeof IdeaBoxFolderSchema>;

@@ -81,46 +81,46 @@
       "utilities": "Utilities"
     },
     "descriptions": {
-      "dashboard": "Your mission control center for awesome. 🚀",
-      "projects(m)": "Tame those giant projects, one step at a time. 🦄",
-      "projects(k)": "Track a zillion little projects without losing your mind. 🧠",
-      "ideaBox": "Catch those brilliant ideas before they fly away! 💡",
-      "todoList": "Never forget to-do again (except maybe laundry). 📝",
-      "calendar": "Don't be late for your date with destiny (or the dentist). 📅",
-      "spotify": "The right soundtrack for conquering your day. 🎵",
-      "codeTime": "See how much coding magic you make happen. 👾",
-      "photos": "Memories so vivid, they'll practically jump off the screen. 📸",
-      "music": "Your personal soundtrack for life's greatest moments. 🎶",
-      "repositories": "Your code, your projects, your world. 🌎",
-      "pomodoroTimer": "Work like a boss with laser focus breaks. 🍅",
-      "flashcards": "Learn stuff fast and remember it forever (or at least until next Tuesday). 🧠",
-      "notes": "Digital sticky notes that never fall off the fridge. 📝",
-      "booksLibrary": "Your personal library, minus the late fees. 📚",
-      "wallet": "Be your own financial superhero. 💸",
-      "wishList": "Dream big and plan to make it happen. ✨",
+      "dashboard": "Your mission control center for awesome.",
+      "projects(m)": "Tame those giant projects, one step at a time.",
+      "projects(k)": "Track a zillion little projects without losing your mind.",
+      "ideaBox": "Catch those brilliant ideas before they fly away!",
+      "todoList": "Never forget to-do again (except maybe laundry).",
+      "calendar": "Don't be late for your date with destiny (or the dentist).",
+      "spotify": "The right soundtrack for conquering your day.",
+      "codeTime": "See how much coding magic you make happen.",
+      "photos": "Memories so vivid, they'll practically jump off the screen.",
+      "music": "Your personal soundtrack for life's greatest moments.",
+      "repositories": "Your code, your projects, your world.",
+      "pomodoroTimer": "Work like a boss with laser focus breaks.",
+      "flashcards": "Learn stuff fast and remember it forever (or at least until next Tuesday).",
+      "notes": "Digital sticky notes that never fall off the fridge.",
+      "booksLibrary": "Your personal library, minus the late fees.",
+      "wallet": "Be your own financial superhero.",
+      "wishList": "Dream big and plan to make it happen.",
       "contacts": "Stay connected with your favourite people (even the ones who never text back). 📱",
       "passwords": "Keep your secrets safe, even from yourself (sometimes).",
-      "personalization": "Make it yours! Because who wants a boring organizer? 🎨",
-      "dataBackup": "Your digital safety net, because stuff happens. 🪂",
-      "modules": "All the tools you need, all in one place. 🧰",
-      "serverStatus": "Keep your server healthy, happy, and humming. 🩺",
-      "changeLog": "Track the development progress, one change at a time. 📈",
-      "about": "The story behind how this project came to be. 📖",
-      "journal": "Your personal journal, for your eyes only. 📔",
-      "achievements": "Celebrate your wins, big and small. 🏆",
-      "dnsRecords": "No need to login to CPanel, manage your DNS records here. 🌐",
-      "mailInbox": "Manage your email inbox, all in one place. 📧",
-      "blogPosts": "Writing and sharing your thoughts with the world. 📝",
-      "assets": "See how much money you have 💰",
-      "budgets": "Make sure you're not spending too much money 💸",
-      "ledgers": "Split your expenses so you know who owes who 💸",
-      "transactions": "Know where your money is going 💸",
+      "personalization": "Make it yours! Because who wants a boring organizer?",
+      "dataBackup": "Your digital safety net, because stuff happens.",
+      "modules": "All the tools you need, all in one place.",
+      "serverStatus": "Keep your server healthy, happy, and humming.",
+      "changeLog": "Track the development progress, one change at a time.",
+      "about": "The story behind how this project came to be.",
+      "journal": "Your personal journal, for your eyes only.",
+      "achievements": "Celebrate your wins, big and small.",
+      "dnsRecords": "No need to login to CPanel, manage your DNS records here.",
+      "mailInbox": "Manage your email inbox, all in one place.",
+      "blogPosts": "Writing and sharing your thoughts with the world.",
+      "assets": "See how much money you have.",
+      "budgets": "Make sure you're not spending too much money.",
+      "ledgers": "Split your expenses so you know who owes who.",
+      "transactions": "Know where your money is going.",
       "guitarTabs": "Stores and organizes your guitar tablatures effortlessly.",
       "accountSettings": "A place to manage all your accounts details and info",
       "flightStatus": "Tracks Changi Airport flight statuses in real-time",
       "airports": "View all sorts of information about airports around the world",
       "cfopAlgorithms": "View and train all the algorithms required for speedcubing.",
-      "youtubeVideos": "Download, store, and organize all your favourite videos from YouTube",
+      "youtubeVideos": "Download, store, and organize all your favourite videos from YouTube.",
       "apiKeys": "Manage the required API keys for all your modules",
       "parcelTracking": "Track the delivery status of all the goods that you've ordered online.",
       "wishlist": "Dream, save, and track your must-have treasures effortlessly!",
@@ -128,7 +128,8 @@
       "workout": "Stay fit with personalized workouts and tracking!",
       "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime",
       "financialStatements": "Track and analyze your finances with detailed statements!",
-      "sudoku": "Generate printable sudoku boards indefinitely."
+      "sudoku": "Generate printable sudoku boards indefinitely.",
+      "minecraftServerList": "Explore top Minecraft servers for endless gaming adventures (Type \"r\" and press enter to get a new suggestion)"
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -153,7 +154,8 @@
     "workout": "Workout",
     "3dModels": "3D Models",
     "financialStatements": "Financial Statements",
-    "sudoku": "Sudoku"
+    "sudoku": "Sudoku",
+    "minecraftServerList": "Minecraft Server List"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -1024,5 +1026,67 @@
     "oldest": "Oldest First",
     "author": "Author",
     "name": "Title"
+  },
+  "moduleTools": {
+    "description": "Manage all modules at ease",
+    "title": "Module Tools",
+    "help": {
+      "usage": "Usage:",
+      "command": "command",
+      "options": "options",
+      "commandsTitle": "Commands",
+      "optionsTitle": "Options",
+      "commandDescriptions": {
+        "create": "Create a new module",
+        "list": "List out all the modules and their details",
+        "delete": "Delete a specific module",
+        "update": "Update details of a specific module"
+      },
+      "optionDescriptions": {
+        "help": "Show help",
+        "language": "Language to be used, default to en",
+        "username": "Username, required for authentication, will prompt if not provided",
+        "password": "Username, required for authentication, will prompt if not provided"
+      }
+    },
+    "features": {
+      "list": {
+        "summary": {
+          "title": "Module List Summary",
+          "totalModules": "Total Modules",
+          "togglableModules": "Total Togglable Modules",
+          "deprecatedModules": "Total Deprecated Modules",
+          "aiEnabledModules": "Total AI-enabled Modules",
+          "totalCategories": "Total Categories"
+        },
+        "headers": {
+          "category": "Category",
+          "name": "Module Name",
+          "icon": "Icon",
+          "togglable": "Togglable",
+          "routes": "Routes",
+          "additionalInfo": "More Information",
+          "descriptions": "Module Descriptions"
+        }
+      }
+    },
+    "misc": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "auth": {
+      "validatingCredentials": "Validating credentials...",
+      "authenticationSuccess": "Login successful",
+      "authenticationCancelled": "Authentication cancelled",
+      "authenticationFailed": "Authentication failed",
+      "prompts": {
+        "username": "Username",
+        "password": "Password"
+      },
+      "empty": {
+        "password": "Password cannot be empty",
+        "username": "Username cannot be empty"
+      }
+    }
   }
 }

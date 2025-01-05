@@ -128,7 +128,8 @@
       "workout": "Kekal cergas dengan senaman peribadi dan penjejakan",
       "3dModels": "Urus dan pratonton model 3D anda dengan mudah di LifeForge!",
       "financialStatements": "Jejak dan analisis kewangan anda dengan penyata terperinci",
-      "sudoku": "Hasilkan Lajur Sudoku Tanpa Henti"
+      "sudoku": "Hasilkan Lajur Sudoku Tanpa Henti",
+      "minecraftServerList": "Terokai pelayan Minecraft terbaik untuk pengembaraan permainan tanpa henti (Type \"r\" and press enter to get a new suggestion)"
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -1023,5 +1024,67 @@
     "oldest": "Terlama Dahulu",
     "author": "Penulis",
     "name": "Tajuk"
+  },
+  "moduleTools": {
+    "description": "Urus semua modul dengan kesenangan",
+    "title": "Alat Modul",
+    "features": {
+      "list": {
+        "summary": {
+          "title": "Ringkasan Senarai Modul",
+          "totalCategories": "Jumlah Kategori",
+          "totalModules": "Jumlah Modul",
+          "togglableModules": "Jumlah Modul Togglable",
+          "deprecatedModules": "Jumlah Modul Usang",
+          "aiEnabledModules": "Jumlah Modul yang diaktifkan AI"
+        },
+        "headers": {
+          "category": "Kategori",
+          "name": "Nama Modul",
+          "icon": "Ikon",
+          "togglable": "Boleh diaktifkan",
+          "routes": "Laluan",
+          "additionalInfo": "Maklumat Tambahan",
+          "descriptions": "Keterangan Modul"
+        }
+      }
+    },
+    "misc": {
+      "yes": "Ya",
+      "no": "Tidak"
+    },
+    "help": {
+      "command": "arah",
+      "usage": "Kaedah:",
+      "options": "pilihan",
+      "commandsTitle": "Arahan",
+      "optionsTitle": "Pilihan",
+      "commandDescriptions": {
+        "create": "Cipta modul baharu",
+        "list": "Senaraikan semua modul dan butirannya",
+        "delete": "Padamkan modul tertentu",
+        "update": "Kemas kini butiran modul tertentu"
+      },
+      "optionDescriptions": {
+        "help": "Tunjuk bantuan",
+        "language": "Bahasa yang digunakan, lalai kepada en",
+        "username": "Nama pengguna, diperlukan untuk pengesahan, akan digesa jika tidak diberikan",
+        "password": "Kata laluan, diperlukan untuk pengesahan, akan digesa jika tidak diberikan"
+      }
+    },
+    "auth": {
+      "validatingCredentials": "Mengesahkan kelayakan...",
+      "authenticationSuccess": "Log masuk berjaya",
+      "authenticationCancelled": "Pengesahan dibatalkan",
+      "authenticationFailed": "Pengesahan gagal",
+      "prompts": {
+        "username": "Nama Pengguna",
+        "password": "Kata Laluan"
+      },
+      "empty": {
+        "password": "Kata laluan tidak boleh kosong",
+        "username": "Nama pengguna tidak boleh kosong"
+      }
+    }
   }
 }
