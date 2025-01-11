@@ -83,54 +83,55 @@
     },
     "descriptions": {
       "dashboard": "您的任务控制中心，妙不可言！",
-      "projects(m)": "驯服那些庞大的项目，一步一步来。",
-      "projects(k)": "跟踪无数个小项目，而不至于发疯。",
+      "projects(m)": "驯服那些庞大的项目，一步一步来",
+      "projects(k)": "跟踪无数个小项目，而不至于发疯",
       "ideaBox": "抓住那些奇妙的想法，别让它们溜走！",
-      "todoList": "永远不要忘记待办事项 (除了洗衣房的衣服吧)。",
-      "calendar": "不要迟到与命运 (或牙医) 的约会。",
-      "spotify": "征服每一天的完美配乐。",
-      "codeTime": "看看你创造了多少编码魔法。",
-      "photos": "生动的回忆，它们几乎会从屏幕上跳下来。",
-      "music": "您的音乐，您的节奏，您的生活。",
-      "repositories": "您的代码仓库，您的代码王国。",
-      "pomodoroTimer": "像老板一样工作，利用激光般专注的休息时间。",
-      "flashcards": "快速学习并永远记住它 (或至少记住到下个星期二)。",
-      "notes": "永远不会从冰箱上掉下来的数码粘贴纸条。",
-      "booksLibrary": "您的个人图书馆，逾期无需被罚款。",
-      "wallet": "成为你自己的财务超级英雄。",
-      "wishList": "做些白日梦，然后想方设法实现它。",
-      "contacts": "与您最喜爱的人保持联系 (即使是那些从来不回复短信的人)。",
-      "passwords": "确保您的密码安全，甚至有时要防止泄露给自己。",
+      "todoList": "永远不要忘记待办事项 (除了洗衣房的衣服吧)",
+      "calendar": "不要迟到与命运 (或牙医) 的约会",
+      "spotify": "征服每一天的完美配乐",
+      "codeTime": "看看你创造了多少编码魔法",
+      "photos": "生动的回忆，它们几乎会从屏幕上跳下来",
+      "music": "您的音乐，您的节奏，您的生活",
+      "repositories": "您的代码仓库，您的代码王国",
+      "pomodoroTimer": "像老板一样工作，利用激光般专注的休息时间",
+      "flashcards": "快速学习并永远记住它 (或至少记住到下个星期二)",
+      "notes": "永远不会从冰箱上掉下来的数码粘贴纸条",
+      "booksLibrary": "您的个人图书馆，逾期无需被罚款",
+      "wallet": "成为你自己的财务超级英雄",
+      "wishList": "做些白日梦，然后想方设法实现它",
+      "contacts": "与您最喜爱的人保持联系 (即使是那些从来不回复短信的人)",
+      "passwords": "确保您的密码安全，甚至有时要防止泄露给自己",
       "personalization": "打造您的专属风格！谁想要一个无聊的程式呢？",
-      "dataBackup": "您的数吗安全保镖，因为意外会发生。",
-      "modules": "您所需的所有工具，都在一个地方。",
-      "serverStatus": "保持您的服务器健康、快乐并运行良好。",
-      "changeLog": "跟踪开发的进度，每一次更改都很重要。",
-      "about": "一个关于此项目是如何开始的故事。",
-      "journal": "记录您的生活旅程，每一步都是一个故事。",
-      "achievements": "您的成就，您的荣耀，您的传奇。",
-      "dnsRecords": "管理您的域名系统记录，让您的网站保持运行。",
-      "mailInbox": "您的邮件收件箱，您的邮件，您的生活。",
-      "blogPosts": "将您的想法、您的故事、您的声音传播给世界。",
-      "assets": "查看您的资产，了解您的财务状况。",
-      "budgets": "管理您的预算，让您的钱包保持健康。",
-      "ledgers": "分类您的账目，确保您知道您的钱花在谁身上。",
-      "transactions": "查看您的交易历史，确保您的钱花在正确的地方。",
-      "guitarTabs": "轻松存储和整理您的吉他谱。",
+      "dataBackup": "您的数吗安全保镖，因为意外会发生",
+      "modules": "您所需的所有工具，都在一个地方",
+      "serverStatus": "保持您的服务器健康、快乐并运行良好",
+      "changeLog": "跟踪开发的进度，每一次更改都很重要",
+      "about": "一个关于此项目是如何开始的故事",
+      "journal": "记录您的生活旅程，每一步都是一个故事",
+      "achievements": "您的成就，您的荣耀，您的传奇",
+      "dnsRecords": "管理您的域名系统记录，让您的网站保持运行",
+      "mailInbox": "您的邮件收件箱，您的邮件，您的生活",
+      "blogPosts": "将您的想法、您的故事、您的声音传播给世界",
+      "assets": "查看您的资产，了解您的财务状况",
+      "budgets": "管理您的预算，让您的钱包保持健康",
+      "ledgers": "分类您的账目，确保您知道您的钱花在谁身上",
+      "transactions": "查看您的交易历史，确保您的钱花在正确的地方",
+      "guitarTabs": "轻松存储和整理您的吉他谱",
       "accountSettings": "管理所有账户信息和资料的地方",
       "flightStatus": "实时跟踪樟宜机场的航班状态",
       "airports": "查看世界各地机场的各种信息",
-      "cfopAlgorithms": "查看并训练速解魔方所需的所有公式。",
+      "cfopAlgorithms": "查看并训练速解魔方所需的所有公式",
       "youtubeVideos": "下载、保存及管理您喜爱的YouTube视频",
-      "apiKeys": "管理各种模组所需要的API密钥",
-      "parcelTracking": "跟踪您在线订购的所有商品的运送状态。",
+      "apiKeys": "管理各种模块所需要的API密钥",
+      "parcelTracking": "跟踪您在线订购的所有商品的运送状态",
       "wishlist": "轻松记录和追踪你的梦想清单！",
       "budget": "轻松规划和管理你的预算！",
       "workout": "个性化锻炼和跟踪功能保持健康！",
       "3dModels": "轻松管理和预览您的 3D 模型！",
       "financialStatements": "通过详细报表追踪和分析您的财务！",
       "sudoku": "无限生成数独板",
-      "minecraftServerList": "发现最佳我的世界服务器，体验无尽游戏乐趣 (Type \"r\" and press enter to get a new suggestion)"
+      "minecraftServerList": "发现最佳我的世界服务器，体验无尽游戏乐趣",
+      "asciiTextGenerator": "轻松创建自定义ASCII文本风格"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他谱",
@@ -156,7 +157,8 @@
     "3dModels": "3D 模型",
     "financialStatements": "财务报表",
     "sudoku": "数独游戏",
-    "minecraftServerList": "我的世界服务器列表"
+    "minecraftServerList": "我的世界服务器列表",
+    "asciiTextGenerator": "ASCII 文本生成器"
   },
   "header": {
     "searchBarPlaceholder": "快速导航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -164,7 +166,7 @@
   "personalization": {
     "themeSelector": {
       "title": "主题",
-      "desc": "选择适合你风格的主题。",
+      "desc": "选择适合你风格的主题",
       "theme": {
         "system": "系统",
         "light": "亮色",
@@ -174,7 +176,7 @@
     },
     "themeColorSelector": {
       "title": "主题颜色",
-      "desc": "为你的用户界面选择最佳颜色。",
+      "desc": "为你的用户界面选择最佳颜色",
       "colors": {
         "red": "红色",
         "pink": "粉色",
@@ -199,11 +201,11 @@
     },
     "languageSelector": {
       "title": "语言",
-      "desc": "选择最适合你的语言。"
+      "desc": "选择最适合你的语言"
     },
     "bgTempSelector": {
       "title": "背景温度",
-      "desc": "选择适合你心情的背景温度。",
+      "desc": "选择适合你心情的背景温度",
       "cool": "冷色",
       "warm": "暖色",
       "customBgTemp": "自定义背景温度"
@@ -211,7 +213,7 @@
     "fontFamily": {
       "title": "字体样式",
       "desc": "选择符合您偏好的字体系列",
-      "tooltip": "欲查看有关所有字体的更多详细信息，请访问 Google 字体网站。",
+      "tooltip": "欲查看有关所有字体的更多详细信息，请访问 Google 字体网站",
       "tooltipTitle": "由 Google Fonts提供支持"
     },
     "bgImageSelector": {
@@ -223,72 +225,72 @@
     "widgets": {
       "quickActions": {
         "title": "快捷操作",
-        "description": "快速访问您最常用的功能。"
+        "description": "快速访问您最常用的功能"
       },
       "miniCalendar": {
         "title": "迷你日历",
-        "description": "查看紧急事件的紧凑日历。"
+        "description": "查看紧急事件的紧凑日历"
       },
       "todaysEvent": {
         "title": "今日事件",
-        "description": "今天事件的提醒。"
+        "description": "今天事件的提醒"
       },
       "todoList": {
         "title": "待办事项列表",
-        "description": "组织和跟踪您的任务。"
+        "description": "组织和跟踪您的任务"
       },
       "pomodoroTimer": {
         "title": "番茄钟",
-        "description": "使用番茄工作法集中注意力。"
+        "description": "使用番茄工作法集中注意力"
       },
       "codeTime": {
         "title": "编程时间记录",
-        "description": "跟踪和可视化编码活动。"
+        "description": "跟踪和可视化编码活动"
       },
       "ideaBox": {
         "title": "创意盒子",
-        "description": "捕捉和组织随机想法。"
+        "description": "捕捉和组织随机想法"
       },
       "journal": {
         "title": "日记",
-        "description": "记录您的思想和经历。"
+        "description": "记录您的思想和经历"
       },
       "flashCards": {
         "title": "记忆闪卡",
-        "description": "可自定义的闪卡卡组。"
+        "description": "可自定义的闪卡卡组"
       },
       "bookshelf": {
         "title": "书架",
-        "description": "管理和访问您的书籍。"
+        "description": "管理和访问您的书籍"
       },
       "achievements": {
         "title": "成就",
-        "description": "跟踪和庆祝里程碑。"
+        "description": "跟踪和庆祝里程碑"
       },
       "spotify": {
         "title": "Spotify",
-        "description": "控制 Spotify 播放列表。"
+        "description": "控制 Spotify 播放列表"
       },
       "musicPlayer": {
         "title": "音乐播放器",
-        "description": "播放您的个人音乐。",
+        "description": "播放您的个人音乐",
         "noMusicPlaying": "没有正在播放中的音乐"
       },
       "incomeExpenses": {
         "title": "收入和支出",
-        "description": "监控收入和支出。"
+        "description": "监控收入和支出"
       },
       "assetsBalance": {
         "title": "资产余额",
-        "description": "跟踪资产余额。"
+        "description": "跟踪资产余额"
       },
       "serverStatus": {
         "title": "服务器状态",
-        "description": "监控服务器性能。"
+        "description": "监控服务器性能"
       },
       "storageStatus": {
         "title": "存储状态",
-        "description": "检查存储使用情况。"
+        "description": "检查存储使用情况"
       },
       "income": "收入",
       "expenses": "支出",
@@ -296,22 +298,22 @@
       "statistics": "统计",
       "expensesBreakdown": {
         "title": "支出明细",
-        "description": "您的支出類別的簡潔直觀摘要。"
+        "description": "您的支出類別的簡潔直觀摘要"
       },
       "recentTransactions": {
         "title": "最近交易",
-        "description": "轻松监控和查看您的最新支出。"
+        "description": "轻松监控和查看您的最新支出"
       },
       "date": {
         "title": "日期",
-        "description": "一个用于显示今天日期的简单装饰小部件。"
+        "description": "一个用于显示今天日期的简单装饰小部件"
       },
       "clock": {
         "title": "时钟",
-        "description": "一个小钟，可以防止你忘记时间。"
+        "description": "一个小钟，可以防止你忘记时间"
       },
       "quotes": {
-        "description": "随机的一个格言，希望能激励您一整天。",
+        "description": "随机的一个格言，希望能激励您一整天",
         "title": "格言"
       },
       "transactionsCount": "交易统计"
@@ -319,7 +321,7 @@
   },
   "notFound": {
     "title": "您迷路了吗？",
-    "description": "您正在寻找的页面不存在或已被移动。"
+    "description": "您正在寻找的页面不存在或已被移动"
   },
   "search": {
     "books": "搜索书籍...",
@@ -444,9 +446,9 @@
     "pauseSession": "暂停环节",
     "search": "搜索",
     "signInWithGithub": "使用 GitHub 登录",
-    "requestOtp": "请求 OTP",
-    "resendOtp": "重新发送 OTP",
-    "verifyOtp": "验证 OTP",
+    "requestOtp": "请求 一次性验证码",
+    "resendOtp": "重新发送 一次性验证码",
+    "verifyOtp": "验证 一次性验证码",
     "addApiKey": "添加密钥",
     "configApiKeys": "配置 API 密钥",
     "morandiColorPalette": "莫兰迪颜色板",
@@ -736,7 +738,7 @@
   },
   "auth": {
     "header": "欢迎回来",
-    "desc": "继续记录你的生活旅程，请登录。",
+    "desc": "继续记录你的生活旅程，请登录",
     "sideImageDesc.part1": "有一天你会离开这个世界",
     "sideImageDesc.part2": "所以过一个你会记住的生活",
     "or": "或者",
@@ -833,22 +835,22 @@
       "summarized": "摘要",
       "unlock": "解锁",
       "download": "下载",
-      "NASFilesReady": "文件已就绪，请前往您的NAS下载。",
+      "NASFilesReady": "文件已就绪，请前往您的NAS下载",
       "addedToFavourites": "添加到收藏",
       "removedFromFavourites": "从收藏中删除"
     },
     "fetchError": "从服务器获取数据失败",
     "redirected": "已重定向",
     "otp": {
-      "success": "OTP 已发送！请查看您的电子邮件收件箱。",
-      "failed": "获取 OTP 失败",
+      "success": "一次性验证码 已发送！请查看您的电子邮件收件箱",
+      "failed": "获取 一次性验证码 失败",
       "required": {
-        "title": "需要 OTP 解锁",
-        "desc": "为了提高安全性，需要 OTP 来解锁此模块。请点击下方按钮申请一个。"
+        "title": "需要 一次性验证码 解锁",
+        "desc": "为了提高安全性，需要 一次性验证码 来解锁此模块。请点击下方按钮申请一个"
       },
       "verify": {
-        "success": "OTP 验证成功",
-        "failed": "OTP 验证失败"
+        "success": "一次性验证码 验证成功",
+        "failed": "一次性验证码 验证失败"
       }
     },
     "unlock": "解锁"
@@ -887,7 +889,7 @@
     },
     "trash": {
       "title": "回收站为空",
-      "description": "垃圾桶中没有项目。"
+      "description": "垃圾桶中没有项目"
     },
     "wallet": {
       "transactions": {
@@ -900,27 +902,27 @@
       },
       "ledger": {
         "title": "没有账本",
-        "description": "您还没有创建任何账本。"
+        "description": "您还没有创建任何账本"
       }
     },
     "achievements": {
       "title": "暂无成就",
-      "description": "您还没有添加任何成就。请点击下方按钮添加。"
+      "description": "您还没有添加任何成就。请点击下方按钮添加"
     },
     "projects": {
       "title": "目前没有项目",
-      "description": "尚无项目可用。创建一个新项目来开始。"
+      "description": "尚无项目可用。创建一个新项目来开始"
     },
     "statuses": "没有找到状态",
     "visibilities": "没有找到可见性",
     "technologies": "没有找到技术",
     "ideaBox": {
       "title": "未找到想法盒",
-      "description": "暂时没有想法盒子。点击下面的按钮创建一个。"
+      "description": "暂时没有想法盒子。点击下面的按钮创建一个"
     },
     "journal": {
       "title": "暂无日志记录",
-      "description": "暂未有日记条目。开始撰写第一篇日记吧。"
+      "description": "暂未有日记条目。开始撰写第一篇日记吧"
     },
     "todoList": {
       "todaysTask": {
@@ -939,20 +941,20 @@
       "libgen": {
         "results": {
           "title": "没有查找到图书",
-          "description": "创世纪图书馆中没有找到匹配的书籍。"
+          "description": "创世纪图书馆中没有找到匹配的书籍"
         },
         "searchQuery": {
           "title": "沒有搜索关键字",
-          "description": "开始探索创世纪图书馆。尝试搜索一本书来开始吧。"
+          "description": "开始探索创世纪图书馆。尝试搜索一本书来开始吧"
         }
       },
       "empty": {
         "title": "图书馆为空",
-        "description": "您的书库中没有找到任何书籍。您可以从您的设备上传一些图书，也可以从 Library Genesis 下载。"
+        "description": "您的书库中没有找到任何书籍。您可以从您的设备上传一些图书，也可以从 Library Genesis 下载"
       },
       "results": {
         "title": "没有找到书籍",
-        "description": "未找到匹配结果。请尝试搜索其他项。"
+        "description": "未找到匹配结果。请尝试搜索其他项"
       }
     },
     "languages": "没有找到任何语言"
@@ -977,11 +979,11 @@
       "dateOfBirth": "出生日期"
     },
     "desc": {
-      "profilePicture": "上传头像来个性化您的帐户。",
-      "username": "在平台上识别您的名称。",
-      "displayName": "向其他用户显示的名称。",
-      "email": "您用于登录帐户的电子邮件地址。",
-      "password": "设置强密码来保护您的帐户。",
+      "profilePicture": "上传头像来个性化您的帐户",
+      "username": "在平台上识别您的名称",
+      "displayName": "向其他用户显示的名称",
+      "email": "您用于登录帐户的电子邮件地址",
+      "password": "设置强密码来保护您的帐户",
       "dateOfBirth": "设置您的生日，我们将为您带来一份小惊喜！"
     },
     "empty": "未设置"
@@ -995,7 +997,7 @@
     "unknownAuthor": "未知作者"
   },
   "apiKeys": {
-    "lockedMessage": "API 密钥设定模组已被锁定",
+    "lockedMessage": "API 密钥设定模块已被锁定",
     "passwordRequired": "需要密码来解密API密钥",
     "missing": {
       "title": "缺失 API 密钥",
@@ -1049,6 +1051,48 @@
           "additionalInfo": "更多信息",
           "descriptions": "模块描述"
         }
+      },
+      "delete": {
+        "beforeProceed": "继续操作之前，请阅读以下警告：",
+        "warning": "删除模块警告",
+        "warnings": {
+          "actionScope": {
+            "title": "操作范围",
+            "desc": "此操作将删除所选模块的前端代码。但是，它不会删除与此模块相关的任何后端或数据库组件"
+          },
+          "recoverability": {
+            "title": "恢复性",
+            "desc": "虽然此操作会从当前工作代码库中删除模块，但并非绝对不可逆。如果需要，仍可以通过 Git 历史记录恢复已删除的代码"
+          },
+          "systemImpact": {
+            "title": "系统影响",
+            "desc": "删除此模块可能会破坏系统中依赖它的其他部分。请确保已检查所有依赖项"
+          },
+          "backupRecommendation": {
+            "title": "推荐备份",
+            "desc": "为了避免任何中断，我们建议您在继续之前提交当前更改并创建备份分支"
+          },
+          "userResponsibility": {
+            "title": "用户责任",
+            "desc": "通过确认此操作，您承认并接受删除此模块的任何后果的责任"
+          },
+          "dependencies": {
+            "desc": "任何依赖此模块前端的依赖项或集成都可能停止正常运行。这包括路由、UI 组件或相关功能",
+            "title": "依赖关系"
+          }
+        },
+        "prompts": {
+          "proceedConfirmation": "您要继续执行删除吗？",
+          "proceedConfirmation2": "请输入 “{}” 以继续执行删除操作",
+          "proceedConfirmation3": "您确定要删除模块 “{}” 吗？",
+          "selectModule": "选择要删除的模块",
+          "finalConfirmation": "最后确认: 您确实要删除该模块吗？",
+          "proceedConfirmation4": "请输入模块名称 “{}” 以确认删除",
+          "OTP": "请输入验证码"
+        },
+        "messages": {
+          "cancelled": "删除操作已取消"
+        }
       }
     },
     "misc": {
@@ -1065,27 +1109,46 @@
         "create": "创建新的模块",
         "list": "列出所有模块及其详细信息",
         "delete": "删除特定模块",
-        "update": "更新特定模块的详细信息"
+        "update": "更新特定模块的详细信息",
+        "reorder": "调整侧边栏显示模块的位置",
+        "help": "显示帮助"
       },
       "optionDescriptions": {
-        "help": "显示帮助",
         "language": "所使用的语言，默认为en",
         "username": "用户名，身份验证所需，若未提供将会提示",
         "password": "密码，身份验证所需，若未提供将会提示"
       }
     },
     "auth": {
-      "validatingCredentials": "验证凭证中...",
-      "authenticationSuccess": "登录成功",
-      "authenticationCancelled": "认证已取消",
-      "authenticationFailed": "验证失败",
+      "messages": {
+        "auth": {
+          "validating": "验证凭证中...",
+          "success": "登录成功",
+          "cancelled": "认证已取消",
+          "failed": "验证失败"
+        },
+        "OTP": {
+          "validating": "正在验证一次性验证码...",
+          "requesting": "正在请求一次性验证码...",
+          "sent": "一次性验证码已发送至您的邮箱",
+          "invalid": "无效的一次性密码",
+          "valid": "一次性验证码验证成功"
+        }
+      },
       "prompts": {
         "username": "用户名",
-        "password": "密码"
+        "password": "密码",
+        "OTP": "一次性验证码"
       },
-      "empty": {
-        "password": "密码不能为空",
-        "username": "用户名不能为空"
+      "inputErrors": {
+        "empty": {
+          "username": "用户名不能为空",
+          "password": "密码不能为空",
+          "OTP": "验证码不能为空"
+        },
+        "invalid": {
+          "OTP": "一次性验证码格式错误。一次性验证码必须是 6 位数字"
+        }
       }
     }
   }

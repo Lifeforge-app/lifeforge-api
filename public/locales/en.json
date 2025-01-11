@@ -129,7 +129,8 @@
       "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime",
       "financialStatements": "Track and analyze your finances with detailed statements!",
       "sudoku": "Generate printable sudoku boards indefinitely.",
-      "minecraftServerList": "Explore top Minecraft servers for endless gaming adventures (Type \"r\" and press enter to get a new suggestion)"
+      "minecraftServerList": "Explore top Minecraft servers for endless gaming adventures",
+      "asciiTextGenerator": "Create custom ASCII text with ease and style."
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -155,7 +156,8 @@
     "3dModels": "3D Models",
     "financialStatements": "Financial Statements",
     "sudoku": "Sudoku",
-    "minecraftServerList": "Minecraft Server List"
+    "minecraftServerList": "Minecraft Server List",
+    "asciiTextGenerator": "ASCII Text Generator"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -1040,10 +1042,11 @@
         "create": "Create a new module",
         "list": "List out all the modules and their details",
         "delete": "Delete a specific module",
-        "update": "Update details of a specific module"
+        "update": "Update details of a specific module",
+        "reorder": "Adjust the position of modules being displayed in the sidebar",
+        "help": "Show help"
       },
       "optionDescriptions": {
-        "help": "Show help",
         "language": "Language to be used, default to en",
         "username": "Username, required for authentication, will prompt if not provided",
         "password": "Username, required for authentication, will prompt if not provided"
@@ -1068,6 +1071,48 @@
           "additionalInfo": "More Information",
           "descriptions": "Module Descriptions"
         }
+      },
+      "delete": {
+        "beforeProceed": "Before you proceed, please review the following warnings:",
+        "warning": "Delete Module Warning",
+        "warnings": {
+          "actionScope": {
+            "title": "Action Scope",
+            "desc": "This operation will delete the frontend code for the selected module. However, it will not remove any backend or database components associated with this module."
+          },
+          "recoverability": {
+            "title": "Recoverability",
+            "desc": "While this action removes the module from your current working codebase, it is not absolutely irreversible. The deleted code can still be recovered through your Git history if needed."
+          },
+          "systemImpact": {
+            "title": "System Impact",
+            "desc": "Deleting this module may disrupt other parts of the system that depend on it. Please ensure that all dependencies have been reviewed."
+          },
+          "backupRecommendation": {
+            "title": "Backup Recommended",
+            "desc": "To avoid any disruptions, we recommend committing your current changes and creating a backup branch before proceeding."
+          },
+          "userResponsibility": {
+            "title": "User Responsibility",
+            "desc": "By confirming this action, you acknowledge and accept responsibility for any consequences of deleting this module."
+          },
+          "dependencies": {
+            "desc": "Any dependencies or integrations relying on this module's frontend may stop functioning properly. This includes routes, UI components, or related features.",
+            "title": "Dependencies"
+          }
+        },
+        "prompts": {
+          "proceedConfirmation": "Do you want to proceed with the deletion process?",
+          "proceedConfirmation2": "Please type \"{}\" to proceed with the deletion process.",
+          "proceedConfirmation3": "Are you sure you want to delete the module \"{}\"?",
+          "selectModule": "Select module to delete",
+          "finalConfirmation": "FINAL CONFIRMATION: Are you really sure you want to delete the module?",
+          "proceedConfirmation4": "Please type the module name \"{}\" to confirm deletion.",
+          "OTP": "Please enter OTP"
+        },
+        "messages": {
+          "cancelled": "Deletion process cancelled"
+        }
       }
     },
     "misc": {
@@ -1075,17 +1120,35 @@
       "no": "No"
     },
     "auth": {
-      "validatingCredentials": "Validating credentials...",
-      "authenticationSuccess": "Login successful",
-      "authenticationCancelled": "Authentication cancelled",
-      "authenticationFailed": "Authentication failed",
+      "messages": {
+        "auth": {
+          "validating": "Validating credentials...",
+          "success": "Login successful",
+          "cancelled": "Authentication cancelled",
+          "failed": "Validation failed"
+        },
+        "OTP": {
+          "validating": "Validating one-time password...",
+          "requesting": "Requesting one-time password...",
+          "sent": "A one-time password has been sent to your email",
+          "invalid": "Invalid one-time password",
+          "valid": "One-time password validated successfully"
+        }
+      },
       "prompts": {
         "username": "Username",
-        "password": "Password"
+        "password": "Password",
+        "OTP": "One-time password"
       },
-      "empty": {
-        "password": "Password cannot be empty",
-        "username": "Username cannot be empty"
+      "inputErrors": {
+        "empty": {
+          "username": "Username cannot be empty",
+          "password": "Password cannot be empty",
+          "OTP": "The code cannot be empty"
+        },
+        "invalid": {
+          "OTP": "Invalid one-time password format. The code must be a 6-digit number"
+        }
       }
     }
   }

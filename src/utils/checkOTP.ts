@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { successWithBaseResponse } from "./response.js";
 import { decrypt2 } from "./encryption.js";
 
-async function checkOTP(req: Request, res: Response, challenge: string) {
+async function checkOTP(req: Request, res: Response, challenge?: string) {
   const { otp, otpId } = req.body;
   const { pb } = req;
   const id = pb.authStore.record?.id;
@@ -12,7 +12,14 @@ async function checkOTP(req: Request, res: Response, challenge: string) {
     return;
   }
 
-  const decryptedOTP = decrypt2(otp, challenge);
+  let decryptedOTP;
+
+  if (challenge) {
+    decryptedOTP = decrypt2(otp, challenge);
+  } else {
+    decryptedOTP = otp;
+  }
+
   const authData = await pb
     .collection("users")
     .authWithOTP(otpId, decryptedOTP)

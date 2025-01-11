@@ -9,6 +9,7 @@ import hasError from "../../utils/checkError.js";
 import { query } from "express-validator";
 import moment from "moment";
 import { BaseResponse } from "../../interfaces/base_response.js";
+import checkOTP from "../../utils/checkOTP.js";
 
 const router = express.Router();
 
@@ -131,20 +132,32 @@ router.post(
  * @description Request a One-Time Password (OTP) for the user.
  * @response 200 (string) - The OTP ID
  */
-router.get("/auth/otp", async (req, res) => {
-  const { pb } = req;
+router.get(
+  "/auth/otp",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
 
-  const response = await pb
-    .collection("users")
-    .requestOTP(pb.authStore.record?.email)
-    .catch(() => {
-      clientError(res, "Failed to send OTP");
-    });
+    const response = await pb
+      .collection("users")
+      .requestOTP(pb.authStore.record?.email)
+      .catch(() => {
+        clientError(res, "Failed to send OTP");
+      });
 
-  if (response) {
-    successWithBaseResponse(res, response.otpId);
-  }
-});
+    if (response) {
+      successWithBaseResponse(res, response.otpId);
+    }
+  })
+);
+
+router.post(
+  "/auth/otp",
+  [body("otp").isString().notEmpty(), body("otpId").isString().notEmpty()],
+  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
+    if (hasError(req, res)) return;
+    checkOTP(req, res);
+  })
+);
 
 /**
  * @public

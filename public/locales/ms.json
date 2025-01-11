@@ -129,7 +129,8 @@
       "3dModels": "Urus dan pratonton model 3D anda dengan mudah di LifeForge!",
       "financialStatements": "Jejak dan analisis kewangan anda dengan penyata terperinci",
       "sudoku": "Hasilkan Lajur Sudoku Tanpa Henti",
-      "minecraftServerList": "Terokai pelayan Minecraft terbaik untuk pengembaraan permainan tanpa henti (Type \"r\" and press enter to get a new suggestion)"
+      "minecraftServerList": "Terokai pelayan Minecraft terbaik untuk pengembaraan permainan tanpa henti",
+      "asciiTextGenerator": "Cipta teks ASCII kustom dengan mudah dan gaya."
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -154,7 +155,8 @@
     "workout": "Senaman",
     "3dModels": "Model 3D",
     "financialStatements": "Penyata Kewangan",
-    "sudoku": "Tebah Sudoku"
+    "sudoku": "Tebah Sudoku",
+    "asciiTextGenerator": "Penggeneator Teks ASCII"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -1047,6 +1049,48 @@
           "additionalInfo": "Maklumat Tambahan",
           "descriptions": "Keterangan Modul"
         }
+      },
+      "delete": {
+        "beforeProceed": "Sebelum anda meneruskan, sila semak amaran berikut:",
+        "warning": "Amaran Padam Modul",
+        "warnings": {
+          "actionScope": {
+            "title": "Skop Tindakan",
+            "desc": "Operasi ini akan memadamkan kod bahagian hadapan untuk modul yang dipilih. Walau bagaimanapun, ia tidak akan mengalih keluar sebarang bahagian belakang atau komponen pangkalan data yang dikaitkan dengan modul ini."
+          },
+          "recoverability": {
+            "title": "Pemulihan",
+            "desc": "Walaupun tindakan ini mengalih keluar modul daripada pangkalan kod kerja semasa anda, tindakan ini tidak boleh diterbalikkan sepenuhnya. Kod yang dipadam masih boleh dipulihkan melalui sejarah Git anda jika perlu."
+          },
+          "systemImpact": {
+            "title": "Kesan Sistem",
+            "desc": "Memadamkan modul ini boleh mengganggu bahagian lain sistem yang bergantung padanya. Sila pastikan semua kebergantungan telah disemak."
+          },
+          "backupRecommendation": {
+            "title": "Saranan Sandaran",
+            "desc": "Untuk mengelakkan sebarang gangguan, kami mengesyorkan agar anda melakukan perubahan semasa anda dan membuat cawangan sandaran sebelum meneruskan."
+          },
+          "userResponsibility": {
+            "title": "Tanggungjawab Pengguna",
+            "desc": "Dengan mengesahkan tindakan ini, anda mengakui dan menerima tanggungjawab untuk sebarang akibat pemadaman modul ini."
+          },
+          "dependencies": {
+            "desc": "Sebarang kebergantungan atau penyepaduan yang bergantung pada bahagian hadapan modul ini mungkin berhenti berfungsi dengan betul. Ini termasuk laluan, komponen UI atau ciri yang berkaitan.",
+            "title": "Ketergantungan"
+          }
+        },
+        "prompts": {
+          "proceedConfirmation": "Adakah anda mahu meneruskan proses pemadaman?",
+          "proceedConfirmation2": "Sila taip \"{}\" untuk meneruskan.",
+          "proceedConfirmation3": "Adakah anda pasti mahu memadamkan modul \"{}\"?",
+          "selectModule": "Pilih modul untuk dihapus",
+          "finalConfirmation": "PENGESAHAN AKHIR: Adakah anda benar-benar pasti mahu memadamkan modul?",
+          "proceedConfirmation4": "Sila taip nama modul \"{}\" untuk mengesahkan pemadaman.",
+          "OTP": "Sila masukkan OTP"
+        },
+        "messages": {
+          "cancelled": "Proces pemadaman telah dibatal"
+        }
       }
     },
     "misc": {
@@ -1063,27 +1107,46 @@
         "create": "Cipta modul baharu",
         "list": "Senaraikan semua modul dan butirannya",
         "delete": "Padamkan modul tertentu",
-        "update": "Kemas kini butiran modul tertentu"
+        "update": "Kemas kini butiran modul tertentu",
+        "reorder": "Laraskan kedudukan modul yang dipaparkan di bar sisi",
+        "help": "Tunjuk bantuan"
       },
       "optionDescriptions": {
-        "help": "Tunjuk bantuan",
         "language": "Bahasa yang digunakan, lalai kepada en",
         "username": "Nama pengguna, diperlukan untuk pengesahan, akan digesa jika tidak diberikan",
         "password": "Kata laluan, diperlukan untuk pengesahan, akan digesa jika tidak diberikan"
       }
     },
     "auth": {
-      "validatingCredentials": "Mengesahkan kelayakan...",
-      "authenticationSuccess": "Log masuk berjaya",
-      "authenticationCancelled": "Pengesahan dibatalkan",
-      "authenticationFailed": "Pengesahan gagal",
-      "prompts": {
-        "username": "Nama Pengguna",
-        "password": "Kata Laluan"
+      "messages": {
+        "auth": {
+          "validating": "Memeriksa kelayakan...",
+          "success": "Berjaya log masuk",
+          "cancelled": "Pengesahan dibatalkan",
+          "failed": "Pengesahan gagal"
+        },
+        "OTP": {
+          "validating": "Memeriksa kata laluan sekali guna...",
+          "requesting": "Meminta kata laluan sekali guna...",
+          "sent": "Kata laluan sekali guna telah dihantar ke e-mel anda",
+          "invalid": "Kata laluan sekali guna tidak sah",
+          "valid": "Kata laluan sekali guna berjaya disahkan"
+        }
       },
-      "empty": {
-        "password": "Kata laluan tidak boleh kosong",
-        "username": "Nama pengguna tidak boleh kosong"
+      "prompts": {
+        "username": "Nama pengguna",
+        "password": "Kata laluan",
+        "OTP": "Kata laluan sekali guna"
+      },
+      "inputErrors": {
+        "empty": {
+          "username": "Nama pengguna tidak boleh kosong",
+          "password": "Kata laluan tidak boleh kosong",
+          "OTP": "Kod tidak boleh kosong"
+        },
+        "invalid": {
+          "OTP": "Format kata laluan sekali guna tidak sah. Kod mesti 6 digit nombor"
+        }
       }
     }
   }
