@@ -78,7 +78,8 @@
       "priorities": "Priorities",
       "calendarHeatmap": "Calendar Heatmap",
       "filetypes": "File Types",
-      "utilities": "Utilities"
+      "utilities": "Utilities",
+      "health&Fitness": "Health & Fitness"
     },
     "descriptions": {
       "dashboard": "Your mission control center for awesome.",
@@ -130,7 +131,9 @@
       "financialStatements": "Track and analyze your finances with detailed statements!",
       "sudoku": "Generate printable sudoku boards indefinitely.",
       "minecraftServerList": "Explore top Minecraft servers for endless gaming adventures",
-      "asciiTextGenerator": "Create custom ASCII text with ease and style."
+      "asciiTextGenerator": "Create custom ASCII text with ease and style.",
+      "openaiApiPricing": "Exploring OpenAI API pricing for various usage plans and models.",
+      "nutritionsTracker": "Tracking nutrient intake and analyzing dietary habits."
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -157,7 +160,9 @@
     "financialStatements": "Financial Statements",
     "sudoku": "Sudoku",
     "minecraftServerList": "Minecraft Server List",
-    "asciiTextGenerator": "ASCII Text Generator"
+    "asciiTextGenerator": "ASCII Text Generator",
+    "openaiApiPricing": "OpenAI API Pricing",
+    "nutritionsTracker": "Nutritions Tracker"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -483,7 +488,8 @@
     "markAsBought": "Mark as Bought",
     "print": "Print",
     "showStatement": "View Statement",
-    "viewActive": "View Active"
+    "viewActive": "View Active",
+    "inputRawHtml": "Input Raw HTML"
   },
   "modals": {
     "header": {
@@ -569,12 +575,14 @@
       "updateWishlist": "Update Wishlist",
       "importFromOtherApps": "Import from Other Apps",
       "createCard": "New Entry Card",
-      "updateCard": "Edit Entry Card"
+      "updateCard": "Edit Entry Card",
+      "inputRawHtml": "Input Raw HTML"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
       "desc": "This will delete the {{itemName}} and everything related to it. This action is irreversible!"
-    }
+    },
+    "haeder": {}
   },
   "input": {
     "achievementTitle": "Achievement Title",
@@ -722,7 +730,9 @@
     "ideaContent": "Idea Content",
     "ideaLink": "Idea Link",
     "tagIcon": "Tag Icon",
-    "tagColor": "Tag Color"
+    "tagColor": "Tag Color",
+    "rawHtmlFromOpenAi": "Raw HTML source code from https://openai.com/api/pricing/",
+    "rawHtml": "Raw HTML"
   },
   "table": {
     "date": "Date",

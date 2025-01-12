@@ -78,7 +78,8 @@
       "priorities": "Keutamaan",
       "calendarHeatmap": "Peta Panas Kalendar",
       "filetypes": "Jenis Fail",
-      "utilities": "Kemudahan"
+      "utilities": "Kemudahan",
+      "health&Fitness": "Kesihatan & Kecergasan"
     },
     "descriptions": {
       "dashboard": "Pusat kawalan misi anda untuk yang mengagumkan. 🚀",
@@ -130,7 +131,9 @@
       "financialStatements": "Jejak dan analisis kewangan anda dengan penyata terperinci",
       "sudoku": "Hasilkan Lajur Sudoku Tanpa Henti",
       "minecraftServerList": "Terokai pelayan Minecraft terbaik untuk pengembaraan permainan tanpa henti",
-      "asciiTextGenerator": "Cipta teks ASCII kustom dengan mudah dan gaya."
+      "asciiTextGenerator": "Cipta teks ASCII kustom dengan mudah dan gaya.",
+      "openaiApiPricing": "Meneroka harga API OpenAI untuk pelbagai pelan penggunaan dan model.",
+      "nutritionsTracker": "Menjejak pengambilan nutrien dan menganalisis tabiat pemakanan."
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -156,7 +159,9 @@
     "3dModels": "Model 3D",
     "financialStatements": "Penyata Kewangan",
     "sudoku": "Tebah Sudoku",
-    "asciiTextGenerator": "Penggeneator Teks ASCII"
+    "asciiTextGenerator": "Penggeneator Teks ASCII",
+    "openaiApiPricing": "Harga API OpenAI",
+    "nutritionsTracker": "Pengesan Nutrisi"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -482,7 +487,8 @@
     "markAsBought": "Tandai sebagai Dibeli",
     "print": "Cetak",
     "showStatement": "Papar Penyata",
-    "viewActive": "Lihat Aktif"
+    "viewActive": "Lihat Aktif",
+    "inputRawHtml": "Input HTML Mentah"
   },
   "modals": {
     "header": {
@@ -568,12 +574,14 @@
       "updateWishlist": "Kemaskini Senarai Keinginan",
       "importFromOtherApps": "Import dari Aplikasi Lain",
       "createCard": "Tambah Kad Entri",
-      "updateCard": "Edit Kad Entri"
+      "updateCard": "Edit Kad Entri",
+      "inputRawHtml": "Masukkan HTML Mentah"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
       "desc": "Ini akan memadam {{itemName}} dan segala yang berkaitan dengannya. Tindakan ini tidak boleh dibatalkan!"
-    }
+    },
+    "haeder": {}
   },
   "input": {
     "achievementTitle": "Tajuk Pencapaian",
@@ -721,7 +729,9 @@
     "ideaContent": "Kandungan Idea",
     "ideaLink": "Pautan Idea",
     "tagIcon": "Ikons Tajuk",
-    "tagColor": "Warna Tag"
+    "tagColor": "Warna Tag",
+    "rawHtmlFromOpenAi": "Kod sumber HTML mentah daripada https://openai.com/api/pricing/",
+    "rawHtml": "HTML Mentah"
   },
   "table": {
     "date": "Tarikh",

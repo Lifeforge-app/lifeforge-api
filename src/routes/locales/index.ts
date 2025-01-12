@@ -7,6 +7,8 @@ import Groq from "groq-sdk";
 import hasError from "../../utils/checkError.js";
 import { getAPIKey } from "../../utils/getAPIKey.js";
 import { fetchGroq } from "../../utils/fetchGroq.js";
+import { fetchOpenAI } from "../../utils/fetchOpenAI.js";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 const router = express.Router();
 
@@ -34,12 +36,12 @@ router.get(
 );
 
 router.post(
-  "/ai-generate/module-description",
+  "/ai-generate/module-name",
   [body("name").isString()],
   asyncWrapper(async (req, res) => {
     if (hasError(req, res)) return;
 
-    const apiKey = await getAPIKey("groq", req.pb);
+    const apiKey = await getAPIKey("openai", req.pb);
 
     if (!apiKey) {
       clientError(res, "API key not found");
@@ -53,32 +55,76 @@ router.post(
       return;
     }
 
-    const prompt = `Suggest attractive and informative descriptions for the module name given below. Output a set of descriptions in multiple languages, including English, Chinese Simplified, Chinese Traditional, and Bahasa Malaysia.
-
-    The descriptions should be concise, yet engaging, and highlight the key features and benefits of the module. They should be around 10-15 words in length and be consistent in tone and style across all languages. The output should be in JSON format, with language codes as keys, such as "en" for English, "zh-CN" for Chinese Simplified, "zh-TW" for Chinese Traditional, and "ms" for Bahasa Malaysia.
-
-    For example, if the input module name is "Live ATC Broadcast", the response should be descriptions that capture the essence of the module, such as "Tune in to live air traffic control for a unique behind-the-scenes experience".
-
-    Here is an example of the expected output format:
-    \`\`\`json
-    {
-      "en": "Tune in to live air traffic control for a unique behind-the-scenes experience",
-      "zh-CN": "收听现场空中交通管制，体验独特的幕后体验",
-      "zh-TW": "收聽現場空中交通管制，體驗獨特的幕後體驗",
-      "ms": "Tune in ke kawalan trafik udara langsung untuk pengalaman unik di sebalik tabir"
-    }
-    \`\`\`
-
-    Give only the description for the module name, without any additional context.
-
-    Here is the module name to be translated: "${name}"`;
+    const messages: ChatCompletionMessageParam[] = [
+      {
+        role: "system",
+        content:
+          'Translate given module names into Simplified Chinese (zh-CN), Traditional Chinese (zh-TW), and Malay (ms). Return the result as: {"zh-CN": "Simplified Chinese", "zh-TW": "Traditional Chinese", "ms": "Malay" }.',
+      },
+      {
+        role: "user",
+        content: name,
+      },
+    ];
 
     const MAX_RETRY = 5;
     let tries = 0;
 
     while (tries < MAX_RETRY) {
       try {
-        const raw = await fetchGroq(apiKey, prompt);
+        const raw = await fetchOpenAI(apiKey, "gpt-4o-mini", messages);
+        if (!raw) throw new Error("No response");
+
+        const text = JSON.parse(raw);
+
+        successWithBaseResponse(res, text);
+        return;
+      } catch {
+        tries++;
+      }
+    }
+
+    clientError(res, "Failed to generate module name");
+  })
+);
+
+router.post(
+  "/ai-generate/module-description",
+  [body("name").isString()],
+  asyncWrapper(async (req, res) => {
+    if (hasError(req, res)) return;
+
+    const apiKey = await getAPIKey("openai", req.pb);
+
+    if (!apiKey) {
+      clientError(res, "API key not found");
+      return;
+    }
+
+    const { name } = req.body;
+
+    if (!name.trim()) {
+      clientError(res, "name is required");
+      return;
+    }
+
+    const messages: ChatCompletionMessageParam[] = [
+      {
+        role: "system",
+        content: `You are an assistant that creates concise, gerund-based module descriptions and translates them into Simplified Chinese (zh-CN), Traditional Chinese (zh-TW), and Malay (ms). Return the result as: {"en": "English", "zh-CN": "Simplified Chinese", "zh-TW": "Traditional Chinese", "ms": "Malay" }.`,
+      },
+      {
+        role: "user",
+        content: name,
+      },
+    ];
+
+    const MAX_RETRY = 5;
+    let tries = 0;
+
+    while (tries < MAX_RETRY) {
+      try {
+        const raw = await fetchOpenAI(apiKey, "gpt-4o-mini", messages);
 
         if (!raw) throw new Error("No response");
 

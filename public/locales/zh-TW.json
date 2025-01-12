@@ -79,7 +79,8 @@
       "priorities": "優先順序",
       "calendarHeatmap": "日曆熱力圖",
       "filetypes": "檔案類型",
-      "utilities": "實用工具"
+      "utilities": "實用工具",
+      "health&Fitness": "健康與健身"
     },
     "descriptions": {
       "dashboard": "您的任務控制中心，妙不可言！",
@@ -131,7 +132,9 @@
       "financialStatements": "透過詳細報表追蹤和分析您的財務！",
       "sudoku": "無限生成數獨板",
       "minecraftServerList": "探索最佳我的世界服务器，體驗無盡遊戲樂趣",
-      "asciiTextGenerator": "輕鬆創建自訂ASCII文本風格"
+      "asciiTextGenerator": "輕鬆創建自訂ASCII文本風格",
+      "openaiApiPricing": "探索OpenAI API各種使用計劃和模型定價",
+      "nutritionsTracker": "追蹤營養攝取和分析飲食習慣。"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他譜",
@@ -157,7 +160,9 @@
     "financialStatements": "財務報表",
     "sudoku": "數獨遊戲",
     "minecraftServerList": "Minecraft 伺服器列表",
-    "asciiTextGenerator": "ASCII 文字產生器"
+    "asciiTextGenerator": "ASCII 文字產生器",
+    "openaiApiPricing": "OpenAI API 定價",
+    "nutritionsTracker": "營養追蹤器"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -483,7 +488,8 @@
     "markAsBought": "標記為已購買",
     "print": "列印",
     "showStatement": "查看報表",
-    "viewActive": "查看活躍"
+    "viewActive": "查看活躍",
+    "inputRawHtml": "輸入原始HTML"
   },
   "modals": {
     "header": {
@@ -569,12 +575,14 @@
       "updateWishlist": "更新願望清單",
       "importFromOtherApps": "從其他應用程式匯入",
       "createCard": "創建項目卡",
-      "updateCard": "修改项目卡"
+      "updateCard": "修改项目卡",
+      "inputRawHtml": "輸入原始HTML"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
       "desc": "這將刪除這個 {{itemName}} 和與其相關的所有數據。此操作無法撤銷！"
-    }
+    },
+    "haeder": {}
   },
   "input": {
     "achievementTitle": "成就標題",
@@ -722,7 +730,9 @@
     "ideaContent": "想法內容",
     "ideaLink": "想法連結",
     "tagIcon": "標籤圖示",
-    "tagColor": "標籤顏色"
+    "tagColor": "標籤顏色",
+    "rawHtmlFromOpenAi": "來自 https://openai.com/api/pricing/的原始 HTML 原始碼",
+    "rawHtml": "HTML 原始碼"
   },
   "table": {
     "date": "日期",

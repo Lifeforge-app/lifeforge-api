@@ -39,6 +39,7 @@
     "music-metadata": "^7.14.0",
     "node-public-ip": "^1.0.2",
     "open-graph-scraper": "^6.8.2",
+    "openai": "^4.78.1",
     "os-utils": "^0.0.14",
     "pdf-page-counter": "^1.0.3",
     "pdf-thumbnail": "^1.0.6",
