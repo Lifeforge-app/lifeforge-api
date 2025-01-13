@@ -579,7 +579,9 @@
       "updateCard": "Edit Kad Entri",
       "inputRawHtml": "Masukkan HTML Mentah",
       "uploadReceipt": "Muat Naik Resit",
-      "scanReceipt": "Imbas Resit"
+      "scanReceipt": "Imbas Resit",
+      "createEntry": "Buat Entri",
+      "updateEntry": "Kemaskini Entri"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",

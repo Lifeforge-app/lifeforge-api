@@ -1,7 +1,7 @@
 import { createWorker } from "tesseract.js";
 import sharp from "sharp";
 import ogs from "open-graph-scraper";
-import { fetchAI } from "../../../utils/fetchAI.js";
+import { fetchAI } from "../../../../utils/fetchAI.js";
 
 async function getPrice(imageURL: string) {
   try {
@@ -118,7 +118,7 @@ async function scrapeShopee(url: string, groqKey: string) {
 
     return final;
   } catch (error) {
-    console.error("Error scraping Shopee", error);
+    console.error("Error scraping data", error);
     return null;
   }
 }

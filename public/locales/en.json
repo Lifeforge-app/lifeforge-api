@@ -580,7 +580,9 @@
       "updateCard": "Edit Entry Card",
       "inputRawHtml": "Input Raw HTML",
       "uploadReceipt": "Upload Receipt",
-      "scanReceipt": "Scan Receipt"
+      "scanReceipt": "Scan Receipt",
+      "createEntry": "Create Entry",
+      "updateEntry": "Update Entry"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",

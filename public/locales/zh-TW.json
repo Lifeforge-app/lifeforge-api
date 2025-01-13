@@ -580,7 +580,9 @@
       "updateCard": "修改项目卡",
       "inputRawHtml": "輸入原始HTML",
       "uploadReceipt": "上傳收據",
-      "scanReceipt": "掃描收據"
+      "scanReceipt": "掃描收據",
+      "createEntry": "新增項目",
+      "updateEntry": "更新條目"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
