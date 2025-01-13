@@ -11,6 +11,7 @@ import { list } from "../../../utils/CRUD.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import {
   IWalletIncomeExpenses,
+  IWalletReceiptScanResult,
   IWalletTransactionEntry,
 } from "../../../interfaces/wallet_interfaces.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
@@ -18,6 +19,11 @@ import { body, query } from "express-validator";
 import hasError from "../../../utils/checkError.js";
 import { checkExistence } from "../../../utils/PBRecordValidator.js";
 import { fromPath } from "pdf2pic";
+import parseOCR from "../../../utils/parseOCR.js";
+import { z } from "zod";
+import { zodResponseFormat } from "openai/helpers/zod";
+import { OpenAI } from "openai";
+import { getAPIKey } from "../../../utils/getAPIKey.js";
 
 const router = express.Router();
 
@@ -577,6 +583,99 @@ router.delete(
 
     successWithBaseResponse(res, undefined, 204);
   })
+);
+
+async function getTransactionDetails(OCRResult: string, key: string) {
+  const client = new OpenAI({
+    apiKey: key,
+  });
+
+  const TransactionDetails = z.object({
+    date: z.string(),
+    particulars: z.string(),
+    type: z.union([z.literal("income"), z.literal("expenses")]),
+    amount: z.number(),
+  });
+
+  const completion = await client.beta.chat.completions.parse({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content:
+          "Extract the following details from the text: date (in the format YYYY-MM-DD), particulars (e.g. what this transaction is about, e.g. Lunch, Purchase of <books, groceries,mineral water,etc>, Reload of xxx credit, etc. @ <Location(if applicable)>, don't list out the purchased item), type (income or expenses), and amount (without currency).",
+      },
+      {
+        role: "user",
+        content: OCRResult,
+      },
+    ],
+    response_format: zodResponseFormat(TransactionDetails, "transaction"),
+  });
+
+  const transaction = completion.choices[0].message.parsed;
+
+  return transaction;
+}
+
+router.post(
+  "/scan-receipt",
+  singleUploadMiddleware,
+  asyncWrapper(
+    async (req, res: Response<BaseResponse<IWalletReceiptScanResult>>) => {
+      const { file } = req;
+
+      if (!file) {
+        clientError(res, "No file uploaded");
+        return;
+      }
+
+      const key = await getAPIKey("openai", req.pb);
+
+      if (!key) {
+        clientError(res, "API key not found");
+        if (file) {
+          fs.unlinkSync(file.path);
+        }
+        return;
+      }
+
+      if (file.originalname.endsWith(".pdf")) {
+        const image = await convertPDFToImage(file.path);
+        if (!image) {
+          clientError(res, "Failed to convert PDF to image");
+          return;
+        }
+        const buffer = await image.arrayBuffer();
+        fs.writeFileSync("uploads/receipt.png", Buffer.from(buffer));
+      } else {
+        fs.renameSync(file.path, "uploads/receipt.png");
+      }
+
+      if (!fs.existsSync("uploads/receipt.png")) {
+        clientError(res, "Failed to save receipt");
+        return;
+      }
+
+      const OCRResult = await parseOCR("uploads/receipt.png");
+
+      if (!OCRResult) {
+        clientError(res, "Failed to parse receipt");
+        return;
+      }
+
+      fs.unlinkSync("uploads/receipt.png");
+
+      const transaction = await getTransactionDetails(OCRResult, key);
+
+      if (!transaction) {
+        clientError(res, "Failed to extract transaction details");
+        return;
+      }
+
+      successWithBaseResponse(res, transaction);
+    }
+  )
 );
 
 export default router;

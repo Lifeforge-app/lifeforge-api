@@ -12,7 +12,7 @@ import {
   ITodoListEntry,
   ITodoSubtask,
 } from "../../../interfaces/todo_list_interfaces.js";
-import { fetchGroq } from "../../../utils/fetchGroq.js";
+import { fetchAI } from "../../../utils/fetchAI.js";
 import { getAPIKey } from "../../../utils/getAPIKey.js";
 import { checkExistence } from "../../../utils/PBRecordValidator.js";
 
@@ -81,7 +81,17 @@ router.post(
       BREAKDOWN_LEVELS[level]
     }. Ensure the output is in the form of a single-level flat JavaScript array, with each element containing only the task content, written in the same language as the given task, and without any additional details, comments, explanations, or nested subtasks or details of the subtask. Make sure not to wrap the output array in any code environment, and the output array should be plain text that can be parsed by javascript JSON.parse() function. Keep in mind that there SHOULD NOT be a comma at the end of the last element in the array.`;
 
-    const response = await fetchGroq(key, prompt);
+    const response = await fetchAI({
+      provider: "groq",
+      apiKey: key,
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
     if (!response) {
       clientError(res, "Error fetching data");
       return;

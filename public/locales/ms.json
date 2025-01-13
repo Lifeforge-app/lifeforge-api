@@ -488,7 +488,9 @@
     "print": "Cetak",
     "showStatement": "Papar Penyata",
     "viewActive": "Lihat Aktif",
-    "inputRawHtml": "Input HTML Mentah"
+    "inputRawHtml": "Input HTML Mentah",
+    "scanReceipt": "Imbas Resit",
+    "visitWebsite": "Lawati Laman Web"
   },
   "modals": {
     "header": {
@@ -575,7 +577,9 @@
       "importFromOtherApps": "Import dari Aplikasi Lain",
       "createCard": "Tambah Kad Entri",
       "updateCard": "Edit Kad Entri",
-      "inputRawHtml": "Masukkan HTML Mentah"
+      "inputRawHtml": "Masukkan HTML Mentah",
+      "uploadReceipt": "Muat Naik Resit",
+      "scanReceipt": "Imbas Resit"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",

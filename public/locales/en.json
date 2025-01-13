@@ -489,7 +489,9 @@
     "print": "Print",
     "showStatement": "View Statement",
     "viewActive": "View Active",
-    "inputRawHtml": "Input Raw HTML"
+    "inputRawHtml": "Input Raw HTML",
+    "scanReceipt": "Scan Receipt",
+    "visitWebsite": "Visit Website"
   },
   "modals": {
     "header": {
@@ -576,7 +578,9 @@
       "importFromOtherApps": "Import from Other Apps",
       "createCard": "New Entry Card",
       "updateCard": "Edit Entry Card",
-      "inputRawHtml": "Input Raw HTML"
+      "inputRawHtml": "Input Raw HTML",
+      "uploadReceipt": "Upload Receipt",
+      "scanReceipt": "Scan Receipt"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",

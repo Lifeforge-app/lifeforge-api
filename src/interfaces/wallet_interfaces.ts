@@ -56,11 +56,19 @@ const WalletIncomeExpensesSchema = s.object({
   monthlyExpenses: s.number(),
 });
 
+const WalletReceiptScanResultSchema = s.object({
+  date: s.string(),
+  particulars: s.string(),
+  type: s.string(),
+  amount: s.number(),
+});
+
 type IWalletAsset = s.Infer<typeof WalletAssetSchema>;
 type IWalletLedger = s.Infer<typeof WalletLedgerSchema>;
 type IWalletTransactionEntry = s.Infer<typeof WalletTransactionEntrySchema>;
 type IWalletCategory = s.Infer<typeof WalletCategorySchema>;
 type IWalletIncomeExpenses = s.Infer<typeof WalletIncomeExpensesSchema>;
+type IWalletReceiptScanResult = s.Infer<typeof WalletReceiptScanResultSchema>;
 
 export {
   WalletAssetSchema,
@@ -68,6 +76,7 @@ export {
   WalletTransactionEntrySchema,
   WalletCategorySchema,
   WalletIncomeExpensesSchema,
+  WalletReceiptScanResultSchema,
 };
 
 export type {
@@ -76,4 +85,5 @@ export type {
   IWalletTransactionEntry,
   IWalletCategory,
   IWalletIncomeExpenses,
+  IWalletReceiptScanResult,
 };

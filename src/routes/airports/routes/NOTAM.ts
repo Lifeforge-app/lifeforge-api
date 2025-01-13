@@ -7,7 +7,7 @@ import {
 } from "../../../utils/response.js";
 import notamnDecoder from "../utils/notamdecoder.js";
 import FIRs from "../data/FIRs.js";
-import { fetchGroq } from "../../../utils/fetchGroq.js";
+import { fetchAI } from "../../../utils/fetchAI.js";
 import { getAPIKey } from "../../../utils/getAPIKey.js";
 
 const router = express.Router();
@@ -87,7 +87,17 @@ router.get(
 
     while (MAX_RETRY > 0) {
       try {
-        const text = await fetchGroq(key, prompt);
+        const text = await fetchAI({
+          provider: "groq",
+          apiKey: key,
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+        });
         if (!text) throw new Error("No response");
 
         successWithBaseResponse(res, text);

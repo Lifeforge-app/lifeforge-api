@@ -490,7 +490,9 @@
     "print": "打印",
     "showStatement": "查看报表",
     "viewActive": "查看活跃",
-    "inputRawHtml": "输入原始HTML"
+    "inputRawHtml": "输入原始HTML",
+    "scanReceipt": "扫描收据",
+    "visitWebsite": "访问网站"
   },
   "modals": {
     "header": {
@@ -577,7 +579,9 @@
       "importFromOtherApps": "从其他应用导入",
       "createCard": "新增项目卡",
       "updateCard": "修改项目卡",
-      "inputRawHtml": "输入原始HTML"
+      "inputRawHtml": "输入原始HTML",
+      "uploadReceipt": "上传收据",
+      "scanReceipt": "扫描收据"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",

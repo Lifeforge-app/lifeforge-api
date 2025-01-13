@@ -489,7 +489,9 @@
     "print": "列印",
     "showStatement": "查看報表",
     "viewActive": "查看活躍",
-    "inputRawHtml": "輸入原始HTML"
+    "inputRawHtml": "輸入原始HTML",
+    "scanReceipt": "掃描收據",
+    "visitWebsite": "訪問網站"
   },
   "modals": {
     "header": {
@@ -576,7 +578,9 @@
       "importFromOtherApps": "從其他應用程式匯入",
       "createCard": "創建項目卡",
       "updateCard": "修改项目卡",
-      "inputRawHtml": "輸入原始HTML"
+      "inputRawHtml": "輸入原始HTML",
+      "uploadReceipt": "上傳收據",
+      "scanReceipt": "掃描收據"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",

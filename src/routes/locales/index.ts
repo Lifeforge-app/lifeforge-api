@@ -6,8 +6,7 @@ import { body, validationResult } from "express-validator";
 import Groq from "groq-sdk";
 import hasError from "../../utils/checkError.js";
 import { getAPIKey } from "../../utils/getAPIKey.js";
-import { fetchGroq } from "../../utils/fetchGroq.js";
-import { fetchOpenAI } from "../../utils/fetchOpenAI.js";
+import { fetchAI } from "../../utils/fetchAI.js";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 const router = express.Router();
@@ -72,7 +71,12 @@ router.post(
 
     while (tries < MAX_RETRY) {
       try {
-        const raw = await fetchOpenAI(apiKey, "gpt-4o-mini", messages);
+        const raw = await fetchAI({
+          provider: "openai",
+          apiKey,
+          model: "gpt-4o-mini",
+          messages,
+        });
         if (!raw) throw new Error("No response");
 
         const text = JSON.parse(raw);
@@ -124,7 +128,12 @@ router.post(
 
     while (tries < MAX_RETRY) {
       try {
-        const raw = await fetchOpenAI(apiKey, "gpt-4o-mini", messages);
+        const raw = await fetchAI({
+          provider: "openai",
+          apiKey,
+          model: "gpt-4o-mini",
+          messages,
+        });
 
         if (!raw) throw new Error("No response");
 
@@ -180,7 +189,17 @@ router.post(
 
     while (tries < MAX_RETRY) {
       try {
-        const raw = await fetchGroq(apiKey, prompt);
+        const raw = await fetchAI({
+          provider: "groq",
+          apiKey,
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+        });
 
         if (!raw) throw new Error("No response");
 

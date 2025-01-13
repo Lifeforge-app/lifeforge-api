@@ -1,7 +1,7 @@
 import { createWorker } from "tesseract.js";
 import sharp from "sharp";
 import ogs from "open-graph-scraper";
-import { fetchGroq } from "../../../utils/fetchGroq.js";
+import { fetchAI } from "../../../utils/fetchAI.js";
 
 async function getPrice(imageURL: string) {
   try {
@@ -104,7 +104,17 @@ async function scrapeShopee(url: string, groqKey: string) {
   
   ${result.ogTitle}`;
 
-    final.name = await fetchGroq(groqKey, prompt);
+    final.name = await fetchAI({
+      provider: "groq",
+      apiKey: groqKey,
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
 
     return final;
   } catch (error) {

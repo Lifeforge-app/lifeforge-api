@@ -17,7 +17,7 @@ import { IJournalEntry } from "../../../interfaces/journal_interfaces.js";
 import { BaseResponse } from "../../../interfaces/base_response.js";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces.js";
 import { getAPIKey } from "../../../utils/getAPIKey.js";
-import { fetchGroq } from "../../../utils/fetchGroq.js";
+import { fetchAI } from "../../../utils/fetchAI.js";
 import wordsCount from "words-count";
 
 const router = express.Router();
@@ -371,7 +371,17 @@ router.post(
         ${rawText}
         `;
 
-    const title = await fetchGroq(key, prompt);
+    const title = await fetchAI({
+      provider: "groq",
+      apiKey: key,
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
     successWithBaseResponse(res, title);
   })
 );
@@ -400,7 +410,17 @@ router.post(
         ${rawText}
         `;
 
-    const cleanedup = await fetchGroq(key, prompt);
+    const cleanedup = await fetchAI({
+      provider: "groq",
+      apiKey: key,
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
     successWithBaseResponse(res, cleanedup);
   })
 );
@@ -429,7 +449,17 @@ router.post(
         ${rawText}
         `;
 
-    const summarized = await fetchGroq(key, prompt);
+    const summarized = await fetchAI({
+      provider: "groq",
+      apiKey: key,
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
     successWithBaseResponse(res, summarized);
   })
 );
@@ -467,7 +497,17 @@ router.post(
 
       while (tries < MAX_RETRY) {
         try {
-          const response = await fetchGroq(key, prompt);
+          const response = await fetchAI({
+            provider: "groq",
+            apiKey: key,
+            model: "llama-3.3-70b-versatile",
+            messages: [
+              {
+                role: "user",
+                content: prompt,
+              },
+            ],
+          });
 
           if (response === null) throw new Error("null");
 

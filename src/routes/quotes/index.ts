@@ -6,7 +6,7 @@ import {
   successWithBaseResponse,
 } from "../../utils/response.js";
 import asyncWrapper from "../../utils/asyncWrapper.js";
-import { fetchGroq } from "../../utils/fetchGroq.js";
+import { fetchAI } from "../../utils/fetchAI.js";
 import { BaseResponse } from "../../interfaces/base_response.js";
 
 const router = express.Router();
@@ -35,7 +35,17 @@ router.get(
 
     ${cache.join("\n")}`;
 
-    const result = await fetchGroq(key, prompt);
+    const result = await fetchAI({
+      provider: "groq",
+      apiKey: key,
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
     if (result) {
       cache.push(result);
       successWithBaseResponse(res, result);
