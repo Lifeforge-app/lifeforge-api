@@ -41,7 +41,9 @@
       "ledgers": "帳簿",
       "flightStatus": "航班狀態",
       "airlineInformation": "航空公司資訊",
-      "financialStatements": "財務報表"
+      "financialStatements": "財務報表",
+      "virtualWardrobeClothes": "服裝",
+      "virtualWardrobeOutfits": "穿搭套裝"
     },
     "title": {
       "productivity": "生產力",
@@ -80,7 +82,11 @@
       "calendarHeatmap": "日曆熱力圖",
       "filetypes": "檔案類型",
       "utilities": "實用工具",
-      "health&Fitness": "健康與健身"
+      "health&Fitness": "健康與健身",
+      "subcategories": "子分類",
+      "sizes": "尺寸",
+      "colors": "顏色",
+      "brands": "品牌"
     },
     "descriptions": {
       "dashboard": "您的任務控制中心，妙不可言！",
@@ -134,7 +140,8 @@
       "minecraftServerList": "探索最佳我的世界服务器，體驗無盡遊戲樂趣",
       "asciiTextGenerator": "輕鬆創建自訂ASCII文本風格",
       "openaiApiPricing": "探索OpenAI API各種使用計劃和模型定價",
-      "nutritionsTracker": "追蹤營養攝取和分析飲食習慣。"
+      "nutritionsTracker": "追蹤營養攝取和分析飲食習慣。",
+      "virtualWardrobe": "建立和管理個人時尚的數位服裝和配飾收藏。"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他譜",
@@ -162,7 +169,8 @@
     "minecraftServerList": "Minecraft 伺服器列表",
     "asciiTextGenerator": "ASCII 文字產生器",
     "openaiApiPricing": "OpenAI API 定價",
-    "nutritionsTracker": "營養追蹤器"
+    "nutritionsTracker": "營養追蹤器",
+    "virtualWardrobe": "虛擬衣櫥"
   },
   "header": {
     "searchBarPlaceholder": "快速導航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -354,7 +362,8 @@
     "pixabay": "在Pixabay中搜尋 ...",
     "modules": "搜尋模組...",
     "ideasInFolder": "搜索資料夾中的想法...",
-    "ideas": "搜尋想法..."
+    "ideas": "搜尋想法...",
+    "clothes": "搜索服裝..."
   },
   "button": {
     "create": "創建",
@@ -491,7 +500,9 @@
     "viewActive": "查看活躍",
     "inputRawHtml": "輸入原始HTML",
     "scanReceipt": "掃描收據",
-    "visitWebsite": "訪問網站"
+    "visitWebsite": "訪問網站",
+    "addItem": "新增物品",
+    "retry": "重新嘗試"
   },
   "modals": {
     "header": {
@@ -582,7 +593,9 @@
       "uploadReceipt": "上傳收據",
       "scanReceipt": "掃描收據",
       "createEntry": "新增項目",
-      "updateEntry": "更新條目"
+      "updateEntry": "更新條目",
+      "addItem": "新增物品",
+      "updateItem": "更新物品"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",
@@ -738,7 +751,14 @@
     "tagIcon": "標籤圖示",
     "tagColor": "標籤顏色",
     "rawHtmlFromOpenAi": "來自 https://openai.com/api/pricing/的原始 HTML 原始碼",
-    "rawHtml": "HTML 原始碼"
+    "rawHtml": "HTML 原始碼",
+    "itemName": "物品名稱",
+    "brand": "品牌",
+    "color": "顏色",
+    "size": "尺碼",
+    "price": "價格",
+    "frontImage": "前圖",
+    "backImage": "後圖"
   },
   "table": {
     "date": "日期",
@@ -815,7 +835,11 @@
       "allProjects": "所有專案",
       "starred": "收藏的專案"
     },
-    "title": {}
+    "title": {},
+    "virtualWardrobe": {
+      "allClothes": "所有服裝",
+      "favourites": "最愛服飾"
+    }
   },
   "calendar": {
     "view": {

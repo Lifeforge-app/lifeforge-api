@@ -42,7 +42,12 @@ const apiKeysRoutes = lazyLoad(() => import("./routes/apiKeys/index.js"));
 const pixabayRoutes = lazyLoad(() => import("./routes/pixabay/index.js"));
 const quotesRoutes = lazyLoad(() => import("./routes/quotes/index.js"));
 const sudokuRoutes = lazyLoad(() => import("./routes/sudoku/index.js"));
-import openAIAPIPricingRoutes from "./routes/openAIAPIPricing/index.js";
+const openAIAPIPricingRoutes = lazyLoad(
+  () => import("./routes/openAIAPIPricing/index.js")
+);
+const virtualWardrobeRoutes = lazyLoad(
+  () => import("./routes/virtualWardrobe/index.js")
+);
 
 const router = express.Router();
 
@@ -78,5 +83,6 @@ router.use("/change-log", changeLogRoutes);
 router.use("/pixabay", pixabayRoutes);
 router.use("/quotes", quotesRoutes);
 router.use("/openai-api-pricing", openAIAPIPricingRoutes);
+router.use("/virtual-wardrobe", virtualWardrobeRoutes);
 
 export default router;

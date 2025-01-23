@@ -41,7 +41,9 @@
       "ledgers": "Lejar",
       "flightStatus": "Status Penerbangan",
       "airlineInformation": "Maklumat Penerbangan",
-      "financialStatements": "Penyata Kewangan"
+      "financialStatements": "Penyata Kewangan",
+      "virtualWardrobeClothes": "Pakaian",
+      "virtualWardrobeOutfits": "Set Pakaian"
     },
     "title": {
       "productivity": "Produktiviti",
@@ -79,7 +81,11 @@
       "calendarHeatmap": "Peta Panas Kalendar",
       "filetypes": "Jenis Fail",
       "utilities": "Kemudahan",
-      "health&Fitness": "Kesihatan & Kecergasan"
+      "health&Fitness": "Kesihatan & Kecergasan",
+      "subcategories": "Subkategorii",
+      "sizes": "Saiz",
+      "colors": "Warna",
+      "brands": "Jenama"
     },
     "descriptions": {
       "dashboard": "Pusat kawalan misi anda untuk yang mengagumkan. 🚀",
@@ -133,7 +139,8 @@
       "minecraftServerList": "Terokai pelayan Minecraft terbaik untuk pengembaraan permainan tanpa henti",
       "asciiTextGenerator": "Cipta teks ASCII kustom dengan mudah dan gaya.",
       "openaiApiPricing": "Meneroka harga API OpenAI untuk pelbagai pelan penggunaan dan model.",
-      "nutritionsTracker": "Menjejak pengambilan nutrien dan menganalisis tabiat pemakanan."
+      "nutritionsTracker": "Menjejak pengambilan nutrien dan menganalisis tabiat pemakanan.",
+      "virtualWardrobe": "Mencipta dan mengurus koleksi digital pakaian dan aksesori untuk gaya peribadi."
     },
     "localizationManager": "Pengurus Penyetempatan",
     "guitarTabs": "Tab Gitar",
@@ -161,7 +168,8 @@
     "sudoku": "Tebah Sudoku",
     "asciiTextGenerator": "Penggeneator Teks ASCII",
     "openaiApiPricing": "Harga API OpenAI",
-    "nutritionsTracker": "Pengesan Nutrisi"
+    "nutritionsTracker": "Pengesan Nutrisi",
+    "virtualWardrobe": "Almari Maya"
   },
   "header": {
     "searchBarPlaceholder": "Navigasi cepat & carian ... (Tekan Ctrl atau ⌘ + / untuk fokus)"
@@ -353,7 +361,8 @@
     "pixabay": "Cari di Pixabay ...",
     "ideas": "Cari Idea...",
     "modules": "Cari modul...",
-    "ideasInFolder": "Cari idea dalam folder..."
+    "ideasInFolder": "Cari idea dalam folder...",
+    "clothes": "Cari pakaian..."
   },
   "button": {
     "create": "Cipta",
@@ -490,7 +499,9 @@
     "viewActive": "Lihat Aktif",
     "inputRawHtml": "Input HTML Mentah",
     "scanReceipt": "Imbas Resit",
-    "visitWebsite": "Lawati Laman Web"
+    "visitWebsite": "Lawati Laman Web",
+    "addItem": "Tambah Item",
+    "retry": "Cuba Lagi"
   },
   "modals": {
     "header": {
@@ -581,7 +592,9 @@
       "uploadReceipt": "Muat Naik Resit",
       "scanReceipt": "Imbas Resit",
       "createEntry": "Buat Entri",
-      "updateEntry": "Kemaskini Entri"
+      "updateEntry": "Kemaskini Entri",
+      "addItem": "Tambah Item",
+      "updateItem": "Kemaskini Item"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",
@@ -737,7 +750,14 @@
     "tagIcon": "Ikons Tajuk",
     "tagColor": "Warna Tag",
     "rawHtmlFromOpenAi": "Kod sumber HTML mentah daripada https://openai.com/api/pricing/",
-    "rawHtml": "HTML Mentah"
+    "rawHtml": "HTML Mentah",
+    "itemName": "Nama Item",
+    "brand": "Jenama",
+    "color": "Warna",
+    "size": "Saiz",
+    "price": "Harga",
+    "frontImage": "Imej Hadapan",
+    "backImage": "Imej Belakang"
   },
   "table": {
     "date": "Tarikh",
@@ -814,7 +834,11 @@
       "allProjects": "Semua Projek",
       "starred": "Projek Berbintang"
     },
-    "title": {}
+    "title": {},
+    "virtualWardrobe": {
+      "allClothes": "Pakaian Semua",
+      "favourites": "Pakaian Kegemaran"
+    }
   },
   "calendar": {
     "view": {

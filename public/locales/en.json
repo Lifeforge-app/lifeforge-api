@@ -41,7 +41,9 @@
       "ledgers": "Ledgers",
       "flightStatus": "Flight Status",
       "airlineInformation": "Airline Information",
-      "financialStatements": "Statements"
+      "financialStatements": "Statements",
+      "virtualWardrobeClothes": "Clothes",
+      "virtualWardrobeOutfits": "Outfit Sets"
     },
     "title": {
       "productivity": "Productivity",
@@ -79,7 +81,11 @@
       "calendarHeatmap": "Calendar Heatmap",
       "filetypes": "File Types",
       "utilities": "Utilities",
-      "health&Fitness": "Health & Fitness"
+      "health&Fitness": "Health & Fitness",
+      "subcategories": "Subcategories",
+      "sizes": "Sizes",
+      "colors": "Colors",
+      "brands": "Brands"
     },
     "descriptions": {
       "dashboard": "Your mission control center for awesome.",
@@ -133,7 +139,8 @@
       "minecraftServerList": "Explore top Minecraft servers for endless gaming adventures",
       "asciiTextGenerator": "Create custom ASCII text with ease and style.",
       "openaiApiPricing": "Exploring OpenAI API pricing for various usage plans and models.",
-      "nutritionsTracker": "Tracking nutrient intake and analyzing dietary habits."
+      "nutritionsTracker": "Tracking nutrient intake and analyzing dietary habits.",
+      "virtualWardrobe": "Creating and managing a digital collection of outfits and accessories for personal styling."
     },
     "localizationManager": "Localization Manager",
     "guitarTabs": "Guitar Tabs",
@@ -162,7 +169,8 @@
     "minecraftServerList": "Minecraft Server List",
     "asciiTextGenerator": "ASCII Text Generator",
     "openaiApiPricing": "OpenAI API Pricing",
-    "nutritionsTracker": "Nutritions Tracker"
+    "nutritionsTracker": "Nutritions Tracker",
+    "virtualWardrobe": "Virtual Wardrobe"
   },
   "header": {
     "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
@@ -354,7 +362,8 @@
     "pixabay": "Search in Pixabay ...",
     "ideas": "Search Ideas...",
     "modules": "Search modules...",
-    "ideasInFolder": "Search ideas in folder..."
+    "ideasInFolder": "Search ideas in folder...",
+    "clothes": "Search clothes..."
   },
   "button": {
     "create": "Create",
@@ -491,7 +500,9 @@
     "viewActive": "View Active",
     "inputRawHtml": "Input Raw HTML",
     "scanReceipt": "Scan Receipt",
-    "visitWebsite": "Visit Website"
+    "visitWebsite": "Visit Website",
+    "addItem": "Add Item",
+    "retry": "Try Again"
   },
   "modals": {
     "header": {
@@ -582,7 +593,9 @@
       "uploadReceipt": "Upload Receipt",
       "scanReceipt": "Scan Receipt",
       "createEntry": "Create Entry",
-      "updateEntry": "Update Entry"
+      "updateEntry": "Update Entry",
+      "addItem": "Add Item",
+      "updateItem": "Update Item"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",
@@ -738,7 +751,14 @@
     "tagIcon": "Tag Icon",
     "tagColor": "Tag Color",
     "rawHtmlFromOpenAi": "Raw HTML source code from https://openai.com/api/pricing/",
-    "rawHtml": "Raw HTML"
+    "rawHtml": "Raw HTML",
+    "itemName": "Item Name",
+    "brand": "Brand",
+    "color": "Color",
+    "size": "Size",
+    "price": "Price",
+    "frontImage": "Front Image",
+    "backImage": "Back Image"
   },
   "table": {
     "date": "Date",
@@ -815,7 +835,11 @@
       "allProjects": "All Projects",
       "starred": "Starred Projects"
     },
-    "title": {}
+    "title": {},
+    "virtualWardrobe": {
+      "allClothes": "All Clothes",
+      "favourites": "Favourite Clothes"
+    }
   },
   "calendar": {
     "view": {

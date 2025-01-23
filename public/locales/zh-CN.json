@@ -41,7 +41,9 @@
       "ledgers": "账簿",
       "flightStatus": "航班状态",
       "airlineInformation": "航空公司信息",
-      "financialStatements": "财务报表"
+      "financialStatements": "财务报表",
+      "virtualWardrobeClothes": "服装",
+      "virtualWardrobeOutfits": "穿搭套装"
     },
     "title": {
       "productivity": "生产力",
@@ -80,7 +82,11 @@
       "calendarHeatmap": "日历热力图",
       "filetypes": "文件类型",
       "utilities": "实用工具",
-      "health&Fitness": "健康与健身"
+      "health&Fitness": "健康与健身",
+      "subcategories": "子分类",
+      "sizes": "尺寸",
+      "colors": "颜色",
+      "brands": "品牌"
     },
     "descriptions": {
       "dashboard": "您的任务控制中心，妙不可言！",
@@ -134,7 +140,8 @@
       "minecraftServerList": "发现最佳我的世界服务器，体验无尽游戏乐趣",
       "asciiTextGenerator": "轻松创建自定义ASCII文本风格",
       "openaiApiPricing": "探索OpenAI API的各种使用计划和模型定价",
-      "nutritionsTracker": "跟踪营养摄入和分析饮食习惯。"
+      "nutritionsTracker": "跟踪营养摄入和分析饮食习惯。",
+      "virtualWardrobe": "创建和管理个人时尚的数字化服装和配饰收藏。"
     },
     "localizationManager": "本地化管理器",
     "guitarTabs": "吉他谱",
@@ -163,7 +170,8 @@
     "minecraftServerList": "我的世界服务器列表",
     "asciiTextGenerator": "ASCII 文本生成器",
     "openaiApiPricing": "OpenAI API 定价",
-    "nutritionsTracker": "营养跟踪器"
+    "nutritionsTracker": "营养跟踪器",
+    "virtualWardrobe": "虚拟衣柜"
   },
   "header": {
     "searchBarPlaceholder": "快速导航和搜索...（按 Ctrl 或 ⌘ + / 聚焦）"
@@ -355,7 +363,8 @@
     "pixabay": "在Pixabay中搜索 ...",
     "ideas": "搜索创意...",
     "modules": "搜索模块...",
-    "ideasInFolder": "搜索文件夹中的想法..."
+    "ideasInFolder": "搜索文件夹中的想法...",
+    "clothes": "搜索服装..."
   },
   "button": {
     "create": "创建",
@@ -492,7 +501,9 @@
     "viewActive": "查看活跃",
     "inputRawHtml": "输入原始HTML",
     "scanReceipt": "扫描收据",
-    "visitWebsite": "访问网站"
+    "visitWebsite": "访问网站",
+    "addItem": "添加物品",
+    "retry": "重新尝试"
   },
   "modals": {
     "header": {
@@ -583,7 +594,9 @@
       "uploadReceipt": "上传收据",
       "scanReceipt": "扫描收据",
       "createEntry": "创建条目",
-      "updateEntry": "更新条目"
+      "updateEntry": "更新条目",
+      "addItem": "添加物品",
+      "updateItem": "更新物品"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",
@@ -739,7 +752,14 @@
     "tagIcon": "标签图标",
     "tagColor": "标签颜色",
     "rawHtmlFromOpenAi": "来自 https://openai.com/api/pricing/的原始 HTML 源代码",
-    "rawHtml": "HTML 源代码"
+    "rawHtml": "HTML 源代码",
+    "itemName": "物品名称",
+    "brand": "品牌",
+    "color": "颜色",
+    "size": "尺寸",
+    "price": "价格",
+    "frontImage": "前图",
+    "backImage": "后图"
   },
   "table": {
     "date": "日期",
@@ -816,7 +836,11 @@
       "allProjects": "所有项目",
       "starred": "收藏的项目"
     },
-    "title": {}
+    "title": {},
+    "virtualWardrobe": {
+      "allClothes": "所有服装",
+      "favourites": "最爱服装"
+    }
   },
   "calendar": {
     "view": {
