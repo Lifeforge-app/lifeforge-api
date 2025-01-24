@@ -18,7 +18,12 @@ const VirtualWardrobeEntrySchema = s.assign(
   })
 );
 
-type IVirtualWardrobeEntry = s.Infer<typeof VirtualWardrobeEntrySchema>;
+const VirtualWardrobeHistorySchema = s.object({
+  entries: s.array(s.string()),
+});
 
-export { VirtualWardrobeEntrySchema };
-export type { IVirtualWardrobeEntry };
+type IVirtualWardrobeEntry = s.Infer<typeof VirtualWardrobeEntrySchema>;
+type IVirtualWardrobeHistory = s.Infer<typeof VirtualWardrobeHistorySchema>;
+
+export { VirtualWardrobeEntrySchema, VirtualWardrobeHistorySchema };
+export type { IVirtualWardrobeEntry, IVirtualWardrobeHistory };

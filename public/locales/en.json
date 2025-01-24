@@ -502,7 +502,10 @@
     "scanReceipt": "Scan Receipt",
     "visitWebsite": "Visit Website",
     "addItem": "Add Item",
-    "retry": "Try Again"
+    "retry": "Try Again",
+    "addToCart": "Add to Cart",
+    "removeFromCart": "Remove from Cart",
+    "checkout": "Checkout"
   },
   "modals": {
     "header": {
@@ -595,7 +598,8 @@
       "createEntry": "Create Entry",
       "updateEntry": "Update Entry",
       "addItem": "Add Item",
-      "updateItem": "Update Item"
+      "updateItem": "Update Item",
+      "sessionCart": "Session Cart"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",

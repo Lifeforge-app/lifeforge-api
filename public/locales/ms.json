@@ -501,7 +501,10 @@
     "scanReceipt": "Imbas Resit",
     "visitWebsite": "Lawati Laman Web",
     "addItem": "Tambah Item",
-    "retry": "Cuba Lagi"
+    "retry": "Cuba Lagi",
+    "addToCart": "Tambah ke Troli",
+    "removeFromCart": "Buang dari Keranjang",
+    "checkout": "Bayar"
   },
   "modals": {
     "header": {
@@ -594,7 +597,8 @@
       "createEntry": "Buat Entri",
       "updateEntry": "Kemaskini Entri",
       "addItem": "Tambah Item",
-      "updateItem": "Kemaskini Item"
+      "updateItem": "Kemaskini Item",
+      "sessionCart": "Keranjang Sesi"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",

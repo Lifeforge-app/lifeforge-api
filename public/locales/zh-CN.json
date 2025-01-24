@@ -503,7 +503,10 @@
     "scanReceipt": "扫描收据",
     "visitWebsite": "访问网站",
     "addItem": "添加物品",
-    "retry": "重新尝试"
+    "retry": "重新尝试",
+    "addToCart": "加入购物车",
+    "removeFromCart": "从购物车中移除",
+    "checkout": "结账"
   },
   "modals": {
     "header": {
@@ -596,7 +599,8 @@
       "createEntry": "创建条目",
       "updateEntry": "更新条目",
       "addItem": "添加物品",
-      "updateItem": "更新物品"
+      "updateItem": "更新物品",
+      "sessionCart": "穿搭暂存"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",

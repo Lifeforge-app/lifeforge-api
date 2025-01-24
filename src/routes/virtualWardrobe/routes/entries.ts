@@ -421,8 +421,21 @@ router.post(
       messages: [
         {
           role: "system",
-          content:
-            "Given the front and back images, please provide the name, category, subcategory, and colors of the clothing item. There could be more than one color.",
+          content: `Given the front and back images, please provide the name, category, subcategory, and colors of the clothing item. There could be more than one color.
+            
+            Note that the groupings between categories and subcategories are as follows:
+            - Tops: T-shirts, Shirts, Blouses, Sweaters, Hoodies, Jackets, Coats, Tank Tops
+            - Bottoms: Jeans, Trousers, Shorts, Skirts, Leggings, Joggers, Dress Pants
+            - Dresses & Jumpsuits: Casual Dresses, Formal Dresses, Maxi Dresses, Jumpsuits, Overalls
+            - Footwear: Sneakers, Sandals, Boots, Heels, Loafers, Flip-flops, Slippers
+            - Accessories: Hats & Caps, Scarves, Gloves, Belts, Watches, Sunglasses, Jewelry
+            - Activewear: Sports T-shirts, Leggings, Running Shoes, Gym Shorts, Tracksuits, Sports Bras
+            - Formalwear: Suits, Blazers, Dress Shirts, Ties & Bowties, Formal Shoes
+            - Innerwear: Underwear, Socks, Bras, Thermals
+            - Sleepwear: Pajamas, Nightgowns, Robes
+            - Traditional/Occasion Wear: Cultural Attire, Wedding Dresses, Festive Wear
+            - Outerwear: Raincoats, Parkas, Windbreakers, Puffer Jackets
+            `,
         },
         {
           role: "user",
