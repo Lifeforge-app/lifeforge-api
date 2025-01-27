@@ -506,7 +506,8 @@
     "retry": "重新尝试",
     "addToCart": "加入购物车",
     "removeFromCart": "从购物车中移除",
-    "checkout": "结账"
+    "checkout": "结账",
+    "compose": "编写"
   },
   "modals": {
     "header": {
@@ -600,7 +601,8 @@
       "updateEntry": "更新条目",
       "addItem": "添加物品",
       "updateItem": "更新物品",
-      "sessionCart": "穿搭暂存"
+      "sessionCart": "穿搭暂存",
+      "viewMail": "查看邮件"
     },
     "deleteConfirmation": {
       "title": "您确定要删除 {{itemName}}?",

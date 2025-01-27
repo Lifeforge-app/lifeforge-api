@@ -505,7 +505,8 @@
     "retry": "重新嘗試",
     "addToCart": "加入購物車",
     "removeFromCart": "從購物車中移除",
-    "checkout": "結帳"
+    "checkout": "結帳",
+    "compose": "撰寫"
   },
   "modals": {
     "header": {
@@ -599,7 +600,8 @@
       "updateEntry": "更新條目",
       "addItem": "新增物品",
       "updateItem": "更新物品",
-      "sessionCart": "穿搭暫存"
+      "sessionCart": "穿搭暫存",
+      "viewMail": "查看郵件"
     },
     "deleteConfirmation": {
       "title": "您確定要刪除 {{itemName}}?",

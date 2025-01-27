@@ -34,13 +34,14 @@ async function getDecryptedMaster(
 
   const { pb } = req;
 
-  if (!pb.authStore.model) {
+  if (!pb.authStore.record) {
     clientError(res, "Auth store not initialized");
     return null;
   }
 
-  const { masterPasswordHash } = pb.authStore.model;
+  const { masterPasswordHash } = pb.authStore.record;
   const decryptedMaster = decrypt2(master, challenge);
+
   const isMatch = await bcrypt.compare(decryptedMaster, masterPasswordHash);
 
   if (!isMatch) {
@@ -111,7 +112,7 @@ router.post(
     const { name, icon, color, website, username, password } = req.body;
     const { pb } = req;
 
-    if (!pb.authStore.model) {
+    if (!pb.authStore.record) {
       clientError(res, "Auth store not initialized");
       return;
     }

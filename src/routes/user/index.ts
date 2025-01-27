@@ -184,7 +184,7 @@ router.post(
       });
 
     if (pb.authStore.isValid && !failed) {
-      const userData = pb.authStore.model;
+      const userData = pb.authStore.record;
 
       if (!userData) {
         res.status(401).send({
@@ -228,7 +228,7 @@ router.post(
     await pb.collection("users").authRefresh();
 
     if (pb.authStore.isValid) {
-      const userData = pb.authStore.model;
+      const userData = pb.authStore.record;
 
       if (!userData) {
         clientError(res, "Invalid token", 401);
@@ -404,7 +404,7 @@ router.put(
       return;
     }
 
-    const { id } = pb.authStore.model as any;
+    const { id } = pb.authStore.record as any;
 
     const fileBuffer = fs.readFileSync(file.path);
 
@@ -431,7 +431,7 @@ router.delete(
   "/settings/avatar",
   asyncWrapper(async (req, res) => {
     const { pb } = req;
-    const { id } = pb.authStore.model as any;
+    const { id } = pb.authStore.record as any;
 
     await pb.collection("users").update(id, {
       avatar: null,
@@ -460,7 +460,7 @@ router.patch(
     if (hasError(req, res)) return;
 
     const { pb } = req;
-    const { id } = pb.authStore.model as any;
+    const { id } = pb.authStore.record as any;
     const { data } = req.body;
 
     if (data.email) {

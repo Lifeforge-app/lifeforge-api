@@ -11,7 +11,7 @@ if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
 }
 
 const PBClient = new Pocketbase(process.env.PB_HOST);
-await PBClient.admins.authWithPassword(
+await PBClient.collection("_superusers").authWithPassword(
   process.env.PB_EMAIL!,
   process.env.PB_PASSWORD!
 );

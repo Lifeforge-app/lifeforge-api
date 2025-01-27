@@ -18,6 +18,7 @@ import dotenv from "dotenv";
 import { successWithBaseResponse } from "./utils/response.js";
 import { BaseResponse } from "./interfaces/base_response.js";
 import { IRoute } from "./interfaces/api_routes_interfaces.js";
+import { watchInbox } from "./services/mailInbox/index.js";
 
 dotenv.config({
   path: ".env.local",
@@ -210,6 +211,8 @@ mainRouter.use((req, res) => {
 });
 
 app.use("/", mainRouter);
+
+watchInbox();
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);

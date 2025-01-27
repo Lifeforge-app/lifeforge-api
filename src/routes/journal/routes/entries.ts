@@ -43,12 +43,12 @@ async function getDecryptedMaster(
   const { pb } = req;
   const { master } = req.body;
 
-  if (!pb.authStore.model) {
+  if (!pb.authStore.record) {
     clientError(res, "authStore is not initialized");
     return null;
   }
 
-  const { journalMasterPasswordHash } = pb.authStore.model;
+  const { journalMasterPasswordHash } = pb.authStore.record;
 
   const [isMatched, decryptedMaster] = await checkMasterPassword(
     master,
@@ -73,12 +73,12 @@ router.get(
     const { pb } = req;
     let master = decodeURIComponent((req.query.master as string) || "");
 
-    if (pb.authStore.model === null) {
+    if (pb.authStore.record === null) {
       clientError(res, "authStore is not initialized");
       return;
     }
 
-    const { journalMasterPasswordHash } = pb.authStore.model;
+    const { journalMasterPasswordHash } = pb.authStore.record;
     const [isMatched, decryptedMaster] = await checkMasterPassword(
       master,
       journalMasterPasswordHash
@@ -123,12 +123,12 @@ router.get(
     const { pb } = req;
     let master = decodeURIComponent((req.query.master as string) ?? "");
 
-    if (pb.authStore.model === null) {
+    if (pb.authStore.record === null) {
       clientError(res, "authStore is not initialized");
       return;
     }
 
-    const { journalMasterPasswordHash } = pb.authStore.model;
+    const { journalMasterPasswordHash } = pb.authStore.record;
 
     const [isMatched, decryptedMaster] = await checkMasterPassword(
       master,
@@ -175,7 +175,7 @@ router.post(
     const { data } = req.body;
     const files = req.files as Express.Multer.File[];
 
-    if (!pb.authStore.model) {
+    if (!pb.authStore.record) {
       clientError(res, "authStore is not initialized");
 
       for (const file of files) {
@@ -185,7 +185,7 @@ router.post(
       return;
     }
 
-    const { journalMasterPasswordHash } = pb.authStore.model;
+    const { journalMasterPasswordHash } = pb.authStore.record;
 
     if (!data) {
       clientError(res, "data is required");
@@ -255,7 +255,7 @@ router.put(
     const files = req.files as Express.Multer.File[];
     const { id } = req.params;
 
-    if (!pb.authStore.model) {
+    if (!pb.authStore.record) {
       clientError(res, "authStore is not initialized");
 
       for (const file of files) {
@@ -265,7 +265,7 @@ router.put(
       return;
     }
 
-    const { journalMasterPasswordHash } = pb.authStore.model;
+    const { journalMasterPasswordHash } = pb.authStore.record;
 
     if (!data) {
       clientError(res, "data is required");

@@ -512,13 +512,11 @@ router.post(
       });
 
       downloadProcess.stderr.on("data", (data) => {
-        console.log(data);
         downloadProcesses.delete(req.params.md5);
         clientError(res, "Failed to download file");
       });
 
       downloadProcess.on("error", (err) => {
-        console.log(err);
         downloadProcesses.delete(req.params.md5);
         clientError(res, "Failed to download file");
       });
@@ -570,7 +568,6 @@ router.post(
         downloadProcesses.delete(req.params.md5);
 
         fs.unlinkSync(`./uploads/${md5}.${metadata.extension}`);
-        console.log("Download process closed");
       });
     } catch (e: any) {
       downloadProcesses.delete(req.params.md5);

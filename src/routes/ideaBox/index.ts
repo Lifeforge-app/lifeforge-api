@@ -83,13 +83,6 @@ router.get(
           .collection("idea_box_folders")
           .getOne<IIdeaBoxFolder>(folder);
 
-        console.log(
-          folderEntry.parent,
-          lastFolder,
-          folderEntry.container,
-          container
-        );
-
         if (
           folderEntry.parent !== lastFolder ||
           folderEntry.container !== container

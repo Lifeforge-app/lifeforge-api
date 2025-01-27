@@ -1,93 +1,131 @@
-import imaps from "imap-simple";
 import _ from "underscore";
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../utils/response.js";
+import express, { Response } from "express";
+import { serverError, successWithBaseResponse } from "../../utils/response.js";
 import asyncWrapper from "../../utils/asyncWrapper.js";
-import { getAPIKey } from "../../utils/getAPIKey.js";
+import { param, query } from "express-validator";
+import hasError from "../../utils/checkError.js";
+import getIMAPConfig from "../../services/mailInbox/utils/getIMAPConfig.js";
+import imaps from "imap-simple";
+import { checkExistence } from "../../utils/PBRecordValidator.js";
+import { IMailInboxEntry } from "../../interfaces/mail_inbox_interfaces.js";
+import Pocketbase from "pocketbase";
+import { BaseResponse } from "../../interfaces/base_response.js";
 
 const router = express.Router();
 
-router.get(
-  "/list",
-  asyncWrapper(async (req, res) => {
-    const key = await getAPIKey("gmail", req.pb);
+function cleanupRecord(
+  record: IMailInboxEntry,
+  pb: Pocketbase,
+  removeHTML: boolean
+) {
+  if (!record.expand) {
+    return;
+  }
 
-    if (!key) {
-      res.status(500).json({
-        state: "error",
-        message: "API key not found",
+  record.from = {
+    name: record.expand.from.name,
+    address: record.expand.from.address,
+  };
+
+  if (record.expand.to) {
+    record.to = record.expand.to.map((to) => ({
+      name: to.name,
+      address: to.address,
+    }));
+  }
+
+  if (record.expand.cc) {
+    record.cc = record.expand.cc.map((cc) => ({
+      name: cc.name,
+      address: cc.address,
+    }));
+  }
+
+  if (record.expand.mail_inbox_attachments_via_belongs_to) {
+    record.attachments =
+      record.expand.mail_inbox_attachments_via_belongs_to.map((attachment) => ({
+        name: attachment.name,
+        size: attachment.size,
+        file: pb.files.getURL(attachment, attachment.file).split("/files/")[1],
+      }));
+  }
+
+  delete record.expand;
+  if (removeHTML) {
+    delete record.html;
+  }
+}
+
+router.get(
+  "/",
+  [query("page").isInt().optional()],
+  asyncWrapper(async (req, res) => {
+    if (hasError(req, res)) return;
+
+    const { pb } = req;
+    const page = parseInt((req.query.page as string) || "1");
+
+    const result = await pb
+      .collection("mail_inbox_entries")
+      .getList<IMailInboxEntry>(page, 25, {
+        sort: "-uid",
+        expand: "mail_inbox_attachments_via_belongs_to, from, to, cc",
       });
+
+    result.items.forEach((result) => {
+      cleanupRecord(result, pb, true);
+    });
+
+    successWithBaseResponse(res, result);
+  })
+);
+
+router.get(
+  "/:id",
+  [param("id").isString().notEmpty()],
+  asyncWrapper(async (req, res: Response<BaseResponse<IMailInboxEntry>>) => {
+    if (hasError(req, res)) return;
+
+    const { pb } = req;
+    const config = await getIMAPConfig(pb);
+
+    if (!config) {
+      serverError(res, "Failed to get IMAP config");
       return;
     }
 
-    const config = {
-      imap: {
-        user: "melvinchia623600@gmail.com",
-        password: key,
-        host: "imap.gmail.com",
-        port: 993,
-        tls: true,
-        authTimeout: 3000,
-        tlsOptions: { rejectUnauthorized: false },
-      },
-    };
+    if (
+      !(await checkExistence(
+        req,
+        res,
+        "mail_inbox_entries",
+        req.params.id,
+        "entry"
+      ))
+    ) {
+      return;
+    }
 
-    imaps
-      .connect(config)
-      .then(async (connection) => {
-        return connection
-          .openBox("INBOX")
-          .then(() => {
-            const searchCriteria = ["ALL"];
-
-            const fetchOptions = {
-              bodies: ["HEADER.FIELDS (FROM TO SUBJECT DATE)"],
-              markSeen: false,
-              struct: true,
-            };
-
-            return connection.search(searchCriteria, fetchOptions);
-          })
-          .then((messages) => {
-            messages = messages.sort(
-              (a, b) => +b.attributes.date - +a.attributes.date
-            );
-
-            const cleanedUpMessages = messages.map(async (message) => {
-              const header = message.parts.find((part) =>
-                part.which.startsWith("HEADER")
-              );
-
-              return {
-                ...Object.fromEntries(
-                  Object.entries(header?.body).map(([key, value]) => {
-                    // @ts-ignore
-                    return [key, value[0]];
-                  })
-                ),
-                seen: message.attributes.flags.includes("\\Seen"),
-              };
-            });
-
-            Promise.all(cleanedUpMessages).then((cleanedUpMessages) => {
-              successWithBaseResponse(res, cleanedUpMessages);
-            });
-
-            connection.end();
-          })
-          .catch((err) => {
-            res.status(500).json({
-              state: "error",
-              message: err.message,
-            });
-          });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          state: "error",
-          message: err.message,
-        });
+    let record = await pb
+      .collection("mail_inbox_entries")
+      .getOne<IMailInboxEntry>(req.params.id, {
+        expand: "mail_inbox_attachments_via_belongs_to, from, to, cc",
       });
+
+    cleanupRecord(record, pb, false);
+
+    if (!record.seen) {
+      const connection = await imaps.connect(config);
+      await connection.openBox("INBOX");
+
+      await connection.addFlags(parseInt(record.uid), "\\Seen");
+
+      record = await pb.collection("mail_inbox_entries").update(record.id, {
+        seen: true,
+      });
+    }
+
+    successWithBaseResponse(res, record);
   })
 );
 

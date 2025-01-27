@@ -504,7 +504,8 @@
     "retry": "Cuba Lagi",
     "addToCart": "Tambah ke Troli",
     "removeFromCart": "Buang dari Keranjang",
-    "checkout": "Bayar"
+    "checkout": "Bayar",
+    "compose": "Sediakan"
   },
   "modals": {
     "header": {
@@ -598,7 +599,8 @@
       "updateEntry": "Kemaskini Entri",
       "addItem": "Tambah Item",
       "updateItem": "Kemaskini Item",
-      "sessionCart": "Keranjang Sesi"
+      "sessionCart": "Keranjang Sesi",
+      "viewMail": "Lihat Emel"
     },
     "deleteConfirmation": {
       "title": "Adakah anda pasti ingin memadam {{itemName}}?",

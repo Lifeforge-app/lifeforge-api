@@ -21,10 +21,9 @@ router.get(
     const { id } = req.params;
 
     if (!pb.authStore.isValid) {
-      await pb.admins.authWithPassword(
-        process.env.PB_EMAIL!,
-        process.env.PB_PASSWORD!
-      );
+      await pb
+        .collection("_superusers")
+        .authWithPassword(process.env.PB_EMAIL!, process.env.PB_PASSWORD!);
 
       const album = await pb.collection("photos_albums").getOne(id);
 
@@ -82,10 +81,9 @@ router.get(
   "/check-publicity/:id",
   asyncWrapper(async (req, res) => {
     const { pb } = req;
-    await pb.admins.authWithPassword(
-      process.env.PB_EMAIL!,
-      process.env.PB_PASSWORD!
-    );
+    await pb
+      .collection("_superusers")
+      .authWithPassword(process.env.PB_EMAIL!, process.env.PB_PASSWORD!);
 
     const { id } = req.params;
 

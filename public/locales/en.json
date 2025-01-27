@@ -505,7 +505,8 @@
     "retry": "Try Again",
     "addToCart": "Add to Cart",
     "removeFromCart": "Remove from Cart",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "compose": "Compose"
   },
   "modals": {
     "header": {
@@ -599,7 +600,8 @@
       "updateEntry": "Update Entry",
       "addItem": "Add Item",
       "updateItem": "Update Item",
-      "sessionCart": "Session Cart"
+      "sessionCart": "Session Cart",
+      "viewMail": "View Email"
     },
     "deleteConfirmation": {
       "title": "Are you sure you want to delete {{itemName}}?",

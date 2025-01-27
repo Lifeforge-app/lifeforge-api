@@ -52,10 +52,9 @@ router.get(
     const { code } = req.query;
     const { pb } = req;
 
-    await pb.admins.authWithPassword(
-      process.env.PB_EMAIL!,
-      process.env.PB_PASSWORD!
-    );
+    await pb
+      .collection("_superusers")
+      .authWithPassword(process.env.PB_EMAIL!, process.env.PB_PASSWORD!);
 
     const user = await pb
       .collection("users")
@@ -105,10 +104,9 @@ router.get(
   asyncWrapper(async (req, res) => {
     const { pb } = req;
 
-    await pb.admins.authWithPassword(
-      process.env.PB_EMAIL!,
-      process.env.PB_PASSWORD!
-    );
+    await pb
+      .collection("_superusers")
+      .authWithPassword(process.env.PB_EMAIL!, process.env.PB_PASSWORD!);
 
     const user = await pb
       .collection("users")

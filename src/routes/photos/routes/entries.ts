@@ -50,10 +50,9 @@ router.get(
     const { isInAlbum } = req.query;
 
     if (!pb.authStore.isValid) {
-      await pb.admins.authWithPassword(
-        process.env.PB_EMAIL,
-        process.env.PB_PASSWORD
-      );
+      await pb
+        .collection("_superusers")
+        .authWithPassword(process.env.PB_EMAIL, process.env.PB_PASSWORD);
 
       let image;
 
@@ -99,10 +98,9 @@ router.get(
     const { raw, isInAlbum } = req.query;
 
     if (!pb.authStore.isValid) {
-      await pb.admins.authWithPassword(
-        process.env.PB_EMAIL,
-        process.env.PB_PASSWORD
-      );
+      await pb
+        .collection("_superusers")
+        .authWithPassword(process.env.PB_EMAIL, process.env.PB_PASSWORD);
 
       let image;
 
@@ -367,10 +365,9 @@ router.get(
     const { albumId } = req.params;
 
     if (!pb.authStore.isValid) {
-      await pb.admins.authWithPassword(
-        process.env.PB_EMAIL,
-        process.env.PB_PASSWORD
-      );
+      await pb
+        .collection("_superusers")
+        .authWithPassword(process.env.PB_EMAIL, process.env.PB_PASSWORD);
 
       const album = await pb.collection("photos_albums").getOne(albumId);
 

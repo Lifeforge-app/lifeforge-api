@@ -276,7 +276,7 @@ router.post(
   }),
   asyncWrapper(async (req, res: Response<BaseResponse<string>>) => {
     const apiKey = await getAPIKey("openai", req.pb);
-    console.log(req.files);
+    req.files;
     const {
       frontImage: [frontImage],
       backImage: [backImage],

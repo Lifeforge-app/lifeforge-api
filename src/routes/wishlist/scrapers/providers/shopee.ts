@@ -31,15 +31,6 @@ async function getPrice(imageURL: string) {
     const ret = await worker.recognize(buffer);
     await worker.terminate();
 
-    console.log(
-      ret.data.text
-        .split("\n")
-        .filter((e) => e)
-        .pop()
-        ?.split("-")
-        .shift()
-    );
-
     const numbers = ret.data.text
       .split("\n")
       .filter((e) => e)
