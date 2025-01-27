@@ -2,6 +2,7 @@ import Pocketbase from "pocketbase";
 import getIMAPConfig from "./utils/getIMAPConfig.js";
 import imaps from "imap-simple";
 import { createMailRecord } from "./utils/createMailRecord.js";
+import moment from "moment";
 
 if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
   throw new Error("Please provide PB_HOST, PB_EMAIL and PB_PASSWORD in .env");
@@ -28,12 +29,12 @@ async function fetchMail(connection: imaps.ImapSimple) {
     })
     .catch(() => null);
 
-  let lastUID = 0;
-  if (lastUIDRecord?.items.length) {
-    lastUID = lastUIDRecord.items[0].uid;
+  let lastTime = moment().subtract(1, "hour");
+  if (lastUIDRecord && lastUIDRecord.items.length > 0) {
+    lastTime = moment(lastUIDRecord.items[0].date);
   }
 
-  const searchCriteria = [["UID", `${lastUID}:*`]];
+  const searchCriteria = [["SINCE", lastTime.format("DD-MMM-YYYY")]];
 
   const fetchOptions = {
     bodies: [""],

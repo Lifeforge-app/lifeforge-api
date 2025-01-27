@@ -10,6 +10,34 @@ import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
 import Pocketbase from "pocketbase";
 
+function getFullPath(
+  record: { name: string; parent: string },
+  allRecords: { name: string; parent: string }[]
+) {
+  let path = record.name;
+  let parent = record.parent;
+
+  while (parent) {
+    const parentRecord = allRecords.find((r) => r.id === parent);
+    if (!parentRecord) break;
+
+    path = `${parentRecord.name}/${path}`;
+    parent = parentRecord.parent;
+  }
+
+  return path;
+}
+
+async function fetchLabels(pb) {
+  const allRecords = await pb.collection("mail_inbox_labels").getFullList();
+  const allNames = [];
+  for (const record of allRecords) {
+    allNames.push(getFullPath(record, allRecords));
+  }
+
+  return allNames;
+}
+
 async function createAddressRecordIfNotExists(
   addresses: EmailAddress[],
   pb: Pocketbase
@@ -101,14 +129,66 @@ async function createUnsubscribeUrlRecord(
   }
 }
 
+async function addLabelToEntry(
+  entryId: string,
+  labels: string[],
+  pb: Pocketbase
+) {
+  const labelRecords = await pb
+    .collection("mail_inbox_labels")
+    .getFullList()
+    .catch(() => []);
+
+  const idsToSet = [];
+
+  for (const label of labels) {
+    const splitted = label.split("/");
+    let parentId = "";
+
+    for (const part of splitted) {
+      const record = labelRecords.find(
+        (r) => r.name === part && r.parent === parentId
+      );
+
+      if (!record) {
+        break;
+      }
+
+      parentId = record.id;
+    }
+
+    if (parentId) {
+      idsToSet.push(parentId);
+    }
+  }
+
+  await pb.collection("mail_inbox_entries").update(entryId, {
+    labels: idsToSet,
+  });
+}
+
 export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
+  const labels = await fetchLabels(pb);
+
+  const allLabels = [
+    "INBOX",
+    ...(message.attributes as any)["x-gm-labels"]
+      .map((e: string) => e.replace("\\", ""))
+      .filter((e: string) => labels.includes(e)),
+  ];
+
   const everything = message.parts.find((part) => part.which === "")?.body;
   const data = await simpleParser(everything);
-  const id = message.attributes.uid;
+  const id = data.headers.get("message-id");
+
+  if (!id) {
+    console.warn("No message id found for:", data.subject);
+    return;
+  }
 
   const existedData = await pb
     .collection("mail_inbox_entries")
-    .getFirstListItem(`uid = ${id}`)
+    .getFirstListItem(`uid = "${id}"`)
     .catch(() => null);
 
   if (existedData) {
@@ -134,6 +214,14 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
     html: data.html,
   });
 
+  const seen = message.attributes.flags.includes("\\Seen");
+
+  if (seen) {
+    await pb.collection("mail_inbox_entries").update(newData.id, {
+      seen,
+    });
+  }
+
   const from = data.from!.value[0];
   const to = (data.to as AddressObject)!.value;
   const cc = (data.cc as AddressObject)?.value || [];
@@ -154,4 +242,6 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
   await createAttachmentRecords(data.attachments, newData.id, pb);
 
   await createUnsubscribeUrlRecord(data.headers, newData.id, pb);
+
+  await addLabelToEntry(newData.id, allLabels, pb);
 }

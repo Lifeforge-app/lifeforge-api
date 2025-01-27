@@ -22,6 +22,8 @@ function cleanupRecord(
     return;
   }
 
+  console.log(record.expand);
+
   record.from = {
     name: record.expand.from.name,
     address: record.expand.from.address,
@@ -68,7 +70,7 @@ router.get(
     const result = await pb
       .collection("mail_inbox_entries")
       .getList<IMailInboxEntry>(page, 25, {
-        sort: "-uid",
+        sort: "-date",
         expand: "mail_inbox_attachments_via_belongs_to, from, to, cc",
       });
 
