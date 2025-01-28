@@ -11,8 +11,8 @@ import DOMPurify from "dompurify";
 import Pocketbase from "pocketbase";
 
 function getFullPath(
-  record: { name: string; parent: string },
-  allRecords: { name: string; parent: string }[]
+  record: { name: string; parent: string; id: string },
+  allRecords: { name: string; parent: string; id: string }[]
 ) {
   let path = record.name;
   let parent = record.parent;
@@ -28,11 +28,11 @@ function getFullPath(
   return path;
 }
 
-async function fetchLabels(pb) {
+async function fetchLabels(pb: Pocketbase) {
   const allRecords = await pb.collection("mail_inbox_labels").getFullList();
   const allNames = [];
   for (const record of allRecords) {
-    allNames.push(getFullPath(record, allRecords));
+    allNames.push(getFullPath(record as any, allRecords as any));
   }
 
   return allNames;
@@ -174,6 +174,7 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
     "INBOX",
     ...(message.attributes as any)["x-gm-labels"]
       .map((e: string) => e.replace("\\", ""))
+      .replace(/^Inbox$/, "INBOX")
       .filter((e: string) => labels.includes(e)),
   ];
 

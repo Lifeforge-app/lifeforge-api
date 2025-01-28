@@ -1,6 +1,15 @@
 import * as s from "superstruct";
 import { BasePBCollectionSchema } from "./pocketbase_interfaces.js";
 
+const IMailInboxLabelSchema = s.assign(
+  BasePBCollectionSchema,
+  s.object({
+    name: s.string(),
+    amount: s.number(),
+    parent: s.string(),
+  })
+);
+
 const IMailInboxAddressSchema = s.assign(
   BasePBCollectionSchema,
   s.object({
@@ -76,14 +85,21 @@ const IMailInboxEntrySchema = s.assign(
   })
 );
 
+type IMailInboxLabel = s.Infer<typeof IMailInboxLabelSchema>;
 type IMailInboxAddress = s.Infer<typeof IMailInboxAddressSchema>;
 type IMailInboxAttachment = s.Infer<typeof IMailInboxAttachmentSchema>;
 type IMailInboxEntry = s.Infer<typeof IMailInboxEntrySchema>;
 
 export {
+  IMailInboxLabelSchema,
   IMailInboxEntrySchema,
   IMailInboxAddressSchema,
   IMailInboxAttachmentSchema,
 };
 
-export type { IMailInboxEntry, IMailInboxAttachment, IMailInboxAddress };
+export type {
+  IMailInboxLabel,
+  IMailInboxEntry,
+  IMailInboxAttachment,
+  IMailInboxAddress,
+};

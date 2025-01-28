@@ -86,7 +86,8 @@
       "subcategories": "子分類",
       "sizes": "尺寸",
       "colors": "顏色",
-      "brands": "品牌"
+      "brands": "品牌",
+      "labels": "標籤"
     },
     "descriptions": {
       "dashboard": "您的任務控制中心，妙不可言！",
@@ -363,7 +364,8 @@
     "modules": "搜尋模組...",
     "ideasInFolder": "搜索資料夾中的想法...",
     "ideas": "搜尋想法...",
-    "clothes": "搜索服裝..."
+    "clothes": "搜索服裝...",
+    "mails": "搜尋郵件..."
   },
   "button": {
     "create": "創建",
@@ -845,6 +847,14 @@
     "virtualWardrobe": {
       "allClothes": "所有服裝",
       "favourites": "最愛服飾"
+    },
+    "mailInbox": {
+      "inbox": "收件箱",
+      "starred": "已星標",
+      "sent": "已送出",
+      "trash": "回收桶",
+      "allMails": "所有郵件",
+      "draft": "草稿"
     }
   },
   "calendar": {

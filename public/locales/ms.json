@@ -85,7 +85,8 @@
       "subcategories": "Subkategorii",
       "sizes": "Saiz",
       "colors": "Warna",
-      "brands": "Jenama"
+      "brands": "Jenama",
+      "labels": "Label"
     },
     "descriptions": {
       "dashboard": "Pusat kawalan misi anda untuk yang mengagumkan. 🚀",
@@ -362,7 +363,8 @@
     "ideas": "Cari Idea...",
     "modules": "Cari modul...",
     "ideasInFolder": "Cari idea dalam folder...",
-    "clothes": "Cari pakaian..."
+    "clothes": "Cari pakaian...",
+    "mails": "Cari e-mel..."
   },
   "button": {
     "create": "Cipta",
@@ -844,6 +846,14 @@
     "virtualWardrobe": {
       "allClothes": "Pakaian Semua",
       "favourites": "Pakaian Kegemaran"
+    },
+    "mailInbox": {
+      "inbox": "Peti Masuk",
+      "starred": "Berbintang",
+      "sent": "Hantar",
+      "trash": "Sampah",
+      "allMails": "Semua E-mel",
+      "draft": "Draf"
     }
   },
   "calendar": {

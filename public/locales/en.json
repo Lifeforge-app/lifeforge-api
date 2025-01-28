@@ -85,7 +85,8 @@
       "subcategories": "Subcategories",
       "sizes": "Sizes",
       "colors": "Colors",
-      "brands": "Brands"
+      "brands": "Brands",
+      "labels": "Labels"
     },
     "descriptions": {
       "dashboard": "Your mission control center for awesome.",
@@ -363,7 +364,8 @@
     "ideas": "Search Ideas...",
     "modules": "Search modules...",
     "ideasInFolder": "Search ideas in folder...",
-    "clothes": "Search clothes..."
+    "clothes": "Search clothes...",
+    "mails": "Search emails..."
   },
   "button": {
     "create": "Create",
@@ -845,6 +847,14 @@
     "virtualWardrobe": {
       "allClothes": "All Clothes",
       "favourites": "Favourite Clothes"
+    },
+    "mailInbox": {
+      "inbox": "Inbox",
+      "starred": "Starred",
+      "sent": "Sent",
+      "trash": "Trash",
+      "allMails": "All Mails",
+      "draft": "Drafts"
     }
   },
   "calendar": {
