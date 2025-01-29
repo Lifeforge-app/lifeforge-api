@@ -25,7 +25,7 @@ async function fetchMail(connection: imaps.ImapSimple) {
     .collection("mail_inbox_entries")
     .getList<any>(1, 1, {
       skipTotal: true,
-      sort: "-uid",
+      sort: "-created",
     })
     .catch(() => null);
 

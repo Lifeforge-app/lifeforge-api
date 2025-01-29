@@ -25,8 +25,6 @@ function cleanupRecord(
     return;
   }
 
-  console.log(record.expand);
-
   record.from = {
     name: record.expand.from.name,
     address: record.expand.from.address,

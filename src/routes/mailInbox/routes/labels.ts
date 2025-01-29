@@ -8,9 +8,7 @@ import {
 const router = express.Router();
 
 router.get("/", (req, res) =>
-  list<IMailInboxLabel>(req, res, "mail_inbox_labels", {}, (data) =>
-    data.filter((e) => !["INBOX", "Trash", "Unwanted", "Sent"].includes(e.name))
-  )
+  list<IMailInboxLabel>(req, res, "mail_inbox_labels")
 );
 
 export default router;

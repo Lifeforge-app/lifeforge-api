@@ -151,6 +151,12 @@ async function addLabelToEntry(
       );
 
       if (!record) {
+        const newRecord = await pb.collection("mail_inbox_labels").create({
+          name: part,
+          parent: parentId,
+        });
+
+        parentId = newRecord.id;
         break;
       }
 
@@ -160,6 +166,12 @@ async function addLabelToEntry(
     if (parentId) {
       idsToSet.push(parentId);
     }
+  }
+
+  for (const id of idsToSet) {
+    await pb.collection("mail_inbox_labels").update(id, {
+      "count+": 1,
+    });
   }
 
   await pb.collection("mail_inbox_entries").update(entryId, {
@@ -173,9 +185,8 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
   const allLabels = [
     "INBOX",
     ...(message.attributes as any)["x-gm-labels"]
-      .map((e: string) => e.replace("\\", ""))
-      .replace(/^Inbox$/, "INBOX")
-      .filter((e: string) => labels.includes(e)),
+      .map((e: string) => e.replace("\\", "").replace(/^Inbox$/, "INBOX"))
+      .filter((e: string) => e !== "SEEN"),
   ];
 
   const everything = message.parts.find((part) => part.which === "")?.body;
