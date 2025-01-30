@@ -1,0 +1,43 @@
+{
+  "title": "Todo List",
+  "description": "Never forget to-do again (except maybe laundry).",
+  "header": {
+    "allTasks": "All Tasks",
+    "todaysTasks": "Today's Tasks",
+    "scheduledTasks": "Scheduled Tasks",
+    "overdueTasks": "Overdue Tasks",
+    "completedTasks": "Completed Tasks",
+    "filteredTasks": "Filtered Tasks"
+  },
+  "empty": {
+    "todaysTask": {
+      "title": "No tasks for today",
+      "desc": "Today's tasks are empty. Add a new task to get started!"
+    }
+  },
+  "sidebar": {
+    "all": "All Tasks",
+    "today": "Today's Task",
+    "completed": "Completed",
+    "scheduled": "Scheduled",
+    "overdue": "Overdue"
+  },
+  "modals": {
+    "tasks": {
+      "create": "Create Task",
+      "update": "Update Task"
+    },
+    "list": {
+      "create": "Create List",
+      "update": "Update List"
+    },
+    "tag": {
+      "create": "Create Tag",
+      "update": "Update Tag"
+    },
+    "priority": {
+      "create": "Create Priority",
+      "update": "Update Priority"
+    }
+  }
+}

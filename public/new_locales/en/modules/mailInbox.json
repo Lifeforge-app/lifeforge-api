@@ -1,0 +1,20 @@
+{
+  "title": "Mail Inbox",
+  "description": "Manage your email inbox, all in one place.",
+  "sidebar": {
+    "inbox": "Inbox",
+    "starred": "Starred",
+    "sent": "Sent",
+    "trash": "Trash",
+    "allMails": "All Mails",
+    "draft": "Drafts"
+  },
+  "buttons": {
+    "compose": "Compose"
+  },
+  "modals": {
+    "mail": {
+      "view": "View Mail",
+    }
+  }
+}

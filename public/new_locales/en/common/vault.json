@@ -1,0 +1,13 @@
+{
+    "buttons": {
+        "otp": {
+            "request": "Request OTP",
+            "resend": "Resend OTP",
+            "verify": "Verify OTP"
+        }
+    },
+    "lockedMessage": "Your vault is locked",
+    "passwordRequired": "A master password is required to decrypt your passwords.",
+    "unlocked": "Vault unlocked",
+    "failedToUnlock": "Failed to unlock vault"
+}

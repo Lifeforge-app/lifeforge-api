@@ -1,0 +1,14 @@
+{
+  "title": "Virtual Wardrobe",
+  "description": "Creating and managing a digital collection of outfits and accessories for personal styling.",
+  "sidebar": {
+    "allClothes": "All Clothes",
+    "favourites": "Favourite Clothes"
+  },
+  "modals": {
+    "item": {
+      "create": "Create Item",
+      "update": "Update Item"
+    }
+  }
+}

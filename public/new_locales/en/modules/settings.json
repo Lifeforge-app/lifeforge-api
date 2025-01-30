@@ -1,0 +1,13 @@
+{
+  "modals": {
+    "username": {
+      "update": "Update Username"
+    },
+    "email": {
+      "update": "Update Email"
+    },
+    "displayName": {
+      "update": "Update Display Name"
+    }
+  }
+}

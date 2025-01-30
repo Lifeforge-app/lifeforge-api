@@ -1,0 +1,42 @@
+{
+  "title": "Projects (M)",
+  "description": "Tame those giant projects, one step at a time.",
+  "sidebar": {
+    "allProjects": "All Projects",
+    "starred": "Starred Projects"
+  },
+  "empty": {
+    "projects": {
+      "title": "No projects for now",
+      "description": "No projects available. Create a new one to get started."
+    },
+    "statuses": "No status found",
+    "visibilities": "No visibility found",
+    "technologies": "No technology found",
+    "priority": "No priorities found",
+    "lists": "No lists found",
+    "tags": "No tags found"
+  },
+  "modals": {
+    "project": {
+      "create": "Create Project",
+      "update": "Update Project"
+    },
+    "status": {
+      "create": "Create Status",
+      "update": "Update Status"
+    },
+    "visibility": {
+      "create": "Create Visibility",
+      "update": "Update Visibility"
+    },
+    "technology": {
+      "create": "Create Technology",
+      "update": "Update Technology"
+    },
+    "column": {
+      "create": "Create Column",
+      "update": "Update Column"
+    }
+  }
+}

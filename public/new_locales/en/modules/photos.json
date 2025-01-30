@@ -1,0 +1,24 @@
+{
+  "title": "Photos",
+  "description": "Memories so vivid, they'll practically jump off the screen.",
+  "sidebar": {
+    "favourites": "Favourites",
+    "archive": "Archived",
+    "lockedFolder": "Locked Folder",
+    "trash": "Trash",
+    "allPhotos": "All Photos",
+    "viewAllAlbum": "View All Albums"
+  },
+  "empty": {
+    "trash": {
+      "title": "Trash is Empty",
+      "description": "No items found in trash."
+    }
+  },
+  "modals": {
+    "album": {
+      "create": "Create Album",
+      "rename": "Update Album"
+    }
+  }
+}

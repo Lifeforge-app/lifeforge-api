@@ -1,0 +1,17 @@
+{
+    "create": "Create",
+    "update": "Update",
+    "rename": "Rename",
+    "select": "Select",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "save": "Save",
+    "update": "update",
+    "copy": "Copy",
+    "previous": "Previous",
+    "next": "Next",
+    "print": "Print",
+    "remove": "Remove",
+    "upload": "Upload",
+    "import": "Import"
+}

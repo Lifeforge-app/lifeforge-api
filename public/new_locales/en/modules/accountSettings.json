@@ -1,0 +1,23 @@
+{
+  "title": "Account Settings",
+  "description": "A place to manage all your accounts details and info",
+  "settings": {
+    "title": {
+      "profilePicture": "Profile Picture",
+      "username": "Username",
+      "displayName": "Display Name",
+      "email": "Email Address",
+      "password": "Password",
+      "dateOfBirth": "Birthdate"
+    },
+    "desc": {
+      "profilePicture": " Upload a profile picture to personalize your account.",
+      "username": "The name that identifies you on the platform.",
+      "displayName": "The name that is displayed to other users.",
+      "email": "The email address you use to sign in to your account.",
+      "password": "Set a strong password to protect your account.",
+      "dateOfBirth": "Set your birthdate and we will give you a surprise!"
+    },
+    "empty": "Not set"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Youtube Videos",
+  "description": "Download, store, and organize all your favourite videos from YouTube.",
+  "modals": {
+    "video": {
+      "create": "Add Video",
+      "update": "Edit Video"
+    },
+    "downloadProcess": "Download Processes"
+  }
+}

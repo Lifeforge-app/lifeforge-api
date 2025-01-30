@@ -1,39 +1,5 @@
 {
   "modules": {
-    "dashboard": "Dashboard",
-    "projects(m)": "Projects (M)",
-    "projects(k)": "Projects (K)",
-    "ideaBox": "Idea Box",
-    "todoList": "Todo List",
-    "calendar": "Calendar",
-    "spotify": "Spotify",
-    "codeTime": "Code Time",
-    "photos": "Photos",
-    "music": "Music",
-    "repositories": "Repositories",
-    "pomodoroTimer": "Pomodoro Timer",
-    "flashcards": "Flashcards",
-    "notes": "Notes",
-    "booksLibrary": "Books Library",
-    "wallet": "Wallet",
-    "wishList": "Wish List",
-    "contacts": "Contacts",
-    "passwords": "Passwords",
-    "personalization": "Personalization",
-    "dataBackup": "Data Backup",
-    "modules": "Modules",
-    "serverStatus": "Server Status",
-    "changeLog": "Change Log",
-    "about": "About This Project",
-    "journal": "Journal",
-    "achievements": "Achievements",
-    "dnsRecords": "DNS Records",
-    "mailInbox": "Mail Inbox",
-    "blogPosts": "Blog Posts",
-    "assets": "Assets",
-    "budgets": "Budget",
-    "ledgers": "Ledgers",
-    "transactions": "Transactions",
     "subsections": {
       "dashboard": "Dashboard",
       "transactions": "Transactions",
@@ -46,13 +12,6 @@
       "virtualWardrobeOutfits": "Outfit Sets"
     },
     "title": {
-      "productivity": "Productivity",
-      "storage": "Storage",
-      "study": "Study",
-      "finance": "Finance",
-      "confidential": "Confidential",
-      "settings": "Settings",
-      "technologies": "Technologies",
       "tasks": "Tasks",
       "lists": "Lists",
       "tags": "Tags",
@@ -62,330 +21,45 @@
       "categories": "Categories",
       "languages": "Languages",
       "albums": "Albums",
-      "lifestyle": "Lifestyle",
-      "externalManagement": "External Management",
       "type": "Type",
       "assets": "Assets",
-      "sso": "Single Sign-On",
       "ledgers": "Ledgers",
       "technology": "Technology",
       "changiAirport": "Changi Airport",
       "aviation": "Aviation",
       "dateRange": "Date Range",
-      "references": "References",
-      "statuses": "Statuses",
       "visibilities": "Visibilities",
+      "statuses": "Statuses",
       "authors": "Authors",
-      "information": "Information",
       "priorities": "Priorities",
       "calendarHeatmap": "Calendar Heatmap",
       "filetypes": "File Types",
-      "utilities": "Utilities",
-      "health&Fitness": "Health & Fitness",
       "subcategories": "Subcategories",
       "sizes": "Sizes",
       "colors": "Colors",
       "brands": "Brands",
       "labels": "Labels"
     },
-    "descriptions": {
-      "dashboard": "Your mission control center for awesome.",
-      "projects(m)": "Tame those giant projects, one step at a time.",
-      "projects(k)": "Track a zillion little projects without losing your mind.",
-      "ideaBox": "Catch those brilliant ideas before they fly away!",
-      "todoList": "Never forget to-do again (except maybe laundry).",
-      "calendar": "Don't be late for your date with destiny (or the dentist).",
-      "spotify": "The right soundtrack for conquering your day.",
-      "codeTime": "See how much coding magic you make happen.",
-      "photos": "Memories so vivid, they'll practically jump off the screen.",
-      "music": "Your personal soundtrack for life's greatest moments.",
-      "repositories": "Your code, your projects, your world.",
-      "pomodoroTimer": "Work like a boss with laser focus breaks.",
-      "flashcards": "Learn stuff fast and remember it forever (or at least until next Tuesday).",
-      "notes": "Digital sticky notes that never fall off the fridge.",
-      "booksLibrary": "Your personal library, minus the late fees.",
-      "wallet": "Be your own financial superhero.",
-      "wishList": "Dream big and plan to make it happen.",
-      "contacts": "Stay connected with your favourite people (even the ones who never text back). 📱",
-      "passwords": "Keep your secrets safe, even from yourself (sometimes).",
-      "personalization": "Make it yours! Because who wants a boring organizer?",
-      "dataBackup": "Your digital safety net, because stuff happens.",
-      "modules": "All the tools you need, all in one place.",
-      "serverStatus": "Keep your server healthy, happy, and humming.",
-      "changeLog": "Track the development progress, one change at a time.",
-      "about": "The story behind how this project came to be.",
-      "journal": "Your personal journal, for your eyes only.",
-      "achievements": "Celebrate your wins, big and small.",
-      "dnsRecords": "No need to login to CPanel, manage your DNS records here.",
-      "mailInbox": "Manage your email inbox, all in one place.",
-      "blogPosts": "Writing and sharing your thoughts with the world.",
-      "assets": "See how much money you have.",
-      "budgets": "Make sure you're not spending too much money.",
-      "ledgers": "Split your expenses so you know who owes who.",
-      "transactions": "Know where your money is going.",
-      "guitarTabs": "Stores and organizes your guitar tablatures effortlessly.",
-      "accountSettings": "A place to manage all your accounts details and info",
-      "flightStatus": "Tracks Changi Airport flight statuses in real-time",
-      "airports": "View all sorts of information about airports around the world",
-      "cfopAlgorithms": "View and train all the algorithms required for speedcubing.",
-      "youtubeVideos": "Download, store, and organize all your favourite videos from YouTube.",
-      "apiKeys": "Manage the required API keys for all your modules",
-      "parcelTracking": "Track the delivery status of all the goods that you've ordered online.",
-      "wishlist": "Dream, save, and track your must-have treasures effortlessly!",
-      "budget": "Master your money with smart planning and tracking!",
-      "workout": "Stay fit with personalized workouts and tracking!",
-      "3dModels": "A storage for 3D modals ready to be downlaoded and printed anytime",
-      "financialStatements": "Track and analyze your finances with detailed statements!",
-      "sudoku": "Generate printable sudoku boards indefinitely.",
-      "minecraftServerList": "Explore top Minecraft servers for endless gaming adventures",
-      "asciiTextGenerator": "Create custom ASCII text with ease and style.",
-      "openaiApiPricing": "Exploring OpenAI API pricing for various usage plans and models.",
-      "nutritionsTracker": "Tracking nutrient intake and analyzing dietary habits.",
-      "virtualWardrobe": "Creating and managing a digital collection of outfits and accessories for personal styling."
-    },
     "localizationManager": "Localization Manager",
-    "guitarTabs": "Guitar Tabs",
-    "accountSettings": "Account Settings",
     "documentation": "Documentation",
     "airlineInformation": "Airline Information",
     "changiFlightStatus": "Changi Airport Flight Status",
-    "airports": "Airports",
-    "header": {},
     "tipsAndTricks": "Tips & Tricks",
-    "cfopAlgorithms": "CFOP Algorithms",
     "loadingModule": "Loading Module...",
-    "youtubeVideos": "Youtube Videos",
-    "apiKeys": "API Keys",
-    "parcelTracking": "Parcel Tracking",
     "changiAirlineInformation": "Changi Airport Airline Information",
     "changiAirport": "Changi Airport",
-    "subsection": {},
-    "wishlist": "Wishlist",
-    "budget": "Budget",
-    "deprecated": "No longer supported",
-    "workout": "Workout",
-    "3dModels": "3D Models",
-    "financialStatements": "Financial Statements",
-    "sudoku": "Sudoku",
-    "minecraftServerList": "Minecraft Server List",
-    "asciiTextGenerator": "ASCII Text Generator",
-    "openaiApiPricing": "OpenAI API Pricing",
-    "nutritionsTracker": "Nutritions Tracker",
-    "virtualWardrobe": "Virtual Wardrobe"
-  },
-  "header": {
-    "searchBarPlaceholder": "Quick navigate & search ... (Press Ctrl or ⌘ + / to focus)"
-  },
-  "personalization": {
-    "themeSelector": {
-      "title": "Theme",
-      "desc": "Choose a theme that suits your style.",
-      "theme": {
-        "system": "System",
-        "light": "Light",
-        "dark": "Dark"
-      },
-      "customBgColor": "Custom Background Color"
-    },
-    "themeColorSelector": {
-      "title": "Theme Color",
-      "desc": "Choose the the best color for your UI.",
-      "colors": {
-        "red": "Red",
-        "pink": "Pink",
-        "purple": "Purple",
-        "deepPurple": "Deep Purple",
-        "indigo": "Indigo",
-        "blue": "Blue",
-        "lightBlue": "Light Blue",
-        "cyan": "Cyan",
-        "teal": "Teal",
-        "green": "Green",
-        "lightGreen": "Light Green",
-        "lime": "Lime",
-        "yellow": "Yellow",
-        "amber": "Amber",
-        "orange": "Orange",
-        "deepOrange": "Deep Orange",
-        "brown": "Brown",
-        "grey": "Grey",
-        "custom": "Custom Color"
-      }
-    },
-    "languageSelector": {
-      "title": "Language",
-      "desc": "Select a language that you prefer."
-    },
-    "bgTempSelector": {
-      "title": "Background Temperature",
-      "desc": "Choose a background temperature that suits your mood.",
-      "cool": "Cool",
-      "warm": "Warm",
-      "customBgTemp": "Custom Background Temperature"
-    },
-    "fontFamily": {
-      "title": "Font Style",
-      "desc": "Choose a font family that matches your preference",
-      "tooltip": "For more detailed information on all the fonts, visit the Google Font website.",
-      "tooltipTitle": "Powered by Google Fonts"
-    },
-    "bgImageSelector": {
-      "title": "Background Image",
-      "desc": "Upload or search for a background image for your system"
-    }
-  },
-  "dashboard": {
-    "widgets": {
-      "quickActions": {
-        "title": "Quick Actions",
-        "description": "Quickly access your most used features."
-      },
-      "miniCalendar": {
-        "title": "Mini Calendar",
-        "description": "View upcoming events in a compact calendar."
-      },
-      "todaysEvent": {
-        "title": "Today's Event",
-        "description": "Reminders for today's events."
-      },
-      "todoList": {
-        "title": "To-do List",
-        "description": "Organize and track your tasks."
-      },
-      "pomodoroTimer": {
-        "title": "Pomodoro Timer",
-        "description": "Focus with Pomodoro work sessions."
-      },
-      "codeTime": {
-        "title": "Code Time",
-        "description": "Track and visualize coding activity."
-      },
-      "ideaBox": {
-        "title": "Idea Box",
-        "description": "Capture and organize random ideas."
-      },
-      "journal": {
-        "title": "Journal",
-        "description": "Record your thoughts and experiences."
-      },
-      "flashCards": {
-        "title": "Flash Cards",
-        "description": "Customizable flash card decks."
-      },
-      "bookshelf": {
-        "title": "Bookshelf",
-        "description": "Manage and access your books."
-      },
-      "achievements": {
-        "title": "Achievements",
-        "description": "Track and celebrate milestones."
-      },
-      "spotify": {
-        "title": "Spotify",
-        "description": "Control Spotify playlists."
-      },
-      "musicPlayer": {
-        "title": "Music Player",
-        "description": "Play your personal music.",
-        "noMusicPlaying": "No currently playing music"
-      },
-      "incomeExpenses": {
-        "title": "Income & Expenses",
-        "description": "Monitor income and expenses."
-      },
-      "assetsBalance": {
-        "title": "Assets Balance",
-        "description": "Track asset balances."
-      },
-      "serverStatus": {
-        "title": "Server Status",
-        "description": "Monitor server performance."
-      },
-      "storageStatus": {
-        "title": "Storage Status",
-        "description": "Check storage usage."
-      },
-      "income": "Income",
-      "balances": "Assets Balance",
-      "statistics": "Statistics",
-      "expensesBreakdown": {
-        "title": "Expense Breakdown",
-        "description": "A concise visual summary of your spending categories."
-      },
-      "expenses": "Expenses",
-      "recentTransactions": {
-        "title": "Recent Transactions",
-        "description": "Easily monitor and review your latest expenditures."
-      },
-      "date": {
-        "title": "Date",
-        "description": "A simple decorative widget for showing today's date."
-      },
-      "clock": {
-        "title": "Clock",
-        "description": "A little clock to prevent you from losing track of time."
-      },
-      "quotes": {
-        "description": "A random quote to hopefully motivates you through the day.",
-        "title": "Quotes"
-      },
-      "transactionsCount": "Transactions Count"
-    }
-  },
-  "notFound": {
-    "title": "Oops! Nothing here.",
-    "description": "The page you are looking is not found. Please check the URL and try again."
-  },
-  "search": {
-    "books": "Search Books...",
-    "features": "Search Features...",
-    "dnsRecords": "Search DNS Records...",
-    "tasks": "Search Tasks...",
-    "ideaContainers": "Search Idea Containers...",
-    "dailyJournalEntries": "Search Daily Journal Entries...",
-    "musics": "Search Music...",
-    "albums": "Search Albums...",
-    "projects": "Search Projects...",
-    "transactions": "Search Transactions...",
-    "guitarTabs": "Search Guitar Tabs...",
-    "flights": "Search flights...",
-    "airports": "Search Airports...",
-    "continents": "Search Continents...",
-    "countries": "Search Countries...",
-    "regions": "Search Regions...",
-    "allAirports": "Search All Airports...",
-    "passwords": "Passwords",
-    "videos": "Search Videos...",
-    "iconSets": "Search Icons Sets...",
-    "filterIconSets": "Filter Icon Sets...",
-    "icons": "Search Icons...",
-    "amongMillionsOfBooks": "Search among millions of books...",
-    "pixabay": "Search in Pixabay ...",
-    "ideas": "Search Ideas...",
-    "modules": "Search modules...",
-    "ideasInFolder": "Search ideas in folder...",
-    "clothes": "Search clothes...",
-    "mails": "Search emails..."
+    "deprecated": "No longer supported"
   },
   "button": {
-    "create": "Create",
-    "update": "Update",
-    "rename": "Rename",
-    "select": "Select",
-    "cancel": "Cancel",
-    "delete": "Delete",
     "goToDashboard": "Go to Dashboard",
     "getStarted": "Get Started",
     "7DayFreeTrial": "7-Day Free Trial",
     "addAchievement": "Add Achievement",
-    "upload": "Upload",
     "addEvent": "Add Event",
     "addRecord": "Add Record",
     "newDeck": "New Deck",
     "pickRandomCard": "Pick Random Card",
     "newentries": "New entries",
-    "save": "Save",
-    "edit": "Edit",
     "addMusic": "Add Music",
     "downloading": "Downloading...",
     "downloaded": "Downloaded",
@@ -393,11 +67,8 @@
     "submit": "Submit",
     "newPassword": "New Password",
     "unlock": "Unlock",
-    "copy": "Copy",
     "custom": "Custom",
     "empty": "Empty",
-    "remove": "Remove",
-    "import": "Import",
     "emptyTrash": "Empty Trash",
     "endSession": "End Session",
     "download": "Download",
@@ -435,8 +106,6 @@
     "changePassword": "Change Password",
     "importFromNas": "Import from NAS",
     "downloadFromYoutube": "Download from YouTube",
-    "previous": "Previous",
-    "next": "Next",
     "newProject": "New Project",
     "copied": "Copied",
     "goToWebsite": "Visit Website",
@@ -461,9 +130,6 @@
     "pauseSession": "Pause Session",
     "search": "Search",
     "signInWithGithub": "Sign In with GitHub",
-    "requestOtp": "Request OTP",
-    "resendOtp": "Resend OTP",
-    "verifyOtp": "Verify OTP",
     "addApiKey": "New Key",
     "configApiKeys": "Configure API Keys",
     "morandiColorPalette": "Morandi Color Palette",
@@ -497,92 +163,31 @@
     "removeFile": "Remove File",
     "addEntryCard": "Add Entry Card",
     "markAsBought": "Mark as Bought",
-    "print": "Print",
     "showStatement": "View Statement",
     "viewActive": "View Active",
     "inputRawHtml": "Input Raw HTML",
-    "scanReceipt": "Scan Receipt",
     "visitWebsite": "Visit Website",
     "addItem": "Add Item",
     "retry": "Try Again",
     "addToCart": "Add to Cart",
     "removeFromCart": "Remove from Cart",
-    "checkout": "Checkout",
-    "compose": "Compose"
+    "checkout": "Checkout"
   },
   "modals": {
     "header": {
-      "createAchievement": "Create Achievement",
-      "updateAchievement": "Update Achievement",
-      "createEvent": "Create Event",
-      "updateEvent": "Update Event",
-      "createCategory": "Create Category",
-      "updateCategory": "Update Category",
-      "createContainer": "Create Container",
-      "updateContainer": "Update Container",
-      "createFolder": "Create Folder",
-      "updateFolder": "Update Folder",
       "downloadFromYouTube": "Download from YouTube",
       "renameFolder": "Rename Folder",
-      "createSubject": "Create Subject",
-      "updateSubject": "Update Subject",
-      "createPassword": "Create Password",
-      "updatePassword": "Update Password",
-      "createProject": "Create Project",
-      "createList": "Create List",
-      "updateList": "Update List",
-      "createTag": "Create Tag",
-      "updateTag": "Update Tag",
-      "addAsset": "Add Asset",
-      "editAsset": "Edit Asset",
-      "editLedger": "Edit Ledger",
-      "addLedger": "Add Ledger",
-      "manageCategories": "Manage Categories",
-      "editCategory": "Edit Category",
-      "addCategory": "Add Category",
-      "addTransaction": "Add Transaction",
-      "editTransaction": "Edit Transaction",
-      "viewReceipt": "View Receipt",
-      "manageWidgets": "Manage Widgets",
       "downloadFromYoutube": "Download from YouTube",
-      "updateUsername": "Update Username",
-      "updateEmail": "Update Email",
-      "updateDisplayname": "Update Display Name",
-      "addStatus": "Add Status",
-      "addVisibility": "Add Visibility",
-      "editStatus": "Edit Status",
-      "editVisibility": "Edit Visibility",
-      "addTechnology": "Add Technology",
-      "editTechnology": "Edit Technology",
-      "addProject": "Add Project",
-      "editProject": "Edit Project",
-      "addColumn": "Add Column",
-      "editColumn": "Edit Column",
       "notamDetails": "NOTAM Details",
-      "viewJournalEntry": "View Journal entries",
-      "modifyJournalentries": "Modify Journal entries",
-      "createJournalentries": "Create Journal entries",
       "modifyGuitarTab": "Edit Tab",
       "imagePreview": "Image Preview",
-      "createAlbum": "Create Album",
-      "renameAlbum": "Rename Album",
       "manageTags": "Manage Tags",
       "renameTag": "Rename Tag",
       "addPhotosToAlbum": "Add {{amount}} Photos to Album",
-      "addVideos": "Add Videos",
-      "downloadProcess": "Download Processes",
       "pickAColor": "Pick a Color",
       "selectAnIcon": "Select an Icon",
-      "createApiKey": "Create API Key",
-      "updateApiKey": "Update API Key",
       "updateDateOfBirth": "Update Date of Birth",
       "morandiColorPalette": "Morandi Color Palette",
-      "createPriority": "Create Priority",
-      "updatePriority": "Update Priority",
-      "updateJournalEntry": "Update Journal Entry",
-      "createJournalEntry": "Create Journal Entry",
-      "libraryGenesis": "Library Genesis",
-      "addToLibrary": "Add to Library",
       "tailwindCssColors": "Tailwind CSS Colors",
       "tailwindCssColorPalette": "Tailwind CSS Color Palette",
       "modifyBookData": "Update Book Information",
@@ -590,26 +195,13 @@
       "imageSelector": "Select Image",
       "searchFilters": "Search Filters",
       "adjustBackgroundImage": "Adjust Background Image",
-      "createWishlist": "Create Wishlist",
-      "updateWishlist": "Update Wishlist",
-      "importFromOtherApps": "Import from Other Apps",
       "createCard": "New Entry Card",
       "updateCard": "Edit Entry Card",
       "inputRawHtml": "Input Raw HTML",
-      "uploadReceipt": "Upload Receipt",
-      "scanReceipt": "Scan Receipt",
-      "createEntry": "Create Entry",
-      "updateEntry": "Update Entry",
       "addItem": "Add Item",
       "updateItem": "Update Item",
-      "sessionCart": "Session Cart",
-      "viewMail": "View Email"
-    },
-    "deleteConfirmation": {
-      "title": "Are you sure you want to delete {{itemName}}?",
-      "desc": "This will delete the {{itemName}} and everything related to it. This action is irreversible!"
-    },
-    "haeder": {}
+      "sessionCart": "Session Cart"
+    }
   },
   "input": {
     "achievementTitle": "Achievement Title",
@@ -768,103 +360,6 @@
     "frontImage": "Front Image",
     "backImage": "Back Image"
   },
-  "table": {
-    "date": "Date",
-    "type": "Type",
-    "asset": "Asset",
-    "ledger": "Ledger",
-    "particulars": "Particulars",
-    "category": "Category",
-    "amount": "Amount",
-    "receipt": "Receipt",
-    "location": "Location"
-  },
-  "auth": {
-    "header": "Welcome Back",
-    "desc": "Sign in to continue recording your life journey.",
-    "sideImageDesc.part1": "One day you'll leave this world behind",
-    "sideImageDesc.part2": "So live a life you will remember",
-    "or": "OR",
-    "signInButton": "Sign In",
-    "signInWithPasskey": "Sign in with passkey",
-    "emailOrUsername": "Email or Username",
-    "password": "Password",
-    "welcome": "Welcome back, ",
-    "errorMessages": {
-      "passkeyRegister": "Failed to register passkey",
-      "passkeyLogin": "Failed to login with passkey",
-      "passkeyChallenge": "Failed to fetch passkey challenge"
-    },
-    "passkey": {
-      "createSuccess": "Passkey created successfully"
-    },
-    "orSignInWith": "Or sign in with"
-  },
-  "sidebar": {
-    "todoList": {
-      "all": "All Tasks",
-      "today": "Today's Task",
-      "completed": "Completed",
-      "scheduled": "Scheduled",
-      "overdue": "Overdue"
-    },
-    "wallet": {
-      "allTransactions": "All Transactions",
-      "allType": "All Types",
-      "income": "Income",
-      "expenses": "Expenses",
-      "transfer": "Transfer",
-      "allLedgers": "All Ledgers",
-      "allAssets": "All Assets",
-      "allCategories": "All Categories",
-      "allTypes": "All Types"
-    },
-    "photos": {
-      "favourites": "Favourites",
-      "archive": "Archived",
-      "lockedFolder": "Locked Folder",
-      "trash": "Trash",
-      "allPhotos": "All Photos",
-      "viewAllAlbum": "View All Albums"
-    },
-    "guitarTabs": {
-      "allScores": "All Scores",
-      "starred": "Starred Scores",
-      "singAlong": "Sing Along",
-      "fingerStyle": "Fingerstyle",
-      "uncategorized": "Uncategorized"
-    },
-    "booksLibrary": {
-      "starred": "Starred",
-      "allBooks": "All Books",
-      "favourite": "Favourite Books"
-    },
-    "projectsM": {
-      "allProjects": "All Projects",
-      "starred": "Starred Projects"
-    },
-    "title": {},
-    "virtualWardrobe": {
-      "allClothes": "All Clothes",
-      "favourites": "Favourite Clothes"
-    },
-    "mailInbox": {
-      "inbox": "Inbox",
-      "starred": "Starred",
-      "sent": "Sent",
-      "trash": "Trash",
-      "allMails": "All Mails",
-      "draft": "Drafts"
-    }
-  },
-  "calendar": {
-    "view": {
-      "day": "Day",
-      "month": "Month",
-      "week": "Week",
-      "agenda": "Agenda"
-    }
-  },
   "fetch": {
     "fetchError": "Failed to fetch data from the server",
     "success": "Yay! Successfully {{action}} the item!",
@@ -911,164 +406,6 @@
     },
     "unlock": "Unlock"
   },
-  "vault": {
-    "lockedMessage": "Your vault is locked",
-    "passwordRequired": "A master password is required to decrypt your passwords.",
-    "unlocked": "Vault unlocked",
-    "failedToUnlock": "Failed to unlock vault"
-  },
-  "ideaBox": {
-    "entryType": {
-      "text": "Text",
-      "image": "Image",
-      "link": "Link",
-      "folder": "Folder"
-    }
-  },
-  "wallet": {
-    "header": {
-      "allTransactions": "All Transactions",
-      "filteredTransactions": "Filtered Transactions"
-    },
-    "dashboard": {
-      "expensesBreakdown": {
-        "desc": "This Month's Spending"
-      }
-    },
-    "transactionCount": "transactions",
-    "receiptUploadInfo": "Only PDF and image files are accepted"
-  },
-  "emptyState": {
-    "dashboard": {
-      "title": "No Widget is Enabled",
-      "description": "You can add widgets from the Manage Widgets menu"
-    },
-    "trash": {
-      "title": "Trash is Empty",
-      "description": "No items found in trash."
-    },
-    "wallet": {
-      "transactions": {
-        "title": "No Transactions Found",
-        "description": "You have not made any transactions yet."
-      },
-      "assets": {
-        "title": "No Assets Found",
-        "description": "You haven't created any assets yet"
-      },
-      "ledger": {
-        "title": "No Ledger Found",
-        "description": "You haven't created any ledgers yet."
-      }
-    },
-    "achievements": {
-      "title": "No achievements available",
-      "description": "You haven't added any achievements yet. Click the button below to add one."
-    },
-    "projects": {
-      "title": "No projects for now",
-      "description": "No projects available. Create a new one to get started."
-    },
-    "statuses": "No status found",
-    "visibilities": "No visibility found",
-    "technologies": "No technology found",
-    "ideaBox": {
-      "title": "No Idea Box Found",
-      "description": "No idea box available for now. Click the button below to create one."
-    },
-    "journal": {
-      "title": "No Journal Entries",
-      "description": "No journal entries yet. Start writing your first entry."
-    },
-    "todoList": {
-      "todaysTask": {
-        "title": "No tasks for today",
-        "desc": "Today's tasks are empty. Add a new task to get started!"
-      }
-    },
-    "priority": "No priorities found",
-    "lists": "No lists found",
-    "tags": "No tags found",
-    "notes": {
-      "title": "No Notes Here",
-      "description": "Time to upload some notes here!"
-    },
-    "booksLibrary": {
-      "libgen": {
-        "results": {
-          "title": "No Books Found",
-          "description": "No matching books found in Library Genesis."
-        },
-        "searchQuery": {
-          "title": "No Search Query",
-          "description": "Start exploring Library Genensis. Try searching for a book to get started."
-        }
-      },
-      "empty": {
-        "title": "No Books in Library",
-        "description": "No books found in your library. You can upload some from your device or download from Library Genesis."
-      },
-      "results": {
-        "title": "No Books Found",
-        "description": "No matches found. Try searching for something else."
-      }
-    },
-    "languages": "No languages found"
-  },
-  "todoList": {
-    "header": {
-      "allTasks": "All Tasks",
-      "todaysTasks": "Today's Tasks",
-      "scheduledTasks": "Scheduled Tasks",
-      "overdueTasks": "Overdue Tasks",
-      "completedTasks": "Completed Tasks",
-      "filteredTasks": "Filtered Tasks"
-    }
-  },
-  "accountSettings": {
-    "title": {
-      "profilePicture": "Profile Picture",
-      "username": "Username",
-      "displayName": "Display Name",
-      "email": "Email Address",
-      "password": "Password",
-      "dateOfBirth": "Birthdate"
-    },
-    "desc": {
-      "profilePicture": " Upload a profile picture to personalize your account.",
-      "username": "The name that identifies you on the platform.",
-      "displayName": "The name that is displayed to other users.",
-      "email": "The email address you use to sign in to your account.",
-      "password": "Set a strong password to protect your account.",
-      "dateOfBirth": "Set your birthdate and we will give you a surprise!"
-    },
-    "empty": "Not set"
-  },
-  "journal": {
-    "lockedMessage": "Journal Locked",
-    "passwordRequired": "A password is required to decrypt your journal entries",
-    "failedToUnlock": "Journal Unlock Failed"
-  },
-  "guitarTabs": {
-    "unknownAuthor": "Unknown Author"
-  },
-  "apiKeys": {
-    "lockedMessage": "The API Keys Configuration Module is locked",
-    "passwordRequired": "Password is required to decrypt API keys",
-    "missing": {
-      "title": "Missing API Keys",
-      "description": "One or more API keys are missing. Please head to the API keys configuration module to set them up",
-      "requiredKeysAre": "Missing required API keys:"
-    }
-  },
-  "achievements": {
-    "difficulties": {
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard",
-      "impossible": "Impossible"
-    }
-  },
   "dnd": {
     "dropHere": "Drop the item here",
     "dragAndDropToUpload": "Drag and Drop to Upload"
@@ -1078,134 +415,5 @@
     "url": "Image URL",
     "pixabay": "Download from Pixabay",
     "orPasteLink": "Or Paste Image Link"
-  },
-  "sortType": {
-    "newest": "Newest First",
-    "oldest": "Oldest First",
-    "author": "Author",
-    "name": "Title"
-  },
-  "moduleTools": {
-    "description": "Manage all modules at ease",
-    "title": "Module Tools",
-    "help": {
-      "usage": "Usage:",
-      "command": "command",
-      "options": "options",
-      "commandsTitle": "Commands",
-      "optionsTitle": "Options",
-      "commandDescriptions": {
-        "create": "Create a new module",
-        "list": "List out all the modules and their details",
-        "delete": "Delete a specific module",
-        "update": "Update details of a specific module",
-        "reorder": "Adjust the position of modules being displayed in the sidebar",
-        "help": "Show help"
-      },
-      "optionDescriptions": {
-        "language": "Language to be used, default to en",
-        "username": "Username, required for authentication, will prompt if not provided",
-        "password": "Username, required for authentication, will prompt if not provided"
-      }
-    },
-    "features": {
-      "list": {
-        "summary": {
-          "title": "Module List Summary",
-          "totalModules": "Total Modules",
-          "togglableModules": "Total Togglable Modules",
-          "deprecatedModules": "Total Deprecated Modules",
-          "aiEnabledModules": "Total AI-enabled Modules",
-          "totalCategories": "Total Categories"
-        },
-        "headers": {
-          "category": "Category",
-          "name": "Module Name",
-          "icon": "Icon",
-          "togglable": "Togglable",
-          "routes": "Routes",
-          "additionalInfo": "More Information",
-          "descriptions": "Module Descriptions"
-        }
-      },
-      "delete": {
-        "beforeProceed": "Before you proceed, please review the following warnings:",
-        "warning": "Delete Module Warning",
-        "warnings": {
-          "actionScope": {
-            "title": "Action Scope",
-            "desc": "This operation will delete the frontend code for the selected module. However, it will not remove any backend or database components associated with this module."
-          },
-          "recoverability": {
-            "title": "Recoverability",
-            "desc": "While this action removes the module from your current working codebase, it is not absolutely irreversible. The deleted code can still be recovered through your Git history if needed."
-          },
-          "systemImpact": {
-            "title": "System Impact",
-            "desc": "Deleting this module may disrupt other parts of the system that depend on it. Please ensure that all dependencies have been reviewed."
-          },
-          "backupRecommendation": {
-            "title": "Backup Recommended",
-            "desc": "To avoid any disruptions, we recommend committing your current changes and creating a backup branch before proceeding."
-          },
-          "userResponsibility": {
-            "title": "User Responsibility",
-            "desc": "By confirming this action, you acknowledge and accept responsibility for any consequences of deleting this module."
-          },
-          "dependencies": {
-            "desc": "Any dependencies or integrations relying on this module's frontend may stop functioning properly. This includes routes, UI components, or related features.",
-            "title": "Dependencies"
-          }
-        },
-        "prompts": {
-          "proceedConfirmation": "Do you want to proceed with the deletion process?",
-          "proceedConfirmation2": "Please type \"{}\" to proceed with the deletion process.",
-          "proceedConfirmation3": "Are you sure you want to delete the module \"{}\"?",
-          "selectModule": "Select module to delete",
-          "finalConfirmation": "FINAL CONFIRMATION: Are you really sure you want to delete the module?",
-          "proceedConfirmation4": "Please type the module name \"{}\" to confirm deletion.",
-          "OTP": "Please enter OTP"
-        },
-        "messages": {
-          "cancelled": "Deletion process cancelled"
-        }
-      }
-    },
-    "misc": {
-      "yes": "Yes",
-      "no": "No"
-    },
-    "auth": {
-      "messages": {
-        "auth": {
-          "validating": "Validating credentials...",
-          "success": "Login successful",
-          "cancelled": "Authentication cancelled",
-          "failed": "Validation failed"
-        },
-        "OTP": {
-          "validating": "Validating one-time password...",
-          "requesting": "Requesting one-time password...",
-          "sent": "A one-time password has been sent to your email",
-          "invalid": "Invalid one-time password",
-          "valid": "One-time password validated successfully"
-        }
-      },
-      "prompts": {
-        "username": "Username",
-        "password": "Password",
-        "OTP": "One-time password"
-      },
-      "inputErrors": {
-        "empty": {
-          "username": "Username cannot be empty",
-          "password": "Password cannot be empty",
-          "OTP": "The code cannot be empty"
-        },
-        "invalid": {
-          "OTP": "Invalid one-time password format. The code must be a 6-digit number"
-        }
-      }
-    }
   }
 }

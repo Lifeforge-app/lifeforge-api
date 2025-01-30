@@ -1,0 +1,107 @@
+{
+  "title": "Dashboard",
+  "description": "Your mission control center for awesome.",
+  "empty": {
+    "title": "No Widget is Enabled",
+    "description": "You can add widgets from the Manage Widgets menu"
+  },
+  "widgets": {
+    "quickActions": {
+      "title": "Quick Actions",
+      "description": "Quickly access your most used features."
+    },
+    "miniCalendar": {
+      "title": "Mini Calendar",
+      "description": "View upcoming events in a compact calendar."
+    },
+    "todaysEvent": {
+      "title": "Today's Event",
+      "description": "Reminders for today's events."
+    },
+    "todoList": {
+      "title": "To-do List",
+      "description": "Organize and track your tasks."
+    },
+    "pomodoroTimer": {
+      "title": "Pomodoro Timer",
+      "description": "Focus with Pomodoro work sessions."
+    },
+    "codeTime": {
+      "title": "Code Time",
+      "description": "Track and visualize coding activity."
+    },
+    "ideaBox": {
+      "title": "Idea Box",
+      "description": "Capture and organize random ideas."
+    },
+    "journal": {
+      "title": "Journal",
+      "description": "Record your thoughts and experiences."
+    },
+    "flashCards": {
+      "title": "Flash Cards",
+      "description": "Customizable flash card decks."
+    },
+    "bookshelf": {
+      "title": "Bookshelf",
+      "description": "Manage and access your books."
+    },
+    "achievements": {
+      "title": "Achievements",
+      "description": "Track and celebrate milestones."
+    },
+    "spotify": {
+      "title": "Spotify",
+      "description": "Control Spotify playlists."
+    },
+    "musicPlayer": {
+      "title": "Music Player",
+      "description": "Play your personal music.",
+      "noMusicPlaying": "No currently playing music"
+    },
+    "incomeExpenses": {
+      "title": "Income & Expenses",
+      "description": "Monitor income and expenses."
+    },
+    "assetsBalance": {
+      "title": "Assets Balance",
+      "description": "Track asset balances."
+    },
+    "serverStatus": {
+      "title": "Server Status",
+      "description": "Monitor server performance."
+    },
+    "storageStatus": {
+      "title": "Storage Status",
+      "description": "Check storage usage."
+    },
+    "income": "Income",
+    "balances": "Assets Balance",
+    "statistics": "Statistics",
+    "expensesBreakdown": {
+      "title": "Expense Breakdown",
+      "description": "A concise visual summary of your spending categories."
+    },
+    "expenses": "Expenses",
+    "recentTransactions": {
+      "title": "Recent Transactions",
+      "description": "Easily monitor and review your latest expenditures."
+    },
+    "date": {
+      "title": "Date",
+      "description": "A simple decorative widget for showing today's date."
+    },
+    "clock": {
+      "title": "Clock",
+      "description": "A little clock to prevent you from losing track of time."
+    },
+    "quotes": {
+      "description": "A random quote to hopefully motivates you through the day.",
+      "title": "Quotes"
+    },
+    "transactionsCount": "Transactions Count"
+  },
+  "modals": {
+    "manageWidgets": "Manage Widgets",
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "categories": {
+        "productivity": "Productivity",
+        "storage": "Storage",
+        "study": "Study",
+        "finance": "Finance",
+        "confidential": "Confidential",
+        "settings": "Settings",
+        "technologies": "Technologies",
+        "utilities": "Utilities",
+        "health&Fitness": "Health & Fitness",
+        "information": "Information",
+        "sso": "Single Sign-On",
+        "references": "References",
+        "lifestyle": "Lifestyle",
+        "externalManagement": "External Management"
+    }
+}

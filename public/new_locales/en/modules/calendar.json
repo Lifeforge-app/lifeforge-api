@@ -1,0 +1,20 @@
+{
+  "title": "Calendar",
+  "description": "Don't be late for your date with destiny (or the dentist).",
+  "view": {
+    "day": "Day",
+    "month": "Month",
+    "week": "Week",
+    "agenda": "Agenda"
+  },
+  "modals": {
+    "event": {
+      "create": "Create Event",
+      "update": "Update Event"
+    },
+    "category": {
+      "create": "Create Category",
+      "update": "Update Category"
+    }
+  }
+}

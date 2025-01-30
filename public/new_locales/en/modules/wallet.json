@@ -1,0 +1,77 @@
+{
+  "title": "Wallet",
+  "description": "Be your own financial superhero.",
+  "header": {
+    "allTransactions": "All Transactions",
+    "filteredTransactions": "Filtered Transactions"
+  },
+  "dashboard": {
+    "expensesBreakdown": {
+      "desc": "This Month's Spending"
+    }
+  },
+  "transactionCount": "transactions",
+  "receiptUploadInfo": "Only PDF and image files are accepted",
+  "empty": {
+    "transactions": {
+      "title": "No Transactions Found",
+      "description": "You have not made any transactions yet."
+    },
+    "assets": {
+      "title": "No Assets Found",
+      "description": "You haven't created any assets yet"
+    },
+    "ledger": {
+      "title": "No Ledger Found",
+      "description": "You haven't created any ledgers yet."
+    }
+  },
+  "sidebar": {
+    "allTransactions": "All Transactions",
+    "allType": "All Types",
+    "income": "Income",
+    "expenses": "Expenses",
+    "transfer": "Transfer",
+    "allLedgers": "All Ledgers",
+    "allAssets": "All Assets",
+    "allCategories": "All Categories",
+    "allTypes": "All Types"
+  },
+  "table": {
+    "date": "Date",
+    "type": "Type",
+    "asset": "Asset",
+    "ledger": "Ledger",
+    "particulars": "Particulars",
+    "category": "Category",
+    "amount": "Amount",
+    "receipt": "Receipt",
+    "location": "Location"
+  },
+  "buttons": {
+    "scanReceipt": "Scan Receipt"
+  },
+  "modals": {
+    "transactions": {
+      "create": "Create Transaction",
+      "update": "Update Transaction"
+    },
+    "assets": {
+      "create": "Create Asset",
+      "update": "Update Asset"
+    },
+    "ledgers": {
+      "create": "Create Ledger",
+      "update": "Update Ledger"
+    },
+    "categories": {
+      "create": "Create Category",
+      "update": "Update Category",
+      "manage": "Manage Categories"
+    },
+    "receipts": {
+      "scan": "Scan Receipt",
+      "view": "View Receipt"
+    }
+  }
+}

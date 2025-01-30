@@ -1,0 +1,6 @@
+{
+    "deleteConfirmation": {
+        "title": "Are you sure you want to delete {{itemName}}?",
+        "desc": "This will delete the {{itemName}} and everything related to it. This action is irreversible!"
+    }
+}
