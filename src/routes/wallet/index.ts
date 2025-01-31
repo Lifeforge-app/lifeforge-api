@@ -15,30 +15,4 @@ router.use("/categories", categoryRoutes);
 router.use("/assets", assetsRoutes);
 router.use("/ledgers", ledgersRoutes);
 
-router.get(
-  "/locations",
-  [query("q").isString(), query("key").isString()],
-  asyncWrapper(async (req, res) => {
-    if (hasError(req, res)) return;
-
-    // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=taman+molek&key=AIzaSyACIfnP46cNm8nP9HaMafF0hwI9X0hyyg4
-    const { q, key } = req.query;
-
-    try {
-      fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          successWithBaseResponse(res, data);
-        })
-        .catch((error) => {
-          serverError(res);
-        });
-    } catch (error) {
-      serverError(res);
-    }
-  })
-);
-
 export default router;

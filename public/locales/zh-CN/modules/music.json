@@ -1,0 +1,12 @@
+{
+  "title": "音樂",
+  "description": "您人生中最美好時刻的個人配樂。",
+  "buttons": {
+    "importFromNas": "從 NAS 匯入",
+    "downloadFromYoutube": "從 YouTube 下載"
+  },
+  "inputs": {
+    "musicName": "音樂名稱",
+    "author": "作者"
+  }
+}

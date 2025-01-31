@@ -1,0 +1,57 @@
+{
+  "title": "圖書館",
+  "description": "您的個人圖書館，沒有逾期費用。",
+  "libgen": {
+    "results": {
+      "title": "未找到書籍",
+      "description": "在 Library Genesis 中未找到匹配的書籍。"
+    },
+    "searchQuery": {
+      "title": "沒有搜索查詢",
+      "description": "開始探索 Library Genesis。嘗試搜索一本書以開始。"
+    }
+  },
+  "empty": {
+    "title": "圖書館中沒有書籍",
+    "description": "在您的圖書館中未找到書籍。您可以從設備上傳一些或從 Library Genesis 下載。"
+  },
+  "results": {
+    "title": "未找到書籍",
+    "description": "未找到匹配項。嘗試搜索其他內容。"
+  },
+  "languages": "未找到語言",
+  "sidebar": {
+    "starred": "加星標",
+    "allBooks": "所有書籍",
+    "favourite": "最愛書籍",
+    "categories": "類別",
+    "languages": "語言",
+    "filetypes": "文件類型"
+  },
+  "modals": {
+    "libraryGenesis": "Library Genesis",
+    "addToLibrary": "添加到圖書館",
+    "modifyBookData": "更新書籍信息"
+  },
+  "buttons": {
+    "addToLibrary": "添加到圖書館",
+    "alreadyInLibrary": "已在圖書館中",
+    "viewDetails": "查看詳情",
+    "uploadFromDevice": "從設備上傳",
+    "downloadFromLibgen": "從 Library Genesis 下載"
+  },
+  "inputs": {
+    "isbn": "ISBN 碼",
+    "libgenId": "圖書館 ID",
+    "publisher": "出版社",
+    "bookTitle": "書名",
+    "publicationYear": "出版年份",
+    "fileSize": "文件大小",
+    "md5": "MD5 校驗碼",
+    "languageName": "語言名稱",
+    "languageIcon": "語言圖標",
+    "authors": "作者",
+    "edition": "版本",
+    "extension": "文件類型"
+  }
+}

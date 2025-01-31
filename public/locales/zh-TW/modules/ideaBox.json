@@ -1,0 +1,49 @@
+{
+  "title": "創意盒",
+  "description": "在靈感飛走之前抓住它們！",
+  "entryType": {
+    "text": "文字",
+    "image": "圖片",
+    "link": "連結",
+    "folder": "資料夾"
+  },
+  "empty": {
+    "ideaBox": {
+      "title": "未找到創意盒",
+      "description": "目前沒有可用的創意盒。點擊下方按鈕創建一個。"
+    }
+  },
+  "modals": {
+    "container": {
+      "create": "創建創意盒",
+      "update": "更新創意盒"
+    },
+    "folder": {
+      "create": "創建資料夾",
+      "update": "更新資料夾"
+    }
+  },
+  "buttons": {
+    "unpin": "取消置頂",
+    "pin": "置頂",
+    "viewArchived": "查看已歸檔",
+    "archive": "歸檔",
+    "removeFromFolder": "從資料夾中移除"
+  },
+  "inputs": {
+    "containerName": "創意盒名稱",
+    "folderName": "資料夾名稱",
+    "ideaTitle": "創意標題",
+    "imageLink": "圖片連結",
+    "coverImage": "封面圖片",
+    "ideaTags": "創意標籤",
+    "ideaContent": "創意內容",
+    "ideaLink": "創意連結",
+    "tagIcon": "標籤圖示",
+    "tagColor": "標籤顏色",
+    "containerColor": "創意盒顏色",
+    "folderColor": "資料夾顏色",
+    "containerIcon": "創意盒圖示",
+    "folderIcon": "資料夾圖示"
+  }
+}

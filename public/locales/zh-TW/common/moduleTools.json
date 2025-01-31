@@ -1,0 +1,123 @@
+{
+    "title": "模組工具",
+    "description": "輕鬆管理所有模組",
+    "help": {
+        "usage": "使用方式：",
+        "command": "指令",
+        "options": "選項",
+        "commandsTitle": "指令",
+        "optionsTitle": "選項",
+        "commandDescriptions": {
+            "create": "建立新模組",
+            "list": "列出所有模組及其詳細資訊",
+            "delete": "刪除特定模組",
+            "update": "更新特定模組的詳細資訊",
+            "reorder": "調整側邊欄中模組的顯示順序",
+            "help": "顯示說明"
+        },
+        "optionDescriptions": {
+            "language": "使用的語言，預設為 en",
+            "username": "使用者名稱，身份驗證所需，若未提供將提示輸入",
+            "password": "密碼，身份驗證所需，若未提供將提示輸入"
+        }
+    },
+    "features": {
+        "list": {
+            "summary": {
+                "title": "模組清單摘要",
+                "totalModules": "模組總數",
+                "togglableModules": "可切換的模組總數",
+                "deprecatedModules": "已棄用的模組總數",
+                "aiEnabledModules": "支援 AI 的模組總數",
+                "totalCategories": "分類總數"
+            },
+            "headers": {
+                "category": "分類",
+                "name": "模組名稱",
+                "icon": "圖示",
+                "togglable": "可切換",
+                "routes": "路由",
+                "additionalInfo": "更多資訊",
+                "descriptions": "模組描述"
+            }
+        },
+        "delete": {
+            "beforeProceed": "在繼續之前，請檢查以下警告：",
+            "warning": "刪除模組警告",
+            "warnings": {
+                "actionScope": {
+                    "title": "操作範圍",
+                    "desc": "此操作將刪除所選模組的前端程式碼，但不會移除與該模組相關的後端或資料庫組件。"
+                },
+                "recoverability": {
+                    "title": "可恢復性",
+                    "desc": "此操作會從當前工作程式碼庫中移除該模組，但並非完全不可逆。如果需要，仍可透過 Git 歷史恢復已刪除的程式碼。"
+                },
+                "systemImpact": {
+                    "title": "系統影響",
+                    "desc": "刪除此模組可能會影響系統中其他依賴該模組的部分，請確保已審查所有相關依賴關係。"
+                },
+                "backupRecommendation": {
+                    "title": "建議備份",
+                    "desc": "為避免任何中斷，建議在繼續操作之前提交當前變更並建立備份分支。"
+                },
+                "userResponsibility": {
+                    "title": "使用者責任",
+                    "desc": "確認此操作即表示您已了解並接受刪除此模組可能帶來的所有後果。"
+                },
+                "dependencies": {
+                    "desc": "任何依賴此模組前端的功能可能會失效，包括路由、UI 元件或相關功能。",
+                    "title": "依賴關係"
+                }
+            },
+            "prompts": {
+                "proceedConfirmation": "您確定要繼續刪除過程嗎？",
+                "proceedConfirmation2": "請輸入「{}」以繼續刪除過程。",
+                "proceedConfirmation3": "您確定要刪除模組「{}」嗎？",
+                "selectModule": "選擇要刪除的模組",
+                "finalConfirmation": "最終確認：您真的確定要刪除此模組嗎？",
+                "proceedConfirmation4": "請輸入模組名稱「{}」以確認刪除。",
+                "OTP": "請輸入 OTP"
+            },
+            "messages": {
+                "cancelled": "刪除過程已取消"
+            }
+        }
+    },
+    "misc": {
+        "yes": "是",
+        "no": "否"
+    },
+    "auth": {
+        "messages": {
+            "auth": {
+                "validating": "正在驗證身份...",
+                "success": "登入成功",
+                "cancelled": "身份驗證已取消",
+                "failed": "驗證失敗"
+            },
+            "OTP": {
+                "validating": "正在驗證一次性密碼...",
+                "requesting": "正在請求一次性密碼...",
+                "sent": "一次性密碼已發送至您的電子郵件",
+                "invalid": "一次性密碼無效",
+                "valid": "一次性密碼驗證成功"
+            }
+        },
+        "prompts": {
+            "username": "使用者名稱",
+            "password": "密碼",
+            "OTP": "一次性密碼"
+        },
+        "inputErrors": {
+            "empty": {
+                "username": "使用者名稱不能為空",
+                "password": "密碼不能為空",
+                "OTP": "驗證碼不能為空"
+            },
+            "invalid": {
+                "OTP": "無效的一次性密碼格式，驗證碼必須是 6 位數字"
+            }
+        }
+    }
+}

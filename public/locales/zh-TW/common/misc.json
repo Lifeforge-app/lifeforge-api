@@ -1,0 +1,46 @@
+{
+    "search": "搜索{{item}}...",
+    "notFound": {
+        "title": "糟糕！這裡什麼都沒有。",
+        "description": "找不到您正在尋找的頁面。請檢查網址並重試。"
+    },
+    "modules": {
+        "localizationManager": "本地化管理器",
+        "documentation": "文檔"
+    },
+    "tipsAndTricks": "提示與技巧",
+    "loadingModule": "加載模塊中...",
+    "deprecated": "不再支持",
+    "imageUpload": {
+        "local": "上傳本地圖片",
+        "url": "圖片網址",
+        "pixabay": "從Pixabay下載",
+        "orPasteLink": "或粘貼圖片鏈接",
+        "inputs": {
+            "imageType": "圖片類型",
+            "imageColors": "圖片顏色",
+            "editorsChoice": "編輯推薦"
+        }
+    },
+    "dnd": {
+        "dropHere": "將項目拖放到這裡",
+        "dragAndDropToUpload": "拖放上傳",
+        "or": "或"
+    },
+    "buttons": {
+        "retry": "重試",
+        "goBack": "返回",
+        "reportBug": "報告錯誤"
+    },
+    "colorPicker": {
+        "title": "選擇顏色",
+        "modals": {
+            "morandiColorPalette": "莫蘭迪色調",
+            "tailwindCssColorPalette": "Tailwind CSS色調"
+        },
+        "buttons": {
+            "morandiColorPalette": "莫蘭迪色調",
+            "tailwindCssColorPalette": "Tailwind CSS色調"
+        }
+    }
+}

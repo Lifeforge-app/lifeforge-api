@@ -1,0 +1,13 @@
+{
+  "title": "OpenAI API 價格",
+  "description": "探索 OpenAI API 各種使用計劃和模型的價格。",
+  "modals": {
+    "inputRawHtml": "輸入原始 HTML"
+  },
+  "buttons": {
+    "inputRawHtml": "輸入原始 HTML"
+  },
+  "inputs": {
+    "rawHtml": "原始 HTML"
+  }
+}

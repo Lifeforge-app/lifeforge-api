@@ -1,0 +1,39 @@
+{
+  "title": "虛擬衣櫥",
+  "description": "創建和管理個人造型的數字化服裝和配飾收藏。",
+  "subsections": {
+    "virtualWardrobeClothes": "衣服",
+    "virtualWardrobeOutfits": "套裝"
+  },
+  "sidebar": {
+    "allClothes": "所有衣服",
+    "favourites": "最愛衣服",
+    "categories": "類別",
+    "subcategories": "子類別",
+    "sizes": "尺寸",
+    "colors": "顏色",
+    "brands": "品牌",
+    "labels": "標籤"
+  },
+  "modals": {
+    "item": {
+      "create": "創建項目",
+      "update": "更新項目"
+    },
+    "sessionCart": "會話購物車"
+  },
+  "buttons": {
+    "addToCart": "加入購物車",
+    "removeFromCart": "從購物車移除",
+    "checkout": "結帳"
+  },
+  "inputs": {
+    "itemName": "項目名稱",
+    "brand": "品牌",
+    "color": "顏色",
+    "size": "尺寸",
+    "price": "價格",
+    "frontImage": "正面圖片",
+    "backImage": "背面圖片"
+  }
+}

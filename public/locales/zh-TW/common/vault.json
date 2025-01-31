@@ -1,0 +1,35 @@
+{
+    "vault": {
+        "lockedMessage": "您的保險庫已鎖定",
+        "passwordRequired": "需要主密碼來解密您的密碼。",
+        "unlocked": "保險庫已解鎖",
+        "failedToUnlock": "解鎖保險庫失敗",
+        "buttons": {
+            "unlock": "解鎖"
+        },
+        "inputs": {
+            "newPassword": "新密碼",
+            "confirmPassword": "確認密碼",
+            "masterPassword": "主密碼"
+        }
+    },
+    "otp": {
+        "buttons": {
+            "request": "請求一次性密碼",
+            "resend": "重新發送一次性密碼",
+            "verify": "驗證一次性密碼"
+        },
+        "message": {
+            "success": "一次性密碼已發送！請檢查您的電子郵件。",
+            "failed": "請求一次性密碼失敗",
+            "required": {
+                "title": "需要一次性密碼來解鎖",
+                "desc": "為了增加安全性，需要一次性密碼來解鎖此模塊。請點擊下面的按鈕來請求一次性密碼。"
+            },
+            "verify": {
+                "success": "一次性密碼驗證成功",
+                "failed": "一次性密碼驗證失敗"
+            }
+        }
+    }
+}

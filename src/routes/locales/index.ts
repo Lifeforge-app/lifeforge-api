@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import fs from "fs";
 import asyncWrapper from "../../utils/asyncWrapper.js";
 import { clientError, successWithBaseResponse } from "../../utils/response.js";
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import Groq from "groq-sdk";
 import hasError from "../../utils/checkError.js";
 import { getAPIKey } from "../../utils/getAPIKey.js";
@@ -12,23 +12,58 @@ import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 const router = express.Router();
 
 router.get(
-  "/:language",
+  "/:lang/:namespace",
+  [
+    param("namespace")
+      .isString()
+      .custom((value) => {
+        const splitted = value.split(".");
+        if (splitted.length !== 2) {
+          throw new Error("Invalid namespace");
+        }
+        if (!["modules", "common"].includes(splitted[0])) {
+          throw new Error("Invalid namespace");
+        }
+        return true;
+      }),
+    param("lang").isString().isIn(["en", "ms", "zh-CN", "zh-TW", "zh"]),
+  ],
   asyncWrapper(async (req, res) => {
-    const { language } = req.params;
-    if (!["en", "ms", "zh-CN", "zh-TW"].includes(language)) {
-      res.status(404).json({
-        state: "error",
-        message: "Language not found",
-      });
-      return;
-    }
+    if (hasError(req, res)) return;
+
+    const { lang, namespace } = req.params;
+    const [type, id] = namespace.split(".");
+    const finalLang = lang === "zh" ? "zh-CN" : lang;
 
     const data = JSON.parse(
       fs.readFileSync(
-        `${process.cwd()}/public/locales/${language}.json`,
+        `${process.cwd()}/public/locales/${finalLang}/${type}/${id}.json`,
         "utf-8"
       )
     );
+
+    if (type === "common" && id === "sidebar") {
+      data.modules = Object.fromEntries(
+        fs
+          .readdirSync(`${process.cwd()}/public/locales/${finalLang}/modules`)
+          .map((file) => {
+            const data = JSON.parse(
+              fs.readFileSync(
+                `${process.cwd()}/public/locales/${finalLang}/modules/${file}`,
+                "utf-8"
+              )
+            );
+
+            return [
+              file.replace(".json", ""),
+              {
+                title: data.title ?? "",
+                subsections: data.subsections ?? {},
+              },
+            ];
+          })
+      );
+    }
 
     res.json(data);
   })

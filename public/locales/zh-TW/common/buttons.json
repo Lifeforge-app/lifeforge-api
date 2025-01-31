@@ -1,0 +1,22 @@
+{
+    "create": "創建",
+    "update": "更新",
+    "edit": "編輯",
+    "rename": "重命名",
+    "select": "選擇",
+    "cancel": "取消",
+    "delete": "刪除",
+    "save": "保存",
+    "copy": "複製",
+    "copied": "已複製",
+    "previous": "上一頁",
+    "next": "下一頁",
+    "print": "打印",
+    "remove": "移除",
+    "upload": "上傳",
+    "import": "導入",
+    "submit": "提交",
+    "new": "新增{{item}}",
+    "proceed": "繼續",
+    "applyFilters": "應用篩選"
+}

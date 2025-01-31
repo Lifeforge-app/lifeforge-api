@@ -1,0 +1,16 @@
+{
+  "title": "YouTube 影片",
+  "description": "下載、儲存和組織您所有喜愛的 YouTube 影片。",
+  "modals": {
+    "video": {
+      "create": "新增影片",
+      "update": "編輯影片"
+    },
+    "downloadProcess": "下載過程"
+  },
+  "inputs": {
+    "resourceType": "資源類型",
+    "playlistUrl": "播放清單網址",
+    "videoUrl": "影片網址"
+  }
+}

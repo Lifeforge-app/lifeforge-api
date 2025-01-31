@@ -1,0 +1,115 @@
+{
+  "title": "錢包",
+  "description": "成為您自己的財務超級英雄。",
+  "subsections": {
+    "dashboard": "儀表板",
+    "transactions": "交易",
+    "assets": "資產",
+    "ledgers": "帳本",
+    "financialStatements": "財務報表"
+  },
+  "header": {
+    "allTransactions": "所有交易",
+    "filteredTransactions": "篩選後的交易"
+  },
+  "dashboard": {
+    "expensesBreakdown": {
+      "desc": "本月支出"
+    }
+  },
+  "transactionCount": "筆交易",
+  "receiptUploadInfo": "僅接受 PDF 和圖片文件",
+  "empty": {
+    "transactions": {
+      "title": "未找到交易",
+      "description": "您尚未進行任何交易。"
+    },
+    "assets": {
+      "title": "未找到資產",
+      "description": "您尚未創建任何資產。"
+    },
+    "ledger": {
+      "title": "未找到帳本",
+      "description": "您尚未創建任何帳本。"
+    }
+  },
+  "sidebar": {
+    "allTransactions": "所有交易",
+    "allType": "所有類型",
+    "allLedgers": "所有帳本",
+    "allAssets": "所有資產",
+    "allCategories": "所有類別",
+    "allTypes": "所有類型",
+    "dateRange": "日期範圍",
+    "calendarHeatmap": "日曆熱圖"
+  },
+  "table": {
+    "date": "日期",
+    "type": "類型",
+    "asset": "資產",
+    "ledger": "帳本",
+    "particulars": "摘要",
+    "category": "類別",
+    "amount": "金額",
+    "receipt": "收據",
+    "location": "地點"
+  },
+  "buttons": {
+    "scanReceipt": "掃描收據",
+    "removeReceipt": "移除收據",
+    "uploadReceipt": "上傳收據",
+    "viewTransactions": "查看交易",
+    "hideAmount": "隱藏金額",
+    "showStatement": "查看報表"
+  },
+  "modals": {
+    "transactions": {
+      "create": "建立交易",
+      "update": "更新交易"
+    },
+    "assets": {
+      "create": "建立資產",
+      "update": "更新資產"
+    },
+    "ledgers": {
+      "create": "建立帳本",
+      "update": "更新帳本"
+    },
+    "categories": {
+      "create": "建立類別",
+      "update": "更新類別",
+      "manage": "管理類別"
+    },
+    "receipts": {
+      "scan": "掃描收據",
+      "view": "查看收據"
+    }
+  },
+  "transactionTypes": {
+    "income": "收入",
+    "expenses": "支出",
+    "transfer": "轉帳"
+  },
+  "inputs": {
+    "assetIcon": "資產圖示",
+    "ledgerIcon": "帳本圖示",
+    "date": "日期",
+    "amount": "金額",
+    "transactionType": "交易類型",
+    "asset": "資產",
+    "ledger": "帳本",
+    "category": "類別",
+    "receipt": "收據",
+    "balance": "餘額",
+    "particulars": "摘要",
+    "ledgerColor": "帳本顏色",
+    "assetName": "資產名稱",
+    "ledgerName": "帳本名稱",
+    "categoryType": "類別類型",
+    "initialBalance": "初始餘額",
+    "fromAsset": "轉出資產",
+    "toAsset": "轉入資產",
+    "month": "月份",
+    "year": "年份"
+  }
+}

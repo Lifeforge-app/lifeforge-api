@@ -20,10 +20,6 @@ const NO_NEED_AUTH = [
   "/books/list",
   "/books-library/cover",
   "/cron",
-  "/locales/en",
-  "/locales/zh-CN",
-  "/locales/zh-TW",
-  "/locales/ms",
   "/style.css",
   "/youtube-videos/video/thumbnail",
   "/youtube-videos/video/stream",
@@ -41,7 +37,10 @@ const pocketbaseMiddleware = async (
   if (!bearerToken || req.url.startsWith("/user/auth")) {
     if (
       req.url === "/" ||
-      NO_NEED_AUTH.some((route) => req.url.startsWith(route))
+      NO_NEED_AUTH.some((route) => req.url.startsWith(route)) ||
+      req.url.match(
+        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules)\.\w+$/
+      )
     ) {
       req.pb = pb;
       next();

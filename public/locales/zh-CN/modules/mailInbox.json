@@ -1,0 +1,20 @@
+{
+  "title": "郵件收件箱",
+  "description": "在一個地方管理您的電子郵件收件箱。",
+  "sidebar": {
+    "inbox": "收件箱",
+    "starred": "加星",
+    "sent": "已發送",
+    "trash": "垃圾箱",
+    "allMails": "所有郵件",
+    "draft": "草稿"
+  },
+  "buttons": {
+    "compose": "撰寫"
+  },
+  "modals": {
+    "mail": {
+      "view": "查看郵件"
+    }
+  }
+}

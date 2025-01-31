@@ -32,7 +32,9 @@ const limiter = rateLimit({
   skip: async (req) => {
     if (
       req.path.startsWith("/media/") ||
-      req.path.match(/\/locales\/(\w|-){2,5}$/) ||
+      req.path.match(
+        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules)\.\w+$/
+      ) ||
       [
         "/code-time/user/minutes",
         "/code-time/eventLog",
@@ -43,7 +45,7 @@ const limiter = rateLimit({
         "/books-library/cover",
         "/status",
         "/youtube-videos/video/thumbnail",
-      ].some((route) => req.path.startsWith(route))
+      ].some((route) => req.path.trim().startsWith(route))
     ) {
       return true;
     }
@@ -192,6 +194,32 @@ mainRouter.get(
     request(
       `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`
     ).pipe(res);
+  })
+);
+
+mainRouter.get(
+  "/locations",
+  [query("q").isString(), query("key").isString()],
+  asyncWrapper(async (req, res) => {
+    if (hasError(req, res)) return;
+
+    // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=taman+molek&key=AIzaSyACIfnP46cNm8nP9HaMafF0hwI9X0hyyg4
+    const { q, key } = req.query;
+
+    try {
+      fetch(
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          successWithBaseResponse(res, data);
+        })
+        .catch((error) => {
+          serverError(res);
+        });
+    } catch (error) {
+      serverError(res);
+    }
   })
 );
 

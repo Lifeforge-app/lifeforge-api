@@ -1,0 +1,14 @@
+{
+  "title": "機場",
+  "description": "查看世界各地機場的各種信息",
+  "modals": {
+    "notamDetails": "航行通告詳情"
+  },
+  "buttons": {
+    "previousFlights": "前一航班",
+    "nextFlights": "下一航班",
+    "summarizeWithAi": "用AI總結",
+    "loadMore": "加載更多",
+    "viewRaw": "查看原始文本"
+  }
+}

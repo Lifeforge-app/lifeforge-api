@@ -1,0 +1,25 @@
+{
+  "title": "筆記",
+  "description": "永遠不會從冰箱上掉下來的數位便利貼。",
+  "empty": {
+    "notes": {
+      "title": "這裡沒有筆記",
+      "description": "是時候上傳一些筆記了！"
+    }
+  },
+  "modals": {
+    "subject": {
+      "create": "創建主題",
+      "update": "更新主題"
+    }
+  },
+  "buttons": {
+    "fileUpload": "上傳文件",
+    "folderUpload": "上傳文件夾"
+  },
+  "inputs": {
+    "subjectName": "主題名稱",
+    "subjectDescription": "主題描述",
+    "subjectIcon": "主題圖標"
+  }
+}
