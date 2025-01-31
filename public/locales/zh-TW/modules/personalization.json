@@ -63,5 +63,8 @@
     "modals": {
       "adjustBackgroundImage": "調整背景圖片"
     }
+  },
+  "inputs": {
+    "colorHex": "顏色十六進制"
   }
 }

@@ -18,5 +18,6 @@
     "submit": "提交",
     "new": "新增{{item}}",
     "proceed": "繼續",
-    "applyFilters": "應用篩選"
+    "applyFilters": "應用篩選",
+    "retry": "重試"
 }

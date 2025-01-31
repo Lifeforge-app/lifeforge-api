@@ -23,5 +23,8 @@
     "keyIcon": "金鑰圖標",
     "apiKey": "API 金鑰",
     "keyId": "金鑰 ID"
+  },
+  "items": {
+    "apiKey": " API 金鑰"
   }
 }

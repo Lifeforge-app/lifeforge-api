@@ -19,5 +19,28 @@
       "dateOfBirth": "設置您的出生日期，我們會給您一個驚喜！"
     },
     "empty": "未設置"
+  },
+  "modals": {
+    "username": {
+      "update": "更新用戶名"
+    },
+    "email": {
+      "update": "更新電子郵件"
+    },
+    "displayName": {
+      "update": "更新顯示名稱"
+    },
+    "dateOfBirth": {
+      "update": "更新出生日期"
+    }
+  },
+  "buttons": {
+    "changePassword": "更改密碼"
+  },
+  "inputs": {
+    "dateOfBirth": "出生日期",
+    "username": "用戶名",
+    "displayname": "顯示名稱",
+    "email": "電子郵件地址"
   }
 }
