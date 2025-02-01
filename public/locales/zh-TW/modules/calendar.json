@@ -2,10 +2,13 @@
   "title": "日曆",
   "description": "不要錯過與命運（或牙醫）的約會。",
   "view": {
-    "day": "日",
-    "month": "月",
-    "week": "週",
+    "day": "日視圖",
+    "month": "月視圖",
+    "week": "週視圖",
     "agenda": "議程"
+  },
+  "sidebar": {
+    "categories": "類別"
   },
   "modals": {
     "event": {
@@ -22,5 +25,9 @@
     "endTime": "結束時間",
     "eventCategory": "事件類別",
     "eventTitle": "事件標題"
+  },
+  "items": {
+    "event": "事件",
+    "category": "類別"
   }
 }

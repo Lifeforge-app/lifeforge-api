@@ -10,5 +10,12 @@
     "summarizeWithAi": "用AI總結",
     "loadMore": "加載更多",
     "viewRaw": "查看原始文本"
+  },
+  "items": {
+    "airport": "機場",
+    "region": "地區",
+    "country": "國家",
+    "continent": "大陸",
+    "allAirport": "所有機場"
   }
 }

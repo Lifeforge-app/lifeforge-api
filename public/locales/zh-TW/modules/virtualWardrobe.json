@@ -33,7 +33,18 @@
     "color": "顏色",
     "size": "尺寸",
     "price": "價格",
+    "category": "類別",
+    "subcategory": "子類別",
     "frontImage": "正面圖片",
     "backImage": "背面圖片"
+  },
+  "items": {
+    "clothes": "衣服",
+    "outfit": "套裝"
+  },
+  "steps": {
+    "uploadPhotos": "上傳照片",
+    "basicInfo": "基本信息",
+    "appearanceAndDetails": "外觀和細節"
   }
 }

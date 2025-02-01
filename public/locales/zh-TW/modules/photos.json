@@ -35,5 +35,9 @@
   },
   "inputs": {
     "albumName": "相簿名稱"
+  },
+  "items": {
+    "photo": "照片",
+    "album": "相簿"
   }
 }

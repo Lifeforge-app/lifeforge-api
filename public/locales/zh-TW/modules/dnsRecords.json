@@ -1,4 +1,7 @@
 {
   "title": "DNS 紀錄",
-  "description": "無需登入 CPanel，在此管理您的 DNS 紀錄。"
+  "description": "無需登入 CPanel，在此管理您的 DNS 紀錄。",
+  "items": {
+    "dnsRecord": "DNS 紀錄"
+  }
 }

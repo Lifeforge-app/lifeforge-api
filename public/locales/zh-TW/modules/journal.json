@@ -19,5 +19,8 @@
     "moodOfTheDay": "今天的心情",
     "emoji": "表情符號",
     "journalTitle": "日記標題"
+  },
+  "items": {
+    "entrya": "日記"
   }
 }

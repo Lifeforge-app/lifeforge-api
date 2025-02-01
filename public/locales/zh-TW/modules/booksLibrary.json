@@ -53,5 +53,9 @@
     "authors": "作者",
     "edition": "版本",
     "extension": "文件類型"
+  },
+  "items": {
+    "book": "書籍",
+    "libgenBook": "數百萬本書"
   }
 }

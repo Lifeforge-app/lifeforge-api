@@ -18,5 +18,8 @@
     "buttons": {
         "signOut": "登出",
         "accountSettings": "帳戶設置"
+    },
+    "items": {
+        "module": "模組"
     }
 }

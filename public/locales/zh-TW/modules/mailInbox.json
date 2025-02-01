@@ -7,7 +7,8 @@
     "sent": "已發送",
     "trash": "垃圾箱",
     "allMails": "所有郵件",
-    "draft": "草稿"
+    "draft": "草稿",
+    "labels": "標籤"
   },
   "buttons": {
     "compose": "撰寫"
@@ -16,5 +17,17 @@
     "mail": {
       "view": "查看郵件"
     }
+  },
+  "headers": {
+    "inbox": "收件箱",
+    "starred": "加星",
+    "sent": "已發送",
+    "trash": "垃圾箱",
+    "allMails": "所有郵件",
+    "draft": "草稿",
+    "filteredMails": "過濾郵件"
+  },
+  "items": {
+    "mail": "郵件"
   }
 }

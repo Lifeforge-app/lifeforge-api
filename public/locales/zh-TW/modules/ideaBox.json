@@ -45,5 +45,11 @@
     "folderColor": "資料夾顏色",
     "containerIcon": "創意盒圖示",
     "folderIcon": "資料夾圖示"
+  },
+  "items": {
+    "idea": "創意",
+    "container": "創意盒",
+    "folder": "資料夾",
+    "ideaInFolder": "資料夾中的創意"
   }
 }

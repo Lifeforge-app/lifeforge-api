@@ -7,9 +7,17 @@
     "singAlong": "跟唱",
     "fingerStyle": "指彈",
     "uncategorized": "未分類",
-    "authors": "作者"
+    "authors": "作者",
+    "categories": "分類"
   },
-  "sortType": {
+  "headers": {
+    "all": "所有",
+    "starred": "已星標",
+    "singalong": "跟唱",
+    "fingerstyle": "指彈",
+    "uncategorized": "未分類"
+  },
+  "sortTypes": {
     "newest": "最新優先",
     "oldest": "最舊優先",
     "author": "作者",
@@ -24,10 +32,14 @@
   },
   "buttons": {
     "downloadFromGuitarWorld": "從吉他世界下載",
-    "uploadFromLocal": "從本地上傳"
+    "uploadFromLocal": "從本地上傳",
+    "downloadAll": "全部下載"
   },
   "inputs": {
     "scoreType": "譜類型",
     "cookie": "會話 Cookie"
+  },
+  "items": {
+    "score": "吉他譜"
   }
 }

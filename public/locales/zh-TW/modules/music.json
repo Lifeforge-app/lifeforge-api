@@ -8,5 +8,8 @@
   "inputs": {
     "musicName": "音樂名稱",
     "author": "作者"
+  },
+  "items": {
+    "music": "音樂"
   }
 }

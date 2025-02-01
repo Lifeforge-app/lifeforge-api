@@ -20,6 +20,9 @@
             "imageType": "圖片類型",
             "imageColors": "圖片顏色",
             "editorsChoice": "編輯推薦"
+        },
+        "items": {
+            "pixabay": "Pixabay"
         }
     },
     "dnd": {
@@ -28,7 +31,6 @@
         "or": "或"
     },
     "buttons": {
-        "retry": "重試",
         "goBack": "返回",
         "reportBug": "報告錯誤"
     },
@@ -47,6 +49,12 @@
         "apiStatus": {
             "title": "無法連結到API",
             "description": "請檢查您的網絡連接並重試。如果您是開發人員，請檢查伺服器是否正常運行。"
+        }
+    },
+    "iconPicker": {
+        "items": {
+            "icon": "圖標",
+            "iconSet": "圖標集"
         }
     }
 }

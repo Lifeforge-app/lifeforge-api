@@ -14,7 +14,7 @@
     }
   },
   "modals": {
-    "achievements": {
+    "achievement": {
       "create": "創建成就",
       "update": "更新成就"
     }
@@ -23,5 +23,8 @@
     "achievementTitle": "成就標題",
     "achievementDifficulty": "成就難度",
     "achievementThoughts": "成就想法"
+  },
+  "items": {
+    "achievement": "成就"
   }
 }

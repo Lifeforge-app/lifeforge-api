@@ -1,7 +1,7 @@
 {
     "vault": {
         "lockedMessage": "您的保險庫已鎖定",
-        "passwordRequired": "需要主密碼來解密您的密碼。",
+        "passwordRequired": "需要主密碼來解密您的保險庫。",
         "unlocked": "保險庫已解鎖",
         "failedToUnlock": "解鎖保險庫失敗",
         "buttons": {

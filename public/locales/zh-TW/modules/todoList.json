@@ -23,7 +23,16 @@
     "overdue": "逾期",
     "tasks": "任務",
     "lists": "清單",
-    "tags": "標籤"
+    "tags": "標籤",
+    "priorities": "優先級"
+  },
+  "headers": {
+    "allTasks": "所有任務",
+    "todaysTasks": "今天的任務",
+    "scheduledTasks": "已排程的任務",
+    "overdueTasks": "逾期的任務",
+    "completedTasks": "已完成的任務",
+    "filteredTasks": "已篩選的任務"
   },
   "modals": {
     "tasks": {
@@ -48,11 +57,14 @@
     "notes": "備註",
     "priority": "優先級",
     "tags": "標籤",
-    "lists": "清單",
+    "list": "清單",
     "subtasks": "子任務",
     "summary": "摘要",
     "priorityName": "優先級名稱",
     "priorityIcon": "優先級圖標",
     "priorityColor": "優先級顏色"
+  },
+  "items": {
+    "task": "任務"
   }
 }

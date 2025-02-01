@@ -19,5 +19,8 @@
     "new": "新增{{item}}",
     "proceed": "繼續",
     "applyFilters": "應用篩選",
-    "retry": "重試"
+    "retry": "重試",
+    "refresh": "刷新",
+    "pin": "固定",
+    "unpin": "取消固定"
 }

@@ -1,4 +1,20 @@
 {
   "title": "程式時間",
-  "description": "看看你創造了多少程式魔法。"
+  "description": "看看你創造了多少程式魔法。",
+  "statisticType": {
+    "mostTimeSpent": "花費最多時間",
+    "totalTimeSpent": "總花費時間",
+    "averageTimeSpent": "平均花費時間",
+    "longestStreak": "最長連續天數",
+    "currentStreak": "當前連續天數"
+  },
+  "headers": {
+    "statistics": "統計",
+    "activitiesCalendar": "活動日曆",
+    "projects": "專案",
+    "languages": "語言"
+  },
+  "labels": {
+    "inThePast": "過去"
+  }
 }
