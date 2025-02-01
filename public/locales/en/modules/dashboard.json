@@ -1,113 +1,125 @@
 {
-  "title": "儀表板",
-  "description": "您的任務控制中心，讓一切更精彩。",
-  "empty": {
-    "title": "未啟用任何小工具",
-    "description": "您可以從「管理小工具」選單中新增小工具"
-  },
+  "title": "Dashboard",
+  "description": "Your mission control center, making everything more exciting.",
   "widgets": {
     "quickActions": {
-      "title": "快捷操作",
-      "description": "快速存取您最常使用的功能。"
+      "title": "Quick Actions",
+      "description": "Quick access to your most frequently used features."
     },
     "miniCalendar": {
-      "title": "迷你行事曆",
-      "description": "在小型行事曆中查看即將到來的事件。"
+      "title": "Mini Calendar",
+      "description": "View upcoming events in a small calendar."
     },
     "todaysEvent": {
-      "title": "今日事件",
-      "description": "提醒您今天的活動。"
+      "title": "Today's Event",
+      "description": "Reminds you of today's activities.",
+      "empty": {
+        "event": {
+          "title": "No Events",
+          "description": "You have no activities today."
+        }
+      }
     },
     "todoList": {
-      "title": "待辦清單",
-      "description": "組織並追蹤您的任務。"
+      "title": "To-Do List",
+      "description": "Organize and track your tasks.",
+      "empty": {
+        "today": {
+          "title": "No To-Do Items Today",
+          "description": "You have no to-do items today."
+        }
+      }
     },
     "pomodoroTimer": {
-      "title": "番茄鐘計時器",
-      "description": "使用番茄工作法專注工作。"
+      "title": "Pomodoro Timer",
+      "description": "Focus on work using the Pomodoro technique."
     },
     "codeTime": {
-      "title": "編碼時間",
-      "description": "追蹤並視覺化您的編碼活動。"
+      "title": "Code Time",
+      "description": "Track and visualize your coding activities.",
+      "empty": {
+        "data": {
+          "title": "No Data",
+          "description": "No coding activities found."
+        }
+      }
     },
     "ideaBox": {
-      "title": "靈感盒",
-      "description": "捕捉並整理您的隨機想法。"
+      "title": "Idea Box",
+      "description": "Capture and organize your random thoughts."
     },
     "journal": {
-      "title": "日誌",
-      "description": "記錄您的想法和經歷。"
+      "title": "Journal",
+      "description": "Record your thoughts and experiences."
     },
     "flashCards": {
-      "title": "抽認卡",
-      "description": "可自訂的抽認卡組合。"
+      "title": "Flash Cards",
+      "description": "Customizable flash card sets."
     },
     "bookshelf": {
-      "title": "書架",
-      "description": "管理並存取您的書籍。"
+      "title": "Bookshelf",
+      "description": "Manage and access your books."
     },
     "achievements": {
-      "title": "成就",
-      "description": "追蹤並慶祝您的里程碑。"
+      "title": "Achievements",
+      "description": "Track and celebrate your milestones."
     },
     "spotify": {
       "title": "Spotify",
-      "description": "控制 Spotify 播放清單。"
+      "description": "Control your Spotify playlist."
     },
     "musicPlayer": {
-      "title": "音樂播放器",
-      "description": "播放您的個人音樂。",
-      "noMusicPlaying": "目前沒有播放的音樂"
+      "title": "Music Player",
+      "description": "Play your personal music.",
+      "empty": {
+        "music": {
+          "title": "No Music",
+          "description": "Click the button below to select music to play."
+        }
+      }
     },
     "incomeExpenses": {
-      "title": "收入與支出",
-      "description": "監控收入與支出。"
+      "title": "Income & Expenses",
+      "description": "Monitor your income and expenses."
     },
     "assetsBalance": {
-      "title": "資產餘額",
-      "description": "追蹤資產餘額。"
+      "title": "Assets Balance",
+      "description": "Track your assets balance."
     },
     "serverStatus": {
-      "title": "伺服器狀態",
-      "description": "監控伺服器效能。"
+      "title": "Server Status",
+      "description": "Monitor server performance."
     },
     "storageStatus": {
-      "title": "儲存狀態",
-      "description": "檢查儲存空間使用情況。"
-    },
-    "income": "收入",
-    "balances": "資產餘額",
-    "statistics": "統計",
-    "expensesBreakdown": {
-      "title": "支出分析",
-      "description": "簡潔的視覺摘要，顯示您的支出分類。"
-    },
-    "expenses": "支出",
-    "recentTransactions": {
-      "title": "最近交易",
-      "description": "輕鬆監控並檢視您的最新支出。"
+      "title": "Storage Status",
+      "description": "Check storage space usage."
     },
     "date": {
-      "title": "日期",
-      "description": "一個簡單的裝飾性小工具，顯示今天的日期。"
+      "title": "Date",
+      "description": "A simple decorative widget showing today's date."
     },
     "clock": {
-      "title": "時鐘",
-      "description": "一個小時鐘，幫助您不忘時間流逝。"
+      "title": "Clock",
+      "description": "A small clock to help you keep track of time."
     },
     "quotes": {
-      "description": "一則隨機語錄，希望能激勵您度過一天。",
-      "title": "語錄"
-    },
-    "transactionsCount": "交易次數"
+      "description": "A random quote to inspire you through the day.",
+      "title": "Quotes"
+    }
   },
   "modals": {
-    "manageWidgets": "管理小工具"
+    "manageWidgets": "Manage Widgets"
   },
   "buttons": {
-    "manageCategories": "管理分類",
-    "unlockLayout": "解鎖佈局",
-    "manageWidgets": "管理小工具",
-    "lockLayout": "鎖定佈局"
+    "manageCategories": "Manage Categories",
+    "unlockLayout": "Unlock Layout",
+    "manageWidgets": "Manage Widgets",
+    "lockLayout": "Lock Layout"
+  },
+  "empty": {
+    "widget": {
+      "title": "No Widgets Enabled",
+      "description": "You can add widgets from the 'Manage Widgets' menu."
+    }
   }
 }

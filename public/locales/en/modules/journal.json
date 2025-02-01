@@ -1,23 +1,28 @@
 {
-  "title": "日記",
-  "description": "你的私人日記，僅供你查看。",
-  "lockedMessage": "日記已鎖定",
-  "passwordRequired": "需要密碼才能解密你的日記條目",
-  "failedToUnlock": "日記解鎖失敗",
-  "empty": {
-    "title": "沒有日記條目",
-    "description": "還沒有日記條目。開始寫下你的第一篇日記吧。"
-  },
+  "title": "Journal",
+  "description": "Your private journal, only for you to see.",
+  "lockedMessage": "Journal is locked",
+  "passwordRequired": "Password is required to decrypt your journal entries",
+  "failedToUnlock": "Failed to unlock journal",
   "modals": {
     "journal": {
-      "create": "創建日記條目",
-      "update": "更新日記條目",
-      "view": "查看日記條目"
+      "create": "Create Journal Entry",
+      "update": "Update Journal Entry",
+      "view": "View Journal Entry"
     }
   },
   "journal": {
-    "moodOfTheDay": "今天的心情",
-    "emoji": "表情符號",
-    "journalTitle": "日記標題"
+    "moodOfTheDay": "Mood of the Day",
+    "emoji": "Emoji",
+    "journalTitle": "Journal Title"
+  },
+  "items": {
+    "entry": "Journal"
+  },
+  "empty": {
+    "entry": {
+      "title": "No Journal Entries",
+      "description": "You haven't added any journal entries yet. Click the button below to add one."
+    }
   }
 }

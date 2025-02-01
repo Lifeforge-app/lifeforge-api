@@ -1,4 +1,13 @@
 {
-  "title": "DNS 紀錄",
-  "description": "無需登入 CPanel，在此管理您的 DNS 紀錄。"
+  "title": "DNS Records",
+  "description": "Manage your DNS records here without logging into CPanel.",
+  "items": {
+    "dnsRecord": "DNS Record"
+  },
+  "empty": {
+    "dnsRecord": {
+      "title": "No DNS Records",
+      "description": "You have not added any DNS records yet. Click the button below to add one."
+    }
+  }
 }

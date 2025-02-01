@@ -1,86 +1,86 @@
 {
-    "title": "模組工具",
-    "description": "輕鬆管理所有模組",
+    "title": "模块工具",
+    "description": "轻松管理所有模块",
     "help": {
         "usage": "使用方式：",
         "command": "指令",
-        "options": "選項",
+        "options": "选项",
         "commandsTitle": "指令",
-        "optionsTitle": "選項",
+        "optionsTitle": "选项",
         "commandDescriptions": {
-            "create": "建立新模組",
-            "list": "列出所有模組及其詳細資訊",
-            "delete": "刪除特定模組",
-            "update": "更新特定模組的詳細資訊",
-            "reorder": "調整側邊欄中模組的顯示順序",
-            "help": "顯示說明"
+            "create": "建立新模块",
+            "list": "列出所有模块及其详细信息",
+            "delete": "删除特定模块",
+            "update": "更新特定模块的详细信息",
+            "reorder": "调整侧边栏中模块的显示顺序",
+            "help": "显示说明"
         },
         "optionDescriptions": {
-            "language": "使用的語言，預設為 en",
-            "username": "使用者名稱，身份驗證所需，若未提供將提示輸入",
-            "password": "密碼，身份驗證所需，若未提供將提示輸入"
+            "language": "使用的语言，默认为 en",
+            "username": "用户名，身份验证所需，若未提供将提示输入",
+            "password": "密码，身份验证所需，若未提供将提示输入"
         }
     },
     "features": {
         "list": {
             "summary": {
-                "title": "模組清單摘要",
-                "totalModules": "模組總數",
-                "togglableModules": "可切換的模組總數",
-                "deprecatedModules": "已棄用的模組總數",
-                "aiEnabledModules": "支援 AI 的模組總數",
-                "totalCategories": "分類總數"
+                "title": "模块清单摘要",
+                "totalModules": "模块总数",
+                "togglableModules": "可切换的模块总数",
+                "deprecatedModules": "已弃用的模块总数",
+                "aiEnabledModules": "支持 AI 的模块总数",
+                "totalCategories": "分类总数"
             },
             "headers": {
-                "category": "分類",
-                "name": "模組名稱",
-                "icon": "圖示",
-                "togglable": "可切換",
+                "category": "分类",
+                "name": "模块名称",
+                "icon": "图标",
+                "togglable": "可切换",
                 "routes": "路由",
-                "additionalInfo": "更多資訊",
-                "descriptions": "模組描述"
+                "additionalInfo": "更多信息",
+                "descriptions": "模块描述"
             }
         },
         "delete": {
-            "beforeProceed": "在繼續之前，請檢查以下警告：",
-            "warning": "刪除模組警告",
+            "beforeProceed": "在继续之前，请检查以下警告：",
+            "warning": "删除模块警告",
             "warnings": {
                 "actionScope": {
-                    "title": "操作範圍",
-                    "desc": "此操作將刪除所選模組的前端程式碼，但不會移除與該模組相關的後端或資料庫組件。"
+                    "title": "操作范围",
+                    "desc": "此操作将删除所选模块的前端代码，但不会移除与该模块相关的后端或数据库组件。"
                 },
                 "recoverability": {
-                    "title": "可恢復性",
-                    "desc": "此操作會從當前工作程式碼庫中移除該模組，但並非完全不可逆。如果需要，仍可透過 Git 歷史恢復已刪除的程式碼。"
+                    "title": "可恢复性",
+                    "desc": "此操作会从当前工作代码库中移除该模块，但并非完全不可逆。如果需要，仍可通过 Git 历史恢复已删除的代码。"
                 },
                 "systemImpact": {
-                    "title": "系統影響",
-                    "desc": "刪除此模組可能會影響系統中其他依賴該模組的部分，請確保已審查所有相關依賴關係。"
+                    "title": "系统影响",
+                    "desc": "删除此模块可能会影响系统中其他依赖该模块的部分，请确保已审查所有相关依赖关系。"
                 },
                 "backupRecommendation": {
-                    "title": "建議備份",
-                    "desc": "為避免任何中斷，建議在繼續操作之前提交當前變更並建立備份分支。"
+                    "title": "建议备份",
+                    "desc": "为避免任何中断，建议在继续操作之前提交当前变更并建立备份分支。"
                 },
                 "userResponsibility": {
-                    "title": "使用者責任",
-                    "desc": "確認此操作即表示您已了解並接受刪除此模組可能帶來的所有後果。"
+                    "title": "用户责任",
+                    "desc": "确认此操作即表示您已了解并接受删除此模块可能带来的所有后果。"
                 },
                 "dependencies": {
-                    "desc": "任何依賴此模組前端的功能可能會失效，包括路由、UI 元件或相關功能。",
-                    "title": "依賴關係"
+                    "desc": "任何依赖此模块前端的功能可能会失效，包括路由、UI 组件或相关功能。",
+                    "title": "依赖关系"
                 }
             },
             "prompts": {
-                "proceedConfirmation": "您確定要繼續刪除過程嗎？",
-                "proceedConfirmation2": "請輸入「{}」以繼續刪除過程。",
-                "proceedConfirmation3": "您確定要刪除模組「{}」嗎？",
-                "selectModule": "選擇要刪除的模組",
-                "finalConfirmation": "最終確認：您真的確定要刪除此模組嗎？",
-                "proceedConfirmation4": "請輸入模組名稱「{}」以確認刪除。",
-                "OTP": "請輸入 OTP"
+                "proceedConfirmation": "您确定要继续删除过程吗？",
+                "proceedConfirmation2": "请输入「{}」以继续删除过程。",
+                "proceedConfirmation3": "您确定要删除模块「{}」吗？",
+                "selectModule": "选择要删除的模块",
+                "finalConfirmation": "最终确认：您真的确定要删除此模块吗？",
+                "proceedConfirmation4": "请输入模块名称「{}」以确认删除。",
+                "OTP": "请输入 OTP"
             },
             "messages": {
-                "cancelled": "刪除過程已取消"
+                "cancelled": "删除过程已取消"
             }
         }
     },
@@ -91,32 +91,32 @@
     "auth": {
         "messages": {
             "auth": {
-                "validating": "正在驗證身份...",
-                "success": "登入成功",
-                "cancelled": "身份驗證已取消",
-                "failed": "驗證失敗"
+                "validating": "正在验证身份...",
+                "success": "登录成功",
+                "cancelled": "身份验证已取消",
+                "failed": "验证失败"
             },
             "OTP": {
-                "validating": "正在驗證一次性密碼...",
-                "requesting": "正在請求一次性密碼...",
-                "sent": "一次性密碼已發送至您的電子郵件",
-                "invalid": "一次性密碼無效",
-                "valid": "一次性密碼驗證成功"
+                "validating": "正在验证一次性密码...",
+                "requesting": "正在请求一次性密码...",
+                "sent": "一次性密码已发送至您的电子邮件",
+                "invalid": "一次性密码无效",
+                "valid": "一次性密码验证成功"
             }
         },
         "prompts": {
-            "username": "使用者名稱",
-            "password": "密碼",
-            "OTP": "一次性密碼"
+            "username": "用户名",
+            "password": "密码",
+            "OTP": "一次性密码"
         },
         "inputErrors": {
             "empty": {
-                "username": "使用者名稱不能為空",
-                "password": "密碼不能為空",
-                "OTP": "驗證碼不能為空"
+                "username": "用户名不能为空",
+                "password": "密码不能为空",
+                "OTP": "验证码不能为空"
             },
             "invalid": {
-                "OTP": "無效的一次性密碼格式，驗證碼必須是 6 位數字"
+                "OTP": "无效的一次性密码格式，验证码必须是 6 位数字"
             }
         }
     }

@@ -1,113 +1,125 @@
 {
-  "title": "儀表板",
-  "description": "您的任務控制中心，讓一切更精彩。",
-  "empty": {
-    "title": "未啟用任何小工具",
-    "description": "您可以從「管理小工具」選單中新增小工具"
-  },
+  "title": "仪表板",
+  "description": "您的任务控制中心，让一切更精彩。",
   "widgets": {
     "quickActions": {
       "title": "快捷操作",
       "description": "快速存取您最常使用的功能。"
     },
     "miniCalendar": {
-      "title": "迷你行事曆",
-      "description": "在小型行事曆中查看即將到來的事件。"
+      "title": "迷你行事历",
+      "description": "在小型行事历中查看即将到来的事件。"
     },
     "todaysEvent": {
       "title": "今日事件",
-      "description": "提醒您今天的活動。"
+      "description": "提醒您今天的活动。",
+      "empty": {
+        "event": {
+          "title": "没有事件",
+          "description": "您今天没有任何活动。"
+        }
+      }
     },
     "todoList": {
-      "title": "待辦清單",
-      "description": "組織並追蹤您的任務。"
+      "title": "待办清单",
+      "description": "组织并追踪您的任务。",
+      "empty": {
+        "today": {
+          "title": "今日没有待办事项",
+          "description": "您今天没有任何待办事项。"
+        }
+      }
     },
     "pomodoroTimer": {
-      "title": "番茄鐘計時器",
-      "description": "使用番茄工作法專注工作。"
+      "title": "番茄钟计时器",
+      "description": "使用番茄工作法专注工作。"
     },
     "codeTime": {
-      "title": "編碼時間",
-      "description": "追蹤並視覺化您的編碼活動。"
+      "title": "编码时间",
+      "description": "追踪并视觉化您的编码活动。",
+      "empty": {
+        "data": {
+          "title": "没有数据",
+          "description": "没有找到任何编码活动。"
+        }
+      }
     },
     "ideaBox": {
-      "title": "靈感盒",
-      "description": "捕捉並整理您的隨機想法。"
+      "title": "灵感盒",
+      "description": "捕捉并整理您的随机想法。"
     },
     "journal": {
-      "title": "日誌",
-      "description": "記錄您的想法和經歷。"
+      "title": "日志",
+      "description": "记录您的想法和经历。"
     },
     "flashCards": {
-      "title": "抽認卡",
-      "description": "可自訂的抽認卡組合。"
+      "title": "抽认卡",
+      "description": "可自订的抽认卡组合。"
     },
     "bookshelf": {
-      "title": "書架",
-      "description": "管理並存取您的書籍。"
+      "title": "书架",
+      "description": "管理并存取您的书籍。"
     },
     "achievements": {
       "title": "成就",
-      "description": "追蹤並慶祝您的里程碑。"
+      "description": "追踪并庆祝您的里程碑。"
     },
     "spotify": {
       "title": "Spotify",
-      "description": "控制 Spotify 播放清單。"
+      "description": "控制 Spotify 播放清单。"
     },
     "musicPlayer": {
-      "title": "音樂播放器",
-      "description": "播放您的個人音樂。",
-      "noMusicPlaying": "目前沒有播放的音樂"
+      "title": "音乐播放器",
+      "description": "播放您的个人音乐。",
+      "empty": {
+        "music": {
+          "title": "没有音乐",
+          "description": "点击下面的按钮选择想要播放的音乐。"
+        }
+      }
     },
     "incomeExpenses": {
-      "title": "收入與支出",
-      "description": "監控收入與支出。"
+      "title": "收入与支出",
+      "description": "监控收入与支出。"
     },
     "assetsBalance": {
-      "title": "資產餘額",
-      "description": "追蹤資產餘額。"
+      "title": "资产余额",
+      "description": "追踪资产余额。"
     },
     "serverStatus": {
-      "title": "伺服器狀態",
-      "description": "監控伺服器效能。"
+      "title": "伺服器状态",
+      "description": "监控伺服器效能。"
     },
     "storageStatus": {
-      "title": "儲存狀態",
-      "description": "檢查儲存空間使用情況。"
-    },
-    "income": "收入",
-    "balances": "資產餘額",
-    "statistics": "統計",
-    "expensesBreakdown": {
-      "title": "支出分析",
-      "description": "簡潔的視覺摘要，顯示您的支出分類。"
-    },
-    "expenses": "支出",
-    "recentTransactions": {
-      "title": "最近交易",
-      "description": "輕鬆監控並檢視您的最新支出。"
+      "title": "储存状态",
+      "description": "检查储存空间使用情况。"
     },
     "date": {
       "title": "日期",
-      "description": "一個簡單的裝飾性小工具，顯示今天的日期。"
+      "description": "一个简单的装饰性小工具，显示今天的日期。"
     },
     "clock": {
-      "title": "時鐘",
-      "description": "一個小時鐘，幫助您不忘時間流逝。"
+      "title": "时钟",
+      "description": "一个小时钟，帮助您不忘时间流逝。"
     },
     "quotes": {
-      "description": "一則隨機語錄，希望能激勵您度過一天。",
-      "title": "語錄"
-    },
-    "transactionsCount": "交易次數"
+      "description": "一则随机语录，希望能激励您度过一天。",
+      "title": "语录"
+    }
   },
   "modals": {
     "manageWidgets": "管理小工具"
   },
   "buttons": {
-    "manageCategories": "管理分類",
-    "unlockLayout": "解鎖佈局",
+    "manageCategories": "管理分类",
+    "unlockLayout": "解锁布局",
     "manageWidgets": "管理小工具",
-    "lockLayout": "鎖定佈局"
+    "lockLayout": "锁定布局"
+  },
+  "empty": {
+    "widget": {
+      "title": "未启用任何小工具",
+      "description": "您可以从「管理小工具」选单中新增小工具"
+    }
   }
 }

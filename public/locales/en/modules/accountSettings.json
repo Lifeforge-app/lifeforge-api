@@ -1,23 +1,46 @@
 {
-  "title": "帳戶設定",
-  "description": "管理您所有帳戶詳細信息的地方",
+  "title": "Account Settings",
+  "description": "The place to manage all your account details",
   "settings": {
     "title": {
-      "profilePicture": "個人資料圖片",
-      "username": "用戶名",
-      "displayName": "顯示名稱",
-      "email": "電子郵件地址",
-      "password": "密碼",
-      "dateOfBirth": "出生日期"
+      "profilePicture": "Profile Picture",
+      "username": "Username",
+      "displayName": "Display Name",
+      "email": "Email Address",
+      "password": "Password",
+      "dateOfBirth": "Date of Birth"
     },
     "desc": {
-      "profilePicture": "上傳個人資料圖片以個性化您的帳戶。",
-      "username": "在平台上識別您的名稱。",
-      "displayName": "顯示給其他用戶的名稱。",
-      "email": "您用來登錄帳戶的電子郵件地址。",
-      "password": "設置一個強密碼以保護您的帳戶。",
-      "dateOfBirth": "設置您的出生日期，我們會給您一個驚喜！"
+      "profilePicture": "Upload a profile picture to personalize your account.",
+      "username": "The name that identifies you on the platform.",
+      "displayName": "The name displayed to other users.",
+      "email": "The email address you use to log in to your account.",
+      "password": "Set a strong password to protect your account.",
+      "dateOfBirth": "Set your date of birth, and we'll give you a surprise!"
     },
-    "empty": "未設置"
+    "empty": "Not Set"
+  },
+  "modals": {
+    "username": {
+      "update": "Update Username"
+    },
+    "email": {
+      "update": "Update Email"
+    },
+    "displayName": {
+      "update": "Update Display Name"
+    },
+    "dateOfBirth": {
+      "update": "Update Date of Birth"
+    }
+  },
+  "buttons": {
+    "changePassword": "Change Password"
+  },
+  "inputs": {
+    "dateOfBirth": "Date of Birth",
+    "username": "Username",
+    "displayname": "Display Name",
+    "email": "Email Address"
   }
 }

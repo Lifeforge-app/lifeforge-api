@@ -1,16 +1,37 @@
 {
   "title": "YouTube 影片",
-  "description": "下載、儲存和組織您所有喜愛的 YouTube 影片。",
+  "description": "下载、储存和组织您所有喜爱的 YouTube 影片。",
   "modals": {
-    "video": {
+    "videos": {
       "create": "新增影片",
-      "update": "編輯影片"
+      "update": "编辑影片"
     },
-    "downloadProcess": "下載過程"
+    "downloadProcess": "下载过程"
   },
   "inputs": {
-    "resourceType": "資源類型",
-    "playlistUrl": "播放清單網址",
-    "videoUrl": "影片網址"
+    "resourceType": "资源类型",
+    "playlistUrl": "播放清单网址",
+    "videoUrl": "影片网址"
+  },
+  "buttons": {
+    "watchOnYoutube": "在 YouTube 上观看"
+  },
+  "empty": {
+    "videos": {
+      "title": "没有影片",
+      "description": "您还没有添加任何影片。点击下面的按钮添加一个。"
+    },
+    "results": {
+      "title": "没有结果",
+      "description": "找不到影片, 请尝试其他关键字。"
+    },
+    "downloadProcesses": {
+      "title": "没有下载",
+      "description": "目前没有任何下载过程。"
+    }
+  },
+  "items": {
+    "video": "影片",
+    "playlist": "播放清单"
   }
 }

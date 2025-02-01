@@ -41,15 +41,23 @@
   "empty": {
     "transactions": {
       "title": "未找到交易",
-      "description": "您尚未進行任何交易。"
+      "description": "您尚未紀錄任何交易。點擊上面的按鈕添加一個。"
+    },
+    "categories": {
+      "title": "未找到類別",
+      "description": "您尚未創建任何類別。點擊下面的按鈕添加一個。"
+    },
+    "results": {
+      "title": "未找到結果",
+      "description": "找不到交易, 請嘗試其他關鍵字。"
     },
     "assets": {
       "title": "未找到資產",
-      "description": "您尚未創建任何資產。"
+      "description": "您尚未創建任何資產。點擊上面的按鈕添加一個。"
     },
     "ledger": {
       "title": "未找到帳本",
-      "description": "您尚未創建任何帳本。"
+      "description": "您尚未創建任何帳本。點擊上面的按鈕添加一個。"
     }
   },
   "sidebar": {
@@ -84,7 +92,9 @@
     "viewTransactions": "查看交易",
     "hideAmount": "隱藏金額",
     "showStatement": "查看報表",
-    "addManually": "手動添加"
+    "hideStatement": "隱藏報表",
+    "addManually": "手動添加",
+    "manageCategories": "管理類別"
   },
   "modals": {
     "transactions": {
@@ -132,6 +142,9 @@
     "ledgerColor": "帳本顏色",
     "assetName": "資產名稱",
     "ledgerName": "帳本名稱",
+    "categoryName": "類別名稱",
+    "categoryIcon": "類別圖示",
+    "categoryColor": "類別顏色",
     "categoryType": "類別類型",
     "initialBalance": "初始餘額",
     "fromAsset": "轉出資產",

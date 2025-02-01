@@ -11,10 +11,6 @@
       "description": "開始探索 Library Genesis。嘗試搜索一本書以開始。"
     }
   },
-  "empty": {
-    "title": "圖書館中沒有書籍",
-    "description": "在您的圖書館中未找到書籍。您可以從設備上傳一些或從 Library Genesis 下載。"
-  },
   "results": {
     "title": "未找到書籍",
     "description": "未找到匹配項。嘗試搜索其他內容。"
@@ -31,7 +27,15 @@
   "modals": {
     "libraryGenesis": "Library Genesis",
     "addToLibrary": "添加到圖書館",
-    "modifyBookData": "更新書籍信息"
+    "modifyBookData": "更新書籍信息",
+    "language": {
+      "create": "添加語言",
+      "update": "更新語言"
+    },
+    "category": {
+      "create": "添加類別",
+      "update": "更新類別"
+    }
   },
   "buttons": {
     "addToLibrary": "添加到圖書館",
@@ -48,6 +52,10 @@
     "publicationYear": "出版年份",
     "fileSize": "文件大小",
     "md5": "MD5 校驗碼",
+    "category": "類別",
+    "languages": "語言",
+    "categoryName": "類別名稱",
+    "categoryIcon": "類別圖標",
     "languageName": "語言名稱",
     "languageIcon": "語言圖標",
     "authors": "作者",
@@ -57,5 +65,23 @@
   "items": {
     "book": "書籍",
     "libgenBook": "數百萬本書"
+  },
+  "empty": {
+    "book": {
+      "title": "沒有書籍",
+      "description": "您還沒有添加任何書籍。點擊下面的按鈕添加一本。"
+    },
+    "result": {
+      "title": "沒有結果",
+      "description": "找不到項目, 請嘗試其他關鍵字。"
+    },
+    "libgenResult": {
+      "title": "沒有結果",
+      "description": "無法在 Library Genesis 中找到匹配的書籍。請嘗試其他搜索查詢。"
+    },
+    "libgen": {
+      "title": "由 Library Genesis 提供",
+      "description": "瀏覽 Library Genesis 中的書籍並將其添加到您的圖書館。"
+    }
   }
 }

@@ -22,5 +22,11 @@
     "retry": "重試",
     "refresh": "刷新",
     "pin": "固定",
-    "unpin": "取消固定"
+    "unpin": "取消固定",
+    "search": "搜索",
+    "favourite": "收藏",
+    "unfavourite": "取消收藏",
+    "archive": "歸檔",
+    "unarchive": "取消歸檔",
+    "download": "下載"
 }

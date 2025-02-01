@@ -1,0 +1,87 @@
+{
+  "title": "Perpustakaan",
+  "description": "Perpustakaan peribadi anda, tiada yuran lewat.",
+  "libgen": {
+    "results": {
+      "title": "Tiada buku ditemui",
+      "description": "Tiada buku yang sepadan ditemui dalam Library Genesis."
+    },
+    "searchQuery": {
+      "title": "Tiada carian",
+      "description": "Mulakan meneroka Library Genesis. Cuba cari buku untuk bermula."
+    }
+  },
+  "results": {
+    "title": "Tiada buku ditemui",
+    "description": "Tiada padanan ditemui. Cuba cari sesuatu yang lain."
+  },
+  "languages": "Tiada bahasa ditemui",
+  "sidebar": {
+    "starred": "Berbintang",
+    "allBooks": "Semua Buku",
+    "favourite": "Buku Kegemaran",
+    "categories": "Kategori",
+    "languages": "Bahasa",
+    "filetypes": "Jenis Fail"
+  },
+  "modals": {
+    "libraryGenesis": "Library Genesis",
+    "addToLibrary": "Tambah ke Perpustakaan",
+    "modifyBookData": "Kemas kini Maklumat Buku",
+    "language": {
+      "create": "Tambah Bahasa",
+      "update": "Kemas kini Bahasa"
+    },
+    "category": {
+      "create": "Tambah Kategori",
+      "update": "Kemas kini Kategori"
+    }
+  },
+  "buttons": {
+    "addToLibrary": "Tambah ke Perpustakaan",
+    "alreadyInLibrary": "Sudah dalam Perpustakaan",
+    "viewDetails": "Lihat Butiran",
+    "uploadFromDevice": "Muat naik dari Peranti",
+    "downloadFromLibgen": "Muat turun dari Library Genesis"
+  },
+  "inputs": {
+    "isbn": "ISBN",
+    "libgenId": "ID Perpustakaan",
+    "publisher": "Penerbit",
+    "bookTitle": "Tajuk Buku",
+    "publicationYear": "Tahun Penerbitan",
+    "fileSize": "Saiz Fail",
+    "md5": "MD5 Checksum",
+    "category": "Kategori",
+    "languages": "Bahasa",
+    "categoryName": "Nama Kategori",
+    "categoryIcon": "Ikon Kategori",
+    "languageName": "Nama Bahasa",
+    "languageIcon": "Ikon Bahasa",
+    "authors": "Pengarang",
+    "edition": "Edisi",
+    "extension": "Jenis Fail"
+  },
+  "items": {
+    "book": "Buku",
+    "libgenBook": "Jutaan Buku"
+  },
+  "empty": {
+    "book": {
+      "title": "Tiada Buku",
+      "description": "Anda belum menambah sebarang buku lagi. Klik butang di bawah untuk menambah satu."
+    },
+    "result": {
+      "title": "Tiada Keputusan",
+      "description": "Tiada item ditemui, sila cuba kata kunci lain."
+    },
+    "libgenResult": {
+      "title": "Tiada Keputusan",
+      "description": "Tiada buku yang sepadan ditemui dalam Library Genesis. Sila cuba carian lain."
+    },
+    "libgen": {
+      "title": "Dikuasakan oleh Library Genesis",
+      "description": "Semak imbas buku dalam Library Genesis dan tambahkannya ke perpustakaan anda."
+    }
+  }
+}

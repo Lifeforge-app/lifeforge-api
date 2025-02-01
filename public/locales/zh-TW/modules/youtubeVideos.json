@@ -16,6 +16,20 @@
   "buttons": {
     "watchOnYoutube": "在 YouTube 上觀看"
   },
+  "empty": {
+    "videos": {
+      "title": "沒有影片",
+      "description": "您還沒有添加任何影片。點擊下面的按鈕添加一個。"
+    },
+    "results": {
+      "title": "沒有結果",
+      "description": "找不到影片, 請嘗試其他關鍵字。"
+    },
+    "downloadProcesses": {
+      "title": "沒有下載",
+      "description": "目前沒有任何下載過程。"
+    }
+  },
   "items": {
     "video": "影片",
     "playlist": "播放清單"

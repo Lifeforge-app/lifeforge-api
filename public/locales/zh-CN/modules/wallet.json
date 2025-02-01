@@ -1,66 +1,100 @@
 {
-  "title": "錢包",
-  "description": "成為您自己的財務超級英雄。",
+  "title": "钱包",
+  "description": "成为您自己的财务超级英雄。",
   "subsections": {
-    "dashboard": "儀表板",
+    "dashboard": "仪表板",
     "transactions": "交易",
-    "assets": "資產",
-    "ledgers": "帳本",
-    "financialStatements": "財務報表"
+    "assets": "资产",
+    "ledgers": "帐本",
+    "financialStatements": "财务报表"
   },
   "header": {
     "allTransactions": "所有交易",
-    "filteredTransactions": "篩選後的交易"
+    "filteredTransactions": "筛选后的交易"
   },
-  "dashboard": {
+  "widgets": {
     "expensesBreakdown": {
-      "desc": "本月支出"
+      "title": "本月支出分析",
+      "thisMonthsSpending": "本月支出"
+    },
+    "income": {
+      "title": "收入"
+    },
+    "assetsBalance": {
+      "title": "资产余额"
+    },
+    "statistics": {
+      "title": "统计"
+    },
+    "expenses": {
+      "title": "支出"
+    },
+    "recentTransactions": {
+      "title": "最近交易"
+    },
+    "transactionsCount": {
+      "title": "交易笔数"
     }
   },
-  "transactionCount": "筆交易",
-  "receiptUploadInfo": "僅接受 PDF 和圖片文件",
+  "transactionCount": "笔交易",
+  "receiptUploadInfo": "仅接受 PDF 和图片文件",
   "empty": {
     "transactions": {
       "title": "未找到交易",
-      "description": "您尚未進行任何交易。"
+      "description": "您尚未纪录任何交易。点击上面的按钮添加一个。"
+    },
+    "categories": {
+      "title": "未找到类别",
+      "description": "您尚未创建任何类别。点击下面的按钮添加一个。"
+    },
+    "results": {
+      "title": "未找到结果",
+      "description": "找不到交易, 请尝试其他关键字。"
     },
     "assets": {
-      "title": "未找到資產",
-      "description": "您尚未創建任何資產。"
+      "title": "未找到资产",
+      "description": "您尚未创建任何资产。点击上面的按钮添加一个。"
     },
     "ledger": {
-      "title": "未找到帳本",
-      "description": "您尚未創建任何帳本。"
+      "title": "未找到帐本",
+      "description": "您尚未创建任何帐本。点击上面的按钮添加一个。"
     }
   },
   "sidebar": {
     "allTransactions": "所有交易",
-    "allType": "所有類型",
-    "allLedgers": "所有帳本",
-    "allAssets": "所有資產",
-    "allCategories": "所有類別",
-    "allTypes": "所有類型",
-    "dateRange": "日期範圍",
-    "calendarHeatmap": "日曆熱圖"
+    "allType": "所有类型",
+    "allLedgers": "所有帐本",
+    "allAssets": "所有资产",
+    "allCategories": "所有类别",
+    "allTypes": "所有类型",
+    "transactionTypes": "交易类型",
+    "ledgers": "帐本",
+    "assets": "资产",
+    "categories": "类别",
+    "dateRange": "日期范围",
+    "calendarHeatmap": "日历热图"
   },
   "table": {
     "date": "日期",
-    "type": "類型",
-    "asset": "資產",
-    "ledger": "帳本",
+    "type": "类型",
+    "asset": "资产",
+    "ledger": "帐本",
     "particulars": "摘要",
-    "category": "類別",
-    "amount": "金額",
-    "receipt": "收據",
-    "location": "地點"
+    "category": "类别",
+    "amount": "金额",
+    "receipt": "收据",
+    "location": "地点"
   },
   "buttons": {
-    "scanReceipt": "掃描收據",
-    "removeReceipt": "移除收據",
-    "uploadReceipt": "上傳收據",
+    "scanReceipt": "扫描收据",
+    "removeReceipt": "移除收据",
+    "uploadReceipt": "上传收据",
     "viewTransactions": "查看交易",
-    "hideAmount": "隱藏金額",
-    "showStatement": "查看報表"
+    "hideAmount": "隐藏金额",
+    "showStatement": "查看报表",
+    "hideStatement": "隐藏报表",
+    "addManually": "手动添加",
+    "manageCategories": "管理类别"
   },
   "modals": {
     "transactions": {
@@ -68,48 +102,64 @@
       "update": "更新交易"
     },
     "assets": {
-      "create": "建立資產",
-      "update": "更新資產"
+      "create": "建立资产",
+      "update": "更新资产"
     },
     "ledgers": {
-      "create": "建立帳本",
-      "update": "更新帳本"
+      "create": "建立帐本",
+      "update": "更新帐本"
     },
     "categories": {
-      "create": "建立類別",
-      "update": "更新類別",
-      "manage": "管理類別"
+      "create": "建立类别",
+      "update": "更新类别",
+      "manage": "管理类别"
     },
     "receipts": {
-      "scan": "掃描收據",
-      "view": "查看收據"
+      "scan": "扫描收据",
+      "view": "查看收据"
     }
   },
   "transactionTypes": {
     "income": "收入",
     "expenses": "支出",
-    "transfer": "轉帳"
+    "transfer": "转帐"
   },
   "inputs": {
-    "assetIcon": "資產圖示",
-    "ledgerIcon": "帳本圖示",
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "assetIcon": "资产图示",
+    "ledgerIcon": "帐本图示",
     "date": "日期",
-    "amount": "金額",
-    "transactionType": "交易類型",
-    "asset": "資產",
-    "ledger": "帳本",
-    "category": "類別",
-    "receipt": "收據",
-    "balance": "餘額",
+    "amount": "金额",
+    "transactionType": "交易类型",
+    "location": "交易地点",
+    "asset": "资产",
+    "ledger": "帐本",
+    "category": "类别",
+    "receipt": "收据",
+    "balance": "余额",
     "particulars": "摘要",
-    "ledgerColor": "帳本顏色",
-    "assetName": "資產名稱",
-    "ledgerName": "帳本名稱",
-    "categoryType": "類別類型",
-    "initialBalance": "初始餘額",
-    "fromAsset": "轉出資產",
-    "toAsset": "轉入資產",
+    "ledgerColor": "帐本颜色",
+    "assetName": "资产名称",
+    "ledgerName": "帐本名称",
+    "categoryName": "类别名称",
+    "categoryIcon": "类别图示",
+    "categoryColor": "类别颜色",
+    "categoryType": "类别类型",
+    "initialBalance": "初始余额",
+    "fromAsset": "转出资产",
+    "toAsset": "转入资产",
     "month": "月份",
     "year": "年份"
+  },
+  "items": {
+    "transaction": "交易",
+    "asset": "资产",
+    "ledger": "帐本",
+    "category": "类别",
+    "receipt": "收据"
+  },
+  "receipts": {
+    "keepAfterScan": "扫描后保留收据"
   }
 }

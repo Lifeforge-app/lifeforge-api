@@ -12,5 +12,11 @@
       "label": "原始 HTML",
       "placeholder": "從 https://openai.com/api/pricing/ 複製 HTML 代碼並粘貼到這裡"
     }
+  },
+  "empty": {
+    "data": {
+      "title": "沒有數據",
+      "description": "請粘貼原始 HTML 代碼以查看 OpenAI API 的價格。"
+    }
   }
 }

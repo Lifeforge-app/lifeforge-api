@@ -1,57 +1,87 @@
 {
-  "title": "圖書館",
-  "description": "您的個人圖書館，沒有逾期費用。",
+  "title": "图书馆",
+  "description": "您的个人图书馆，没有逾期费用。",
   "libgen": {
     "results": {
-      "title": "未找到書籍",
-      "description": "在 Library Genesis 中未找到匹配的書籍。"
+      "title": "未找到书籍",
+      "description": "在 Library Genesis 中未找到匹配的书籍。"
     },
     "searchQuery": {
-      "title": "沒有搜索查詢",
-      "description": "開始探索 Library Genesis。嘗試搜索一本書以開始。"
+      "title": "没有搜索查询",
+      "description": "开始探索 Library Genesis。尝试搜索一本书以开始。"
     }
   },
-  "empty": {
-    "title": "圖書館中沒有書籍",
-    "description": "在您的圖書館中未找到書籍。您可以從設備上傳一些或從 Library Genesis 下載。"
-  },
   "results": {
-    "title": "未找到書籍",
-    "description": "未找到匹配項。嘗試搜索其他內容。"
+    "title": "未找到书籍",
+    "description": "未找到匹配项。尝试搜索其他内容。"
   },
-  "languages": "未找到語言",
+  "languages": "未找到语言",
   "sidebar": {
-    "starred": "加星標",
-    "allBooks": "所有書籍",
-    "favourite": "最愛書籍",
-    "categories": "類別",
-    "languages": "語言",
-    "filetypes": "文件類型"
+    "starred": "加星标",
+    "allBooks": "所有书籍",
+    "favourite": "最爱书籍",
+    "categories": "类别",
+    "languages": "语言",
+    "filetypes": "文件类型"
   },
   "modals": {
     "libraryGenesis": "Library Genesis",
-    "addToLibrary": "添加到圖書館",
-    "modifyBookData": "更新書籍信息"
+    "addToLibrary": "添加到图书馆",
+    "modifyBookData": "更新书籍信息",
+    "language": {
+      "create": "添加语言",
+      "update": "更新语言"
+    },
+    "category": {
+      "create": "添加类别",
+      "update": "更新类别"
+    }
   },
   "buttons": {
-    "addToLibrary": "添加到圖書館",
-    "alreadyInLibrary": "已在圖書館中",
-    "viewDetails": "查看詳情",
-    "uploadFromDevice": "從設備上傳",
-    "downloadFromLibgen": "從 Library Genesis 下載"
+    "addToLibrary": "添加到图书馆",
+    "alreadyInLibrary": "已在图书馆中",
+    "viewDetails": "查看详情",
+    "uploadFromDevice": "从设备上传",
+    "downloadFromLibgen": "从 Library Genesis 下载"
   },
   "inputs": {
-    "isbn": "ISBN 碼",
-    "libgenId": "圖書館 ID",
+    "isbn": "ISBN 码",
+    "libgenId": "图书馆 ID",
     "publisher": "出版社",
-    "bookTitle": "書名",
+    "bookTitle": "书名",
     "publicationYear": "出版年份",
     "fileSize": "文件大小",
-    "md5": "MD5 校驗碼",
-    "languageName": "語言名稱",
-    "languageIcon": "語言圖標",
+    "md5": "MD5 校验码",
+    "category": "类别",
+    "languages": "语言",
+    "categoryName": "类别名称",
+    "categoryIcon": "类别图标",
+    "languageName": "语言名称",
+    "languageIcon": "语言图标",
     "authors": "作者",
     "edition": "版本",
-    "extension": "文件類型"
+    "extension": "文件类型"
+  },
+  "items": {
+    "book": "书籍",
+    "libgenBook": "数百万本书"
+  },
+  "empty": {
+    "book": {
+      "title": "没有书籍",
+      "description": "您还没有添加任何书籍。点击下面的按钮添加一本。"
+    },
+    "result": {
+      "title": "没有结果",
+      "description": "找不到项目, 请尝试其他关键字。"
+    },
+    "libgenResult": {
+      "title": "没有结果",
+      "description": "无法在 Library Genesis 中找到匹配的书籍。请尝试其他搜索查询。"
+    },
+    "libgen": {
+      "title": "由 Library Genesis 提供",
+      "description": "浏览 Library Genesis 中的书籍并将其添加到您的图书馆。"
+    }
   }
 }

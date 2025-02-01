@@ -1,0 +1,10 @@
+{
+    "deleteConfirmation": {
+        "title": "Adakah anda pasti mahu memadam {{itemName}}?",
+        "desc": "Ini akan memadam {{itemName}} dan semua kandungan yang berkaitan. Tindakan ini tidak boleh dipulihkan!"
+    },
+    "searchFilters": "Penapis Carian",
+    "imageSelector": "Pilih Imej",
+    "selectAnIcon": "Pilih Ikon",
+    "imagePreview": "Pratonton Imej"
+}

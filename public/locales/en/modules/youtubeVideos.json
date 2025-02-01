@@ -1,16 +1,37 @@
 {
-  "title": "YouTube 影片",
-  "description": "下載、儲存和組織您所有喜愛的 YouTube 影片。",
+  "title": "YouTube Videos",
+  "description": "Download, save, and organize all your favorite YouTube videos.",
   "modals": {
-    "video": {
-      "create": "新增影片",
-      "update": "編輯影片"
+    "videos": {
+      "create": "Add Video",
+      "update": "Edit Video"
     },
-    "downloadProcess": "下載過程"
+    "downloadProcess": "Download Process"
   },
   "inputs": {
-    "resourceType": "資源類型",
-    "playlistUrl": "播放清單網址",
-    "videoUrl": "影片網址"
+    "resourceType": "Resource Type",
+    "playlistUrl": "Playlist URL",
+    "videoUrl": "Video URL"
+  },
+  "buttons": {
+    "watchOnYoutube": "Watch on YouTube"
+  },
+  "empty": {
+    "videos": {
+      "title": "No Videos",
+      "description": "You haven't added any videos yet. Click the button below to add one."
+    },
+    "results": {
+      "title": "No Results",
+      "description": "No videos found, please try different keywords."
+    },
+    "downloadProcesses": {
+      "title": "No Downloads",
+      "description": "There are currently no download processes."
+    }
+  },
+  "items": {
+    "video": "Video",
+    "playlist": "Playlist"
   }
 }

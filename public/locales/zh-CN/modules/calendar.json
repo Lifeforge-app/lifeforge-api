@@ -1,26 +1,33 @@
 {
-  "title": "日曆",
-  "description": "不要錯過與命運（或牙醫）的約會。",
+  "title": "日历",
+  "description": "不要错过与命运（或牙医）的约会。",
   "view": {
-    "day": "日",
-    "month": "月",
-    "week": "週",
-    "agenda": "議程"
+    "day": "日视图",
+    "month": "月视图",
+    "week": "周视图",
+    "agenda": "议程"
+  },
+  "sidebar": {
+    "categories": "类别"
   },
   "modals": {
     "event": {
-      "create": "創建事件",
+      "create": "创建事件",
       "update": "更新事件"
     },
     "category": {
-      "create": "創建類別",
-      "update": "更新類別"
+      "create": "创建类别",
+      "update": "更新类别"
     }
   },
   "inputs": {
-    "startTime": "開始時間",
-    "endTime": "結束時間",
-    "eventCategory": "事件類別",
-    "eventTitle": "事件標題"
+    "startTime": "开始时间",
+    "endTime": "结束时间",
+    "eventCategory": "事件类别",
+    "eventTitle": "事件标题"
+  },
+  "items": {
+    "event": "事件",
+    "category": "类别"
   }
 }

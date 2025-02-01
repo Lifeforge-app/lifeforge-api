@@ -4,6 +4,7 @@
   "sidebar": {
     "allProjects": "所有專案",
     "starred": "已加星標的專案",
+    "categories": "分類",
     "visibilities": "可見性",
     "statuses": "狀態",
     "priorities": "優先級",
@@ -16,6 +17,7 @@
       "description": "沒有可用的專案。建立一個新專案來開始吧！"
     },
     "statuses": "未找到狀態",
+    "categories": "未找到分類",
     "visibilities": "未找到可見性",
     "technologies": "未找到技術",
     "priority": "未找到優先級",
@@ -52,6 +54,7 @@
     "visibilityIcon": "可見性圖示",
     "technologyName": "技術名稱",
     "technologyIcon": "技術圖示",
+    "projectName": "專案名稱",
     "projectColor": "專案顏色",
     "projectIcon": "專案圖示",
     "status": "狀態",

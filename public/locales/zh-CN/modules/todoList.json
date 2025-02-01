@@ -1,58 +1,81 @@
 {
-  "title": "待辦清單",
-  "description": "再也不會忘記待辦事項（除了可能是洗衣服）。",
+  "title": "待办清单",
+  "description": "再也不会忘记待办事项（除了可能是洗衣服）。",
   "header": {
-    "allTasks": "所有任務",
-    "todaysTasks": "今天的任務",
-    "scheduledTasks": "已排程的任務",
-    "overdueTasks": "逾期的任務",
-    "completedTasks": "已完成的任務",
-    "filteredTasks": "已篩選的任務"
-  },
-  "empty": {
-    "todaysTask": {
-      "title": "今天沒有任務",
-      "desc": "今天的任務是空的。添加一個新任務開始吧！"
-    }
+    "allTasks": "所有任务",
+    "todaysTasks": "今天的任务",
+    "scheduledTasks": "已排程的任务",
+    "overdueTasks": "逾期的任务",
+    "completedTasks": "已完成的任务",
+    "filteredTasks": "已筛选的任务"
   },
   "sidebar": {
-    "all": "所有任務",
-    "today": "今天的任務",
+    "all": "所有任务",
+    "today": "今天的任务",
     "completed": "已完成",
     "scheduled": "已排程",
     "overdue": "逾期",
-    "tasks": "任務",
-    "lists": "清單",
-    "tags": "標籤"
+    "tasks": "任务",
+    "lists": "清单",
+    "tags": "标签",
+    "priorities": "优先级"
+  },
+  "headers": {
+    "allTasks": "所有任务",
+    "todaysTasks": "今天的任务",
+    "scheduledTasks": "已排程的任务",
+    "overdueTasks": "逾期的任务",
+    "completedTasks": "已完成的任务",
+    "filteredTasks": "已筛选的任务"
   },
   "modals": {
     "tasks": {
-      "create": "創建任務",
-      "update": "更新任務"
+      "create": "创建任务",
+      "update": "更新任务"
     },
     "list": {
-      "create": "創建清單",
-      "update": "更新清單"
+      "create": "创建清单",
+      "update": "更新清单"
     },
     "tag": {
-      "create": "創建標籤",
-      "update": "更新標籤"
+      "create": "创建标签",
+      "update": "更新标签"
     },
     "priority": {
-      "create": "創建優先級",
-      "update": "更新優先級"
+      "create": "创建优先级",
+      "update": "更新优先级"
     }
   },
   "inputs": {
     "dueDate": "截止日期",
-    "notes": "備註",
-    "priority": "優先級",
-    "tags": "標籤",
-    "lists": "清單",
-    "subtasks": "子任務",
+    "notes": "备注",
+    "priority": "优先级",
+    "tags": "标签",
+    "list": "清单",
+    "subtasks": "子任务",
     "summary": "摘要",
-    "priorityName": "優先級名稱",
-    "priorityIcon": "優先級圖標",
-    "priorityColor": "優先級顏色"
+    "priorityName": "优先级名称",
+    "priorityIcon": "优先级图标",
+    "priorityColor": "优先级颜色",
+    "listName": "清单名称",
+    "listIcon": "清单图标",
+    "listColor": "清单颜色",
+    "tagName": "标签名称"
+  },
+  "items": {
+    "task": "任务"
+  },
+  "empty": {
+    "todaysTask": {
+      "title": "今天没有任务",
+      "description": "今天的任务是空的。添加一个新任务开始吧！"
+    },
+    "tasks": {
+      "title": "目前没有任务",
+      "description": "没有可用的任务。添加一个新任务来开始吧！"
+    },
+    "lists": "目前没有清单",
+    "tags": "目前没有标签",
+    "priorities": "目前没有优先级"
   }
 }

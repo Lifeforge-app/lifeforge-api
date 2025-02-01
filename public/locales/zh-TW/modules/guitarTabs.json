@@ -17,6 +17,11 @@
     "fingerstyle": "指彈",
     "uncategorized": "未分類"
   },
+  "scoreTypes": {
+    "singalong": "跟唱",
+    "fingerstyle": "指彈",
+    "uncategorized": "未分類"
+  },
   "sortTypes": {
     "newest": "最新優先",
     "oldest": "最舊優先",
@@ -37,9 +42,21 @@
   },
   "inputs": {
     "scoreType": "譜類型",
-    "cookie": "會話 Cookie"
+    "cookie": "會話 Cookie",
+    "author": "作者",
+    "musicName": "音樂名稱"
   },
   "items": {
     "score": "吉他譜"
+  },
+  "empty": {
+    "score": {
+      "title": "沒有吉他譜",
+      "description": "您還沒有添加任何吉他譜。點擊下面的按鈕添加一個。"
+    },
+    "result": {
+      "title": "沒有結果",
+      "description": "找不到項目, 請嘗試其他關鍵字。"
+    }
   }
 }

@@ -1,0 +1,70 @@
+{
+  "title": "Personalisasi",
+  "description": "Jadikan ia milik anda! Siapa yang mahu penganjur yang membosankan?",
+  "themeSelector": {
+    "title": "Tema",
+    "desc": "Pilih tema yang sesuai dengan gaya anda.",
+    "theme": {
+      "system": "Sistem",
+      "light": "Cerah",
+      "dark": "Gelap"
+    },
+    "customBgColor": "Warna Latar Belakang Tersuai"
+  },
+  "themeColorSelector": {
+    "title": "Warna Tema",
+    "desc": "Pilih warna yang paling sesuai dengan antara muka anda.",
+    "colors": {
+      "red": "Merah",
+      "pink": "Merah Jambu",
+      "purple": "Ungu",
+      "deepPurple": "Ungu Tua",
+      "indigo": "Indigo",
+      "blue": "Biru",
+      "lightBlue": "Biru Muda",
+      "cyan": "Sian",
+      "teal": "Hijau Kebiruan",
+      "green": "Hijau",
+      "lightGreen": "Hijau Muda",
+      "lime": "Limau Nipis",
+      "yellow": "Kuning",
+      "amber": "Kuning Jingga",
+      "orange": "Oren",
+      "deepOrange": "Oren Tua",
+      "brown": "Coklat",
+      "grey": "Kelabu",
+      "custom": "Warna Tersuai"
+    }
+  },
+  "languageSelector": {
+    "title": "Bahasa",
+    "desc": "Pilih bahasa pilihan anda."
+  },
+  "bgTempSelector": {
+    "title": "Suhu Latar Belakang",
+    "desc": "Pilih suhu latar belakang yang sesuai dengan mood anda.",
+    "cool": "Sejuk",
+    "warm": "Panas",
+    "customBgTemp": "Suhu Latar Belakang Tersuai"
+  },
+  "fontFamily": {
+    "title": "Gaya Fon",
+    "desc": "Pilih fon yang sesuai dengan keutamaan anda",
+    "tooltip": "Untuk maklumat terperinci mengenai semua fon, lawati laman web Google Fonts.",
+    "tooltipTitle": "Dikuasakan oleh Google Fonts"
+  },
+  "bgImageSelector": {
+    "title": "Imej Latar Belakang",
+    "desc": "Muat naik atau cari imej latar belakang"
+  },
+  "adjustBackground": {
+    "title": "Laraskan Latar Belakang",
+    "desc": "Laraskan kecerahan, kontras, kabur, dan lain-lain imej latar belakang.",
+    "modals": {
+      "adjustBackgroundImage": "Laraskan Imej Latar Belakang"
+    }
+  },
+  "inputs": {
+    "colorHex": "Kod Warna Hex"
+  }
+}

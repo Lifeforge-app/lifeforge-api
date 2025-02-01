@@ -9,12 +9,6 @@
     "allPhotos": "所有照片",
     "viewAllAlbum": "查看所有相簿"
   },
-  "empty": {
-    "trash": {
-      "title": "垃圾桶是空的",
-      "description": "垃圾桶中未找到任何項目。"
-    }
-  },
   "modals": {
     "album": {
       "create": "建立相簿",
@@ -38,6 +32,29 @@
   },
   "items": {
     "photo": "照片",
-    "album": "相簿"
+    "album": "相簿",
+    "tag": "標籤"
+  },
+  "empty": {
+    "trash": {
+      "title": "垃圾桶是空的",
+      "description": "垃圾桶中未找到任何項目。"
+    },
+    "photos": {
+      "title": "沒有照片",
+      "description": "您還沒有添加任何照片。點擊上面的按鈕添加一個。"
+    },
+    "albums": {
+      "title": "沒有相簿",
+      "description": "您還沒有添加任何相簿。點擊上面的按鈕添加一個。"
+    },
+    "photosInAlbum": {
+      "title": "沒有照片",
+      "description": "此相簿中沒有照片。前往主頁面添加一些。"
+    },
+    "albumResults": {
+      "title": "沒有結果",
+      "description": "找不到相簿, 請嘗試其他關鍵字。"
+    }
   }
 }

@@ -1,14 +1,17 @@
 {
-    "title": "樟宜機場",
-    "description": "查看有關樟宜機場的各種信息",
+    "title": "Changi Airport",
+    "description": "View various information about Changi Airport",
     "subsections": {
         "flightStatus": {
-            "title": "航班狀態",
-            "description": "查看樟宜機場到達和離港航班的狀態"
+            "title": "Flight Status",
+            "description": "View the status of arrivals and departures at Changi Airport"
         },
         "airlineInformation": {
-            "title": "航空公司信息",
-            "description": "查看在樟宜機場運營的航空公司的信息"
+            "title": "Airline Information",
+            "description": "View information about airlines operating at Changi Airport"
         }
+    },
+    "items": {
+        "flight": "Flight"
     }
 }

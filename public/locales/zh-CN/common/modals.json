@@ -1,10 +1,10 @@
 {
     "deleteConfirmation": {
-        "title": "您確定要刪除{{itemName}}嗎？",
-        "desc": "這將刪除{{itemName}}及其所有相關內容。此操作不可逆！"
+        "title": "您确定要删除{{itemName}}吗？",
+        "desc": "这将删除{{itemName}}及其所有相关内容。此操作不可逆！"
     },
-    "searchFilters": "搜尋篩選器",
-    "imageSelector": "選擇圖片",
-    "selectAnIcon": "選擇圖示",
-    "imagePreview": "圖片預覽"
+    "searchFilters": "搜索筛选器",
+    "imageSelector": "选择图片",
+    "selectAnIcon": "选择图标",
+    "imagePreview": "图片预览"
 }

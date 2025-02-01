@@ -1,115 +1,165 @@
 {
-  "title": "錢包",
-  "description": "成為您自己的財務超級英雄。",
+  "title": "Wallet",
+  "description": "Become your own financial superhero.",
   "subsections": {
-    "dashboard": "儀表板",
-    "transactions": "交易",
-    "assets": "資產",
-    "ledgers": "帳本",
-    "financialStatements": "財務報表"
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "assets": "Assets",
+    "ledgers": "Ledgers",
+    "financialStatements": "Financial Statements"
   },
   "header": {
-    "allTransactions": "所有交易",
-    "filteredTransactions": "篩選後的交易"
+    "allTransactions": "All Transactions",
+    "filteredTransactions": "Filtered Transactions"
   },
-  "dashboard": {
+  "widgets": {
     "expensesBreakdown": {
-      "desc": "本月支出"
+      "title": "This Month's Expenses Breakdown",
+      "thisMonthsSpending": "This Month's Spending"
+    },
+    "income": {
+      "title": "Income"
+    },
+    "assetsBalance": {
+      "title": "Assets Balance"
+    },
+    "statistics": {
+      "title": "Statistics"
+    },
+    "expenses": {
+      "title": "Expenses"
+    },
+    "recentTransactions": {
+      "title": "Recent Transactions"
+    },
+    "transactionsCount": {
+      "title": "Transactions Count"
     }
   },
-  "transactionCount": "筆交易",
-  "receiptUploadInfo": "僅接受 PDF 和圖片文件",
+  "transactionCount": "Transactions",
+  "receiptUploadInfo": "Only PDF and image files are accepted",
   "empty": {
     "transactions": {
-      "title": "未找到交易",
-      "description": "您尚未進行任何交易。"
+      "title": "No Transactions Found",
+      "description": "You haven't recorded any transactions yet. Click the button above to add one."
+    },
+    "categories": {
+      "title": "No Categories Found",
+      "description": "You haven't created any categories yet. Click the button below to add one."
+    },
+    "results": {
+      "title": "No Results Found",
+      "description": "No transactions found, please try other keywords."
     },
     "assets": {
-      "title": "未找到資產",
-      "description": "您尚未創建任何資產。"
+      "title": "No Assets Found",
+      "description": "You haven't created any assets yet. Click the button above to add one."
     },
     "ledger": {
-      "title": "未找到帳本",
-      "description": "您尚未創建任何帳本。"
+      "title": "No Ledgers Found",
+      "description": "You haven't created any ledgers yet. Click the button above to add one."
     }
   },
   "sidebar": {
-    "allTransactions": "所有交易",
-    "allType": "所有類型",
-    "allLedgers": "所有帳本",
-    "allAssets": "所有資產",
-    "allCategories": "所有類別",
-    "allTypes": "所有類型",
-    "dateRange": "日期範圍",
-    "calendarHeatmap": "日曆熱圖"
+    "allTransactions": "All Transactions",
+    "allType": "All Types",
+    "allLedgers": "All Ledgers",
+    "allAssets": "All Assets",
+    "allCategories": "All Categories",
+    "allTypes": "All Types",
+    "transactionTypes": "Transaction Types",
+    "ledgers": "Ledgers",
+    "assets": "Assets",
+    "categories": "Categories",
+    "dateRange": "Date Range",
+    "calendarHeatmap": "Calendar Heatmap"
   },
   "table": {
-    "date": "日期",
-    "type": "類型",
-    "asset": "資產",
-    "ledger": "帳本",
-    "particulars": "摘要",
-    "category": "類別",
-    "amount": "金額",
-    "receipt": "收據",
-    "location": "地點"
+    "date": "Date",
+    "type": "Type",
+    "asset": "Asset",
+    "ledger": "Ledger",
+    "particulars": "Particulars",
+    "category": "Category",
+    "amount": "Amount",
+    "receipt": "Receipt",
+    "location": "Location"
   },
   "buttons": {
-    "scanReceipt": "掃描收據",
-    "removeReceipt": "移除收據",
-    "uploadReceipt": "上傳收據",
-    "viewTransactions": "查看交易",
-    "hideAmount": "隱藏金額",
-    "showStatement": "查看報表"
+    "scanReceipt": "Scan Receipt",
+    "removeReceipt": "Remove Receipt",
+    "uploadReceipt": "Upload Receipt",
+    "viewTransactions": "View Transactions",
+    "hideAmount": "Hide Amount",
+    "showStatement": "Show Statement",
+    "hideStatement": "Hide Statement",
+    "addManually": "Add Manually",
+    "manageCategories": "Manage Categories"
   },
   "modals": {
     "transactions": {
-      "create": "建立交易",
-      "update": "更新交易"
+      "create": "Create Transaction",
+      "update": "Update Transaction"
     },
     "assets": {
-      "create": "建立資產",
-      "update": "更新資產"
+      "create": "Create Asset",
+      "update": "Update Asset"
     },
     "ledgers": {
-      "create": "建立帳本",
-      "update": "更新帳本"
+      "create": "Create Ledger",
+      "update": "Update Ledger"
     },
     "categories": {
-      "create": "建立類別",
-      "update": "更新類別",
-      "manage": "管理類別"
+      "create": "Create Category",
+      "update": "Update Category",
+      "manage": "Manage Categories"
     },
     "receipts": {
-      "scan": "掃描收據",
-      "view": "查看收據"
+      "scan": "Scan Receipt",
+      "view": "View Receipt"
     }
   },
   "transactionTypes": {
-    "income": "收入",
-    "expenses": "支出",
-    "transfer": "轉帳"
+    "income": "Income",
+    "expenses": "Expenses",
+    "transfer": "Transfer"
   },
   "inputs": {
-    "assetIcon": "資產圖示",
-    "ledgerIcon": "帳本圖示",
-    "date": "日期",
-    "amount": "金額",
-    "transactionType": "交易類型",
-    "asset": "資產",
-    "ledger": "帳本",
-    "category": "類別",
-    "receipt": "收據",
-    "balance": "餘額",
-    "particulars": "摘要",
-    "ledgerColor": "帳本顏色",
-    "assetName": "資產名稱",
-    "ledgerName": "帳本名稱",
-    "categoryType": "類別類型",
-    "initialBalance": "初始餘額",
-    "fromAsset": "轉出資產",
-    "toAsset": "轉入資產",
-    "month": "月份",
-    "year": "年份"
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "assetIcon": "Asset Icon",
+    "ledgerIcon": "Ledger Icon",
+    "date": "Date",
+    "amount": "Amount",
+    "transactionType": "Transaction Type",
+    "location": "Location",
+    "asset": "Asset",
+    "ledger": "Ledger",
+    "category": "Category",
+    "receipt": "Receipt",
+    "balance": "Balance",
+    "particulars": "Particulars",
+    "ledgerColor": "Ledger Color",
+    "assetName": "Asset Name",
+    "ledgerName": "Ledger Name",
+    "categoryName": "Category Name",
+    "categoryIcon": "Category Icon",
+    "categoryColor": "Category Color",
+    "categoryType": "Category Type",
+    "initialBalance": "Initial Balance",
+    "fromAsset": "From Asset",
+    "toAsset": "To Asset",
+    "month": "Month",
+    "year": "Year"
+  },
+  "items": {
+    "transaction": "Transaction",
+    "asset": "Asset",
+    "ledger": "Ledger",
+    "category": "Category",
+    "receipt": "Receipt"
+  },
+  "receipts": {
+    "keepAfterScan": "Keep Receipt After Scan"
   }
 }

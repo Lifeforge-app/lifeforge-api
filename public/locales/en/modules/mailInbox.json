@@ -1,20 +1,33 @@
 {
-  "title": "郵件收件箱",
-  "description": "在一個地方管理您的電子郵件收件箱。",
+  "title": "Mail Inbox",
+  "description": "Manage your email inbox in one place.",
   "sidebar": {
-    "inbox": "收件箱",
-    "starred": "加星",
-    "sent": "已發送",
-    "trash": "垃圾箱",
-    "allMails": "所有郵件",
-    "draft": "草稿"
+    "inbox": "Inbox",
+    "starred": "Starred",
+    "sent": "Sent",
+    "trash": "Trash",
+    "allMails": "All Mails",
+    "draft": "Draft",
+    "labels": "Labels"
   },
   "buttons": {
-    "compose": "撰寫"
+    "compose": "Compose"
   },
   "modals": {
     "mail": {
-      "view": "查看郵件"
+      "view": "View Mail"
     }
+  },
+  "headers": {
+    "inbox": "Inbox",
+    "starred": "Starred",
+    "sent": "Sent",
+    "trash": "Trash",
+    "allMails": "All Mails",
+    "draft": "Draft",
+    "filteredMails": "Filtered Mails"
+  },
+  "items": {
+    "mail": "Mail"
   }
 }

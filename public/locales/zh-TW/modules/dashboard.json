@@ -1,10 +1,6 @@
 {
   "title": "儀表板",
   "description": "您的任務控制中心，讓一切更精彩。",
-  "empty": {
-    "title": "未啟用任何小工具",
-    "description": "您可以從「管理小工具」選單中新增小工具"
-  },
   "widgets": {
     "quickActions": {
       "title": "快捷操作",
@@ -16,11 +12,23 @@
     },
     "todaysEvent": {
       "title": "今日事件",
-      "description": "提醒您今天的活動。"
+      "description": "提醒您今天的活動。",
+      "empty": {
+        "event": {
+          "title": "沒有事件",
+          "description": "您今天沒有任何活動。"
+        }
+      }
     },
     "todoList": {
       "title": "待辦清單",
-      "description": "組織並追蹤您的任務。"
+      "description": "組織並追蹤您的任務。",
+      "empty": {
+        "today": {
+          "title": "今日沒有待辦事項",
+          "description": "您今天沒有任何待辦事項。"
+        }
+      }
     },
     "pomodoroTimer": {
       "title": "番茄鐘計時器",
@@ -28,7 +36,13 @@
     },
     "codeTime": {
       "title": "編碼時間",
-      "description": "追蹤並視覺化您的編碼活動。"
+      "description": "追蹤並視覺化您的編碼活動。",
+      "empty": {
+        "data": {
+          "title": "沒有數據",
+          "description": "沒有找到任何編碼活動。"
+        }
+      }
     },
     "ideaBox": {
       "title": "靈感盒",
@@ -57,7 +71,12 @@
     "musicPlayer": {
       "title": "音樂播放器",
       "description": "播放您的個人音樂。",
-      "noMusicPlaying": "目前沒有播放的音樂"
+      "empty": {
+        "music": {
+          "title": "沒有音樂",
+          "description": "點擊下面的按鈕選擇想要播放的音樂。"
+        }
+      }
     },
     "incomeExpenses": {
       "title": "收入與支出",
@@ -96,5 +115,11 @@
     "unlockLayout": "解鎖佈局",
     "manageWidgets": "管理小工具",
     "lockLayout": "鎖定佈局"
+  },
+  "empty": {
+    "widget": {
+      "title": "未啟用任何小工具",
+      "description": "您可以從「管理小工具」選單中新增小工具"
+    }
   }
 }

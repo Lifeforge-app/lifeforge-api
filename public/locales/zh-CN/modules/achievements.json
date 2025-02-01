@@ -1,27 +1,30 @@
 {
   "title": "成就",
-  "description": "慶祝你的大小勝利。",
+  "description": "庆祝你的大小胜利。",
   "difficulties": {
-    "easy": "簡單",
+    "easy": "简单",
     "medium": "中等",
-    "hard": "困難",
+    "hard": "困难",
     "impossible": "不可能"
   },
   "empty": {
-    "achievements": {
-      "title": "沒有可用的成就",
-      "description": "你還沒有添加任何成就。點擊下面的按鈕添加一個。"
+    "achievement": {
+      "title": "没有成就",
+      "description": "你还没有添加任何成就。点击下面的按钮添加一个。"
     }
   },
   "modals": {
-    "achievements": {
-      "create": "創建成就",
+    "achievement": {
+      "create": "创建成就",
       "update": "更新成就"
     }
   },
   "inputs": {
-    "achievementTitle": "成就標題",
-    "achievementDifficulty": "成就難度",
+    "achievementTitle": "成就标题",
+    "achievementDifficulty": "成就难度",
     "achievementThoughts": "成就想法"
+  },
+  "items": {
+    "achievement": "成就"
   }
 }

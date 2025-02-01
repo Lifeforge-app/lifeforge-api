@@ -1,0 +1,123 @@
+{
+    "title": "Alat Modul",
+    "description": "Urus semua modul dengan mudah",
+    "help": {
+        "usage": "Penggunaan:",
+        "command": "Perintah",
+        "options": "Pilihan",
+        "commandsTitle": "Perintah",
+        "optionsTitle": "Pilihan",
+        "commandDescriptions": {
+            "create": "Buat modul baru",
+            "list": "Senaraikan semua modul dan butirannya",
+            "delete": "Padam modul tertentu",
+            "update": "Kemas kini butiran modul tertentu",
+            "reorder": "Sesuaikan susunan paparan modul dalam bar sisi",
+            "help": "Tunjukkan bantuan"
+        },
+        "optionDescriptions": {
+            "language": "Bahasa yang digunakan, lalai adalah en",
+            "username": "Nama pengguna diperlukan untuk pengesahan, akan diminta jika tidak disediakan",
+            "password": "Kata laluan diperlukan untuk pengesahan, akan diminta jika tidak disediakan"
+        }
+    },
+    "features": {
+        "list": {
+            "summary": {
+                "title": "Ringkasan Senarai Modul",
+                "totalModules": "Jumlah Modul",
+                "togglableModules": "Jumlah Modul Boleh Togol",
+                "deprecatedModules": "Jumlah Modul Usang",
+                "aiEnabledModules": "Jumlah Modul Didayakan AI",
+                "totalCategories": "Jumlah Kategori"
+            },
+            "headers": {
+                "category": "Kategori",
+                "name": "Nama Modul",
+                "icon": "Ikon",
+                "togglable": "Boleh Togol",
+                "routes": "Laluan",
+                "additionalInfo": "Maklumat Tambahan",
+                "descriptions": "Deskripsi Modul"
+            }
+        },
+        "delete": {
+            "beforeProceed": "Sila semak amaran berikut sebelum meneruskan:",
+            "warning": "Amaran Pemadaman Modul",
+            "warnings": {
+                "actionScope": {
+                    "title": "Skop Tindakan",
+                    "desc": "Tindakan ini akan memadamkan kod frontend modul yang dipilih tetapi tidak akan mengeluarkan komponen backend atau pangkalan data yang berkaitan dengan modul tersebut."
+                },
+                "recoverability": {
+                    "title": "Kebolehpulihan",
+                    "desc": "Tindakan ini akan mengeluarkan modul dari kod asas kerja semasa tetapi tidak sepenuhnya tidak dapat dipulihkan. Jika perlu, kod yang dipadamkan masih boleh dipulihkan melalui sejarah Git."
+                },
+                "systemImpact": {
+                    "title": "Kesan Sistem",
+                    "desc": "Memadamkan modul ini mungkin menjejaskan bahagian lain sistem yang bergantung padanya. Sila pastikan semua kebergantungan yang berkaitan telah disemak."
+                },
+                "backupRecommendation": {
+                    "title": "Cadangan Sandaran",
+                    "desc": "Untuk mengelakkan sebarang gangguan, disyorkan untuk komit perubahan semasa dan buat cawangan sandaran sebelum meneruskan."
+                },
+                "userResponsibility": {
+                    "title": "Tanggungjawab Pengguna",
+                    "desc": "Mengesahkan tindakan ini menunjukkan bahawa anda memahami dan menerima semua akibat daripada memadamkan modul ini."
+                },
+                "dependencies": {
+                    "desc": "Sebarang fungsi yang bergantung pada frontend modul ini mungkin gagal, termasuk laluan, komponen UI, atau ciri berkaitan.",
+                    "title": "Kebergantungan"
+                }
+            },
+            "prompts": {
+                "proceedConfirmation": "Adakah anda pasti mahu meneruskan proses pemadaman?",
+                "proceedConfirmation2": "Sila masukkan \"{}\" untuk meneruskan proses pemadaman.",
+                "proceedConfirmation3": "Adakah anda pasti mahu memadam modul \"{}\"?",
+                "selectModule": "Pilih modul untuk dipadam",
+                "finalConfirmation": "Pengesahan Akhir: Adakah anda benar-benar pasti mahu memadam modul ini?",
+                "proceedConfirmation4": "Sila masukkan nama modul \"{}\" untuk mengesahkan pemadaman.",
+                "OTP": "Sila masukkan OTP"
+            },
+            "messages": {
+                "cancelled": "Proses pemadaman telah dibatalkan"
+            }
+        }
+    },
+    "misc": {
+        "yes": "Ya",
+        "no": "Tidak"
+    },
+    "auth": {
+        "messages": {
+            "auth": {
+                "validating": "Mengesahkan identiti...",
+                "success": "Log masuk berjaya",
+                "cancelled": "Pengesahan dibatalkan",
+                "failed": "Pengesahan gagal"
+            },
+            "OTP": {
+                "validating": "Mengesahkan OTP...",
+                "requesting": "Meminta OTP...",
+                "sent": "OTP telah dihantar ke e-mel anda",
+                "invalid": "OTP tidak sah",
+                "valid": "Pengesahan OTP berjaya"
+            }
+        },
+        "prompts": {
+            "username": "Nama Pengguna",
+            "password": "Kata Laluan",
+            "OTP": "Kata Laluan Sekali"
+        },
+        "inputErrors": {
+            "empty": {
+                "username": "Nama pengguna tidak boleh kosong",
+                "password": "Kata laluan tidak boleh kosong",
+                "OTP": "OTP tidak boleh kosong"
+            },
+            "invalid": {
+                "OTP": "Format OTP tidak sah, OTP mesti nombor 6 digit"
+            }
+        }
+    }
+}

@@ -1,4 +1,20 @@
 {
-  "title": "程式時間",
-  "description": "看看你創造了多少程式魔法。"
+  "title": "Code Time",
+  "description": "See how much code magic you have created.",
+  "statisticType": {
+    "mostTimeSpent": "Most Time Spent",
+    "totalTimeSpent": "Total Time Spent",
+    "averageTimeSpent": "Average Time Spent",
+    "longestStreak": "Longest Streak",
+    "currentStreak": "Current Streak"
+  },
+  "headers": {
+    "statistics": "Statistics",
+    "activitiesCalendar": "Activities Calendar",
+    "projects": "Projects",
+    "languages": "Languages"
+  },
+  "labels": {
+    "inThePast": "In the Past"
+  }
 }

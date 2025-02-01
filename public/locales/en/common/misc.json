@@ -1,45 +1,84 @@
 {
-    "search": "搜索{{item}}...",
+    "search": "Search {{item}}...",
     "notFound": {
-        "title": "糟糕！這裡什麼都沒有。",
-        "description": "找不到您正在尋找的頁面。請檢查網址並重試。"
+        "title": "Oops! There's nothing here.",
+        "description": "The page you are looking for cannot be found. Please check the URL and try again."
     },
     "modules": {
-        "localizationManager": "本地化管理器",
-        "documentation": "文檔"
+        "localizationManager": "Localization Manager",
+        "documentation": "Documentation"
     },
-    "tipsAndTricks": "提示與技巧",
-    "loadingModule": "加載模塊中...",
-    "deprecated": "不再支持",
+    "tipsAndTricks": "Tips and Tricks",
+    "loadingModule": "Loading module...",
+    "deprecated": "No longer supported",
     "imageUpload": {
-        "local": "上傳本地圖片",
-        "url": "圖片網址",
-        "pixabay": "從Pixabay下載",
-        "orPasteLink": "或粘貼圖片鏈接",
+        "local": "Upload local image",
+        "url": "Image URL",
+        "pixabay": "Download from Pixabay",
+        "orPasteLink": "Or paste image link",
         "inputs": {
-            "imageType": "圖片類型",
-            "imageColors": "圖片顏色",
-            "editorsChoice": "編輯推薦"
+            "imageLink": "Image link",
+            "imageType": "Image type",
+            "imageCategory": "Image category",
+            "imageColor": "Image color",
+            "editorsChoice": "Editor's choice"
+        },
+        "imageType": {
+            "all": "All",
+            "photo": "Photo",
+            "vector": "Vector",
+            "illustration": "Illustration"
+        },
+        "items": {
+            "pixabay": "Pixabay"
+        },
+        "empty": {
+            "result": {
+                "title": "No results",
+                "description": "No images found, please try other keywords."
+            },
+            "pixabay": {
+                "title": "Provided by Pixabay",
+                "description": "Search over 13 million high-quality free images."
+            }
         }
     },
     "dnd": {
-        "dropHere": "將項目拖放到這裡",
-        "dragAndDropToUpload": "拖放上傳"
+        "dropHere": "Drop items here",
+        "dragAndDropToUpload": "Drag and drop to upload",
+        "or": "or"
     },
     "buttons": {
-        "retry": "重試",
-        "goBack": "返回",
-        "reportBug": "報告錯誤"
+        "goBack": "Go back",
+        "reportBug": "Report bug"
     },
     "colorPicker": {
-        "title": "選擇顏色",
+        "title": "Choose color",
         "modals": {
-            "morandiColorPalette": "莫蘭迪色調",
-            "tailwindCssColorPalette": "Tailwind CSS色調"
+            "morandiColorPalette": "Morandi color palette",
+            "tailwindCssColorPalette": "Tailwind CSS color palette"
         },
         "buttons": {
-            "morandiColorPalette": "莫蘭迪色調",
-            "tailwindCssColorPalette": "Tailwind CSS色調"
+            "morandiColorPalette": "Morandi color palette",
+            "tailwindCssColorPalette": "Tailwind CSS color palette"
+        }
+    },
+    "empty": {
+        "apiStatus": {
+            "title": "Cannot connect to API",
+            "description": "Please check your network connection and try again. If you are a developer, please check if the server is running properly."
+        }
+    },
+    "iconPicker": {
+        "items": {
+            "icon": "Icon",
+            "iconSet": "Icon set"
+        },
+        "empty": {
+            "icon": {
+                "title": "No icons",
+                "description": "No icons found, please try other keywords."
+            }
         }
     }
 }

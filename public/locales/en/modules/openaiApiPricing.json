@@ -1,13 +1,22 @@
 {
-  "title": "OpenAI API 價格",
-  "description": "探索 OpenAI API 各種使用計劃和模型的價格。",
+  "title": "OpenAI API Pricing",
+  "description": "Explore the pricing for various usage plans and models of the OpenAI API.",
   "modals": {
-    "inputRawHtml": "輸入原始 HTML"
+    "inputRawHtml": "Input Raw HTML"
   },
   "buttons": {
-    "inputRawHtml": "輸入原始 HTML"
+    "inputRawHtml": "Input Raw HTML"
   },
   "inputs": {
-    "rawHtml": "原始 HTML"
+    "rawHtml": {
+      "label": "Raw HTML",
+      "placeholder": "Copy and paste the HTML code from https://openai.com/api/pricing/ here"
+    }
+  },
+  "empty": {
+    "data": {
+      "title": "No Data",
+      "description": "Please paste the raw HTML code to view the pricing of the OpenAI API."
+    }
   }
 }

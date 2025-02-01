@@ -1,45 +1,84 @@
 {
     "search": "搜索{{item}}...",
     "notFound": {
-        "title": "糟糕！這裡什麼都沒有。",
-        "description": "找不到您正在尋找的頁面。請檢查網址並重試。"
+        "title": "糟糕！这里什么都没有。",
+        "description": "找不到您正在寻找的页面。请检查网址并重试。"
     },
     "modules": {
         "localizationManager": "本地化管理器",
-        "documentation": "文檔"
+        "documentation": "文档"
     },
-    "tipsAndTricks": "提示與技巧",
-    "loadingModule": "加載模塊中...",
+    "tipsAndTricks": "提示与技巧",
+    "loadingModule": "加载模块中...",
     "deprecated": "不再支持",
     "imageUpload": {
-        "local": "上傳本地圖片",
-        "url": "圖片網址",
-        "pixabay": "從Pixabay下載",
-        "orPasteLink": "或粘貼圖片鏈接",
+        "local": "上传本地图片",
+        "url": "图片网址",
+        "pixabay": "从Pixabay下载",
+        "orPasteLink": "或粘贴图片链接",
         "inputs": {
-            "imageType": "圖片類型",
-            "imageColors": "圖片顏色",
-            "editorsChoice": "編輯推薦"
+            "imageLink": "图片链接",
+            "imageType": "图片类型",
+            "imageCategory": "图片类别",
+            "imageColor": "图片颜色",
+            "editorsChoice": "编辑推荐"
+        },
+        "imageType": {
+            "all": "所有",
+            "photo": "照片",
+            "vector": "矢量",
+            "illustration": "插图"
+        },
+        "items": {
+            "pixabay": "Pixabay"
+        },
+        "empty": {
+            "result": {
+                "title": "没有结果",
+                "description": "找不到图片, 请尝试其他关键字。"
+            },
+            "pixabay": {
+                "title": "由 Pixabay 提供",
+                "description": "搜索超过1300万张免费高质量图片。"
+            }
         }
     },
     "dnd": {
-        "dropHere": "將項目拖放到這裡",
-        "dragAndDropToUpload": "拖放上傳"
+        "dropHere": "将项目拖放到这里",
+        "dragAndDropToUpload": "拖放上传",
+        "or": "或"
     },
     "buttons": {
-        "retry": "重試",
         "goBack": "返回",
-        "reportBug": "報告錯誤"
+        "reportBug": "报告错误"
     },
     "colorPicker": {
-        "title": "選擇顏色",
+        "title": "选择颜色",
         "modals": {
-            "morandiColorPalette": "莫蘭迪色調",
-            "tailwindCssColorPalette": "Tailwind CSS色調"
+            "morandiColorPalette": "莫兰迪色调",
+            "tailwindCssColorPalette": "Tailwind CSS色调"
         },
         "buttons": {
-            "morandiColorPalette": "莫蘭迪色調",
-            "tailwindCssColorPalette": "Tailwind CSS色調"
+            "morandiColorPalette": "莫兰迪色调",
+            "tailwindCssColorPalette": "Tailwind CSS色调"
+        }
+    },
+    "empty": {
+        "apiStatus": {
+            "title": "无法连接到API",
+            "description": "请检查您的网络连接并重试。如果您是开发人员，请检查服务器是否正常运行。"
+        }
+    },
+    "iconPicker": {
+        "items": {
+            "icon": "图标",
+            "iconSet": "图标集"
+        },
+        "empty": {
+            "icon": {
+                "title": "没有图标",
+                "description": "找不到图标, 请尝试其他关键字。"
+            }
         }
     }
 }

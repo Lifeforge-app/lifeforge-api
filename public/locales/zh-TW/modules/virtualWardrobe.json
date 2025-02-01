@@ -46,5 +46,23 @@
     "uploadPhotos": "上傳照片",
     "basicInfo": "基本信息",
     "appearanceAndDetails": "外觀和細節"
+  },
+  "empty": {
+    "clothes": {
+      "title": "沒有衣服",
+      "description": "您還沒有添加任何衣服。點擊下面的按鈕添加一個。"
+    },
+    "outfits": {
+      "title": "沒有套裝",
+      "description": "您還沒有添加任何套裝。點擊下面的按鈕添加一個。"
+    },
+    "results": {
+      "title": "沒有結果",
+      "description": "找不到項目, 請嘗試其他關鍵字。"
+    },
+    "sessionCart": {
+      "title": "購物車為空",
+      "description": "您的購物車目前是空的。請添加一些項目。"
+    }
   }
 }

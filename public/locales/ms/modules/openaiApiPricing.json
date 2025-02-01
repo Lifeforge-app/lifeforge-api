@@ -1,0 +1,22 @@
+{
+  "title": "Harga API OpenAI",
+  "description": "Terokai harga untuk pelbagai pelan penggunaan dan model API OpenAI.",
+  "modals": {
+    "inputRawHtml": "Masukkan HTML Mentah"
+  },
+  "buttons": {
+    "inputRawHtml": "Masukkan HTML Mentah"
+  },
+  "inputs": {
+    "rawHtml": {
+      "label": "HTML Mentah",
+      "placeholder": "Salin dan tampal kod HTML dari https://openai.com/api/pricing/ di sini"
+    }
+  },
+  "empty": {
+    "data": {
+      "title": "Tiada Data",
+      "description": "Sila tampal kod HTML mentah untuk melihat harga API OpenAI."
+    }
+  }
+}

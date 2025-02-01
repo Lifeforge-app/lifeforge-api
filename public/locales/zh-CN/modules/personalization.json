@@ -1,67 +1,70 @@
 {
-  "title": "個性化",
-  "description": "讓它成為你的！誰想要一個無聊的組織者？",
+  "title": "个性化",
+  "description": "让它成为你的！谁想要一个无聊的组织者？",
   "themeSelector": {
-    "title": "主題",
-    "desc": "選擇一個適合你風格的主題。",
+    "title": "主题",
+    "desc": "选择一个适合你风格的主题。",
     "theme": {
-      "system": "系統",
-      "light": "淺色",
+      "system": "系统",
+      "light": "浅色",
       "dark": "深色"
     },
-    "customBgColor": "自定義背景顏色"
+    "customBgColor": "自定义背景颜色"
   },
   "themeColorSelector": {
-    "title": "主題顏色",
-    "desc": "選擇最適合你界面的顏色。",
+    "title": "主题颜色",
+    "desc": "选择最适合你界面的颜色。",
     "colors": {
-      "red": "紅色",
-      "pink": "粉紅色",
+      "red": "红色",
+      "pink": "粉红色",
       "purple": "紫色",
       "deepPurple": "深紫色",
-      "indigo": "靛藍色",
-      "blue": "藍色",
-      "lightBlue": "淺藍色",
+      "indigo": "靛蓝色",
+      "blue": "蓝色",
+      "lightBlue": "浅蓝色",
       "cyan": "青色",
-      "teal": "藍綠色",
-      "green": "綠色",
-      "lightGreen": "淺綠色",
-      "lime": "萊姆色",
-      "yellow": "黃色",
+      "teal": "蓝绿色",
+      "green": "绿色",
+      "lightGreen": "浅绿色",
+      "lime": "莱姆色",
+      "yellow": "黄色",
       "amber": "琥珀色",
       "orange": "橙色",
       "deepOrange": "深橙色",
       "brown": "棕色",
       "grey": "灰色",
-      "custom": "自定義顏色"
+      "custom": "自定义颜色"
     }
   },
   "languageSelector": {
-    "title": "語言",
-    "desc": "選擇你喜歡的語言。"
+    "title": "语言",
+    "desc": "选择你喜欢的语言。"
   },
   "bgTempSelector": {
-    "title": "背景溫度",
-    "desc": "選擇一個適合你心情的背景溫度。",
+    "title": "背景温度",
+    "desc": "选择一个适合你心情的背景温度。",
     "cool": "冷色",
     "warm": "暖色",
-    "customBgTemp": "自定義背景溫度"
+    "customBgTemp": "自定义背景温度"
   },
   "fontFamily": {
-    "title": "字體樣式",
-    "desc": "選擇一個符合你偏好的字體",
-    "tooltip": "有關所有字體的詳細信息，請訪問Google字體網站。",
-    "tooltipTitle": "由Google字體提供支持"
+    "title": "字体样式",
+    "desc": "选择一个符合你偏好的字体",
+    "tooltip": "有关所有字体的详细信息，请访问Google字体网站。",
+    "tooltipTitle": "由Google字体提供支持"
   },
   "bgImageSelector": {
-    "title": "背景圖片",
-    "desc": "上傳或搜索系統的背景圖片"
+    "title": "背景图片",
+    "desc": "上传或搜索系统的背景图片"
   },
   "adjustBackground": {
-    "title": "調整背景",
-    "desc": "調整背景圖片的亮度、對比度、模糊等。",
+    "title": "调整背景",
+    "desc": "调整背景图片的亮度、对比度、模糊等。",
     "modals": {
-      "adjustBackgroundImage": "調整背景圖片"
+      "adjustBackgroundImage": "调整背景图片"
     }
+  },
+  "inputs": {
+    "colorHex": "颜色十六进制"
   }
 }

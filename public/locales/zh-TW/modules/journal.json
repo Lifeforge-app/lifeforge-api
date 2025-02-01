@@ -4,10 +4,6 @@
   "lockedMessage": "日記已鎖定",
   "passwordRequired": "需要密碼才能解密你的日記條目",
   "failedToUnlock": "日記解鎖失敗",
-  "empty": {
-    "title": "沒有日記條目",
-    "description": "還沒有日記條目。開始寫下你的第一篇日記吧。"
-  },
   "modals": {
     "journal": {
       "create": "創建日記條目",
@@ -21,6 +17,12 @@
     "journalTitle": "日記標題"
   },
   "items": {
-    "entrya": "日記"
+    "entry": "日記"
+  },
+  "empty": {
+    "entry": {
+      "title": "沒有日記條目",
+      "description": "您還沒有添加任何日記條目。點擊下面的按鈕添加一個。"
+    }
   }
 }

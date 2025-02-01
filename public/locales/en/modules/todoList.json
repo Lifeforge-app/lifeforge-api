@@ -1,58 +1,81 @@
 {
-  "title": "待辦清單",
-  "description": "再也不會忘記待辦事項（除了可能是洗衣服）。",
+  "title": "To-Do List",
+  "description": "Never forget your tasks again (except maybe laundry).",
   "header": {
-    "allTasks": "所有任務",
-    "todaysTasks": "今天的任務",
-    "scheduledTasks": "已排程的任務",
-    "overdueTasks": "逾期的任務",
-    "completedTasks": "已完成的任務",
-    "filteredTasks": "已篩選的任務"
-  },
-  "empty": {
-    "todaysTask": {
-      "title": "今天沒有任務",
-      "desc": "今天的任務是空的。添加一個新任務開始吧！"
-    }
+    "allTasks": "All Tasks",
+    "todaysTasks": "Today's Tasks",
+    "scheduledTasks": "Scheduled Tasks",
+    "overdueTasks": "Overdue Tasks",
+    "completedTasks": "Completed Tasks",
+    "filteredTasks": "Filtered Tasks"
   },
   "sidebar": {
-    "all": "所有任務",
-    "today": "今天的任務",
-    "completed": "已完成",
-    "scheduled": "已排程",
-    "overdue": "逾期",
-    "tasks": "任務",
-    "lists": "清單",
-    "tags": "標籤"
+    "all": "All Tasks",
+    "today": "Today's Tasks",
+    "completed": "Completed",
+    "scheduled": "Scheduled",
+    "overdue": "Overdue",
+    "tasks": "Tasks",
+    "lists": "Lists",
+    "tags": "Tags",
+    "priorities": "Priorities"
+  },
+  "headers": {
+    "allTasks": "All Tasks",
+    "todaysTasks": "Today's Tasks",
+    "scheduledTasks": "Scheduled Tasks",
+    "overdueTasks": "Overdue Tasks",
+    "completedTasks": "Completed Tasks",
+    "filteredTasks": "Filtered Tasks"
   },
   "modals": {
     "tasks": {
-      "create": "創建任務",
-      "update": "更新任務"
+      "create": "Create Task",
+      "update": "Update Task"
     },
     "list": {
-      "create": "創建清單",
-      "update": "更新清單"
+      "create": "Create List",
+      "update": "Update List"
     },
     "tag": {
-      "create": "創建標籤",
-      "update": "更新標籤"
+      "create": "Create Tag",
+      "update": "Update Tag"
     },
     "priority": {
-      "create": "創建優先級",
-      "update": "更新優先級"
+      "create": "Create Priority",
+      "update": "Update Priority"
     }
   },
   "inputs": {
-    "dueDate": "截止日期",
-    "notes": "備註",
-    "priority": "優先級",
-    "tags": "標籤",
-    "lists": "清單",
-    "subtasks": "子任務",
-    "summary": "摘要",
-    "priorityName": "優先級名稱",
-    "priorityIcon": "優先級圖標",
-    "priorityColor": "優先級顏色"
+    "dueDate": "Due Date",
+    "notes": "Notes",
+    "priority": "Priority",
+    "tags": "Tags",
+    "list": "List",
+    "subtasks": "Subtasks",
+    "summary": "Summary",
+    "priorityName": "Priority Name",
+    "priorityIcon": "Priority Icon",
+    "priorityColor": "Priority Color",
+    "listName": "List Name",
+    "listIcon": "List Icon",
+    "listColor": "List Color",
+    "tagName": "Tag Name"
+  },
+  "items": {
+    "task": "Task"
+  },
+  "empty": {
+    "todaysTask": {
+      "title": "No Tasks for Today",
+      "description": "Today's task list is empty. Add a new task to get started!"
+    },
+    "tasks": {
+      "title": "No Tasks Available",
+      "description": "No tasks available. Add a new task to get started!"
+    },
+    "lists": "No Lists Available",
+    "tags": "No Tags Available",
+    "priorities": "No Priorities Available"
   }
 }

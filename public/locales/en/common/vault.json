@@ -1,34 +1,40 @@
 {
     "vault": {
-        "lockedMessage": "您的保險庫已鎖定",
-        "passwordRequired": "需要主密碼來解密您的密碼。",
-        "unlocked": "保險庫已解鎖",
-        "failedToUnlock": "解鎖保險庫失敗",
+        "lockedMessage": "Your vault is locked",
+        "passwordRequired": "Master password is required to decrypt your vault.",
+        "unlocked": "Vault is unlocked",
+        "failedToUnlock": "Failed to unlock vault",
         "buttons": {
-            "unlock": "解鎖"
+            "unlock": "Unlock"
+        },
+        "createPassword": {
+            "title": "Set Master Password",
+            "desc": "Please set a master password to protect your vault."
         },
         "inputs": {
-            "newPassword": "新密碼",
-            "confirmPassword": "確認密碼",
-            "masterPassword": "主密碼"
+            "newPassword": "New Password",
+            "confirmPassword": "Confirm Password",
+            "masterPassword": "Master Password"
         }
     },
     "otp": {
         "buttons": {
-            "request": "請求一次性密碼",
-            "resend": "重新發送一次性密碼",
-            "verify": "驗證一次性密碼"
+            "request": "Request OTP",
+            "resend": "Resend OTP",
+            "verify": "Verify OTP"
         },
-        "message": {
-            "success": "一次性密碼已發送！請檢查您的電子郵件。",
-            "failed": "請求一次性密碼失敗",
+        "messages": {
+            "success": "OTP sent! Please check your email.",
+            "failed": "Failed to request OTP",
+            "invalid": "OTP must be a 6-digit number",
+            "cooldown": "Request too frequent, please try again later",
             "required": {
-                "title": "需要一次性密碼來解鎖",
-                "desc": "為了增加安全性，需要一次性密碼來解鎖此模塊。請點擊下面的按鈕來請求一次性密碼。"
+                "title": "OTP Required to Unlock",
+                "desc": "For added security, an OTP is required to unlock this module. Please click the button below to request an OTP."
             },
             "verify": {
-                "success": "一次性密碼驗證成功",
-                "failed": "一次性密碼驗證失敗"
+                "success": "OTP verification successful",
+                "failed": "OTP verification failed"
             }
         }
     }

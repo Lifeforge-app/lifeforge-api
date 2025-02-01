@@ -9,12 +9,6 @@
     "completedTasks": "已完成的任務",
     "filteredTasks": "已篩選的任務"
   },
-  "empty": {
-    "todaysTask": {
-      "title": "今天沒有任務",
-      "desc": "今天的任務是空的。添加一個新任務開始吧！"
-    }
-  },
   "sidebar": {
     "all": "所有任務",
     "today": "今天的任務",
@@ -62,9 +56,26 @@
     "summary": "摘要",
     "priorityName": "優先級名稱",
     "priorityIcon": "優先級圖標",
-    "priorityColor": "優先級顏色"
+    "priorityColor": "優先級顏色",
+    "listName": "清單名稱",
+    "listIcon": "清單圖標",
+    "listColor": "清單顏色",
+    "tagName": "標籤名稱"
   },
   "items": {
     "task": "任務"
+  },
+  "empty": {
+    "todaysTask": {
+      "title": "今天沒有任務",
+      "description": "今天的任務是空的。添加一個新任務開始吧！"
+    },
+    "tasks": {
+      "title": "目前沒有任務",
+      "description": "沒有可用的任務。添加一個新任務來開始吧！"
+    },
+    "lists": "目前沒有清單",
+    "tags": "目前沒有標籤",
+    "priorities": "目前沒有優先級"
   }
 }

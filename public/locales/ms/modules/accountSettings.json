@@ -1,0 +1,46 @@
+{
+  "title": "Tetapan Akaun",
+  "description": "Tempat untuk mengurus semua butiran akaun anda",
+  "settings": {
+    "title": {
+      "profilePicture": "Gambar Profil",
+      "username": "Nama Pengguna",
+      "displayName": "Nama Paparan",
+      "email": "Alamat Emel",
+      "password": "Kata Laluan",
+      "dateOfBirth": "Tarikh Lahir"
+    },
+    "desc": {
+      "profilePicture": "Muat naik gambar profil untuk memperibadikan akaun anda.",
+      "username": "Nama yang mengenal pasti anda di platform.",
+      "displayName": "Nama yang dipaparkan kepada pengguna lain.",
+      "email": "Alamat emel yang anda gunakan untuk log masuk ke akaun anda.",
+      "password": "Tetapkan kata laluan yang kuat untuk melindungi akaun anda.",
+      "dateOfBirth": "Tetapkan tarikh lahir anda, dan kami akan memberi anda kejutan!"
+    },
+    "empty": "Tidak Ditentukan"
+  },
+  "modals": {
+    "username": {
+      "update": "Kemas Kini Nama Pengguna"
+    },
+    "email": {
+      "update": "Kemas Kini Emel"
+    },
+    "displayName": {
+      "update": "Kemas Kini Nama Paparan"
+    },
+    "dateOfBirth": {
+      "update": "Kemas Kini Tarikh Lahir"
+    }
+  },
+  "buttons": {
+    "changePassword": "Tukar Kata Laluan"
+  },
+  "inputs": {
+    "dateOfBirth": "Tarikh Lahir",
+    "username": "Nama Pengguna",
+    "displayname": "Nama Paparan",
+    "email": "Alamat Emel"
+  }
+}

@@ -1,14 +1,17 @@
 {
-    "title": "樟宜機場",
-    "description": "查看有關樟宜機場的各種信息",
+    "title": "樟宜机场",
+    "description": "查看有关樟宜机场的各种信息",
     "subsections": {
         "flightStatus": {
-            "title": "航班狀態",
-            "description": "查看樟宜機場到達和離港航班的狀態"
+            "title": "航班状态",
+            "description": "查看樟宜机场到达和离港航班的状态"
         },
         "airlineInformation": {
             "title": "航空公司信息",
-            "description": "查看在樟宜機場運營的航空公司的信息"
+            "description": "查看在樟宜机场运营的航空公司的信息"
         }
+    },
+    "items": {
+        "flight": "航班"
     }
 }

@@ -1,0 +1,33 @@
+{
+  "title": "Peti Mel",
+  "description": "Urus peti mel anda di satu tempat.",
+  "sidebar": {
+    "inbox": "Peti Masuk",
+    "starred": "Berbintang",
+    "sent": "Dihantar",
+    "trash": "Sampah",
+    "allMails": "Semua Mel",
+    "draft": "Draf",
+    "labels": "Label"
+  },
+  "buttons": {
+    "compose": "Tulis"
+  },
+  "modals": {
+    "mail": {
+      "view": "Lihat Mel"
+    }
+  },
+  "headers": {
+    "inbox": "Peti Masuk",
+    "starred": "Berbintang",
+    "sent": "Dihantar",
+    "trash": "Sampah",
+    "allMails": "Semua Mel",
+    "draft": "Draf",
+    "filteredMails": "Mel Ditapis"
+  },
+  "items": {
+    "mail": "Mel"
+  }
+}

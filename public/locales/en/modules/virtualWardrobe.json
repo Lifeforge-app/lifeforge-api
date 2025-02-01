@@ -1,39 +1,68 @@
 {
-  "title": "虛擬衣櫥",
-  "description": "創建和管理個人造型的數字化服裝和配飾收藏。",
+  "title": "Virtual Wardrobe",
+  "description": "Create and manage a digital collection of personal styles, clothing, and accessories.",
   "subsections": {
-    "virtualWardrobeClothes": "衣服",
-    "virtualWardrobeOutfits": "套裝"
+    "virtualWardrobeClothes": "Clothes",
+    "virtualWardrobeOutfits": "Outfits"
   },
   "sidebar": {
-    "allClothes": "所有衣服",
-    "favourites": "最愛衣服",
-    "categories": "類別",
-    "subcategories": "子類別",
-    "sizes": "尺寸",
-    "colors": "顏色",
-    "brands": "品牌",
-    "labels": "標籤"
+    "allClothes": "All Clothes",
+    "favourites": "Favourite Clothes",
+    "categories": "Categories",
+    "subcategories": "Subcategories",
+    "sizes": "Sizes",
+    "colors": "Colors",
+    "brands": "Brands",
+    "labels": "Labels"
   },
   "modals": {
     "item": {
-      "create": "創建項目",
-      "update": "更新項目"
+      "create": "Create Item",
+      "update": "Update Item"
     },
-    "sessionCart": "會話購物車"
+    "sessionCart": "Session Cart"
   },
   "buttons": {
-    "addToCart": "加入購物車",
-    "removeFromCart": "從購物車移除",
-    "checkout": "結帳"
+    "addToCart": "Add to Cart",
+    "removeFromCart": "Remove from Cart",
+    "checkout": "Checkout"
   },
   "inputs": {
-    "itemName": "項目名稱",
-    "brand": "品牌",
-    "color": "顏色",
-    "size": "尺寸",
-    "price": "價格",
-    "frontImage": "正面圖片",
-    "backImage": "背面圖片"
+    "itemName": "Item Name",
+    "brand": "Brand",
+    "color": "Color",
+    "size": "Size",
+    "price": "Price",
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "frontImage": "Front Image",
+    "backImage": "Back Image"
+  },
+  "items": {
+    "clothes": "Clothes",
+    "outfit": "Outfit"
+  },
+  "steps": {
+    "uploadPhotos": "Upload Photos",
+    "basicInfo": "Basic Info",
+    "appearanceAndDetails": "Appearance and Details"
+  },
+  "empty": {
+    "clothes": {
+      "title": "No Clothes",
+      "description": "You haven't added any clothes yet. Click the button below to add one."
+    },
+    "outfits": {
+      "title": "No Outfits",
+      "description": "You haven't added any outfits yet. Click the button below to add one."
+    },
+    "results": {
+      "title": "No Results",
+      "description": "No items found, please try different keywords."
+    },
+    "sessionCart": {
+      "title": "Cart is Empty",
+      "description": "Your cart is currently empty. Please add some items."
+    }
   }
 }

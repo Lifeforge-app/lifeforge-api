@@ -8,9 +8,25 @@
     "folder": "資料夾"
   },
   "empty": {
-    "ideaBox": {
-      "title": "未找到創意盒",
-      "description": "目前沒有可用的創意盒。點擊下方按鈕創建一個。"
+    "container": {
+      "title": "沒有創意盒",
+      "description": "您還沒有創建任何創意盒。點擊下面的按鈕創建一個。"
+    },
+    "folder": {
+      "title": "沒有資料夾",
+      "description": "您還沒有創建任何資料夾。點擊下面的按鈕創建一個。"
+    },
+    "idea": {
+      "title": "沒有創意",
+      "description": "您還沒有添加任何創意。點擊下面的按鈕添加一個。"
+    },
+    "archived": {
+      "title": "沒有已歸檔的創意",
+      "description": "您還沒有歸檔任何創意。"
+    },
+    "result": {
+      "title": "沒有結果",
+      "description": "找不到與您的搜索條件匹配的創意。"
     }
   },
   "modals": {
@@ -21,6 +37,14 @@
     "folder": {
       "create": "創建資料夾",
       "update": "更新資料夾"
+    },
+    "tag": {
+      "create": "創建標籤",
+      "update": "更新標籤"
+    },
+    "idea": {
+      "create": "新增",
+      "update": "編輯"
     }
   },
   "buttons": {
@@ -39,6 +63,7 @@
     "ideaTags": "創意標籤",
     "ideaContent": "創意內容",
     "ideaLink": "創意連結",
+    "tagName": "標籤名稱",
     "tagIcon": "標籤圖示",
     "tagColor": "標籤顏色",
     "containerColor": "創意盒顏色",

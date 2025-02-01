@@ -1,0 +1,13 @@
+{
+  "title": "Log Perubahan",
+  "description": "Menjejaki kemajuan pembangunan satu perubahan pada satu masa.",
+  "items": {
+    "feature": "Ciri"
+  },
+  "empty": {
+    "result": {
+      "title": "Tiada Keputusan",
+      "description": "Tiada item ditemui, sila cuba kata kunci lain."
+    }
+  }
+}
