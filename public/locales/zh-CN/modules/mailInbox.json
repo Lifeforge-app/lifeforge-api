@@ -29,5 +29,35 @@
   },
   "items": {
     "mail": "邮件"
+  },
+  "empty": {
+    "inbox": {
+      "title": "没有邮件",
+      "description": "您的收件箱中没有邮件。"
+    },
+    "starred": {
+      "title": "没有加星邮件",
+      "description": "您没有加星邮件。"
+    },
+    "sent": {
+      "title": "没有已发送邮件",
+      "description": "您没有已发送邮件。"
+    },
+    "trash": {
+      "title": "没有已删除邮件",
+      "description": "您没有已删除邮件。"
+    },
+    "allMails": {
+      "title": "没有邮件",
+      "description": "您没有邮件。"
+    },
+    "draft": {
+      "title": "没有草稿邮件",
+      "description": "您没有草稿邮件。"
+    },
+    "filteredMails": {
+      "title": "没有邮件",
+      "description": "您没有邮件。"
+    }
   }
 }

@@ -30,7 +30,8 @@ const IMailInboxAttachmentSchema = s.assign(
 const IMailInboxEntrySchema = s.assign(
   BasePBCollectionSchema,
   s.object({
-    uid: s.string(),
+    uid: s.number(),
+    messageId: s.string(),
     subject: s.string(),
     date: s.string(),
     text: s.string(),
@@ -61,6 +62,8 @@ const IMailInboxEntrySchema = s.assign(
       ),
       s.string(),
     ]),
+    labels: s.array(s.string()),
+    box: s.string(),
     attachments: s.union([
       s.array(
         s.object({

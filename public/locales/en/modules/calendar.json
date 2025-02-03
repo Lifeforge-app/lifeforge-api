@@ -24,7 +24,10 @@
     "startTime": "Start Time",
     "endTime": "End Time",
     "eventCategory": "Event Category",
-    "eventTitle": "Event Title"
+    "eventTitle": "Event Title",
+    "categoryName": "Category Name",
+    "categoryColor": "Category Color",
+    "categoryIcon": "Category Icon"
   },
   "items": {
     "event": "Event",

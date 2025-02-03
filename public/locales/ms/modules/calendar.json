@@ -24,7 +24,10 @@
     "startTime": "Masa Mula",
     "endTime": "Masa Tamat",
     "eventCategory": "Kategori Acara",
-    "eventTitle": "Tajuk Acara"
+    "eventTitle": "Tajuk Acara",
+    "categoryName": "Nama Kategori",
+    "categoryColor": "Warna Kategori",
+    "categoryIcon": "Ikon Kategori"
   },
   "items": {
     "event": "Acara",
