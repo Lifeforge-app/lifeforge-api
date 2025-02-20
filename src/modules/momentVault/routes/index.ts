@@ -10,9 +10,9 @@ import ffmpeg from "fluent-ffmpeg";
 
 const router = express.Router();
 
-async function convertToWebm(filePath: string) {
+async function convertToMp3(filePath: string) {
   return new Promise<string>((resolve, reject) => {
-    const newPath = filePath.split(".").slice(0, -1).join(".") + ".webm";
+    const newPath = filePath.split(".").slice(0, -1).join(".") + ".mp3";
     ffmpeg(filePath)
       .output(newPath)
       .on("end", () => {
@@ -58,9 +58,9 @@ router.post(
         return;
       }
 
-      if (file.mimetype !== "audio/webm") {
+      if (file.mimetype !== "audio/mp3") {
         process.env.FFMPEG_PATH = "/usr/bin/ffmpeg";
-        file.path = await convertToWebm(file.path);
+        file.path = await convertToMp3(file.path);
       }
 
       const fileBuffer = fs.readFileSync(file.path);
@@ -95,9 +95,9 @@ router.post(
       return;
     }
 
-    if (file.mimetype !== "audio/webm") {
+    if (file.mimetype !== "audio/mp3") {
       process.env.FFMPEG_PATH = "/usr/bin/ffmpeg";
-      file.path = await convertToWebm(file.path);
+      file.path = await convertToMp3(file.path);
     }
 
     const apiKey = await getAPIKey("openai", req.pb);
