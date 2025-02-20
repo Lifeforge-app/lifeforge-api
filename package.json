@@ -4,6 +4,7 @@
     "@imgly/background-removal-node": "^1.4.5",
     "@netlify/functions": "^2.8.2",
     "@passwordless-id/webauthn": "^1.6.2",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/mailparser": "^3.4.5",
     "@types/pdfkit": "^0.13.5",
     "aewx-metar-parser": "^1.0.0",

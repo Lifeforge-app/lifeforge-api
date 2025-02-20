@@ -6,8 +6,25 @@ import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import { BaseResponse } from "../../../interfaces/base_response";
 import fs from "fs";
 import { IMomentVaultEntry } from "../../../interfaces/moment_vault_interfaces";
+import ffmpeg from "fluent-ffmpeg";
 
 const router = express.Router();
+
+async function convertToWebm(filePath: string) {
+  return new Promise<string>((resolve, reject) => {
+    const newPath = filePath.split(".").slice(0, -1).join(".") + ".webm";
+    ffmpeg(filePath)
+      .output(newPath)
+      .on("end", () => {
+        fs.unlinkSync(filePath);
+        resolve(newPath);
+      })
+      .on("error", (err) => {
+        reject(err);
+      })
+      .run();
+  });
+}
 
 router.get(
   "/entries",
@@ -18,13 +35,9 @@ router.get(
       .collection("moment_vault_entries")
       .getFullList<IMomentVaultEntry>();
 
-    const token = await pb.files.getToken();
-
     entries.forEach((entry) => {
       if (entry.file)
-        entry.file = pb.files
-          .getURL(entry, entry.file, { token })
-          .split("/files/")[1];
+        entry.file = pb.files.getURL(entry, entry.file).split("/files/")[1];
     });
 
     successWithBaseResponse(res, entries);
@@ -45,6 +58,11 @@ router.post(
         return;
       }
 
+      if (file.mimetype !== "audio/webm") {
+        process.env.FFMPEG_PATH = "/usr/bin/ffmpeg";
+        file.path = await convertToWebm(file.path);
+      }
+
       const fileBuffer = fs.readFileSync(file.path);
       const { transcription } = req.body;
 
@@ -57,12 +75,10 @@ router.post(
         });
 
       if (entry.file) {
-        const token = await pb.files.getToken();
-
-        entry.file = pb.files
-          .getURL(entry, entry.file, { token })
-          .split("/files/")[1];
+        entry.file = pb.files.getURL(entry, entry.file).split("/files/")[1];
       }
+
+      fs.unlinkSync(file.path);
 
       successWithBaseResponse(res, entry, 201);
     }
@@ -77,6 +93,11 @@ router.post(
     if (!file) {
       clientError(res, "No file uploaded");
       return;
+    }
+
+    if (file.mimetype !== "audio/webm") {
+      process.env.FFMPEG_PATH = "/usr/bin/ffmpeg";
+      file.path = await convertToWebm(file.path);
     }
 
     const apiKey = await getAPIKey("openai", req.pb);
