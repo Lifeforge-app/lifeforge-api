@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Pocketbase from "pocketbase";
 
+if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
+  throw new Error("Pocketbase environment variables not set");
+}
+
 const NO_NEED_AUTH = [
   "/status",
   "/user/passkey",
@@ -33,6 +37,14 @@ const pocketbaseMiddleware = async (
 ) => {
   const bearerToken = req.headers.authorization?.split(" ")[1];
   const pb = new Pocketbase(process.env.PB_HOST);
+
+  if (process.env.NODE_ENV === "test") {
+    req.pb = new Pocketbase(process.env.PB_HOST);
+    await req.pb
+      .collection("users")
+      .authWithPassword(process.env.PB_EMAIL!, process.env.PB_PASSWORD!);
+    return next();
+  }
 
   if (!bearerToken || req.url.startsWith("/user/auth")) {
     if (

@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { clientError } from "./response.js";
+import { clientError } from "./response";
 import { Request, Response } from "express";
 
 export default function hasError(req: Request, res: Response) {

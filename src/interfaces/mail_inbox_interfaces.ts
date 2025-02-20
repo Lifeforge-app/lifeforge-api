@@ -1,5 +1,5 @@
 import * as s from "superstruct";
-import { BasePBCollectionSchema } from "./pocketbase_interfaces.js";
+import { BasePBCollectionSchema } from "./pocketbase_interfaces";
 
 const IMailInboxLabelSchema = s.assign(
   BasePBCollectionSchema,

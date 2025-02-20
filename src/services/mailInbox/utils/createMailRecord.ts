@@ -9,7 +9,7 @@ import {
 import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
 import Pocketbase from "pocketbase";
-import { IMailInboxLabel } from "../../../interfaces/mail_inbox_interfaces.js";
+import { IMailInboxLabel } from "../../../interfaces/mail_inbox_interfaces";
 
 function getFullPath(
   record: { name: string; parent: string; id: string },

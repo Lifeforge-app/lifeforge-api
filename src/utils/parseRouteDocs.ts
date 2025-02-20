@@ -1,4 +1,4 @@
-import { IRouteDocs } from "../interfaces/api_routes_interfaces.js";
+import { IRouteDocs } from "../interfaces/api_routes_interfaces";
 
 export default function parseRouteDocs(raw: string): IRouteDocs {
   const docs: IRouteDocs = {
