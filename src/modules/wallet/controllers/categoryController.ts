@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import { IWalletCategory } from "../../../interfaces/wallet_interfaces";
@@ -12,6 +12,11 @@ export const getAllCategories = async (
   const { pb } = req;
 
   const categories = await CategoriesService.getAllCategories(pb);
+
+  if (!categories) {
+    serverError(res, "Failed to fetch categories");
+    return;
+  }
 
   successWithBaseResponse(res, categories);
 };
@@ -29,6 +34,11 @@ export const createCategory = async (
     color,
     type,
   });
+
+  if (!category) {
+    serverError(res, "Failed to create category");
+    return;
+  }
 
   successWithBaseResponse(res, category, 201);
 };
@@ -50,6 +60,11 @@ export const updateCategory = async (
     type,
   });
 
+  if (!category) {
+    serverError(res, "Failed to update category");
+    return;
+  }
+
   successWithBaseResponse(res, category);
 };
 
@@ -62,7 +77,12 @@ export const deleteCategory = async (
 
   if (!(await checkExistence(req, res, "wallet_categories", id))) return;
 
-  await CategoriesService.deleteCategory(pb, id);
+  const isDeleted = await CategoriesService.deleteCategory(pb, id);
+
+  if (!isDeleted) {
+    serverError(res, "Failed to delete category");
+    return;
+  }
 
   successWithBaseResponse(res, null);
 };

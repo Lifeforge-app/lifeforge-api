@@ -4,7 +4,6 @@ import { successWithBaseResponse } from "../../../utils/response";
 import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { IBooksLibraryCategory } from "../../../interfaces/books_library_interfaces";
 
 const router = express.Router();

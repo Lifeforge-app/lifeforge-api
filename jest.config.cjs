@@ -9,4 +9,5 @@ module.exports = {
     "^.+\\.ts$": ["ts-jest", { isolatedModules: true, diagnostics: false }],
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  verbose: true,
 };

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IWalletLedger } from "../../../interfaces/wallet_interfaces";
-import { successWithBaseResponse } from "../../../utils/response";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import * as LedgersService from "../services/ledgersService";
 
@@ -12,6 +12,11 @@ export const getAllLedgers = async (
   const { pb } = req;
 
   const ledgers = await LedgersService.getAllLedgers(pb);
+
+  if (!ledgers) {
+    serverError(res, "Failed to fetch ledgers");
+    return;
+  }
 
   successWithBaseResponse(res, ledgers);
 };
@@ -28,6 +33,11 @@ export const createLedger = async (
     icon,
     color,
   });
+
+  if (!ledger) {
+    serverError(res, "Failed to fetch ledgers");
+    return;
+  }
 
   successWithBaseResponse(res, ledger, 201);
 };
@@ -48,6 +58,11 @@ export const updateLedger = async (
     color,
   });
 
+  if (!ledger) {
+    serverError(res, "Failed to update ledger");
+    return;
+  }
+
   successWithBaseResponse(res, ledger);
 };
 
@@ -60,7 +75,12 @@ export const deleteLedger = async (
 
   if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
 
-  await LedgersService.deleteLedger(pb, id);
+  const isDeleted = await LedgersService.deleteLedger(pb, id);
+
+  if (!isDeleted) {
+    serverError(res, "Failed to delete ledger");
+    return;
+  }
 
   successWithBaseResponse(res, undefined, 204);
 };

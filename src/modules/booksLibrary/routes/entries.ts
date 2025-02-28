@@ -1,15 +1,7 @@
-import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { list } from "../../../utils/CRUD";
-import {
-  IBooksLibraryEntry,
-  IBooksLibraryFileType,
-} from "../../../interfaces/books_library_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import { successWithBaseResponse } from "../../../utils/response";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
+import express from "express";
+import * as EntriesController from "../controllers/entriesController";
+import { validateBodyData, validateId } from "../middlewares/entriesValidation";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -19,14 +11,7 @@ const router = express.Router();
  * @description Retrieve a list of all book library entries.
  * @response 200 (IBooksLibraryEntry[]) - The list of book library entries
  */
-router.get(
-  "/",
-  asyncWrapper(async (req, res: Response<BaseResponse<IBooksLibraryEntry[]>>) =>
-    list<IBooksLibraryEntry>(req, res, "books_library_entries", {
-      sort: "-is_favourite,-created",
-    })
-  )
-);
+router.get("/", EntriesController.getAllEntries);
 
 /**
  * @protected
@@ -39,67 +24,16 @@ router.get(
  * @body isbn (string, required) - The ISBN of the book
  * @body languages (string[], required, must_exist) - The languages of the book
  * @body publisher (string, required) - The publisher of the book
- * @body title (string, required) - The title of the book
+ * @body title (string, required) - The title of th`e book
  * @body year_published (string, required) - The year the book was published
  * @response 200 (IBooksLibraryEntry) - The updated book library entry
  */
 router.patch(
   "/:id",
-  [
-    body("authors").isString(),
-    body("category").isString().optional(),
-    body("edition").isString(),
-    body("isbn").isString(),
-    body("languages").isArray(),
-    body("publisher").isString(),
-    body("title").isString(),
-    body("year_published").isNumeric(),
-  ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IBooksLibraryEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const data = req.body;
-
-    const entryExists = await checkExistence(
-      req,
-      res,
-      "books_library_entries",
-      id
-    );
-
-    const categoryExists = data.category
-      ? await checkExistence(
-          req,
-          res,
-          "books_library_categories",
-          data.category
-        )
-      : true;
-
-    let languagesExist = true;
-
-    for (const language of data.languages) {
-      const languageExists = await checkExistence(
-        req,
-        res,
-        "books_library_languages",
-        language
-      );
-
-      if (!languageExists) {
-        languagesExist = false;
-        break;
-      }
-    }
-
-    if (!entryExists || !categoryExists || !languagesExist) return;
-
-    const entry: IBooksLibraryEntry = await pb
-      .collection("books_library_entries")
-      .update(id, data);
-
-    successWithBaseResponse(res, entry);
-  })
+  validateId,
+  validateBodyData,
+  validationMiddleware,
+  EntriesController.updateEntry
 );
 
 /**
@@ -111,24 +45,9 @@ router.patch(
  */
 router.post(
   "/favourite/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse<IBooksLibraryEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "books_library_entries", id))) return;
-
-    const book: IBooksLibraryEntry = await pb
-      .collection("books_library_entries")
-      .getOne(id);
-    const entry: IBooksLibraryEntry = await pb
-      .collection("books_library_entries")
-      .update(id, {
-        ...book,
-        is_favourite: !book.is_favourite,
-      });
-
-    successWithBaseResponse(res, entry);
-  })
+  validateId,
+  validationMiddleware,
+  EntriesController.toggleFavouriteStatus
 );
 
 /**
@@ -140,39 +59,9 @@ router.post(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "books_library_entries", id))) return;
-
-    const entry = await pb
-      .collection("books_library_entries")
-      .getOne<IBooksLibraryEntry>(id);
-
-    const fileTypeEntry = await pb
-      .collection("books_library_file_types")
-      .getFirstListItem<IBooksLibraryFileType>(`name = "${entry.extension}"`)
-      .catch(() => null);
-
-    if (fileTypeEntry) {
-      if (fileTypeEntry.count - 1 > 0) {
-        await pb
-          .collection("books_library_file_types")
-          .update(fileTypeEntry.id, {
-            count: fileTypeEntry.count - 1,
-          });
-      } else {
-        await pb
-          .collection("books_library_file_types")
-          .delete(fileTypeEntry.id);
-      }
-    }
-
-    await pb.collection("books_library_entries").delete(id);
-
-    successWithBaseResponse(res, undefined, 204);
-  })
+  validateId,
+  validationMiddleware,
+  EntriesController.deleteEntry
 );
 
 export default router;

@@ -1,5 +1,9 @@
 import Pocketbase from "pocketbase";
-import { IWalletTransactionEntry } from "../../../interfaces/wallet_interfaces";
+import {
+  IWalletIncomeExpensesSummary,
+  IWalletReceiptScanResult,
+  IWalletTransactionEntry,
+} from "../../../interfaces/wallet_interfaces";
 import moment from "moment";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
 import { fromPath } from "pdf2pic";
@@ -7,7 +11,7 @@ import fs from "fs";
 import parseOCR from "../../../utils/parseOCR";
 import OpenAI from "openai";
 import { z } from "zod";
-import { zodResponseFormat } from "openai/helpers/zod.mjs";
+import { zodResponseFormat } from "openai/helpers/zod";
 
 function convertPDFToImage(path: string): Promise<File | undefined> {
   return new Promise(async (resolve, reject) => {
@@ -51,11 +55,16 @@ function convertPDFToImage(path: string): Promise<File | undefined> {
   });
 }
 
-export const getAllTransactions = async (pb: Pocketbase) => {
+export const getAllTransactions = async (
+  pb: Pocketbase
+): Promise<IWalletTransactionEntry[] | void> => {
   return pb
     .collection("wallet_transactions")
     .getFullList<IWalletTransactionEntry>({
       sort: "-date,-created",
+    })
+    .catch((error) => {
+      console.error(error);
     });
 };
 
@@ -63,16 +72,25 @@ export const getIncomeExpensesSummary = async (
   pb: Pocketbase,
   year: string,
   month: string
-) => {
+): Promise<IWalletIncomeExpensesSummary | void> => {
   const start = moment(`${year}-${month}-01`)
     .startOf("month")
     .format("YYYY-MM-DD");
   const end = moment(`${year}-${month}-01`).endOf("month").format("YYYY-MM-DD");
 
-  const transactions = await pb.collection("wallet_transactions").getFullList({
-    filter: "type = 'income' || type = 'expenses'",
-    sort: "-date,-created",
-  });
+  const transactions = await pb
+    .collection("wallet_transactions")
+    .getFullList({
+      filter: "type = 'income' || type = 'expenses'",
+      sort: "-date,-created",
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  if (!transactions) {
+    return;
+  }
 
   const inThisMonth = transactions.filter(
     (transaction) =>
@@ -126,7 +144,7 @@ export const createTransaction = async (
   pb: Pocketbase,
   data: Omit<WithoutPBDefault<IWalletTransactionEntry>, "receipt" | "side">,
   file: Express.Multer.File | undefined
-) => {
+): Promise<IWalletTransactionEntry[] | void> => {
   async function processFile(): Promise<
     [Express.Multer.File | File | undefined, string | undefined]
   > {
@@ -149,7 +167,7 @@ export const createTransaction = async (
     return [targetFile, name];
   }
 
-  function getReceipt() {
+  function getReceipt(): File | string {
     if (targetFile instanceof File) {
       return targetFile;
     }
@@ -164,11 +182,13 @@ export const createTransaction = async (
     return "";
   }
 
-  async function getIncomeOrExpensesTransactions() {
+  async function createIncomeOrExpensesTransactions(): Promise<
+    IWalletTransactionEntry[] | void
+  > {
     const newData: WithoutPBDefault<
       Omit<IWalletTransactionEntry, "receipt">
     > & {
-      receipt: File | "";
+      receipt: File | string;
     } = {
       particulars,
       date,
@@ -182,16 +202,39 @@ export const createTransaction = async (
       receipt: getReceipt(),
     };
 
-    const transaction: IWalletTransactionEntry = await pb
+    const transaction = await pb
       .collection("wallet_transactions")
-      .create(newData);
+      .create<IWalletTransactionEntry>(newData)
+      .catch((error) => {
+        console.error(error);
+      });
+
+    if (!transaction) {
+      return;
+    }
 
     return [transaction];
   }
 
-  async function getTransferTransactions() {
-    const _from = await pb.collection("wallet_assets").getOne(fromAsset!);
-    const _to = await pb.collection("wallet_assets").getOne(toAsset!);
+  async function createTransferTransactions(): Promise<
+    IWalletTransactionEntry[] | void
+  > {
+    const _from = await pb
+      .collection("wallet_assets")
+      .getOne(fromAsset!)
+      .catch((error) => {
+        console.error(error);
+      });
+    const _to = await pb
+      .collection("wallet_assets")
+      .getOne(toAsset!)
+      .catch((error) => {
+        console.error(error);
+      });
+
+    if (!_from || !_to) {
+      return;
+    }
 
     const baseTransferData: WithoutPBDefault<
       Omit<IWalletTransactionEntry, "receipt" | "category" | "ledger">
@@ -209,16 +252,26 @@ export const createTransaction = async (
 
     baseTransferData.particulars = `Transfer from ${_from.name}`;
     baseTransferData.asset = toAsset!;
-    const debit: IWalletTransactionEntry = await pb
+    const debit = await pb
       .collection("wallet_transactions")
-      .create(baseTransferData);
+      .create<IWalletTransactionEntry>(baseTransferData)
+      .catch((error) => {
+        console.error(error);
+      });
 
     baseTransferData.particulars = `Transfer to ${_to.name}`;
     baseTransferData.side = "credit";
     baseTransferData.asset = fromAsset!;
-    const credit: IWalletTransactionEntry = await pb
+    const credit = await pb
       .collection("wallet_transactions")
-      .create(baseTransferData);
+      .create<IWalletTransactionEntry>(baseTransferData)
+      .catch((error) => {
+        console.error(error);
+      });
+
+    if (!debit || !credit) {
+      return;
+    }
 
     return [debit, credit];
   }
@@ -238,15 +291,15 @@ export const createTransaction = async (
 
   let [targetFile, fileName] = await processFile();
 
-  let created: IWalletTransactionEntry[] = [];
+  let created: IWalletTransactionEntry[] | void = [];
 
   switch (type) {
     case "income":
     case "expenses":
-      created = await getIncomeOrExpensesTransactions();
+      created = await createIncomeOrExpensesTransactions();
       break;
     case "transfer":
-      created = await getTransferTransactions();
+      created = await createTransferTransactions();
       break;
   }
 
@@ -259,7 +312,7 @@ export const updateTransaction = async (
   data: Omit<WithoutPBDefault<IWalletTransactionEntry>, "receipt" | "side">,
   file: Express.Multer.File | undefined,
   toRemoveReceipt: boolean
-) => {
+): Promise<IWalletTransactionEntry | void> => {
   async function processFile(): Promise<
     [Express.Multer.File | File | undefined, string | undefined]
   > {
@@ -282,7 +335,7 @@ export const updateTransaction = async (
     return [targetFile, name];
   }
 
-  function getReceipt() {
+  function getReceipt(): File | string {
     if (targetFile instanceof File) {
       return targetFile;
     }
@@ -306,14 +359,14 @@ export const updateTransaction = async (
 
   const foundTransaction = await pb
     .collection("wallet_transactions")
-    .getOne(id);
+    .getOne<IWalletTransactionEntry>(id);
 
   const [targetFile, fileName] = await processFile();
 
   const updatedData: WithoutPBDefault<
     Omit<IWalletTransactionEntry, "receipt">
   > & {
-    receipt: File;
+    receipt: File | string;
   } = {
     particulars,
     date,
@@ -329,17 +382,35 @@ export const updateTransaction = async (
 
   const transaction = await pb
     .collection("wallet_transactions")
-    .update<IWalletTransactionEntry>(id, updatedData);
+    .update<IWalletTransactionEntry>(id, updatedData)
+    .catch((error) => {
+      console.error(error);
+    });
+
+  if (!transaction) {
+    return;
+  }
 
   return transaction;
 };
 
-export const deleteTransaction = async (pb: Pocketbase, id: string) => {
-  return pb.collection("wallet_transactions").delete(id);
+export const deleteTransaction = async (
+  pb: Pocketbase,
+  id: string
+): Promise<boolean | void> => {
+  return pb
+    .collection("wallet_transactions")
+    .delete(id)
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
-export const scanReceipt = async (file: Express.Multer.File, key: string) => {
-  async function getTransactionDetails() {
+export const scanReceipt = async (
+  file: Express.Multer.File,
+  key: string
+): Promise<IWalletReceiptScanResult | void> => {
+  async function getTransactionDetails(): Promise<IWalletReceiptScanResult | null> {
     const client = new OpenAI({
       apiKey: key,
     });
@@ -367,7 +438,8 @@ export const scanReceipt = async (file: Express.Multer.File, key: string) => {
       response_format: zodResponseFormat(TransactionDetails, "transaction"),
     });
 
-    const transaction = completion.choices[0].message.parsed;
+    const transaction: IWalletReceiptScanResult | null =
+      completion.choices[0].message.parsed;
 
     return transaction;
   }
@@ -376,7 +448,7 @@ export const scanReceipt = async (file: Express.Multer.File, key: string) => {
     const image = await convertPDFToImage(file.path);
 
     if (!image) {
-      return null;
+      return;
     }
 
     const buffer = await image.arrayBuffer();
@@ -387,13 +459,13 @@ export const scanReceipt = async (file: Express.Multer.File, key: string) => {
   }
 
   if (!fs.existsSync("uploads/receipt.png")) {
-    return null;
+    return;
   }
 
   const OCRResult = await parseOCR("uploads/receipt.png");
 
   if (!OCRResult) {
-    return null;
+    return;
   }
 
   fs.unlinkSync("uploads/receipt.png");
@@ -401,7 +473,7 @@ export const scanReceipt = async (file: Express.Multer.File, key: string) => {
   const transaction = await getTransactionDetails();
 
   if (!transaction) {
-    return null;
+    return;
   }
 
   return transaction;

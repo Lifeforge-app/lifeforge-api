@@ -10,7 +10,9 @@ const todoListRoutes = lazyLoad(() => import("./modules/todoList"));
 const calendarRoutes = lazyLoad(() => import("./modules/calendar"));
 const ideaBoxRoutes = lazyLoad(() => import("./modules/ideaBox"));
 const codeTimeRoutes = lazyLoad(() => import("./modules/codeTime"));
-const booksLibraryRoutes = lazyLoad(() => import("./modules/booksLibrary"));
+const booksLibraryRoutes = lazyLoad(
+  () => import("./modules/booksLibrary/routes")
+);
 const notesRoutes = lazyLoad(() => import("./modules/notes"));
 const flashcardsRoutes = lazyLoad(() => import("./modules/flashcards"));
 const achievementsRoutes = lazyLoad(

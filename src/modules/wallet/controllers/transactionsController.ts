@@ -6,7 +6,11 @@ import {
   IWalletTransactionEntry,
 } from "../../../interfaces/wallet_interfaces";
 import * as TransactionsService from "../services/transactionsService";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "../../../utils/response";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import { getAPIKey } from "../../../utils/getAPIKey";
 
@@ -17,6 +21,11 @@ export const getAllTransactions = async (
   const { pb } = req;
 
   const transactions = await TransactionsService.getAllTransactions(pb);
+
+  if (!transactions) {
+    serverError(res, "Failed to fetch transactions");
+    return;
+  }
 
   successWithBaseResponse(res, transactions);
 };
@@ -33,6 +42,11 @@ export const getIncomeExpensesSummary = async (
     year,
     month
   );
+
+  if (!summary) {
+    serverError(res, "Failed to fetch summary");
+    return;
+  }
 
   successWithBaseResponse(res, summary);
 };
@@ -100,6 +114,11 @@ export const createTransaction = async (
     req.file
   );
 
+  if (!transaction) {
+    serverError(res, "Failed to create transaction");
+    return;
+  }
+
   successWithBaseResponse(res, transaction, 201);
 };
 
@@ -157,6 +176,11 @@ export const updateTransaction = async (
     removeReceipt
   );
 
+  if (!transaction) {
+    serverError(res, "Failed to update transaction");
+    return;
+  }
+
   successWithBaseResponse(res, transaction);
 };
 
@@ -169,7 +193,12 @@ export const deleteTransaction = async (
 
   if (!(await checkExistence(req, res, "wallet_transactions", id))) return;
 
-  await TransactionsService.deleteTransaction(pb, id);
+  const isDeleted = await TransactionsService.deleteTransaction(pb, id);
+
+  if (!isDeleted) {
+    serverError(res, "Failed to delete transaction");
+    return;
+  }
 
   successWithBaseResponse(res, undefined, 204);
 };
@@ -188,14 +217,14 @@ export const scanReceipt = async (
   const key = await getAPIKey("openai", req.pb);
 
   if (!key) {
-    clientError(res, "API key not found");
+    serverError(res, "API key not found");
     return;
   }
 
   const result = await TransactionsService.scanReceipt(file, key);
 
   if (!result) {
-    clientError(res, "Error scanning receipt");
+    serverError(res, "Error scanning receipt");
     return;
   }
 

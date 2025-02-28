@@ -17,7 +17,7 @@ describe("Achievements Service", () => {
 
   beforeEach(() => {
     pbMock = new PocketBase();
-    jest.clearAllMocks(); // Reset mock calls before each test
+    jest.clearAllMocks();
   });
 
   test("should fetch all entries by difficulty", async () => {
@@ -38,36 +38,33 @@ describe("Achievements Service", () => {
   test("should create an achievement entry", async () => {
     (pbMock.collection().create as jest.Mock).mockResolvedValue(mockEntry);
 
-    const result = await achievementsService.createEntry(pbMock, {
-      difficulty: "hard",
-      title: "New Achievement",
-      thoughts: "Great job!",
-    });
+    const result = await achievementsService.createEntry(pbMock, mockEntry);
 
     expect(pbMock.collection).toHaveBeenCalledWith("achievements_entries");
-    expect(pbMock.collection().create).toHaveBeenCalledWith({
-      difficulty: "hard",
-      title: "New Achievement",
-      thoughts: "Great job!",
-    });
+    expect(pbMock.collection().create).toHaveBeenCalledWith(mockEntry);
     expect(result).toEqual(mockEntry);
   });
 
   test("should update an achievement entry", async () => {
     (pbMock.collection().update as jest.Mock).mockResolvedValue(mockEntry);
 
-    const result = await achievementsService.updateEntry(pbMock, "123", {
+    const updatedAchivement: WithoutPBDefault<IAchievementEntry> = {
       difficulty: "hard",
       title: "Updated Achievement",
       thoughts: "Now even harder!",
-    });
+    };
+
+    const result = await achievementsService.updateEntry(
+      pbMock,
+      "123",
+      updatedAchivement
+    );
 
     expect(pbMock.collection).toHaveBeenCalledWith("achievements_entries");
-    expect(pbMock.collection().update).toHaveBeenCalledWith("123", {
-      difficulty: "hard",
-      title: "Updated Achievement",
-      thoughts: "Now even harder!",
-    });
+    expect(pbMock.collection().update).toHaveBeenCalledWith(
+      "123",
+      updatedAchivement
+    );
     expect(result).toEqual(mockEntry);
   });
 

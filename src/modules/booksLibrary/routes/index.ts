@@ -1,9 +1,9 @@
 import express from "express";
-import entriesRoutes from "./routes/entries";
-import libgenRoutes from "./routes/libgen";
-import categoriesRoutes from "./routes/categories";
-import languagesRoutes from "./routes/languages";
-import fileTypesRoutes from "./routes/fileTypes";
+import entriesRoutes from "./entries";
+import libgenRoutes from "./libgen";
+import categoriesRoutes from "./categories";
+import languagesRoutes from "./languages";
+import fileTypesRoutes from "./fileTypes";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IWalletAsset } from "../../../interfaces/wallet_interfaces";
 import * as AssetsServices from "../services/assetsService";
@@ -12,6 +12,11 @@ export const getAllAssets = async (
   const { pb } = req;
 
   const assets = await AssetsServices.getAllAssets(pb);
+
+  if (!assets) {
+    serverError(res, "Failed to fetch assets");
+    return;
+  }
 
   successWithBaseResponse(res, assets);
 };
@@ -28,6 +33,11 @@ export const createAsset = async (
     icon,
     starting_balance,
   });
+
+  if (!asset) {
+    serverError(res, "Failed to create asset");
+    return;
+  }
 
   successWithBaseResponse(res, asset, 201);
 };
@@ -48,6 +58,11 @@ export const updateAsset = async (
     starting_balance,
   });
 
+  if (!asset) {
+    serverError(res, "Failed to update asset");
+    return;
+  }
+
   successWithBaseResponse(res, asset);
 };
 
@@ -60,7 +75,12 @@ export const deleteAsset = async (
 
   if (!(await checkExistence(req, res, "wallet_assets", id))) return;
 
-  await AssetsServices.deleteAsset(pb, id);
+  const isDeleted = await AssetsServices.deleteAsset(pb, id);
+
+  if (!isDeleted) {
+    serverError(res, "Failed to delete asset");
+    return;
+  }
 
   successWithBaseResponse(res, undefined, 204);
 };
