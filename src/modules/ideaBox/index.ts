@@ -193,7 +193,8 @@ async function recursivelySearchFolder(
   q: string,
   container: string,
   tags: string,
-  req: Request
+  req: Request,
+  parents: string
 ) {
   const pb = req.pb;
   const folderInsideFolder = await pb
@@ -202,18 +203,20 @@ async function recursivelySearchFolder(
       filter: `parent = "${folderId}"`,
     });
 
-  const allResults = await pb.collection("idea_box_entries").getFullList({
-    filter: `(content ~ "${q}" || title ~ "${q}") && container = "${container}" && archived = false ${
-      tags
-        ? "&& " +
-          tags
-            .split(",")
-            .map((tag) => `tags ~ "${tag}"`)
-            .join(" && ")
-        : ""
-    } && folder = "${folderId}"`,
-    expand: "folder",
-  });
+  const allResults = (
+    await pb.collection("idea_box_entries").getFullList({
+      filter: `(content ~ "${q}" || title ~ "${q}") && container = "${container}" && archived = false ${
+        tags
+          ? "&& " +
+            tags
+              .split(",")
+              .map((tag) => `tags ~ "${tag}"`)
+              .join(" && ")
+          : ""
+      } && folder = "${folderId}"`,
+      expand: "folder",
+    })
+  ).map((result) => ({ ...result, fullPath: parents }));
 
   if (folderInsideFolder.length === 0) {
     return allResults;
@@ -225,7 +228,8 @@ async function recursivelySearchFolder(
       q,
       container,
       tags,
-      req
+      req,
+      parents + "/" + folder.id
     );
 
     allResults.push(...results);
@@ -256,7 +260,6 @@ router.get(
         >
       >
     ) => {
-      const { pb } = req;
       const { q, container, tags, folder } = req.query as Record<
         string,
         string
@@ -279,7 +282,8 @@ router.get(
         q,
         container || "",
         tags || "",
-        req
+        req,
+        ""
       );
 
       for (const result of results) {

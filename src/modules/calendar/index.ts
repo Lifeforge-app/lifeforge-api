@@ -4,7 +4,7 @@ import category from './routes/categories.js'
 
 const router = express.Router()
 
-router.use('/event', event)
-router.use('/category', category)
+router.use('/events', event)
+router.use('/categories', category)
 
 export default router

@@ -41,6 +41,15 @@ const singleUploadMiddleware = (
   });
 };
 
+const singleUploadMiddlewareOfKey =
+  (key: string) => (req: Request, res: Response, next: NextFunction) => {
+    // Use multer upload instance
+    upload.single(key)(req, res, (err) => {
+      // Proceed to the next middleware or route handler
+      next();
+    });
+  };
+
 function fieldsUploadMiddleware(
   this: { fields: { name: string; maxCount: number }[] },
   req: Request,
@@ -54,4 +63,9 @@ function fieldsUploadMiddleware(
   });
 }
 
-export { uploadMiddleware, singleUploadMiddleware, fieldsUploadMiddleware };
+export {
+  uploadMiddleware,
+  singleUploadMiddleware,
+  singleUploadMiddlewareOfKey,
+  fieldsUploadMiddleware,
+};

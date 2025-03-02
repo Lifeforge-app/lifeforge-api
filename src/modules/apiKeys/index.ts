@@ -151,11 +151,13 @@ router.post(
       key: encryptedKey,
     });
 
+    entry.key = decryptedKey.slice(-4);
+
     successWithBaseResponse(res, entry);
   })
 );
 
-router.put(
+router.patch(
   "/:id",
   [body("data").isString()],
   asyncWrapper(async (req, res: Response<BaseResponse<IAPIKeyEntry>>) => {
@@ -189,6 +191,8 @@ router.put(
         icon,
         key: encryptedKey,
       });
+
+    updatedEntry.key = decryptedKey.slice(-4);
 
     successWithBaseResponse(res, updatedEntry);
   })

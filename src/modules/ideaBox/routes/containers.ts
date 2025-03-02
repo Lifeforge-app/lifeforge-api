@@ -7,7 +7,10 @@ import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import hasError from "../../../utils/checkError";
-import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
+import {
+  singleUploadMiddleware,
+  singleUploadMiddlewareOfKey,
+} from "../../../middleware/uploadMiddleware";
 import fs from "fs";
 
 const router = express.Router();
@@ -36,9 +39,11 @@ router.get(
     list(req, res, "idea_box_containers", {}, (data) =>
       data.map((d) => ({
         ...d,
-        cover: req.pb.files
-          .getURL(d, d.cover)
-          .replace(`${req.pb.baseURL}/api/files`, ""),
+        cover: d.cover
+          ? req.pb.files
+              .getURL(d, d.cover)
+              .replace(`${req.pb.baseURL}/api/files`, "")
+          : "",
       }))
     )
   )
@@ -55,7 +60,7 @@ router.get(
  */
 router.post(
   "/",
-  singleUploadMiddleware,
+  singleUploadMiddlewareOfKey("cover"),
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
     const { pb } = req;
     const { name, color, icon } = req.body;
@@ -72,9 +77,11 @@ router.post(
           cover: new File([fileBuffer], req.file.filename),
         });
 
-      container.cover = req.pb.files
-        .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
+      if (container.cover) {
+        container.cover = req.pb.files
+          .getURL(container, container.cover)
+          .replace(`${req.pb.baseURL}/api/files`, "");
+      }
 
       successWithBaseResponse(res, container, 201);
       fs.unlinkSync(req.file.path);
@@ -96,9 +103,11 @@ router.post(
               cover: new File([fileBuffer], "cover.jpg"),
             });
 
-          newEntry.cover = req.pb.files
-            .getURL(newEntry, newEntry.cover)
-            .replace(`${req.pb.baseURL}/api/files`, "");
+          if (newEntry.cover) {
+            newEntry.cover = req.pb.files
+              .getURL(newEntry, newEntry.cover)
+              .replace(`${req.pb.baseURL}/api/files`, "");
+          }
 
           successWithBaseResponse(res, newEntry, 201);
         })
@@ -132,7 +141,7 @@ router.post(
  */
 router.patch(
   "/:id",
-  singleUploadMiddleware,
+  singleUploadMiddlewareOfKey("cover"),
   asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
     const { pb } = req;
     const { id } = req.params;
@@ -156,9 +165,11 @@ router.patch(
           cover: new File([fileBuffer], req.file.filename),
         });
 
-      container.cover = req.pb.files
-        .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
+      if (container.cover) {
+        container.cover = req.pb.files
+          .getURL(container, container.cover)
+          .replace(`${req.pb.baseURL}/api/files`, "");
+      }
 
       successWithBaseResponse(res, container);
 
@@ -176,9 +187,11 @@ router.patch(
             icon,
           });
 
-        container.cover = req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "");
+        if (container.cover) {
+          container.cover = req.pb.files
+            .getURL(container, container.cover)
+            .replace(`${req.pb.baseURL}/api/files`, "");
+        }
 
         successWithBaseResponse(res, container);
       } else if (url) {
@@ -194,9 +207,11 @@ router.patch(
                 cover: new File([fileBuffer], "cover.jpg"),
               });
 
-            newEntry.cover = req.pb.files
-              .getURL(newEntry, newEntry.cover)
-              .replace(`${req.pb.baseURL}/api/files`, "");
+            if (newEntry.cover) {
+              newEntry.cover = req.pb.files
+                .getURL(newEntry, newEntry.cover)
+                .replace(`${req.pb.baseURL}/api/files`, "");
+            }
 
             successWithBaseResponse(res, newEntry);
           })
