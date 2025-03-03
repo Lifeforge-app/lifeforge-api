@@ -14,8 +14,6 @@ import {
 import { clientError, successWithBaseResponse } from "../../utils/response";
 import { param, query } from "express-validator";
 import { BaseResponse } from "../../interfaces/base_response";
-import hasError from "../../utils/checkError";
-import { AnyNaptrRecord } from "node:dns";
 
 const router = express.Router();
 

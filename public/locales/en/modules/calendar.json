@@ -2,9 +2,9 @@
   "title": "Calendar",
   "description": "Don't miss appointments with destiny (or the dentist).",
   "view": {
-    "day": "Day View",
-    "month": "Month View",
-    "week": "Week View",
+    "day": "Day",
+    "month": "Month",
+    "week": "Week",
     "agenda": "Agenda"
   },
   "sidebar": {
