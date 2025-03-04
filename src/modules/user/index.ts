@@ -5,7 +5,6 @@ import { clientError, successWithBaseResponse } from "../../utils/response";
 import asyncWrapper from "../../utils/asyncWrapper";
 import { singleUploadMiddleware } from "../../middleware/uploadMiddleware";
 import { body } from "express-validator";
-import hasError from "../../utils/checkError";
 import { query } from "express-validator";
 import moment from "moment";
 import { BaseResponse } from "../../interfaces/base_response";
