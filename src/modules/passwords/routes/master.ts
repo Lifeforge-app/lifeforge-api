@@ -5,7 +5,6 @@ import { successWithBaseResponse } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { decrypt2 } from "../../../utils/encryption";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { BaseResponse } from "../../../interfaces/base_response";
 import checkOTP from "../../../utils/checkOTP";
 
@@ -45,12 +44,17 @@ router.post(
 router.post(
   "/verify",
   asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
-    const { id, password } = req.body;
+    const { password } = req.body;
     const { pb } = req;
+
+    if (!pb.authStore.record) {
+      successWithBaseResponse(res, false);
+      return;
+    }
 
     const decryptedMaster = decrypt2(password, challenge);
 
-    const user = await pb.collection("users").getOne(id);
+    const user = await pb.collection("users").getOne(pb.authStore.record.id);
     const { masterPasswordHash } = user;
 
     const isMatch = await bcrypt.compare(decryptedMaster, masterPasswordHash);

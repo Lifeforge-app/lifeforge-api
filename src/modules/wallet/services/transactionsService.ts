@@ -328,10 +328,6 @@ export const updateTransaction = async (
       targetFile = await convertPDFToImage(file.path);
     }
 
-    if (!(file instanceof File) && file && fs.existsSync(file.path)) {
-      fs.unlinkSync(file.path);
-    }
-
     return [targetFile, name];
   }
 
@@ -386,6 +382,10 @@ export const updateTransaction = async (
     .catch((error) => {
       console.error(error);
     });
+
+  if (file && fs.existsSync(file.path)) {
+    fs.unlinkSync(file.path);
+  }
 
   if (!transaction) {
     return;

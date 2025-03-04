@@ -1,11 +1,10 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { success, successWithBaseResponse } from "../../../utils/response";
+import { successWithBaseResponse } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { decrypt2 } from "../../../utils/encryption";
 import { body } from "express-validator";
 import { challenge } from "../index";
-import hasError from "../../../utils/checkError";
 import { BaseResponse } from "../../../interfaces/base_response";
 import checkOTP from "../../../utils/checkOTP";
 
@@ -13,8 +12,8 @@ const router = express.Router();
 
 router.get(
   "/challenge",
-  asyncWrapper(async (_: Request, res: Response<string>) => {
-    success(res, challenge);
+  asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
+    successWithBaseResponse(res, challenge);
   })
 );
 
@@ -38,13 +37,13 @@ router.post(
 
 router.post(
   "/verify",
-  asyncWrapper(async (req, res) => {
+  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
     const { pb } = req;
     const { password } = req.body;
     const id = pb.authStore.record?.id;
 
     if (!id) {
-      success(res, false);
+      successWithBaseResponse(res, false);
       return;
     }
 
@@ -58,7 +57,7 @@ router.post(
       journalMasterPasswordHash
     );
 
-    success(res, isMatch);
+    successWithBaseResponse(res, isMatch);
   })
 );
 

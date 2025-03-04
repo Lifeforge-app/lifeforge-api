@@ -2,9 +2,8 @@ import express from "express";
 import asyncWrapper from "../../utils/asyncWrapper";
 import { JSDOM } from "jsdom";
 import fs from "fs";
-import { clientError, success } from "../../utils/response";
+import { clientError, successWithBaseResponse } from "../../utils/response";
 import { body } from "express-validator";
-import hasError from "../../utils/checkError";
 
 const cachedFile = "./cached/openAIAPIPricing.json";
 
@@ -153,9 +152,9 @@ router.get(
   asyncWrapper(async (req, res) => {
     if (fs.existsSync(cachedFile)) {
       const data = JSON.parse(fs.readFileSync(cachedFile, "utf-8"));
-      success(res, data);
+      successWithBaseResponse(res, data);
     } else {
-      success(res, {});
+      successWithBaseResponse(res, {});
     }
   })
 );
@@ -168,7 +167,7 @@ router.post(
 
     const data = await scrapeData(raw);
     if (data) {
-      success(res, data);
+      successWithBaseResponse(res, data);
     } else {
       clientError(res, "Failed to scrape data");
     }

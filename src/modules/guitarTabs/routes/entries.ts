@@ -4,11 +4,7 @@ import pdfThumbnail from "pdf-thumbnail";
 // @ts-expect-error no type for this
 import pdfPageCounter from "pdf-page-counter";
 import fs from "fs";
-import {
-  clientError,
-  success,
-  successWithBaseResponse,
-} from "../../../utils/response";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
 import { BaseResponse } from "../../../interfaces/base_response";
 import {
@@ -17,7 +13,6 @@ import {
 } from "../../../interfaces/guitar_tabs_interfaces";
 import moment from "moment";
 import { body, query } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 
 const router = express.Router();
@@ -281,7 +276,7 @@ router.get(
   )
 );
 
-router.put(
+router.patch(
   "/:id",
   [
     body("name").isString(),
@@ -313,7 +308,7 @@ router.delete(
 
     await pb.collection("guitar_tabs_entries").delete(id);
 
-    success(res);
+    successWithBaseResponse(res, undefined, 204);
   })
 );
 
@@ -409,7 +404,8 @@ router.get(
         }
       }
     }
-    success(res);
+
+    successWithBaseResponse(res);
   })
 );
 

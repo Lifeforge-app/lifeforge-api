@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { success, successWithBaseResponse } from "../../../utils/response";
+import { successWithBaseResponse } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { challenge } from "../index";
 import { body } from "express-validator";
@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.get(
   "/challenge",
-  asyncWrapper(async (_: Request, res: Response<string>) => {
-    success(res, challenge);
+  asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
+    successWithBaseResponse(res, challenge);
   })
 );
 
@@ -38,13 +38,13 @@ router.post(
 
 router.post(
   "/verify",
-  asyncWrapper(async (req, res) => {
+  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
     const { pb } = req;
     const { password } = req.body;
     const id = pb.authStore.record?.id;
 
     if (!id) {
-      success(res, false);
+      successWithBaseResponse(res, false);
       return;
     }
 
@@ -58,7 +58,7 @@ router.post(
       APIKeysMasterPasswordHash
     );
 
-    success(res, isMatch);
+    successWithBaseResponse(res, isMatch);
   })
 );
 

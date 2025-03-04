@@ -1,9 +1,12 @@
 import express from "express";
 import { body, param, query } from "express-validator";
 import asyncWrapper from "../../../utils/asyncWrapper";
-import hasError from "../../../utils/checkError";
 import { getAPIKey } from "../../../utils/getAPIKey";
-import { clientError, serverError, success } from "../../../utils/response";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "../../../utils/response";
 import scrapeProviders from "../scrapers/index";
 import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import { IWishlistEntry } from "../../../interfaces/wishlist_interfaces";
@@ -19,7 +22,10 @@ router.get(
   asyncWrapper(async (req, res) => {
     const { pb } = req;
 
-    success(res, pb.collection("wishlist_entries").collectionIdOrName);
+    successWithBaseResponse(
+      res,
+      pb.collection("wishlist_entries").collectionIdOrName
+    );
   })
 );
 
@@ -67,7 +73,7 @@ router.post(
       return;
     }
 
-    success(res, result);
+    successWithBaseResponse(res, result);
   })
 );
 
@@ -120,7 +126,7 @@ router.post(
         "total_amount+": entry.price,
       });
 
-      success(res, entry);
+      successWithBaseResponse(res, entry, 201);
     } catch (e) {
       console.error(e);
       serverError(res, "Error creating entry");
@@ -179,7 +185,7 @@ router.patch(
       });
     }
 
-    success(res, oldEntry.list === list ? entry : "removed");
+    successWithBaseResponse(res, oldEntry.list === list ? entry : "removed");
   })
 );
 
@@ -202,7 +208,7 @@ router.patch(
       "bought_count+": oldEntry.bought ? -1 : 1,
     });
 
-    success(res, entry);
+    successWithBaseResponse(res, entry);
   })
 );
 
@@ -224,7 +230,7 @@ router.delete(
       "bought_count-": entry.bought ? 1 : 0,
     });
 
-    success(res);
+    successWithBaseResponse(res, undefined, 204);
   })
 );
 

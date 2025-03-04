@@ -13,13 +13,6 @@ function successWithBaseResponse<T>(
   });
 }
 
-function success<T>(res: Response, data?: T, status: number = 200) {
-  res.status(status).json({
-    state: "success",
-    data: data ?? undefined,
-  });
-}
-
 function clientError(res: Response, message = "Bad Request", status = 400) {
   fs.readdirSync("uploads").forEach((file) => {
     fs.unlinkSync(`uploads/${file}`);
@@ -42,4 +35,4 @@ function serverError(res: Response, message = "Internal Server Error") {
   });
 }
 
-export { successWithBaseResponse, success, clientError, serverError };
+export { successWithBaseResponse, clientError, serverError };
