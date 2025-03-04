@@ -105,10 +105,7 @@ router.post(
       )
       .then((authData) => {
         if (authData) {
-          res.json({
-            state: "success",
-            token: pb.authStore.token,
-          });
+          successWithBaseResponse(res, pb.authStore.token);
         } else {
           clientError(res, "Invalid credentials", 401);
         }
