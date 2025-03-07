@@ -5,7 +5,7 @@
         "movie": "Movie"
     },
     "modals": {
-        "searchOmdb": {
+        "searchTmdb": {
             "title": "Search Movie"
         },
         "ticket": {

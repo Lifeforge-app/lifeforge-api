@@ -5,7 +5,7 @@
         "movie": "电影"
     },
     "modals": {
-        "searchOmdb": {
+        "searchTmdb": {
             "title": "搜索电影"
         },
         "ticket": {

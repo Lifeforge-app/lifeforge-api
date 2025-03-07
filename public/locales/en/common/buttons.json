@@ -31,5 +31,6 @@
     "download": "Download",
     "stop": "Stop",
     "record": "Record",
-    "overwrite": "Overwrite"
+    "overwrite": "Overwrite",
+    "adjust": "Adjust"
 }

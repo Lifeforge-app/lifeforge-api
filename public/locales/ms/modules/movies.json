@@ -5,7 +5,7 @@
         "movie": "Filem"
     },
     "modals": {
-        "searchOmdb": {
+        "searchTmdb": {
             "title": "Cari Filem"
         },
         "ticket": {
