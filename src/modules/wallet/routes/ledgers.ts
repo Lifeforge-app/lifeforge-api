@@ -1,6 +1,6 @@
 import express from "express";
 import * as LedgersController from "../controllers/ledgersController";
-import { validateBodyData, validateId } from "../middlewares/assetsValidation";
+import { validateBodyData, validateId } from "../middlewares/ledgersValidation";
 import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();

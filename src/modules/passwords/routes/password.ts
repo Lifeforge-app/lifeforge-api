@@ -10,7 +10,6 @@ import {
   encrypt2,
 } from "../../../utils/encryption";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IPasswordEntry } from "../../../interfaces/password_interfaces";

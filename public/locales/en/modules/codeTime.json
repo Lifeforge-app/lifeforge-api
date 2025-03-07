@@ -11,8 +11,10 @@
   "headers": {
     "statistics": "Statistics",
     "activitiesCalendar": "Activities Calendar",
-    "projects": "Projects",
-    "languages": "Languages"
+    "projects": "Top Projects Worked On",
+    "projectsTimeGraph": "Projects Time Graph",
+    "languages": "Top Languages Used",
+    "languagesTimeGraph": "Languages Time Graph"
   },
   "labels": {
     "inThePast": "In the Past"

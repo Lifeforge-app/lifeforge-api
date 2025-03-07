@@ -7,7 +7,9 @@ export const getAllLedgers = async (
 ): Promise<IWalletLedger[] | void> => {
   return pb
     .collection("wallet_ledgers")
-    .getFullList<IWalletLedger>()
+    .getFullList<IWalletLedger>({
+      sort: "name",
+    })
     .catch((error) => {
       console.error(error);
     });

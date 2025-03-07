@@ -44,8 +44,10 @@ const openAIAPIPricingRoutes = lazyLoad(
 const virtualWardrobeRoutes = lazyLoad(
   () => import("./modules/virtualWardrobe")
 );
-import momentVaultRoutes from "./modules/momentVault/routes";
-
+const momentVaultRoutes = lazyLoad(
+  () => import("./modules/momentVault/routes")
+);
+const moviesRoutes = lazyLoad(() => import("./modules/movies"));
 const router = express.Router();
 
 router.use("/locales", localesRoutes);
@@ -82,5 +84,6 @@ router.use("/quotes", quotesRoutes);
 router.use("/openai-api-pricing", openAIAPIPricingRoutes);
 router.use("/virtual-wardrobe", virtualWardrobeRoutes);
 router.use("/moment-vault", momentVaultRoutes);
+router.use("/movies", moviesRoutes);
 
 export default router;

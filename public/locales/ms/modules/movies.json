@@ -1,0 +1,41 @@
+{
+    "title": "Filem",
+    "description": "Setiap filem, sebuah cerita untuk diingati.",
+    "items": {
+        "movie": "Filem"
+    },
+    "modals": {
+        "searchOmdb": {
+            "title": "Cari Filem"
+        },
+        "ticket": {
+            "create": "Tambah Tiket",
+            "update": "Kemaskini Tiket",
+            "view": "Lihat Tiket"
+        }
+    },
+    "empty": {
+        "tmdb": {
+            "title": "Dikuasakan oleh Pangkalan Data Filem",
+            "description": "Berjuta-juta filem untuk ditemui."
+        },
+        "search": {
+            "title": "Filem Tidak Ditemui",
+            "description": "Sila cuba masukkan kata kunci carian yang berbeza."
+        }
+    },
+    "buttons": {
+        "addToLibrary": "Tambah ke Pustaka",
+        "alreadyInLibrary": "Sudah di dalam Pustaka",
+        "addTicket": "Tambah Tiket",
+        "updateTicket": "Kemaskini Tiket",
+        "markAsWatched": "Tanda sebagai Ditonton"
+    },
+    "inputs": {
+        "ticketNumber": "Nombor Tiket",
+        "theatreSeat": "Tempat Duduk Pawagam",
+        "theatreLocation": "Lokasi Pawagam",
+        "theatreShowtime": "Masa Tayangan Pawagam",
+        "theatreNumber": "Nombor Pawagam"
+    }
+}

@@ -3,6 +3,8 @@ import express, { Request, Response } from "express";
 import moment from "moment";
 import { clientError, successWithBaseResponse } from "../../utils/response";
 import asyncWrapper from "../../utils/asyncWrapper";
+import hasError from "../../utils/checkError";
+import { query } from "express-validator";
 
 const router = express.Router();
 
@@ -51,10 +53,10 @@ router.get(
         if (hours < 1) {
           return 1;
         }
-        if (hours >= 1 && hours < 3) {
+        if (hours < 3) {
           return 2;
         }
-        if (hours >= 3 && hours < 5) {
+        if (hours < 5) {
           return 3;
         }
         return 4;
@@ -180,6 +182,32 @@ router.get(
       "Longest streak": Math.max(longestStreak, currentStreak),
       "Current streak": currentStreak,
     });
+  })
+);
+
+router.get(
+  "/last-x-days",
+  [query("days").isNumeric()],
+  asyncWrapper(async (req, res) => {
+    if (hasError(req, res)) return;
+
+    const { pb } = req;
+    const { days } = req.query;
+
+    if (days > 30) {
+      clientError(res, "days must be less than or equal to 30", 400);
+      return;
+    }
+
+    const lastXDays = moment()
+      .subtract(days ? +days : 7, "days")
+      .format("YYYY-MM-DD");
+
+    const data = await pb.collection("code_time_daily_entries").getFullList({
+      filter: `date >= "${lastXDays} 00:00:00.000Z"`,
+    });
+
+    return successWithBaseResponse(res, data);
   })
 );
 
@@ -313,7 +341,6 @@ router.get(
   asyncWrapper(async (req, res) => {
     try {
       const { pb } = req;
-      // first day of current month
       const { minutes } = req.query;
       const minTime = moment()
         .subtract(+minutes, "minutes")

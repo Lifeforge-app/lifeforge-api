@@ -1,0 +1,41 @@
+{
+    "title": "Movies",
+    "description": "Your personal log for every movie you’ve watched.",
+    "items": {
+        "movie": "Movie"
+    },
+    "modals": {
+        "searchOmdb": {
+            "title": "Search Movie"
+        },
+        "ticket": {
+            "create": "Add Ticket",
+            "update": "Update Ticket",
+            "view": "View Ticket"
+        }
+    },
+    "empty": {
+        "tmdb": {
+            "title": "Powered by The Movie DB",
+            "description": "Millions of movies to discover."
+        },
+        "search": {
+            "title": "Movies Not Found",
+            "description": "Please try entering a different search keyword."
+        }
+    },
+    "buttons": {
+        "addToLibrary": "Add to Library",
+        "alreadyInLibrary": "Already in Library",
+        "addTicket": "Add Ticket",
+        "updateTicket": "Update Ticket",
+        "markAsWatched": "Mark as Watched"
+    },
+    "inputs": {
+        "ticketNumber": "Ticket Number",
+        "theatreSeat": "Theatre Seat",
+        "theatreLocation": "Theatre Location",
+        "theatreShowtime": "Theatre Showtime",
+        "theatreNumber": "Theatre Number"
+    }
+}

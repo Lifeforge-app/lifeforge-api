@@ -11,8 +11,10 @@
   "headers": {
     "statistics": "Statistik",
     "activitiesCalendar": "Kalendar Aktiviti",
-    "projects": "Projek",
-    "languages": "Bahasa"
+    "projects": "Projek Teratas Yang Dikerjakan",
+    "projectsTimeGraph": "Graf Masa Projek",
+    "languages": "Bahasa Teratas Yang Digunakan",
+    "languagesTimeGraph": "Graf Masa Bahasa"
   },
   "labels": {
     "inThePast": "Pada Masa Lalu"
