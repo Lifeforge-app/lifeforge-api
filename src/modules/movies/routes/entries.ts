@@ -24,35 +24,56 @@ router.get(
   })
 );
 
-router.post(
-  "/ticket",
+const updateTicket = asyncWrapper(async (req, res) => {
+  const { pb } = req;
+
+  const {
+    entry_id,
+    ticket_number,
+    theatre_location,
+    theatre_number,
+    theatre_seat,
+    theatre_showtime,
+  } = req.body;
+
+  if (!checkExistence(req, res, "movies_entries", entry_id)) {
+    return;
+  }
+
+  const updatedEntry = await pb.collection("movies_entries").update(entry_id, {
+    ticket_number,
+    theatre_location,
+    theatre_number,
+    theatre_seat,
+    theatre_showtime,
+  });
+
+  successWithBaseResponse(res, updatedEntry);
+});
+
+router.post("/ticket", updateTicket);
+
+router.patch("/ticket/:id", updateTicket);
+
+router.delete(
+  "/ticket/:id",
   asyncWrapper(async (req, res) => {
     const { pb } = req;
+    const { id } = req.params;
 
-    const {
-      entry_id,
-      ticket_number,
-      theatre_location,
-      theatre_number,
-      theatre_seat,
-      theatre_showtime,
-    } = req.body;
-
-    if (!checkExistence(req, res, "movies_entries", entry_id)) {
+    if (!checkExistence(req, res, "movies_entries", id)) {
       return;
     }
 
-    const updatedEntry = await pb
-      .collection("movies_entries")
-      .update(entry_id, {
-        ticket_number,
-        theatre_location,
-        theatre_number,
-        theatre_seat,
-        theatre_showtime,
-      });
+    await pb.collection("movies_entries").update(id, {
+      ticket_number: "",
+      theatre_location: "",
+      theatre_number: "",
+      theatre_seat: "",
+      theatre_showtime: "",
+    });
 
-    successWithBaseResponse(res, updatedEntry);
+    return successWithBaseResponse(res, undefined, 204);
   })
 );
 
@@ -91,6 +112,7 @@ router.post(
       const entryData = {
         tmdb_id: response.id,
         title: response.title,
+        original_title: response.original_title,
         poster: response.poster_path,
         genres: response.genres.map((genre: { name: string }) => genre.name),
         duration: response.runtime,

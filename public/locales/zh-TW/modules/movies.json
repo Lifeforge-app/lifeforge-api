@@ -22,6 +22,10 @@
         "search": {
             "title": "找不到電影",
             "description": "請嘗試輸入不同的搜尋關鍵字。"
+        },
+        "library": {
+            "title": "沒有電影在庫",
+            "description": "點擊下面的按鈕將電影添加到您的庫中。"
         }
     },
     "buttons": {

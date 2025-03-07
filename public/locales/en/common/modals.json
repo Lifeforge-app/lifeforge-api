@@ -60,5 +60,7 @@
             "morandiColorPalette": "Morandi Color Palette",
             "tailwindCssColorPalette": "Tailwind CSS Color Palette"
         }
-    }
+    },
+    "imagePreview": "Image Preview",
+    "qrCodeScanner": "QR Code Scanner"
 }

@@ -22,6 +22,10 @@
         "search": {
             "title": "Movies Not Found",
             "description": "Please try entering a different search keyword."
+        },
+        "library": {
+            "title": "No Movies in Library",
+            "description": "Add movies to your library by clicking the button below."
         }
     },
     "buttons": {

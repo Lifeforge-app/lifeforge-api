@@ -22,6 +22,10 @@
         "search": {
             "title": "找不到电影",
             "description": "请尝试输入不同的搜索关键字。"
+        },
+        "library": {
+            "title": "没有电影在库",
+            "description": "点击下面的按钮将电影添加到您的库中。"
         }
     },
     "buttons": {
