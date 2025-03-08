@@ -51,7 +51,7 @@ const pocketbaseMiddleware = async (
       req.url === "/" ||
       NO_NEED_AUTH.some((route) => req.url.startsWith(route)) ||
       req.url.match(
-        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules)\.\w+$/
+        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules|utils)\.\w+$/
       )
     ) {
       req.pb = pb;

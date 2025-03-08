@@ -94,7 +94,7 @@ app.use(
       "http://192.168.0.131:5173",
       "https://lifeforge.melvinchia.dev",
       "https://api-explorer.lifeforge.thecodeblog.net",
-      "https://localization-manager.lifeforge.thecodeblog.net",
+      "https://locale.lifeforge.melvinchia.dev",
     ],
   })
 );
