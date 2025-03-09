@@ -5,5 +5,14 @@
     "routeMap": "Route Map",
     "earthMap": "Earth Map",
     "stationList": "Station List"
+  },
+  "widgets": {
+    "routePlanner": {
+      "title": "Route Planner"
+    }
+  },
+  "inputs": {
+    "boardingAt": "Boarding At",
+    "alightingAt": "Alighting At"
   }
 }

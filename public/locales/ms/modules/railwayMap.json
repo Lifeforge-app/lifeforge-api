@@ -5,5 +5,14 @@
     "routeMap": "Peta Laluan",
     "earthMap": "Peta Bumi",
     "stationList": "Senarai Stesen"
+  },
+  "widgets": {
+    "routePlanner": {
+      "title": "Perancang Laluan"
+    }
+  },
+  "inputs": {
+    "boardingAt": "Menaiki Di",
+    "alightingAt": "Turun Di"
   }
 }

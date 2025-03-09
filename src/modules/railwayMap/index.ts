@@ -101,7 +101,7 @@ router.get("/shortest", [
 
     if (
       ![start, end].every((station) =>
-        allStations.some((s) => s.name === station)
+        allStations.some((s) => s.id === station)
       )
     ) {
       clientError(res, "Invalid start or end station");
@@ -129,7 +129,12 @@ router.get("/shortest", [
       {}
     );
 
-    const path = dijkstraWithTransfers(graphWithWeight, lines, start, end);
+    const path = dijkstraWithTransfers(
+      graphWithWeight,
+      lines,
+      allStations.find((s) => s.id === start)?.name ?? "",
+      allStations.find((s) => s.id === end)?.name ?? ""
+    );
 
     if (!path) {
       clientError(res, "No path found");

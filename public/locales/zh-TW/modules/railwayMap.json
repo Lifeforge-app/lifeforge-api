@@ -5,5 +5,14 @@
     "routeMap": "路線圖",
     "earthMap": "地球地圖",
     "stationList": "車站列表"
+  },
+  "widgets": {
+    "routePlanner": {
+      "title": "路線規劃器"
+    }
+  },
+  "inputs": {
+    "boardingAt": "登車站點",
+    "alightingAt": "下車站點"
   }
 }
