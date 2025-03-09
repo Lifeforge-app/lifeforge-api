@@ -1,0 +1,9 @@
+{
+  "title": "Peta Kereta Api",
+  "description": "Peta utama untuk MRT dan LRT di Malaysia dan Singapura",
+  "viewTypes": {
+    "routeMap": "Peta Laluan",
+    "earthMap": "Peta Bumi",
+    "stationList": "Senarai Stesen"
+  }
+}

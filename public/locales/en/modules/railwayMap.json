@@ -1,0 +1,9 @@
+{
+  "title": "Railway Map",
+  "description": "The ultimate map for MRT and LRT in Malaysia and Singapore",
+  "viewTypes": {
+    "routeMap": "Route Map",
+    "earthMap": "Earth Map",
+    "stationList": "Station List"
+  }
+}

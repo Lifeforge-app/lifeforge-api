@@ -1,0 +1,9 @@
+{
+  "title": "铁路地图",
+  "description": "马来西亚和新加坡MRT和LRT的终极地图",
+  "viewTypes": {
+    "routeMap": "路线图",
+    "earthMap": "地球地图",
+    "stationList": "车站列表"
+  }
+}

@@ -48,6 +48,8 @@ const momentVaultRoutes = lazyLoad(
   () => import("./modules/momentVault/routes")
 );
 const moviesRoutes = lazyLoad(() => import("./modules/movies"));
+const railwayMapRoutes = lazyLoad(() => import("./modules/railwayMap"));
+
 const router = express.Router();
 
 router.use("/locales", localesRoutes);
@@ -85,5 +87,6 @@ router.use("/openai-api-pricing", openAIAPIPricingRoutes);
 router.use("/virtual-wardrobe", virtualWardrobeRoutes);
 router.use("/moment-vault", momentVaultRoutes);
 router.use("/movies", moviesRoutes);
+router.use("/railway-map", railwayMapRoutes);
 
 export default router;
