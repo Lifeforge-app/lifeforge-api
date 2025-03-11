@@ -29,5 +29,35 @@
   },
   "items": {
     "mail": "郵件"
+  },
+  "empty": {
+    "inbox": {
+      "title": "沒有郵件",
+      "description": "您的收件箱中沒有郵件。"
+    },
+    "starred": {
+      "title": "沒有加星郵件",
+      "description": "您沒有加星郵件。"
+    },
+    "sent": {
+      "title": "沒有已發送郵件",
+      "description": "您沒有已發送郵件。"
+    },
+    "trash": {
+      "title": "沒有已刪除郵件",
+      "description": "您沒有已刪除郵件。"
+    },
+    "allMails": {
+      "title": "沒有郵件",
+      "description": "您沒有郵件。"
+    },
+    "draft": {
+      "title": "沒有草稿郵件",
+      "description": "您沒有草稿郵件。"
+    },
+    "filteredMails": {
+      "title": "沒有郵件",
+      "description": "您沒有郵件。"
+    }
   }
 }

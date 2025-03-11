@@ -3,8 +3,8 @@ import {
   IRoute,
   IRouteDocs,
   IRoutes,
-} from "../interfaces/api_routes_interfaces.js";
-import parseRouteDocs from "./parseRouteDocs.js";
+} from "../interfaces/api_routes_interfaces";
+import parseRouteDocs from "./parseRouteDocs";
 
 function getRoutesFromFile(content: string) {
   return content

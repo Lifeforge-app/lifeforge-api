@@ -9,6 +9,7 @@ import {
 import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
 import Pocketbase from "pocketbase";
+import { IMailInboxLabel } from "../../../interfaces/mail_inbox_interfaces";
 
 function getFullPath(
   record: { name: string; parent: string; id: string },
@@ -129,44 +130,45 @@ async function createUnsubscribeUrlRecord(
   }
 }
 
+function getLabelId(labels: IMailInboxLabel[], label: string) {
+  const splitted = label.split("/");
+  let parentId = "";
+
+  for (const part of splitted) {
+    const record = labels.find((r) => r.name === part && r.parent === parentId);
+
+    if (!record) {
+      break;
+    }
+
+    parentId = record.id;
+  }
+
+  return parentId;
+}
+
 async function addLabelToEntry(
   entryId: string,
   labels: string[],
+  mainBox: string,
   pb: Pocketbase
 ) {
   const labelRecords = await pb
     .collection("mail_inbox_labels")
-    .getFullList()
+    .getFullList<IMailInboxLabel>()
     .catch(() => []);
 
   const idsToSet = [];
 
   for (const label of labels) {
-    const splitted = label.split("/");
-    let parentId = "";
+    const id = getLabelId(labelRecords, label);
 
-    for (const part of splitted) {
-      const record = labelRecords.find(
-        (r) => r.name === part && r.parent === parentId
-      );
-
-      if (!record) {
-        const newRecord = await pb.collection("mail_inbox_labels").create({
-          name: part,
-          parent: parentId,
-        });
-
-        parentId = newRecord.id;
-        break;
-      }
-
-      parentId = record.id;
-    }
-
-    if (parentId) {
-      idsToSet.push(parentId);
+    if (id) {
+      idsToSet.push(id);
     }
   }
+
+  const mainBoxId = getLabelId(labelRecords, mainBox);
 
   for (const id of idsToSet) {
     await pb.collection("mail_inbox_labels").update(id, {
@@ -176,12 +178,11 @@ async function addLabelToEntry(
 
   await pb.collection("mail_inbox_entries").update(entryId, {
     labels: idsToSet,
+    box: mainBoxId,
   });
 }
 
 export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
-  const labels = await fetchLabels(pb);
-
   const allLabels = [
     "INBOX",
     ...(message.attributes as any)["x-gm-labels"]
@@ -200,7 +201,7 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
 
   const existedData = await pb
     .collection("mail_inbox_entries")
-    .getFirstListItem(`uid = "${id}"`)
+    .getFirstListItem(`messageId = "${id}"`)
     .catch(() => null);
 
   if (existedData) {
@@ -219,7 +220,8 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
   }
 
   const newData = await pb.collection("mail_inbox_entries").create({
-    uid: id,
+    uid: message.attributes.uid,
+    messageId: id,
     subject: data.subject,
     date: data.date,
     text: data.text?.replace(/[\u200C\u034F\s]+/g, " "),
@@ -255,5 +257,5 @@ export async function createMailRecord(message: imaps.Message, pb: Pocketbase) {
 
   await createUnsubscribeUrlRecord(data.headers, newData.id, pb);
 
-  await addLabelToEntry(newData.id, allLabels, pb);
+  await addLabelToEntry(newData.id, allLabels, "INBOX", pb);
 }

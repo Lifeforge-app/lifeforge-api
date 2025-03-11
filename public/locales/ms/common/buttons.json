@@ -28,5 +28,9 @@
     "unfavourite": "Nyahkegemaran",
     "archive": "Arkib",
     "unarchive": "Nyaharkib",
-    "download": "Muat turun"
+    "download": "Muat turun",
+    "stop": "Berhenti",
+    "record": "Rakam",
+    "overwrite": "Timpa",
+    "adjust": "Sesuaikan"
 }

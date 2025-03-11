@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { successWithBaseResponse } from "./response.js";
-import { BaseResponse } from "../interfaces/base_response.js";
-import hasError from "./checkError.js";
+import { successWithBaseResponse } from "./response";
+import { BaseResponse } from "../interfaces/base_response";
+import hasError from "./checkError";
 
 async function list<T>(
   req: Request,
@@ -10,8 +10,6 @@ async function list<T>(
   options = {},
   postProcess?: (data: T[]) => T[]
 ) {
-  if (hasError(req, res)) return;
-
   const { pb } = req;
 
   const data: T[] = await pb.collection(collection).getFullList(options);

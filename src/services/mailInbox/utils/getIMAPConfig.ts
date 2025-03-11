@@ -1,5 +1,5 @@
 import Pocketbase from "pocketbase";
-import { getAPIKey } from "../../../utils/getAPIKey.js";
+import { getAPIKey } from "../../../utils/getAPIKey";
 import imaps from "imap-simple";
 
 export default async function getIMAPConfig(

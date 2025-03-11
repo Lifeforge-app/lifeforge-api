@@ -2,9 +2,9 @@
   "title": "Kalendar",
   "description": "Jangan terlepas janji temu dengan takdir (atau doktor gigi).",
   "view": {
-    "day": "Paparan Hari",
-    "month": "Paparan Bulan",
-    "week": "Paparan Minggu",
+    "day": "Harian",
+    "month": "Bulanan",
+    "week": "Mingguan",
     "agenda": "Agenda"
   },
   "sidebar": {
@@ -24,7 +24,10 @@
     "startTime": "Masa Mula",
     "endTime": "Masa Tamat",
     "eventCategory": "Kategori Acara",
-    "eventTitle": "Tajuk Acara"
+    "eventTitle": "Tajuk Acara",
+    "categoryName": "Nama Kategori",
+    "categoryColor": "Warna Kategori",
+    "categoryIcon": "Ikon Kategori"
   },
   "items": {
     "event": "Acara",

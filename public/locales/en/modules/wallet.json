@@ -14,7 +14,7 @@
   },
   "widgets": {
     "expensesBreakdown": {
-      "title": "This Month's Expenses Breakdown",
+      "title": "Expenses Breakdown",
       "thisMonthsSpending": "This Month's Spending"
     },
     "income": {

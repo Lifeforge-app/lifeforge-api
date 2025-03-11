@@ -1,7 +1,7 @@
 import Pocketbase from "pocketbase";
-import getIMAPConfig from "./utils/getIMAPConfig.js";
+import getIMAPConfig from "./utils/getIMAPConfig";
 import imaps from "imap-simple";
-import { createMailRecord } from "./utils/createMailRecord.js";
+import { createMailRecord } from "./utils/createMailRecord";
 import moment from "moment";
 
 if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {

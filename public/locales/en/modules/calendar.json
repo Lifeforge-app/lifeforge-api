@@ -2,9 +2,9 @@
   "title": "Calendar",
   "description": "Don't miss appointments with destiny (or the dentist).",
   "view": {
-    "day": "Day View",
-    "month": "Month View",
-    "week": "Week View",
+    "day": "Day",
+    "month": "Month",
+    "week": "Week",
     "agenda": "Agenda"
   },
   "sidebar": {
@@ -24,7 +24,10 @@
     "startTime": "Start Time",
     "endTime": "End Time",
     "eventCategory": "Event Category",
-    "eventTitle": "Event Title"
+    "eventTitle": "Event Title",
+    "categoryName": "Category Name",
+    "categoryColor": "Category Color",
+    "categoryIcon": "Category Icon"
   },
   "items": {
     "event": "Event",

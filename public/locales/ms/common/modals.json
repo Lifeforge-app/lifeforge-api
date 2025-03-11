@@ -4,7 +4,63 @@
         "desc": "Ini akan memadam {{itemName}} dan semua kandungan yang berkaitan. Tindakan ini tidak boleh dipulihkan!"
     },
     "searchFilters": "Penapis Carian",
-    "imageSelector": "Pilih Imej",
-    "selectAnIcon": "Pilih Ikon",
-    "imagePreview": "Pratonton Imej"
+    "iconPicker": {
+        "title": "Pilih Ikon",
+        "items": {
+            "icon": "Ikon",
+            "iconSet": "Set Ikon"
+        },
+        "empty": {
+            "icon": {
+                "title": "Tiada ikon",
+                "description": "Tiada ikon ditemui, sila cuba kata kunci lain."
+            }
+        }
+    },
+    "imagePicker": {
+        "title": "Pilih Imej",
+        "local": "Muat naik imej tempatan",
+        "url": "URL Imej",
+        "pixabay": "Muat turun dari Pixabay",
+        "orPasteLink": "Atau tampal pautan imej",
+        "inputs": {
+            "imageLink": "Pautan imej",
+            "imageType": "Jenis imej",
+            "imageCategory": "Kategori imej",
+            "imageColor": "Warna imej",
+            "editorsChoice": "Pilihan Editor"
+        },
+        "imageType": {
+            "all": "Semua",
+            "photo": "Foto",
+            "vector": "Vektor",
+            "illustration": "Ilustrasi"
+        },
+        "items": {
+            "pixabay": "Pixabay"
+        },
+        "empty": {
+            "result": {
+                "title": "Tiada hasil",
+                "description": "Tiada imej ditemui, sila cuba kata kunci lain."
+            },
+            "pixabay": {
+                "title": "Disediakan oleh Pixabay",
+                "description": "Cari lebih daripada 13 juta imej percuma berkualiti tinggi."
+            }
+        }
+    },
+    "colorPicker": {
+        "title": "Pilih Warna",
+        "modals": {
+            "morandiColorPalette": "Palet Warna Morandi",
+            "tailwindCssColorPalette": "Palet Warna Tailwind CSS"
+        },
+        "buttons": {
+            "morandiColorPalette": "Palet Warna Morandi",
+            "tailwindCssColorPalette": "Palet Warna Tailwind CSS"
+        }
+    },
+    "imagePreview": "Pratonton Imej",
+    "qrCodeScanner": "Pengimbas Kod QR"
 }

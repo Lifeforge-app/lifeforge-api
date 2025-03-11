@@ -14,8 +14,8 @@
   },
   "widgets": {
     "expensesBreakdown": {
-      "title": "Pecahan Perbelanjaan Bulan Ini",
-      "thisMonthsSpending": "Perbelanjaan Bulan Ini"
+      "title": "Pecahan Perbelanjaan",
+      "thisMonthsSpending": "telah Dilanja"
     },
     "income": {
       "title": "Pendapatan"

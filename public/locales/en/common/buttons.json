@@ -28,5 +28,9 @@
     "unfavourite": "Unfavourite",
     "archive": "Archive",
     "unarchive": "Unarchive",
-    "download": "Download"
+    "download": "Download",
+    "stop": "Stop",
+    "record": "Record",
+    "overwrite": "Overwrite",
+    "adjust": "Adjust"
 }

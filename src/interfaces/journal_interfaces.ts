@@ -1,4 +1,4 @@
-import type BasePBCollection from "./pocketbase_interfaces.js";
+import type BasePBCollection from "./pocketbase_interfaces";
 
 interface IJournalEntry extends BasePBCollection {
   date: string;

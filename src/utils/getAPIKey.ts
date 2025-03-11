@@ -1,5 +1,5 @@
 import Pocketbase from "pocketbase";
-import { decrypt2 } from "./encryption.js";
+import { decrypt2 } from "./encryption";
 
 export async function getAPIKey(id: string, pb: Pocketbase) {
   try {

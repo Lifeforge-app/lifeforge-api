@@ -24,7 +24,10 @@
     "startTime": "開始時間",
     "endTime": "結束時間",
     "eventCategory": "事件類別",
-    "eventTitle": "事件標題"
+    "eventTitle": "事件標題",
+    "categoryName": "類別名稱",
+    "categoryColor": "類別顏色",
+    "categoryIcon": "類別圖標"
   },
   "items": {
     "event": "事件",

@@ -1,4 +1,4 @@
-import { clientError } from "./response.js";
+import { clientError } from "./response";
 import { Request, Response } from "express";
 
 export async function checkExistence(
@@ -6,7 +6,6 @@ export async function checkExistence(
   res: Response,
   collection: string,
   id: string,
-  item: string,
   sendError = true
 ): Promise<boolean> {
   const found =
@@ -14,9 +13,11 @@ export async function checkExistence(
       .collection(collection)
       .getOne(id)
       .then(() => true)
-      .catch((err) => {
-        sendError && clientError(res, `${item}: Not found`, 404);
-      })) ?? false;
+      .catch(() => {})) ?? false;
+
+  if (!found && sendError) {
+    clientError(res, `Related record not found in database`, 400);
+  }
 
   return found;
 }

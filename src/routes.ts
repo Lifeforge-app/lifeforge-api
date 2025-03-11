@@ -3,51 +3,52 @@ import { createLazyRouter } from "express-lazy-router";
 
 const lazyLoad = createLazyRouter();
 
-const localesRoutes = lazyLoad(() => import("./routes/locales/index.js"));
-const userRoutes = lazyLoad(() => import("./routes/user/index.js"));
-const projectsMRoutes = lazyLoad(() => import("./routes/projectsM/index.js"));
-const todoListRoutes = lazyLoad(() => import("./routes/todoList/index.js"));
-const calendarRoutes = lazyLoad(() => import("./routes/calendar/index.js"));
-const ideaBoxRoutes = lazyLoad(() => import("./routes/ideaBox/index.js"));
-const codeTimeRoutes = lazyLoad(() => import("./routes/codeTime/index.js"));
+const localesRoutes = lazyLoad(() => import("./modules/locales"));
+const userRoutes = lazyLoad(() => import("./modules/user"));
+const projectsMRoutes = lazyLoad(() => import("./modules/projectsM"));
+const todoListRoutes = lazyLoad(() => import("./modules/todoList"));
+const calendarRoutes = lazyLoad(() => import("./modules/calendar"));
+const ideaBoxRoutes = lazyLoad(() => import("./modules/ideaBox"));
+const codeTimeRoutes = lazyLoad(() => import("./modules/codeTime"));
 const booksLibraryRoutes = lazyLoad(
-  () => import("./routes/booksLibrary/index.js")
+  () => import("./modules/booksLibrary/routes")
 );
-const notesRoutes = lazyLoad(() => import("./routes/notes/index.js"));
-const flashcardsRoutes = lazyLoad(() => import("./routes/flashcards/index.js"));
+const notesRoutes = lazyLoad(() => import("./modules/notes"));
+const flashcardsRoutes = lazyLoad(() => import("./modules/flashcards"));
 const achievementsRoutes = lazyLoad(
-  () => import("./routes/achievements/index.js")
+  () => import("./modules/achievements/routes")
 );
-const spotifyRoutes = lazyLoad(() => import("./routes/spotify/index.js"));
-const photosRoutes = lazyLoad(() => import("./routes/photos/index.js"));
-const musicRoutes = lazyLoad(() => import("./routes/music/index.js"));
-const guitarTabsRoutes = lazyLoad(() => import("./routes/guitarTabs/index.js"));
-const repositoriesRoutes = lazyLoad(
-  () => import("./routes/repositories/index.js")
-);
-const passwordsRoutes = lazyLoad(() => import("./routes/passwords/index.js"));
-const airportsRoutes = lazyLoad(() => import("./routes/airports/index.js"));
-const changiRoutes = lazyLoad(() => import("./routes/changi/index.js"));
-const journalRoutes = lazyLoad(() => import("./routes/journal/index.js"));
-const serverRoutes = lazyLoad(() => import("./routes/server/index.js"));
-const changeLogRoutes = lazyLoad(() => import("./routes/changeLog/index.js"));
-const DNSRecordsRoutes = lazyLoad(() => import("./routes/dnsRecords/index.js"));
-const mailInboxRoutes = lazyLoad(() => import("./routes/mailInbox/index.js"));
-const walletRoutes = lazyLoad(() => import("./routes/wallet/index.js"));
-const wishlistRoutes = lazyLoad(() => import("./routes/wishlist/index.js"));
-const youtubeVideosRoutes = lazyLoad(
-  () => import("./routes/youtubeVideos/index.js")
-);
-const apiKeysRoutes = lazyLoad(() => import("./routes/apiKeys/index.js"));
-const pixabayRoutes = lazyLoad(() => import("./routes/pixabay/index.js"));
-const quotesRoutes = lazyLoad(() => import("./routes/quotes/index.js"));
-const sudokuRoutes = lazyLoad(() => import("./routes/sudoku/index.js"));
+const spotifyRoutes = lazyLoad(() => import("./modules/spotify"));
+const photosRoutes = lazyLoad(() => import("./modules/photos"));
+const musicRoutes = lazyLoad(() => import("./modules/music"));
+const guitarTabsRoutes = lazyLoad(() => import("./modules/guitarTabs"));
+const repositoriesRoutes = lazyLoad(() => import("./modules/repositories"));
+const passwordsRoutes = lazyLoad(() => import("./modules/passwords"));
+const airportsRoutes = lazyLoad(() => import("./modules/airports"));
+const changiRoutes = lazyLoad(() => import("./modules/changi"));
+const journalRoutes = lazyLoad(() => import("./modules/journal"));
+const serverRoutes = lazyLoad(() => import("./modules/server"));
+const changeLogRoutes = lazyLoad(() => import("./modules/changeLog"));
+const DNSRecordsRoutes = lazyLoad(() => import("./modules/dnsRecords"));
+const mailInboxRoutes = lazyLoad(() => import("./modules/mailInbox"));
+const walletRoutes = lazyLoad(() => import("./modules/wallet/routes"));
+const wishlistRoutes = lazyLoad(() => import("./modules/wishlist"));
+const youtubeVideosRoutes = lazyLoad(() => import("./modules/youtubeVideos"));
+const apiKeysRoutes = lazyLoad(() => import("./modules/apiKeys"));
+const pixabayRoutes = lazyLoad(() => import("./modules/pixabay"));
+const quotesRoutes = lazyLoad(() => import("./modules/quotes"));
+const sudokuRoutes = lazyLoad(() => import("./modules/sudoku"));
 const openAIAPIPricingRoutes = lazyLoad(
-  () => import("./routes/openAIAPIPricing/index.js")
+  () => import("./modules/openAIAPIPricing")
 );
 const virtualWardrobeRoutes = lazyLoad(
-  () => import("./routes/virtualWardrobe/index.js")
+  () => import("./modules/virtualWardrobe")
 );
+const momentVaultRoutes = lazyLoad(
+  () => import("./modules/momentVault/routes")
+);
+const moviesRoutes = lazyLoad(() => import("./modules/movies"));
+const railwayMapRoutes = lazyLoad(() => import("./modules/railwayMap"));
 
 const router = express.Router();
 
@@ -84,5 +85,8 @@ router.use("/pixabay", pixabayRoutes);
 router.use("/quotes", quotesRoutes);
 router.use("/openai-api-pricing", openAIAPIPricingRoutes);
 router.use("/virtual-wardrobe", virtualWardrobeRoutes);
+router.use("/moment-vault", momentVaultRoutes);
+router.use("/movies", moviesRoutes);
+router.use("/railway-map", railwayMapRoutes);
 
 export default router;

@@ -11,8 +11,10 @@
   "headers": {
     "statistics": "统计",
     "activitiesCalendar": "活动日历",
-    "projects": "专案",
-    "languages": "语言"
+    "projects": "最常参与的项目",
+    "projectsTimeGraph": "项目时间图表",
+    "languages": "最常使用的语言",
+    "languagesTimeGraph": "语言时间图表"
   },
   "labels": {
     "inThePast": "过去"

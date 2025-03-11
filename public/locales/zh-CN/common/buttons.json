@@ -28,5 +28,9 @@
     "unfavourite": "取消收藏",
     "archive": "归档",
     "unarchive": "取消归档",
-    "download": "下载"
+    "download": "下载",
+    "stop": "停止",
+    "record": "录制",
+    "overwrite": "覆盖",
+    "adjust": "调整"
 }

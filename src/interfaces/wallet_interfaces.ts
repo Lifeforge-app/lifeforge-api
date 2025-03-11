@@ -1,5 +1,5 @@
 import * as s from "superstruct";
-import { BasePBCollectionSchema } from "./pocketbase_interfaces.js";
+import { BasePBCollectionSchema } from "./pocketbase_interfaces";
 
 const WalletAssetSchema = s.assign(
   BasePBCollectionSchema,
@@ -84,6 +84,6 @@ export type {
   IWalletLedger,
   IWalletTransactionEntry,
   IWalletCategory,
-  IWalletIncomeExpenses,
+  IWalletIncomeExpenses as IWalletIncomeExpensesSummary,
   IWalletReceiptScanResult,
 };
