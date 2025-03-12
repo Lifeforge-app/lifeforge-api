@@ -42,7 +42,7 @@ async function updateNullData(userData: Record<string, any>, pb: Pocketbase) {
     userData.enabledModules = [];
   }
 
-  if (!userData.enabledWidgets) {
+  if (!userData.dashboardLayout) {
     await pb.collection("users").update(userData.id, {
       dashboardLayout: {},
     });
