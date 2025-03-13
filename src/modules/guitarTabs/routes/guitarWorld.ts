@@ -169,7 +169,8 @@ router.post(
           clientError(res, "Failed to create entry", 502);
         }
       });
-    } catch {
+    } catch (err) {
+      console.error(err)
       clientError(res, "Failed to fetch data", 502);
       return;
     }
