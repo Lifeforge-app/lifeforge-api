@@ -187,10 +187,10 @@ router.post(
         const { numpages } = await pdfPageCounter(buffer);
 
         thumbnail
-          .pipe(fs.createWriteStream(`uploads/${decodedName}.jpg`))
+          .pipe(fs.createWriteStream(`medium/${decodedName}.jpg`))
           .once("close", async () => {
             const thumbnailBuffer = fs.readFileSync(
-              `uploads/${decodedName}.jpg`
+              `medium/${decodedName}.jpg`
             );
 
             const otherFiles: {
@@ -230,7 +230,7 @@ router.post(
             );
 
             fs.unlinkSync(path);
-            fs.unlinkSync(`uploads/${decodedName}.jpg`);
+            fs.unlinkSync(`medium/${decodedName}.jpg`);
             if (group.mscz) {
               fs.unlinkSync(group.mscz.path);
             }
@@ -245,9 +245,9 @@ router.post(
           });
       } catch (err) {
         processing = "failed";
-        const allFilesLeft = fs.readdirSync("uploads");
+        const allFilesLeft = fs.readdirSync("medium");
         for (const file of allFilesLeft) {
-          fs.unlinkSync(`uploads/${file}`);
+          fs.unlinkSync(`medium/${file}`);
         }
 
         left = 0;

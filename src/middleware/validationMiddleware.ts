@@ -8,8 +8,8 @@ const validationMiddleware = async (
   next: NextFunction
 ) => {
   if (hasError(req, res)) {
-    fs.readdirSync("uploads").map((file) => {
-      fs.unlinkSync(`uploads/${file}`);
+    fs.readdirSync("medium").map((file) => {
+      fs.unlinkSync(`medium/${file}`);
     });
 
     return;

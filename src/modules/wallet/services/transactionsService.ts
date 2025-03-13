@@ -20,7 +20,7 @@ function convertPDFToImage(path: string): Promise<File | undefined> {
         density: 200,
         quality: 100,
         saveFilename: "receipt",
-        savePath: "uploads",
+        savePath: "medium",
         format: "png",
         width: 2000,
         preserveAspectRatio: true,
@@ -453,22 +453,22 @@ export const scanReceipt = async (
 
     const buffer = await image.arrayBuffer();
 
-    fs.writeFileSync("uploads/receipt.png", Buffer.from(buffer));
+    fs.writeFileSync("medium/receipt.png", Buffer.from(buffer));
   } else {
-    fs.renameSync(file.path, "uploads/receipt.png");
+    fs.renameSync(file.path, "medium/receipt.png");
   }
 
-  if (!fs.existsSync("uploads/receipt.png")) {
+  if (!fs.existsSync("medium/receipt.png")) {
     return;
   }
 
-  const OCRResult = await parseOCR("uploads/receipt.png");
+  const OCRResult = await parseOCR("medium/receipt.png");
 
   if (!OCRResult) {
     return;
   }
 
-  fs.unlinkSync("uploads/receipt.png");
+  fs.unlinkSync("medium/receipt.png");
 
   const transaction = await getTransactionDetails();
 

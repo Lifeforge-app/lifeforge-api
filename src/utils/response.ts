@@ -14,8 +14,8 @@ function successWithBaseResponse<T>(
 }
 
 function clientError(res: Response, message = "Bad Request", status = 400) {
-  fs.readdirSync("uploads").forEach((file) => {
-    fs.unlinkSync(`uploads/${file}`);
+  fs.readdirSync("medium").forEach((file) => {
+    fs.unlinkSync(`medium/${file}`);
   });
 
   res.status(status).json({
@@ -25,8 +25,8 @@ function clientError(res: Response, message = "Bad Request", status = 400) {
 }
 
 function serverError(res: Response, message = "Internal Server Error") {
-  fs.readdirSync("uploads").forEach((file) => {
-    fs.unlinkSync(`uploads/${file}`);
+  fs.readdirSync("medium").forEach((file) => {
+    fs.unlinkSync(`medium/${file}`);
   });
 
   res.status(500).json({
