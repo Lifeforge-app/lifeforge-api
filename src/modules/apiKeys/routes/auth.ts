@@ -4,7 +4,6 @@ import asyncWrapper from "../../../utils/asyncWrapper";
 import { challenge } from "../index";
 import { body } from "express-validator";
 import { BaseResponse } from "../../../interfaces/base_response";
-import hasError from "../../../utils/checkError";
 import { decrypt2 } from "../../../utils/encryption";
 import bcrypt from "bcrypt";
 import checkOTP from "../../../utils/checkOTP";

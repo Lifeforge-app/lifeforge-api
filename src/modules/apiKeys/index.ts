@@ -1,13 +1,12 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import auth from "./routes/auth";
 import { v4 } from "uuid";
 import { body, param, query } from "express-validator";
-import { decrypt2, decrypt, encrypt, encrypt2 } from "../../utils/encryption";
+import { decrypt2, encrypt2 } from "../../utils/encryption";
 import bcrypt from "bcrypt";
 import { clientError, successWithBaseResponse } from "../../utils/response";
 import Pocketbase from "pocketbase";
 import asyncWrapper from "../../utils/asyncWrapper";
-import hasError from "../../utils/checkError";
 import { BaseResponse } from "../../interfaces/base_response";
 import { IAPIKeyEntry } from "../../interfaces/api_keys_interfaces";
 

@@ -1,28 +1,39 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { list } from "../../../utils/CRUD";
-import { checkExistence } from "../../../utils/PBRecordValidator";
+import express from "express";
+import {
+  validateCategoryData,
+  validateId,
+} from "../middlewares/categoriesValidation";
+import * as CategoriesController from "../controllers/categoriesController";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
 /**
  * @protected
- * @summary Get a list of all calendar categories
- * @description Retrieve a list of all calendar categories.
+ * @summary Get all calendar categories
+ * @description Retrieve all calendar categories
  * @response 200 (ICalendarCategory[]) - The list of calendar categories
  */
+router.get("/", CategoriesController.getAllCategories);
+
+/**
+ * @protected
+ * @summary Get a specific calendar category by ID
+ * @description Retrieve a specific calendar category by its ID
+ * @param id (string, required, must_exist) - The ID of the calendar category
+ * @response 200 (ICalendarCategory) - The calendar category
+ */
 router.get(
-  "/",
-  asyncWrapper(async (req, res) => list(req, res, "calendar_categories"))
+  "/:id",
+  validateId,
+  validationMiddleware,
+  CategoriesController.getCategoryById
 );
 
 /**
  * @protected
  * @summary Create a new calendar category
- * @description Create a new calendar category with the given name, icon, and color.
+ * @description Create a new calendar category with name, icon, and color
  * @body name (string, required) - The name of the category
  * @body icon (string, required) - The icon of the category, can be any icon available in Iconify
  * @body color (string, required) - The color of the category, in hex format
@@ -30,29 +41,16 @@ router.get(
  */
 router.post(
   "/",
-  [
-    body("name").isString(),
-    body("icon").isString(),
-    body("color").isHexColor(),
-  ],
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { name, icon, color } = req.body;
-
-    const category = await pb.collection("calendar_categories").create({
-      name,
-      icon,
-      color,
-    });
-    successWithBaseResponse(res, category);
-  })
+  validateCategoryData,
+  validationMiddleware,
+  CategoriesController.createCategory
 );
 
 /**
  * @protected
  * @summary Update a calendar category
- * @description Update a calendar category with the given name, icon, and color.
- * @param id (string, required, must_exist) - The ID of the category
+ * @description Update an existing calendar category with the given ID
+ * @param id (string, required, must_exist) - The ID of the calendar category to update
  * @body name (string, required) - The name of the category
  * @body icon (string, required) - The icon of the category, can be any icon available in Iconify
  * @body color (string, required) - The color of the category, in hex format
@@ -60,46 +58,24 @@ router.post(
  */
 router.patch(
   "/:id",
-  [
-    body("name").isString(),
-    body("icon").isString(),
-    body("color").isHexColor(),
-  ],
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { name, icon, color } = req.body;
-
-    if (!(await checkExistence(req, res, "calendar_categories", id))) return;
-
-    const category = await pb.collection("calendar_categories").update(id, {
-      name,
-      icon,
-      color,
-    });
-
-    successWithBaseResponse(res, category);
-  })
+  validateId,
+  validateCategoryData,
+  validationMiddleware,
+  CategoriesController.updateCategory
 );
 
 /**
  * @protected
  * @summary Delete a calendar category
- * @description Delete a calendar category with the given ID.
- * @param id (string, required, must_exist) - The ID of the category
- * @response 200 - The calendar category was deleted successfully
+ * @description Delete an existing calendar category with the given ID
+ * @param id (string, required, must_exist) - The ID of the calendar category to delete
+ * @response 204 - The calendar category was deleted successfully
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "calendar_categories", id))) return;
-
-    await pb.collection("calendar_categories").delete(id);
-    successWithBaseResponse(res);
-  })
+  validateId,
+  validationMiddleware,
+  CategoriesController.deleteCategory
 );
 
 export default router;
