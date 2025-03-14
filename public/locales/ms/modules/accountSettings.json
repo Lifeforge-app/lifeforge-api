@@ -8,7 +8,8 @@
       "displayName": "Nama Paparan",
       "email": "Alamat Emel",
       "password": "Kata Laluan",
-      "dateOfBirth": "Tarikh Lahir"
+      "dateOfBirth": "Tarikh Lahir",
+      "twoFA": "Pengesahan Dua Faktor"
     },
     "desc": {
       "profilePicture": "Muat naik gambar profil untuk memperibadikan akaun anda.",
@@ -16,7 +17,8 @@
       "displayName": "Nama yang dipaparkan kepada pengguna lain.",
       "email": "Alamat emel yang anda gunakan untuk log masuk ke akaun anda.",
       "password": "Tetapkan kata laluan yang kuat untuk melindungi akaun anda.",
-      "dateOfBirth": "Tetapkan tarikh lahir anda, dan kami akan memberi anda kejutan!"
+      "dateOfBirth": "Tetapkan tarikh lahir anda, dan kami akan memberi anda kejutan!",
+      "twoFA": "Aktifkan pengesahan dua faktor semasa masuk ke dalam sistem."
     },
     "empty": "Tidak Ditentukan"
   },

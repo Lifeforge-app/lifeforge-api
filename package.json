@@ -61,6 +61,7 @@
     "request": "^2.88.2",
     "serverless-http": "^3.2.0",
     "sharp": "^0.33.5",
+    "speakeasy": "^2.0.0",
     "systeminformation": "^5.23.5",
     "tesseract.js": "^5.1.1",
     "test": "^3.3.0",

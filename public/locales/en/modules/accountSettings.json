@@ -8,7 +8,8 @@
       "displayName": "Display Name",
       "email": "Email Address",
       "password": "Password",
-      "dateOfBirth": "Date of Birth"
+      "dateOfBirth": "Date of Birth",
+      "twoFA": "Two-Factor Authentication"
     },
     "desc": {
       "profilePicture": "Upload a profile picture to personalize your account.",
@@ -16,7 +17,8 @@
       "displayName": "The name displayed to other users.",
       "email": "The email address you use to log in to your account.",
       "password": "Set a strong password to protect your account.",
-      "dateOfBirth": "Set your date of birth, and we'll give you a surprise!"
+      "dateOfBirth": "Set your date of birth, and we'll give you a surprise!",
+      "twoFA": "Enable two-factor authentication when logging into the system."
     },
     "empty": "Not Set"
   },

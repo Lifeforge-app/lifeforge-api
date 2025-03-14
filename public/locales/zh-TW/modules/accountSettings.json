@@ -8,7 +8,8 @@
       "displayName": "顯示名稱",
       "email": "電子郵件地址",
       "password": "密碼",
-      "dateOfBirth": "出生日期"
+      "dateOfBirth": "出生日期",
+      "twoFA": "雙重認證"
     },
     "desc": {
       "profilePicture": "上傳個人資料圖片以個性化您的帳戶。",
@@ -16,7 +17,8 @@
       "displayName": "顯示給其他用戶的名稱。",
       "email": "您用來登錄帳戶的電子郵件地址。",
       "password": "設置一個強密碼以保護您的帳戶。",
-      "dateOfBirth": "設置您的出生日期，我們會給您一個驚喜！"
+      "dateOfBirth": "設置您的出生日期，我們會給您一個驚喜！",
+      "twoFA": "在登錄系統时啟用雙重身份驗證。"
     },
     "empty": "未設置"
   },

@@ -110,7 +110,7 @@ router.post(
         provider.name,
         code,
         currentCodeVerifier,
-        `${req.headers.origin}@request.auth.id != \"\"`,
+        `${req.headers.origin}/auth`,
         {
           emailVisibility: false,
         }

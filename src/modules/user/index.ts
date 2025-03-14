@@ -4,10 +4,12 @@ import asyncWrapper from "../../utils/asyncWrapper";
 import settingsRoutes from "./routes/settings";
 import authRoutes from "./routes/auth";
 import personalizationRoutes from "./routes/personalization";
+import twoFARoutes from "./routes/2fa";
 
 const router = express.Router();
 
 router.use("/auth", authRoutes);
+router.use("/2fa", twoFARoutes);
 router.use("/settings", settingsRoutes);
 router.use("/personalization", personalizationRoutes);
 
