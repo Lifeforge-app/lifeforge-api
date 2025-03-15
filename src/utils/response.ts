@@ -7,10 +7,14 @@ function successWithBaseResponse<T>(
   data?: T,
   status: number = 200
 ) {
-  res.status(status).json({
-    state: "success",
-    data: data ?? undefined,
-  });
+  try {
+    res.status(status).json({
+      state: "success",
+      data: data ?? undefined,
+    });
+  } catch {
+    console.error("Failed to send response");
+  }
 }
 
 function clientError(res: Response, message = "Bad Request", status = 400) {
@@ -18,10 +22,14 @@ function clientError(res: Response, message = "Bad Request", status = 400) {
     fs.unlinkSync(`medium/${file}`);
   });
 
-  res.status(status).json({
-    state: "error",
-    message,
-  });
+  try {
+    res.status(status).json({
+      state: "error",
+      message,
+    });
+  } catch {
+    console.error("Failed to send response");
+  }
 }
 
 function serverError(res: Response, message = "Internal Server Error") {
@@ -29,10 +37,14 @@ function serverError(res: Response, message = "Internal Server Error") {
     fs.unlinkSync(`medium/${file}`);
   });
 
-  res.status(500).json({
-    state: "error",
-    message,
-  });
+  try {
+    res.status(500).json({
+      state: "error",
+      message,
+    });
+  } catch {
+    console.error("Failed to send response");
+  }
 }
 
 export { successWithBaseResponse, clientError, serverError };

@@ -28,7 +28,7 @@ router.get(
       return;
     }
 
-    const { q, page } = req.query;
+    const { q, page } = req.query as { q: string; page: string };
 
     const url = `https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(q)}&page=${page}`;
 

@@ -145,7 +145,7 @@ router.get(
         decryptedMaster
       ).toString();
 
-      journal.wordCount = wordsCount.wordsCount(journal.content);
+      journal.wordCount = wordsCount(journal.content);
 
       journal.content = decrypt(
         Buffer.from(journal.summary ?? "", "base64"),

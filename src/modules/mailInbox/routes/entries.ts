@@ -150,7 +150,7 @@ router.get(
       const connection = await imaps.connect(config);
       await connection.openBox("INBOX");
 
-      const searchCriteria = [["HEADER", "Message-ID", record.messgageId]];
+      const searchCriteria = [["HEADER", "Message-ID", record.messageId]];
       const fetchOptions = {
         bodies: [],
       };
@@ -158,7 +158,7 @@ router.get(
       const messages = await connection.search(searchCriteria, fetchOptions);
       if (messages.length > 0) {
         const message = messages[0];
-        const uid = message.attributes.messgageId;
+        const uid = message.attributes.uid;
 
         await connection.addFlags(uid, ["\\Seen"]);
 
