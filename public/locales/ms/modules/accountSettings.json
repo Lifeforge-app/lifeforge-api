@@ -34,6 +34,11 @@
     },
     "dateOfBirth": {
       "update": "Kemas Kini Tarikh Lahir"
+    },
+    "enable2FA": {
+      "title": "Laa Pengesahan Dua Faktor",
+      "description": "Sila imbas kod QR di bawah dengan aplikasi pengesahan yang anda pilih, seperti Google Authenticator, dan tekan lanjut.",
+      "confirmationDescription": "Sila masukkan OTP yang ditunjukkan dalam aplikasi pengesah anda untuk mengesahkan pengaktifan 2FA."
     }
   },
   "buttons": {

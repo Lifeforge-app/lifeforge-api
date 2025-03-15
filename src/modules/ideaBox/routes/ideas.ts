@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import multer from "multer";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { body, param, query } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { list } from "../../../utils/CRUD";
 import {
   IIdeaBoxEntry,

@@ -6,46 +6,14 @@ import checkOTP from "../../../utils/checkOTP";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { BaseResponse } from "../../../interfaces/base_response";
 import Pocketbase from "pocketbase";
+import { currentSession } from "..";
+import { removeSensitiveData, updateNullData } from "../utils/auth";
+import moment from "moment";
+import { v4 } from "uuid";
 
 const router = express.Router();
 
 let currentCodeVerifier: string | null = null;
-
-function removeSensitiveData(userData: Record<string, any>): void {
-  for (let key in userData) {
-    if (key.includes("webauthn")) {
-      delete userData[key];
-    }
-  }
-
-  userData.hasMasterPassword = Boolean(userData.masterPasswordHash);
-  userData.hasJournalMasterPassword = Boolean(
-    userData.journalMasterPasswordHash
-  );
-  userData.hasAPIKeysMasterPassword = Boolean(
-    userData.APIKeysMasterPasswordHash
-  );
-  delete userData["masterPasswordHash"];
-  delete userData["journalMasterPasswordHash"];
-  delete userData["APIKeysMasterPasswordHash"];
-  delete userData["otp"];
-}
-
-async function updateNullData(userData: Record<string, any>, pb: Pocketbase) {
-  if (!userData.enabledModules) {
-    await pb.collection("users").update(userData.id, {
-      enabledModules: [],
-    });
-    userData.enabledModules = [];
-  }
-
-  if (!userData.dashboardLayout) {
-    await pb.collection("users").update(userData.id, {
-      dashboardLayout: {},
-    });
-    userData.dashboardLayout = {};
-  }
-}
 
 /**
  * @public
@@ -117,6 +85,21 @@ router.post(
       )
       .then((authData) => {
         if (authData) {
+          if (pb.authStore.record?.twoFASecret) {
+            currentSession.token = pb.authStore.token;
+            currentSession.tokenExpireAt = moment()
+              .add(5, "minutes")
+              .toISOString();
+            currentSession.tokenId = v4();
+
+            successWithBaseResponse(res, {
+              state: "2fa_required",
+              tid: currentSession.tokenId,
+            });
+
+            return;
+          }
+
           successWithBaseResponse(res, pb.authStore.token);
         } else {
           clientError(res, "Invalid credentials", 401);
@@ -199,6 +182,19 @@ router.post(
       }
 
       removeSensitiveData(userData);
+
+      if (userData.twoFAEnabled) {
+        currentSession.token = pb.authStore.token;
+        currentSession.tokenExpireAt = moment().add(5, "minutes").toISOString();
+        currentSession.tokenId = v4();
+
+        res.json({
+          state: "2fa_required",
+          tid: currentSession.tokenId,
+        });
+
+        return;
+      }
 
       await updateNullData(userData, pb);
 

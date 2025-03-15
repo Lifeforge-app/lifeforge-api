@@ -157,17 +157,17 @@ router.get(
 
     if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
 
-    if (OGCache.has(id)) {
-      successWithBaseResponse(res, OGCache.get(id));
-      return;
-    }
-
     const data = await pb
       .collection("idea_box_entries")
       .getOne<IIdeaBoxEntry>(id);
 
     if (data.type !== "link") {
       clientError(res, "This is not a link entry");
+    }
+
+    if (OGCache.has(id) && OGCache.get(id).requestUrl === data.content) {
+      successWithBaseResponse(res, OGCache.get(id));
+      return;
     }
 
     ogs({ url: data.content })
@@ -197,12 +197,19 @@ async function recursivelySearchFolder(
   const pb = req.pb;
   const folderInsideFolder = await pb
     .collection("idea_box_folders")
-    .getFullList({
+    .getFullList<IIdeaBoxFolder>({
       filter: `parent = "${folderId}"`,
     });
 
   const allResults = (
-    await pb.collection("idea_box_entries").getFullList({
+    await pb.collection("idea_box_entries").getFullList<
+      Omit<IIdeaBoxEntry, "folder"> & {
+        folder: IIdeaBoxFolder;
+        expand?: {
+          folder: IIdeaBoxFolder;
+        };
+      }
+    >({
       filter: `(content ~ "${q}" || title ~ "${q}") && container = "${container}" && archived = false ${
         tags
           ? "&& " +

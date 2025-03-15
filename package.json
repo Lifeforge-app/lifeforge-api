@@ -104,6 +104,7 @@
     "@types/os-utils": "^0.0.4",
     "@types/pdf-thumbnail": "^1.0.4",
     "@types/request": "^2.48.12",
+    "@types/speakeasy": "^2.0.10",
     "@types/supertest": "^6.0.2",
     "@types/underscore": "^1.11.15",
     "@types/uuid": "^10.0.0",

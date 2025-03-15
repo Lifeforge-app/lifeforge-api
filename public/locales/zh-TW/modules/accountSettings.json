@@ -34,6 +34,11 @@
     },
     "dateOfBirth": {
       "update": "更新出生日期"
+    },
+    "enable2FA": {
+      "title": "啟用雙重身份驗證",
+      "description": "請使用您選擇的身份驗證應用程式，例如 Google Authenticator，掃描下面的 QR 碼，然後點擊繼續。",
+      "confirmationDescription": "請在驗證器應用程式中輸入顯示的OTP以確認啟用2FA。"
     }
   },
   "buttons": {

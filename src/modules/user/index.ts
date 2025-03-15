@@ -8,6 +8,12 @@ import twoFARoutes from "./routes/2fa";
 
 const router = express.Router();
 
+export let currentSession = {
+  token: "",
+  tokenId: "",
+  tokenExpireAt: "",
+};
+
 router.use("/auth", authRoutes);
 router.use("/2fa", twoFARoutes);
 router.use("/settings", settingsRoutes);

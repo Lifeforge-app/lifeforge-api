@@ -11,6 +11,7 @@ const NO_NEED_AUTH = [
   "/user/auth/login",
   "/user/auth/oauth-endpoint",
   "/user/auth/oauth-verify",
+  "/user/2fa/verify",
   "/spotify",
   "/code-time/user/minutes",
   "/code-time/eventLog",

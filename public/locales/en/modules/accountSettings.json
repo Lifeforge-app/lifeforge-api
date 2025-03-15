@@ -34,6 +34,11 @@
     },
     "dateOfBirth": {
       "update": "Update Date of Birth"
+    },
+    "enable2FA": {
+      "title": "Enable Two-Factor Authentication",
+      "description": "Please scan the QR code below with your preferred authenticator app, such as Google Authenticator, and click proceed.",
+      "confirmationDescription": "Please enter the OTP shown in your authenticator app to confirm enabling 2FA."
     }
   },
   "buttons": {
