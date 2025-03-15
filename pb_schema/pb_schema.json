@@ -526,7 +526,7 @@
         "id": "oi6j9b9d",
         "max": 0,
         "min": 0,
-        "name": "otp",
+        "name": "twoFASecret",
         "pattern": "",
         "presentable": false,
         "primaryKey": false,
