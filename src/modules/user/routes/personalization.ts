@@ -8,7 +8,7 @@ import fs from "fs";
 const router = express.Router();
 
 router.put(
-  "/personalization/bg-image",
+  "/bg-image",
   singleUploadMiddleware,
   asyncWrapper(async (req, res) => {
     const { pb } = req;
@@ -64,7 +64,7 @@ router.put(
 );
 
 router.delete(
-  "/personalization/bg-image",
+  "/bg-image",
   asyncWrapper(async (req, res) => {
     const { pb } = req;
 
@@ -84,7 +84,7 @@ router.delete(
  * @response 200 - The personalization settings have been updated
  */
 router.patch(
-  "/personalization",
+  "/",
   [
     body("data.fontFamily").optional().isString(),
     body("data.theme").optional().isString(),
