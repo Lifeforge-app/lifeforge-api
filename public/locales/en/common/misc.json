@@ -1,29 +1,33 @@
 {
-    "search": "Search {{item}}...",
-    "notFound": {
-        "title": "Oops! There's nothing here.",
-        "description": "The page you are looking for cannot be found. Please check the URL and try again."
-    },
-    "modules": {
-        "localizationManager": "Localization Manager",
-        "documentation": "Documentation"
-    },
-    "tipsAndTricks": "Tips and Tricks",
-    "loadingModule": "Loading module...",
-    "deprecated": "No longer supported",
-    "dnd": {
-        "dropHere": "Drop items here",
-        "dragAndDropToUpload": "Drag and drop to upload",
-        "or": "or"
-    },
-    "buttons": {
-        "goBack": "Go back",
-        "reportBug": "Report bug"
-    },
-    "empty": {
-        "apiStatus": {
-            "title": "Cannot connect to API",
-            "description": "Please check your network connection and try again. If you are a developer, please check if the server is running properly."
-        }
+  "search": "Search {{item}}...",
+  "notFound": {
+    "title": "Oops! There's nothing here.",
+    "description": "The page you are looking for cannot be found. Please check the URL and try again."
+  },
+  "modules": {
+    "localizationManager": "Localization Manager",
+    "documentation": "Documentation"
+  },
+  "tipsAndTricks": "Tips and Tricks",
+  "loadingModule": "Loading module...",
+  "deprecated": "No longer supported",
+  "dnd": {
+    "dropHere": "Drop items here",
+    "dragAndDropToUpload": "Drag and drop to upload",
+    "or": "or"
+  },
+  "buttons": {
+    "goBack": "Go back",
+    "reportBug": "Report bug"
+  },
+  "empty": {
+    "apiStatus": {
+      "title": "Cannot connect to API",
+      "description": "Please check your network connection and try again. If you are a developer, please check if the server is running properly."
     }
+  },
+  "locationDisabled": {
+    "description": "Location input is currently disabled. Please add a properly configured Google Cloud API key to enable this feature. For further information, refer to",
+    "title": "N/A"
+  }
 }

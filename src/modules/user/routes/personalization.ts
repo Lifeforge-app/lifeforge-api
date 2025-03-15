@@ -1,11 +1,68 @@
 import express from "express";
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { successWithBaseResponse, clientError } from "../../../utils/response";
 import fs from "fs";
+import { getAPIKey } from "../../../utils/getAPIKey";
 
 const router = express.Router();
+
+router.get(
+  "/fonts",
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    const key = await getAPIKey("gcloud", pb);
+
+    if (!key) {
+      successWithBaseResponse(res, {
+        enabled: false,
+      });
+      return;
+    }
+
+    const target = `https://www.googleapis.com/webfonts/v1/webfonts?key=${key}`;
+
+    const response = await fetch(target);
+    const data = await response.json();
+
+    successWithBaseResponse(res, {
+      enabled: true,
+      items: data.items,
+    });
+  })
+);
+
+router.get(
+  "/font",
+  [query("family").isString()],
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    const { family } = req.query as { family: string };
+
+    const key = await getAPIKey("gcloud", pb);
+
+    if (!key) {
+      successWithBaseResponse(res, {
+        enabled: false,
+      });
+      return;
+    }
+
+    const target = `https://www.googleapis.com/webfonts/v1/webfonts?family=${family!.replace(
+      / /g,
+      "+"
+    )}&key=${key}`;
+
+    const response = await fetch(target);
+    const data = await response.json();
+
+    successWithBaseResponse(res, {
+      enabled: true,
+      items: data.items,
+    });
+  })
+);
 
 router.put(
   "/bg-image",

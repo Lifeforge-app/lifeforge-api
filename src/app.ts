@@ -14,7 +14,7 @@ import { query } from "express-validator";
 import { flattenRoutes, getRoutes } from "./utils/getRoutes";
 import router from "./routes";
 import dotenv from "dotenv";
-import { serverError, successWithBaseResponse } from "./utils/response";
+import { successWithBaseResponse } from "./utils/response";
 import { BaseResponse } from "./interfaces/base_response";
 import { IRoute } from "./interfaces/api_routes_interfaces";
 import { watchInbox } from "./services/mailInbox/index";
@@ -128,7 +128,7 @@ mainRouter.get(
               ...route,
               description:
                 DESCRIPTIONS[
-                `${route.method} ${route.path.replace(/:(\w+)/g, "{$1}")}` as keyof typeof DESCRIPTIONS
+                  `${route.method} ${route.path.replace(/:(\w+)/g, "{$1}")}` as keyof typeof DESCRIPTIONS
                 ],
             }))
             .reduce((acc: Record<string, IRoute[]>, route) => {
@@ -184,30 +184,6 @@ mainRouter.get(
     request(
       `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`
     ).pipe(res);
-  })
-);
-
-mainRouter.get(
-  "/locations",
-  [query("q").isString(), query("key").isString()],
-  asyncWrapper(async (req, res) => {
-    // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=taman+molek&key=AIzaSyACIfnP46cNm8nP9HaMafF0hwI9X0hyyg4
-    const { q, key } = req.query;
-
-    try {
-      fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          successWithBaseResponse(res, data);
-        })
-        .catch((error) => {
-          serverError(res);
-        });
-    } catch (error) {
-      serverError(res);
-    }
   })
 );
 

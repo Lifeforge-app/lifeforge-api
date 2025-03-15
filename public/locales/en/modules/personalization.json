@@ -51,7 +51,11 @@
     "title": "Font Style",
     "desc": "Choose a font that matches your preference",
     "tooltip": "For detailed information on all fonts, visit the Google Fonts website.",
-    "tooltipTitle": "Powered by Google Fonts"
+    "tooltipTitle": "Powered by Google Fonts",
+    "disabled": {
+      "title": "Not Available",
+      "tooltip": "To enable this feature, please add the Google Cloud API key to your API vault. For more information, refer to"
+    }
   },
   "bgImageSelector": {
     "title": "Background Image",

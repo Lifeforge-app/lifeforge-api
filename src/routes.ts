@@ -48,6 +48,7 @@ const momentVaultRoutes = lazyLoad(
 );
 const moviesRoutes = lazyLoad(() => import("./modules/movies"));
 const railwayMapRoutes = lazyLoad(() => import("./modules/railwayMap"));
+const locationsRoutes = lazyLoad(() => import("./modules/locations"));
 
 const router = express.Router();
 
@@ -86,5 +87,6 @@ router.use("/virtual-wardrobe", virtualWardrobeRoutes);
 router.use("/moment-vault", momentVaultRoutes);
 router.use("/movies", moviesRoutes);
 router.use("/railway-map", railwayMapRoutes);
+router.use("/locations", locationsRoutes);
 
 export default router;

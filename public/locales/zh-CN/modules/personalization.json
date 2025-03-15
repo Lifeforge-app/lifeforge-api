@@ -51,7 +51,11 @@
     "title": "字体样式",
     "desc": "选择一个符合你偏好的字体",
     "tooltip": "有关所有字体的详细信息，请访问Google字体网站。",
-    "tooltipTitle": "由Google字体提供支持"
+    "tooltipTitle": "由Google字体提供支持",
+    "disabled": {
+      "title": "不可用",
+      "tooltip": "要启用此功能，请将 Google Cloud API 密钥添加到您的 API 金库中。有关更多信息，请参阅"
+    }
   },
   "bgImageSelector": {
     "title": "背景图片",

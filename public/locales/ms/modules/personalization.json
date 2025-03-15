@@ -51,7 +51,11 @@
     "title": "Gaya Fon",
     "desc": "Pilih fon yang sesuai dengan keutamaan anda",
     "tooltip": "Untuk maklumat terperinci mengenai semua fon, lawati laman web Google Fonts.",
-    "tooltipTitle": "Dikuasakan oleh Google Fonts"
+    "tooltipTitle": "Dikuasakan oleh Google Fonts",
+    "disabled": {
+      "title": "Tidak Tersedia",
+      "tooltip": "Untuk mengaktifkan ciri ini, sila tambahkan kunci API Google Cloud ke dalam peti API anda. Untuk maklumat lanjut, rujuk kepada"
+    }
   },
   "bgImageSelector": {
     "title": "Imej Latar Belakang",
