@@ -15,6 +15,19 @@ const router = express.Router();
 
 let currentCodeVerifier: string | null = null;
 
+router.get(
+  "/oauth-providers",
+  asyncWrapper(async (req, res) => {
+    const pb = new Pocketbase(process.env.PB_HOST);
+
+    const providers = (
+      await pb.collection("users").listAuthMethods()
+    ).oauth2.providers.map((e) => e.name);
+
+    successWithBaseResponse(res, providers);
+  })
+);
+
 /**
  * @public
  * @summary Get the OAuth endpoint for a provider

@@ -39,6 +39,10 @@
       "title": "启用双重身份验证",
       "description": "请使用您选择的身份验证器应用程序（例如 Google Authenticator）扫描下面的二维码，然后点击继续。",
       "confirmationDescription": "请在验证器应用程序中输入显示的OTP以确认启用2FA。"
+    },
+    "disable2FA": {
+      "title": "禁用双重认证",
+      "description": "您确定要禁用两步验证吗？"
     }
   },
   "buttons": {
@@ -47,7 +51,13 @@
   "inputs": {
     "dateOfBirth": "出生日期",
     "username": "用户名",
-    "displayname": "显示名称",
-    "email": "电子邮件地址"
+    "email": "电子邮件地址",
+    "displayName": "显示名称"
+  },
+  "messages": {
+    "twoFA": {
+      "enableSuccess": "双重身份验证成功启用。",
+      "disableSuccess": "双重身份验证已成功禁用。"
+    }
   }
 }

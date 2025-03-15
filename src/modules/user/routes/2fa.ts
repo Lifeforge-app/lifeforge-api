@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { BaseResponse } from "../../../interfaces/base_response";
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import checkOTP from "../../../utils/checkOTP";
 import speakeasy from "speakeasy";
 import {
@@ -30,6 +30,31 @@ router.get(
   "/challenge",
   asyncWrapper(async (_, res: Response<BaseResponse<string>>) => {
     successWithBaseResponse(res, challenge);
+  })
+);
+
+router.get(
+  "/otp",
+  [query("email").isString().notEmpty()],
+  asyncWrapper(async (req, res: Response<BaseResponse<string>>) => {
+    const { pb } = req;
+    const { email } = req.query;
+
+    const otp = await pb
+      .collection("users")
+      .requestOTP(email as string)
+      .catch(() => null);
+
+    if (!otp) {
+      clientError(res, "Failed to send OTP", 500);
+      return;
+    }
+
+    currentSession.tokenId = v4();
+    currentSession.otpId = otp.otpId;
+    currentSession.tokenExpireAt = moment().add(5, "minutes").toISOString();
+
+    successWithBaseResponse(res, currentSession.tokenId);
   })
 );
 
@@ -116,11 +141,33 @@ router.post(
 );
 
 router.post(
-  "/verify",
-  [body("otp").isString().notEmpty(), body("tid").isString().notEmpty()],
+  "/disable",
   asyncWrapper(async (req, res) => {
     const { pb } = req;
-    const { otp, tid } = req.body;
+
+    if (!pb.authStore.record?.id) {
+      clientError(res, "User not authenticated", 401);
+      return;
+    }
+
+    await pb.collection("users").update(pb.authStore.record.id, {
+      twoFASecret: "",
+    });
+
+    successWithBaseResponse(res);
+  })
+);
+
+router.post(
+  "/verify",
+  [
+    body("otp").isString().notEmpty(),
+    body("tid").isString().notEmpty(),
+    body("type").isIn(["email", "app"]),
+  ],
+  asyncWrapper(async (req, res) => {
+    const { pb } = req;
+    const { otp, tid, type } = req.body;
 
     if (tid !== currentSession.tokenId) {
       clientError(res, "Invalid token ID", 401);
@@ -135,7 +182,7 @@ router.post(
     const currentSessionToken = currentSession.token;
 
     if (!currentSessionToken) {
-      clientError(res, "No token provided", 401);
+      clientError(res, "No token stored", 401);
       return;
     }
 
@@ -152,27 +199,44 @@ router.post(
       return;
     }
 
-    const encryptedSecret = pb.authStore.record?.twoFASecret;
+    if (type === "app") {
+      const encryptedSecret = pb.authStore.record?.twoFASecret;
 
-    if (!encryptedSecret) {
-      clientError(res, "2FA not enabled", 401);
-      return;
-    }
+      if (!encryptedSecret) {
+        clientError(res, "2FA not enabled", 401);
+        return;
+      }
 
-    const secret = decrypt(
-      Buffer.from(encryptedSecret, "base64"),
-      process.env.MASTER_KEY!
-    );
+      const secret = decrypt(
+        Buffer.from(encryptedSecret, "base64"),
+        process.env.MASTER_KEY!
+      );
 
-    const verified = speakeasy.totp.verify({
-      secret: secret.toString(),
-      encoding: "base32",
-      token: otp,
-    });
+      const verified = speakeasy.totp.verify({
+        secret: secret.toString(),
+        encoding: "base32",
+        token: otp,
+      });
 
-    if (!verified) {
-      clientError(res, "Invalid OTP", 401);
-      return;
+      if (!verified) {
+        clientError(res, "Invalid OTP", 401);
+        return;
+      }
+    } else if (type === "email") {
+      if (!currentSession.otpId) {
+        clientError(res, "No OTP ID stored", 401);
+        return;
+      }
+
+      const authData = await pb
+        .collection("users")
+        .authWithOTP(currentSession.otpId, otp)
+        .catch(() => null);
+
+      if (!authData || !pb.authStore.isValid) {
+        clientError(res, "Invalid OTP", 401);
+        return;
+      }
     }
 
     const userData = pb.authStore.record;

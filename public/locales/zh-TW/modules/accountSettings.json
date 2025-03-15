@@ -39,6 +39,10 @@
       "title": "啟用雙重身份驗證",
       "description": "請使用您選擇的身份驗證應用程式，例如 Google Authenticator，掃描下面的 QR 碼，然後點擊繼續。",
       "confirmationDescription": "請在驗證器應用程式中輸入顯示的OTP以確認啟用2FA。"
+    },
+    "disable2FA": {
+      "title": "停用雙重驗證",
+      "description": "您確定要禁用雙重身份驗證嗎？"
     }
   },
   "buttons": {
@@ -47,7 +51,13 @@
   "inputs": {
     "dateOfBirth": "出生日期",
     "username": "用戶名",
-    "displayname": "顯示名稱",
-    "email": "電子郵件地址"
+    "email": "電子郵件地址",
+    "displayName": "顯示名稱"
+  },
+  "messages": {
+    "twoFA": {
+      "enableSuccess": "雙重身份驗證成功啟用。",
+      "disableSuccess": "雙重身份驗證已成功禁用。"
+    }
   }
 }

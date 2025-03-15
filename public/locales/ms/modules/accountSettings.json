@@ -39,6 +39,10 @@
       "title": "Laa Pengesahan Dua Faktor",
       "description": "Sila imbas kod QR di bawah dengan aplikasi pengesahan yang anda pilih, seperti Google Authenticator, dan tekan lanjut.",
       "confirmationDescription": "Sila masukkan OTP yang ditunjukkan dalam aplikasi pengesah anda untuk mengesahkan pengaktifan 2FA."
+    },
+    "disable2FA": {
+      "title": "Nyahaktifkan Pengesahan Dua Faktor",
+      "description": "Adakah anda pasti mahu menyahaktifkan pengesahan dua faktor?"
     }
   },
   "buttons": {
@@ -47,7 +51,13 @@
   "inputs": {
     "dateOfBirth": "Tarikh Lahir",
     "username": "Nama Pengguna",
-    "displayname": "Nama Paparan",
-    "email": "Alamat Emel"
+    "email": "Alamat Emel",
+    "displayName": "Nama Paparan"
+  },
+  "messages": {
+    "twoFA": {
+      "enableSuccess": "Pengesahan dua faktor berjaya diaktifkan.",
+      "disableSuccess": "Pengesahan dua faktor berjaya dilumpuhkan."
+    }
   }
 }

@@ -1,35 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Pocketbase from "pocketbase";
+import { ENDPOINT_WHITELIST } from "../constants/endpointWhitelist";
 
 if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
   throw new Error("Pocketbase environment variables not set");
 }
-
-const NO_NEED_AUTH = [
-  "/status",
-  "/user/passkey",
-  "/user/auth/login",
-  "/user/auth/oauth-endpoint",
-  "/user/auth/oauth-verify",
-  "/user/2fa/verify",
-  "/spotify",
-  "/code-time/user/minutes",
-  "/code-time/eventLog",
-  "/photos/album/check-publicity",
-  "/photos/album/valid",
-  "/photos/album/get",
-  "/photos/entries/list",
-  "/photos/entries/name",
-  "/photos/entries/download",
-  "/media",
-  "/books/list",
-  "/books-library/cover",
-  "/cron",
-  "/style.css",
-  "/youtube-videos/video/thumbnail",
-  "/youtube-videos/video/stream",
-  "/books-library/libgen/covers",
-];
 
 const pocketbaseMiddleware = async (
   req: Request,
@@ -50,7 +25,7 @@ const pocketbaseMiddleware = async (
   if (!bearerToken || req.url.startsWith("/user/auth")) {
     if (
       req.url === "/" ||
-      NO_NEED_AUTH.some((route) => req.url.startsWith(route)) ||
+      ENDPOINT_WHITELIST.some((route) => req.url.startsWith(route)) ||
       req.url.match(
         /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules|utils)\.\w+$/
       )

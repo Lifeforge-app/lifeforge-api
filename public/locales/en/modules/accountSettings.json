@@ -39,6 +39,10 @@
       "title": "Enable Two-Factor Authentication",
       "description": "Please scan the QR code below with your preferred authenticator app, such as Google Authenticator, and click proceed.",
       "confirmationDescription": "Please enter the OTP shown in your authenticator app to confirm enabling 2FA."
+    },
+    "disable2FA": {
+      "title": "Disable Two-Factor Authentication",
+      "description": "Are you sure you want to disable two-factor authentication?"
     }
   },
   "buttons": {
@@ -47,7 +51,13 @@
   "inputs": {
     "dateOfBirth": "Date of Birth",
     "username": "Username",
-    "displayname": "Display Name",
-    "email": "Email Address"
+    "email": "Email Address",
+    "displayName": "Display Name"
+  },
+  "messages": {
+    "twoFA": {
+      "enableSuccess": "Two-factor authentication enabled successfully.",
+      "disableSuccess": "Two-factor authentication disabled successfully."
+    }
   }
 }

@@ -12,6 +12,7 @@ export let currentSession = {
   token: "",
   tokenId: "",
   tokenExpireAt: "",
+  otpId: "",
 };
 
 router.use("/auth", authRoutes);
