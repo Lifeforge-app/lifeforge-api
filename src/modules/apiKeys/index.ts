@@ -133,7 +133,7 @@ router.post(
       return;
     }
 
-    const { id, name, description, icon, key, master } = decryptedData;
+    const { keyId, name, description, icon, key, master } = decryptedData;
 
     const decryptedMaster = await getDecryptedMaster(master, pb, res);
 
@@ -143,7 +143,7 @@ router.post(
     const encryptedKey = encrypt2(decryptedKey, process.env.MASTER_KEY!);
 
     const entry = await pb.collection("api_keys_entries").create<IAPIKeyEntry>({
-      keyId: id,
+      keyId,
       name,
       description,
       icon,
@@ -173,7 +173,7 @@ router.patch(
       return;
     }
 
-    const { name, description, icon, key, master } = decryptedData;
+    const { keyId, name, description, icon, key, master } = decryptedData;
 
     const decryptedMaster = await getDecryptedMaster(master, pb, res);
 
@@ -185,6 +185,7 @@ router.patch(
     const updatedEntry = await pb
       .collection("api_keys_entries")
       .update<IAPIKeyEntry>(id, {
+        keyId,
         name,
         description,
         icon,
