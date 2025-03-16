@@ -22,15 +22,16 @@ export const validateEventData = [
     .trim()
     .isLength({ min: 1 })
     .withMessage("Title cannot be empty"),
-  body("date")
+  body("start").exists().withMessage("Start date is required"),
+  body("end").exists().withMessage("End date is required"),
+  body("category")
     .exists()
-    .withMessage("Date is required")
+    .withMessage("Category is required")
     .isString()
-    .withMessage("Date must be a string"),
-  body("description")
-    .optional()
-    .isString()
-    .withMessage("Description must be a string"),
+    .withMessage("Category must be a string")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Category cannot be empty"),
 ];
 
 export const validateId = [
