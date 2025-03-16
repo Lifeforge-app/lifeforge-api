@@ -95,7 +95,7 @@ router.get(
  */
 router.post(
   "/",
-  multer().single("image"),
+  multer().single("image") as any,
   [
     body("container").isString(),
     body("title").custom((value, { req }) => {

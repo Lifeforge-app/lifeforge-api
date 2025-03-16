@@ -17,7 +17,6 @@ import dotenv from "dotenv";
 import { successWithBaseResponse } from "./utils/response";
 import { BaseResponse } from "./interfaces/base_response";
 import { IRoute } from "./interfaces/api_routes_interfaces";
-import { watchInbox } from "./services/mailInbox/index";
 import { CORS_ALLOWED_ORIGINS } from "./constants/corsAllowedOrigins";
 
 dotenv.config({
@@ -78,7 +77,6 @@ const limiter = rateLimit({
 
 const app = express();
 app.disable("x-powered-by");
-app.set("view engine", "ejs");
 
 app.use(
   helmet({

@@ -1,8 +1,11 @@
 import { JSDOM } from "jsdom";
-import express, { Response } from "express";
-import axios from "axios";
+import express, { response, Response } from "express";
 import { spawn } from "child_process";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import fs from "fs";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
@@ -11,6 +14,7 @@ import {
   IBooksLibraryEntry,
 } from "../../../interfaces/books_library_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
+import request from "request";
 
 const router = express.Router();
 
@@ -57,10 +61,7 @@ router.get(
     target.searchParams.set("sortmode", queries.sortmode);
 
     try {
-      const { data } = await axios({
-        method: "GET",
-        url: target.href,
-      });
+      const data = await fetch(target.href).then((res) => res.text());
       const dom = new JSDOM(data);
       const document = dom.window.document;
       let final = [];
@@ -165,16 +166,9 @@ router.get(
     target.pathname += req.params[0];
 
     try {
-      const { data } = await axios({
-        method: "GET",
-        url: target.href,
-        responseType: "arraybuffer",
-      });
-
-      res.setHeader("Content-Type", "image/jpeg");
-      res.send(data);
-    } catch (e: any) {
-      clientError(res, e.message);
+      request(target.href).pipe(res);
+    } catch {
+      serverError(res, "Failed to fetch cover");
     }
   })
 );
@@ -187,10 +181,7 @@ router.get(
     if (req.params.tlm) target.searchParams.set("tlm", req.params.tlm);
 
     try {
-      const { data } = await axios({
-        method: "GET",
-        url: target.href,
-      });
+      const data = await fetch(target.href).then((res) => res.text());
       const dom = new JSDOM(data);
       const document = dom.window.document;
 
@@ -315,10 +306,7 @@ router.get(
     if (req.params.tlm) target.searchParams.set("tlm", req.params.tlm);
 
     try {
-      const { data } = await axios({
-        method: "GET",
-        url: target.href,
-      });
+      const data = await fetch(target.href).then((res) => res.text());
       const dom = new JSDOM(data);
       const document = dom.window.document;
 
@@ -458,10 +446,7 @@ router.post(
     });
 
     try {
-      const { data } = await axios({
-        method: "GET",
-        url: target,
-      });
+      const data = await fetch(target).then((res) => res.text());
       const link = data.match(
         /<a href="(get\.php\?md5=.*?&key=.*?)"><h2>GET<\/h2><\/a>/
       )?.[1];

@@ -23,7 +23,7 @@ const upload = multer({
 // Custom file upload middleware
 const uploadMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // Use multer upload instance
-  upload.array("files", 100)(req, res, (err) => {
+  upload.array("files", 100)(req as any, res as any, (err) => {
     // Proceed to the next middleware or route handler
     next();
   });
@@ -35,7 +35,7 @@ const singleUploadMiddleware = (
   next: NextFunction
 ) => {
   // Use multer upload instance
-  upload.single("file")(req, res, (err) => {
+  upload.single("file")(req as any, res as any, (err) => {
     // Proceed to the next middleware or route handler
     next();
   });
@@ -44,7 +44,7 @@ const singleUploadMiddleware = (
 const singleUploadMiddlewareOfKey =
   (key: string) => (req: Request, res: Response, next: NextFunction) => {
     // Use multer upload instance
-    upload.single(key)(req, res, (err) => {
+    upload.single(key)(req as any, res as any, (err) => {
       // Proceed to the next middleware or route handler
       next();
     });
@@ -57,7 +57,7 @@ function fieldsUploadMiddleware(
   next: NextFunction
 ) {
   // Use multer upload instance
-  upload.fields(this.fields ?? [])(req, res, (err) => {
+  upload.fields(this.fields ?? [])(req as any, res as any, (err) => {
     // Proceed to the next middleware or route handler
     next();
   });

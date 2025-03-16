@@ -1,9 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { BaseResponse } from "../../../interfaces/base_response";
 import {
   ITodoListEntry,

@@ -7,7 +7,6 @@ import {
 } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { body, param, query } from "express-validator";
-import hasError from "../../../utils/checkError";
 import getIMAPConfig from "../../../services/mailInbox/utils/getIMAPConfig";
 import imaps from "imap-simple";
 import { checkExistence } from "../../../utils/PBRecordValidator";
@@ -17,7 +16,6 @@ import {
 } from "../../../interfaces/mail_inbox_interfaces";
 import Pocketbase from "pocketbase";
 import { BaseResponse } from "../../../interfaces/base_response";
-import { promisify } from "util";
 
 const router = express.Router();
 

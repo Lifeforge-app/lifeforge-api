@@ -5,7 +5,6 @@ import fs from "fs";
 import mime from "mime-types";
 import ExifReader from "exifreader";
 import moment from "moment";
-import axios from "axios";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import sizeOf from "image-size";
@@ -415,9 +414,7 @@ router.post(
 
     fs.readdirSync(`${process.cwd()}/../medium`)
       .filter((file) => file.startsWith("."))
-      .forEach((file) =>
-        fs.unlinkSync(`${process.cwd()}/../medium/${file}`)
-      );
+      .forEach((file) => fs.unlinkSync(`${process.cwd()}/../medium/${file}`));
 
     const newFiles = fs
       .readdirSync(`${process.cwd()}/../medium`)
@@ -526,9 +523,7 @@ router.post(
 
       if (rawFiles.length > 0) {
         data.raw = rawFiles.map((file) => {
-          const buffer = fs.readFileSync(
-            `${process.cwd()}/../medium/${file}`
-          );
+          const buffer = fs.readFileSync(`${process.cwd()}/../medium/${file}`);
           return new File([buffer], file);
         })[0];
       }
@@ -555,7 +550,7 @@ router.post(
       });
 
       try {
-        await axios.get(thumbnailImageUrl);
+        await fetch(thumbnailImageUrl);
       } catch {}
 
       for (const file of [...rawFiles, ...imageFiles]) {
