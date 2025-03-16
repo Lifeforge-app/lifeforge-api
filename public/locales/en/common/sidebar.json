@@ -1,25 +1,25 @@
 {
-    "categories": {
-        "productivity": "Productivity",
-        "storage": "Storage",
-        "study": "Study",
-        "finance": "Finance",
-        "confidential": "Confidential",
-        "settings": "Settings",
-        "technologies": "Technologies",
-        "utilities": "Utilities",
-        "health&Fitness": "Health & Fitness",
-        "information": "Information",
-        "sso": "Single Sign-On",
-        "references": "References",
-        "lifestyle": "Lifestyle",
-        "externalManagement": "External Management"
-    },
-    "buttons": {
-        "signOut": "Sign Out",
-        "accountSettings": "Account Settings"
-    },
-    "items": {
-        "module": "Module"
-    }
+  "categories": {
+    "productivity": "Productivity",
+    "storage": "Storage",
+    "study": "Study",
+    "finance": "Finance",
+    "confidential": "Confidential",
+    "settings": "Settings",
+    "technologies": "Technologies",
+    "utilities": "Utilities",
+    "information": "Information",
+    "sso": "Single Sign-On",
+    "references": "References",
+    "lifestyle": "Lifestyle",
+    "externalManagement": "External Management",
+    "healthFitness": "Health & Fitness"
+  },
+  "buttons": {
+    "signOut": "Sign Out",
+    "accountSettings": "Account Settings"
+  },
+  "items": {
+    "module": "Module"
+  }
 }

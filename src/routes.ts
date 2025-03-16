@@ -37,9 +37,6 @@ const apiKeysRoutes = lazyLoad(() => import("./modules/apiKeys"));
 const pixabayRoutes = lazyLoad(() => import("./modules/pixabay"));
 const quotesRoutes = lazyLoad(() => import("./modules/quotes"));
 const sudokuRoutes = lazyLoad(() => import("./modules/sudoku"));
-const openAIAPIPricingRoutes = lazyLoad(
-  () => import("./modules/openAIAPIPricing")
-);
 const virtualWardrobeRoutes = lazyLoad(
   () => import("./modules/virtualWardrobe")
 );
@@ -82,7 +79,6 @@ router.use("/sudoku", sudokuRoutes);
 router.use("/server", serverRoutes);
 router.use("/pixabay", pixabayRoutes);
 router.use("/quotes", quotesRoutes);
-router.use("/openai-api-pricing", openAIAPIPricingRoutes);
 router.use("/virtual-wardrobe", virtualWardrobeRoutes);
 router.use("/moment-vault", momentVaultRoutes);
 router.use("/movies", moviesRoutes);
