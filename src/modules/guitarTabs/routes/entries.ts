@@ -8,7 +8,7 @@ import {
   validateGetEntries,
   validateToggleFavorite,
   validateUpdateEntry,
-} from "../middleware/validationMiddleware";
+} from "../middleware/entriesValidation";
 
 const router = express.Router();
 

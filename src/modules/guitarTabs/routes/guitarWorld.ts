@@ -4,7 +4,7 @@ import * as guitarWorldController from "../controllers/guitarWorldController";
 import {
   validateDownloadTab,
   validateGetTabsList,
-} from "../middleware/validationMiddleware";
+} from "../middleware/entriesValidation";
 
 const router = express.Router();
 
