@@ -1,9 +1,8 @@
 // @ts-nocheck
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import express from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -29,7 +28,7 @@ router.get(
     }));
 
     successWithBaseResponse(res, photos);
-  })
+  }),
 );
 
 router.patch(
@@ -69,7 +68,7 @@ router.patch(
     }
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

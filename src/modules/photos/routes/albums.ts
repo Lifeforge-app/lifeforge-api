@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import express from "express";
 import { body, query } from "express-validator";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import { validate } from "../../../utils/CRUD";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -44,12 +43,12 @@ router.get(
     }
 
     successWithBaseResponse(res, album);
-  })
+  }),
 );
 
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "photos_albums"))
+  asyncWrapper(async (req, res) => validate(req, res, "photos_albums")),
 );
 
 router.get(
@@ -71,7 +70,7 @@ router.get(
     });
 
     successWithBaseResponse(res, albums);
-  })
+  }),
 );
 
 router.get(
@@ -87,7 +86,7 @@ router.get(
     const album = await pb.collection("photos_albums").getOne(id);
 
     successWithBaseResponse(res, album.is_public);
-  })
+  }),
 );
 
 router.post(
@@ -100,7 +99,7 @@ router.post(
     const album = await pb.collection("photos_albums").create({ name });
 
     successWithBaseResponse(res, album);
-  })
+  }),
 );
 
 router.patch(
@@ -130,7 +129,7 @@ router.patch(
       .update(albumId, { amount: totalItems });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.delete(
@@ -166,7 +165,7 @@ router.delete(
       .update(albumId, { amount: totalItems });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.delete(
@@ -178,7 +177,7 @@ router.delete(
     await pb.collection("photos_albums").delete(albumId);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.patch(
@@ -197,7 +196,7 @@ router.patch(
     await pb.collection("photos_albums").update(albumId, { name });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -219,7 +218,7 @@ router.post(
     await pb.collection("photos_albums").update(albumId, { cover: image.id });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -235,7 +234,7 @@ router.post(
       .update(albumId, { is_public: publicity });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

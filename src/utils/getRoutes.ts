@@ -1,20 +1,16 @@
 import fs from "fs";
-import {
-  IRoute,
-  IRouteDocs,
-  IRoutes,
-} from "../interfaces/api_routes_interfaces";
+import { IRoute, IRoutes } from "../interfaces/api_routes_interfaces";
 import parseRouteDocs from "./parseRouteDocs";
 
 function getRoutesFromFile(content: string) {
   return content
     .match(
-      /(?:(?:\/\*\*(?<docstring>(?:.|\s)*?)\*\/\s+)|)router\.(?<method>get|post|put|delete|patch)\((?:\n|\s)*?['"](?<path>.+)['"]/g
+      /(?:(?:\/\*\*(?<docstring>(?:.|\s)*?)\*\/\s+)|)router\.(?<method>get|post|put|delete|patch)\((?:\n|\s)*?['"](?<path>.+)['"]/g,
     )
     ?.map((e) => {
       const match =
         /(?:(?:\/\*\*(?<docstring>(?:.|\s)*?)\*\/\s+)|)router\.(?<method>get|post|put|delete|patch)\((?:\n|\s)*?['"](?<path>.+)['"]/.exec(
-          e
+          e,
         );
 
       if (!match) return { method: "", path: "", docs: null };
@@ -37,12 +33,12 @@ function getImportStatements(content: string) {
   return Object.fromEntries(
     content
       .match(
-        /(?:import (?<name1>.+?) from ['"]\.\/routes\/(?<path1>.+?)['"])|(?:const (?<name2>.+?) = lazyLoad\(\s*?\(\) => import\(['"]\.\/routes\/(?<path2>.+?)['"]\)\s*?\))/g
+        /(?:import (?<name1>.+?) from ['"]\.\/routes\/(?<path1>.+?)['"])|(?:const (?<name2>.+?) = lazyLoad\(\s*?\(\) => import\(['"]\.\/routes\/(?<path2>.+?)['"]\)\s*?\))/g,
       )
       ?.map((e) => {
         const match =
           /(?:import (?<name1>.+?) from ['"]\.\/routes\/(?<path1>.+?)['"])|(?:const (?<name2>.+?) = lazyLoad\(\s*?\(\) => import\(['"]\.\/routes\/(?<path2>.+?)['"]\)\s*?\))/.exec(
-            e
+            e,
           )?.groups;
 
         if (!match) return [];
@@ -53,7 +49,7 @@ function getImportStatements(content: string) {
             .replace(/\.js$/, "")
             .replace(/\/index$/, ""),
         ];
-      }) ?? []
+      }) ?? [],
   );
 }
 
@@ -66,11 +62,11 @@ function getUseRoutes(content: string, dir: string) {
 
       const childrenFileContent = fs.readFileSync(
         `${dir}/routes/${child}`,
-        "utf8"
+        "utf8",
       );
       const childrenMatches = getRoutesFromFile(childrenFileContent);
       return [child.replace(/\.ts$/, ""), childrenMatches];
-    })
+    }),
   );
 
   const importStatements = getImportStatements(content);
@@ -80,7 +76,7 @@ function getUseRoutes(content: string, dir: string) {
     ?.map((e) => {
       const match =
         /router\.use\((?:\n|\s)*?['"](.+)['"],(?:\n|\s)+(.*?)(?:\n|\s)*?\)/.exec(
-          e
+          e,
         );
 
       if (!match) return { path: "", children: [] };
@@ -131,7 +127,7 @@ function flattenRoutes(routes: IRoutes) {
               ...c,
               path: `${e.path}/${c.path}`.replace(/\/\//g, "/"),
             }))
-        : []
+        : [],
     ),
   ].map((e) => ({
     path: e.path.replace(/\/$/g, ""),
@@ -140,4 +136,4 @@ function flattenRoutes(routes: IRoutes) {
   }));
 }
 
-export { getRoutes, flattenRoutes };
+export { flattenRoutes, getRoutes };

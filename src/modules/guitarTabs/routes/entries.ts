@@ -1,19 +1,19 @@
 import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import pdfThumbnail from "pdf-thumbnail";
+import asyncWrapper from "../../../utils/asyncWrapper";
 // @ts-expect-error no type for this
-import pdfPageCounter from "pdf-page-counter";
+import { body, query } from "express-validator";
 import fs from "fs";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
+import moment from "moment";
+import pdfPageCounter from "pdf-page-counter";
 import { BaseResponse } from "../../../interfaces/base_response";
 import {
   IGuitarTabsEntry,
   IGuitarTabsSidebarData,
 } from "../../../interfaces/guitar_tabs_interfaces";
-import moment from "moment";
-import { body, query } from "express-validator";
+import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -26,7 +26,7 @@ router.get(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IGuitarTabsSidebarData>>
+      res: Response<BaseResponse<IGuitarTabsSidebarData>>,
     ) => {
       const { pb } = req;
 
@@ -52,13 +52,13 @@ router.get(
             acc[entry.author]++;
             return acc;
           },
-          {} as Record<string, number>
+          {} as Record<string, number>,
         ),
       };
 
       successWithBaseResponse(res, data);
-    }
-  )
+    },
+  ),
 );
 
 router.get(
@@ -96,7 +96,7 @@ router.get(
       });
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 router.post(
@@ -158,7 +158,7 @@ router.post(
     }
 
     groups = Object.fromEntries(
-      Object.entries(groups).filter(([_, group]) => group.pdf)
+      Object.entries(groups).filter(([_, group]) => group.pdf),
     );
 
     processing = "in_progress";
@@ -190,7 +190,7 @@ router.post(
           .pipe(fs.createWriteStream(`medium/${decodedName}.jpg`))
           .once("close", async () => {
             const thumbnailBuffer = fs.readFileSync(
-              `medium/${decodedName}.jpg`
+              `medium/${decodedName}.jpg`,
             );
 
             const otherFiles: {
@@ -204,14 +204,14 @@ router.post(
             if (group.mscz) {
               otherFiles.musescore = new File(
                 [fs.readFileSync(group.mscz.path)],
-                group.mscz.originalname
+                group.mscz.originalname,
               );
             }
 
             if (group.mp3) {
               otherFiles.audio = new File(
                 [fs.readFileSync(group.mp3.path)],
-                group.mp3.originalname
+                group.mp3.originalname,
               );
             }
 
@@ -226,7 +226,7 @@ router.post(
               },
               {
                 $autoCancel: false,
-              }
+              },
             );
 
             fs.unlinkSync(path);
@@ -255,7 +255,7 @@ router.post(
         break;
       }
     }
-  })
+  }),
 );
 
 router.get(
@@ -269,11 +269,11 @@ router.get(
           left: number;
           total: number;
         }>
-      >
+      >,
     ) => {
       successWithBaseResponse(res, { status: processing, left, total });
-    }
-  )
+    },
+  ),
 );
 
 router.patch(
@@ -297,7 +297,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, updatedentries);
-  })
+  }),
 );
 
 router.delete(
@@ -309,7 +309,7 @@ router.delete(
     await pb.collection("guitar_tabs_entries").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 router.get(
@@ -361,7 +361,7 @@ router.get(
         }
         fs.copyFileSync(
           `${folderLocation}/${entry.pdf}`,
-          `${targetLocation}/${entry.name}${number}.pdf`
+          `${targetLocation}/${entry.name}${number}.pdf`,
         );
         break;
       }
@@ -379,7 +379,7 @@ router.get(
           }
           fs.copyFileSync(
             `${folderLocation}/${entry.audio}`,
-            `${targetLocation}/${entry.name}${number}.${ext}`
+            `${targetLocation}/${entry.name}${number}.${ext}`,
           );
           break;
         }
@@ -397,7 +397,7 @@ router.get(
             }
             fs.copyFileSync(
               `${folderLocation}/${entry.musescore}`,
-              `${targetLocation}/${entry.name}${number}.${ext}`
+              `${targetLocation}/${entry.name}${number}.${ext}`,
             );
             break;
           }
@@ -406,7 +406,7 @@ router.get(
     }
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -428,7 +428,7 @@ router.post(
       });
 
     successWithBaseResponse(res, updatedEntry);
-  })
+  }),
 );
 
 export default router;

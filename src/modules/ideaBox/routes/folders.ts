@@ -1,12 +1,11 @@
 import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { body, param, query } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IIdeaBoxFolder } from "../../../interfaces/ideabox_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -29,7 +28,7 @@ router.get(
       req,
       res,
       "idea_box_containers",
-      container
+      container,
     );
 
     let folderExists = true;
@@ -67,7 +66,7 @@ router.get(
       filter: `container = "${container}" && parent = "${lastFolder}"`,
       sort: "name",
     });
-  })
+  }),
 );
 
 /**
@@ -107,7 +106,7 @@ router.post(
       });
 
     successWithBaseResponse(res, folder, 201);
-  })
+  }),
 );
 
 /**
@@ -143,7 +142,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, folder);
-  })
+  }),
 );
 
 router.post(
@@ -159,7 +158,7 @@ router.post(
       req,
       res,
       "idea_box_folders",
-      target
+      target,
     );
     if (!(entryExist && folderExist)) return;
 
@@ -170,7 +169,7 @@ router.post(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.delete(
@@ -188,7 +187,7 @@ router.delete(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -209,7 +208,7 @@ router.delete(
     await pb.collection("idea_box_folders").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

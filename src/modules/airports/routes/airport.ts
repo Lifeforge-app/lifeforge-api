@@ -1,19 +1,18 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
+import fs from "fs";
+import JSDOM from "jsdom";
 import { IFlightDataEntry } from "../../../interfaces/airports_interfaces";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import COUNTRIES from "../data/countries";
 import REGIONS from "../data/regions";
-import fs from "fs";
-import JSDOM from "jsdom";
 // @ts-expect-error don't have types for this
 import metarParser from "aewx-metar-parser";
 import { param, query } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { BaseResponse } from "../../../interfaces/base_response";
 
 const AIRPORT_DATA: string[][] = JSON.parse(
-  fs.readFileSync("src/routes/airports/data/airports.json").toString()
+  fs.readFileSync("src/routes/airports/data/airports.json").toString(),
 ).slice(1);
 
 const cache = new Map();
@@ -39,7 +38,7 @@ router.get(
         location: airport[10],
         type: airport[2],
         name: airport[3],
-      })
+      }),
     );
 
     const breadcrumbs = [
@@ -51,7 +50,7 @@ router.get(
       data: result,
       breadcrumbs,
     });
-  })
+  }),
 );
 
 /**
@@ -66,7 +65,7 @@ router.get(
   "/:id",
   [
     param("id").custom((value) =>
-      AIRPORT_DATA.map((airport) => airport[1]).includes(value)
+      AIRPORT_DATA.map((airport) => airport[1]).includes(value),
     ),
   ],
   asyncWrapper(async (req, res) => {
@@ -99,7 +98,7 @@ router.get(
       data: final,
       breadcrumbs,
     });
-  })
+  }),
 );
 
 /**
@@ -143,7 +142,7 @@ router.get(
     }
 
     const rawData = await fetch(
-      `https://www.avionio.com/widget/en/${id}/${type}?page=${page || 0}`
+      `https://www.avionio.com/widget/en/${id}/${type}?page=${page || 0}`,
     ).then((res) => res.text());
 
     const dom = new JSDOM.JSDOM(rawData);
@@ -193,7 +192,7 @@ router.get(
     });
 
     successWithBaseResponse(res, flights);
-  })
+  }),
 );
 
 /**
@@ -207,7 +206,7 @@ router.get(
   "/:id/METAR",
   [
     param("id").custom((value) =>
-      AIRPORT_DATA.map((airport) => airport[1]).includes(value)
+      AIRPORT_DATA.map((airport) => airport[1]).includes(value),
     ),
   ],
   asyncWrapper(async (req, res) => {
@@ -215,7 +214,7 @@ router.get(
 
     try {
       const response = await fetch(`https://metar-taf.com/${id}`).then((res) =>
-        res.text()
+        res.text(),
       );
 
       const dom = new JSDOM.JSDOM(response);
@@ -228,7 +227,7 @@ router.get(
     } catch {
       try {
         const response = await fetch(
-          `https://tgftp.nws.noaa.gov/data/observations/metar/stations/${id}.TXT`
+          `https://tgftp.nws.noaa.gov/data/observations/metar/stations/${id}.TXT`,
         ).then((res) => res.text());
 
         const data = response.trim();
@@ -241,7 +240,7 @@ router.get(
         successWithBaseResponse(res, "none");
       }
     }
-  })
+  }),
 );
 
 /**
@@ -256,7 +255,7 @@ router.get(
   "/:id/NOTAM",
   [
     param("id").custom((value) =>
-      AIRPORT_DATA.map((airport) => airport[1]).includes(value)
+      AIRPORT_DATA.map((airport) => airport[1]).includes(value),
     ),
     query("page").optional().isNumeric(),
   ],
@@ -266,7 +265,7 @@ router.get(
 
     try {
       const response = await fetch(
-        `https://metar-taf.com/notams/${id}?page=${page}`
+        `https://metar-taf.com/notams/${id}?page=${page}`,
       ).then((res) => res.text());
 
       if (response === "DONE") {
@@ -297,14 +296,14 @@ router.get(
             codeSummary: codeSummary?.innerHTML,
             duration: duration?.textContent,
           };
-        }
+        },
       );
 
       successWithBaseResponse(res, NOTAMs);
     } catch (err) {
       successWithBaseResponse(res, "none");
     }
-  })
+  }),
 );
 
 /**
@@ -318,20 +317,20 @@ router.get(
   "/:id/radios",
   [
     param("id").custom((value) =>
-      AIRPORT_DATA.map((airport) => airport[1]).includes(value)
+      AIRPORT_DATA.map((airport) => airport[1]).includes(value),
     ),
   ],
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
     const response = await fetch(
-      `https://www.liveatc.net/search/?icao=${id}`
+      `https://www.liveatc.net/search/?icao=${id}`,
     ).then((res) => res.text());
 
     const dom = new JSDOM.JSDOM(response);
 
     const radios = Array.from(
-      dom.window.document.querySelectorAll(".freqTable tr")
+      dom.window.document.querySelectorAll(".freqTable tr"),
     )
       .slice(1)
       .map((radio) => {
@@ -344,7 +343,7 @@ router.get(
       });
 
     successWithBaseResponse(res, radios);
-  })
+  }),
 );
 
 /**
@@ -358,26 +357,26 @@ router.get(
   "/:id/runways",
   [
     param("id").custom((value) =>
-      AIRPORT_DATA.map((airport) => airport[1]).includes(value)
+      AIRPORT_DATA.map((airport) => airport[1]).includes(value),
     ),
   ],
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
     const response = await fetch(
-      `http://www.airport-data.com/world-airports/${id}`
+      `http://www.airport-data.com/world-airports/${id}`,
     ).then((res) => res.text());
 
     const dom = new JSDOM.JSDOM(response);
 
     const runwayNames = Array.from(
-      dom.window.document.querySelectorAll("section#runway h3")
+      dom.window.document.querySelectorAll("section#runway h3"),
     ).map((e) => e.textContent);
 
     const runwaysInfo = Array.from(
-      dom.window.document.querySelectorAll("section#runway table")
+      dom.window.document.querySelectorAll("section#runway table"),
     ).map((table) =>
-      table.outerHTML.replace(/class=".*?"/g, "").replace(/width=".*?"/g, "")
+      table.outerHTML.replace(/class=".*?"/g, "").replace(/width=".*?"/g, ""),
     );
 
     const runways = runwayNames.map((name, i) => ({
@@ -386,7 +385,7 @@ router.get(
     }));
 
     successWithBaseResponse(res, runways);
-  })
+  }),
 );
 
 export default router;

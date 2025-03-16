@@ -1,16 +1,15 @@
 import express, { Request, Response } from "express";
-import moment from "moment";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import { body, query } from "express-validator";
-import hasError from "../../../utils/checkError";
+import moment from "moment";
 import { BaseResponse } from "../../../interfaces/base_response";
 import {
   ITodoListEntry,
   ITodoListStatusCounter,
   ITodoSubtask,
 } from "../../../interfaces/todo_list_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -97,7 +96,7 @@ router.get(
     });
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 /**
@@ -111,7 +110,7 @@ router.get(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<ITodoListStatusCounter>>
+      res: Response<BaseResponse<ITodoListStatusCounter>>,
     ) => {
       const filters = {
         all: "done = false",
@@ -153,8 +152,8 @@ router.get(
       }
 
       successWithBaseResponse(res, counters);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -255,7 +254,7 @@ router.post(
     }
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 /**
@@ -305,7 +304,7 @@ router.patch(
             subtasks: string[];
           }
         >
-      >
+      >,
     ) => {
       const { pb } = req;
       const { id } = req.params;
@@ -407,8 +406,8 @@ router.patch(
       }
 
       successWithBaseResponse(res, entries);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -453,7 +452,7 @@ router.delete(
     }
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 /**
@@ -474,7 +473,7 @@ router.post(
             subtasks: string[];
           }
         >
-      >
+      >,
     ) => {
       const { pb } = req;
       const { id } = req.params;
@@ -503,8 +502,8 @@ router.post(
       });
 
       successWithBaseResponse(res, entry);
-    }
-  )
+    },
+  ),
 );
 
 export default router;

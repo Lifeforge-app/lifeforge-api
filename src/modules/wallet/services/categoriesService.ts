@@ -1,9 +1,9 @@
 import Pocketbase from "pocketbase";
-import { IWalletCategory } from "../../../interfaces/wallet_interfaces";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import { IWalletCategory } from "../../../interfaces/wallet_interfaces";
 
 export const getAllCategories = async (
-  pb: Pocketbase
+  pb: Pocketbase,
 ): Promise<IWalletCategory[] | void> => {
   return pb
     .collection("wallet_categories")
@@ -15,7 +15,7 @@ export const getAllCategories = async (
 
 export const createCategory = async (
   pb: Pocketbase,
-  data: WithoutPBDefault<IWalletCategory>
+  data: WithoutPBDefault<IWalletCategory>,
 ): Promise<IWalletCategory | void> => {
   const { name, icon, color, type } = data;
 
@@ -35,7 +35,7 @@ export const createCategory = async (
 export const updateCategory = async (
   pb: Pocketbase,
   id: string,
-  data: WithoutPBDefault<IWalletCategory>
+  data: WithoutPBDefault<IWalletCategory>,
 ): Promise<IWalletCategory | void> => {
   const { name, icon, color, type } = data;
 
@@ -54,7 +54,7 @@ export const updateCategory = async (
 
 export const deleteCategory = async (
   pb: Pocketbase,
-  id: string
+  id: string,
 ): Promise<boolean | void> => {
   return pb
     .collection("wallet_categories")

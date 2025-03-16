@@ -1,12 +1,12 @@
-import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { v4 } from "uuid";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { decrypt2 } from "../../../utils/encryption";
+import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { v4 } from "uuid";
 import { BaseResponse } from "../../../interfaces/base_response";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import checkOTP from "../../../utils/checkOTP";
+import { decrypt2 } from "../../../utils/encryption";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get(
   "/challenge",
   asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
     successWithBaseResponse(res, challenge);
-  })
+  }),
 );
 
 router.post(
@@ -38,7 +38,7 @@ router.post(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -60,7 +60,7 @@ router.post(
     const isMatch = await bcrypt.compare(decryptedMaster, masterPasswordHash);
 
     successWithBaseResponse(res, isMatch);
-  })
+  }),
 );
 
 router.post(
@@ -68,7 +68,7 @@ router.post(
   [body("otp").isString().notEmpty(), body("otpId").isString().notEmpty()],
   asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
     checkOTP(req, res, challenge);
-  })
+  }),
 );
 
 export default router;

@@ -4,8 +4,8 @@ import asyncWrapper from "../../utils/asyncWrapper";
 import { getAPIKey } from "../../utils/getAPIKey";
 import {
   clientError,
-  successWithBaseResponse,
   serverError,
+  successWithBaseResponse,
 } from "../../utils/response";
 
 const router = express.Router();
@@ -24,7 +24,7 @@ router.get(
 
     try {
       fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`,
       )
         .then((response) => response.json())
         .then((data) => {
@@ -36,7 +36,7 @@ router.get(
     } catch (error) {
       serverError(res);
     }
-  })
+  }),
 );
 
 router.get("/enabled", async (req, res) => {

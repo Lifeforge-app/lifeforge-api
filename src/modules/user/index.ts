@@ -1,10 +1,10 @@
 import express from "express";
-import { successWithBaseResponse } from "../../utils/response";
 import asyncWrapper from "../../utils/asyncWrapper";
-import settingsRoutes from "./routes/settings";
+import { successWithBaseResponse } from "../../utils/response";
+import twoFARoutes from "./routes/2fa";
 import authRoutes from "./routes/auth";
 import personalizationRoutes from "./routes/personalization";
-import twoFARoutes from "./routes/2fa";
+import settingsRoutes from "./routes/settings";
 
 const router = express.Router();
 
@@ -37,7 +37,7 @@ router.patch(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

@@ -1,20 +1,20 @@
 import express, { Response } from "express";
-import { v4 } from "uuid";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import { BaseResponse } from "../../../interfaces/base_response";
 import { body, query } from "express-validator";
-import checkOTP from "../../../utils/checkOTP";
+import moment from "moment";
 import speakeasy from "speakeasy";
+import { v4 } from "uuid";
+import { currentSession } from "..";
+import { BaseResponse } from "../../../interfaces/base_response";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import checkOTP from "../../../utils/checkOTP";
 import {
   decrypt,
   decrypt2,
   encrypt,
   encrypt2,
 } from "../../../utils/encryption";
-import { currentSession } from "..";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { removeSensitiveData, updateNullData } from "../utils/auth";
-import moment from "moment";
 
 let challenge = v4();
 
@@ -30,7 +30,7 @@ router.get(
   "/challenge",
   asyncWrapper(async (_, res: Response<BaseResponse<string>>) => {
     successWithBaseResponse(res, challenge);
-  })
+  }),
 );
 
 router.get(
@@ -55,7 +55,7 @@ router.get(
     currentSession.tokenExpireAt = moment().add(5, "minutes").toISOString();
 
     successWithBaseResponse(res, currentSession.tokenId);
-  })
+  }),
 );
 
 router.post(
@@ -63,7 +63,7 @@ router.post(
   [body("otp").isString().notEmpty(), body("otpId").isString().notEmpty()],
   asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
     checkOTP(req, res, challenge);
-  })
+  }),
 );
 
 router.get(
@@ -94,12 +94,12 @@ router.get(
       encrypt2(
         encrypt2(
           `otpauth://totp/${pb.authStore.record.email}?secret=${tempCode}&issuer=Lifeforge.`,
-          challenge
+          challenge,
         ),
-        token
-      )
+        token,
+      ),
     );
-  })
+  }),
 );
 
 router.post(
@@ -132,12 +132,12 @@ router.post(
     await pb.collection("users").update(pb.authStore.record!.id, {
       twoFASecret: encrypt(
         Buffer.from(tempCode),
-        process.env.MASTER_KEY!
+        process.env.MASTER_KEY!,
       ).toString("base64"),
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -155,7 +155,7 @@ router.post(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -209,7 +209,7 @@ router.post(
 
       const secret = decrypt(
         Buffer.from(encryptedSecret, "base64"),
-        process.env.MASTER_KEY!
+        process.env.MASTER_KEY!,
       );
 
       const verified = speakeasy.totp.verify({
@@ -250,7 +250,7 @@ router.post(
       token: pb.authStore.token,
       userData,
     });
-  })
+  }),
 );
 
 export default router;

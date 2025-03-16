@@ -9,7 +9,7 @@ if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
 const pocketbaseMiddleware = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const bearerToken = req.headers.authorization?.split(" ")[1];
   const pb = new Pocketbase(process.env.PB_HOST);
@@ -27,7 +27,7 @@ const pocketbaseMiddleware = async (
       req.url === "/" ||
       ENDPOINT_WHITELIST.some((route) => req.url.startsWith(route)) ||
       req.url.match(
-        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules|utils)\.\w+$/
+        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules|utils)\.\w+$/,
       )
     ) {
       req.pb = pb;

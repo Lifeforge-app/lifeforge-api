@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import express, { Response } from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { ITodoListTag } from "../../../interfaces/todo_list_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -18,8 +17,8 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag[]>>) =>
-    list(req, res, "todo_tags")
-  )
+    list(req, res, "todo_tags"),
+  ),
 );
 
 /**
@@ -41,7 +40,7 @@ router.post(
     });
 
     successWithBaseResponse(res, tag);
-  })
+  }),
 );
 
 /**
@@ -65,7 +64,7 @@ router.patch(
     });
 
     successWithBaseResponse(res, tag);
-  })
+  }),
 );
 
 /**
@@ -84,7 +83,7 @@ router.delete(
     await pb.collection("todo_tags").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

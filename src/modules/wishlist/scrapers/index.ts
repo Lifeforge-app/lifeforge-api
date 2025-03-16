@@ -1,6 +1,6 @@
 import scrapeLazada from "./providers/lazada";
-import scrapeShopee from "./providers/shopee";
 import scrapePuzzlePlanet from "./providers/puzzlePlanet";
+import scrapeShopee from "./providers/shopee";
 
 export default {
   lazada: scrapeLazada,

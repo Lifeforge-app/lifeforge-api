@@ -1,8 +1,7 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { param } from "express-validator";
 import asyncWrapper from "../../../utils/asyncWrapper";
-import hasError from "../../../utils/checkError";
-import { successWithBaseResponse, serverError } from "../../../utils/response";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
 import getPlaylist from "../functions/getPlaylist";
 
 const router = express.Router();
@@ -20,7 +19,7 @@ router.get(
       .catch(() => {
         serverError(res, "Error fetching playlist");
       });
-  })
+  }),
 );
 
 export default router;

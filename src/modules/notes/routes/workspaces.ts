@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { validate } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -14,12 +14,12 @@ router.get(
       .getOne(req.params.id);
 
     successWithBaseResponse(res, category);
-  })
+  }),
 );
 
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "notes_workspaces"))
+  asyncWrapper(async (req, res) => validate(req, res, "notes_workspaces")),
 );
 
 router.get(
@@ -29,7 +29,7 @@ router.get(
     const categories = await pb.collection("notes_workspaces").getFullList();
 
     successWithBaseResponse(res, categories);
-  })
+  }),
 );
 
 export default router;

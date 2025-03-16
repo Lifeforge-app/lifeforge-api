@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import categoryRoutes from "./routes/categories";
 import entriesRoutes from "./routes/entries";
 import kanbanRoutes from "./routes/kanban";
-import categoryRoutes from "./routes/categories";
 import statusRoutes from "./routes/statuses";
-import visibilityRoutes from "./routes/visibilities";
 import technologyRoutes from "./routes/technologies";
+import visibilityRoutes from "./routes/visibilities";
 
 const router = express.Router();
 

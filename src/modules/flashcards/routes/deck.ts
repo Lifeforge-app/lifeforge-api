@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { list, validate } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -14,12 +14,12 @@ router.get(
     const entries = await pb.collection("flashcards_decks").getOne(id);
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "flashcards_decks"))
+  asyncWrapper(async (req, res) => validate(req, res, "flashcards_decks")),
 );
 
 router.get(
@@ -27,8 +27,8 @@ router.get(
   asyncWrapper(async (req, res) =>
     list(req, res, "flashcards_decks", {
       expand: "tag",
-    })
-  )
+    }),
+  ),
 );
 
 export default router;

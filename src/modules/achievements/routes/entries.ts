@@ -1,11 +1,11 @@
 import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
+import * as EntriesController from "../controllers/entriesController";
 import {
   validateBodyData,
-  validateId,
   validateDifficulty,
+  validateId,
 } from "../middlewares/entriesValidation";
-import * as EntriesController from "../controllers/entriesController";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get(
   "/:difficulty",
   validateDifficulty,
   validationMiddleware,
-  EntriesController.getAllEntriesByDifficulty
+  EntriesController.getAllEntriesByDifficulty,
 );
 
 /**
@@ -36,7 +36,7 @@ router.post(
   "/",
   validateBodyData,
   validationMiddleware,
-  EntriesController.createEntry
+  EntriesController.createEntry,
 );
 
 /**
@@ -54,7 +54,7 @@ router.patch(
   validateId,
   validateBodyData,
   validationMiddleware,
-  EntriesController.updateEntry
+  EntriesController.updateEntry,
 );
 
 /**
@@ -68,7 +68,7 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  EntriesController.deleteEntry
+  EntriesController.deleteEntry,
 );
 
 export default router;

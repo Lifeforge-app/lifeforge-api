@@ -6,7 +6,7 @@ import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
  * Fetch all calendar categories
  */
 export const getAllCategories = async (
-  pb: PocketBase
+  pb: PocketBase,
 ): Promise<ICalendarCategory[]> => {
   return await pb
     .collection("calendar_categories")
@@ -20,7 +20,7 @@ export const getAllCategories = async (
  */
 export const createCategory = async (
   pb: PocketBase,
-  categoryData: WithoutPBDefault<ICalendarCategory>
+  categoryData: WithoutPBDefault<ICalendarCategory>,
 ): Promise<ICalendarCategory> => {
   return await pb
     .collection("calendar_categories")
@@ -33,7 +33,7 @@ export const createCategory = async (
 export const updateCategory = async (
   pb: PocketBase,
   id: string,
-  categoryData: WithoutPBDefault<ICalendarCategory>
+  categoryData: WithoutPBDefault<ICalendarCategory>,
 ): Promise<ICalendarCategory> => {
   return await pb
     .collection("calendar_categories")
@@ -45,7 +45,7 @@ export const updateCategory = async (
  */
 export const deleteCategory = async (
   pb: PocketBase,
-  id: string
+  id: string,
 ): Promise<boolean> => {
   return await pb.collection("calendar_categories").delete(id);
 };
@@ -55,7 +55,7 @@ export const deleteCategory = async (
  */
 export const getCategoryById = async (
   pb: PocketBase,
-  id: string
+  id: string,
 ): Promise<ICalendarCategory> => {
   return await pb
     .collection("calendar_categories")

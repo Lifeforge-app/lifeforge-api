@@ -1,5 +1,6 @@
 import express from "express";
 import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 import * as TransactionsController from "../controllers/transactionsController";
 import {
   validateBodyDataForCreation,
@@ -7,7 +8,6 @@ import {
   validateId,
   validateYearAndMonth,
 } from "../middlewares/transactionsValidation";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.get(
   "/income-expenses",
   validateYearAndMonth,
   validationMiddleware,
-  TransactionsController.getIncomeExpensesSummary
+  TransactionsController.getIncomeExpensesSummary,
 );
 
 /**
@@ -55,7 +55,7 @@ router.post(
   singleUploadMiddleware,
   validateBodyDataForCreation,
   validationMiddleware,
-  TransactionsController.createTransaction
+  TransactionsController.createTransaction,
 );
 
 /**
@@ -79,7 +79,7 @@ router.patch(
   validateBodyDataForUpdate,
   validateId,
   validationMiddleware,
-  TransactionsController.updateTransaction
+  TransactionsController.updateTransaction,
 );
 
 /**
@@ -93,13 +93,13 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  TransactionsController.deleteTransaction
+  TransactionsController.deleteTransaction,
 );
 
 router.post(
   "/scan-receipt",
   singleUploadMiddleware,
-  TransactionsController.scanReceipt
+  TransactionsController.scanReceipt,
 );
 
 export default router;

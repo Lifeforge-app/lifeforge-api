@@ -1,11 +1,10 @@
 import express, { Response } from "express";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { getAPIKey } from "../../utils/getAPIKey";
 import { query } from "express-validator";
-import hasError from "../../utils/checkError";
-import { serverError, successWithBaseResponse } from "../../utils/response";
 import { BaseResponse } from "../../interfaces/base_response";
 import IPixabaySearchResult from "../../interfaces/pixabay_interfaces";
+import asyncWrapper from "../../utils/asyncWrapper";
+import { getAPIKey } from "../../utils/getAPIKey";
+import { serverError, successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 
@@ -120,8 +119,8 @@ router.get(
       };
 
       successWithBaseResponse(res, final);
-    }
-  )
+    },
+  ),
 );
 
 export default router;

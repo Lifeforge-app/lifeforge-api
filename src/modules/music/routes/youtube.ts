@@ -1,17 +1,16 @@
+import { exec } from "child_process";
 import express, { Request, Response } from "express";
-import { exec, spawn } from "child_process";
-import { v4 } from "uuid";
+import { body, param } from "express-validator";
 import { readFileSync, readdirSync, unlinkSync } from "fs";
+import { v4 } from "uuid";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IYoutubeData } from "../../../interfaces/music_interfaces";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
-import { IYoutubeData } from "../../../interfaces/music_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { body, param } from "express-validator";
-import hasError from "../../../utils/checkError";
 
 const router = express.Router();
 
@@ -56,9 +55,9 @@ router.get(
         };
 
         successWithBaseResponse(res, response);
-      }
+      },
     );
-  })
+  }),
 );
 
 router.post(
@@ -113,9 +112,9 @@ router.post(
         unlinkSync(`${process.cwd()}/medium/${mp3File}`);
 
         downloading = "completed";
-      }
+      },
     );
-  })
+  }),
 );
 
 router.get(
@@ -127,11 +126,11 @@ router.get(
         BaseResponse<{
           status: "empty" | "in_progress" | "completed" | "failed";
         }>
-      >
+      >,
     ) => {
       successWithBaseResponse(res, { status: downloading });
-    }
-  )
+    },
+  ),
 );
 
 export default router;

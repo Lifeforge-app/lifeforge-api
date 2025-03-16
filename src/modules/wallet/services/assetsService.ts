@@ -1,9 +1,9 @@
 import Pocketbase from "pocketbase";
-import { IWalletAsset } from "../../../interfaces/wallet_interfaces";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import { IWalletAsset } from "../../../interfaces/wallet_interfaces";
 
 export const getAllAssets = async (
-  pb: Pocketbase
+  pb: Pocketbase,
 ): Promise<IWalletAsset[] | void> => {
   const assets = await pb
     .collection("wallet_assets")
@@ -36,7 +36,7 @@ export const getAllAssets = async (
 
 export const createAsset = async (
   pb: Pocketbase,
-  data: WithoutPBDefault<IWalletAsset>
+  data: WithoutPBDefault<IWalletAsset>,
 ): Promise<IWalletAsset | void> => {
   const { name, icon, starting_balance } = data;
 
@@ -55,7 +55,7 @@ export const createAsset = async (
 export const updateAsset = async (
   pb: Pocketbase,
   id: string,
-  data: WithoutPBDefault<IWalletAsset>
+  data: WithoutPBDefault<IWalletAsset>,
 ): Promise<IWalletAsset | void> => {
   const { name, icon, starting_balance } = data;
 
@@ -73,7 +73,7 @@ export const updateAsset = async (
 
 export const deleteAsset = async (
   pb: Pocketbase,
-  id: string
+  id: string,
 ): Promise<boolean | void> => {
   return pb
     .collection("wallet_assets")

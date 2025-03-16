@@ -1,13 +1,13 @@
 import express, { Response } from "express";
+import { BaseResponse } from "../../interfaces/base_response";
+import asyncWrapper from "../../utils/asyncWrapper";
+import { fetchAI } from "../../utils/fetchAI";
 import { getAPIKey } from "../../utils/getAPIKey";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../utils/response";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { fetchAI } from "../../utils/fetchAI";
-import { BaseResponse } from "../../interfaces/base_response";
 
 const router = express.Router();
 
@@ -52,7 +52,7 @@ router.get(
     } else {
       serverError(res, "Failed to fetch quote");
     }
-  })
+  }),
 );
 
 export default router;

@@ -1,19 +1,19 @@
 import express, { Request, Response } from "express";
+import { param, query } from "express-validator";
 import ogs from "open-graph-scraper";
-import containers from "./routes/containers";
-import folders from "./routes/folders";
-import ideas from "./routes/ideas";
-import tags from "./routes/tags";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { checkExistence } from "../../utils/PBRecordValidator";
+import { BaseResponse } from "../../interfaces/base_response";
 import {
   IIdeaBoxContainer,
   IIdeaBoxEntry,
   IIdeaBoxFolder,
 } from "../../interfaces/ideabox_interfaces";
+import asyncWrapper from "../../utils/asyncWrapper";
+import { checkExistence } from "../../utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "../../utils/response";
-import { param, query } from "express-validator";
-import { BaseResponse } from "../../interfaces/base_response";
+import containers from "./routes/containers";
+import folders from "./routes/folders";
+import ideas from "./routes/ideas";
+import tags from "./routes/tags";
 
 const router = express.Router();
 
@@ -35,7 +35,7 @@ router.get(
           container: IIdeaBoxContainer;
           path: IIdeaBoxFolder[];
         }>
-      >
+      >,
     ) => {
       const { pb } = req;
       const { container } = req.params;
@@ -45,7 +45,7 @@ router.get(
         req,
         res,
         "idea_box_containers",
-        container
+        container,
       );
 
       if (!containerExists) return;
@@ -87,8 +87,8 @@ router.get(
         container: containerEntry,
         path: fullPath,
       });
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -111,7 +111,7 @@ router.get(
       res,
       "idea_box_containers",
       container,
-      false
+      false,
     );
 
     if (!containerExists) {
@@ -146,7 +146,7 @@ router.get(
     }
 
     successWithBaseResponse(res, containerExists && folderExists);
-  })
+  }),
 );
 
 router.get(
@@ -183,7 +183,7 @@ router.get(
       .catch(() => {
         clientError(res);
       });
-  })
+  }),
 );
 
 async function recursivelySearchFolder(
@@ -192,7 +192,7 @@ async function recursivelySearchFolder(
   container: string,
   tags: string,
   req: Request,
-  parents: string
+  parents: string,
 ) {
   const pb = req.pb;
   const folderInsideFolder = await pb
@@ -234,7 +234,7 @@ async function recursivelySearchFolder(
       container,
       tags,
       req,
-      parents + "/" + folder.id
+      parents + "/" + folder.id,
     );
 
     allResults.push(...results);
@@ -263,7 +263,7 @@ router.get(
             };
           })[]
         >
-      >
+      >,
     ) => {
       const { q, container, tags, folder } = req.query as Record<
         string,
@@ -276,7 +276,7 @@ router.get(
             res,
             "idea_box_containers",
             container,
-            false
+            false,
           )
         : true;
 
@@ -288,7 +288,7 @@ router.get(
         container || "",
         tags || "",
         req,
-        ""
+        "",
       );
 
       for (const result of results) {
@@ -299,8 +299,8 @@ router.get(
       }
 
       successWithBaseResponse(res, results as any);
-    }
-  )
+    },
+  ),
 );
 
 export default router;

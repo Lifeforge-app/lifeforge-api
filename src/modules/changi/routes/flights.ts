@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 
@@ -29,11 +29,11 @@ router.get(
     }
 
     const API_key = await fetch(
-      "https://www.changiairport.com/en/flights/arrivals.html"
+      "https://www.changiairport.com/en/flights/arrivals.html",
     )
       .then((res) => res.text())
       .then(
-        (data) => data.match(/&#34;appSyncApiKey&#34;: &#34;(.*?)&#34;,/)?.[1]
+        (data) => data.match(/&#34;appSyncApiKey&#34;: &#34;(.*?)&#34;,/)?.[1],
       )
       .catch(console.error);
 
@@ -135,7 +135,7 @@ router.get(
         lastFetch = +new Date();
         successWithBaseResponse(res, data);
       });
-  })
+  }),
 );
 
 export default router;

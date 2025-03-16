@@ -1,9 +1,9 @@
 import Pocketbase from "pocketbase";
-import { IWalletLedger } from "../../../interfaces/wallet_interfaces";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import { IWalletLedger } from "../../../interfaces/wallet_interfaces";
 
 export const getAllLedgers = async (
-  pb: Pocketbase
+  pb: Pocketbase,
 ): Promise<IWalletLedger[] | void> => {
   return pb
     .collection("wallet_ledgers")
@@ -17,7 +17,7 @@ export const getAllLedgers = async (
 
 export const createLedger = async (
   pb: Pocketbase,
-  data: WithoutPBDefault<IWalletLedger>
+  data: WithoutPBDefault<IWalletLedger>,
 ): Promise<IWalletLedger | void> => {
   const { name, icon, color } = data;
 
@@ -36,7 +36,7 @@ export const createLedger = async (
 export const updateLedger = async (
   pb: Pocketbase,
   id: string,
-  data: WithoutPBDefault<IWalletLedger>
+  data: WithoutPBDefault<IWalletLedger>,
 ): Promise<IWalletLedger | void> => {
   const { name, icon, color } = data;
 
@@ -54,7 +54,7 @@ export const updateLedger = async (
 
 export const deleteLedger = async (
   pb: Pocketbase,
-  id: string
+  id: string,
 ): Promise<boolean | void> => {
   return pb
     .collection("wallet_ledgers")

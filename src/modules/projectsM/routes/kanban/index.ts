@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express'
-import columnRoutes from './routes/columns.js'
+import express from "express";
+import columnRoutes from "./routes/columns.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.use('/column', columnRoutes)
+router.use("/column", columnRoutes);
 
-export default router
+export default router;

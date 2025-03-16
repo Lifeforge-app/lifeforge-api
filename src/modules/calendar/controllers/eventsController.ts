@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import * as EventsService from "../services/eventsService";
-import { serverError, successWithBaseResponse } from "../../../utils/response";
-import { ICalendarEvent } from "../../../interfaces/calendar_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
+import { ICalendarEvent } from "../../../interfaces/calendar_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
+import * as EventsService from "../services/eventsService";
 
 export const getEventsByDateRange = async (
   req: Request<{}, {}, {}, { start: string; end: string }>,
-  res: Response<BaseResponse<ICalendarEvent[]>>
+  res: Response<BaseResponse<ICalendarEvent[]>>,
 ) => {
   const { pb } = req;
   const { start, end } = req.query;
@@ -24,7 +24,7 @@ export const getEventsByDateRange = async (
 
 export const getEventsToday = async (
   req: Request,
-  res: Response<BaseResponse<ICalendarEvent[]>>
+  res: Response<BaseResponse<ICalendarEvent[]>>,
 ) => {
   const { pb } = req;
 
@@ -39,7 +39,7 @@ export const getEventsToday = async (
 
 export const createEvent = async (
   req: Request,
-  res: Response<BaseResponse<ICalendarEvent>>
+  res: Response<BaseResponse<ICalendarEvent>>,
 ) => {
   const { pb } = req;
   const eventData = req.body;
@@ -54,7 +54,7 @@ export const createEvent = async (
 
 export const updateEvent = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarEvent>>
+  res: Response<BaseResponse<ICalendarEvent>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -72,7 +72,7 @@ export const updateEvent = async (
 
 export const deleteEvent = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>
+  res: Response<BaseResponse<undefined>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -94,7 +94,7 @@ export const deleteEvent = async (
 
 export const getEventById = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarEvent>>
+  res: Response<BaseResponse<ICalendarEvent>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;

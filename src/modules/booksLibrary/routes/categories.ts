@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { body } from "express-validator";
-import { IBooksLibraryCategory } from "../../../interfaces/books_library_interfaces";
+import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
+import * as CategoriesController from "../controllers/categoriesController";
+import {
+  validateBodyData,
+  validateId,
+} from "../middlewares/categoriesValidation";
 
 const router = express.Router();
 
@@ -14,18 +14,7 @@ const router = express.Router();
  * @description Retrieve a list of all book categories.
  * @response 200 (IBooksLibraryCategory[]) - The list of book categories
  */
-router.get(
-  "/",
-  asyncWrapper(
-    async (
-      req: Request,
-      res: Response<BaseResponse<IBooksLibraryCategory[]>>
-    ) =>
-      list(req, res, "books_library_categories", {
-        sort: "name",
-      })
-  )
-);
+router.get("/", CategoriesController.getAllCategories);
 
 /**
  * @protected
@@ -37,22 +26,9 @@ router.get(
  */
 router.post(
   "/",
-  [body("name").isString(), body("icon").isString()],
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IBooksLibraryCategory>>) => {
-      const { pb } = req;
-      const { name, icon } = req.body;
-
-      const category: IBooksLibraryCategory = await pb
-        .collection("books_library_categories")
-        .create({
-          name,
-          icon,
-        });
-
-      successWithBaseResponse(res, category);
-    }
-  )
+  validateBodyData,
+  validationMiddleware,
+  CategoriesController.createCategory,
 );
 
 /**
@@ -66,23 +42,10 @@ router.post(
  */
 router.patch(
   "/:id",
-  [body("name").isString(), body("icon").isString()],
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IBooksLibraryCategory>>) => {
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon } = req.body;
-
-      const category: IBooksLibraryCategory = await pb
-        .collection("books_library_categories")
-        .update(id, {
-          name,
-          icon,
-        });
-
-      successWithBaseResponse(res, category);
-    }
-  )
+  validateId,
+  validateBodyData,
+  validationMiddleware,
+  CategoriesController.updateCategory,
 );
 
 /**
@@ -94,14 +57,9 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    await pb.collection("books_library_categories").delete(id);
-
-    successWithBaseResponse(res);
-  })
+  validateId,
+  validationMiddleware,
+  CategoriesController.deleteCategory,
 );
 
 export default router;

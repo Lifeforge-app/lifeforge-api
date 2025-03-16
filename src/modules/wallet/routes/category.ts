@@ -1,8 +1,8 @@
 import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 import * as CategoriesController from "../controllers/categoryController";
 import { validateBodyData, validateId } from "../middlewares/assetsValidation";
 import { validateType } from "../middlewares/categoriesValidation";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.post(
   validateType,
   validateBodyData,
   validationMiddleware,
-  CategoriesController.createCategory
+  CategoriesController.createCategory,
 );
 
 /**
@@ -47,7 +47,7 @@ router.patch(
   validateId,
   validateBodyData,
   validationMiddleware,
-  CategoriesController.updateCategory
+  CategoriesController.updateCategory,
 );
 
 /**
@@ -61,7 +61,7 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  CategoriesController.deleteCategory
+  CategoriesController.deleteCategory,
 );
 
 export default router;

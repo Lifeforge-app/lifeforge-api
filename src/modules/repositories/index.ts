@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import asyncWrapper from "../../utils/asyncWrapper";
 import { successWithBaseResponse } from "../../utils/response";
 
@@ -13,7 +13,7 @@ router.get(
         headers: {
           Authorization: `token ${process.env.GITEA_TOKEN}`,
         },
-      }
+      },
     )
       .then((response) => response.json())
       .catch((error) => {
@@ -40,7 +40,7 @@ router.get(
     }
 
     successWithBaseResponse(res, results);
-  })
+  }),
 );
 
 export default router;

@@ -1,27 +1,27 @@
-import type BasePBCollection from './pocketbase_interfaces.js'
+import type BasePBCollection from "./pocketbase_interfaces.js";
 
 interface INotesWorkspace extends BasePBCollection {
-    icon: string
-    name: string
+  icon: string;
+  name: string;
 }
 
 interface INotesSubject extends BasePBCollection {
-    workspace: string
-    description: string
-    icon: string
-    title: string
+  workspace: string;
+  description: string;
+  icon: string;
+  title: string;
 }
 
 interface INotesEntry extends BasePBCollection {
-    name: string
-    path: string
-    subject: string
-    type: 'file' | 'folder'
-    file: string
+  name: string;
+  path: string;
+  subject: string;
+  type: "file" | "folder";
+  file: string;
 }
 
 interface INotesPath extends BasePBCollection {
-    name: string
+  name: string;
 }
 
-export type { INotesWorkspace, INotesSubject, INotesEntry, INotesPath }
+export type { INotesEntry, INotesPath, INotesSubject, INotesWorkspace };

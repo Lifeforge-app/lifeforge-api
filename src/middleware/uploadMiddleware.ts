@@ -32,7 +32,7 @@ const uploadMiddleware = (req: Request, res: Response, next: NextFunction) => {
 const singleUploadMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // Use multer upload instance
   upload.single("file")(req, res, (err) => {
@@ -54,7 +54,7 @@ function fieldsUploadMiddleware(
   this: { fields: { name: string; maxCount: number }[] },
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   // Use multer upload instance
   upload.fields(this.fields ?? [])(req, res, (err) => {
@@ -64,8 +64,8 @@ function fieldsUploadMiddleware(
 }
 
 export {
-  uploadMiddleware,
+  fieldsUploadMiddleware,
   singleUploadMiddleware,
   singleUploadMiddlewareOfKey,
-  fieldsUploadMiddleware,
+  uploadMiddleware,
 };

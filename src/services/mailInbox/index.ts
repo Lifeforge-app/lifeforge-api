@@ -1,8 +1,8 @@
-import Pocketbase from "pocketbase";
-import getIMAPConfig from "./utils/getIMAPConfig";
 import imaps from "imap-simple";
-import { createMailRecord } from "./utils/createMailRecord";
 import moment from "moment";
+import Pocketbase from "pocketbase";
+import { createMailRecord } from "./utils/createMailRecord";
+import getIMAPConfig from "./utils/getIMAPConfig";
 
 if (!process.env.PB_HOST || !process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
   throw new Error("Please provide PB_HOST, PB_EMAIL and PB_PASSWORD in .env");

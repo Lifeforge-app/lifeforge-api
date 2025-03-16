@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import request from "request";
 import asyncWrapper from "../../utils/asyncWrapper";
 
@@ -41,9 +41,9 @@ router.get(
     });
 
     res.redirect(
-      `https://accounts.spotify.com/authorize/?${auth_query_parameters.toString()}`
+      `https://accounts.spotify.com/authorize/?${auth_query_parameters.toString()}`,
     );
-  })
+  }),
 );
 
 router.get(
@@ -85,7 +85,7 @@ router.get(
           spotifyAccessToken: access_token,
           spotifyRefreshToken: refresh_token,
           spotifyTokenExpires: new Date(
-            Date.now() + body.expires_in * 1000
+            Date.now() + body.expires_in * 1000,
           ).toISOString(),
         });
         res.redirect("http://localhost:5173/spotify");
@@ -96,7 +96,7 @@ router.get(
         message: "Unauthorized",
       });
     });
-  })
+  }),
 );
 
 router.get(
@@ -136,7 +136,7 @@ router.get(
           spotifyAccessToken: access_token,
           spotifyRefreshToken: refresh_token,
           spotifyTokenExpires: new Date(
-            Date.now() + body.expires_in * 1000
+            Date.now() + body.expires_in * 1000,
           ).toISOString(),
         });
 
@@ -146,7 +146,7 @@ router.get(
         });
       }
     });
-  })
+  }),
 );
 
 export default router;

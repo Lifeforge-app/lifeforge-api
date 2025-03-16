@@ -1,13 +1,12 @@
 import express, { Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import { body } from "express-validator";
-import { list, validate } from "../../../utils/CRUD";
-import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import hasError from "../../../utils/checkError";
+import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces";
 import { IWishlistList } from "../../../interfaces/wishlist_interfaces";
+import { list, validate } from "../../../utils/CRUD";
+import { checkExistence } from "../../../utils/PBRecordValidator";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -31,7 +30,7 @@ router.get(
       .getOne(id);
 
     successWithBaseResponse(res, list);
-  })
+  }),
 );
 
 /**
@@ -43,7 +42,7 @@ router.get(
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "wishlist_lists"))
+  asyncWrapper(async (req, res) => validate(req, res, "wishlist_lists")),
 );
 
 /**
@@ -55,8 +54,8 @@ router.get(
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IWishlistList[]>>) =>
-    list(req, res, "wishlist_lists")
-  )
+    list(req, res, "wishlist_lists"),
+  ),
 );
 
 /**
@@ -89,7 +88,7 @@ router.post(
     });
 
     successWithBaseResponse(res, list, 201);
-  })
+  }),
 );
 
 /**
@@ -129,7 +128,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, list);
-  })
+  }),
 );
 
 /**
@@ -150,7 +149,7 @@ router.delete(
     await pb.collection("wishlist_lists").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

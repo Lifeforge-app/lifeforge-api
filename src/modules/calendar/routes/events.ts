@@ -1,11 +1,11 @@
 import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
+import * as EventsController from "../controllers/eventsController";
 import {
   validateEventData,
   validateId,
   validateYearMonth,
 } from "../middlewares/eventsValidation";
-import * as EventsController from "../controllers/eventsController";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.get(
   "/",
   validateYearMonth,
   validationMiddleware,
-  EventsController.getEventsByDateRange
+  EventsController.getEventsByDateRange,
 );
 
 router.get("/today", EventsController.getEventsToday);
@@ -37,7 +37,7 @@ router.get(
   "/:id",
   validateId,
   validationMiddleware,
-  EventsController.getEventById
+  EventsController.getEventById,
 );
 
 /**
@@ -53,7 +53,7 @@ router.post(
   "/",
   validateEventData,
   validationMiddleware,
-  EventsController.createEvent
+  EventsController.createEvent,
 );
 
 /**
@@ -71,7 +71,7 @@ router.patch(
   validateId,
   validateEventData,
   validationMiddleware,
-  EventsController.updateEvent
+  EventsController.updateEvent,
 );
 
 /**
@@ -85,7 +85,7 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  EventsController.deleteEvent
+  EventsController.deleteEvent,
 );
 
 export default router;

@@ -1,10 +1,10 @@
 import express from "express";
 import { body, query } from "express-validator";
+import fs from "fs";
 import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse, clientError } from "../../../utils/response";
-import fs from "fs";
 import { getAPIKey } from "../../../utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -30,7 +30,7 @@ router.get(
       enabled: true,
       items: data.items,
     });
-  })
+  }),
 );
 
 router.get(
@@ -51,7 +51,7 @@ router.get(
 
     const target = `https://www.googleapis.com/webfonts/v1/webfonts?family=${family!.replace(
       / /g,
-      "+"
+      "+",
     )}&key=${key}`;
 
     const response = await fetch(target);
@@ -61,7 +61,7 @@ router.get(
       enabled: true,
       items: data.items,
     });
-  })
+  }),
 );
 
 router.put(
@@ -78,13 +78,13 @@ router.put(
         .update(req.pb.authStore.record!.id, {
           bgImage: new File(
             [fileBuffer],
-            `${req.pb.authStore.record!.id}.${req.file.originalname.split(".").pop()}`
+            `${req.pb.authStore.record!.id}.${req.file.originalname.split(".").pop()}`,
           ),
         });
 
       successWithBaseResponse(
         res,
-        `media/${newEntry.collectionId}/${newEntry.id}/${newEntry.bgImage}`
+        `media/${newEntry.collectionId}/${newEntry.id}/${newEntry.bgImage}`,
       );
       fs.unlinkSync(req.file.path);
 
@@ -105,19 +105,19 @@ router.put(
           .update(req.pb.authStore.record!.id, {
             bgImage: new File(
               [new Uint8Array(fileBuffer)],
-              `${req.pb.authStore.record!.id}.png`
+              `${req.pb.authStore.record!.id}.png`,
             ),
           });
 
         successWithBaseResponse(
           res,
-          `media/${newEntry.collectionId}/${newEntry.id}/${newEntry.bgImage}`
+          `media/${newEntry.collectionId}/${newEntry.id}/${newEntry.bgImage}`,
         );
       })
       .catch(() => {
         clientError(res, "Invalid file");
       });
-  })
+  }),
 );
 
 router.delete(
@@ -130,7 +130,7 @@ router.delete(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 /**
@@ -179,7 +179,7 @@ router.patch(
       .update(req.pb.authStore.record!.id, toBeUpdated);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

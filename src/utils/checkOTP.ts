@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { successWithBaseResponse } from "./response";
 import { decrypt2 } from "./encryption";
+import { successWithBaseResponse } from "./response";
 
 async function checkOTP(req: Request, res: Response, challenge?: string) {
   const { otp, otpId } = req.body;

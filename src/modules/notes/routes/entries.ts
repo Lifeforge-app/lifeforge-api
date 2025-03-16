@@ -1,10 +1,10 @@
 /* eslint-disable no-empty */
 
-import express, { Request, Response } from "express";
+import express from "express";
 import fs from "fs";
 import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
 import asyncWrapper from "../../../utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get(
     const note = await pb.collection("notes_entries").getOne(req.params.id);
 
     successWithBaseResponse(res, note);
-  })
+  }),
 );
 
 router.get(
@@ -27,7 +27,7 @@ router.get(
     });
 
     successWithBaseResponse(res, notes);
-  })
+  }),
 );
 
 router.get(
@@ -66,7 +66,7 @@ router.get(
     }
 
     successWithBaseResponse(res, true);
-  })
+  }),
 );
 
 router.get(
@@ -105,7 +105,7 @@ router.get(
       icon: subject.icon,
       path: result,
     });
-  })
+  }),
 );
 
 router.post(
@@ -129,7 +129,7 @@ router.post(
     const note = await pb.collection("notes_entries").create(req.body);
 
     successWithBaseResponse(res, note);
-  })
+  }),
 );
 
 router.post(
@@ -172,7 +172,7 @@ router.post(
               parent,
               subject: req.params.subject,
             },
-            { $autoCancel: false }
+            { $autoCancel: false },
           );
 
           parent = note.id;
@@ -200,7 +200,7 @@ router.post(
               type: file.mimetype,
             }),
           },
-          { $autoCancel: false }
+          { $autoCancel: false },
         );
 
         try {
@@ -210,7 +210,7 @@ router.post(
     }
 
     successWithBaseResponse(res, null);
-  })
+  }),
 );
 
 router.patch(
@@ -222,7 +222,7 @@ router.patch(
       .update(req.params.id, req.body);
 
     successWithBaseResponse(res, note);
-  })
+  }),
 );
 
 router.delete(
@@ -232,7 +232,7 @@ router.delete(
     await pb.collection("notes_entries").delete(req.params.id);
 
     successWithBaseResponse(res, null);
-  })
+  }),
 );
 
 export default router;

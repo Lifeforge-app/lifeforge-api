@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import express, { Response } from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { ITodoListList } from "../../../interfaces/todo_list_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -18,8 +17,8 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<ITodoListList[]>>) =>
-    list(req, res, "todo_lists")
-  )
+    list(req, res, "todo_lists"),
+  ),
 );
 
 /**
@@ -49,7 +48,7 @@ router.post(
     });
 
     successWithBaseResponse(res, list);
-  })
+  }),
 );
 
 /**
@@ -81,7 +80,7 @@ router.patch(
     });
 
     successWithBaseResponse(res, list);
-  })
+  }),
 );
 
 /**
@@ -100,7 +99,7 @@ router.delete(
     await pb.collection("todo_lists").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

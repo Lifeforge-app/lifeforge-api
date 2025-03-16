@@ -1,14 +1,13 @@
 import express, { Response } from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { JSDOM } from "jsdom";
 import fs from "fs";
-import { IGuitarTabsEntry } from "../../../interfaces/guitar_tabs_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
+import { JSDOM } from "jsdom";
 import PDFDocument from "pdfkit";
 import sharp from "sharp";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IGuitarTabsEntry } from "../../../interfaces/guitar_tabs_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -24,7 +23,7 @@ router.post(
         headers: {
           cookie,
         },
-      }
+      },
     )
       .then((res) => {
         try {
@@ -59,7 +58,7 @@ router.post(
     };
 
     successWithBaseResponse(res, final);
-  })
+  }),
 );
 
 router.post(
@@ -84,12 +83,12 @@ router.post(
           headers: {
             cookie,
           },
-        }
+        },
       ).then((res) => res.text());
 
       const dom = new JSDOM(rawHTML);
       const pics = Array.from(
-        dom.window.document.querySelectorAll(".pic img")
+        dom.window.document.querySelectorAll(".pic img"),
       ).map((e) => (e as HTMLImageElement).src);
 
       const folder = `./medium/${id}`;
@@ -131,7 +130,7 @@ router.post(
       writeStream.on("finish", async () => {
         try {
           const audioBuffer = await fetch(audioUrl).then((res) =>
-            res.arrayBuffer()
+            res.arrayBuffer(),
           );
 
           const newEntry = await pb
@@ -143,7 +142,7 @@ router.post(
               audio: new File([Buffer.from(audioBuffer)], `${id}.mp3`),
               pdf: new File(
                 [fs.readFileSync(`./medium/${id}.pdf`)],
-                `${id}.pdf`
+                `${id}.pdf`,
               ),
               type: (() => {
                 switch (category) {
@@ -157,7 +156,7 @@ router.post(
               })(),
               thumbnail: new File(
                 [fs.readFileSync(`./medium/${id}/0.jpg`)],
-                `${id}.jpeg`
+                `${id}.jpeg`,
               ),
             });
 
@@ -170,11 +169,11 @@ router.post(
         }
       });
     } catch (err) {
-      console.error(err)
+      console.error(err);
       clientError(res, "Failed to fetch data", 502);
       return;
     }
-  })
+  }),
 );
 
 export default router;

@@ -1,18 +1,18 @@
 import express, { Response } from "express";
-import multer from "multer";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import { body, param, query } from "express-validator";
-import { list } from "../../../utils/CRUD";
+import fs from "fs";
+import multer from "multer";
+import { BaseResponse } from "../../../interfaces/base_response";
 import {
   IIdeaBoxEntry,
   IIdeaBoxFolder,
   IIdeaBoxTag,
 } from "../../../interfaces/ideabox_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
 import { checkExistence } from "../../../utils/PBRecordValidator";
-import fs from "fs";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -38,7 +38,7 @@ router.get(
       req,
       res,
       "idea_box_containers",
-      container
+      container,
     );
     let folderExist = true;
     let lastFolder = "";
@@ -77,7 +77,7 @@ router.get(
       }`,
       sort: "-pinned,-created",
     });
-  })
+  }),
 );
 
 /**
@@ -197,7 +197,7 @@ router.post(
         const tagEntry = await pb
           .collection("idea_box_tags")
           .getFirstListItem(
-            `name = "${tag}" && container = "${idea.container}"`
+            `name = "${tag}" && container = "${idea.container}"`,
           )
           .catch(() => null);
 
@@ -216,7 +216,7 @@ router.post(
     }
 
     successWithBaseResponse(res, idea, 201);
-  })
+  }),
 );
 
 /**
@@ -283,7 +283,7 @@ router.patch(
       const tagEntry = await pb
         .collection("idea_box_tags")
         .getFirstListItem<IIdeaBoxTag>(
-          `name = "${tag}" && container = "${entry.container}"`
+          `name = "${tag}" && container = "${entry.container}"`,
         )
         .catch(() => null);
 
@@ -320,7 +320,7 @@ router.patch(
     }
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -351,7 +351,7 @@ router.delete(
         const tagEntry = await pb
           .collection("idea_box_tags")
           .getFirstListItem(
-            `name = "${tag}" && container = "${idea.container}"`
+            `name = "${tag}" && container = "${idea.container}"`,
           )
           .catch(() => null);
 
@@ -368,7 +368,7 @@ router.delete(
     }
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 /**
@@ -394,7 +394,7 @@ router.post(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -421,7 +421,7 @@ router.post(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -445,7 +445,7 @@ router.post(
       req,
       res,
       "idea_box_folders",
-      target
+      target,
     );
     if (!(entryExist && folderExist)) return;
 
@@ -456,7 +456,7 @@ router.post(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -481,7 +481,7 @@ router.delete(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 export default router;

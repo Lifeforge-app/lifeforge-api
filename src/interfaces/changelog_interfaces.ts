@@ -1,13 +1,13 @@
 interface IChangeLogVersion {
-    version: string
-    date_range: [string, string]
-    entries: IChangeLogEntry[]
+  version: string;
+  date_range: [string, string];
+  entries: IChangeLogEntry[];
 }
 
 interface IChangeLogEntry {
-    id: string
-    feature: string
-    description: string
+  id: string;
+  feature: string;
+  description: string;
 }
 
-export type { IChangeLogVersion, IChangeLogEntry }
+export type { IChangeLogEntry, IChangeLogVersion };

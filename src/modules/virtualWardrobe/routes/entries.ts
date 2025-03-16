@@ -1,22 +1,21 @@
 import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import { body, param, query } from "express-validator";
+import fs from "fs";
+import sharp from "sharp";
+import { z } from "zod";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IVirtualWardrobeEntry } from "../../../interfaces/virtual_wardrobe_interfaces";
 import { fieldsUploadMiddleware } from "../../../middleware/uploadMiddleware";
+import { list } from "../../../utils/CRUD";
+import { checkExistence } from "../../../utils/PBRecordValidator";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { fetchAIWithStructuredResponse } from "../../../utils/fetchOpenAIWithStructuredResponse";
+import { getAPIKey } from "../../../utils/getAPIKey";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
-import { IVirtualWardrobeEntry } from "../../../interfaces/virtual_wardrobe_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
-import fs from "fs";
-import { list } from "../../../utils/CRUD";
-import { body, param, query } from "express-validator";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import { getAPIKey } from "../../../utils/getAPIKey";
-import { z } from "zod";
-import { fetchAIWithStructuredResponse } from "../../../utils/fetchOpenAIWithStructuredResponse";
-import sharp from "sharp";
-import hasError from "../../../utils/checkError";
 
 const router = express.Router();
 
@@ -36,7 +35,7 @@ router.get(
         acc[curr.category]++;
         return acc;
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     );
 
     const subcategories = allEntries.reduce(
@@ -47,7 +46,7 @@ router.get(
         acc[curr.subcategory]++;
         return acc;
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     );
 
     const brands = allEntries.reduce(
@@ -58,7 +57,7 @@ router.get(
         acc[curr.brand]++;
         return acc;
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     );
 
     const sizes = allEntries.reduce(
@@ -69,7 +68,7 @@ router.get(
         acc[curr.size]++;
         return acc;
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     );
 
     const colors = allEntries.reduce(
@@ -82,7 +81,7 @@ router.get(
         });
         return acc;
       },
-      {} as Record<string, number>
+      {} as Record<string, number>,
     );
 
     successWithBaseResponse(res, {
@@ -94,7 +93,7 @@ router.get(
       sizes,
       colors,
     });
-  })
+  }),
 );
 
 router.get(
@@ -139,10 +138,10 @@ router.get(
             back_image: pb.files
               .getURL(entry, entry.back_image)
               .split("/files/")[1],
-          }))
+          })),
       );
-    }
-  )
+    },
+  ),
 );
 
 router.post(
@@ -194,8 +193,8 @@ router.post(
       fs.unlinkSync(frontImage.path);
 
       successWithBaseResponse(res, newEntry);
-    }
-  )
+    },
+  ),
 );
 
 router.patch(
@@ -233,8 +232,8 @@ router.patch(
         .split("/files/")[1];
 
       successWithBaseResponse(res, updatedEntry);
-    }
-  )
+    },
+  ),
 );
 
 router.delete(
@@ -251,7 +250,7 @@ router.delete(
     await pb.collection("virtual_wardrobe_entries").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 router.post(
@@ -397,7 +396,7 @@ router.post(
           z.literal("Turquoise"),
           z.literal("Gold"),
           z.literal("Silver"),
-        ])
+        ]),
       ),
     });
 
@@ -452,7 +451,7 @@ router.post(
     fs.unlinkSync(backImage.path);
 
     successWithBaseResponse(res, response);
-  })
+  }),
 );
 
 export default router;

@@ -1,13 +1,13 @@
 import express from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import { param } from "express-validator";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import { getAPIKey } from "../../../utils/getAPIKey";
+import { checkExistence } from "../../../utils/PBRecordValidator";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
-import { checkExistence } from "../../../utils/PBRecordValidator";
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.get(
     });
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 const updateTicket = asyncWrapper(async (req, res) => {
@@ -74,7 +74,7 @@ router.delete(
     });
 
     return successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 router.post(
@@ -132,7 +132,7 @@ router.post(
         serverError(res, "Unknown error");
       }
     }
-  })
+  }),
 );
 
 router.delete(
@@ -149,7 +149,7 @@ router.delete(
     await pb.collection("movies_entries").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

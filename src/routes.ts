@@ -11,12 +11,12 @@ const calendarRoutes = lazyLoad(() => import("./modules/calendar/routes"));
 const ideaBoxRoutes = lazyLoad(() => import("./modules/ideaBox"));
 const codeTimeRoutes = lazyLoad(() => import("./modules/codeTime"));
 const booksLibraryRoutes = lazyLoad(
-  () => import("./modules/booksLibrary/routes")
+  () => import("./modules/booksLibrary/routes"),
 );
 const notesRoutes = lazyLoad(() => import("./modules/notes"));
 const flashcardsRoutes = lazyLoad(() => import("./modules/flashcards"));
 const achievementsRoutes = lazyLoad(
-  () => import("./modules/achievements/routes")
+  () => import("./modules/achievements/routes"),
 );
 const spotifyRoutes = lazyLoad(() => import("./modules/spotify"));
 const photosRoutes = lazyLoad(() => import("./modules/photos"));
@@ -38,10 +38,10 @@ const pixabayRoutes = lazyLoad(() => import("./modules/pixabay"));
 const quotesRoutes = lazyLoad(() => import("./modules/quotes"));
 const sudokuRoutes = lazyLoad(() => import("./modules/sudoku"));
 const virtualWardrobeRoutes = lazyLoad(
-  () => import("./modules/virtualWardrobe")
+  () => import("./modules/virtualWardrobe"),
 );
 const momentVaultRoutes = lazyLoad(
-  () => import("./modules/momentVault/routes")
+  () => import("./modules/momentVault/routes"),
 );
 const moviesRoutes = lazyLoad(() => import("./modules/movies"));
 const railwayMapRoutes = lazyLoad(() => import("./modules/railwayMap"));

@@ -1,7 +1,7 @@
 import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 import * as LedgersController from "../controllers/ledgersController";
 import { validateBodyData, validateId } from "../middlewares/ledgersValidation";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -26,7 +26,7 @@ router.post(
   "/",
   validateBodyData,
   validationMiddleware,
-  LedgersController.createLedger
+  LedgersController.createLedger,
 );
 
 /**
@@ -44,7 +44,7 @@ router.patch(
   validateId,
   validateBodyData,
   validationMiddleware,
-  LedgersController.updateLedger
+  LedgersController.updateLedger,
 );
 
 /**
@@ -58,7 +58,7 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  LedgersController.deleteLedger
+  LedgersController.deleteLedger,
 );
 
 export default router;

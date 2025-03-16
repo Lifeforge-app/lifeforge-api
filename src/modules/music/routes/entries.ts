@@ -1,14 +1,13 @@
 import express, { Request, Response } from "express";
+import { body } from "express-validator";
 import fs from "fs";
 import mime from "mime-types";
 import * as mm from "music-metadata";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import { body, validationResult } from "express-validator";
-import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IMusicEntry } from "../../../interfaces/music_interfaces";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -19,8 +18,8 @@ router.get(
   asyncWrapper(async (req, res: Response<BaseResponse<IMusicEntry[]>>) =>
     list(req, res, "music_entries", {
       sort: "-is_favourite, name",
-    })
-  )
+    }),
+  ),
 );
 
 router.get(
@@ -32,11 +31,11 @@ router.get(
         BaseResponse<{
           status: "in_progress" | "completed" | "failed" | "empty";
         }>
-      >
+      >,
     ) => {
       successWithBaseResponse(res, { status: importProgress });
-    }
-  )
+    },
+  ),
 );
 
 router.post(
@@ -57,9 +56,7 @@ router.post(
       const { pb } = req;
       fs.readdirSync(`${process.cwd()}/../medium`)
         .filter((file) => file.startsWith("."))
-        .forEach((file) =>
-          fs.unlinkSync(`${process.cwd()}/../medium/${file}`)
-        );
+        .forEach((file) => fs.unlinkSync(`${process.cwd()}/../medium/${file}`));
 
       const newFiles = fs
         .readdirSync(`${process.cwd()}/../medium`)
@@ -92,7 +89,7 @@ router.post(
     } catch {
       importProgress = "failed";
     }
-  })
+  }),
 );
 
 router.patch(
@@ -109,7 +106,7 @@ router.patch(
     });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.delete(
@@ -121,7 +118,7 @@ router.delete(
     await pb.collection("music_entries").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -136,7 +133,7 @@ router.post(
     });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 export default router;

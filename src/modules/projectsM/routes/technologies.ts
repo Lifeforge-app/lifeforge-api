@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
+import express, { Response } from "express";
+import { body } from "express-validator";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IProjectsMTechnology } from "../../../interfaces/projects_m_interfaces";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -21,8 +20,8 @@ router.get(
     async (req, res: Response<BaseResponse<IProjectsMTechnology[]>>) =>
       list(req, res, "projects_m_technologies", {
         sort: "name",
-      })
-  )
+      }),
+  ),
 );
 
 /**
@@ -49,8 +48,8 @@ router.post(
         });
 
       successWithBaseResponse(res, technology);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -79,8 +78,8 @@ router.patch(
         });
 
       successWithBaseResponse(res, technology);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -99,7 +98,7 @@ router.delete(
     await pb.collection("projects_m_technologies").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

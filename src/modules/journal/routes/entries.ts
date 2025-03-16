@@ -1,33 +1,31 @@
-import express, { Request, Response } from "express";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { decrypt, decrypt2, encrypt } from "../../../utils/encryption";
-import { challenge } from "../index";
 import bcrypt from "bcrypt";
-import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
-import fs from "fs";
-import moment from "moment/moment";
-import { validate } from "../../../utils/CRUD";
+import express, { Request, Response } from "express";
 import { body, query } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { IJournalEntry } from "../../../interfaces/journal_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
-import { getAPIKey } from "../../../utils/getAPIKey";
-import { fetchAI } from "../../../utils/fetchAI";
+import fs from "fs";
 import wordsCount from "words-count";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IJournalEntry } from "../../../interfaces/journal_interfaces";
+import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { validate } from "../../../utils/CRUD";
+import { decrypt, decrypt2, encrypt } from "../../../utils/encryption";
+import { fetchAI } from "../../../utils/fetchAI";
+import { getAPIKey } from "../../../utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
+import { challenge } from "../index";
 
 const router = express.Router();
 
 async function checkMasterPassword(
   master: string,
-  journalMasterPasswordHash: string
+  journalMasterPasswordHash: string,
 ): Promise<[boolean, string]> {
   const decryptedMaster = decrypt2(master, challenge);
 
   const isMatch = await bcrypt.compare(
     decryptedMaster,
-    journalMasterPasswordHash
+    journalMasterPasswordHash,
   );
 
   return [isMatch, decryptedMaster];
@@ -35,7 +33,7 @@ async function checkMasterPassword(
 
 async function getDecryptedMaster(
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<string | null> {
   const { pb } = req;
   const { master } = req.body;
@@ -49,7 +47,7 @@ async function getDecryptedMaster(
 
   const [isMatched, decryptedMaster] = await checkMasterPassword(
     master,
-    journalMasterPasswordHash
+    journalMasterPasswordHash,
   );
 
   if (!isMatched) {
@@ -76,7 +74,7 @@ router.get(
     const { journalMasterPasswordHash } = pb.authStore.record;
     const [isMatched, decryptedMaster] = await checkMasterPassword(
       master,
-      journalMasterPasswordHash
+      journalMasterPasswordHash,
     );
 
     if (!isMatched) {
@@ -94,19 +92,19 @@ router.get(
     >)[]) {
       entries[item] = decrypt(
         Buffer.from(entries[item] ?? "", "base64"),
-        decryptedMaster
+        decryptedMaster,
       ).toString();
     }
 
     entries.token = await pb.files.getToken();
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "journal_entries"))
+  asyncWrapper(async (req, res) => validate(req, res, "journal_entries")),
 );
 
 router.get(
@@ -125,7 +123,7 @@ router.get(
 
     const [isMatched, decryptedMaster] = await checkMasterPassword(
       master,
-      journalMasterPasswordHash
+      journalMasterPasswordHash,
     );
 
     if (!isMatched) {
@@ -142,14 +140,14 @@ router.get(
     for (const journal of journals) {
       journal.title = decrypt(
         Buffer.from(journal.title, "base64"),
-        decryptedMaster
+        decryptedMaster,
       ).toString();
 
       journal.wordCount = wordsCount(journal.content);
 
       journal.content = decrypt(
         Buffer.from(journal.summary ?? "", "base64"),
-        decryptedMaster
+        decryptedMaster,
       ).toString();
 
       delete journal.summary;
@@ -157,7 +155,7 @@ router.get(
     }
 
     successWithBaseResponse(res, journals);
-  })
+  }),
 );
 
 router.post(
@@ -191,7 +189,7 @@ router.post(
     }
 
     let { title, date, raw, cleanedUp, summarized, mood, master } = JSON.parse(
-      decrypt2(data, challenge)
+      decrypt2(data, challenge),
     );
 
     master = decrypt2(master, challenge);
@@ -223,7 +221,7 @@ router.post(
       summary: encrypt(Buffer.from(summarized), master).toString("base64"),
       mood,
       photos: files.map(
-        (file) => new File([fs.readFileSync(file.path)], file.originalname)
+        (file) => new File([fs.readFileSync(file.path)], file.originalname),
       ),
     };
 
@@ -236,7 +234,7 @@ router.post(
     }
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.put(
@@ -271,7 +269,7 @@ router.put(
     }
 
     let { title, date, raw, cleanedUp, summarized, mood, master } = JSON.parse(
-      decrypt2(data, challenge)
+      decrypt2(data, challenge),
     );
 
     master = decrypt2(master, challenge);
@@ -310,7 +308,7 @@ router.put(
         ? {
             photos: files.map(
               (file) =>
-                new File([fs.readFileSync(file.path)], file.originalname)
+                new File([fs.readFileSync(file.path)], file.originalname),
             ),
           }
         : {}),
@@ -325,7 +323,7 @@ router.put(
     }
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.delete(
@@ -337,7 +335,7 @@ router.delete(
     await pb.collection("journal_entries").delete(id);
 
     successWithBaseResponse(res, "entries deleted");
-  })
+  }),
 );
 
 router.post(
@@ -375,7 +373,7 @@ router.post(
       ],
     });
     successWithBaseResponse(res, title);
-  })
+  }),
 );
 
 router.post(
@@ -413,7 +411,7 @@ router.post(
       ],
     });
     successWithBaseResponse(res, cleanedup);
-  })
+  }),
 );
 
 router.post(
@@ -451,7 +449,7 @@ router.post(
       ],
     });
     successWithBaseResponse(res, summarized);
-  })
+  }),
 );
 
 router.post(
@@ -460,7 +458,7 @@ router.post(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IJournalEntry["mood"]>>
+      res: Response<BaseResponse<IJournalEntry["mood"]>>,
     ) => {
       const key = await getAPIKey("groq", req.pb);
 
@@ -508,8 +506,8 @@ router.post(
           tries++;
         }
       }
-    }
-  )
+    },
+  ),
 );
 
 export default router;

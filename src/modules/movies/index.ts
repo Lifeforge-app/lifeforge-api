@@ -47,7 +47,7 @@ router.get(
         serverError(res, "Unknown error");
       }
     }
-  })
+  }),
 );
 
 export default router;

@@ -1,4 +1,6 @@
+import DOMPurify from "dompurify";
 import imaps from "imap-simple";
+import { JSDOM } from "jsdom";
 import {
   AddressObject,
   Attachment,
@@ -6,14 +8,12 @@ import {
   Headers,
   simpleParser,
 } from "mailparser";
-import { JSDOM } from "jsdom";
-import DOMPurify from "dompurify";
 import Pocketbase from "pocketbase";
 import { IMailInboxLabel } from "../../../interfaces/mail_inbox_interfaces";
 
 function getFullPath(
   record: { name: string; parent: string; id: string },
-  allRecords: { name: string; parent: string; id: string }[]
+  allRecords: { name: string; parent: string; id: string }[],
 ) {
   let path = record.name;
   let parent = record.parent;
@@ -41,7 +41,7 @@ async function fetchLabels(pb: Pocketbase) {
 
 async function createAddressRecordIfNotExists(
   addresses: EmailAddress[],
-  pb: Pocketbase
+  pb: Pocketbase,
 ) {
   for (const address of addresses) {
     const exist = await pb
@@ -68,7 +68,7 @@ async function linkCCAndToRecords(
     to: EmailAddress[];
   },
   entryId: string,
-  pb: Pocketbase
+  pb: Pocketbase,
 ) {
   for (const type of ["cc", "to"]) {
     const ids = [];
@@ -93,7 +93,7 @@ async function linkCCAndToRecords(
 async function createAttachmentRecords(
   attachments: Attachment[],
   entryId: string,
-  pb: Pocketbase
+  pb: Pocketbase,
 ): Promise<void> {
   for (const attachment of attachments) {
     const filename = attachment.filename || "Untitled";
@@ -113,7 +113,7 @@ async function createAttachmentRecords(
 async function createUnsubscribeUrlRecord(
   headers: Headers,
   entryId: string,
-  pb: Pocketbase
+  pb: Pocketbase,
 ) {
   const mailList = headers.get("list") as Record<string, any> | undefined;
 
@@ -151,7 +151,7 @@ async function addLabelToEntry(
   entryId: string,
   labels: string[],
   mainBox: string,
-  pb: Pocketbase
+  pb: Pocketbase,
 ) {
   const labelRecords = await pb
     .collection("mail_inbox_labels")

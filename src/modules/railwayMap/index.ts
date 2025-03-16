@@ -1,7 +1,7 @@
 import express from "express";
-import { clientError, successWithBaseResponse } from "../../utils/response";
-import asyncWrapper from "../../utils/asyncWrapper";
 import { query } from "express-validator";
+import asyncWrapper from "../../utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get(
     const lines = await pb.collection("railway_map_lines").getFullList();
 
     successWithBaseResponse(res, lines);
-  })
+  }),
 );
 
 router.get(
@@ -24,14 +24,14 @@ router.get(
     const stations = await pb.collection("railway_map_stations").getFullList();
 
     successWithBaseResponse(res, stations);
-  })
+  }),
 );
 
 function dijkstraWithTransfers(
   graph: Record<string, Record<string, number>>,
   lines: Record<string, string[]>,
   start: string,
-  end: string
+  end: string,
 ) {
   let distances: Record<string, number> = {};
   let prev: Record<string, string | null> = {};
@@ -45,7 +45,7 @@ function dijkstraWithTransfers(
 
   while (unvisited.size > 0) {
     let minNode = [...unvisited].reduce((a, b) =>
-      distances[a] < distances[b] ? a : b
+      distances[a] < distances[b] ? a : b,
     );
 
     if (minNode === end) break;
@@ -64,7 +64,7 @@ function dijkstraWithTransfers(
         let nextLines = lines[nextStation] || [];
 
         let sameLine = currLines.some(
-          (line) => prevLines.includes(line) && nextLines.includes(line)
+          (line) => prevLines.includes(line) && nextLines.includes(line),
         );
 
         if (!sameLine) {
@@ -101,7 +101,7 @@ router.get("/shortest", [
 
     if (
       ![start, end].every((station) =>
-        allStations.some((s) => s.id === station)
+        allStations.some((s) => s.id === station),
       )
     ) {
       clientError(res, "Invalid start or end station");
@@ -116,7 +116,7 @@ router.get("/shortest", [
         Object.entries(station.distances).map(([name, distance]) => [
           name,
           distance,
-        ])
+        ]),
       ) as Record<string, number>;
       return acc;
     }, {});
@@ -126,14 +126,14 @@ router.get("/shortest", [
         acc[station.name] = station.lines ?? [];
         return acc;
       },
-      {}
+      {},
     );
 
     const path = dijkstraWithTransfers(
       graphWithWeight,
       lines,
       allStations.find((s) => s.id === start)?.name ?? "",
-      allStations.find((s) => s.id === end)?.name ?? ""
+      allStations.find((s) => s.id === end)?.name ?? "",
     );
 
     if (!path) {
@@ -145,7 +145,7 @@ router.get("/shortest", [
       res,
       path
         .map((station) => allStations.find((s) => s.name === station))
-        .filter((s) => !!s)
+        .filter((s) => !!s),
     );
   }),
 ]);

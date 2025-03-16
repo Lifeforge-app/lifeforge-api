@@ -1,8 +1,8 @@
 import express from "express";
-import transactionsRoutes from "./transactions";
-import categoryRoutes from "./category";
 import assetsRoutes from "./assets";
+import categoryRoutes from "./category";
 import ledgersRoutes from "./ledgers";
+import transactionsRoutes from "./transactions";
 
 const router = express.Router();
 

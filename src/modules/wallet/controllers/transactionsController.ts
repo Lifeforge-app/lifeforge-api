@@ -5,18 +5,18 @@ import {
   IWalletReceiptScanResult,
   IWalletTransactionEntry,
 } from "../../../interfaces/wallet_interfaces";
-import * as TransactionsService from "../services/transactionsService";
+import { checkExistence } from "../../../utils/PBRecordValidator";
+import { getAPIKey } from "../../../utils/getAPIKey";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import { getAPIKey } from "../../../utils/getAPIKey";
+import * as TransactionsService from "../services/transactionsService";
 
 export const getAllTransactions = async (
   req: Request,
-  res: Response<BaseResponse<IWalletTransactionEntry[]>>
+  res: Response<BaseResponse<IWalletTransactionEntry[]>>,
 ) => {
   const { pb } = req;
 
@@ -32,7 +32,7 @@ export const getAllTransactions = async (
 
 export const getIncomeExpensesSummary = async (
   req: Request<{}, {}, {}, { year: string; month: string }>,
-  res: Response<BaseResponse<IWalletIncomeExpensesSummary>>
+  res: Response<BaseResponse<IWalletIncomeExpensesSummary>>,
 ) => {
   const { pb } = req;
   const { year, month } = req.query;
@@ -40,7 +40,7 @@ export const getIncomeExpensesSummary = async (
   const summary = await TransactionsService.getIncomeExpensesSummary(
     pb,
     year,
-    month
+    month,
   );
 
   if (!summary) {
@@ -53,7 +53,7 @@ export const getIncomeExpensesSummary = async (
 
 export const createTransaction = async (
   req: Request,
-  res: Response<BaseResponse<IWalletTransactionEntry[]>>
+  res: Response<BaseResponse<IWalletTransactionEntry[]>>,
 ) => {
   const { pb } = req;
   let {
@@ -111,7 +111,7 @@ export const createTransaction = async (
       fromAsset,
       toAsset,
     },
-    req.file
+    req.file,
   );
 
   if (!transaction) {
@@ -124,7 +124,7 @@ export const createTransaction = async (
 
 export const updateTransaction = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletTransactionEntry>>
+  res: Response<BaseResponse<IWalletTransactionEntry>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -173,7 +173,7 @@ export const updateTransaction = async (
       type,
     },
     req.file,
-    removeReceipt
+    removeReceipt,
   );
 
   if (!transaction) {
@@ -186,7 +186,7 @@ export const updateTransaction = async (
 
 export const deleteTransaction = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>
+  res: Response<BaseResponse<null>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -205,7 +205,7 @@ export const deleteTransaction = async (
 
 export const scanReceipt = async (
   req: Request,
-  res: Response<BaseResponse<IWalletReceiptScanResult>>
+  res: Response<BaseResponse<IWalletReceiptScanResult>>,
 ) => {
   const { file } = req;
 

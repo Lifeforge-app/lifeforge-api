@@ -1,10 +1,10 @@
 import express from "express";
 import { body } from "express-validator";
+import fs from "fs";
 import moment from "moment";
 import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
-import fs from "fs";
 
 const router = express.Router();
 
@@ -35,14 +35,14 @@ router.put(
     const newRecord = await pb.collection("users").update(id, {
       avatar: new File(
         [fileBuffer],
-        `${id}.${file.originalname.split(".").pop()}`
+        `${id}.${file.originalname.split(".").pop()}`,
       ),
     });
 
     fs.unlinkSync(file.path);
 
     successWithBaseResponse(res, newRecord.avatar);
-  })
+  }),
 );
 
 /**
@@ -62,7 +62,7 @@ router.delete(
     });
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 /**
@@ -103,7 +103,7 @@ router.patch(
     await pb.collection("users").update(id, newData);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 /**
@@ -122,7 +122,7 @@ router.post(
       .requestPasswordReset(pb.authStore.record?.email);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

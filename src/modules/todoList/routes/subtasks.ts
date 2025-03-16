@@ -1,15 +1,15 @@
 import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
 import { body } from "express-validator";
 import { BaseResponse } from "../../../interfaces/base_response";
 import {
   ITodoListEntry,
   ITodoSubtask,
 } from "../../../interfaces/todo_list_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import { fetchAI } from "../../../utils/fetchAI";
 import { getAPIKey } from "../../../utils/getAPIKey";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -41,7 +41,7 @@ router.get(
     });
 
     successWithBaseResponse(res, entries.expand ? entries.expand.subtasks : []);
-  })
+  }),
 );
 
 /**
@@ -93,7 +93,7 @@ router.post(
     const text = JSON.parse(response);
 
     successWithBaseResponse(res, text);
-  })
+  }),
 );
 
 /**
@@ -121,7 +121,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, subtask);
-  })
+  }),
 );
 
 export default router;

@@ -1,6 +1,6 @@
+import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { clientError } from "./response";
-import { Request, Response } from "express";
 
 export default function hasError(req: Request, res: Response) {
   const result = validationResult(req);
@@ -10,7 +10,7 @@ export default function hasError(req: Request, res: Response) {
       Object.values(result.mapped())
         // @ts-expect-error
         .map((item) => `${item.path}: ${item.msg}`)
-        .join(", ")
+        .join(", "),
     );
     return true;
   }

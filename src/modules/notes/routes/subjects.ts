@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get(
     });
 
     successWithBaseResponse(res, subjects);
-  })
+  }),
 );
 
 router.post(
@@ -36,7 +36,7 @@ router.post(
     const subject = await pb.collection("notes_subjects").create(req.body);
 
     successWithBaseResponse(res, subject);
-  })
+  }),
 );
 
 router.patch(
@@ -48,7 +48,7 @@ router.patch(
       .update(req.params.id, req.body);
 
     successWithBaseResponse(res, subject);
-  })
+  }),
 );
 
 router.delete(
@@ -58,7 +58,7 @@ router.delete(
     await pb.collection("notes_subjects").delete(req.params.id);
 
     successWithBaseResponse(res, null);
-  })
+  }),
 );
 
 export default router;

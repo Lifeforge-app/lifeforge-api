@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { serverError, successWithBaseResponse } from "../../utils/response";
+import express from "express";
 import { body, query } from "express-validator";
-import hasError from "../../utils/checkError";
+import asyncWrapper from "../../utils/asyncWrapper";
 import { getAPIKey } from "../../utils/getAPIKey";
+import { serverError, successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 
@@ -42,7 +41,7 @@ router.get(
     });
 
     successWithBaseResponse(res, data);
-  })
+  }),
 );
 
 router.delete(
@@ -68,7 +67,7 @@ router.delete(
     }
 
     serverError(res, raw.errors[0]);
-  })
+  }),
 );
 
 export default router;

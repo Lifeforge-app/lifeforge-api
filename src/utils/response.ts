@@ -1,11 +1,11 @@
 import { Response } from "express";
-import { BaseResponse } from "../interfaces/base_response";
 import fs from "fs";
+import { BaseResponse } from "../interfaces/base_response";
 
 function successWithBaseResponse<T>(
   res: Response<BaseResponse<T>>,
   data?: T,
-  status: number = 200
+  status: number = 200,
 ) {
   try {
     res.status(status).json({
@@ -47,4 +47,4 @@ function serverError(res: Response, message = "Internal Server Error") {
   }
 }
 
-export { successWithBaseResponse, clientError, serverError };
+export { clientError, serverError, successWithBaseResponse };

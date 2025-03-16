@@ -1,7 +1,7 @@
 // @ts-nocheck
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ router.get(
     }));
 
     successWithBaseResponse(res, photos);
-  })
+  }),
 );
 
 // router.patch(

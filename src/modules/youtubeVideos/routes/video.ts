@@ -1,19 +1,17 @@
 import { exec } from "child_process";
 import express, { Request, Response } from "express";
-import { param, body } from "express-validator";
+import { body, param } from "express-validator";
+import fs from "fs";
 import moment from "moment";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IYoutubeData } from "../../../interfaces/music_interfaces";
 import { IYoutubeVidesStorageEntry } from "../../../interfaces/youtube_video_storage_interfaces";
 import asyncWrapper from "../../../utils/asyncWrapper";
-import hasError from "../../../utils/checkError";
-import { list } from "../../../utils/CRUD";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
-import fs from "fs";
 import downloadVideo from "../functions/downloadVideo";
 // @ts-expect-error no types available
 import getDimensions from "get-video-dimensions";
@@ -40,19 +38,13 @@ router.get(
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
-    if (
-      !fs.existsSync(
-        `${process.cwd()}/../youtubeVideos/${id}.webp`
-      )
-    ) {
+    if (!fs.existsSync(`${process.cwd()}/../youtubeVideos/${id}.webp`)) {
       clientError(res, "Thumbnail not found");
       return;
     }
 
-    res.sendFile(
-      `${process.cwd()}/../youtubeVideos/${id}.webp`
-    );
-  })
+    res.sendFile(`${process.cwd()}/../youtubeVideos/${id}.webp`);
+  }),
 );
 
 router.get(
@@ -63,19 +55,13 @@ router.get(
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
-    if (
-      !fs.existsSync(
-        `${process.cwd()}/../youtubeVideos/${id}.mp4`
-      )
-    ) {
+    if (!fs.existsSync(`${process.cwd()}/../youtubeVideos/${id}.mp4`)) {
       clientError(res, "Video not found");
       return;
     }
 
-    res.sendFile(
-      `${process.cwd()}/../youtubeVideos/${id}.mp4`
-    );
-  })
+    res.sendFile(`${process.cwd()}/../youtubeVideos/${id}.mp4`);
+  }),
 );
 
 router.get(
@@ -83,7 +69,7 @@ router.get(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IYoutubeVidesStorageEntry[]>>
+      res: Response<BaseResponse<IYoutubeVidesStorageEntry[]>>,
     ) => {
       const { pb } = req;
 
@@ -117,8 +103,8 @@ router.get(
       });
 
       successWithBaseResponse(res, videos as IYoutubeVidesStorageEntry[]);
-    }
-  )
+    },
+  ),
 );
 
 router.get(
@@ -139,7 +125,7 @@ router.get(
             res,
             err?.message ?? err?.message.includes("Video unavailable")
               ? "Video unavailable"
-              : "An error occurred"
+              : "An error occurred",
           );
           return;
         }
@@ -167,9 +153,9 @@ router.get(
         };
 
         successWithBaseResponse(res, response);
-      }
+      },
     );
-  })
+  }),
 );
 
 router.post(
@@ -182,9 +168,7 @@ router.post(
   ],
   asyncWrapper(async (req, res) => {
     if (
-      fs.existsSync(
-        `${process.cwd()}/../youtubeVideos/${req.params.id}.mp4`
-      )
+      fs.existsSync(`${process.cwd()}/../youtubeVideos/${req.params.id}.mp4`)
     ) {
       clientError(res, "Video already downloaded");
       return;
@@ -232,7 +216,7 @@ router.post(
           progress: prog,
           metadata,
         });
-      }
+      },
     )
       .then(async () => {
         if (!fs.existsSync(VIDEO_STORAGE_PATH)) {
@@ -241,16 +225,16 @@ router.post(
 
         fs.renameSync(
           `./downloads/${id}.mp4`,
-          `${VIDEO_STORAGE_PATH}/${id}.mp4`
+          `${VIDEO_STORAGE_PATH}/${id}.mp4`,
         );
 
         fs.renameSync(
           `./downloads/${id}.webp`,
-          `${VIDEO_STORAGE_PATH}/${id}.webp`
+          `${VIDEO_STORAGE_PATH}/${id}.webp`,
         );
 
         const { width, height } = await getDimensions(
-          `${VIDEO_STORAGE_PATH}/${id}.mp4`
+          `${VIDEO_STORAGE_PATH}/${id}.mp4`,
         );
 
         const fileSize = fs.statSync(`${VIDEO_STORAGE_PATH}/${id}.mp4`).size;
@@ -283,7 +267,7 @@ router.post(
           metadata,
         });
       });
-  })
+  }),
 );
 
 router.post(
@@ -310,7 +294,7 @@ router.post(
               }
             >
         >
-      >
+      >,
     ) => {
       const { id } = req.body;
 
@@ -320,12 +304,12 @@ router.post(
       }
 
       const response = Object.entries(Object.fromEntries(processes)).filter(
-        ([key]) => id.includes(key)
+        ([key]) => id.includes(key),
       );
 
       successWithBaseResponse(res, Object.fromEntries(response));
-    }
-  )
+    },
+  ),
 );
 
 router.delete(
@@ -345,11 +329,9 @@ router.delete(
       return;
     }
 
+    fs.unlinkSync(`${process.cwd()}/../youtubeVideos/${record.youtube_id}.mp4`);
     fs.unlinkSync(
-      `${process.cwd()}/../youtubeVideos/${record.youtube_id}.mp4`
-    );
-    fs.unlinkSync(
-      `${process.cwd()}/../youtubeVideos/${record.youtube_id}.webp`
+      `${process.cwd()}/../youtubeVideos/${record.youtube_id}.webp`,
     );
 
     const channel = record.channel;
@@ -369,7 +351,7 @@ router.delete(
     await pb.collection("youtube_video_storage_entry").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

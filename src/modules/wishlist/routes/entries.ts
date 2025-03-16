@@ -1,19 +1,19 @@
 import express from "express";
 import { body, param, query } from "express-validator";
+import fs from "fs";
+import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import { IWishlistEntry } from "../../../interfaces/wishlist_interfaces";
+import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
 import { getAPIKey } from "../../../utils/getAPIKey";
+import { checkExistence } from "../../../utils/PBRecordValidator";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
 import scrapeProviders from "../scrapers/index";
-import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
-import { IWishlistEntry } from "../../../interfaces/wishlist_interfaces";
-import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
-import { list } from "../../../utils/CRUD";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import fs from "fs";
 
 const router = express.Router();
 
@@ -24,9 +24,9 @@ router.get(
 
     successWithBaseResponse(
       res,
-      pb.collection("wishlist_entries").collectionIdOrName
+      pb.collection("wishlist_entries").collectionIdOrName,
     );
-  })
+  }),
 );
 
 router.get(
@@ -45,7 +45,7 @@ router.get(
         req.query.bought ? `&& bought = ${req.query.bought === "true"}` : ""
       }`,
     });
-  })
+  }),
 );
 
 router.post(
@@ -74,7 +74,7 @@ router.post(
     }
 
     successWithBaseResponse(res, result);
-  })
+  }),
 );
 
 router.post(
@@ -113,7 +113,7 @@ router.post(
         const fileBuffer = await response.arrayBuffer();
         finalData.image = new File(
           [new Uint8Array(fileBuffer)],
-          image.split("/").pop()
+          image.split("/").pop(),
         );
       }
 
@@ -132,7 +132,7 @@ router.post(
       serverError(res, "Error creating entry");
       return;
     }
-  })
+  }),
 );
 
 router.patch(
@@ -186,7 +186,7 @@ router.patch(
     }
 
     successWithBaseResponse(res, oldEntry.list === list ? entry : "removed");
-  })
+  }),
 );
 
 router.patch(
@@ -209,7 +209,7 @@ router.patch(
     });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.delete(
@@ -231,7 +231,7 @@ router.delete(
     });
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

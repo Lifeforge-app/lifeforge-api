@@ -1,17 +1,12 @@
 import express, { Response } from "express";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { body } from "express-validator";
-import { list, validate } from "../../../utils/CRUD";
-import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import hasError from "../../../utils/checkError";
-import {
-  singleUploadMiddleware,
-  singleUploadMiddlewareOfKey,
-} from "../../../middleware/uploadMiddleware";
 import fs from "fs";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces";
+import { singleUploadMiddlewareOfKey } from "../../../middleware/uploadMiddleware";
+import { list, validate } from "../../../utils/CRUD";
+import { checkExistence } from "../../../utils/PBRecordValidator";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -24,7 +19,7 @@ const router = express.Router();
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "idea_box_containers"))
+  asyncWrapper(async (req, res) => validate(req, res, "idea_box_containers")),
 );
 
 /**
@@ -44,9 +39,9 @@ router.get(
               .getURL(d, d.cover)
               .replace(`${req.pb.baseURL}/api/files`, "")
           : "",
-      }))
-    )
-  )
+      })),
+    ),
+  ),
 );
 
 /**
@@ -126,7 +121,7 @@ router.post(
 
       successWithBaseResponse(res, container, 201);
     }
-  })
+  }),
 );
 
 /**
@@ -231,7 +226,7 @@ router.patch(
         successWithBaseResponse(res, container);
       }
     }
-  })
+  }),
 );
 
 /**
@@ -252,7 +247,7 @@ router.delete(
     await pb.collection("idea_box_containers").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

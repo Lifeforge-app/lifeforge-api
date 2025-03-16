@@ -4,8 +4,8 @@ import { exec } from "child_process";
 import os from "os";
 import osUtils from "os-utils";
 import si from "systeminformation";
-import { successWithBaseResponse } from "../../utils/response";
 import asyncWrapper from "../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.get(
     stderr?.on("data", (data) => {
       throw new Error(data);
     });
-  })
+  }),
 );
 
 router.get(
@@ -51,7 +51,7 @@ router.get(
       used,
       percent,
     });
-  })
+  }),
 );
 
 router.get(
@@ -63,7 +63,7 @@ router.get(
         uptime: os.uptime(),
       });
     });
-  })
+  }),
 );
 
 router.get(
@@ -82,7 +82,7 @@ router.get(
       networkInterfaces,
       networkStats,
     });
-  })
+  }),
 );
 
 router.get(
@@ -90,7 +90,7 @@ router.get(
   asyncWrapper(async (req, res) => {
     const temp = await si.cpuTemperature();
     successWithBaseResponse(res, temp);
-  })
+  }),
 );
 
 export default router;

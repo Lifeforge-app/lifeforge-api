@@ -1,10 +1,9 @@
 import express from "express";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import { IVirtualWardrobeEntry } from "../../../interfaces/virtual_wardrobe_interfaces";
 import { body, param } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { checkExistence } from "../../../utils/PBRecordValidator";
+import { IVirtualWardrobeEntry } from "../../../interfaces/virtual_wardrobe_interfaces";
 import asyncWrapper from "../../../utils/asyncWrapper";
+import { checkExistence } from "../../../utils/PBRecordValidator";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const sessionCart = new Set<IVirtualWardrobeEntry>();
 
@@ -41,7 +40,7 @@ router.post(
 
     sessionCart.clear();
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -71,7 +70,7 @@ router.post(
     sessionCart.add(item);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.delete(
@@ -90,7 +89,7 @@ router.delete(
 
     sessionCart.delete(item);
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

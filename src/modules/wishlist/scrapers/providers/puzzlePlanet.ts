@@ -1,5 +1,3 @@
-import ogs from "open-graph-scraper";
-import { fetchAI } from "../../../../utils/fetchAI";
 import { JSDOM } from "jsdom";
 
 async function scrapePuzzlePlanet(url: string) {
@@ -9,7 +7,7 @@ async function scrapePuzzlePlanet(url: string) {
     const structuredData = JSON.parse(
       dom
         .querySelector('script[type="application/ld+json"]')
-        ?.textContent?.trim() || "{}"
+        ?.textContent?.trim() || "{}",
     );
 
     return {

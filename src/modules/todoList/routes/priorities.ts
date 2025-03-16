@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import express, { Response } from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { list } from "../../../utils/CRUD";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { ITodoPriority } from "../../../interfaces/todo_list_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -18,8 +17,8 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority[]>>) =>
-    list(req, res, "todo_priorities")
-  )
+    list(req, res, "todo_priorities"),
+  ),
 );
 
 /**
@@ -45,7 +44,7 @@ router.post(
       });
 
     successWithBaseResponse(res, priority);
-  })
+  }),
 );
 
 /**
@@ -73,7 +72,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, priority);
-  })
+  }),
 );
 
 /**
@@ -92,7 +91,7 @@ router.delete(
     await pb.collection("todo_priorities").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

@@ -1,12 +1,11 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
+import express, { Response } from "express";
 import { body, param } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IIdeaBoxTag } from "../../../interfaces/ideabox_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -28,7 +27,7 @@ router.get(
     list(req, res, "idea_box_tags", {
       filter: `container = "${container}"`,
     });
-  })
+  }),
 );
 
 /**
@@ -62,7 +61,7 @@ router.post(
     });
 
     successWithBaseResponse(res, tag);
-  })
+  }),
 );
 
 /**
@@ -88,7 +87,7 @@ router.patch(
     });
 
     successWithBaseResponse(res, tag);
-  })
+  }),
 );
 
 /**
@@ -107,7 +106,7 @@ router.delete(
     await pb.collection("idea_box_tags").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

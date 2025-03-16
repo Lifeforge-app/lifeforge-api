@@ -1,15 +1,14 @@
 import express, { Response } from "express";
 import { body, query } from "express-validator";
-import { AuthProviderInfo } from "pocketbase";
+import moment from "moment";
+import Pocketbase, { AuthProviderInfo } from "pocketbase";
+import { v4 } from "uuid";
+import { currentSession } from "..";
+import { BaseResponse } from "../../../interfaces/base_response";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import checkOTP from "../../../utils/checkOTP";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
-import { BaseResponse } from "../../../interfaces/base_response";
-import Pocketbase from "pocketbase";
-import { currentSession } from "..";
 import { removeSensitiveData, updateNullData } from "../utils/auth";
-import moment from "moment";
-import { v4 } from "uuid";
 
 const router = express.Router();
 
@@ -25,7 +24,7 @@ router.get(
     ).oauth2.providers.map((e) => e.name);
 
     successWithBaseResponse(res, providers);
-  })
+  }),
 );
 
 /**
@@ -46,7 +45,7 @@ router.get(
     const oauthEndpoints = await pb.collection("users").listAuthMethods();
 
     const endpoint = oauthEndpoints.oauth2.providers.find(
-      (item) => item.name === provider
+      (item) => item.name === provider,
     );
 
     if (!endpoint) {
@@ -57,7 +56,7 @@ router.get(
     currentCodeVerifier = endpoint.codeVerifier;
 
     successWithBaseResponse(res, endpoint);
-  })
+  }),
 );
 
 /**
@@ -78,7 +77,7 @@ router.post(
     const providers = await pb.collection("users").listAuthMethods();
 
     const provider = providers.oauth2.providers.find(
-      (item) => item.name === providerName
+      (item) => item.name === providerName,
     );
 
     if (!provider || !currentCodeVerifier) {
@@ -94,7 +93,7 @@ router.post(
         `${req.headers.origin}/auth`,
         {
           emailVisibility: false,
-        }
+        },
       )
       .then((authData) => {
         if (authData) {
@@ -124,7 +123,7 @@ router.post(
       .finally(() => {
         currentCodeVerifier = null;
       });
-  })
+  }),
 );
 
 /**
@@ -148,7 +147,7 @@ router.get(
     if (response) {
       successWithBaseResponse(res, response.otpId);
     }
-  })
+  }),
 );
 
 router.post(
@@ -156,7 +155,7 @@ router.post(
   [body("otp").isString().notEmpty(), body("otpId").isString().notEmpty()],
   asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
     checkOTP(req, res);
-  })
+  }),
 );
 
 /**
@@ -219,7 +218,7 @@ router.post(
     } else {
       clientError(res, "Invalid credentials", 401);
     }
-  })
+  }),
 );
 
 /**
@@ -260,7 +259,7 @@ router.post(
         userData,
       });
     }
-  })
+  }),
 );
 
 export default router;

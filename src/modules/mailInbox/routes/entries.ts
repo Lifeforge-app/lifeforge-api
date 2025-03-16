@@ -1,28 +1,27 @@
-import _ from "underscore";
 import express, { Response } from "express";
+import { body, param, query } from "express-validator";
+import imaps from "imap-simple";
+import Pocketbase from "pocketbase";
+import { BaseResponse } from "../../../interfaces/base_response";
+import {
+  IMailInboxEntry,
+  IMailInboxLabel,
+} from "../../../interfaces/mail_inbox_interfaces";
+import getIMAPConfig from "../../../services/mailInbox/utils/getIMAPConfig";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { checkExistence } from "../../../utils/PBRecordValidator";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { body, param, query } from "express-validator";
-import getIMAPConfig from "../../../services/mailInbox/utils/getIMAPConfig";
-import imaps from "imap-simple";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import {
-  IMailInboxEntry,
-  IMailInboxLabel,
-} from "../../../interfaces/mail_inbox_interfaces";
-import Pocketbase from "pocketbase";
-import { BaseResponse } from "../../../interfaces/base_response";
 
 const router = express.Router();
 
 function cleanupRecord(
   record: IMailInboxEntry,
   pb: Pocketbase,
-  removeHTML: boolean
+  removeHTML: boolean,
 ) {
   if (!record.expand) {
     return;
@@ -115,7 +114,7 @@ router.get(
     });
 
     successWithBaseResponse(res, result);
-  })
+  }),
 );
 
 router.get(
@@ -167,12 +166,12 @@ router.get(
     }
 
     successWithBaseResponse(res, record);
-  })
+  }),
 );
 
 async function copyMailMessageToTrash(
   connection: imaps.ImapSimple,
-  uids: number[]
+  uids: number[],
 ) {
   return new Promise<void>((resolve, reject) => {
     connection.imap.copy(uids, "Trash", async (err) => {
@@ -192,7 +191,7 @@ async function deleteMail(
   connection: imaps.ImapSimple,
   target: IMailInboxEntry,
   pb: Pocketbase,
-  trashLabelId: string
+  trashLabelId: string,
 ) {
   try {
     await connection.openBox("Trash");
@@ -261,8 +260,8 @@ router.delete(
     await connection.openBox(
       getFullPath(
         allLabels.find((label) => label.id === firstTarget.box)!,
-        allLabels
-      )
+        allLabels,
+      ),
     );
 
     const targets = await pb.collection("mail_inbox_entries").getFullList({
@@ -271,7 +270,7 @@ router.delete(
 
     await copyMailMessageToTrash(
       connection,
-      targets.map((target) => target.uid)
+      targets.map((target) => target.uid),
     );
 
     for (const id of req.body.ids) {
@@ -296,7 +295,7 @@ router.delete(
       successWithBaseResponse(res, undefined, 204);
       connection.end();
     });
-  })
+  }),
 );
 
 router.delete(
@@ -348,7 +347,7 @@ router.delete(
       successWithBaseResponse(res, undefined, 204);
       connection.end();
     });
-  })
+  }),
 );
 
 async function cleanDBTrash(trashLabelId: string, pb: Pocketbase) {
@@ -410,7 +409,7 @@ router.delete(
 
     successWithBaseResponse(res, undefined, 204);
     connection.end();
-  })
+  }),
 );
 
 export default router;

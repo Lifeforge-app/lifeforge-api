@@ -1,10 +1,10 @@
 // @ts-nocheck
-import express, { Request, Response } from "express";
+import express from "express";
+import { query } from "express-validator";
 import moment from "moment";
-import { clientError, successWithBaseResponse } from "../../utils/response";
 import asyncWrapper from "../../utils/asyncWrapper";
 import hasError from "../../utils/checkError";
-import { query } from "express-validator";
+import { clientError, successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 
@@ -89,7 +89,7 @@ router.get(
       data: final,
       firstYear: +firstRecordEver.items[0].date.split(" ")[0].split("-")[0],
     });
-  })
+  }),
 );
 
 router.get(
@@ -182,7 +182,7 @@ router.get(
       "Longest streak": Math.max(longestStreak, currentStreak),
       "Current streak": currentStreak,
     });
-  })
+  }),
 );
 
 router.get(
@@ -208,7 +208,7 @@ router.get(
     });
 
     return successWithBaseResponse(res, data);
-  })
+  }),
 );
 
 router.get(
@@ -229,7 +229,7 @@ router.get(
           "24 hours": [24, "hours"],
           "7 days": [7, "days"],
           "30 days": [30, "days"],
-        }[lastXDays] || [7, "days"])
+        }[lastXDays] || [7, "days"]),
       )
       .format("YYYY-MM-DD");
 
@@ -251,11 +251,11 @@ router.get(
     }
 
     groupByProject = Object.fromEntries(
-      Object.entries(groupByProject).sort(([, a], [, b]) => b - a)
+      Object.entries(groupByProject).sort(([, a], [, b]) => b - a),
     );
 
     successWithBaseResponse(res, groupByProject);
-  })
+  }),
 );
 
 router.get(
@@ -276,7 +276,7 @@ router.get(
           "24 hours": [24, "hours"],
           "7 days": [7, "days"],
           "30 days": [30, "days"],
-        }[lastXDays] || [7, "days"])
+        }[lastXDays] || [7, "days"]),
       )
       .format("YYYY-MM-DD");
 
@@ -298,11 +298,11 @@ router.get(
     }
 
     groupByLanguage = Object.fromEntries(
-      Object.entries(groupByLanguage).sort(([, a], [, b]) => b - a)
+      Object.entries(groupByLanguage).sort(([, a], [, b]) => b - a),
     );
 
     successWithBaseResponse(res, groupByLanguage);
-  })
+  }),
 );
 
 router.get(
@@ -331,9 +331,9 @@ router.get(
       Object.entries(groupByDate).map(([date, item]) => ({
         date,
         duration: item * 1000 * 60,
-      }))
+      })),
     );
-  })
+  }),
 );
 
 router.get(
@@ -365,7 +365,7 @@ router.get(
         message: e.message,
       });
     }
-  })
+  }),
 );
 
 router.post(
@@ -446,7 +446,7 @@ router.post(
       data: [],
       message: "success",
     });
-  })
+  }),
 );
 
 export default router;

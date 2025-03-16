@@ -1,12 +1,11 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
+import express, { Response } from "express";
+import { body } from "express-validator";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IProjectsMStatus } from "../../../interfaces/projects_m_interfaces";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -19,8 +18,8 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMStatus[]>>) =>
-    list(req, res, "projects_m_statuses")
-  )
+    list(req, res, "projects_m_statuses"),
+  ),
 );
 
 /**
@@ -52,7 +51,7 @@ router.post(
       });
 
     successWithBaseResponse(res, status);
-  })
+  }),
 );
 
 /**
@@ -87,7 +86,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, status);
-  })
+  }),
 );
 
 /**
@@ -108,7 +107,7 @@ router.delete(
     await pb.collection("projects_m_statuses").delete(id);
 
     successWithBaseResponse(res, undefined, 204);
-  })
+  }),
 );
 
 export default router;

@@ -1,12 +1,11 @@
 import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list, validate } from "../../../utils/CRUD";
+import { body } from "express-validator";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IProjectsMEntry } from "../../../interfaces/projects_m_interfaces";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list, validate } from "../../../utils/CRUD";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -19,8 +18,8 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry[]>>) =>
-    list(req, res, "projects_m_entries")
-  )
+    list(req, res, "projects_m_entries"),
+  ),
 );
 
 /**
@@ -41,7 +40,7 @@ router.get(
       .getOne(id);
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -53,7 +52,7 @@ router.get(
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "projects_m_entries"))
+  asyncWrapper(async (req, res) => validate(req, res, "projects_m_entries")),
 );
 
 /**
@@ -89,19 +88,19 @@ router.post(
       req,
       res,
       "projects_m_visibilities",
-      visibility
+      visibility,
     );
     const statusExists = await checkExistence(
       req,
       res,
       "projects_m_statuses",
-      status
+      status,
     );
     const categoryExists = await checkExistence(
       req,
       res,
       "projects_m_categories",
-      category
+      category,
     );
 
     let technologiesExist = true;
@@ -111,7 +110,7 @@ router.post(
         req,
         res,
         "projects_m_technologies",
-        tech
+        tech,
       );
 
       if (!techExists) {
@@ -142,7 +141,7 @@ router.post(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 /**
@@ -180,19 +179,19 @@ router.patch(
       req,
       res,
       "projects_m_visibilities",
-      visibility
+      visibility,
     );
     const statusExists = await checkExistence(
       req,
       res,
       "projects_m_statuses",
-      status
+      status,
     );
     const categoryExists = await checkExistence(
       req,
       res,
       "projects_m_categories",
-      category
+      category,
     );
 
     let technologiesExist = true;
@@ -202,7 +201,7 @@ router.patch(
         req,
         res,
         "projects_m_technologies",
-        tech
+        tech,
       );
 
       if (!techExists) {
@@ -233,7 +232,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 /**
@@ -252,7 +251,7 @@ router.delete(
     await pb.collection("projects_m_entries").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

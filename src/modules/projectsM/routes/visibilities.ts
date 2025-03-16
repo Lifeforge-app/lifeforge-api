@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
+import express, { Response } from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { IProjectsMVisibility } from "../../../interfaces/projects_m_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
+import { IProjectsMVisibility } from "../../../interfaces/projects_m_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -19,8 +18,8 @@ router.get(
   "/",
   asyncWrapper(
     async (req, res: Response<BaseResponse<IProjectsMVisibility[]>>) =>
-      list(req, res, "projects_m_visibilities")
-  )
+      list(req, res, "projects_m_visibilities"),
+  ),
 );
 
 /**
@@ -47,8 +46,8 @@ router.post(
         });
 
       successWithBaseResponse(res, visibility);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -76,8 +75,8 @@ router.patch(
         });
 
       successWithBaseResponse(res, visibility);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -96,7 +95,7 @@ router.delete(
     await pb.collection("projects_m_visibilities").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

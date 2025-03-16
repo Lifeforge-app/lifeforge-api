@@ -1,18 +1,18 @@
-import express, { Request, Response } from "express";
-import { v4 } from "uuid";
 import bcrypt from "bcrypt";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import express, { Request, Response } from "express";
+import { body } from "express-validator";
+import { v4 } from "uuid";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IPasswordEntry } from "../../../interfaces/password_interfaces";
 import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
 import {
   decrypt,
   decrypt2,
   encrypt,
   encrypt2,
 } from "../../../utils/encryption";
-import { body } from "express-validator";
-import { list } from "../../../utils/CRUD";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { IPasswordEntry } from "../../../interfaces/password_interfaces";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ setTimeout(() => {
 
 async function getDecryptedMaster(
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<string | null> {
   const { master } = req.body;
 
@@ -52,7 +52,7 @@ router.get(
   "/challenge",
   asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
     successWithBaseResponse(res, challenge);
-  })
+  }),
 );
 
 router.post(
@@ -71,13 +71,13 @@ router.post(
 
     const decryptedPassword = decrypt(
       Buffer.from(password.password, "base64"),
-      decryptedMaster
+      decryptedMaster,
     );
 
     const encryptedPassword = encrypt2(decryptedPassword.toString(), challenge);
 
     successWithBaseResponse(res, encryptedPassword);
-  })
+  }),
 );
 
 router.get(
@@ -85,8 +85,8 @@ router.get(
   asyncWrapper(async (req, res: Response<BaseResponse<IPasswordEntry[]>>) =>
     list(req, res, "passwords_entries", {
       sort: "-pinned",
-    })
-  )
+    }),
+  ),
 );
 
 router.post(
@@ -115,7 +115,7 @@ router.post(
     const decryptedPassword = decrypt2(password, challenge);
     const encryptedPassword = encrypt(
       Buffer.from(decryptedPassword),
-      decryptedMaster
+      decryptedMaster,
     );
 
     const entry: IPasswordEntry = await pb
@@ -130,7 +130,7 @@ router.post(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.patch(
@@ -155,7 +155,7 @@ router.patch(
     const decryptedPassword = decrypt2(password, challenge);
     const encryptedPassword = encrypt(
       Buffer.from(decryptedPassword),
-      decryptedMaster
+      decryptedMaster,
     );
 
     const entry: IPasswordEntry = await pb
@@ -170,7 +170,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.delete(
@@ -183,7 +183,7 @@ router.delete(
     await pb.collection("passwords_entries").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.post(
@@ -203,7 +203,7 @@ router.post(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

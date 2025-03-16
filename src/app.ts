@@ -1,23 +1,23 @@
-import express, { Request, Response } from "express";
 import cors from "cors";
-import helmet from "helmet";
-import request from "request";
+import express, { Request, Response } from "express";
 import { rateLimit } from "express-rate-limit";
+import helmet from "helmet";
 import Pocketbase from "pocketbase";
+import request from "request";
 import morganMiddleware from "./middleware/morganMiddleware";
 import pocketbaseMiddleware from "./middleware/pocketbaseMiddleware";
 
 import DESCRIPTIONS from "./constants/description";
 
-import asyncWrapper from "./utils/asyncWrapper";
-import { query } from "express-validator";
-import { flattenRoutes, getRoutes } from "./utils/getRoutes";
-import router from "./routes";
 import dotenv from "dotenv";
-import { successWithBaseResponse } from "./utils/response";
-import { BaseResponse } from "./interfaces/base_response";
-import { IRoute } from "./interfaces/api_routes_interfaces";
+import { query } from "express-validator";
 import { CORS_ALLOWED_ORIGINS } from "./constants/corsAllowedOrigins";
+import { IRoute } from "./interfaces/api_routes_interfaces";
+import { BaseResponse } from "./interfaces/base_response";
+import router from "./routes";
+import asyncWrapper from "./utils/asyncWrapper";
+import { flattenRoutes, getRoutes } from "./utils/getRoutes";
+import { successWithBaseResponse } from "./utils/response";
 
 dotenv.config({
   path: ".env.local",
@@ -32,7 +32,7 @@ const limiter = rateLimit({
     if (
       req.path.startsWith("/media/") ||
       req.path.match(
-        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules)\.\w+$/
+        /\/locales\/(?:en|ms|zh-TW|zh-CN|zh)\/(?:common|modules)\.\w+$/,
       ) ||
       [
         "/code-time/user/minutes",
@@ -83,12 +83,12 @@ app.use(
     crossOriginResourcePolicy: {
       policy: "cross-origin",
     },
-  })
+  }),
 );
 app.use(
   cors({
     origin: CORS_ALLOWED_ORIGINS,
-  })
+  }),
 );
 app.use(express.raw());
 app.use(express.json({ limit: "50mb" }));
@@ -112,7 +112,7 @@ mainRouter.get(
   asyncWrapper(
     async (
       _: Request,
-      res: Response<BaseResponse<Record<string, IRoute[]>>>
+      res: Response<BaseResponse<Record<string, IRoute[]>>>,
     ) => {
       if (routesDataCache !== null) {
         successWithBaseResponse(res, routesDataCache);
@@ -137,7 +137,7 @@ mainRouter.get(
                 acc[r] = [route];
               }
               return acc;
-            }, {})
+            }, {}),
         ).map(([key, value]) => [
           key,
           value.sort((a, b) => {
@@ -149,14 +149,14 @@ mainRouter.get(
             }
             return a.path.localeCompare(b.path);
           }),
-        ])
+        ]),
       );
 
       routesDataCache = routes;
 
       successWithBaseResponse(res, routes);
-    }
-  )
+    },
+  ),
 );
 
 mainRouter.get(
@@ -180,9 +180,9 @@ mainRouter.get(
     }
 
     request(
-      `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`
+      `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`,
     ).pipe(res);
-  })
+  }),
 );
 
 mainRouter.get("/cron", async (req, res) => {

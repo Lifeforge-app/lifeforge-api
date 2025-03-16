@@ -1,10 +1,9 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
+import express, { Response } from "express";
 import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IPhotoAlbumTag } from "../../../interfaces/photos_interfaces";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -28,7 +27,7 @@ router.get(
     }
 
     successWithBaseResponse(res, tags);
-  })
+  }),
 );
 
 router.post(
@@ -47,7 +46,7 @@ router.post(
     tag.count = 0;
 
     successWithBaseResponse(res, tag);
-  })
+  }),
 );
 
 router.patch(
@@ -65,7 +64,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, updated);
-  })
+  }),
 );
 
 router.delete(
@@ -77,7 +76,7 @@ router.delete(
     await pb.collection("photos_album_tags").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.patch(
@@ -93,7 +92,7 @@ router.patch(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

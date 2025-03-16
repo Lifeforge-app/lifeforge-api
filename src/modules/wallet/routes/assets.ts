@@ -1,7 +1,7 @@
 import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 import * as AssetsController from "../controllers/assetsController";
 import { validateBodyData, validateId } from "../middlewares/assetsValidation";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -26,7 +26,7 @@ router.post(
   "/",
   validateBodyData,
   validationMiddleware,
-  AssetsController.createAsset
+  AssetsController.createAsset,
 );
 
 /**
@@ -44,7 +44,7 @@ router.patch(
   validateId,
   validateBodyData,
   validationMiddleware,
-  AssetsController.updateAsset
+  AssetsController.updateAsset,
 );
 
 /**
@@ -58,7 +58,7 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  AssetsController.deleteAsset
+  AssetsController.deleteAsset,
 );
 
 export default router;

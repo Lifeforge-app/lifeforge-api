@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IWalletLedger } from "../../../interfaces/wallet_interfaces";
-import { serverError, successWithBaseResponse } from "../../../utils/response";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
 import * as LedgersService from "../services/ledgersService";
 
 export const getAllLedgers = async (
   req: Request,
-  res: Response<BaseResponse<IWalletLedger[]>>
+  res: Response<BaseResponse<IWalletLedger[]>>,
 ) => {
   const { pb } = req;
 
@@ -23,7 +23,7 @@ export const getAllLedgers = async (
 
 export const createLedger = async (
   req: Request,
-  res: Response<BaseResponse<IWalletLedger>>
+  res: Response<BaseResponse<IWalletLedger>>,
 ) => {
   const { pb } = req;
   const { name, icon, color } = req.body;
@@ -44,7 +44,7 @@ export const createLedger = async (
 
 export const updateLedger = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletLedger>>
+  res: Response<BaseResponse<IWalletLedger>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -68,7 +68,7 @@ export const updateLedger = async (
 
 export const deleteLedger = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>
+  res: Response<BaseResponse<null>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;

@@ -1,7 +1,7 @@
+import moment from "moment";
 import PocketBase from "pocketbase";
 import { ICalendarEvent } from "../../../interfaces/calendar_interfaces";
 import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
-import moment from "moment";
 
 /**
  * Fetch all calendar events for a specific date range
@@ -9,7 +9,7 @@ import moment from "moment";
 export const getEventsByDateRange = async (
   pb: PocketBase,
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<ICalendarEvent[]> => {
   return await pb.collection("calendar_events").getFullList<ICalendarEvent>({
     filter: `start >= '${startDate}' && end <= '${endDate}'`,
@@ -20,7 +20,7 @@ export const getEventsByDateRange = async (
  * Fetch all calendar events for today
  */
 export const getTodayEvents = async (
-  pb: PocketBase
+  pb: PocketBase,
 ): Promise<ICalendarEvent[]> => {
   const start = moment().startOf("day").toISOString();
   const end = moment().endOf("day").toISOString();
@@ -39,7 +39,7 @@ export const getTodayEvents = async (
  */
 export const createEvent = async (
   pb: PocketBase,
-  eventData: WithoutPBDefault<ICalendarEvent>
+  eventData: WithoutPBDefault<ICalendarEvent>,
 ): Promise<ICalendarEvent> => {
   return await pb
     .collection("calendar_events")
@@ -52,7 +52,7 @@ export const createEvent = async (
 export const updateEvent = async (
   pb: PocketBase,
   id: string,
-  eventData: WithoutPBDefault<ICalendarEvent>
+  eventData: WithoutPBDefault<ICalendarEvent>,
 ): Promise<ICalendarEvent> => {
   return await pb
     .collection("calendar_events")
@@ -64,7 +64,7 @@ export const updateEvent = async (
  */
 export const deleteEvent = async (
   pb: PocketBase,
-  id: string
+  id: string,
 ): Promise<boolean> => {
   return await pb.collection("calendar_events").delete(id);
 };
@@ -74,7 +74,7 @@ export const deleteEvent = async (
  */
 export const getEventById = async (
   pb: PocketBase,
-  id: string
+  id: string,
 ): Promise<ICalendarEvent> => {
   return await pb.collection("calendar_events").getOne<ICalendarEvent>(id);
 };

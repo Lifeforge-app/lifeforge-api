@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import express from "express";
 import JSDOM from "jsdom";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import notamnDecoder from "../utils/notamdecoder";
-import FIRs from "../data/FIRs";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import { fetchAI } from "../../../utils/fetchAI";
 import { getAPIKey } from "../../../utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
+import FIRs from "../data/FIRs";
+import notamnDecoder from "../utils/notamdecoder";
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get(
     const { NOTAMID } = req.params;
     try {
       const response = await fetch(
-        `https://metar-taf.com/notam/${NOTAMID}?frame=1`
+        `https://metar-taf.com/notam/${NOTAMID}?frame=1`,
       ).then((res) => res.text());
 
       const dom = new JSDOM.JSDOM(response);
@@ -42,7 +42,7 @@ router.get(
     } catch (err) {
       successWithBaseResponse(res, "none");
     }
-  })
+  }),
 );
 
 router.get(
@@ -58,7 +58,7 @@ router.get(
     const { NOTAMID } = req.params;
 
     const response = await fetch(
-      `https://metar-taf.com/notam/${NOTAMID}?frame=1`
+      `https://metar-taf.com/notam/${NOTAMID}?frame=1`,
     ).then((res) => res.text());
 
     const dom = new JSDOM.JSDOM(response);
@@ -104,7 +104,7 @@ router.get(
         continue;
       }
     }
-  })
+  }),
 );
 
 export default router;

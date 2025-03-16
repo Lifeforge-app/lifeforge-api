@@ -1,10 +1,9 @@
 import express, { Request, Response } from "express";
+import { body } from "express-validator";
+import { BaseResponse } from "../../../../../interfaces/base_response";
+import { IProjectsMKanbanEntry } from "../../../../../interfaces/projects_m_interfaces";
 import asyncWrapper from "../../../../../utils/asyncWrapper";
 import { successWithBaseResponse } from "../../../../../utils/response";
-import { BaseResponse } from "../../../../../interfaces/base_response";
-import { body } from "express-validator";
-import hasError from "../../../../../utils/checkError";
-import { IProjectsMKanbanEntry } from "../../../../../interfaces/projects_m_interfaces";
 
 const router = express.Router();
 
@@ -14,7 +13,7 @@ router.post(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IProjectsMKanbanEntry>>
+      res: Response<BaseResponse<IProjectsMKanbanEntry>>,
     ) => {
       const { pb } = req;
       const { title } = req.body;
@@ -28,8 +27,8 @@ router.post(
         });
 
       successWithBaseResponse(res, entry);
-    }
-  )
+    },
+  ),
 );
 
 router.patch(
@@ -37,7 +36,7 @@ router.patch(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IProjectsMKanbanEntry>>
+      res: Response<BaseResponse<IProjectsMKanbanEntry>>,
     ) => {
       const { pb } = req;
       const { id } = req.params;
@@ -50,8 +49,8 @@ router.patch(
         });
 
       successWithBaseResponse(res, column);
-    }
-  )
+    },
+  ),
 );
 
 router.delete(
@@ -63,7 +62,7 @@ router.delete(
     await pb.collection("projects_m_kanban_entries").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

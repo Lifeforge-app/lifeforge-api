@@ -8,7 +8,7 @@ const WalletAssetSchema = s.assign(
     icon: s.string(),
     balance: s.optional(s.number()),
     starting_balance: s.number(),
-  })
+  }),
 );
 
 const WalletLedgerSchema = s.assign(
@@ -17,7 +17,7 @@ const WalletLedgerSchema = s.assign(
     name: s.string(),
     icon: s.string(),
     color: s.string(),
-  })
+  }),
 );
 
 const WalletTransactionEntrySchema = s.assign(
@@ -39,14 +39,14 @@ const WalletTransactionEntrySchema = s.assign(
     receipt: s.string(),
     fromAsset: s.optional(s.string()),
     toAsset: s.optional(s.string()),
-  })
+  }),
 );
 
 const WalletCategorySchema = s.assign(
   WalletLedgerSchema,
   s.object({
     type: s.union([s.literal("income"), s.literal("expenses")]),
-  })
+  }),
 );
 
 const WalletIncomeExpensesSchema = s.object({
@@ -72,18 +72,18 @@ type IWalletReceiptScanResult = s.Infer<typeof WalletReceiptScanResultSchema>;
 
 export {
   WalletAssetSchema,
-  WalletLedgerSchema,
-  WalletTransactionEntrySchema,
   WalletCategorySchema,
   WalletIncomeExpensesSchema,
+  WalletLedgerSchema,
   WalletReceiptScanResultSchema,
+  WalletTransactionEntrySchema,
 };
 
 export type {
   IWalletAsset,
-  IWalletLedger,
-  IWalletTransactionEntry,
   IWalletCategory,
   IWalletIncomeExpenses as IWalletIncomeExpensesSummary,
+  IWalletLedger,
   IWalletReceiptScanResult,
+  IWalletTransactionEntry,
 };

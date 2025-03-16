@@ -1,13 +1,13 @@
 // @ts-nocheck
-import express, { Request, Response } from "express";
+import express from "express";
 
-import fs from "fs";
-import mime from "mime-types";
 import ExifReader from "exifreader";
-import moment from "moment";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import asyncWrapper from "../../../utils/asyncWrapper";
+import fs from "fs";
 import sizeOf from "image-size";
+import mime from "mime-types";
+import moment from "moment";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -83,7 +83,7 @@ router.get(
     }
 
     successWithBaseResponse(res, image.name);
-  })
+  }),
 );
 
 router.get(
@@ -134,11 +134,11 @@ router.get(
         image[
           raw === "true" ? "raw" : "image"
           //TODO
-        ]
+        ],
       )
       .replace(
         "http://dev.lifeforge.thecodeblog.net:8090/api/files/",
-        "https://main--pms-api-proxy.netlify.app/media"
+        "https://main--pms-api-proxy.netlify.app/media",
       );
 
     successWithBaseResponse(res, {
@@ -147,7 +147,7 @@ router.get(
         .split(".")
         .pop()}`,
     });
-  })
+  }),
 );
 
 router.post(
@@ -171,12 +171,12 @@ router.post(
 
       fs.cpSync(
         filePath,
-        `${process.cwd()}/../medium/${image.name}.${image.image.split(".").pop()}`
+        `${process.cwd()}/../medium/${image.name}.${image.image.split(".").pop()}`,
       );
     }
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 router.get(
@@ -231,7 +231,7 @@ router.get(
             acc[date] = [photo];
           }
           return acc;
-        }, {})
+        }, {}),
       );
 
       groupByDate.sort((a, b) => moment(b[0]).diff(moment(a[0])));
@@ -273,7 +273,7 @@ router.get(
         collectionId,
       };
     }
-  })
+  }),
 );
 
 router.get(
@@ -292,7 +292,7 @@ router.get(
         message: "No data available",
       });
     }
-  })
+  }),
 );
 
 router.get(
@@ -318,18 +318,18 @@ router.get(
     const { hideInAlbum } = req.query;
     const filter = `is_deleted = false && is_locked = false && shot_time >= '${moment(
       date,
-      "YYYY - MM - DD"
+      "YYYY - MM - DD",
     )
       .startOf("day")
       .utc()
       .format("YYYY - MM - DD HH: mm:ss")}' && shot_time <= '${moment(
       date,
-      "YYYY-MM-DD"
+      "YYYY-MM-DD",
     )
       .endOf("day")
       .utc()
       .format(
-        "YYYY-MM-DD HH:mm:ss"
+        "YYYY-MM-DD HH:mm:ss",
       )} ' ${hideInAlbum === "true" ? ' && album = ""' : ""}`;
 
     let photos = await pb.collection("photos_dimensions").getFullList({
@@ -351,7 +351,7 @@ router.get(
     });
 
     successWithBaseResponse(res, photos);
-  })
+  }),
 );
 
 router.get(
@@ -399,7 +399,7 @@ router.get(
     });
 
     successWithBaseResponse(res, photos);
-  })
+  }),
 );
 
 router.post(
@@ -424,7 +424,7 @@ router.post(
           ((mime.lookup(file)
             ? mime.lookup(file).startsWith("image")
             : false) ||
-            RAW_FILE_TYPE.includes(file.split(".").pop().toUpperCase()))
+            RAW_FILE_TYPE.includes(file.split(".").pop().toUpperCase())),
       );
 
     if (newFiles.length === 0) {
@@ -457,12 +457,12 @@ router.post(
       };
 
       const rawFiles = value.filter((file) =>
-        RAW_FILE_TYPE.includes(file.split(".").pop().toUpperCase())
+        RAW_FILE_TYPE.includes(file.split(".").pop().toUpperCase()),
       );
       const imageFiles = value.filter(
         (file) =>
           !RAW_FILE_TYPE.includes(file.split(".").pop().toUpperCase()) &&
-          (mime.lookup(file) ? mime.lookup(file).startsWith("image") : false)
+          (mime.lookup(file) ? mime.lookup(file).startsWith("image") : false),
       );
 
       if (imageFiles === 0) {
@@ -485,7 +485,7 @@ router.post(
         if (tags.DateTimeOriginal) {
           data.shot_time = moment(
             tags.DateTimeOriginal.value,
-            "YYYY:MM:DD HH:mm:ss"
+            "YYYY:MM:DD HH:mm:ss",
           ).toISOString();
         } else {
           const dateStr = imageFiles[0]
@@ -493,11 +493,11 @@ router.post(
             .match(/IMG-(?<date>\d+)-WA.+/)?.groups?.date;
           if (dateStr) {
             data.shot_time = moment(dateStr, "YYYYMMDD").format(
-              "YYYY-MM-DD HH:mm:ss"
+              "YYYY-MM-DD HH:mm:ss",
             );
           } else {
             data.shot_time = moment(
-              fs.statSync(filePath).birthtime
+              fs.statSync(filePath).birthtime,
             ).toISOString();
           }
         }
@@ -534,7 +534,7 @@ router.post(
           ...(data.raw ? { raw: data.raw } : {}),
           name: data.name,
         },
-        { $autoCancel: false }
+        { $autoCancel: false },
       );
 
       await pb.collection("photos_dimensions").create({
@@ -561,14 +561,14 @@ router.post(
     }
 
     progress = null;
-  })
+  }),
 );
 
 router.get(
   "/import/progress",
   asyncWrapper(async (req, res) => {
     successWithBaseResponse(res, progress === null ? "null" : progress);
-  })
+  }),
 );
 
 router.delete(
@@ -619,7 +619,7 @@ router.delete(
     }
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

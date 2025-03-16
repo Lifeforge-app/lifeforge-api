@@ -13,7 +13,7 @@ const MomentVaultEntrySchema = s.assign(
     content: s.string(),
     file: s.optional(s.string()),
     transcript: s.optional(s.string()),
-  })
+  }),
 );
 
 type IMomentVaultEntry = s.Infer<typeof MomentVaultEntrySchema>;

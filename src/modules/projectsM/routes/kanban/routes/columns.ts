@@ -1,16 +1,12 @@
 import express, { Request, Response } from "express";
-import asyncWrapper from "../../../../../utils/asyncWrapper";
-import {
-  clientError,
-  successWithBaseResponse,
-} from "../../../../../utils/response";
+import { body } from "express-validator";
+import { BaseResponse } from "../../../../../interfaces/base_response";
 import {
   IProjectsMKanbanColumn,
   IProjectsMKanbanEntry,
 } from "../../../../../interfaces/projects_m_interfaces";
-import { BaseResponse } from "../../../../../interfaces/base_response";
-import hasError from "../../../../../utils/checkError";
-import { body } from "express-validator";
+import asyncWrapper from "../../../../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../../../../utils/response";
 
 const router = express.Router();
 
@@ -26,7 +22,7 @@ router.get(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IProjectsMKanbanColumn[]>>
+      res: Response<BaseResponse<IProjectsMKanbanColumn[]>>,
     ) => {
       const { pb } = req;
       const { projectId } = req.params;
@@ -48,8 +44,8 @@ router.get(
       });
 
       successWithBaseResponse(res, columns as IProjectsMKanbanColumn[]);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -72,7 +68,7 @@ router.post(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IProjectsMKanbanColumn>>
+      res: Response<BaseResponse<IProjectsMKanbanColumn>>,
     ) => {
       const { pb } = req;
       const { name, icon, color } = req.body;
@@ -88,8 +84,8 @@ router.post(
         });
 
       successWithBaseResponse(res, column);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -107,7 +103,7 @@ router.patch(
   asyncWrapper(
     async (
       req: Request,
-      res: Response<BaseResponse<IProjectsMKanbanColumn>>
+      res: Response<BaseResponse<IProjectsMKanbanColumn>>,
     ) => {
       const { pb } = req;
       const { id } = req.params;
@@ -122,8 +118,8 @@ router.patch(
         });
 
       successWithBaseResponse(res, column);
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -142,7 +138,7 @@ router.delete(
     await pb.collection("projects_m_kanban_columns").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

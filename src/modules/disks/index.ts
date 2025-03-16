@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
 import { exec } from "child_process";
-import { successWithBaseResponse } from "../../utils/response";
+import express from "express";
 import asyncWrapper from "../../utils/asyncWrapper";
+import { successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 
@@ -30,7 +30,7 @@ router.get(
     stderr?.on("data", (data) => {
       throw new Error(data);
     });
-  })
+  }),
 );
 
 export default router;

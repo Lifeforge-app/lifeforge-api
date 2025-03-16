@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { serverError, successWithBaseResponse } from "../../../utils/response";
 import { BaseResponse } from "../../../interfaces/base_response";
-import { checkExistence } from "../../../utils/PBRecordValidator";
 import { IWalletCategory } from "../../../interfaces/wallet_interfaces";
+import { checkExistence } from "../../../utils/PBRecordValidator";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
 import * as CategoriesService from "../services/categoriesService";
 
 export const getAllCategories = async (
   req: Request,
-  res: Response<BaseResponse<IWalletCategory[]>>
+  res: Response<BaseResponse<IWalletCategory[]>>,
 ) => {
   const { pb } = req;
 
@@ -23,7 +23,7 @@ export const getAllCategories = async (
 
 export const createCategory = async (
   req: Request,
-  res: Response<BaseResponse<IWalletCategory>>
+  res: Response<BaseResponse<IWalletCategory>>,
 ) => {
   const { pb } = req;
   const { name, icon, color, type } = req.body;
@@ -45,7 +45,7 @@ export const createCategory = async (
 
 export const updateCategory = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletCategory>>
+  res: Response<BaseResponse<IWalletCategory>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -70,7 +70,7 @@ export const updateCategory = async (
 
 export const deleteCategory = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>
+  res: Response<BaseResponse<null>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;

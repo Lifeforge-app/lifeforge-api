@@ -7,7 +7,7 @@ const IMailInboxLabelSchema = s.assign(
     name: s.string(),
     amount: s.number(),
     parent: s.string(),
-  })
+  }),
 );
 
 const IMailInboxAddressSchema = s.assign(
@@ -15,7 +15,7 @@ const IMailInboxAddressSchema = s.assign(
   s.object({
     name: s.string(),
     address: s.string(),
-  })
+  }),
 );
 
 const IMailInboxAttachmentSchema = s.assign(
@@ -24,7 +24,7 @@ const IMailInboxAttachmentSchema = s.assign(
     name: s.string(),
     size: s.number(),
     file: s.string(),
-  })
+  }),
 );
 
 const IMailInboxEntrySchema = s.assign(
@@ -49,7 +49,7 @@ const IMailInboxEntrySchema = s.assign(
         s.object({
           name: s.string(),
           address: s.string(),
-        })
+        }),
       ),
       s.string(),
     ]),
@@ -58,7 +58,7 @@ const IMailInboxEntrySchema = s.assign(
         s.object({
           name: s.string(),
           address: s.string(),
-        })
+        }),
       ),
       s.string(),
     ]),
@@ -70,7 +70,7 @@ const IMailInboxEntrySchema = s.assign(
           name: s.string(),
           size: s.number(),
           file: s.string(),
-        })
+        }),
       ),
       s.string(),
     ]),
@@ -78,14 +78,14 @@ const IMailInboxEntrySchema = s.assign(
     expand: s.optional(
       s.object({
         mail_inbox_attachments_via_belongs_to: s.optional(
-          s.array(IMailInboxAttachmentSchema)
+          s.array(IMailInboxAttachmentSchema),
         ),
         from: IMailInboxAddressSchema,
         to: s.optional(s.array(IMailInboxAddressSchema)),
         cc: s.optional(s.array(IMailInboxAddressSchema)),
-      })
+      }),
     ),
-  })
+  }),
 );
 
 type IMailInboxLabel = s.Infer<typeof IMailInboxLabelSchema>;
@@ -94,15 +94,15 @@ type IMailInboxAttachment = s.Infer<typeof IMailInboxAttachmentSchema>;
 type IMailInboxEntry = s.Infer<typeof IMailInboxEntrySchema>;
 
 export {
-  IMailInboxLabelSchema,
-  IMailInboxEntrySchema,
   IMailInboxAddressSchema,
   IMailInboxAttachmentSchema,
+  IMailInboxEntrySchema,
+  IMailInboxLabelSchema,
 };
 
 export type {
-  IMailInboxLabel,
-  IMailInboxEntry,
-  IMailInboxAttachment,
   IMailInboxAddress,
+  IMailInboxAttachment,
+  IMailInboxEntry,
+  IMailInboxLabel,
 };

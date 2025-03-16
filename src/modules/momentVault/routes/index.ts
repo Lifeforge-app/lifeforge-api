@@ -1,16 +1,16 @@
 import express, { Request, Response } from "express";
-import { getAPIKey } from "../../../utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
-import OpenAI from "openai";
-import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
-import { BaseResponse } from "../../../interfaces/base_response";
-import fs from "fs";
-import { IMomentVaultEntry } from "../../../interfaces/moment_vault_interfaces";
+import { param } from "express-validator";
 import ffmpeg from "fluent-ffmpeg";
+import fs from "fs";
+import OpenAI from "openai";
+import { ListResult } from "pocketbase";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IMomentVaultEntry } from "../../../interfaces/moment_vault_interfaces";
+import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import { fetchAI } from "../../../utils/fetchAI";
-import { ListResult } from "pocketbase";
-import { param } from "express-validator";
+import { getAPIKey } from "../../../utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.get(
   "/entries",
   async (
     req: Request,
-    res: Response<BaseResponse<ListResult<IMomentVaultEntry>>>
+    res: Response<BaseResponse<ListResult<IMomentVaultEntry>>>,
   ) => {
     const { pb } = req;
     const { page } = req.query as { page?: string };
@@ -51,7 +51,7 @@ router.get(
     });
 
     successWithBaseResponse(res, entries);
-  }
+  },
 );
 
 router.post(
@@ -82,7 +82,7 @@ router.post(
           type: "audio",
           file: new File(
             [fileBuffer],
-            file.path.split("/").pop() || "audio.mp3"
+            file.path.split("/").pop() || "audio.mp3",
           ),
           transcription,
         });
@@ -95,7 +95,7 @@ router.post(
 
       successWithBaseResponse(res, entry, 201);
     }
-  }
+  },
 );
 
 router.delete("/entries/:id", async (req, res) => {
@@ -114,7 +114,7 @@ router.delete("/entries/:id", async (req, res) => {
 
 async function getTranscription(
   filePath: string,
-  apiKey: string
+  apiKey: string,
 ): Promise<string | null> {
   const openai = new OpenAI({
     apiKey,
@@ -195,7 +195,7 @@ router.post(
     });
 
     successWithBaseResponse(res, response);
-  }
+  },
 );
 
 router.post(
@@ -230,7 +230,7 @@ router.post(
     }
 
     successWithBaseResponse(res, response);
-  }
+  },
 );
 
 export default router;

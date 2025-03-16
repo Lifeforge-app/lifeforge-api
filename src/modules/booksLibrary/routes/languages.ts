@@ -1,11 +1,10 @@
-import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { IBooksLibraryLanguage } from "../../../interfaces/books_library_interfaces";
+import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
+import * as LanguagesController from "../controllers/languagesController";
+import {
+  validateBodyData,
+  validateId,
+} from "../middlewares/languagesValidation";
 
 const router = express.Router();
 
@@ -15,13 +14,7 @@ const router = express.Router();
  * @description Retrieve a list of all book languages.
  * @response 200 (IBooksLibraryLanguage[]) - The list of book languages
  */
-router.get(
-  "/",
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IBooksLibraryLanguage[]>>) =>
-      list(req, res, "books_library_languages")
-  )
-);
+router.get("/", LanguagesController.getAllLanguages);
 
 /**
  * @protected
@@ -33,22 +26,9 @@ router.get(
  */
 router.post(
   "/",
-  [body("name").isString(), body("icon").isString()],
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IBooksLibraryLanguage>>) => {
-      const { pb } = req;
-      const { name, icon } = req.body;
-
-      const language: IBooksLibraryLanguage = await pb
-        .collection("books_library_languages")
-        .create({
-          name,
-          icon,
-        });
-
-      successWithBaseResponse(res, language);
-    }
-  )
+  validateBodyData,
+  validationMiddleware,
+  LanguagesController.createLanguage,
 );
 
 /**
@@ -62,23 +42,10 @@ router.post(
  */
 router.patch(
   "/:id",
-  [body("name").isString(), body("icon").isString()],
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IBooksLibraryLanguage>>) => {
-      const { pb } = req;
-      const { id } = req.params;
-      const { name, icon } = req.body;
-
-      const language: IBooksLibraryLanguage = await pb
-        .collection("books_library_languages")
-        .update(id, {
-          name,
-          icon,
-        });
-
-      successWithBaseResponse(res, language);
-    }
-  )
+  validateId,
+  validateBodyData,
+  validationMiddleware,
+  LanguagesController.updateLanguage,
 );
 
 /**
@@ -90,14 +57,9 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    await pb.collection("books_library_languages").delete(id);
-
-    successWithBaseResponse(res);
-  })
+  validateId,
+  validationMiddleware,
+  LanguagesController.deleteLanguage,
 );
 
 export default router;

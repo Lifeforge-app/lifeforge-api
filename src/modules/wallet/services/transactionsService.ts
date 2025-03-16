@@ -1,17 +1,17 @@
+import fs from "fs";
+import moment from "moment";
+import OpenAI from "openai";
+import { zodResponseFormat } from "openai/helpers/zod";
+import { fromPath } from "pdf2pic";
 import Pocketbase from "pocketbase";
+import { z } from "zod";
+import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
 import {
   IWalletIncomeExpensesSummary,
   IWalletReceiptScanResult,
   IWalletTransactionEntry,
 } from "../../../interfaces/wallet_interfaces";
-import moment from "moment";
-import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
-import { fromPath } from "pdf2pic";
-import fs from "fs";
 import parseOCR from "../../../utils/parseOCR";
-import OpenAI from "openai";
-import { z } from "zod";
-import { zodResponseFormat } from "openai/helpers/zod";
 
 function convertPDFToImage(path: string): Promise<File | undefined> {
   return new Promise(async (resolve, reject) => {
@@ -41,13 +41,13 @@ function convertPDFToImage(path: string): Promise<File | undefined> {
             `receipt.png`,
             {
               type: "image/png",
-            }
+            },
           );
 
           resolve(thumbnailFile);
 
           fs.unlinkSync(path);
-        }
+        },
       );
     } catch (error) {
       reject(error);
@@ -56,7 +56,7 @@ function convertPDFToImage(path: string): Promise<File | undefined> {
 }
 
 export const getAllTransactions = async (
-  pb: Pocketbase
+  pb: Pocketbase,
 ): Promise<IWalletTransactionEntry[] | void> => {
   return pb
     .collection("wallet_transactions")
@@ -71,7 +71,7 @@ export const getAllTransactions = async (
 export const getIncomeExpensesSummary = async (
   pb: Pocketbase,
   year: string,
-  month: string
+  month: string,
 ): Promise<IWalletIncomeExpensesSummary | void> => {
   const start = moment(`${year}-${month}-01`)
     .startOf("month")
@@ -95,9 +95,9 @@ export const getIncomeExpensesSummary = async (
   const inThisMonth = transactions.filter(
     (transaction) =>
       moment(moment(transaction.date).format("YYYY-MM-DD")).isSameOrAfter(
-        start
+        start,
       ) &&
-      moment(moment(transaction.date).format("YYYY-MM-DD")).isSameOrBefore(end)
+      moment(moment(transaction.date).format("YYYY-MM-DD")).isSameOrBefore(end),
   );
 
   const totalIncome = transactions.reduce((acc, cur) => {
@@ -143,7 +143,7 @@ export const getIncomeExpensesSummary = async (
 export const createTransaction = async (
   pb: Pocketbase,
   data: Omit<WithoutPBDefault<IWalletTransactionEntry>, "receipt" | "side">,
-  file: Express.Multer.File | undefined
+  file: Express.Multer.File | undefined,
 ): Promise<IWalletTransactionEntry[] | void> => {
   async function processFile(): Promise<
     [Express.Multer.File | File | undefined, string | undefined]
@@ -311,7 +311,7 @@ export const updateTransaction = async (
   id: string,
   data: Omit<WithoutPBDefault<IWalletTransactionEntry>, "receipt" | "side">,
   file: Express.Multer.File | undefined,
-  toRemoveReceipt: boolean
+  toRemoveReceipt: boolean,
 ): Promise<IWalletTransactionEntry | void> => {
   async function processFile(): Promise<
     [Express.Multer.File | File | undefined, string | undefined]
@@ -396,7 +396,7 @@ export const updateTransaction = async (
 
 export const deleteTransaction = async (
   pb: Pocketbase,
-  id: string
+  id: string,
 ): Promise<boolean | void> => {
   return pb
     .collection("wallet_transactions")
@@ -408,7 +408,7 @@ export const deleteTransaction = async (
 
 export const scanReceipt = async (
   file: Express.Multer.File,
-  key: string
+  key: string,
 ): Promise<IWalletReceiptScanResult | void> => {
   async function getTransactionDetails(): Promise<IWalletReceiptScanResult | null> {
     const client = new OpenAI({

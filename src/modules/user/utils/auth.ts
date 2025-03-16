@@ -9,10 +9,10 @@ export function removeSensitiveData(userData: Record<string, any>): void {
 
   userData.hasMasterPassword = Boolean(userData.masterPasswordHash);
   userData.hasJournalMasterPassword = Boolean(
-    userData.journalMasterPasswordHash
+    userData.journalMasterPasswordHash,
   );
   userData.hasAPIKeysMasterPassword = Boolean(
-    userData.APIKeysMasterPasswordHash
+    userData.APIKeysMasterPasswordHash,
   );
   userData.twoFAEnabled = Boolean(userData.twoFASecret);
   delete userData["masterPasswordHash"];
@@ -23,7 +23,7 @@ export function removeSensitiveData(userData: Record<string, any>): void {
 
 export async function updateNullData(
   userData: Record<string, any>,
-  pb: Pocketbase
+  pb: Pocketbase,
 ) {
   if (!userData.enabledModules) {
     await pb.collection("users").update(userData.id, {

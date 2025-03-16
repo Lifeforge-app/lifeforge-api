@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import fs from "fs";
 import asyncWrapper from "../../utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "../../utils/response";
 import COUNTRIES from "./data/countries";
 import REGIONS from "./data/regions";
 import airportRoutes from "./routes/airport";
 import NOTAMRoutes from "./routes/NOTAM";
-import fs from "fs";
 
 const CONTINENTS_NAME = {
   AF: "Africa",
@@ -18,7 +18,7 @@ const CONTINENTS_NAME = {
 };
 
 const AIRPORT_DATA: string[][] = JSON.parse(
-  fs.readFileSync("src/routes/airports/data/airports.json").toString()
+  fs.readFileSync("src/routes/airports/data/airports.json").toString(),
 ).slice(1);
 
 const router = express.Router();
@@ -118,7 +118,7 @@ router.get(
             "seaplane_base",
             "balloonport",
             "closed",
-          ].indexOf(b.type)
+          ].indexOf(b.type),
       )
       .sort((a: any, b: any) => {
         if (!a.match || !b.match) return 0;
@@ -147,7 +147,7 @@ router.get(
       .slice(0, 10);
 
     successWithBaseResponse(res, result);
-  })
+  }),
 );
 
 router.get(
@@ -163,11 +163,11 @@ router.get(
 
         return acc;
       },
-      {}
+      {},
     );
 
     successWithBaseResponse(res, result);
-  })
+  }),
 );
 
 router.get(
@@ -193,18 +193,18 @@ router.get(
 
         return acc;
       },
-      {}
+      {},
     );
 
     const final = Object.fromEntries(
       Object.keys(result).map((country) => [
         country,
         [COUNTRIES[country], result[country]],
-      ])
+      ]),
     );
 
     successWithBaseResponse(res, final);
-  })
+  }),
 );
 
 router.get(
@@ -225,14 +225,14 @@ router.get(
 
         return acc;
       },
-      {}
+      {},
     );
 
     const final = Object.fromEntries(
       Object.keys(result).map((region) => [
         region,
         [REGIONS[region as keyof typeof REGIONS], result[region]],
-      ])
+      ]),
     );
 
     const breadcrumbs = [COUNTRIES[Object.keys(final)[0].split("-")[0]]];
@@ -241,7 +241,7 @@ router.get(
       data: final,
       breadcrumbs,
     });
-  })
+  }),
 );
 
 export default router;

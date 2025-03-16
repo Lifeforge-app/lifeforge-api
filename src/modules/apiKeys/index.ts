@@ -1,14 +1,14 @@
-import express, { Response } from "express";
-import auth from "./routes/auth";
-import { v4 } from "uuid";
-import { body, param, query } from "express-validator";
-import { decrypt2, encrypt2 } from "../../utils/encryption";
 import bcrypt from "bcrypt";
-import { clientError, successWithBaseResponse } from "../../utils/response";
+import express, { Response } from "express";
+import { body, param, query } from "express-validator";
 import Pocketbase from "pocketbase";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { BaseResponse } from "../../interfaces/base_response";
+import { v4 } from "uuid";
 import { IAPIKeyEntry } from "../../interfaces/api_keys_interfaces";
+import { BaseResponse } from "../../interfaces/base_response";
+import asyncWrapper from "../../utils/asyncWrapper";
+import { decrypt2, encrypt2 } from "../../utils/encryption";
+import { clientError, successWithBaseResponse } from "../../utils/response";
+import auth from "./routes/auth";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.use("/auth", auth);
 async function getDecryptedMaster(
   master: string,
   pb: Pocketbase,
-  res: Response
+  res: Response,
 ): Promise<string | null> {
   if (!pb.authStore.record) {
     clientError(res, "Auth store not initialized");
@@ -34,7 +34,7 @@ async function getDecryptedMaster(
   const decryptedMaster = decrypt2(master, challenge);
   const isMatch = await bcrypt.compare(
     decryptedMaster,
-    APIKeysMasterPasswordHash
+    APIKeysMasterPasswordHash,
   );
 
   if (!isMatch) {
@@ -69,7 +69,7 @@ router.get(
     });
 
     successWithBaseResponse(res, entries);
-  })
+  }),
 );
 
 router.get(
@@ -85,9 +85,9 @@ router.get(
       res,
       keys
         .split(",")
-        .every((key) => allEntries.some((entry) => entry.keyId === key))
+        .every((key) => allEntries.some((entry) => entry.keyId === key)),
     );
-  })
+  }),
 );
 
 router.get(
@@ -114,7 +114,7 @@ router.get(
     const encryptedSecondTime = encrypt2(encryptedKey, challenge);
 
     successWithBaseResponse(res, encryptedSecondTime);
-  })
+  }),
 );
 
 router.post(
@@ -153,7 +153,7 @@ router.post(
     entry.key = decryptedKey.slice(-4);
 
     successWithBaseResponse(res, entry);
-  })
+  }),
 );
 
 router.patch(
@@ -195,7 +195,7 @@ router.patch(
     updatedEntry.key = decryptedKey.slice(-4);
 
     successWithBaseResponse(res, updatedEntry);
-  })
+  }),
 );
 
 router.delete(
@@ -207,7 +207,7 @@ router.delete(
 
     await pb.collection("api_keys_entries").delete(id);
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

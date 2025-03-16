@@ -12,7 +12,7 @@ const m =
           chalk.hex("#2ed573").bold(`${tokens["response-time"](req, res)} ms`),
           chalk.hex("#f78fb3").bold(`@ ${tokens.date(req, res)}`),
           chalk.yellow(tokens["remote-addr"](req, res)),
-        ].join(" ")
+        ].join(" "),
       )
     : (req: Request, res: Response, next: any) => next();
 

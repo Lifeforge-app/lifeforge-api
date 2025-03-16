@@ -1,9 +1,9 @@
+import imaps from "imap-simple";
 import Pocketbase from "pocketbase";
 import { getAPIKey } from "../../../utils/getAPIKey";
-import imaps from "imap-simple";
 
 export default async function getIMAPConfig(
-  pb: Pocketbase
+  pb: Pocketbase,
 ): Promise<imaps.ImapSimpleOptions | null> {
   const password = await getAPIKey("gmail", pb);
 

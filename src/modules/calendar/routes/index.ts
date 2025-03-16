@@ -1,6 +1,6 @@
 import express from "express";
-import event from "./events.js";
 import category from "./categories.js";
+import event from "./events.js";
 
 const router = express.Router();
 

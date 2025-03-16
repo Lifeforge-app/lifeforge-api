@@ -1,11 +1,5 @@
-import express, { Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
-import { IBooksLibraryFileType } from "../../../interfaces/books_library_interfaces";
+import express from "express";
+import * as FileTypesController from "../controllers/fileTypesController";
 
 const router = express.Router();
 
@@ -15,12 +9,6 @@ const router = express.Router();
  * @description Retrieve a list of all book file types.
  * @response 200 (IBooksLibraryFileType[]) - The list of book file types
  */
-router.get(
-  "/",
-  asyncWrapper(
-    async (req, res: Response<BaseResponse<IBooksLibraryFileType[]>>) =>
-      list(req, res, "books_library_file_types")
-  )
-);
+router.get("/", FileTypesController.getAllFileTypes);
 
 export default router;

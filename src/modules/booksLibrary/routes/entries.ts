@@ -1,7 +1,7 @@
 import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 import * as EntriesController from "../controllers/entriesController";
 import { validateBodyData, validateId } from "../middlewares/entriesValidation";
-import validationMiddleware from "../../../middleware/validationMiddleware";
 
 const router = express.Router();
 
@@ -33,7 +33,7 @@ router.patch(
   validateId,
   validateBodyData,
   validationMiddleware,
-  EntriesController.updateEntry
+  EntriesController.updateEntry,
 );
 
 /**
@@ -47,7 +47,7 @@ router.post(
   "/favourite/:id",
   validateId,
   validationMiddleware,
-  EntriesController.toggleFavouriteStatus
+  EntriesController.toggleFavouriteStatus,
 );
 
 /**
@@ -61,7 +61,7 @@ router.delete(
   "/:id",
   validateId,
   validationMiddleware,
-  EntriesController.deleteEntry
+  EntriesController.deleteEntry,
 );
 
 export default router;

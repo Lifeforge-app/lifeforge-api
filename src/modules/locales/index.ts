@@ -1,20 +1,20 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import { body, param } from "express-validator";
 import fs from "fs";
+import OpenAI from "openai";
+import { zodResponseFormat } from "openai/helpers/zod";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { z } from "zod";
+import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../constants/locales";
 import asyncWrapper from "../../utils/asyncWrapper";
+import hasError from "../../utils/checkError";
+import { fetchAI } from "../../utils/fetchAI";
+import { getAPIKey } from "../../utils/getAPIKey";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "../../utils/response";
-import { body, param } from "express-validator";
-import { getAPIKey } from "../../utils/getAPIKey";
-import { fetchAI } from "../../utils/fetchAI";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../constants/locales";
-import hasError from "../../utils/checkError";
-import OpenAI from "openai";
-import { z } from "zod";
-import { zodResponseFormat } from "openai/helpers/zod";
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.get(
       .map((file) => file.replace(".json", ""));
 
     successWithBaseResponse(res, data);
-  })
+  }),
 );
 
 router.get(
@@ -49,11 +49,11 @@ router.get(
     for (const lng of ["en", "ms", "zh-CN", "zh-TW"]) {
       if (
         !fs.existsSync(
-          `${process.cwd()}/public/locales/${lng}/${namespace}/${subnamespace}.json`
+          `${process.cwd()}/public/locales/${lng}/${namespace}/${subnamespace}.json`,
         )
       ) {
         console.log(
-          `${process.cwd()}/public/locales/${lng}/${namespace}/${subnamespace}.json`
+          `${process.cwd()}/public/locales/${lng}/${namespace}/${subnamespace}.json`,
         );
         clientError(res, "Subnamespace data file not found", 404);
         return;
@@ -62,13 +62,13 @@ router.get(
       final[lng] = JSON.parse(
         fs.readFileSync(
           `${process.cwd()}/public/locales/${lng}/${namespace}/${subnamespace}.json`,
-          "utf-8"
-        )
+          "utf-8",
+        ),
       );
     }
 
     successWithBaseResponse(res, final);
-  })
+  }),
 );
 
 router.get(
@@ -98,8 +98,8 @@ router.get(
     const data = JSON.parse(
       fs.readFileSync(
         `${process.cwd()}/public/locales/${finalLang}/${type}/${id}.json`,
-        "utf-8"
-      )
+        "utf-8",
+      ),
     );
 
     if (type === "common" && id === "sidebar") {
@@ -110,8 +110,8 @@ router.get(
             const data = JSON.parse(
               fs.readFileSync(
                 `${process.cwd()}/public/locales/${finalLang}/modules/${file}`,
-                "utf-8"
-              )
+                "utf-8",
+              ),
             );
 
             return [
@@ -121,12 +121,12 @@ router.get(
                 subsections: data.subsections ?? {},
               },
             ];
-          })
+          }),
       );
     }
 
     res.json(data);
-  })
+  }),
 );
 
 router.post(
@@ -175,12 +175,12 @@ router.post(
     for (const lang in fileContent) {
       fs.writeFileSync(
         `${process.cwd()}/public/locales/${lang}/${namespace}/${subnamespace}.json`,
-        JSON.stringify(fileContent[lang], null, 2)
+        JSON.stringify(fileContent[lang], null, 2),
       );
     }
 
     successWithBaseResponse(res, true);
-  })
+  }),
 );
 
 router.post(
@@ -200,7 +200,7 @@ router.post(
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
       const filePath = `${process.cwd()}/public/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
-        fs.readFileSync(filePath, "utf-8")
+        fs.readFileSync(filePath, "utf-8"),
       );
       const splitted: string[] = path.split(".");
       const key = splitted.pop();
@@ -222,7 +222,7 @@ router.post(
     }
 
     successWithBaseResponse(res, true);
-  })
+  }),
 );
 
 router.post(
@@ -243,7 +243,7 @@ router.post(
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
       const filePath = `${process.cwd()}/public/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
-        fs.readFileSync(filePath, "utf-8")
+        fs.readFileSync(filePath, "utf-8"),
       );
       const splitted: string[] = path.split(".");
       const key = splitted.pop();
@@ -271,7 +271,7 @@ router.post(
     }
 
     successWithBaseResponse(res, true);
-  })
+  }),
 );
 
 router.post(
@@ -290,7 +290,7 @@ router.post(
     ["en", "ms", "zh-CN", "zh-TW"].forEach((lang) => {
       const filePath = `${process.cwd()}/public/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
-        fs.readFileSync(filePath, "utf-8")
+        fs.readFileSync(filePath, "utf-8"),
       );
       const splitted: string[] = path.split(".");
       const key = splitted.pop();
@@ -307,7 +307,7 @@ router.post(
     });
 
     successWithBaseResponse(res, true);
-  })
+  }),
 );
 
 router.post(
@@ -363,7 +363,7 @@ router.post(
     }
 
     clientError(res, "Failed to generate module name");
-  })
+  }),
 );
 
 router.post(
@@ -410,7 +410,7 @@ router.post(
         if (!raw) throw new Error("No response");
 
         const text = JSON.parse(
-          raw.replace(/`/g, "").trim().replace(/^json/, "")
+          raw.replace(/`/g, "").trim().replace(/^json/, ""),
         );
 
         successWithBaseResponse(res, text);
@@ -420,7 +420,7 @@ router.post(
         tries++;
       }
     }
-  })
+  }),
 );
 
 router.post(
@@ -492,7 +492,7 @@ If the key remains ambiguous despite the hint and namespace context, seek clarif
     }
 
     successWithBaseResponse(res, suggestions);
-  })
+  }),
 );
 
 export default router;

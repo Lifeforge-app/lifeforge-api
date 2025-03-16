@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
-import { list } from "../../../utils/CRUD";
+import express, { Response } from "express";
+import { body } from "express-validator";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IProjectsMCategory } from "../../../interfaces/projects_m_interfaces";
-import { body } from "express-validator";
-import hasError from "../../../utils/checkError";
+import asyncWrapper from "../../../utils/asyncWrapper";
+import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -18,8 +17,8 @@ const router = express.Router();
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMCategory[]>>) =>
-    list(req, res, "projects_m_categories")
-  )
+    list(req, res, "projects_m_categories"),
+  ),
 );
 
 /**
@@ -45,7 +44,7 @@ router.post(
       });
 
     successWithBaseResponse(res, category);
-  })
+  }),
 );
 
 /**
@@ -73,7 +72,7 @@ router.patch(
       });
 
     successWithBaseResponse(res, category);
-  })
+  }),
 );
 
 /**
@@ -92,7 +91,7 @@ router.delete(
     await pb.collection("projects_m_categories").delete(id);
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import * as CategoriesService from "../services/categoriesService";
-import { serverError, successWithBaseResponse } from "../../../utils/response";
-import { ICalendarCategory } from "../../../interfaces/calendar_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
+import { ICalendarCategory } from "../../../interfaces/calendar_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
+import * as CategoriesService from "../services/categoriesService";
 
 export const getAllCategories = async (
   req: Request,
-  res: Response<BaseResponse<ICalendarCategory[]>>
+  res: Response<BaseResponse<ICalendarCategory[]>>,
 ) => {
   const { pb } = req;
 
@@ -21,7 +21,7 @@ export const getAllCategories = async (
 
 export const createCategory = async (
   req: Request,
-  res: Response<BaseResponse<ICalendarCategory>>
+  res: Response<BaseResponse<ICalendarCategory>>,
 ) => {
   const { pb } = req;
   const categoryData = req.body;
@@ -36,7 +36,7 @@ export const createCategory = async (
 
 export const updateCategory = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarCategory>>
+  res: Response<BaseResponse<ICalendarCategory>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -48,7 +48,7 @@ export const updateCategory = async (
     const category = await CategoriesService.updateCategory(
       pb,
       id,
-      categoryData
+      categoryData,
     );
     successWithBaseResponse(res, category);
   } catch (error) {
@@ -58,7 +58,7 @@ export const updateCategory = async (
 
 export const deleteCategory = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>
+  res: Response<BaseResponse<undefined>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -80,7 +80,7 @@ export const deleteCategory = async (
 
 export const getCategoryById = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarCategory>>
+  res: Response<BaseResponse<ICalendarCategory>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;

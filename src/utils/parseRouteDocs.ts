@@ -47,7 +47,7 @@ export default function parseRouteDocs(raw: string): IRouteDocs {
         {
           const match =
             /@(?<tag>param|query|body) (?<name>\w*?) \((?<options>.*?)\) - (?<description>.+)/.exec(
-              row
+              row,
             )?.groups;
 
           if (!match) continue;
@@ -103,7 +103,7 @@ export default function parseRouteDocs(raw: string): IRouteDocs {
       case "response":
         const match =
           /@response (?<status>\d+)(?: \((?<body>.*?)\))? - (?<description>.+)/.exec(
-            row
+            row,
           )?.groups;
 
         if (!match) continue;

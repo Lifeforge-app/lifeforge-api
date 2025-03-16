@@ -15,7 +15,7 @@ const VirtualWardrobeEntrySchema = s.assign(
     front_image: s.string(),
     back_image: s.string(),
     is_favourite: s.boolean(),
-  })
+  }),
 );
 
 const VirtualWardrobeHistorySchema = s.object({

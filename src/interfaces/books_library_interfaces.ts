@@ -18,7 +18,7 @@ const BooksLibraryEntrySchema = s.assign(
     title: s.string(),
     year_published: s.number(),
     is_favourite: s.boolean(),
-  })
+  }),
 );
 
 const BooksLibraryCategorySchema = s.assign(
@@ -26,7 +26,7 @@ const BooksLibraryCategorySchema = s.assign(
   s.object({
     name: s.string(),
     icon: s.string(),
-  })
+  }),
 );
 
 const BooksLibraryLanguageSchema = s.assign(
@@ -34,7 +34,7 @@ const BooksLibraryLanguageSchema = s.assign(
   s.object({
     name: s.string(),
     icon: s.string(),
-  })
+  }),
 );
 
 const BooksLibraryFileTypeSchema = s.assign(
@@ -42,7 +42,7 @@ const BooksLibraryFileTypeSchema = s.assign(
   s.object({
     name: s.string(),
     count: s.number(),
-  })
+  }),
 );
 
 const BooksLibraryDownloadProcessSchema = s.object({
@@ -64,16 +64,16 @@ type IBooksLibraryDownloadProcess = s.Infer<
 >;
 
 export {
-  BooksLibraryEntrySchema,
   BooksLibraryCategorySchema,
-  BooksLibraryLanguageSchema,
-  BooksLibraryFileTypeSchema,
   BooksLibraryDownloadProcessSchema,
+  BooksLibraryEntrySchema,
+  BooksLibraryFileTypeSchema,
+  BooksLibraryLanguageSchema,
 };
 export type {
-  IBooksLibraryEntry,
   IBooksLibraryCategory,
-  IBooksLibraryLanguage,
-  IBooksLibraryFileType,
   IBooksLibraryDownloadProcess,
+  IBooksLibraryEntry,
+  IBooksLibraryFileType,
+  IBooksLibraryLanguage,
 };

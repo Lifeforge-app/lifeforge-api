@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { serverError, successWithBaseResponse } from "../../../utils/response";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IWalletAsset } from "../../../interfaces/wallet_interfaces";
-import * as AssetsServices from "../services/assetsService";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { serverError, successWithBaseResponse } from "../../../utils/response";
+import * as AssetsServices from "../services/assetsService";
 
 export const getAllAssets = async (
   req: Request,
-  res: Response<BaseResponse<IWalletAsset[]>>
+  res: Response<BaseResponse<IWalletAsset[]>>,
 ) => {
   const { pb } = req;
 
@@ -23,7 +23,7 @@ export const getAllAssets = async (
 
 export const createAsset = async (
   req: Request,
-  res: Response<BaseResponse<IWalletAsset>>
+  res: Response<BaseResponse<IWalletAsset>>,
 ) => {
   const { pb } = req;
   const { name, icon, starting_balance } = req.body;
@@ -44,7 +44,7 @@ export const createAsset = async (
 
 export const updateAsset = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletAsset>>
+  res: Response<BaseResponse<IWalletAsset>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -68,7 +68,7 @@ export const updateAsset = async (
 
 export const deleteAsset = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>
+  res: Response<BaseResponse<null>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;

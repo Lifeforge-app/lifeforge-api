@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { list } from "../../../utils/CRUD";
+import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get(
     list(req, res, "flashcards_cards", {
       filter: `deck='${id}'`,
     });
-  })
+  }),
 );
 
 router.put(
@@ -64,7 +64,7 @@ router.put(
     });
 
     successWithBaseResponse(res);
-  })
+  }),
 );
 
 export default router;

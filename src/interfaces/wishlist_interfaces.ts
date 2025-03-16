@@ -9,7 +9,7 @@ const WishlistListSchema = s.assign(
     name: s.string(),
     description: s.string(),
     item_count: s.number(),
-  })
+  }),
 );
 
 const WishlistEntrySchema = s.assign(
@@ -20,11 +20,11 @@ const WishlistEntrySchema = s.assign(
     price: s.number(),
     image: s.string(),
     list: s.string(),
-  })
+  }),
 );
 
 type IWishlistList = s.Infer<typeof WishlistListSchema>;
 type IWishlistEntry = s.Infer<typeof WishlistEntrySchema>;
 
-export { WishlistListSchema, WishlistEntrySchema };
-export type { IWishlistList, IWishlistEntry };
+export { WishlistEntrySchema, WishlistListSchema };
+export type { IWishlistEntry, IWishlistList };

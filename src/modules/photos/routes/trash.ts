@@ -1,5 +1,5 @@
 // @ts-nocheck
-import express, { Request, Response } from "express";
+import express from "express";
 import asyncWrapper from "../../../utils/asyncWrapper";
 import { successWithBaseResponse } from "../../../utils/response";
 
@@ -33,7 +33,7 @@ router.get(
     });
 
     successWithBaseResponse(res, photos);
-  })
+  }),
 );
 
 router.delete(
@@ -49,11 +49,11 @@ router.delete(
       photos.map(async (photo) => {
         await pb.collection("photos_dimensions").delete(photo.id);
         await pb.collection("photos_entries").delete(photo.photo);
-      })
+      }),
     );
 
     successWithBaseResponse(res, "All photos in trash have been deleted");
-  })
+  }),
 );
 
 export default router;

@@ -11,7 +11,7 @@ const IdeaBoxContainerSchema = s.assign(
     image_count: s.number(),
     link_count: s.number(),
     text_count: s.number(),
-  })
+  }),
 );
 
 const IdeaBoxFolderSchema = s.assign(
@@ -22,7 +22,7 @@ const IdeaBoxFolderSchema = s.assign(
     name: s.string(),
     container: s.string(),
     parent: s.optional(s.string()),
-  })
+  }),
 );
 
 const IdeaBoxEntrySchema = s.assign(
@@ -37,7 +37,7 @@ const IdeaBoxEntrySchema = s.assign(
     tags: s.array(s.string()),
     pinned: s.boolean(),
     archived: s.boolean(),
-  })
+  }),
 );
 
 const IdeaBoxTagSchema = s.assign(
@@ -48,7 +48,7 @@ const IdeaBoxTagSchema = s.assign(
     color: s.string(),
     container: s.string(),
     count: s.number(),
-  })
+  }),
 );
 
 type IIdeaBoxContainer = s.Infer<typeof IdeaBoxContainerSchema>;
@@ -58,8 +58,8 @@ type IIdeaBoxTag = s.Infer<typeof IdeaBoxTagSchema>;
 
 export {
   IdeaBoxContainerSchema,
-  IdeaBoxFolderSchema,
   IdeaBoxEntrySchema,
+  IdeaBoxFolderSchema,
   IdeaBoxTagSchema,
 };
-export type { IIdeaBoxContainer, IIdeaBoxFolder, IIdeaBoxEntry, IIdeaBoxTag };
+export type { IIdeaBoxContainer, IIdeaBoxEntry, IIdeaBoxFolder, IIdeaBoxTag };

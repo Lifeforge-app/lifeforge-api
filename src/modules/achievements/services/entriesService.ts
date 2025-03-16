@@ -3,7 +3,7 @@ import { IAchievementEntry } from "../../../interfaces/achievements_interfaces";
 
 export const getAllEntriesByDifficulty = async (
   pb: Pocketbase,
-  difficulty: "easy" | "medium" | "hard" | "impossible"
+  difficulty: "easy" | "medium" | "hard" | "impossible",
 ): Promise<IAchievementEntry[] | void> => {
   return pb
     .collection("achievements_entries")
@@ -17,7 +17,7 @@ export const getAllEntriesByDifficulty = async (
 
 export const createEntry = async (
   pb: Pocketbase,
-  data: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">
+  data: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">,
 ): Promise<IAchievementEntry | void> => {
   const { difficulty, title, thoughts } = data;
 
@@ -36,7 +36,7 @@ export const createEntry = async (
 export const updateEntry = async (
   pb: Pocketbase,
   id: string,
-  data: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">
+  data: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">,
 ): Promise<IAchievementEntry | void> => {
   const { difficulty, title, thoughts } = data;
 
@@ -54,7 +54,7 @@ export const updateEntry = async (
 
 export const deleteEntry = async (
   pb: Pocketbase,
-  id: string
+  id: string,
 ): Promise<boolean | void> => {
   return pb
     .collection("achievements_entries")

@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
-import { successWithBaseResponse } from "./response";
 import { BaseResponse } from "../interfaces/base_response";
-import hasError from "./checkError";
+import { successWithBaseResponse } from "./response";
 
 async function list<T>(
   req: Request,
   res: Response<BaseResponse<T[]>>,
   collection: string,
   options = {},
-  postProcess?: (data: T[]) => T[]
+  postProcess?: (data: T[]) => T[],
 ) {
   const { pb } = req;
 

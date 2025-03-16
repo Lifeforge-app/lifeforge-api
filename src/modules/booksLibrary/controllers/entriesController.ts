@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import * as EntriesService from "../services/entriesService";
-import { IBooksLibraryEntry } from "../../../interfaces/books_library_interfaces";
 import { BaseResponse } from "../../../interfaces/base_response";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import { IBooksLibraryEntry } from "../../../interfaces/books_library_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
+import { clientError, successWithBaseResponse } from "../../../utils/response";
+import * as EntriesService from "../services/entriesService";
 
 export const getAllEntries = async (
   req: Request,
-  res: Response<BaseResponse<IBooksLibraryEntry[]>>
+  res: Response<BaseResponse<IBooksLibraryEntry[]>>,
 ) => {
   const { pb } = req;
 
@@ -23,7 +23,7 @@ export const getAllEntries = async (
 
 export const updateEntry = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<IBooksLibraryEntry>>
+  res: Response<BaseResponse<IBooksLibraryEntry>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -62,7 +62,7 @@ export const updateEntry = async (
 
 export const toggleFavouriteStatus = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<IBooksLibraryEntry>>
+  res: Response<BaseResponse<IBooksLibraryEntry>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
@@ -83,7 +83,7 @@ export const toggleFavouriteStatus = async (
 
 export const deleteEntry = async (
   req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>
+  res: Response<BaseResponse<undefined>>,
 ) => {
   const { pb } = req;
   const { id } = req.params;
