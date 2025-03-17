@@ -161,5 +161,23 @@
   },
   "receipts": {
     "keepAfterScan": "扫描后保留收据"
+  },
+  "subsectionsTitleAndDesc": {
+    "assets": {
+      "title": "资产",
+      "description": "在您的钱包中安全高效地管理您的资产。"
+    },
+    "ledgers": {
+      "title": "分类账",
+      "description": "管理和查看您在账本中的财务交易和账户。"
+    },
+    "transactions": {
+      "title": "交易记录",
+      "description": "查看您的交易历史和详情。"
+    },
+    "financialStatements": {
+      "title": "财务报表",
+      "description": "查看详细的财务报表，以了解您账户的交易和余额情况。"
+    }
   }
 }

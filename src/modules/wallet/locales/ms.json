@@ -161,5 +161,23 @@
   },
   "receipts": {
     "keepAfterScan": "Simpan Resit Selepas Imbasan"
+  },
+  "subsectionsTitleAndDesc": {
+    "assets": {
+      "title": "Aset",
+      "description": "Urus aset anda dengan selamat dan cekap dalam dompet anda."
+    },
+    "ledgers": {
+      "title": "Buku Tunai",
+      "description": "Urus dan lihat transaksi kewangan dan akaun anda dalam lejer."
+    },
+    "transactions": {
+      "title": "Transaksi",
+      "description": "Lihat sejarah transaksi dan butiran."
+    },
+    "financialStatements": {
+      "title": "Penyata Kewangan",
+      "description": "Lihat penyata kewangan terperinci yang memberikan pandangan mengenai transaksi dan baki akaun anda."
+    }
   }
 }

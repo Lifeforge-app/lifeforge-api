@@ -161,5 +161,23 @@
   },
   "receipts": {
     "keepAfterScan": "Keep Receipt After Scan"
+  },
+  "subsectionsTitleAndDesc": {
+    "assets": {
+      "title": "Assets",
+      "description": "Manage your assets securely and efficiently in your wallet."
+    },
+    "ledgers": {
+      "title": "Ledgers",
+      "description": "Manage and view your financial transactions and accounts in the ledger."
+    },
+    "transactions": {
+      "title": "Transactions",
+      "description": "View your transaction history and details."
+    },
+    "financialStatements": {
+      "title": "Financial Statements",
+      "description": "View detailed financial statements that provide insights into your account's transactions and balances."
+    }
   }
 }

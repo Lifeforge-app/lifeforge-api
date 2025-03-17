@@ -289,6 +289,8 @@ export const getEachDay = async (pb: PocketBase) => {
     groupByDate[dateKey] = item.total_minutes;
   }
 
+  console.log(groupByDate);
+
   return Object.entries(groupByDate).map(([date, item]) => ({
     date,
     duration: item * 1000 * 60,
