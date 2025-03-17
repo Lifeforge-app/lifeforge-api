@@ -1,6 +1,5 @@
 import express from "express";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as tagsController from "../controllers/tagsController";
 import {
   validateCreateTag,
@@ -22,7 +21,7 @@ router.get(
   "/:container",
   validateGetTags,
   validationMiddleware,
-  asyncWrapper(tagsController.getTags),
+  tagsController.getTags,
 );
 
 /**
@@ -39,7 +38,7 @@ router.post(
   "/:container",
   validateCreateTag,
   validationMiddleware,
-  asyncWrapper(tagsController.createTag),
+  tagsController.createTag,
 );
 
 /**
@@ -56,7 +55,7 @@ router.patch(
   "/:id",
   validateUpdateTag,
   validationMiddleware,
-  asyncWrapper(tagsController.updateTag),
+  tagsController.updateTag,
 );
 
 /**
@@ -70,7 +69,7 @@ router.delete(
   "/:id",
   validateDeleteTag,
   validationMiddleware,
-  asyncWrapper(tagsController.deleteTag),
+  tagsController.deleteTag,
 );
 
 export default router;

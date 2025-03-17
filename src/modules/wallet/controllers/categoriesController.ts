@@ -11,14 +11,12 @@ export const getAllCategories = async (
 ) => {
   const { pb } = req;
 
-  const categories = await CategoriesService.getAllCategories(pb);
-
-  if (!categories) {
+  try {
+    const categories = await CategoriesService.getAllCategories(pb);
+    successWithBaseResponse(res, categories);
+  } catch (error) {
     serverError(res, "Failed to fetch categories");
-    return;
   }
-
-  successWithBaseResponse(res, categories);
 };
 
 export const createCategory = async (
@@ -28,19 +26,17 @@ export const createCategory = async (
   const { pb } = req;
   const { name, icon, color, type } = req.body;
 
-  const category = await CategoriesService.createCategory(pb, {
-    name,
-    icon,
-    color,
-    type,
-  });
-
-  if (!category) {
+  try {
+    const category = await CategoriesService.createCategory(pb, {
+      name,
+      icon,
+      color,
+      type,
+    });
+    successWithBaseResponse(res, category, 201);
+  } catch (error) {
     serverError(res, "Failed to create category");
-    return;
   }
-
-  successWithBaseResponse(res, category, 201);
 };
 
 export const updateCategory = async (
@@ -51,21 +47,21 @@ export const updateCategory = async (
   const { id } = req.params;
   const { name, icon, color, type } = req.body;
 
-  if (!(await checkExistence(req, res, "wallet_categories", id))) return;
-
-  const category = await CategoriesService.updateCategory(pb, id, {
-    name,
-    icon,
-    color,
-    type,
-  });
-
-  if (!category) {
-    serverError(res, "Failed to update category");
+  if (!(await checkExistence(req, res, "wallet_categories", id))) {
     return;
   }
 
-  successWithBaseResponse(res, category);
+  try {
+    const category = await CategoriesService.updateCategory(pb, id, {
+      name,
+      icon,
+      color,
+      type,
+    });
+    successWithBaseResponse(res, category);
+  } catch (error) {
+    serverError(res, "Failed to update category");
+  }
 };
 
 export const deleteCategory = async (
@@ -75,14 +71,14 @@ export const deleteCategory = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "wallet_categories", id))) return;
-
-  const isDeleted = await CategoriesService.deleteCategory(pb, id);
-
-  if (!isDeleted) {
-    serverError(res, "Failed to delete category");
+  if (!(await checkExistence(req, res, "wallet_categories", id))) {
     return;
   }
 
-  successWithBaseResponse(res, null);
+  try {
+    await CategoriesService.deleteCategory(pb, id);
+    successWithBaseResponse(res, undefined, 204);
+  } catch (error) {
+    serverError(res, "Failed to delete category");
+  }
 };

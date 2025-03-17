@@ -1,7 +1,6 @@
 import express from "express";
 import { singleUploadMiddlewareOfKey } from "../../../middleware/uploadMiddleware";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as containersController from "../controllers/containersController";
 import {
   validateContainerId,
@@ -22,7 +21,7 @@ router.get(
   "/valid/:id",
   validateContainerId,
   validationMiddleware,
-  asyncWrapper(containersController.checkContainerExists),
+  containersController.checkContainerExists,
 );
 
 /**
@@ -31,7 +30,7 @@ router.get(
  * @description Retrieve a list of all idea box containers.
  * @response 200 (IIdeaBoxContainer[]) - The list of idea box containers
  */
-router.get("/", asyncWrapper(containersController.getContainers));
+router.get("/", containersController.getContainers);
 
 /**
  * @protected
@@ -47,7 +46,7 @@ router.post(
   singleUploadMiddlewareOfKey("cover"),
   validateCreateContainer,
   validationMiddleware,
-  asyncWrapper(containersController.createContainer),
+  containersController.createContainer,
 );
 
 /**
@@ -65,7 +64,7 @@ router.patch(
   singleUploadMiddlewareOfKey("cover"),
   validateUpdateContainer,
   validationMiddleware,
-  asyncWrapper(containersController.updateContainer),
+  containersController.updateContainer,
 );
 
 /**
@@ -79,7 +78,7 @@ router.delete(
   "/:id",
   validateContainerId,
   validationMiddleware,
-  asyncWrapper(containersController.deleteContainer),
+  containersController.deleteContainer,
 );
 
 export default router;

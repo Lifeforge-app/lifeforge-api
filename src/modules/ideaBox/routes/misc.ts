@@ -1,6 +1,5 @@
 import express from "express";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as miscController from "../controllers/miscController";
 import {
   validateCheckValid,
@@ -15,7 +14,7 @@ router.get(
   "/path/:container/*",
   validateGetPath,
   validationMiddleware,
-  asyncWrapper(miscController.getPath),
+  miscController.getPath,
 );
 
 /**
@@ -29,21 +28,21 @@ router.get(
   "/valid/:container/*",
   validateCheckValid,
   validationMiddleware,
-  asyncWrapper(miscController.checkValid),
+  miscController.checkValid,
 );
 
 router.get(
   "/og-data/:id",
   validateGetOgData,
   validationMiddleware,
-  asyncWrapper(miscController.getOgData),
+  miscController.getOgData,
 );
 
 router.get(
   "/search",
   validateSearch,
   validationMiddleware,
-  asyncWrapper(miscController.search),
+  miscController.search,
 );
 
 export default router;

@@ -53,7 +53,9 @@ export const updateTag = async (
     const { id } = req.params;
     const { name, icon, color } = req.body;
 
-    if (!(await checkExistence(req, res, "idea_box_tags", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_tags", id))) {
+      return;
+    }
 
     const tag = await tagsService.updateTag(pb, id, name, icon, color);
     successWithBaseResponse(res, tag);
@@ -68,7 +70,9 @@ export const deleteTag = async (req: Request, res: Response<BaseResponse>) => {
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_tags", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_tags", id))) {
+      return;
+    }
 
     await tagsService.deleteTag(pb, id);
     successWithBaseResponse(res, undefined, 204);

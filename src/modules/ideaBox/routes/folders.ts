@@ -1,6 +1,5 @@
 import express from "express";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as foldersController from "../controllers/foldersController";
 import {
   validateCreateFolder,
@@ -24,7 +23,7 @@ router.get(
   "/:container/*",
   validateGetFolders,
   validationMiddleware,
-  asyncWrapper(foldersController.getFolders),
+  foldersController.getFolders,
 );
 
 /**
@@ -41,7 +40,7 @@ router.post(
   "/",
   validateCreateFolder,
   validationMiddleware,
-  asyncWrapper(foldersController.createFolder),
+  foldersController.createFolder,
 );
 
 /**
@@ -58,21 +57,21 @@ router.patch(
   "/:id",
   validateUpdateFolder,
   validationMiddleware,
-  asyncWrapper(foldersController.updateFolder),
+  foldersController.updateFolder,
 );
 
 router.post(
   "/move/:id",
   validateMoveFolder,
   validationMiddleware,
-  asyncWrapper(foldersController.moveFolder),
+  foldersController.moveFolder,
 );
 
 router.delete(
   "/move/:id",
   validateRemoveFromFolder,
   validationMiddleware,
-  asyncWrapper(foldersController.removeFromFolder),
+  foldersController.removeFromFolder,
 );
 
 /**
@@ -86,7 +85,7 @@ router.delete(
   "/:id",
   validateDeleteFolder,
   validationMiddleware,
-  asyncWrapper(foldersController.deleteFolder),
+  foldersController.deleteFolder,
 );
 
 export default router;

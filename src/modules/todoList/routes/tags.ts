@@ -1,10 +1,6 @@
-import express, { Response } from "express";
-import { body } from "express-validator";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { ITodoListTag } from "../../../interfaces/todo_list_interfaces";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { list } from "../../../utils/CRUD";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
+import * as tagsController from "../controllers/tagsController";
+import { createOrUpdateTagValidation } from "../middlewares/tagsValidation";
 
 const router = express.Router();
 
@@ -14,12 +10,7 @@ const router = express.Router();
  * @description Retrieve a list of all todo tags.
  * @response 200 (ITodoListTag[]) - The list of todo tags
  */
-router.get(
-  "/",
-  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag[]>>) =>
-    list(req, res, "todo_tags"),
-  ),
-);
+router.get("/", tagsController.getAllTags);
 
 /**
  * @protected
@@ -28,20 +19,7 @@ router.get(
  * @body name (string, required) - The name of the tag
  * @response 201 (ITodoListTag) - The created todo tag
  */
-router.post(
-  "/",
-  body("name").exists().notEmpty(),
-  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag>>) => {
-    const { pb } = req;
-    const { name } = req.body;
-
-    const tag: ITodoListTag = await pb.collection("todo_tags").create({
-      name,
-    });
-
-    successWithBaseResponse(res, tag);
-  }),
-);
+router.post("/", createOrUpdateTagValidation, tagsController.createTag);
 
 /**
  * @protected
@@ -51,21 +29,7 @@ router.post(
  * @body name (string, required) - The name of the tag
  * @response 200 (ITodoListTag) - The updated todo tag
  */
-router.patch(
-  "/:id",
-  body("name").exists().notEmpty(),
-  asyncWrapper(async (req, res: Response<BaseResponse<ITodoListTag>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { name } = req.body;
-
-    const tag: ITodoListTag = await pb.collection("todo_tags").update(id, {
-      name,
-    });
-
-    successWithBaseResponse(res, tag);
-  }),
-);
+router.patch("/:id", createOrUpdateTagValidation, tagsController.updateTag);
 
 /**
  * @protected
@@ -74,16 +38,6 @@ router.patch(
  * @param id (string, required, must_exist) - The ID of the tag
  * @response 204 - The todo tag was deleted successfully
  */
-router.delete(
-  "/:id",
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    await pb.collection("todo_tags").delete(id);
-
-    successWithBaseResponse(res, undefined, 204);
-  }),
-);
+router.delete("/:id", tagsController.deleteTag);
 
 export default router;

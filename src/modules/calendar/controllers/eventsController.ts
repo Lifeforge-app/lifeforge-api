@@ -60,7 +60,9 @@ export const updateEvent = async (
   const { id } = req.params;
   const eventData = req.body;
 
-  if (!(await checkExistence(req, res, "calendar_events", id))) return;
+  if (!(await checkExistence(req, res, "calendar_events", id))) {
+    return;
+  }
 
   try {
     const event = await EventsService.updateEvent(pb, id, eventData);
@@ -77,7 +79,9 @@ export const deleteEvent = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "calendar_events", id))) return;
+  if (!(await checkExistence(req, res, "calendar_events", id))) {
+    return;
+  }
 
   try {
     const isDeleted = await EventsService.deleteEvent(pb, id);
@@ -99,7 +103,9 @@ export const getEventById = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "calendar_events", id))) return;
+  if (!(await checkExistence(req, res, "calendar_events", id))) {
+    return;
+  }
 
   try {
     const event = await EventsService.getEventById(pb, id);

@@ -1,6 +1,6 @@
 import express from "express";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import * as CategoriesController from "../controllers/categoryController";
+import * as CategoriesController from "../controllers/categoriesController";
 import { validateBodyData, validateId } from "../middlewares/assetsValidation";
 import { validateType } from "../middlewares/categoriesValidation";
 

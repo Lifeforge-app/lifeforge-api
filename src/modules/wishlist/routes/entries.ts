@@ -38,7 +38,9 @@ router.get(
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_lists", id))) {
+      return;
+    }
 
     list(req, res, "wishlist_entries", {
       filter: `list = "${id}" ${
@@ -142,7 +144,9 @@ router.patch(
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_entries", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_entries", id))) {
+      return;
+    }
 
     const { list, name, url, price, imageRemoved } = req.body;
     const file = req.file;
@@ -195,7 +199,9 @@ router.patch(
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_entries", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_entries", id))) {
+      return;
+    }
 
     const oldEntry = await req.pb.collection("wishlist_entries").getOne(id);
 
@@ -218,7 +224,9 @@ router.delete(
   asyncWrapper(async (req, res) => {
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "wishlist_entries", id))) return;
+    if (!(await checkExistence(req, res, "wishlist_entries", id))) {
+      return;
+    }
 
     const entry = await req.pb.collection("wishlist_entries").getOne(id);
 

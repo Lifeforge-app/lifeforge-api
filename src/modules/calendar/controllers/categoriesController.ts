@@ -42,7 +42,9 @@ export const updateCategory = async (
   const { id } = req.params;
   const categoryData = req.body;
 
-  if (!(await checkExistence(req, res, "calendar_categories", id))) return;
+  if (!(await checkExistence(req, res, "calendar_categories", id))) {
+    return;
+  }
 
   try {
     const category = await CategoriesService.updateCategory(
@@ -63,7 +65,9 @@ export const deleteCategory = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "calendar_categories", id))) return;
+  if (!(await checkExistence(req, res, "calendar_categories", id))) {
+    return;
+  }
 
   try {
     const isDeleted = await CategoriesService.deleteCategory(pb, id);
@@ -85,7 +89,9 @@ export const getCategoryById = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "calendar_categories", id))) return;
+  if (!(await checkExistence(req, res, "calendar_categories", id))) {
+    return;
+  }
 
   try {
     const category = await CategoriesService.getCategoryById(pb, id);

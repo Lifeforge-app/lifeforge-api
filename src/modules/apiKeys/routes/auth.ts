@@ -1,72 +1,64 @@
-import bcrypt from "bcrypt";
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
-import { BaseResponse } from "../../../interfaces/base_response";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import checkOTP from "../../../utils/checkOTP";
-import { decrypt2 } from "../../../utils/encryption";
-import { successWithBaseResponse } from "../../../utils/response";
-import { challenge } from "../index";
+import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
+import * as authController from "../controllers/authController";
+import {
+  createOrUpdateMasterPasswordValidation,
+  verifyMasterPasswordValidation,
+  verifyOTPValidation,
+} from "../middlewares/authValidation";
 
 const router = express.Router();
 
-router.get(
-  "/challenge",
-  asyncWrapper(async (_: Request, res: Response<BaseResponse<string>>) => {
-    successWithBaseResponse(res, challenge);
-  }),
-);
+/**
+ * @protected
+ * @summary Get authentication challenge
+ * @description Retrieves the challenge string for authentication.
+ * @response 200 (string) - The challenge string
+ */
+router.get("/challenge", authController.getChallenge);
 
+/**
+ * @protected
+ * @summary Create or update API keys master password
+ * @description Creates or updates the master password for API keys management.
+ * @body id (string, required) - The user ID
+ * @body password (string, required) - The master password
+ * @response 200 - Password was successfully saved
+ */
 router.post(
   "/",
-  [body("id").exists().notEmpty(), body("password").exists().notEmpty()],
-  asyncWrapper(async (req, res: Response<BaseResponse>) => {
-    const { id, password } = req.body;
-    const { pb } = req;
-
-    const salt = await bcrypt.genSalt(10);
-    const APIKeysMasterPasswordHash = await bcrypt.hash(password, salt);
-
-    await pb.collection("users").update(id, {
-      APIKeysMasterPasswordHash,
-    });
-
-    successWithBaseResponse(res);
-  }),
+  createOrUpdateMasterPasswordValidation,
+  validationMiddleware,
+  authController.createOrUpdateMasterPassword,
 );
 
+/**
+ * @protected
+ * @summary Verify master password
+ * @description Verifies if the provided master password is correct.
+ * @body password (string, required) - The master password to verify
+ * @response 200 (boolean) - Whether the password is correct
+ */
 router.post(
   "/verify",
-  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
-    const { pb } = req;
-    const { password } = req.body;
-    const id = pb.authStore.record?.id;
-
-    if (!id) {
-      successWithBaseResponse(res, false);
-      return;
-    }
-
-    const decryptedMaster = decrypt2(password, challenge);
-
-    const user = await pb.collection("users").getOne(id);
-    const { APIKeysMasterPasswordHash } = user;
-
-    const isMatch = await bcrypt.compare(
-      decryptedMaster,
-      APIKeysMasterPasswordHash,
-    );
-
-    successWithBaseResponse(res, isMatch);
-  }),
+  verifyMasterPasswordValidation,
+  validationMiddleware,
+  authController.verifyMasterPassword,
 );
 
+/**
+ * @protected
+ * @summary Verify OTP
+ * @description Verifies if the provided OTP is correct.
+ * @body otp (string, required) - The OTP to verify
+ * @body otpId (string, required) - The OTP ID
+ * @response 200 (boolean) - Whether the OTP is correct
+ */
 router.post(
   "/otp",
-  [body("otp").isString().notEmpty(), body("otpId").isString().notEmpty()],
-  asyncWrapper(async (req, res: Response<BaseResponse<boolean>>) => {
-    checkOTP(req, res, challenge);
-  }),
+  verifyOTPValidation,
+  validationMiddleware,
+  authController.verifyOTP,
 );
 
 export default router;

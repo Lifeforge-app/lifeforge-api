@@ -1,33 +1,20 @@
 import express from "express";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as libgenController from "../controllers/libgenController";
 
 const router = express.Router();
 
-router.get("/search", asyncWrapper(libgenController.searchBooks));
+router.get("/search", libgenController.searchBooks);
 
-router.get("/covers/*", asyncWrapper(libgenController.fetchCover));
+router.get("/covers/*", libgenController.fetchCover);
 
-router.get("/details/:md5", asyncWrapper(libgenController.getBookDetails));
+router.get("/details/:md5", libgenController.getBookDetails);
 
-router.get(
-  "/local-library-data/:md5",
-  asyncWrapper(libgenController.getLocalLibraryData),
-);
+router.get("/local-library-data/:md5", libgenController.getLocalLibraryData);
 
-router.post(
-  "/add-to-library/:md5",
-  asyncWrapper(libgenController.addToLibrary),
-);
+router.post("/add-to-library/:md5", libgenController.addToLibrary);
 
-router.get(
-  "/download-progresses",
-  asyncWrapper(libgenController.getDownloadProgresses),
-);
+router.get("/download-progresses", libgenController.getDownloadProgresses);
 
-router.delete(
-  "/download-progresses/:md5",
-  asyncWrapper(libgenController.cancelDownload),
-);
+router.delete("/download-progresses/:md5", libgenController.cancelDownload);
 
 export default router;

@@ -11,14 +11,12 @@ export const getAllAssets = async (
 ) => {
   const { pb } = req;
 
-  const assets = await AssetsServices.getAllAssets(pb);
-
-  if (!assets) {
+  try {
+    const assets = await AssetsServices.getAllAssets(pb);
+    successWithBaseResponse(res, assets);
+  } catch (error) {
     serverError(res, "Failed to fetch assets");
-    return;
   }
-
-  successWithBaseResponse(res, assets);
 };
 
 export const createAsset = async (
@@ -28,18 +26,16 @@ export const createAsset = async (
   const { pb } = req;
   const { name, icon, starting_balance } = req.body;
 
-  const asset = await AssetsServices.createAsset(pb, {
-    name,
-    icon,
-    starting_balance,
-  });
-
-  if (!asset) {
+  try {
+    const asset = await AssetsServices.createAsset(pb, {
+      name,
+      icon,
+      starting_balance,
+    });
+    successWithBaseResponse(res, asset, 201);
+  } catch (error) {
     serverError(res, "Failed to create asset");
-    return;
   }
-
-  successWithBaseResponse(res, asset, 201);
 };
 
 export const updateAsset = async (
@@ -50,20 +46,20 @@ export const updateAsset = async (
   const { id } = req.params;
   const { name, icon, starting_balance } = req.body;
 
-  if (!(await checkExistence(req, res, "wallet_assets", id))) return;
-
-  const asset = await AssetsServices.updateAsset(pb, id, {
-    name,
-    icon,
-    starting_balance,
-  });
-
-  if (!asset) {
-    serverError(res, "Failed to update asset");
+  if (!(await checkExistence(req, res, "wallet_assets", id))) {
     return;
   }
 
-  successWithBaseResponse(res, asset);
+  try {
+    const asset = await AssetsServices.updateAsset(pb, id, {
+      name,
+      icon,
+      starting_balance,
+    });
+    successWithBaseResponse(res, asset);
+  } catch (error) {
+    serverError(res, "Failed to update asset");
+  }
 };
 
 export const deleteAsset = async (
@@ -73,14 +69,14 @@ export const deleteAsset = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "wallet_assets", id))) return;
-
-  const isDeleted = await AssetsServices.deleteAsset(pb, id);
-
-  if (!isDeleted) {
-    serverError(res, "Failed to delete asset");
+  if (!(await checkExistence(req, res, "wallet_assets", id))) {
     return;
   }
 
-  successWithBaseResponse(res, undefined, 204);
+  try {
+    await AssetsServices.deleteAsset(pb, id);
+    successWithBaseResponse(res, undefined, 204);
+  } catch (error) {
+    serverError(res, "Failed to delete asset");
+  }
 };

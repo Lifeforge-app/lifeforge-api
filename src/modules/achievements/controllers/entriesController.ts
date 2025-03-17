@@ -54,7 +54,9 @@ export const updateEntry = async (
   const { id } = req.params;
   const { difficulty, title, thoughts } = req.body;
 
-  if (!(await checkExistence(req, res, "achievements_entries", id))) return;
+  if (!(await checkExistence(req, res, "achievements_entries", id))) {
+    return;
+  }
 
   const achievement = await EntriesService.updateEntry(pb, id, {
     difficulty,
@@ -77,7 +79,9 @@ export const deleteEntry = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "achievements_entries", id))) return;
+  if (!(await checkExistence(req, res, "achievements_entries", id))) {
+    return;
+  }
 
   const isDeleted = await EntriesService.deleteEntry(pb, id);
 

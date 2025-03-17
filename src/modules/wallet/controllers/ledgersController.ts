@@ -11,14 +11,12 @@ export const getAllLedgers = async (
 ) => {
   const { pb } = req;
 
-  const ledgers = await LedgersService.getAllLedgers(pb);
-
-  if (!ledgers) {
+  try {
+    const ledgers = await LedgersService.getAllLedgers(pb);
+    successWithBaseResponse(res, ledgers);
+  } catch (error) {
     serverError(res, "Failed to fetch ledgers");
-    return;
   }
-
-  successWithBaseResponse(res, ledgers);
 };
 
 export const createLedger = async (
@@ -28,18 +26,16 @@ export const createLedger = async (
   const { pb } = req;
   const { name, icon, color } = req.body;
 
-  const ledger = await LedgersService.createLedger(pb, {
-    name,
-    icon,
-    color,
-  });
-
-  if (!ledger) {
-    serverError(res, "Failed to fetch ledgers");
-    return;
+  try {
+    const ledger = await LedgersService.createLedger(pb, {
+      name,
+      icon,
+      color,
+    });
+    successWithBaseResponse(res, ledger, 201);
+  } catch (error) {
+    serverError(res, "Failed to create ledger");
   }
-
-  successWithBaseResponse(res, ledger, 201);
 };
 
 export const updateLedger = async (
@@ -50,20 +46,20 @@ export const updateLedger = async (
   const { id } = req.params;
   const { name, icon, color } = req.body;
 
-  if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
-
-  const ledger = await LedgersService.updateLedger(pb, id, {
-    name,
-    icon,
-    color,
-  });
-
-  if (!ledger) {
-    serverError(res, "Failed to update ledger");
+  if (!(await checkExistence(req, res, "wallet_ledgers", id))) {
     return;
   }
 
-  successWithBaseResponse(res, ledger);
+  try {
+    const ledger = await LedgersService.updateLedger(pb, id, {
+      name,
+      icon,
+      color,
+    });
+    successWithBaseResponse(res, ledger);
+  } catch (error) {
+    serverError(res, "Failed to update ledger");
+  }
 };
 
 export const deleteLedger = async (
@@ -73,14 +69,14 @@ export const deleteLedger = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "wallet_ledgers", id))) return;
-
-  const isDeleted = await LedgersService.deleteLedger(pb, id);
-
-  if (!isDeleted) {
-    serverError(res, "Failed to delete ledger");
+  if (!(await checkExistence(req, res, "wallet_ledgers", id))) {
     return;
   }
 
-  successWithBaseResponse(res, undefined, 204);
+  try {
+    await LedgersService.deleteLedger(pb, id);
+    successWithBaseResponse(res, undefined, 204);
+  } catch (error) {
+    serverError(res, "Failed to delete ledger");
+  }
 };

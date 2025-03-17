@@ -1,7 +1,6 @@
 import express from "express";
 import multer from "multer";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as ideasController from "../controllers/ideasController";
 import {
   validateArchiveIdea,
@@ -29,7 +28,7 @@ router.get(
   "/:container/*",
   validateGetIdeas,
   validationMiddleware,
-  asyncWrapper(ideasController.getIdeas),
+  ideasController.getIdeas,
 );
 
 /**
@@ -50,7 +49,7 @@ router.post(
   multer().single("image") as any,
   validateCreateIdea,
   validationMiddleware,
-  asyncWrapper(ideasController.createIdea),
+  ideasController.createIdea,
 );
 
 /**
@@ -67,7 +66,7 @@ router.patch(
   "/:id",
   validateUpdateIdea,
   validationMiddleware,
-  asyncWrapper(ideasController.updateIdea),
+  ideasController.updateIdea,
 );
 
 /**
@@ -81,7 +80,7 @@ router.delete(
   "/:id",
   validateDeleteIdea,
   validationMiddleware,
-  asyncWrapper(ideasController.deleteIdea),
+  ideasController.deleteIdea,
 );
 
 /**
@@ -95,7 +94,7 @@ router.post(
   "/pin/:id",
   validatePinIdea,
   validationMiddleware,
-  asyncWrapper(ideasController.pinIdea),
+  ideasController.pinIdea,
 );
 
 /**
@@ -109,7 +108,7 @@ router.post(
   "/archive/:id",
   validateArchiveIdea,
   validationMiddleware,
-  asyncWrapper(ideasController.archiveIdea),
+  ideasController.archiveIdea,
 );
 
 /**
@@ -124,7 +123,7 @@ router.post(
   "/move/:id",
   validateMoveIdea,
   validationMiddleware,
-  asyncWrapper(ideasController.moveIdea),
+  ideasController.moveIdea,
 );
 
 /**
@@ -138,7 +137,7 @@ router.delete(
   "/move/:id",
   validateRemoveFromFolder,
   validationMiddleware,
-  asyncWrapper(ideasController.removeFromFolder),
+  ideasController.removeFromFolder,
 );
 
 export default router;

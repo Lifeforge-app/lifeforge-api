@@ -117,7 +117,10 @@ export const getOgData = async (
   req: Request,
   res: Response,
 ) => {
-  if (!(await checkExistence(req, res, "idea_box_entries", id))) return null;
+  if (!(await checkExistence(req, res, "idea_box_entries", id))) {
+    return;
+  }
+  null;
 
   const data = await pb
     .collection("idea_box_entries")

@@ -6,7 +6,6 @@ import {
   IWalletTransactionEntry,
 } from "../../../interfaces/wallet_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
-import { getAPIKey } from "../../../utils/getAPIKey";
 import {
   clientError,
   serverError,
@@ -20,14 +19,12 @@ export const getAllTransactions = async (
 ) => {
   const { pb } = req;
 
-  const transactions = await TransactionsService.getAllTransactions(pb);
-
-  if (!transactions) {
+  try {
+    const transactions = await TransactionsService.getAllTransactions(pb);
+    successWithBaseResponse(res, transactions);
+  } catch (error) {
     serverError(res, "Failed to fetch transactions");
-    return;
   }
-
-  successWithBaseResponse(res, transactions);
 };
 
 export const getIncomeExpensesSummary = async (
@@ -37,18 +34,16 @@ export const getIncomeExpensesSummary = async (
   const { pb } = req;
   const { year, month } = req.query;
 
-  const summary = await TransactionsService.getIncomeExpensesSummary(
-    pb,
-    year,
-    month,
-  );
-
-  if (!summary) {
+  try {
+    const summary = await TransactionsService.getIncomeExpensesSummary(
+      pb,
+      year,
+      month,
+    );
+    successWithBaseResponse(res, summary);
+  } catch (error) {
     serverError(res, "Failed to fetch summary");
-    return;
   }
-
-  successWithBaseResponse(res, summary);
 };
 
 export const createTransaction = async (
@@ -97,29 +92,27 @@ export const createTransaction = async (
     }
   }
 
-  const transaction = await TransactionsService.createTransaction(
-    pb,
-    {
-      particulars,
-      date,
-      amount,
-      category,
-      location,
-      asset,
-      ledger,
-      type,
-      fromAsset,
-      toAsset,
-    },
-    req.file,
-  );
-
-  if (!transaction) {
+  try {
+    const transaction = await TransactionsService.createTransaction(
+      pb,
+      {
+        particulars,
+        date,
+        amount,
+        category,
+        location,
+        asset,
+        ledger,
+        type,
+        fromAsset,
+        toAsset,
+      },
+      req.file,
+    );
+    successWithBaseResponse(res, transaction, 201);
+  } catch (error) {
     serverError(res, "Failed to create transaction");
-    return;
   }
-
-  successWithBaseResponse(res, transaction, 201);
 };
 
 export const updateTransaction = async (
@@ -159,29 +152,27 @@ export const updateTransaction = async (
     return;
   }
 
-  const transaction = await TransactionsService.updateTransaction(
-    pb,
-    id,
-    {
-      particulars,
-      date,
-      amount,
-      location,
-      category,
-      asset,
-      ledger,
-      type,
-    },
-    req.file,
-    removeReceipt,
-  );
-
-  if (!transaction) {
+  try {
+    const transaction = await TransactionsService.updateTransaction(
+      pb,
+      id,
+      {
+        particulars,
+        date,
+        amount,
+        location,
+        category,
+        asset,
+        ledger,
+        type,
+      },
+      req.file,
+      removeReceipt,
+    );
+    successWithBaseResponse(res, transaction);
+  } catch (error) {
     serverError(res, "Failed to update transaction");
-    return;
   }
-
-  successWithBaseResponse(res, transaction);
 };
 
 export const deleteTransaction = async (
@@ -191,16 +182,21 @@ export const deleteTransaction = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "wallet_transactions", id))) return;
-
-  const isDeleted = await TransactionsService.deleteTransaction(pb, id);
-
-  if (!isDeleted) {
-    serverError(res, "Failed to delete transaction");
+  if (!(await checkExistence(req, res, "wallet_transactions", id))) {
     return;
   }
 
-  successWithBaseResponse(res, undefined, 204);
+  try {
+    const isDeleted = await TransactionsService.deleteTransaction(pb, id);
+
+    if (isDeleted) {
+      successWithBaseResponse(res, undefined, 204);
+    } else {
+      serverError(res, "Failed to delete transaction");
+    }
+  } catch (error) {
+    serverError(res, "Failed to delete transaction");
+  }
 };
 
 export const scanReceipt = async (
@@ -214,19 +210,10 @@ export const scanReceipt = async (
     return;
   }
 
-  const key = await getAPIKey("openai", req.pb);
-
-  if (!key) {
-    serverError(res, "API key not found");
-    return;
-  }
-
-  const result = await TransactionsService.scanReceipt(file, key);
-
-  if (!result) {
+  try {
+    const result = await TransactionsService.scanReceipt(req.pb, file);
+    successWithBaseResponse(res, result);
+  } catch (error) {
     serverError(res, "Error scanning receipt");
-    return;
   }
-
-  successWithBaseResponse(res, result);
 };

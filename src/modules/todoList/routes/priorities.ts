@@ -1,10 +1,7 @@
-import express, { Response } from "express";
-import { body } from "express-validator";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { ITodoPriority } from "../../../interfaces/todo_list_interfaces";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { list } from "../../../utils/CRUD";
-import { successWithBaseResponse } from "../../../utils/response";
+import express from "express";
+import validationMiddleware from "../../../middleware/validationMiddleware";
+import * as prioritiesController from "../controllers/prioritiesController";
+import { createOrUpdatePriorityValidation } from "../middlewares/prioritiesValidation";
 
 const router = express.Router();
 
@@ -14,12 +11,7 @@ const router = express.Router();
  * @description Retrieve a list of all todo priorities.
  * @response 200 (ITodoPriority[]) - The list of todo priorities
  */
-router.get(
-  "/",
-  asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority[]>>) =>
-    list(req, res, "todo_priorities"),
-  ),
-);
+router.get("/", prioritiesController.getAllPriorities);
 
 /**
  * @protected
@@ -31,20 +23,9 @@ router.get(
  */
 router.post(
   "/",
-  [body("name").exists().notEmpty(), body("color").exists().isHexColor()],
-  asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority>>) => {
-    const { pb } = req;
-    const { name, color } = req.body;
-
-    const priority: ITodoPriority = await pb
-      .collection("todo_priorities")
-      .create({
-        name,
-        color,
-      });
-
-    successWithBaseResponse(res, priority);
-  }),
+  createOrUpdatePriorityValidation,
+  validationMiddleware,
+  prioritiesController.createPriority,
 );
 
 /**
@@ -58,21 +39,9 @@ router.post(
  */
 router.patch(
   "/:id",
-  [body("name").exists().notEmpty(), body("color").exists().isHexColor()],
-  asyncWrapper(async (req, res: Response<BaseResponse<ITodoPriority>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { name, color } = req.body;
-
-    const priority: ITodoPriority = await pb
-      .collection("todo_priorities")
-      .update(id, {
-        name,
-        color,
-      });
-
-    successWithBaseResponse(res, priority);
-  }),
+  createOrUpdatePriorityValidation,
+  validationMiddleware,
+  prioritiesController.updatePriority,
 );
 
 /**
@@ -82,16 +51,6 @@ router.patch(
  * @param id (string, required, must_exist) - The ID of the todo priority
  * @response 204 - The todo priority was successfully deleted
  */
-router.delete(
-  "/:id",
-  asyncWrapper(async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    await pb.collection("todo_priorities").delete(id);
-
-    successWithBaseResponse(res, undefined, 204);
-  }),
-);
+router.delete("/:id", prioritiesController.deletePriority);
 
 export default router;

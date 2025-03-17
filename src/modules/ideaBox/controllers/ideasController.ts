@@ -132,7 +132,9 @@ export const updateIdea = async (
     const { id } = req.params;
     const { title, content, type, tags } = req.body;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) {
+      return;
+    }
 
     let data;
     switch (type) {
@@ -173,7 +175,9 @@ export const deleteIdea = async (req: Request, res: Response<BaseResponse>) => {
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) {
+      return;
+    }
 
     const idea = await ideasService.deleteIdea(pb, id);
 
@@ -196,7 +200,9 @@ export const pinIdea = async (
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) {
+      return;
+    }
 
     const entry = await ideasService.updatePinStatus(pb, id);
     successWithBaseResponse(res, entry);
@@ -214,7 +220,9 @@ export const archiveIdea = async (
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) {
+      return;
+    }
 
     const entry = await ideasService.updateArchiveStatus(pb, id);
     successWithBaseResponse(res, entry);
@@ -259,7 +267,9 @@ export const removeFromFolder = async (
     const { pb } = req;
     const { id } = req.params;
 
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
+    if (!(await checkExistence(req, res, "idea_box_entries", id))) {
+      return;
+    }
 
     const entry = await ideasService.removeFromFolder(pb, id);
     successWithBaseResponse(res, entry);

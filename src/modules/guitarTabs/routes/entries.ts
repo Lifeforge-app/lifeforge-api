@@ -1,7 +1,6 @@
 import express from "express";
 import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
 import validationMiddleware from "../../../middleware/validationMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
 import * as entriesController from "../controllers/entriesController";
 import {
   validateDeleteEntry,
@@ -12,44 +11,40 @@ import {
 
 const router = express.Router();
 
-router.get("/sidebar-data", asyncWrapper(entriesController.getSidebarData));
+router.get("/sidebar-data", entriesController.getSidebarData);
 
 router.get(
   "/",
   validateGetEntries,
   validationMiddleware,
-  asyncWrapper(entriesController.getEntries),
+  entriesController.getEntries,
 );
 
-router.post(
-  "/upload",
-  uploadMiddleware,
-  asyncWrapper(entriesController.uploadFiles),
-);
+router.post("/upload", uploadMiddleware, entriesController.uploadFiles);
 
-router.get("/process-status", asyncWrapper(entriesController.getProcessStatus));
+router.get("/process-status", entriesController.getProcessStatus);
 
 router.patch(
   "/:id",
   validateUpdateEntry,
   validationMiddleware,
-  asyncWrapper(entriesController.updateEntry),
+  entriesController.updateEntry,
 );
 
 router.delete(
   "/:id",
   validateDeleteEntry,
   validationMiddleware,
-  asyncWrapper(entriesController.deleteEntry),
+  entriesController.deleteEntry,
 );
 
-router.get("/download-all", asyncWrapper(entriesController.downloadAllEntries));
+router.get("/download-all", entriesController.downloadAllEntries);
 
 router.post(
   "/favourite/:id",
   validateToggleFavorite,
   validationMiddleware,
-  asyncWrapper(entriesController.toggleFavorite),
+  entriesController.toggleFavorite,
 );
 
 export default router;
