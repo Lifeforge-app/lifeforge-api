@@ -54,9 +54,8 @@ function dijkstraWithTransfers(
     for (let neighbor in graph[minNode]) {
       let newDist = distances[minNode] + graph[minNode][neighbor];
 
-      // 🚀 检查是否需要换乘（前一站、当前站、下一站）
-      let prevStation = prev[minNode]; // 前一站
-      let nextStation = neighbor; // 下一站
+      let prevStation = prev[minNode];
+      let nextStation = neighbor;
 
       if (prevStation && nextStation) {
         let prevLines = lines[prevStation] || [];

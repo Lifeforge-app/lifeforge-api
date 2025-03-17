@@ -20,6 +20,7 @@ const WishlistEntrySchema = s.assign(
     price: s.number(),
     image: s.string(),
     list: s.string(),
+    bought: s.boolean(),
   }),
 );
 

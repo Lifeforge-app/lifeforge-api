@@ -1,12 +1,10 @@
-import { list, validate } from "@utils/CRUD";
-import { checkExistence } from "@utils/PBRecordValidator";
 import asyncWrapper from "@utils/asyncWrapper";
-import { successWithBaseResponse } from "@utils/response";
-import express, { Response } from "express";
-import { body } from "express-validator";
-import { BaseResponse } from "../../../core/typescript/base_response";
-import { IIdeaBoxContainer } from "../../ideaBox/typescript/ideabox_interfaces";
-import { IWishlistList } from "../typescript/wishlist_interfaces";
+import express from "express";
+import * as listsController from "../controllers/lists.controller";
+import {
+  validateListData,
+  validateListId,
+} from "../middlewares/listsValidation";
 
 const router = express.Router();
 
@@ -17,23 +15,7 @@ const router = express.Router();
  * @param id (string, required) - The ID of the wishlist list
  * @response 200
  */
-router.get(
-  "/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse<IWishlistList>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-      return;
-    }
-
-    const list: IWishlistList = await pb
-      .collection("wishlist_lists")
-      .getOne(id);
-
-    successWithBaseResponse(res, list);
-  }),
-);
+router.get("/:id", validateListId, asyncWrapper(listsController.getList));
 
 /**
  * @protected
@@ -44,7 +26,8 @@ router.get(
  */
 router.get(
   "/valid/:id",
-  asyncWrapper(async (req, res) => validate(req, res, "wishlist_lists")),
+  validateListId,
+  asyncWrapper(listsController.checkListExists),
 );
 
 /**
@@ -53,12 +36,7 @@ router.get(
  * @description Retrieve a list of all wishlist lists.
  * @response 200 (IWishlistList[]) - The list of wishlist lists
  */
-router.get(
-  "/",
-  asyncWrapper(async (req, res: Response<BaseResponse<IWishlistList[]>>) =>
-    list(req, res, "wishlist_lists"),
-  ),
-);
+router.get("/", asyncWrapper(listsController.getAllLists));
 
 /**
  * @protected
@@ -70,28 +48,7 @@ router.get(
  * @body icon (string) - The icon of the list
  * @response 201 (IWishlistList) - The created wishlist list
  */
-router.post(
-  "/",
-  [
-    body("name").isString(),
-    body("description").isString().optional(),
-    body("color").notEmpty().isHexColor(),
-    body("icon").isString(),
-  ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IWishlistList>>) => {
-    const { pb } = req;
-    const { name, description, color, icon } = req.body;
-
-    const list: IWishlistList = await pb.collection("wishlist_lists").create({
-      name,
-      description,
-      color,
-      icon,
-    });
-
-    successWithBaseResponse(res, list, 201);
-  }),
-);
+router.post("/", validateListData, asyncWrapper(listsController.createList));
 
 /**
  * @protected
@@ -106,33 +63,9 @@ router.post(
  */
 router.patch(
   "/:id",
-  [
-    body("name").isString(),
-    body("description").isString().optional(),
-    body("color").notEmpty().isHexColor(),
-    body("icon").isString(),
-  ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxContainer>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    const { name, description, color, icon } = req.body;
-
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-      return;
-    }
-
-    const list: IIdeaBoxContainer = await pb
-      .collection("wishlist_lists")
-      .update(id, {
-        name,
-        description,
-        color,
-        icon,
-      });
-
-    successWithBaseResponse(res, list);
-  }),
+  validateListId,
+  validateListData,
+  asyncWrapper(listsController.updateList),
 );
 
 /**
@@ -142,20 +75,6 @@ router.patch(
  * @param id (string, required) - The ID of the wishlist list
  * @response 204
  */
-router.delete(
-  "/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-      return;
-    }
-
-    await pb.collection("wishlist_lists").delete(id);
-
-    successWithBaseResponse(res, undefined, 204);
-  }),
-);
+router.delete("/:id", validateListId, asyncWrapper(listsController.deleteList));
 
 export default router;

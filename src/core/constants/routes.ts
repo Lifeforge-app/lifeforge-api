@@ -14,7 +14,6 @@ export const ROUTES = {
   "/achievements": "achievements",
   "/wallet": "wallet",
   "/wishlist": "wishlist",
-  "/spotify": "spotify",
   "/photos": "photos",
   "/music": "music",
   "/guitar-tabs": "guitarTabs",
