@@ -18,33 +18,21 @@ export const getList = async (
   pb: PocketBase,
   id: string,
 ): Promise<IWishlistList> => {
-  try {
-    return await pb.collection("wishlist_lists").getOne(id);
-  } catch (error) {
-    throw error;
-  }
+  return await pb.collection("wishlist_lists").getOne(id);
 };
 
 export const getAllLists = async (pb: PocketBase): Promise<IWishlistList[]> => {
-  try {
-    const result = await pb
-      .collection("wishlist_lists")
-      .getFullList<IWishlistList>();
-    return result;
-  } catch (error) {
-    throw error;
-  }
+  const result = await pb
+    .collection("wishlist_lists")
+    .getFullList<IWishlistList>();
+  return result;
 };
 
 export const createList = async (
   pb: PocketBase,
   data: { name: string; description?: string; color: string; icon: string },
 ): Promise<IWishlistList> => {
-  try {
-    return await pb.collection("wishlist_lists").create(data);
-  } catch (error) {
-    throw error;
-  }
+  return await pb.collection("wishlist_lists").create(data);
 };
 
 export const updateList = async (
@@ -52,17 +40,9 @@ export const updateList = async (
   id: string,
   data: { name: string; description?: string; color: string; icon: string },
 ): Promise<IIdeaBoxContainer> => {
-  try {
-    return await pb.collection("wishlist_lists").update(id, data);
-  } catch (error) {
-    throw error;
-  }
+  return await pb.collection("wishlist_lists").update(id, data);
 };
 
 export const deleteList = async (pb: PocketBase, id: string): Promise<void> => {
-  try {
-    await pb.collection("wishlist_lists").delete(id);
-  } catch (error) {
-    throw error;
-  }
+  await pb.collection("wishlist_lists").delete(id);
 };

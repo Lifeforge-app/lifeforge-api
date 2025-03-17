@@ -135,13 +135,9 @@ export const getOgData = async (
     return OGCache.get(id);
   }
 
-  try {
-    const { result } = await ogs({ url: data.content });
-    OGCache.set(id, result);
-    return result;
-  } catch (error) {
-    throw new Error("Failed to fetch OG data");
-  }
+  const { result } = await ogs({ url: data.content });
+  OGCache.set(id, result);
+  return result;
 };
 
 async function recursivelySearchFolder(

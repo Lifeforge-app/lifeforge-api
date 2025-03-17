@@ -19,13 +19,6 @@ const cache = new Map();
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Get a list of all airports by region
- * @description Retrieve a list of all airports in a region.
- * @param id (string, required, must_exist) - The ID of the region
- * @response 200 (object) - The list of airports in the region and the corresponding breadcrumbs
- */
 router.get(
   "/list/:id",
   [param("id").custom((value) => Object.keys(REGIONS).includes(value))],
@@ -53,14 +46,6 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Get a single airport
- * @description Retrieve a single airport by its ID.
- * @param airportID (string, required, must_exist) - The ID
- *  of the airport
- * @response 200 (object) - Data of the airport and the corresponding breadcrumbs
- */
 router.get(
   "/:id",
   [
@@ -101,15 +86,6 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Get the flights of an airport
- * @description Retrieve the departures or arrivals of an airport, paginated.
- * @param id (string, required, must_exist) - The ID of the airport
- * @param type (string, required, one_of arrivals|departures) - The type of the flights
- * @query page (number, optional) - The page number
- * @response 200 (IFlightDataEntry[]) - The list of flights
- */
 router.get(
   "/:id/flights/:type",
   [
@@ -195,13 +171,6 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Get the METAR of an airport
- * @description Retrieve the current Meteorological Aerodrome Report (METAR) of an airport.
- * @param id (string, required, must_exist) - The ID of the airport
- * @response 200 (object | "none") - The METAR data of the airport
- */
 router.get(
   "/:id/METAR",
   [
@@ -243,14 +212,6 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Get the NOTAMs of an airport
- * @description Retrieve the relevant Notices to Airmen (NOTAMs) of an airport.
- * @param id (string, required, must_exist) - The ID of the airport
- * @query page (number, optional) - The page number
- * @response 200 (object[] | "none") - The list of NOTAMs
- */
 router.get(
   "/:id/NOTAM",
   [
@@ -306,13 +267,6 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Get the radios of an airport
- * @description Retrieve the relevant radio frequencies of an airport.
- * @param id (string, required, must_exist) - The ID of the airport
- * @response 200 (object[]) - The list of radio frequencies
- */
 router.get(
   "/:id/radios",
   [
@@ -346,13 +300,6 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Get the runways of an airport
- * @description Retrieve the relevant runways of an airport.
- * @param id (string, required, must_exist) - The ID of the airport
- * @response 200 (object[]) - The list of runways
- */
 router.get(
   "/:id/runways",
   [

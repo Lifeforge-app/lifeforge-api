@@ -2,9 +2,6 @@ import PocketBase from "pocketbase";
 import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import { ICalendarCategory } from "../typescript/calendar_interfaces";
 
-/**
- * Fetch all calendar categories
- */
 export const getAllCategories = async (
   pb: PocketBase,
 ): Promise<ICalendarCategory[]> => {
@@ -15,9 +12,6 @@ export const getAllCategories = async (
     });
 };
 
-/**
- * Create a new calendar category
- */
 export const createCategory = async (
   pb: PocketBase,
   categoryData: WithoutPBDefault<ICalendarCategory>,
@@ -27,9 +21,6 @@ export const createCategory = async (
     .create<ICalendarCategory>(categoryData);
 };
 
-/**
- * Update an existing calendar category
- */
 export const updateCategory = async (
   pb: PocketBase,
   id: string,
@@ -40,9 +31,6 @@ export const updateCategory = async (
     .update<ICalendarCategory>(id, categoryData);
 };
 
-/**
- * Delete a calendar category
- */
 export const deleteCategory = async (
   pb: PocketBase,
   id: string,
@@ -50,9 +38,6 @@ export const deleteCategory = async (
   return await pb.collection("calendar_categories").delete(id);
 };
 
-/**
- * Get a single calendar category by ID
- */
 export const getCategoryById = async (
   pb: PocketBase,
   id: string,

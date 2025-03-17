@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as AssetsServices from "../services/assets.service";
@@ -11,12 +11,8 @@ export const getAllAssets = async (
 ) => {
   const { pb } = req;
 
-  try {
-    const assets = await AssetsServices.getAllAssets(pb);
-    successWithBaseResponse(res, assets);
-  } catch (error) {
-    serverError(res, "Failed to fetch assets");
-  }
+  const assets = await AssetsServices.getAllAssets(pb);
+  successWithBaseResponse(res, assets);
 };
 
 export const createAsset = async (
@@ -26,16 +22,12 @@ export const createAsset = async (
   const { pb } = req;
   const { name, icon, starting_balance } = req.body;
 
-  try {
-    const asset = await AssetsServices.createAsset(pb, {
-      name,
-      icon,
-      starting_balance,
-    });
-    successWithBaseResponse(res, asset, 201);
-  } catch (error) {
-    serverError(res, "Failed to create asset");
-  }
+  const asset = await AssetsServices.createAsset(pb, {
+    name,
+    icon,
+    starting_balance,
+  });
+  successWithBaseResponse(res, asset, 201);
 };
 
 export const updateAsset = async (
@@ -50,16 +42,12 @@ export const updateAsset = async (
     return;
   }
 
-  try {
-    const asset = await AssetsServices.updateAsset(pb, id, {
-      name,
-      icon,
-      starting_balance,
-    });
-    successWithBaseResponse(res, asset);
-  } catch (error) {
-    serverError(res, "Failed to update asset");
-  }
+  const asset = await AssetsServices.updateAsset(pb, id, {
+    name,
+    icon,
+    starting_balance,
+  });
+  successWithBaseResponse(res, asset);
 };
 
 export const deleteAsset = async (
@@ -73,10 +61,6 @@ export const deleteAsset = async (
     return;
   }
 
-  try {
-    await AssetsServices.deleteAsset(pb, id);
-    successWithBaseResponse(res, undefined, 204);
-  } catch (error) {
-    serverError(res, "Failed to delete asset");
-  }
+  await AssetsServices.deleteAsset(pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };

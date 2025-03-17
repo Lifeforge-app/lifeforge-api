@@ -5,7 +5,7 @@ import {
   serverError,
   successWithBaseResponse,
 } from "@utils/response";
-import express, { Response } from "express";
+import express, { Request, Response } from "express";
 import { body, param, query } from "express-validator";
 import imaps from "imap-simple";
 import Pocketbase from "pocketbase";
@@ -79,7 +79,7 @@ function getFullPath(record: IMailInboxLabel, allRecords: IMailInboxLabel[]) {
 router.get(
   "/",
   [query("page").isInt().optional(), query("label").isString().optional()],
-  asyncWrapper(async (req, res) => {
+  asyncWrapper(async (req: Request, res) => {
     const { pb } = req;
     const page = parseInt((req.query.page as string) || "1");
 
@@ -120,53 +120,55 @@ router.get(
 router.get(
   "/:id",
   [param("id").isString().notEmpty()],
-  asyncWrapper(async (req, res: Response<BaseResponse<IMailInboxEntry>>) => {
-    const { pb } = req;
-    const config = await getIMAPConfig(pb);
+  asyncWrapper(
+    async (req: Request, res: Response<BaseResponse<IMailInboxEntry>>) => {
+      const { pb } = req;
+      const config = await getIMAPConfig(pb);
 
-    if (!config) {
-      serverError(res, "Failed to get IMAP config");
-      return;
-    }
-
-    if (
-      !(await checkExistence(req, res, "mail_inbox_entries", req.params.id))
-    ) {
-      return;
-    }
-
-    let record = await pb
-      .collection("mail_inbox_entries")
-      .getOne<IMailInboxEntry>(req.params.id, {
-        expand: "mail_inbox_attachments_via_belongs_to, from, to, cc",
-      });
-
-    cleanupRecord(record, pb, false);
-
-    if (!record.seen) {
-      const connection = await imaps.connect(config);
-      await connection.openBox("INBOX");
-
-      const searchCriteria = [["HEADER", "Message-ID", record.messageId]];
-      const fetchOptions = {
-        bodies: [],
-      };
-
-      const messages = await connection.search(searchCriteria, fetchOptions);
-      if (messages.length > 0) {
-        const message = messages[0];
-        const uid = message.attributes.uid;
-
-        await connection.addFlags(uid, ["\\Seen"]);
-
-        record = await pb.collection("mail_inbox_entries").update(record.id, {
-          seen: true,
-        });
+      if (!config) {
+        serverError(res, "Failed to get IMAP config");
+        return;
       }
-    }
 
-    successWithBaseResponse(res, record);
-  }),
+      if (
+        !(await checkExistence(req, res, "mail_inbox_entries", req.params.id))
+      ) {
+        return;
+      }
+
+      let record = await pb
+        .collection("mail_inbox_entries")
+        .getOne<IMailInboxEntry>(req.params.id, {
+          expand: "mail_inbox_attachments_via_belongs_to, from, to, cc",
+        });
+
+      cleanupRecord(record, pb, false);
+
+      if (!record.seen) {
+        const connection = await imaps.connect(config);
+        await connection.openBox("INBOX");
+
+        const searchCriteria = [["HEADER", "Message-ID", record.messageId]];
+        const fetchOptions = {
+          bodies: [],
+        };
+
+        const messages = await connection.search(searchCriteria, fetchOptions);
+        if (messages.length > 0) {
+          const message = messages[0];
+          const uid = message.attributes.uid;
+
+          await connection.addFlags(uid, ["\\Seen"]);
+
+          record = await pb.collection("mail_inbox_entries").update(record.id, {
+            seen: true,
+          });
+        }
+      }
+
+      successWithBaseResponse(res, record);
+    },
+  ),
 );
 
 async function copyMailMessageToTrash(

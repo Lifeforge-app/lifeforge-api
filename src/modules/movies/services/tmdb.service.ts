@@ -10,15 +10,11 @@ export const searchMovies = async (pb: Pocketbase, q: string, page: string) => {
 
   const url = `https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(q)}&page=${page}`;
 
-  try {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
-    }).then((res) => res.json());
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  }).then((res) => res.json());
 
-    return response;
-  } catch (error) {
-    throw error;
-  }
+  return response;
 };

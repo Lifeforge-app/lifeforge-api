@@ -19,12 +19,8 @@ export const getAllTransactions = async (
 ) => {
   const { pb } = req;
 
-  try {
-    const transactions = await TransactionsService.getAllTransactions(pb);
-    successWithBaseResponse(res, transactions);
-  } catch (error) {
-    serverError(res, "Failed to fetch transactions");
-  }
+  const transactions = await TransactionsService.getAllTransactions(pb);
+  successWithBaseResponse(res, transactions);
 };
 
 export const getIncomeExpensesSummary = async (
@@ -34,16 +30,12 @@ export const getIncomeExpensesSummary = async (
   const { pb } = req;
   const { year, month } = req.query;
 
-  try {
-    const summary = await TransactionsService.getIncomeExpensesSummary(
-      pb,
-      year,
-      month,
-    );
-    successWithBaseResponse(res, summary);
-  } catch (error) {
-    serverError(res, "Failed to fetch summary");
-  }
+  const summary = await TransactionsService.getIncomeExpensesSummary(
+    pb,
+    year,
+    month,
+  );
+  successWithBaseResponse(res, summary);
 };
 
 export const createTransaction = async (
@@ -92,27 +84,23 @@ export const createTransaction = async (
     }
   }
 
-  try {
-    const transaction = await TransactionsService.createTransaction(
-      pb,
-      {
-        particulars,
-        date,
-        amount,
-        category,
-        location,
-        asset,
-        ledger,
-        type,
-        fromAsset,
-        toAsset,
-      },
-      req.file,
-    );
-    successWithBaseResponse(res, transaction, 201);
-  } catch (error) {
-    serverError(res, "Failed to create transaction");
-  }
+  const transaction = await TransactionsService.createTransaction(
+    pb,
+    {
+      particulars,
+      date,
+      amount,
+      category,
+      location,
+      asset,
+      ledger,
+      type,
+      fromAsset,
+      toAsset,
+    },
+    req.file,
+  );
+  successWithBaseResponse(res, transaction, 201);
 };
 
 export const updateTransaction = async (
@@ -152,27 +140,23 @@ export const updateTransaction = async (
     return;
   }
 
-  try {
-    const transaction = await TransactionsService.updateTransaction(
-      pb,
-      id,
-      {
-        particulars,
-        date,
-        amount,
-        location,
-        category,
-        asset,
-        ledger,
-        type,
-      },
-      req.file,
-      removeReceipt,
-    );
-    successWithBaseResponse(res, transaction);
-  } catch (error) {
-    serverError(res, "Failed to update transaction");
-  }
+  const transaction = await TransactionsService.updateTransaction(
+    pb,
+    id,
+    {
+      particulars,
+      date,
+      amount,
+      location,
+      category,
+      asset,
+      ledger,
+      type,
+    },
+    req.file,
+    removeReceipt,
+  );
+  successWithBaseResponse(res, transaction);
 };
 
 export const deleteTransaction = async (
@@ -186,15 +170,11 @@ export const deleteTransaction = async (
     return;
   }
 
-  try {
-    const isDeleted = await TransactionsService.deleteTransaction(pb, id);
+  const isDeleted = await TransactionsService.deleteTransaction(pb, id);
 
-    if (isDeleted) {
-      successWithBaseResponse(res, undefined, 204);
-    } else {
-      serverError(res, "Failed to delete transaction");
-    }
-  } catch (error) {
+  if (isDeleted) {
+    successWithBaseResponse(res, undefined, 204);
+  } else {
     serverError(res, "Failed to delete transaction");
   }
 };
@@ -210,10 +190,6 @@ export const scanReceipt = async (
     return;
   }
 
-  try {
-    const result = await TransactionsService.scanReceipt(req.pb, file);
-    successWithBaseResponse(res, result);
-  } catch (error) {
-    serverError(res, "Error scanning receipt");
-  }
+  const result = await TransactionsService.scanReceipt(req.pb, file);
+  successWithBaseResponse(res, result);
 };

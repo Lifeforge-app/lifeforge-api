@@ -8,12 +8,6 @@ import { IProjectsMTechnology } from "../typescript/projects_m_interfaces";
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Get a list of all projects technologies
- * @description Retrieve a list of all projects technologies.
- * @response 200 (IProjectsMTechnology[]) - The list of projects technologies
- */
 router.get(
   "/",
   asyncWrapper(
@@ -24,14 +18,6 @@ router.get(
   ),
 );
 
-/**
- * @protected
- * @summary Create a new projects technology
- * @description Create a new projects technology with the given name and icon.
- * @body name (string, required) - The name of the technology
- * @body icon (string, required) - The icon of the technology, can be any icon available in Iconify
- * @response 201 (IProjectsMTechnology) - The created projects technology
- */
 router.post(
   "/",
   [body("name").isString(), body("icon").isString()],
@@ -52,15 +38,6 @@ router.post(
   ),
 );
 
-/**
- * @protected
- * @summary Update a projects technology
- * @description Update a projects technology with the given name and icon.
- * @param id (string, required, must_exist) - The ID of the projects technology
- * @body name (string, required) - The name of the technology
- * @body icon (string, required) - The icon of the technology, can be any icon available in Iconify
- * @response 200 (IProjectsMTechnology) - The updated projects technology
- */
 router.patch(
   "/:id",
   [body("name").isString(), body("icon").isString()],
@@ -82,13 +59,6 @@ router.patch(
   ),
 );
 
-/**
- * @protected
- * @summary Delete a projects technology
- * @description Delete a projects technology with the given ID.
- * @param id (string, required, must_exist) - The ID of the projects technology
- * @response 200 - The projects technology was successfully deleted
- */
 router.delete(
   "/:id",
   asyncWrapper(async (req, res) => {

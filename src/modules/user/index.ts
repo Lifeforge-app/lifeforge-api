@@ -20,13 +20,6 @@ router.use("/2fa", twoFARoutes);
 router.use("/settings", settingsRoutes);
 router.use("/personalization", personalizationRoutes);
 
-/**
- * @protected
- * @summary Change the module enabled status
- * @description Change the enabled status of all toggled modules.
- * @body data (array, required) - The array of enabled modules
- * @response 200 - The module status has been updated
- */
 router.patch(
   "/module",
   asyncWrapper(async (req, res) => {

@@ -1,49 +1,48 @@
-import asyncWrapper from "@utils/asyncWrapper";
+import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import * as LanguagesService from "../services/languages.service";
 
-export const getAllLanguages = asyncWrapper(
-  async (req: Request, res: Response) => {
-    const { pb } = req;
-    const languages = await LanguagesService.getAllLanguages(pb);
-    successWithBaseResponse(res, languages);
-  },
-);
+export const getAllLanguages = async (req: Request, res: Response) => {
+  const { pb } = req;
 
-export const createLanguage = asyncWrapper(
-  async (req: Request, res: Response) => {
-    const { pb } = req;
-    const { name, icon } = req.body;
+  const languages = await LanguagesService.getAllLanguages(pb);
+  successWithBaseResponse(res, languages);
+};
 
-    const language = await LanguagesService.createLanguage(pb, { name, icon });
+export const createLanguage = async (req: Request, res: Response) => {
+  const { pb } = req;
+  const { name, icon } = req.body;
 
-    successWithBaseResponse(res, language);
-  },
-);
+  const language = await LanguagesService.createLanguage(pb, { name, icon });
+  successWithBaseResponse(res, language, 201);
+};
 
-export const updateLanguage = asyncWrapper(
-  async (req: Request, res: Response) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { name, icon } = req.body;
+export const updateLanguage = async (req: Request, res: Response) => {
+  const { pb } = req;
+  const { id } = req.params;
+  const { name, icon } = req.body;
 
-    const language = await LanguagesService.updateLanguage(pb, id, {
-      name,
-      icon,
-    });
+  if (!(await checkExistence(req, res, "languages", id))) {
+    return;
+  }
 
-    successWithBaseResponse(res, language);
-  },
-);
+  const language = await LanguagesService.updateLanguage(pb, id, {
+    name,
+    icon,
+  });
 
-export const deleteLanguage = asyncWrapper(
-  async (req: Request, res: Response) => {
-    const { pb } = req;
-    const { id } = req.params;
+  successWithBaseResponse(res, language);
+};
 
-    await LanguagesService.deleteLanguage(pb, id);
+export const deleteLanguage = async (req: Request, res: Response) => {
+  const { pb } = req;
+  const { id } = req.params;
 
-    successWithBaseResponse(res, undefined, 204);
-  },
-);
+  if (!(await checkExistence(req, res, "languages", id))) {
+    return;
+  }
+
+  await LanguagesService.deleteLanguage(pb, id);
+  successWithBaseResponse(res, undefined, 204);
+};

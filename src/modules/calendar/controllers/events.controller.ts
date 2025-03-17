@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as EventsService from "../services/events.service";
@@ -12,14 +12,8 @@ export const getEventsByDateRange = async (
   const { pb } = req;
   const { start, end } = req.query;
 
-  try {
-    const events = await EventsService.getEventsByDateRange(pb, start, end);
-
-    successWithBaseResponse(res, events);
-  } catch (error) {
-    console.log(error);
-    serverError(res, "Failed to fetch calendar events");
-  }
+  const events = await EventsService.getEventsByDateRange(pb, start, end);
+  successWithBaseResponse(res, events);
 };
 
 export const getEventsToday = async (
@@ -28,13 +22,8 @@ export const getEventsToday = async (
 ) => {
   const { pb } = req;
 
-  try {
-    const events = await EventsService.getTodayEvents(pb);
-
-    successWithBaseResponse(res, events);
-  } catch (error) {
-    serverError(res, "Failed to fetch calendar events");
-  }
+  const events = await EventsService.getTodayEvents(pb);
+  successWithBaseResponse(res, events);
 };
 
 export const createEvent = async (
@@ -44,12 +33,8 @@ export const createEvent = async (
   const { pb } = req;
   const eventData = req.body;
 
-  try {
-    const event = await EventsService.createEvent(pb, eventData);
-    successWithBaseResponse(res, event, 201);
-  } catch (error) {
-    serverError(res, "Failed to create calendar event");
-  }
+  const event = await EventsService.createEvent(pb, eventData);
+  successWithBaseResponse(res, event, 201);
 };
 
 export const updateEvent = async (
@@ -64,12 +49,8 @@ export const updateEvent = async (
     return;
   }
 
-  try {
-    const event = await EventsService.updateEvent(pb, id, eventData);
-    successWithBaseResponse(res, event);
-  } catch (error) {
-    serverError(res, "Failed to update calendar event");
-  }
+  const event = await EventsService.updateEvent(pb, id, eventData);
+  successWithBaseResponse(res, event);
 };
 
 export const deleteEvent = async (
@@ -83,17 +64,8 @@ export const deleteEvent = async (
     return;
   }
 
-  try {
-    const isDeleted = await EventsService.deleteEvent(pb, id);
-
-    if (isDeleted) {
-      successWithBaseResponse(res, undefined, 204);
-    } else {
-      serverError(res, "Failed to delete calendar event");
-    }
-  } catch (error) {
-    serverError(res, "Failed to delete calendar event");
-  }
+  await EventsService.deleteEvent(pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };
 
 export const getEventById = async (
@@ -107,10 +79,6 @@ export const getEventById = async (
     return;
   }
 
-  try {
-    const event = await EventsService.getEventById(pb, id);
-    successWithBaseResponse(res, event);
-  } catch (error) {
-    serverError(res, "Failed to fetch calendar event");
-  }
+  const event = await EventsService.getEventById(pb, id);
+  successWithBaseResponse(res, event);
 };

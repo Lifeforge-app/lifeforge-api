@@ -3,9 +3,6 @@ import fs from "fs";
 import Pocketbase from "pocketbase";
 import { IBooksLibraryEntry } from "../../../typescript/books_library_interfaces";
 
-/**
- * Adds a book to the library by downloading it from libgen
- */
 export const addToLibrary = async (
   pb: Pocketbase,
   md5: string,
@@ -110,9 +107,6 @@ export const addToLibrary = async (
   }
 };
 
-/**
- * Processes downloaded files, including thumbnail and updating the database
- */
 async function processDownloadedFiles(
   pb: Pocketbase,
   md5: string,
@@ -145,9 +139,6 @@ async function processDownloadedFiles(
   await updateFileTypeStatistics(pb, metadata.extension);
 }
 
-/**
- * Updates file type statistics in the database
- */
 async function updateFileTypeStatistics(pb: Pocketbase, extension: string) {
   const fileTypeEntry = await pb
     .collection("books_library_file_types")

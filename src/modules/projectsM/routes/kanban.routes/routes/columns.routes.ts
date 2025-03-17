@@ -10,13 +10,6 @@ import {
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Get a list of all projects kanban columns
- * @description Retrieve a list of all projects kanban columns.
- * @param projectId (string, required, must_exist) - The ID of the project
- * @response 200 (IProjectsMKanbanColumn[]) - The list of projects kanban columns
- */
 router.get(
   "/:projectId",
   asyncWrapper(
@@ -48,16 +41,6 @@ router.get(
   ),
 );
 
-/**
- * @protected
- * @summary Create a new projects kanban column
- * @description Create a new projects kanban column with the given name, icon, and color.
- * @param projectId (string, required, must_exist) - The ID of the project
- * @body name (string, required) - The name of the column
- * @body icon (string, required) - The icon of the column, can be any icon available in Iconify
- * @body color (string, required) - The color of the column
- * @response 201 (IProjectsMKanbanColumn) - The created projects kanban column
- */
 router.post(
   "/:projectId",
   [
@@ -88,16 +71,6 @@ router.post(
   ),
 );
 
-/**
- * @protected
- * @summary Update a projects kanban column
- * @description Update a projects kanban column with the given name, icon, and color.
- * @param id (string, required, must_exist) - The ID of the projects kanban column
- * @body name (string, required) - The name of the column
- * @body icon (string, required) - The icon of the column, can be any icon available in Iconify
- * @body color (string, required) - The color of the column
- * @response 200 (IProjectsMKanbanColumn) - The updated projects kanban column
- */
 router.patch(
   "/:id",
   asyncWrapper(
@@ -122,13 +95,6 @@ router.patch(
   ),
 );
 
-/**
- * @protected
- * @summary Delete a projects kanban column
- * @description Delete a projects kanban column with the given ID.
- * @param id (string, required, must_exist) - The ID of the projects kanban column
- * @response 200 - The projects kanban column was successfully deleted
- */
 router.delete(
   "/:id",
   asyncWrapper(async (req, res) => {

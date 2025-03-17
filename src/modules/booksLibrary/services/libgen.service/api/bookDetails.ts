@@ -3,9 +3,6 @@ import { WithoutPBDefault } from "../../../../../core/typescript/pocketbase_inte
 import { IBooksLibraryEntry } from "../../../typescript/books_library_interfaces";
 import { zip } from "../utils/parsing";
 
-/**
- * Gets detailed information about a book from libgen
- */
 export const getBookDetails = async (md5: string, tlm?: string) => {
   const target = new URL("http://libgen.is/book/index.php");
   target.searchParams.set("md5", md5);
@@ -20,60 +17,48 @@ export const getBookDetails = async (md5: string, tlm?: string) => {
   return final;
 };
 
-/**
- * Gets simplified book metadata for local library storage
- */
 export const getLocalLibraryData = async (md5: string, tlm?: string) => {
   const target = new URL("http://libgen.is/book/index.php");
   target.searchParams.set("md5", md5);
   if (tlm) target.searchParams.set("tlm", tlm);
 
-  try {
-    const data = await fetch(target.href).then((res) => res.text());
-    const dom = new JSDOM(data);
-    const document = dom.window.document;
+  const data = await fetch(target.href).then((res) => res.text());
+  const dom = new JSDOM(data);
+  const document = dom.window.document;
 
-    const everything = parseBookDetailsPage(document);
+  const everything = parseBookDetailsPage(document);
 
-    const final: Omit<
-      WithoutPBDefault<IBooksLibraryEntry>,
-      "category" | "file" | "is_favourite"
-    > = {
-      md5: md5,
-      thumbnail: document.querySelector("img")?.src ?? "",
-      authors: everything["Author(s)"]
-        ?.split(",")
-        .map((e: string) => e.trim())
-        .join(", "),
-      edition: everything["Edition"],
-      extension: everything["Extension"],
-      isbn: everything["ISBN"]
-        ?.split(",")
-        .map((e: string) => e.trim())
-        .join(", "),
-      languages: everything["Language"]
-        ?.split(",")
-        .map((e: string) => e.trim()),
-      publisher: everything["Publisher"],
-      size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
-      title:
-        document
-          .querySelector(
-            'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)',
-          )
-          ?.textContent?.trim() ?? "",
-      year_published: everything["Year"],
-    };
+  const final: Omit<
+    WithoutPBDefault<IBooksLibraryEntry>,
+    "category" | "file" | "is_favourite"
+  > = {
+    md5: md5,
+    thumbnail: document.querySelector("img")?.src ?? "",
+    authors: everything["Author(s)"]
+      ?.split(",")
+      .map((e: string) => e.trim())
+      .join(", "),
+    edition: everything["Edition"],
+    extension: everything["Extension"],
+    isbn: everything["ISBN"]
+      ?.split(",")
+      .map((e: string) => e.trim())
+      .join(", "),
+    languages: everything["Language"]?.split(",").map((e: string) => e.trim()),
+    publisher: everything["Publisher"],
+    size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
+    title:
+      document
+        .querySelector(
+          'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)',
+        )
+        ?.textContent?.trim() ?? "",
+    year_published: everything["Year"],
+  };
 
-    return final;
-  } catch (error) {
-    throw error;
-  }
+  return final;
 };
 
-/**
- * Parses the book details page and extracts all available metadata
- */
 function parseBookDetailsPage(document: Document) {
   const final = Object.fromEntries(
     Array.from(

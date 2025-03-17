@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as CategoriesService from "../services/categories.service";
@@ -11,12 +11,8 @@ export const getAllCategories = async (
 ) => {
   const { pb } = req;
 
-  try {
-    const categories = await CategoriesService.getAllCategories(pb);
-    successWithBaseResponse(res, categories);
-  } catch (error) {
-    serverError(res, "Failed to fetch calendar categories");
-  }
+  const categories = await CategoriesService.getAllCategories(pb);
+  successWithBaseResponse(res, categories);
 };
 
 export const createCategory = async (
@@ -26,12 +22,8 @@ export const createCategory = async (
   const { pb } = req;
   const categoryData = req.body;
 
-  try {
-    const category = await CategoriesService.createCategory(pb, categoryData);
-    successWithBaseResponse(res, category, 201);
-  } catch (error) {
-    serverError(res, "Failed to create calendar category");
-  }
+  const category = await CategoriesService.createCategory(pb, categoryData);
+  successWithBaseResponse(res, category, 201);
 };
 
 export const updateCategory = async (
@@ -46,16 +38,8 @@ export const updateCategory = async (
     return;
   }
 
-  try {
-    const category = await CategoriesService.updateCategory(
-      pb,
-      id,
-      categoryData,
-    );
-    successWithBaseResponse(res, category);
-  } catch (error) {
-    serverError(res, "Failed to update calendar category");
-  }
+  const category = await CategoriesService.updateCategory(pb, id, categoryData);
+  successWithBaseResponse(res, category);
 };
 
 export const deleteCategory = async (
@@ -69,17 +53,8 @@ export const deleteCategory = async (
     return;
   }
 
-  try {
-    const isDeleted = await CategoriesService.deleteCategory(pb, id);
-
-    if (isDeleted) {
-      successWithBaseResponse(res, undefined, 204);
-    } else {
-      serverError(res, "Failed to delete calendar category");
-    }
-  } catch (error) {
-    serverError(res, "Failed to delete calendar category");
-  }
+  await CategoriesService.deleteCategory(pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };
 
 export const getCategoryById = async (
@@ -93,10 +68,6 @@ export const getCategoryById = async (
     return;
   }
 
-  try {
-    const category = await CategoriesService.getCategoryById(pb, id);
-    successWithBaseResponse(res, category);
-  } catch (error) {
-    serverError(res, "Failed to fetch calendar category");
-  }
+  const category = await CategoriesService.getCategoryById(pb, id);
+  successWithBaseResponse(res, category);
 };

@@ -1,4 +1,4 @@
-import { clientError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as guitarWorldService from "../services/guitarWorld.service";
@@ -7,16 +7,8 @@ import { IGuitarTabsEntry } from "../typescript/guitar_tabs_interfaces";
 export const getTabsList = async (req: Request, res: Response) => {
   const { cookie, page } = req.body;
 
-  try {
-    const data = await guitarWorldService.getTabsList(cookie, page);
-    if (!data) {
-      clientError(res, "Failed to fetch data", 502);
-      return;
-    }
-    successWithBaseResponse(res, data);
-  } catch (error) {
-    clientError(res, "Failed to fetch data", 502);
-  }
+  const data = await guitarWorldService.getTabsList(cookie, page);
+  successWithBaseResponse(res, data);
 };
 
 export const downloadTab = async (
@@ -25,19 +17,14 @@ export const downloadTab = async (
 ) => {
   const { cookie, id, name, category, mainArtist, audioUrl } = req.body;
 
-  try {
-    const newEntry = await guitarWorldService.downloadTab(
-      req.pb,
-      cookie,
-      id,
-      name,
-      category,
-      mainArtist,
-      audioUrl,
-    );
-    successWithBaseResponse(res, newEntry);
-  } catch (error) {
-    console.error(error);
-    clientError(res, "Failed to fetch data", 502);
-  }
+  const newEntry = await guitarWorldService.downloadTab(
+    req.pb,
+    cookie,
+    id,
+    name,
+    category,
+    mainArtist,
+    audioUrl,
+  );
+  successWithBaseResponse(res, newEntry);
 };

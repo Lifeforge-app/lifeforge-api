@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as EntriesService from "../services/entries.service";
@@ -17,11 +17,6 @@ export const getAllEntriesByDifficulty = async (
     difficulty,
   );
 
-  if (!achievements) {
-    serverError(res, "Failed to fetch achievements");
-    return;
-  }
-
   successWithBaseResponse(res, achievements);
 };
 
@@ -37,11 +32,6 @@ export const createEntry = async (
     title,
     thoughts,
   });
-
-  if (!achievement) {
-    serverError(res, "Failed to create achievement");
-    return;
-  }
 
   successWithBaseResponse(res, achievement, 201);
 };
@@ -64,11 +54,6 @@ export const updateEntry = async (
     thoughts,
   });
 
-  if (!achievement) {
-    serverError(res, "Failed to update achievement");
-    return;
-  }
-
   successWithBaseResponse(res, achievement);
 };
 
@@ -83,12 +68,6 @@ export const deleteEntry = async (
     return;
   }
 
-  const isDeleted = await EntriesService.deleteEntry(pb, id);
-
-  if (!isDeleted) {
-    serverError(res, "Failed to delete achievement");
-    return;
-  }
-
+  await EntriesService.deleteEntry(pb, id);
   successWithBaseResponse(res, undefined, 204);
 };

@@ -8,12 +8,6 @@ import { IProjectsMCategory } from "../typescript/projects_m_interfaces";
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Get a list of all projects categories
- * @description Retrieve a list of all projects categories.
- * @response 200 (IProjectsMCategory[]) - The list of projects categories
- */
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMCategory[]>>) =>
@@ -21,14 +15,6 @@ router.get(
   ),
 );
 
-/**
- * @protected
- * @summary Create a new projects category
- * @description Create a new projects category with the given name and icon.
- * @body name (string, required) - The name of the category
- * @body icon (string, required) - The icon of the category, can be any icon available in Iconify
- * @response 201 (IProjectsMCategory) - The created projects category
- */
 router.post(
   "/",
   [body("name").isString(), body("icon").isString()],
@@ -47,15 +33,6 @@ router.post(
   }),
 );
 
-/**
- * @protected
- * @summary Update a projects category
- * @description Update a projects category with the given name and icon.
- * @param id (string, required, must_exist) - The ID of the projects category
- * @body name (string, required) - The name of the category
- * @body icon (string, required) - The icon of the category, can be any icon available in Iconify
- * @response 200 (IProjectsMCategory) - The updated projects category
- */
 router.patch(
   "/:id",
   [body("name").isString(), body("icon").isString()],
@@ -75,13 +52,6 @@ router.patch(
   }),
 );
 
-/**
- * @protected
- * @summary Delete a projects category
- * @description Delete a projects category with the given ID.
- * @param id (string, required, must_exist) - The ID of the projects category
- * @response 204 - The projects category was successfully deleted
- */
 router.delete(
   "/:id",
   asyncWrapper(async (req, res) => {

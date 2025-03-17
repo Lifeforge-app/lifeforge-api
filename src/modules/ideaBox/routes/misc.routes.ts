@@ -1,5 +1,5 @@
 import express from "express";
-import validationMiddleware from "../../../core/middleware/validationMiddleware";
+import asyncWrapper from "../../../core/utils/asyncWrapper";
 import * as miscController from "../controllers/misc.controller";
 import {
   validateCheckValid,
@@ -13,36 +13,21 @@ const router = express.Router();
 router.get(
   "/path/:container/*",
   validateGetPath,
-  validationMiddleware,
-  miscController.getPath,
+  asyncWrapper(miscController.getPath),
 );
 
-/**
- * @protected
- * @summary Check if an idea box folder exists
- * @description Check if an idea box folder exists by its ID.
- * @param id (string, required) - The ID of the idea box folder
- * @response 200 (boolean) - Whether the idea box folder exists
- */
 router.get(
   "/valid/:container/*",
   validateCheckValid,
-  validationMiddleware,
-  miscController.checkValid,
+  asyncWrapper(miscController.checkValid),
 );
 
 router.get(
   "/og-data/:id",
   validateGetOgData,
-  validationMiddleware,
-  miscController.getOgData,
+  asyncWrapper(miscController.getOgData),
 );
 
-router.get(
-  "/search",
-  validateSearch,
-  validationMiddleware,
-  miscController.search,
-);
+router.get("/search", validateSearch, asyncWrapper(miscController.search));
 
 export default router;

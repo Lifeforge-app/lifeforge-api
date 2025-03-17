@@ -8,13 +8,6 @@ import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddlewar
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Change the avatar of the user
- * @description Change the avatar of the user with the uploaded file.
- * @body file (File, required) - The file to upload, must be an image
- * @response 200 - The avatar has been updated
- */
 router.put(
   "/avatar",
   singleUploadMiddleware,
@@ -45,12 +38,6 @@ router.put(
   }),
 );
 
-/**
- * @protected
- * @summary Delete the avatar of the user
- * @description Delete the avatar of the user.
- * @response 204 - The avatar has been deleted
- */
 router.delete(
   "/",
   asyncWrapper(async (req, res) => {
@@ -65,13 +52,6 @@ router.delete(
   }),
 );
 
-/**
- * @protected
- * @summary Change the user settings
- * @description Change the user settings of the user.
- * @body data (object, required, one_of username|email|name|dateOfBirth) - The user settings to update
- * @response 200 - The user settings have been updated
- */
 router.patch(
   "/",
   [
@@ -106,12 +86,6 @@ router.patch(
   }),
 );
 
-/**
- * @protected
- * @summary Request a password reset
- * @description Request a password reset for the user. An email will be sent to the user with a link to reset the password.
- * @response 200 - The password reset email has been sent
- */
 router.post(
   "/request-password-reset",
   asyncWrapper(async (req, res) => {

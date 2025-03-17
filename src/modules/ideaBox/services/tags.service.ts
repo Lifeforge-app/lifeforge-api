@@ -5,16 +5,10 @@ export const getTags = async (
   pb: PocketBase,
   container: string,
 ): Promise<IIdeaBoxTag[]> => {
-  try {
-    const result = await pb
-      .collection("idea_box_tags")
-      .getFullList<IIdeaBoxTag>({
-        filter: `container = "${container}"`,
-      });
-    return result;
-  } catch (error) {
-    throw error;
-  }
+  const result = await pb.collection("idea_box_tags").getFullList<IIdeaBoxTag>({
+    filter: `container = "${container}"`,
+  });
+  return result;
 };
 
 export const createTag = async (
@@ -24,18 +18,14 @@ export const createTag = async (
   color: string,
   container: string,
 ): Promise<IIdeaBoxTag> => {
-  try {
-    const tag: IIdeaBoxTag = await pb.collection("idea_box_tags").create({
-      name,
-      icon,
-      color,
-      container,
-      count: 0,
-    });
-    return tag;
-  } catch (error) {
-    throw error;
-  }
+  const tag: IIdeaBoxTag = await pb.collection("idea_box_tags").create({
+    name,
+    icon,
+    color,
+    container,
+    count: 0,
+  });
+  return tag;
 };
 
 export const updateTag = async (
@@ -45,22 +35,14 @@ export const updateTag = async (
   icon: string,
   color: string,
 ): Promise<IIdeaBoxTag> => {
-  try {
-    const tag: IIdeaBoxTag = await pb.collection("idea_box_tags").update(id, {
-      name,
-      icon,
-      color,
-    });
-    return tag;
-  } catch (error) {
-    throw error;
-  }
+  const tag: IIdeaBoxTag = await pb.collection("idea_box_tags").update(id, {
+    name,
+    icon,
+    color,
+  });
+  return tag;
 };
 
 export const deleteTag = async (pb: PocketBase, id: string): Promise<void> => {
-  try {
-    await pb.collection("idea_box_tags").delete(id);
-  } catch (error) {
-    throw error;
-  }
+  await pb.collection("idea_box_tags").delete(id);
 };

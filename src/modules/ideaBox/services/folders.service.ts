@@ -6,17 +6,13 @@ export const getFolders = async (
   container: string,
   lastFolder: string,
 ): Promise<IIdeaBoxFolder[]> => {
-  try {
-    const result = await pb
-      .collection("idea_box_folders")
-      .getFullList<IIdeaBoxFolder>({
-        filter: `container = "${container}" && parent = "${lastFolder}"`,
-        sort: "name",
-      });
-    return result;
-  } catch (error) {
-    throw error;
-  }
+  const result = await pb
+    .collection("idea_box_folders")
+    .getFullList<IIdeaBoxFolder>({
+      filter: `container = "${container}" && parent = "${lastFolder}"`,
+      sort: "name",
+    });
+  return result;
 };
 
 export const createFolder = async (
@@ -27,20 +23,16 @@ export const createFolder = async (
   icon: string,
   color: string,
 ): Promise<IIdeaBoxFolder> => {
-  try {
-    const folder: IIdeaBoxFolder = await pb
-      .collection("idea_box_folders")
-      .create({
-        name,
-        container,
-        parent,
-        icon,
-        color,
-      });
-    return folder;
-  } catch (error) {
-    throw error;
-  }
+  const folder: IIdeaBoxFolder = await pb
+    .collection("idea_box_folders")
+    .create({
+      name,
+      container,
+      parent,
+      icon,
+      color,
+    });
+  return folder;
 };
 
 export const updateFolder = async (
@@ -50,18 +42,14 @@ export const updateFolder = async (
   icon: string,
   color: string,
 ): Promise<IIdeaBoxFolder> => {
-  try {
-    const folder: IIdeaBoxFolder = await pb
-      .collection("idea_box_folders")
-      .update(id, {
-        name,
-        icon,
-        color,
-      });
-    return folder;
-  } catch (error) {
-    throw error;
-  }
+  const folder: IIdeaBoxFolder = await pb
+    .collection("idea_box_folders")
+    .update(id, {
+      name,
+      icon,
+      color,
+    });
+  return folder;
 };
 
 export const moveFolder = async (
@@ -69,43 +57,31 @@ export const moveFolder = async (
   id: string,
   target: string,
 ): Promise<IIdeaBoxFolder> => {
-  try {
-    const entry: IIdeaBoxFolder = await pb
-      .collection("idea_box_folders")
-      .update(id, {
-        parent: target,
-      });
-    return entry;
-  } catch (error) {
-    throw error;
-  }
+  const entry: IIdeaBoxFolder = await pb
+    .collection("idea_box_folders")
+    .update(id, {
+      parent: target,
+    });
+  return entry;
 };
 
 export const removeFromFolder = async (
   pb: PocketBase,
   id: string,
 ): Promise<IIdeaBoxFolder> => {
-  try {
-    const entry: IIdeaBoxFolder = await pb
-      .collection("idea_box_folders")
-      .update(id, {
-        parent: "",
-      });
-    return entry;
-  } catch (error) {
-    throw error;
-  }
+  const entry: IIdeaBoxFolder = await pb
+    .collection("idea_box_folders")
+    .update(id, {
+      parent: "",
+    });
+  return entry;
 };
 
 export const deleteFolder = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  try {
-    await pb.collection("idea_box_folders").delete(id);
-  } catch (error) {
-    throw error;
-  }
+  await pb.collection("idea_box_folders").delete(id);
 };
 
 export const validateFolderPath = async (
@@ -113,35 +89,31 @@ export const validateFolderPath = async (
   container: string,
   path: string[],
 ): Promise<{ folderExists: boolean; lastFolder: string }> => {
-  try {
-    let folderExists = true;
-    let lastFolder = "";
+  let folderExists = true;
+  let lastFolder = "";
 
-    for (const folder of path) {
-      if (!folder) continue;
+  for (const folder of path) {
+    if (!folder) continue;
 
-      try {
-        const folderEntry = await pb
-          .collection("idea_box_folders")
-          .getOne<IIdeaBoxFolder>(folder);
+    try {
+      const folderEntry = await pb
+        .collection("idea_box_folders")
+        .getOne<IIdeaBoxFolder>(folder);
 
-        if (
-          folderEntry.parent !== lastFolder ||
-          folderEntry.container !== container
-        ) {
-          folderExists = false;
-          break;
-        }
-
-        lastFolder = folder;
-      } catch (error) {
+      if (
+        folderEntry.parent !== lastFolder ||
+        folderEntry.container !== container
+      ) {
         folderExists = false;
         break;
       }
-    }
 
-    return { folderExists, lastFolder };
-  } catch (error) {
-    throw error;
+      lastFolder = folder;
+    } catch (error) {
+      folderExists = false;
+      break;
+    }
   }
+
+  return { folderExists, lastFolder };
 };

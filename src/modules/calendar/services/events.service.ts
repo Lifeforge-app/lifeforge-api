@@ -3,9 +3,6 @@ import PocketBase from "pocketbase";
 import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import { ICalendarEvent } from "../typescript/calendar_interfaces";
 
-/**
- * Fetch all calendar events for a specific date range
- */
 export const getEventsByDateRange = async (
   pb: PocketBase,
   startDate: string,
@@ -16,9 +13,6 @@ export const getEventsByDateRange = async (
   });
 };
 
-/**
- * Fetch all calendar events for today
- */
 export const getTodayEvents = async (
   pb: PocketBase,
 ): Promise<ICalendarEvent[]> => {
@@ -34,9 +28,6 @@ export const getTodayEvents = async (
   });
 };
 
-/**
- * Create a new calendar event
- */
 export const createEvent = async (
   pb: PocketBase,
   eventData: WithoutPBDefault<ICalendarEvent>,
@@ -46,9 +37,6 @@ export const createEvent = async (
     .create<ICalendarEvent>(eventData);
 };
 
-/**
- * Update an existing calendar event
- */
 export const updateEvent = async (
   pb: PocketBase,
   id: string,
@@ -59,9 +47,6 @@ export const updateEvent = async (
     .update<ICalendarEvent>(id, eventData);
 };
 
-/**
- * Delete a calendar event
- */
 export const deleteEvent = async (
   pb: PocketBase,
   id: string,
@@ -69,9 +54,6 @@ export const deleteEvent = async (
   return await pb.collection("calendar_events").delete(id);
 };
 
-/**
- * Get a single calendar event by ID
- */
 export const getEventById = async (
   pb: PocketBase,
   id: string,

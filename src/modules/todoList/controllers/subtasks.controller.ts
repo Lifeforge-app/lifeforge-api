@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as subtasksService from "../services/subtasks.service";
@@ -12,12 +12,8 @@ export const getSubtasks = async (
   const { pb } = req;
   const { id } = req.params;
 
-  try {
-    const subtasks = await subtasksService.getSubtasksForEntry(pb, id);
-    successWithBaseResponse(res, subtasks);
-  } catch (error) {
-    clientError(res, "Error retrieving subtasks");
-  }
+  const subtasks = await subtasksService.getSubtasksForEntry(pb, id);
+  successWithBaseResponse(res, subtasks);
 };
 
 export const generateSubtasks = async (
@@ -27,19 +23,13 @@ export const generateSubtasks = async (
   const { pb } = req;
   const { summary, notes, level } = req.body;
 
-  try {
-    const subtasks = await subtasksService.generateSubtasksWithAI(
-      pb,
-      summary,
-      notes,
-      level,
-    );
-    successWithBaseResponse(res, subtasks);
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Error generating subtasks";
-    clientError(res, message);
-  }
+  const subtasks = await subtasksService.generateSubtasksWithAI(
+    pb,
+    summary,
+    notes,
+    level,
+  );
+  successWithBaseResponse(res, subtasks);
 };
 
 export const toggleSubtask = async (
@@ -49,14 +39,10 @@ export const toggleSubtask = async (
   const { pb } = req;
   const { id } = req.params;
 
-  try {
-    if (!(await checkExistence(req, res, "todo_subtasks", id))) {
-      return;
-    }
-
-    const subtask = await subtasksService.toggleSubtaskCompletion(pb, id);
-    successWithBaseResponse(res, subtask);
-  } catch (error) {
-    clientError(res, "Error toggling subtask");
+  if (!(await checkExistence(req, res, "todo_subtasks", id))) {
+    return;
   }
+
+  const subtask = await subtasksService.toggleSubtaskCompletion(pb, id);
+  successWithBaseResponse(res, subtask);
 };

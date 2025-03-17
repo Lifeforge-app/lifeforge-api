@@ -27,13 +27,6 @@ router.get(
   }),
 );
 
-/**
- * @public
- * @summary Get the OAuth endpoint for a provider
- * @description Retrieve the OAuth endpoint and the related information for a given provider.
- * @query provider (string, required, must_exist) - The name of the provider
- * @response 200 (AuthProviderInfo) - The OAuth endpoint information
- */
 router.get(
   "/oauth-endpoint",
   [query("provider").isString()],
@@ -59,14 +52,6 @@ router.get(
   }),
 );
 
-/**
- * @public
- * @summary Verify an OAuth code
- * @description Verify an OAuth code with the given provider. If the code is valid, the user will be logged in, and a session token will be returned.
- * @body provider (string, required) - The name of the provider
- * @body code (string, required) - The OAuth code
- * @response 200 - The user data and the token
- */
 router.post(
   "/oauth-verify",
   [body("provider").isString(), body("code").isString()],
@@ -126,12 +111,6 @@ router.post(
   }),
 );
 
-/**
- * @protected
- * @summary Request an OTP
- * @description Request a One-Time Password (OTP) for the user.
- * @response 200 (string) - The OTP ID
- */
 router.get(
   "/otp",
   asyncWrapper(async (req, res) => {
@@ -158,14 +137,6 @@ router.post(
   }),
 );
 
-/**
- * @public
- * @summary Login a user
- * @description Log in a user with the given email and password. If the credentials are valid, the user data and a session token will be returned.
- * @body email (string, required) - The email of the user. Will raise an error if the email is not valid.
- * @body password (string, required) - The password of the user.
- * @response 200 - The user data and the token
- */
 router.post(
   "/login",
   [body("email").isEmail(), body("password").isString()],
@@ -221,12 +192,6 @@ router.post(
   }),
 );
 
-/**
- * @public
- * @summary Verify a session token
- * @description Verify a session token in the Authorization header. If the token is valid, the user data will be returned.
- * @response 200 - The user data
- */
 router.post(
   "/verify",
   asyncWrapper(async (req, res) => {

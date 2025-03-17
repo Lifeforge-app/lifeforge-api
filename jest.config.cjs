@@ -1,3 +1,5 @@
+const { pathsToModuleNameMapper } = require("ts-jest");
+
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
@@ -10,4 +12,7 @@ module.exports = {
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   verbose: true,
+  moduleNameMapper: {
+    "^@utils/(.*)$": "<rootDir>/src/core/utils/$1",
+  },
 };

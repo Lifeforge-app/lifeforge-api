@@ -1,9 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import fs from "fs";
 import { BaseResponse } from "../../../core/typescript/base_response";
@@ -41,71 +37,56 @@ export const createContainer = async (
   const { name, color, icon } = req.body;
 
   if (req.file) {
-    try {
-      const fileBuffer = fs.readFileSync(req.file.path);
-      const container = await containersService.createContainer(
-        req.pb,
-        name,
-        color,
-        icon,
-        new File([fileBuffer], req.file.filename),
-      );
+    const fileBuffer = fs.readFileSync(req.file.path);
+    const container = await containersService.createContainer(
+      req.pb,
+      name,
+      color,
+      icon,
+      new File([fileBuffer], req.file.filename),
+    );
 
-      if (container.cover) {
-        container.cover = req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "");
-      }
-
-      successWithBaseResponse(res, container, 201);
-      fs.unlinkSync(req.file.path);
-    } catch (error) {
-      console.error(error);
-      if (req.file) fs.unlinkSync(req.file.path);
-      serverError(res, "Failed to create container");
+    if (container.cover) {
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
     }
+
+    successWithBaseResponse(res, container, 201);
+    fs.unlinkSync(req.file.path);
     return;
   }
 
   const url = req.body.cover;
 
   if (url) {
-    try {
-      const response = await fetch(url);
-      const fileBuffer = await response.arrayBuffer();
+    const response = await fetch(url);
+    const fileBuffer = await response.arrayBuffer();
 
-      const container = await containersService.createContainer(
-        req.pb,
-        name,
-        color,
-        icon,
-        new File([fileBuffer], "cover.jpg"),
-      );
+    const container = await containersService.createContainer(
+      req.pb,
+      name,
+      color,
+      icon,
+      new File([fileBuffer], "cover.jpg"),
+    );
 
-      if (container.cover) {
-        container.cover = req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "");
-      }
-
-      successWithBaseResponse(res, container, 201);
-    } catch (error) {
-      clientError(res, "Invalid file");
+    if (container.cover) {
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
     }
+
+    successWithBaseResponse(res, container, 201);
   } else {
-    try {
-      const container = await containersService.createContainer(
-        req.pb,
-        name,
-        color,
-        icon,
-      );
+    const container = await containersService.createContainer(
+      req.pb,
+      name,
+      color,
+      icon,
+    );
 
-      successWithBaseResponse(res, container, 201);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to create container");
-    }
+    successWithBaseResponse(res, container, 201);
   }
 };
 
@@ -122,96 +103,75 @@ export const updateContainer = async (
   }
 
   if (req.file) {
-    try {
-      const fileBuffer = fs.readFileSync(req.file.path);
-      const container = await containersService.updateContainer(
-        req.pb,
-        id,
-        name,
-        color,
-        icon,
-        new File([fileBuffer], req.file.filename),
-      );
+    const fileBuffer = fs.readFileSync(req.file.path);
+    const container = await containersService.updateContainer(
+      req.pb,
+      id,
+      name,
+      color,
+      icon,
+      new File([fileBuffer], req.file.filename),
+    );
 
-      if (container.cover) {
-        container.cover = req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "");
-      }
-
-      successWithBaseResponse(res, container);
-      fs.unlinkSync(req.file.path);
-    } catch (error) {
-      console.error(error);
-      if (req.file) fs.unlinkSync(req.file.path);
-      serverError(res, "Failed to update container");
+    if (container.cover) {
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
     }
+
+    successWithBaseResponse(res, container);
+    fs.unlinkSync(req.file.path);
     return;
   }
 
   const url = req.body.cover;
 
   if (url === "keep") {
-    try {
-      const container = await containersService.updateContainerKeepCover(
-        req.pb,
-        id,
-        name,
-        color,
-        icon,
-      );
+    const container = await containersService.updateContainerKeepCover(
+      req.pb,
+      id,
+      name,
+      color,
+      icon,
+    );
 
-      if (container.cover) {
-        container.cover = req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "");
-      }
-
-      successWithBaseResponse(res, container);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to update container");
+    if (container.cover) {
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
     }
+
+    successWithBaseResponse(res, container);
   } else if (url) {
-    try {
-      const response = await fetch(url);
-      const fileBuffer = await response.arrayBuffer();
+    const response = await fetch(url);
+    const fileBuffer = await response.arrayBuffer();
 
-      const container = await containersService.updateContainer(
-        req.pb,
-        id,
-        name,
-        color,
-        icon,
-        new File([fileBuffer], "cover.jpg"),
-      );
+    const container = await containersService.updateContainer(
+      req.pb,
+      id,
+      name,
+      color,
+      icon,
+      new File([fileBuffer], "cover.jpg"),
+    );
 
-      if (container.cover) {
-        container.cover = req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "");
-      }
-
-      successWithBaseResponse(res, container);
-    } catch (error) {
-      console.error(error);
-      clientError(res, "Invalid file");
+    if (container.cover) {
+      container.cover = req.pb.files
+        .getURL(container, container.cover)
+        .replace(`${req.pb.baseURL}/api/files`, "");
     }
+
+    successWithBaseResponse(res, container);
   } else {
-    try {
-      const container = await containersService.updateContainer(
-        req.pb,
-        id,
-        name,
-        color,
-        icon,
-      );
+    const container = await containersService.updateContainer(
+      req.pb,
+      id,
+      name,
+      color,
+      icon,
+    );
 
-      successWithBaseResponse(res, container);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to update container");
-    }
+    successWithBaseResponse(res, container);
   }
 };
 
@@ -225,11 +185,6 @@ export const deleteContainer = async (
     return;
   }
 
-  try {
-    await containersService.deleteContainer(req.pb, id);
-    successWithBaseResponse(res, undefined, 204);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to delete container");
-  }
+  await containersService.deleteContainer(req.pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };

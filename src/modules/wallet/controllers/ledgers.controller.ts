@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as LedgersService from "../services/ledgers.service";
@@ -11,12 +11,8 @@ export const getAllLedgers = async (
 ) => {
   const { pb } = req;
 
-  try {
-    const ledgers = await LedgersService.getAllLedgers(pb);
-    successWithBaseResponse(res, ledgers);
-  } catch (error) {
-    serverError(res, "Failed to fetch ledgers");
-  }
+  const ledgers = await LedgersService.getAllLedgers(pb);
+  successWithBaseResponse(res, ledgers);
 };
 
 export const createLedger = async (
@@ -26,16 +22,12 @@ export const createLedger = async (
   const { pb } = req;
   const { name, icon, color } = req.body;
 
-  try {
-    const ledger = await LedgersService.createLedger(pb, {
-      name,
-      icon,
-      color,
-    });
-    successWithBaseResponse(res, ledger, 201);
-  } catch (error) {
-    serverError(res, "Failed to create ledger");
-  }
+  const ledger = await LedgersService.createLedger(pb, {
+    name,
+    icon,
+    color,
+  });
+  successWithBaseResponse(res, ledger, 201);
 };
 
 export const updateLedger = async (
@@ -50,16 +42,12 @@ export const updateLedger = async (
     return;
   }
 
-  try {
-    const ledger = await LedgersService.updateLedger(pb, id, {
-      name,
-      icon,
-      color,
-    });
-    successWithBaseResponse(res, ledger);
-  } catch (error) {
-    serverError(res, "Failed to update ledger");
-  }
+  const ledger = await LedgersService.updateLedger(pb, id, {
+    name,
+    icon,
+    color,
+  });
+  successWithBaseResponse(res, ledger);
 };
 
 export const deleteLedger = async (
@@ -73,10 +61,6 @@ export const deleteLedger = async (
     return;
   }
 
-  try {
-    await LedgersService.deleteLedger(pb, id);
-    successWithBaseResponse(res, undefined, 204);
-  } catch (error) {
-    serverError(res, "Failed to delete ledger");
-  }
+  await LedgersService.deleteLedger(pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };

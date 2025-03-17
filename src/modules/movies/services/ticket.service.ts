@@ -14,25 +14,17 @@ export const updateTicket = async (
   entry_id: string,
   ticketData: TicketData,
 ) => {
-  try {
-    return await pb
-      .collection("movies_entries")
-      .update<IMovieEntry>(entry_id, ticketData);
-  } catch (error) {
-    throw error;
-  }
+  return await pb
+    .collection("movies_entries")
+    .update<IMovieEntry>(entry_id, ticketData);
 };
 
 export const clearTicket = async (pb: PocketBase, id: string) => {
-  try {
-    await pb.collection("movies_entries").update<IMovieEntry>(id, {
-      ticket_number: "",
-      theatre_location: "",
-      theatre_number: "",
-      theatre_seat: "",
-      theatre_showtime: "",
-    });
-  } catch (error) {
-    throw error;
-  }
+  await pb.collection("movies_entries").update<IMovieEntry>(id, {
+    ticket_number: "",
+    theatre_location: "",
+    theatre_number: "",
+    theatre_seat: "",
+    theatre_showtime: "",
+  });
 };

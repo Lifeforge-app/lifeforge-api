@@ -1,15 +1,9 @@
 import { body, param } from "express-validator";
 
-/**
- * Validate ID parameter
- */
 export const validateId = [
   param("id").notEmpty().withMessage("ID is required"),
 ];
 
-/**
- * Validate category data
- */
 export const validateCategoryData = [
   body("name")
     .isString()

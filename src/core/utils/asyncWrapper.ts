@@ -1,15 +1,21 @@
 import { NextFunction, Request, Response } from "express";
+import { serverError } from "./response";
 
 const asyncWrapper =
-  (cb: (req: Request, res: Response, next: NextFunction) => Promise<void>) =>
+  <Req extends Request = Request, Res extends Response = Response>(
+    cb: (req: Req, res: Res, next: NextFunction) => Promise<void>,
+  ) =>
   (req: Request, res: Response, next: NextFunction) =>
-    cb(req, res, next).catch((err: any) => {
-      console.error(`Error: ${err.message}`);
+    (cb as (req: Request, res: Response, next: NextFunction) => Promise<void>)(
+      req,
+      res,
+      next,
+    ).catch((err) => {
+      console.error(
+        `Error: ${err instanceof Error ? err.message : JSON.stringify(err)}`,
+      );
       try {
-        res.status(500).json({
-          state: "error",
-          message: "Internal Server Error",
-        });
+        serverError(res, "Internal server error");
       } catch {
         console.error("Error while sending response");
       }

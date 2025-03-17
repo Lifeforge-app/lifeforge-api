@@ -8,9 +8,6 @@ import { addToLibrary } from "./process";
 // Store for all active download processes
 const downloadProcesses = new Map<string, IBooksLibraryDownloadProcess>();
 
-/**
- * Initiates a download and adds a book to the library
- */
 export const initiateDownload = async (
   pb: Pocketbase,
   md5: string,
@@ -22,9 +19,6 @@ export const initiateDownload = async (
   return addToLibrary(pb, md5, metadata, downloadProcesses);
 };
 
-/**
- * Gets the progress of all active downloads
- */
 export const getDownloadProgresses = () => {
   return Object.fromEntries(
     Array.from(downloadProcesses.entries()).map(([k, v]) => [
@@ -34,9 +28,6 @@ export const getDownloadProgresses = () => {
   );
 };
 
-/**
- * Cancels an active download
- */
 export const cancelDownload = (md5: string) => {
   const process = downloadProcesses.get(md5);
   if (!process) {

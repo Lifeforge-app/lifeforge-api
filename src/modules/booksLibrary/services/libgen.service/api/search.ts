@@ -1,9 +1,6 @@
 import { JSDOM } from "jsdom";
 import { cleanupTitle } from "../utils/parsing";
 
-/**
- * Searches for books on libgen based on provided query parameters
- */
 export const searchBooks = async (queries: Record<string, string>) => {
   const target = new URL("http://libgen.is/search.php");
   target.searchParams.set("mode", queries.mode);
@@ -55,9 +52,6 @@ export const searchBooks = async (queries: Record<string, string>) => {
   }
 };
 
-/**
- * Parses libgen search results in simple view
- */
 function parseSimpleView(document: Document) {
   const table = document.querySelector("table.c");
 
@@ -87,9 +81,6 @@ function parseSimpleView(document: Document) {
     });
 }
 
-/**
- * Parses libgen search results in detailed view
- */
 function parseDetailedView(document: Document) {
   const table = Array.from(
     document.querySelectorAll('body > table[rules="cols"]'),

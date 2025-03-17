@@ -9,12 +9,6 @@ import { IProjectsMEntry } from "../typescript/projects_m_interfaces";
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Get a list of all projects entries
- * @description Retrieve a list of all projects entries.
- * @response 200 (IProjectsMEntry[]) - The list of projects entries
- */
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry[]>>) =>
@@ -22,13 +16,6 @@ router.get(
   ),
 );
 
-/**
- * @protected
- * @summary Get a single projects entry
- * @description Retrieve a single projects entry by its ID.
- * @param id (string, required, must_exist) - The ID of the projects entry
- * @response 200 (IProjectsMEntry) - The projects entry
- */
 router.get(
   "/:id",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMEntry>>) => {
@@ -43,31 +30,11 @@ router.get(
   }),
 );
 
-/**
- * @protected
- * @summary Validate a projects entry
- * @description Check if a projects entry exists.
- * @param id (string, required, must_exist) - The ID of the projects entry
- * @response 200 (boolean) - Whether the projects entry exists
- */
 router.get(
   "/valid/:id",
   asyncWrapper(async (req, res) => validate(req, res, "projects_m_entries")),
 );
 
-/**
- * @protected
- * @summary Create a new projects entry
- * @description Create a new projects entry with the given name, icon, color, visibility, status, category, and technologies.
- * @body name (string, required) - The name of the entry
- * @body icon (string, required) - The icon of the entry, can be any icon available in Iconify
- * @body color (string, required) - The color of the entry, in hex format
- * @body visibility (string, required, must_exist) - The visibility of the entry
- * @body status (string, required, must_exist) - The status of the entry
- * @body category (string, required, must_exist) - The category of the entry
- * @body technologies (string[], required, must_exist) - The technologies of the entry
- * @response 201 (IProjectsMEntry) - The created projects entry
- */
 router.post(
   "/",
   [
@@ -144,20 +111,6 @@ router.post(
   }),
 );
 
-/**
- * @protected
- * @summary Update a projects entry
- * @description Update a projects entry with the given name, icon, color, visibility, status, category, and technologies.
- * @param id (string, required, must_exist) - The ID of the projects entry
- * @body name (string, required) - The name of the entry
- * @body icon (string, required) - The icon of the entry, can be any icon available in Iconify
- * @body color (string, required) - The color of the entry, in hex format
- * @body visibility (string, required, must_exist) - The visibility of the entry
- * @body status (string, required, must_exist) - The status of the entry
- * @body category (string, required, must_exist) - The category of the entry
- * @body technologies (string[], required, must_exist) - The technologies of the entry
- * @response 200 (IProjectsMEntry) - The updated projects entry
- */
 router.patch(
   "/:id",
   [
@@ -235,13 +188,6 @@ router.patch(
   }),
 );
 
-/**
- * @protected
- * @summary Delete a projects entry
- * @description Delete a projects entry with the given ID.
- * @param id (string, required, must_exist) - The ID of the projects entry
- * @response 200 - The projects entry was successfully deleted
- */
 router.delete(
   "/:id",
   asyncWrapper(async (req, res) => {

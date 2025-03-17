@@ -1,6 +1,6 @@
 // @ts-nocheck
 import express from "express";
-import validationMiddleware from "../../core/middleware/validationMiddleware";
+import asyncWrapper from "../../core/utils/asyncWrapper";
 import * as CodeTimeController from "./controllers/codeTime.controller";
 import {
   validateDays,
@@ -10,40 +10,36 @@ import {
 
 const router = express.Router();
 
-router.get("/activities", CodeTimeController.getActivities);
+router.get("/activities", asyncWrapper(CodeTimeController.getActivities));
 
-router.get("/statistics", CodeTimeController.getStatistics);
+router.get("/statistics", asyncWrapper(CodeTimeController.getStatistics));
 
 router.get(
   "/last-x-days",
   validateDays,
-  validationMiddleware,
-  CodeTimeController.getLastXDays,
+  asyncWrapper(CodeTimeController.getLastXDays),
 );
 
 router.get(
   "/projects",
   validateLastXDays,
-  validationMiddleware,
-  CodeTimeController.getProjects,
+  asyncWrapper(CodeTimeController.getProjects),
 );
 
 router.get(
   "/languages",
   validateLastXDays,
-  validationMiddleware,
-  CodeTimeController.getLanguages,
+  asyncWrapper(CodeTimeController.getLanguages),
 );
 
-router.get("/each-day", CodeTimeController.getEachDay);
+router.get("/each-day", asyncWrapper(CodeTimeController.getEachDay));
 
 router.get(
   "/user/minutes",
   validateMinutes,
-  validationMiddleware,
-  CodeTimeController.getUserMinutes,
+  asyncWrapper(CodeTimeController.getUserMinutes),
 );
 
-router.post("/eventLog", CodeTimeController.logEvent);
+router.post("/eventLog", asyncWrapper(CodeTimeController.logEvent));
 
 export default router;

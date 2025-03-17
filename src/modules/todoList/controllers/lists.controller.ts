@@ -1,30 +1,20 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as listsService from "../services/lists.service";
 import { ITodoListList } from "../typescript/todo_list_interfaces";
 
-/**
- * Get all todo lists
- */
 export const getAllLists = async (
   req: Request,
   res: Response<BaseResponse<ITodoListList[]>>,
 ) => {
   const { pb } = req;
 
-  try {
-    const lists = await listsService.getAllLists(pb);
-    successWithBaseResponse(res, lists);
-  } catch (error) {
-    serverError(res, "Failed to fetch todo lists");
-  }
+  const lists = await listsService.getAllLists(pb);
+  successWithBaseResponse(res, lists);
 };
 
-/**
- * Create a new todo list
- */
 export const createList = async (
   req: Request,
   res: Response<BaseResponse<ITodoListList>>,
@@ -32,17 +22,10 @@ export const createList = async (
   const { pb } = req;
   const { name, icon, color } = req.body;
 
-  try {
-    const list = await listsService.createList(pb, { name, icon, color });
-    successWithBaseResponse(res, list, 201);
-  } catch (error) {
-    serverError(res, "Failed to create todo list");
-  }
+  const list = await listsService.createList(pb, { name, icon, color });
+  successWithBaseResponse(res, list, 201);
 };
 
-/**
- * Update a todo list
- */
 export const updateList = async (
   req: Request<{ id: string }>,
   res: Response<BaseResponse<ITodoListList>>,
@@ -55,17 +38,10 @@ export const updateList = async (
     return;
   }
 
-  try {
-    const list = await listsService.updateList(pb, id, { name, icon, color });
-    successWithBaseResponse(res, list);
-  } catch (error) {
-    serverError(res, "Failed to update todo list");
-  }
+  const list = await listsService.updateList(pb, id, { name, icon, color });
+  successWithBaseResponse(res, list);
 };
 
-/**
- * Delete a todo list
- */
 export const deleteList = async (
   req: Request<{ id: string }>,
   res: Response<BaseResponse<undefined>>,
@@ -77,10 +53,6 @@ export const deleteList = async (
     return;
   }
 
-  try {
-    await listsService.deleteList(pb, id);
-    successWithBaseResponse(res, undefined, 204);
-  } catch (error) {
-    serverError(res, "Failed to delete todo list");
-  }
+  await listsService.deleteList(pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };

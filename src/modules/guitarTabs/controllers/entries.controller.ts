@@ -55,8 +55,7 @@ export const uploadFiles = async (
   );
 
   if (result.status === "error") {
-    clientError(res, result.message);
-    return;
+    throw new Error(result.message);
   }
 
   res.status(202).json({

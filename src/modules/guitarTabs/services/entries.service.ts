@@ -17,35 +17,30 @@ let total = 0;
 export const getSidebarData = async (
   pb: PocketBase,
 ): Promise<IGuitarTabsSidebarData> => {
-  try {
-    const allScores = await pb
-      .collection("guitar_tabs_entries")
-      .getFullList<IGuitarTabsEntry>();
+  const allScores = await pb
+    .collection("guitar_tabs_entries")
+    .getFullList<IGuitarTabsEntry>();
 
-    return {
-      total: allScores.length,
-      favourites: allScores.filter((entry) => entry.isFavourite).length,
-      categories: {
-        fingerstyle: allScores.filter((entry) => entry.type === "fingerstyle")
-          .length,
-        singalong: allScores.filter((entry) => entry.type === "singalong")
-          .length,
-        uncategorized: allScores.filter((entry) => entry.type === "").length,
+  return {
+    total: allScores.length,
+    favourites: allScores.filter((entry) => entry.isFavourite).length,
+    categories: {
+      fingerstyle: allScores.filter((entry) => entry.type === "fingerstyle")
+        .length,
+      singalong: allScores.filter((entry) => entry.type === "singalong").length,
+      uncategorized: allScores.filter((entry) => entry.type === "").length,
+    },
+    authors: allScores.reduce(
+      (acc, entry) => {
+        if (!acc[entry.author]) {
+          acc[entry.author] = 0;
+        }
+        acc[entry.author]++;
+        return acc;
       },
-      authors: allScores.reduce(
-        (acc, entry) => {
-          if (!acc[entry.author]) {
-            acc[entry.author] = 0;
-          }
-          acc[entry.author]++;
-          return acc;
-        },
-        {} as Record<string, number>,
-      ),
-    };
-  } catch (error) {
-    throw error;
-  }
+      {} as Record<string, number>,
+    ),
+  };
 };
 
 export const getEntries = async (
@@ -57,22 +52,18 @@ export const getEntries = async (
   starred: boolean,
   sort: string,
 ) => {
-  try {
-    return await pb.collection("guitar_tabs_entries").getList(page, 20, {
-      filter: `(name~"${search}" || author~"${search}") && ${
-        category === "uncategorized" ? "type=''" : `type~"${category}"`
-      } && author~"${author}" ${starred ? "&& isFavourite=true" : ""}`,
-      sort: `-isFavourite, ${
-        sort === "newest"
-          ? "-created"
-          : sort === "oldest"
-            ? "created"
-            : sort || "-created"
-      }`,
-    });
-  } catch (error) {
-    throw error;
-  }
+  return await pb.collection("guitar_tabs_entries").getList(page, 20, {
+    filter: `(name~"${search}" || author~"${search}") && ${
+      category === "uncategorized" ? "type=''" : `type~"${category}"`
+    } && author~"${author}" ${starred ? "&& isFavourite=true" : ""}`,
+    sort: `-isFavourite, ${
+      sort === "newest"
+        ? "-created"
+        : sort === "oldest"
+          ? "created"
+          : sort || "-created"
+    }`,
+  });
 };
 
 export const uploadFiles = async (
@@ -251,83 +242,90 @@ export const updateEntry = async (
   author: string,
   type: string,
 ): Promise<IGuitarTabsEntry> => {
-  try {
-    return await pb.collection("guitar_tabs_entries").update(id, {
-      name,
-      author,
-      type,
-    });
-  } catch (error) {
-    throw error;
-  }
+  return await pb.collection("guitar_tabs_entries").update(id, {
+    name,
+    author,
+    type,
+  });
 };
 
 export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  try {
-    await pb.collection("guitar_tabs_entries").delete(id);
-  } catch (error) {
-    throw error;
-  }
+  await pb.collection("guitar_tabs_entries").delete(id);
 };
 
 export const downloadAllEntries = async (pb: PocketBase): Promise<void> => {
-  try {
-    const entries = await pb
-      .collection("guitar_tabs_entries")
-      .getFullList<IGuitarTabsEntry>();
+  const entries = await pb
+    .collection("guitar_tabs_entries")
+    .getFullList<IGuitarTabsEntry>();
 
-    let mediumLocation = `${process.cwd()}/../medium`;
-    const date = moment().format("YYYY-MM-DD");
-    if (!fs.existsSync(`${mediumLocation}/guitar_tabs-${date}`)) {
-      fs.mkdirSync(`${mediumLocation}/guitar_tabs-${date}`);
-      mediumLocation = `${mediumLocation}/guitar_tabs-${date}`;
-    } else {
-      let i = 1;
-      while (fs.existsSync(`${mediumLocation}/guitar_tabs-${date}-${i}`)) {
-        i++;
-      }
-      fs.mkdirSync(`${mediumLocation}/guitar_tabs-${date}-${i}`);
-      mediumLocation = `${mediumLocation}/guitar_tabs-${date}-${i}`;
+  let mediumLocation = `${process.cwd()}/../medium`;
+  const date = moment().format("YYYY-MM-DD");
+  if (!fs.existsSync(`${mediumLocation}/guitar_tabs-${date}`)) {
+    fs.mkdirSync(`${mediumLocation}/guitar_tabs-${date}`);
+    mediumLocation = `${mediumLocation}/guitar_tabs-${date}`;
+  } else {
+    let i = 1;
+    while (fs.existsSync(`${mediumLocation}/guitar_tabs-${date}-${i}`)) {
+      i++;
     }
+    fs.mkdirSync(`${mediumLocation}/guitar_tabs-${date}-${i}`);
+    mediumLocation = `${mediumLocation}/guitar_tabs-${date}-${i}`;
+  }
 
-    for (const entry of entries) {
-      let targetLocation = mediumLocation;
-      const folderLocation = `${process.cwd()}/../database/pb_data/storage/${entry.collectionId}/${entry.id}`;
+  for (const entry of entries) {
+    let targetLocation = mediumLocation;
+    const folderLocation = `${process.cwd()}/../database/pb_data/storage/${entry.collectionId}/${entry.id}`;
 
-      let i = 0;
-      if (entry.audio || entry.musescore) {
-        while (true) {
-          const number = i === 0 ? "" : `-${i}`;
-          if (fs.existsSync(`${mediumLocation}/${entry.name}${number}`)) {
-            i++;
-            continue;
-          }
-          fs.mkdirSync(`${mediumLocation}/${entry.name}${number}`);
-          targetLocation = `${mediumLocation}/${entry.name}${number}`;
-          break;
-        }
-      }
-
-      i = 0;
+    let i = 0;
+    if (entry.audio || entry.musescore) {
       while (true) {
         const number = i === 0 ? "" : `-${i}`;
-        if (fs.existsSync(`${targetLocation}/${entry.name}${number}.pdf`)) {
+        if (fs.existsSync(`${mediumLocation}/${entry.name}${number}`)) {
+          i++;
+          continue;
+        }
+        fs.mkdirSync(`${mediumLocation}/${entry.name}${number}`);
+        targetLocation = `${mediumLocation}/${entry.name}${number}`;
+        break;
+      }
+    }
+
+    i = 0;
+    while (true) {
+      const number = i === 0 ? "" : `-${i}`;
+      if (fs.existsSync(`${targetLocation}/${entry.name}${number}.pdf`)) {
+        i++;
+        continue;
+      }
+      fs.copyFileSync(
+        `${folderLocation}/${entry.pdf}`,
+        `${targetLocation}/${entry.name}${number}.pdf`,
+      );
+      break;
+    }
+
+    if (entry.audio) {
+      i = 0;
+      const ext = entry.audio.split(".").pop();
+      while (true) {
+        const number = i === 0 ? "" : `-${i}`;
+        if (fs.existsSync(`${targetLocation}/${entry.name}${number}.${ext}`)) {
           i++;
           continue;
         }
         fs.copyFileSync(
-          `${folderLocation}/${entry.pdf}`,
-          `${targetLocation}/${entry.name}${number}.pdf`,
+          `${folderLocation}/${entry.audio}`,
+          `${targetLocation}/${entry.name}${number}.${ext}`,
         );
         break;
       }
 
-      if (entry.audio) {
+      if (entry.musescore) {
         i = 0;
-        const ext = entry.audio.split(".").pop();
+        const ext = entry.musescore.split(".").pop();
         while (true) {
           const number = i === 0 ? "" : `-${i}`;
           if (
@@ -337,34 +335,13 @@ export const downloadAllEntries = async (pb: PocketBase): Promise<void> => {
             continue;
           }
           fs.copyFileSync(
-            `${folderLocation}/${entry.audio}`,
+            `${folderLocation}/${entry.musescore}`,
             `${targetLocation}/${entry.name}${number}.${ext}`,
           );
           break;
         }
-
-        if (entry.musescore) {
-          i = 0;
-          const ext = entry.musescore.split(".").pop();
-          while (true) {
-            const number = i === 0 ? "" : `-${i}`;
-            if (
-              fs.existsSync(`${targetLocation}/${entry.name}${number}.${ext}`)
-            ) {
-              i++;
-              continue;
-            }
-            fs.copyFileSync(
-              `${folderLocation}/${entry.musescore}`,
-              `${targetLocation}/${entry.name}${number}.${ext}`,
-            );
-            break;
-          }
-        }
       }
     }
-  } catch (error) {
-    throw error;
   }
 };
 
@@ -372,17 +349,13 @@ export const toggleFavorite = async (
   pb: PocketBase,
   id: string,
 ): Promise<IGuitarTabsEntry> => {
-  try {
-    const entry = await pb
-      .collection("guitar_tabs_entries")
-      .getOne<IGuitarTabsEntry>(id);
+  const entry = await pb
+    .collection("guitar_tabs_entries")
+    .getOne<IGuitarTabsEntry>(id);
 
-    return await pb
-      .collection("guitar_tabs_entries")
-      .update<IGuitarTabsEntry>(id, {
-        isFavourite: !entry.isFavourite,
-      });
-  } catch (error) {
-    throw error;
-  }
+  return await pb
+    .collection("guitar_tabs_entries")
+    .update<IGuitarTabsEntry>(id, {
+      isFavourite: !entry.isFavourite,
+    });
 };

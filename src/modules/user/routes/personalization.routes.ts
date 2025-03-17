@@ -133,13 +133,6 @@ router.delete(
   }),
 );
 
-/**
- * @protected
- * @summary Change the personalization settings
- * @description Change the personalization settings of the user.
- * @body data (object, required, one_of fontFamily|theme|color|bgTemp|language|dashboardLayout|backdropFilters) - The personalization settings to update
- * @response 200 - The personalization settings have been updated
- */
 router.patch(
   "/",
   [

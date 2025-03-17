@@ -1,5 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
+import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as EntriesService from "../services/entries.service";
@@ -10,14 +10,7 @@ export const getAllEntries = async (
   res: Response<BaseResponse<IBooksLibraryEntry[]>>,
 ) => {
   const { pb } = req;
-
   const entries = await EntriesService.getAllEntries(pb);
-
-  if (!entries) {
-    clientError(res, "Failed to fetch entries");
-    return;
-  }
-
   successWithBaseResponse(res, entries);
 };
 
@@ -27,11 +20,12 @@ export const updateEntry = async (
 ) => {
   const { pb } = req;
   const { id } = req.params;
-  const data = req.body as Partial<IBooksLibraryEntry>;
 
   if (!(await checkExistence(req, res, "books_library_entries", id))) {
     return;
   }
+
+  const data = req.body as Partial<IBooksLibraryEntry>;
 
   if (
     data.category &&
@@ -51,12 +45,6 @@ export const updateEntry = async (
   }
 
   const entry = await EntriesService.updateEntry(pb, id, data);
-
-  if (!entry) {
-    clientError(res, "Failed to update entry");
-    return;
-  }
-
   successWithBaseResponse(res, entry);
 };
 
@@ -72,12 +60,6 @@ export const toggleFavouriteStatus = async (
   }
 
   const entry = await EntriesService.toggleFavouriteStatus(pb, id);
-
-  if (!entry) {
-    clientError(res, "Failed to toggle favourite status");
-    return;
-  }
-
   successWithBaseResponse(res, entry);
 };
 
@@ -92,12 +74,6 @@ export const deleteEntry = async (
     return;
   }
 
-  const isDeleted = await EntriesService.deleteEntry(pb, id);
-
-  if (!isDeleted) {
-    clientError(res, "Failed to delete entry");
-    return;
-  }
-
+  await EntriesService.deleteEntry(pb, id);
   successWithBaseResponse(res, undefined, 204);
 };

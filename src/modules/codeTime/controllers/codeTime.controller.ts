@@ -13,11 +13,16 @@ export const getActivities = asyncWrapper(
     const { pb } = req;
     const year = req.query.year;
 
-    const activitiesData = await CodeTimeService.getActivities(
-      pb,
-      year as string,
-    );
-    successWithBaseResponse(res, activitiesData);
+    try {
+      const activitiesData = await CodeTimeService.getActivities(
+        pb,
+        year as string,
+      );
+      successWithBaseResponse(res, activitiesData);
+    } catch (error) {
+      console.error(error);
+      serverError(res, "Failed to fetch activities");
+    }
   },
 );
 
@@ -25,8 +30,13 @@ export const getStatistics = asyncWrapper(
   async (req: Request, res: Response) => {
     const { pb } = req;
 
-    const statistics = await CodeTimeService.getStatistics(pb);
-    successWithBaseResponse(res, statistics);
+    try {
+      const statistics = await CodeTimeService.getStatistics(pb);
+      successWithBaseResponse(res, statistics);
+    } catch (error) {
+      console.error(error);
+      serverError(res, "Failed to fetch statistics");
+    }
   },
 );
 
@@ -42,8 +52,13 @@ export const getLastXDays = asyncWrapper(
       return;
     }
 
-    const data = await CodeTimeService.getLastXDays(pb, days ? +days : 7);
-    return successWithBaseResponse(res, data);
+    try {
+      const data = await CodeTimeService.getLastXDays(pb, days ? +days : 7);
+      return successWithBaseResponse(res, data);
+    } catch (error) {
+      console.error(error);
+      serverError(res, "Failed to fetch last x days data");
+    }
   },
 );
 
@@ -60,11 +75,16 @@ export const getLanguages = asyncWrapper(
     const { pb } = req;
     const lastXDays = req.query.last as string;
 
-    const languagesStats = await CodeTimeService.getLanguagesStats(
-      pb,
-      lastXDays,
-    );
-    successWithBaseResponse(res, languagesStats);
+    try {
+      const languagesStats = await CodeTimeService.getLanguagesStats(
+        pb,
+        lastXDays,
+      );
+      successWithBaseResponse(res, languagesStats);
+    } catch (error) {
+      console.error(error);
+      serverError(res, "Failed to fetch languages");
+    }
   },
 );
 

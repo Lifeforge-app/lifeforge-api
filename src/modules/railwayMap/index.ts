@@ -1,6 +1,6 @@
 import asyncWrapper from "@utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "@utils/response";
-import express from "express";
+import express, { Request } from "express";
 import { query } from "express-validator";
 
 const router = express.Router();
@@ -87,10 +87,10 @@ function dijkstraWithTransfers(
   return path.length > 1 ? path : null;
 }
 
-router.get("/shortest", [
-  query("start").isString().notEmpty(),
-  query("end").isString().notEmpty(),
-  asyncWrapper(async (req, res) => {
+router.get(
+  "/shortest",
+  [query("start").isString().notEmpty(), query("end").isString().notEmpty()],
+  asyncWrapper(async (req: Request, res) => {
     const { pb } = req;
     const { start, end } = req.query as Record<string, string>;
 
@@ -147,6 +147,6 @@ router.get("/shortest", [
         .filter((s) => !!s),
     );
   }),
-]);
+);
 
 export default router;

@@ -9,12 +9,6 @@ import { IProjectsMStatus } from "../typescript/projects_m_interfaces";
 
 const router = express.Router();
 
-/**
- * @protected
- * @summary Get a list of all projects statuses
- * @description Retrieve a list of all projects statuses.
- * @response 200 (IProjectsMStatus[]) - The list of projects statuses
- */
 router.get(
   "/",
   asyncWrapper(async (req, res: Response<BaseResponse<IProjectsMStatus[]>>) =>
@@ -22,15 +16,6 @@ router.get(
   ),
 );
 
-/**
- * @protected
- * @summary Create a new projects status
- * @description Create a new projects status with the given name, icon, and color.
- * @body name (string, required) - The name of the status
- * @body icon (string, required) - The icon of the status, can be any icon available in Iconify
- * @body color (string, required) - The color of the status, in hex format
- * @response 201 (IProjectsMStatus) - The created projects status
- */
 router.post(
   "/",
   [
@@ -54,15 +39,6 @@ router.post(
   }),
 );
 
-/**
- * @protected
- * @summary Update a projects status
- * @description Update a projects status with the given name, icon, and color.
- * @body name (string, required) - The name of the status
- * @body icon (string, required) - The icon of the status, can be any icon available in Iconify
- * @body color (string, required) - The color of the status, in hex format
- * @response 200 (IProjectsMStatus) - The updated projects status
- */
 router.patch(
   "/:id",
   [
@@ -91,13 +67,6 @@ router.patch(
   }),
 );
 
-/**
- * @protected
- * @summary Delete a projects status
- * @description Delete a projects status with the given ID.
- * @param id (string, required, must_exist) - The ID of the projects status
- * @response 204 - The projects status was successfully deleted
- */
 router.delete(
   "/:id",
   asyncWrapper(async (req, res) => {

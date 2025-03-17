@@ -15,29 +15,19 @@ export const getAllEntries = async (
   const { pb } = req;
   const master = decodeURIComponent(req.query.master as string);
 
-  try {
-    const decryptedMaster = await getDecryptedMaster(master, pb, res);
-    if (!decryptedMaster) return;
+  const decryptedMaster = await getDecryptedMaster(master, pb, res);
+  if (!decryptedMaster) return;
 
-    const entries = await entriesService.getAllEntries(pb);
-    successWithBaseResponse(res, entries);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to fetch API key entries");
-  }
+  const entries = await entriesService.getAllEntries(pb);
+  successWithBaseResponse(res, entries);
 };
 
 export const checkKeys = async (req: Request, res: Response) => {
   const { pb } = req;
   const { keys } = req.query as { keys: string };
 
-  try {
-    const result = await entriesService.checkKeys(pb, keys);
-    successWithBaseResponse(res, result);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to check API keys");
-  }
+  const result = await entriesService.checkKeys(pb, keys);
+  successWithBaseResponse(res, result);
 };
 
 export const getEntryById = async (
@@ -52,20 +42,15 @@ export const getEntryById = async (
     return;
   }
 
-  try {
-    const decryptedMaster = await getDecryptedMaster(master, pb, res);
-    if (!decryptedMaster) return;
+  const decryptedMaster = await getDecryptedMaster(master, pb, res);
+  if (!decryptedMaster) return;
 
-    const encryptedKey = await entriesService.getEntryById(
-      pb,
-      id,
-      decryptedMaster,
-    );
-    successWithBaseResponse(res, encryptedKey);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to fetch API key entry");
-  }
+  const encryptedKey = await entriesService.getEntryById(
+    pb,
+    id,
+    decryptedMaster,
+  );
+  successWithBaseResponse(res, encryptedKey);
 };
 
 export const createEntry = async (
@@ -75,35 +60,30 @@ export const createEntry = async (
   const { pb } = req;
   const { data } = req.body;
 
+  let decryptedData = null;
+
   try {
-    let decryptedData = null;
-
-    try {
-      decryptedData = JSON.parse(decrypt2(data, challenge));
-    } catch (e) {
-      serverError(res, "Invalid data format");
-      return;
-    }
-
-    const { keyId, name, description, icon, key, master } = decryptedData;
-
-    const decryptedMaster = await getDecryptedMaster(master, pb, res);
-    if (!decryptedMaster) return;
-
-    const entry = await entriesService.createEntry(pb, {
-      keyId,
-      name,
-      description,
-      icon,
-      key,
-      decryptedMaster,
-    });
-
-    successWithBaseResponse(res, entry, 201);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to create API key entry");
+    decryptedData = JSON.parse(decrypt2(data, challenge));
+  } catch (e) {
+    serverError(res, "Invalid data format");
+    return;
   }
+
+  const { keyId, name, description, icon, key, master } = decryptedData;
+
+  const decryptedMaster = await getDecryptedMaster(master, pb, res);
+  if (!decryptedMaster) return;
+
+  const entry = await entriesService.createEntry(pb, {
+    keyId,
+    name,
+    description,
+    icon,
+    key,
+    decryptedMaster,
+  });
+
+  successWithBaseResponse(res, entry, 201);
 };
 
 export const updateEntry = async (
@@ -118,35 +98,30 @@ export const updateEntry = async (
     return;
   }
 
+  let decryptedData = null;
+
   try {
-    let decryptedData = null;
-
-    try {
-      decryptedData = JSON.parse(decrypt2(data, challenge));
-    } catch (e) {
-      serverError(res, "Invalid data format");
-      return;
-    }
-
-    const { keyId, name, description, icon, key, master } = decryptedData;
-
-    const decryptedMaster = await getDecryptedMaster(master, pb, res);
-    if (!decryptedMaster) return;
-
-    const updatedEntry = await entriesService.updateEntry(pb, id, {
-      keyId,
-      name,
-      description,
-      icon,
-      key,
-      decryptedMaster,
-    });
-
-    successWithBaseResponse(res, updatedEntry);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to update API key entry");
+    decryptedData = JSON.parse(decrypt2(data, challenge));
+  } catch (e) {
+    serverError(res, "Invalid data format");
+    return;
   }
+
+  const { keyId, name, description, icon, key, master } = decryptedData;
+
+  const decryptedMaster = await getDecryptedMaster(master, pb, res);
+  if (!decryptedMaster) return;
+
+  const updatedEntry = await entriesService.updateEntry(pb, id, {
+    keyId,
+    name,
+    description,
+    icon,
+    key,
+    decryptedMaster,
+  });
+
+  successWithBaseResponse(res, updatedEntry);
 };
 
 export const deleteEntry = async (
@@ -160,11 +135,6 @@ export const deleteEntry = async (
     return;
   }
 
-  try {
-    await entriesService.deleteEntry(pb, id);
-    successWithBaseResponse(res, undefined, 204);
-  } catch (error) {
-    console.error(error);
-    serverError(res, "Failed to delete API key entry");
-  }
+  await entriesService.deleteEntry(pb, id);
+  successWithBaseResponse(res, undefined, 204);
 };
