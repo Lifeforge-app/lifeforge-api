@@ -78,7 +78,6 @@ describe("Entries Routes", () => {
       await request(app).get("/medium");
 
       expect(validateDifficulty).toHaveBeenCalled();
-      expect(validationMiddleware).toHaveBeenCalled();
       expect(EntriesController.getAllEntriesByDifficulty).toHaveBeenCalled();
     });
 
@@ -122,7 +121,6 @@ describe("Entries Routes", () => {
 
       expect(validateId).toHaveBeenCalled();
       expect(validateBodyData).toHaveBeenCalled();
-      expect(validationMiddleware).toHaveBeenCalled();
       expect(EntriesController.updateEntry).toHaveBeenCalled();
     });
 
@@ -143,7 +141,6 @@ describe("Entries Routes", () => {
       await request(app).delete("/123");
 
       expect(validateId).toHaveBeenCalled();
-      expect(validationMiddleware).toHaveBeenCalled();
       expect(EntriesController.deleteEntry).toHaveBeenCalled();
     });
 

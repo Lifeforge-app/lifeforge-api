@@ -76,7 +76,7 @@ router.get(
           ),
         );
       }
-    } else {·
+    } else {
       for (const lng of ["en", "ms", "zh-CN", "zh-TW"]) {
         if (
           !fs.existsSync(
