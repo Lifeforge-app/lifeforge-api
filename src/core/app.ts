@@ -9,7 +9,7 @@ import rateLimitingMiddleware from "./middleware/rateLimitingMiddleware";
 import router from "./router";
 
 dotenv.config({
-  path: ".env.local",
+  path: "./env/.env.local",
 });
 
 const app = express();

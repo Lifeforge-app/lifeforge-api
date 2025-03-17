@@ -51,8 +51,8 @@
     "zod": "^3.23.8"
   },
   "scripts": {
-    "dev": "export NODE_ENV=development && forever stopall && tsx watch --env-file=.env.local ./src/index.ts",
-    "start": "export NODE_ENV=production && forever stopall && tsc && pkgroll --minify --clean-dist && export $(grep -v '^#' .env.local | xargs) && forever start dist/index.mjs",
+    "dev": "export NODE_ENV=development && forever stopall && tsx watch --env-file=./env/.env.local ./src/index.ts",
+    "start": "export NODE_ENV=production && forever stopall && tsc && pkgroll --minify --clean-dist && export $(grep -v '^#' ./env/.env.local | xargs) && forever start dist/index.mjs",
     "test": "jest"
   },
   "exports": "./dist/index.mjs",
