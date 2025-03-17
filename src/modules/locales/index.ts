@@ -27,7 +27,7 @@ router.get(
     const { namespace } = req.params;
 
     const data = fs
-      .readdirSync(`${process.cwd()}/src/cores/locales/en/${namespace}`)
+      .readdirSync(`${process.cwd()}/src/core/locales/en/${namespace}`)
       .map((file) => file.replace(".json", ""));
 
     successWithBaseResponse(res, data);
@@ -49,11 +49,11 @@ router.get(
     for (const lng of ["en", "ms", "zh-CN", "zh-TW"]) {
       if (
         !fs.existsSync(
-          `${process.cwd()}/src/cores/locales/${lng}/${namespace}/${subnamespace}.json`,
+          `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
         )
       ) {
         console.log(
-          `${process.cwd()}/src/cores/locales/${lng}/${namespace}/${subnamespace}.json`,
+          `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
         );
         clientError(res, "Subnamespace data file not found", 404);
         return;
@@ -61,7 +61,7 @@ router.get(
 
       final[lng] = JSON.parse(
         fs.readFileSync(
-          `${process.cwd()}/src/cores/locales/${lng}/${namespace}/${subnamespace}.json`,
+          `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
           "utf-8",
         ),
       );
@@ -97,7 +97,7 @@ router.get(
 
     const data = JSON.parse(
       fs.readFileSync(
-        `${process.cwd()}/src/cores/locales/${finalLang}/${type}/${id}.json`,
+        `${process.cwd()}/src/core/locales/${finalLang}/${type}/${id}.json`,
         "utf-8",
       ),
     );
@@ -105,13 +105,11 @@ router.get(
     if (type === "common" && id === "sidebar") {
       data.modules = Object.fromEntries(
         fs
-          .readdirSync(
-            `${process.cwd()}/src/cores/locales/${finalLang}/modules`,
-          )
+          .readdirSync(`${process.cwd()}/src/core/locales/${finalLang}/modules`)
           .map((file) => {
             const data = JSON.parse(
               fs.readFileSync(
-                `${process.cwd()}/src/cores/locales/${finalLang}/modules/${file}`,
+                `${process.cwd()}/src/core/locales/${finalLang}/modules/${file}`,
                 "utf-8",
               ),
             );
@@ -146,7 +144,7 @@ router.post(
     const fileContent = ["en", "ms", "zh-CN", "zh-TW"].reduce<
       Record<string, any>
     >((acc, lang) => {
-      const path = `${process.cwd()}/src/cores/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const path = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
       if (fs.existsSync(path)) {
         acc[lang] = JSON.parse(fs.readFileSync(path, "utf-8"));
       } else {
@@ -176,7 +174,7 @@ router.post(
 
     for (const lang in fileContent) {
       fs.writeFileSync(
-        `${process.cwd()}/src/cores/locales/${lang}/${namespace}/${subnamespace}.json`,
+        `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`,
         JSON.stringify(fileContent[lang], null, 2),
       );
     }
@@ -200,7 +198,7 @@ router.post(
     const path = req.body.path || "";
 
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
-      const filePath = `${process.cwd()}/src/cores/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const filePath = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),
       );
@@ -243,7 +241,7 @@ router.post(
     const newName = req.body.newName || "";
 
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
-      const filePath = `${process.cwd()}/src/cores/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const filePath = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),
       );
@@ -290,7 +288,7 @@ router.post(
     const path = req.body.path || "";
 
     ["en", "ms", "zh-CN", "zh-TW"].forEach((lang) => {
-      const filePath = `${process.cwd()}/src/cores/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const filePath = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),
       );

@@ -1,6 +1,7 @@
 import express from "express";
 import { createLazyRouter } from "express-lazy-router";
 import { query } from "express-validator";
+import path from "path";
 import request from "request";
 import { ROUTES } from "./constants/routes";
 import asyncWrapper from "./utils/asyncWrapper";
@@ -9,10 +10,12 @@ import { successWithBaseResponse } from "./utils/response";
 const lazyLoad = createLazyRouter();
 const router = express.Router();
 
-Object.entries(ROUTES).forEach(([path, module]) => {
+Object.entries(ROUTES).forEach(([route, module]) => {
   router.use(
-    path,
-    lazyLoad(() => import(module)),
+    route,
+    lazyLoad(
+      () => import(path.resolve(process.cwd(), `./src/modules/${module}`)),
+    ),
   );
 });
 
