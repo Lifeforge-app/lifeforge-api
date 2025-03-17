@@ -26,6 +26,20 @@ router.get(
 
     const { namespace } = req.params;
 
+    if (namespace === "modules") {
+      const data = fs
+        .readdirSync(`${process.cwd()}/src/core/modules`)
+        .filter((module) =>
+          fs.existsSync(
+            `${process.cwd()}/src/modules/${module}/locales/en.json`,
+          ),
+        )
+        .map((module) => module.replace(".json", ""));
+
+      successWithBaseResponse(res, data);
+      return;
+    }
+
     const data = fs
       .readdirSync(`${process.cwd()}/src/core/locales/en/${namespace}`)
       .map((file) => file.replace(".json", ""));
@@ -46,25 +60,40 @@ router.get(
 
     const final: Record<string, any> = {};
 
-    for (const lng of ["en", "ms", "zh-CN", "zh-TW"]) {
+    if (namespace === "modules") {
       if (
-        !fs.existsSync(
-          `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
-        )
+        !fs.existsSync(`${process.cwd}/src/modules/${subnamespace}/locales`)
       ) {
-        console.log(
-          `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
-        );
-        clientError(res, "Subnamespace data file not found", 404);
+        clientError(res, "Locale file not found", 404);
         return;
       }
 
-      final[lng] = JSON.parse(
-        fs.readFileSync(
-          `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
-          "utf-8",
-        ),
-      );
+      for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
+        final[lang] = JSON.parse(
+          fs.readFileSync(
+            `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`,
+            "utf-8",
+          ),
+        );
+      }
+    } else {
+      for (const lng of ["en", "ms", "zh-CN", "zh-TW"]) {
+        if (
+          !fs.existsSync(
+            `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
+          )
+        ) {
+          clientError(res, "Subnamespace data file not found", 404);
+          return;
+        }
+
+        final[lng] = JSON.parse(
+          fs.readFileSync(
+            `${process.cwd()}/src/core/locales/${lng}/${namespace}/${subnamespace}.json`,
+            "utf-8",
+          ),
+        );
+      }
     }
 
     successWithBaseResponse(res, final);
@@ -95,21 +124,63 @@ router.get(
     const [type, id] = namespace.split(".");
     const finalLang = lang === "zh" ? "zh-CN" : lang;
 
-    const data = JSON.parse(
-      fs.readFileSync(
-        `${process.cwd()}/src/core/locales/${finalLang}/${type}/${id}.json`,
-        "utf-8",
-      ),
-    );
+    let data;
+
+    if (type === "modules") {
+      if (!fs.existsSync(`${process.cwd}/src/modules/${id}/locales`)) {
+        clientError(res, "Locale file not found", 404);
+        return;
+      }
+
+      data = JSON.parse(
+        fs.readFileSync(
+          `${process.cwd()}/src/modules/${id}/locales/${finalLang}.json`,
+          "utf-8",
+        ),
+      );
+    } else {
+      data = JSON.parse(
+        fs.readFileSync(
+          `${process.cwd()}/src/core/locales/${finalLang}/${type}/${id}.json`,
+          "utf-8",
+        ),
+      );
+    }
 
     if (type === "common" && id === "sidebar") {
-      data.modules = Object.fromEntries(
+      const moduleLocales = Object.fromEntries(
         fs
-          .readdirSync(`${process.cwd()}/src/core/locales/${finalLang}/modules`)
+          .readdirSync(`${process.cwd()}/src/modules`)
+          .filter((module) =>
+            fs.existsSync(
+              `${process.cwd()}/src/modules/${module}/locales/${finalLang}.json`,
+            ),
+          )
+          .map((module) => {
+            const data = JSON.parse(
+              fs.readFileSync(
+                `${process.cwd()}/src/modules/${module}/locales/${finalLang}.json`,
+                "utf-8",
+              ),
+            );
+
+            return [
+              module.replace(".json", ""),
+              {
+                title: data.title ?? "",
+                subsections: data.subsections ?? {},
+              },
+            ];
+          }),
+      );
+
+      const coreLocales = Object.fromEntries(
+        fs
+          .readdirSync(`${process.cwd()}/src/core/locales/${finalLang}/core`)
           .map((file) => {
             const data = JSON.parse(
               fs.readFileSync(
-                `${process.cwd()}/src/core/locales/${finalLang}/modules/${file}`,
+                `${process.cwd()}/src/core/locales/${finalLang}/core/${file}`,
                 "utf-8",
               ),
             );
@@ -123,6 +194,11 @@ router.get(
             ];
           }),
       );
+
+      data.modules = {
+        ...moduleLocales,
+        ...coreLocales,
+      };
     }
 
     res.json(data);
@@ -141,18 +217,37 @@ router.post(
     const { data } = req.body;
     const { namespace, subnamespace } = req.params;
 
-    const fileContent = ["en", "ms", "zh-CN", "zh-TW"].reduce<
-      Record<string, any>
-    >((acc, lang) => {
-      const path = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
-      if (fs.existsSync(path)) {
-        acc[lang] = JSON.parse(fs.readFileSync(path, "utf-8"));
-      } else {
-        acc[lang] = {};
-      }
+    let fileContent;
 
-      return acc;
-    }, {});
+    if (namespace === "modules") {
+      fileContent = ["en", "ms", "zh-CN", "zh-TW"].reduce<Record<string, any>>(
+        (acc, lang) => {
+          const path = `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`;
+          if (fs.existsSync(path)) {
+            acc[lang] = JSON.parse(fs.readFileSync(path, "utf-8"));
+          } else {
+            acc[lang] = {};
+          }
+
+          return acc;
+        },
+        {},
+      );
+    } else {
+      fileContent = ["en", "ms", "zh-CN", "zh-TW"].reduce<Record<string, any>>(
+        (acc, lang) => {
+          const path = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
+          if (fs.existsSync(path)) {
+            acc[lang] = JSON.parse(fs.readFileSync(path, "utf-8"));
+          } else {
+            acc[lang] = {};
+          }
+
+          return acc;
+        },
+        {},
+      );
+    }
 
     for (const key in data as Record<string, any>) {
       for (const lang in data[key]) {
@@ -170,13 +265,20 @@ router.post(
       }
     }
 
-    console.log(fileContent);
-
-    for (const lang in fileContent) {
-      fs.writeFileSync(
-        `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`,
-        JSON.stringify(fileContent[lang], null, 2),
-      );
+    if (namespace === "modules") {
+      for (const lang in fileContent) {
+        fs.writeFileSync(
+          `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`,
+          JSON.stringify(fileContent[lang], null, 2),
+        );
+      }
+    } else {
+      for (const lang in fileContent) {
+        fs.writeFileSync(
+          `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`,
+          JSON.stringify(fileContent[lang], null, 2),
+        );
+      }
     }
 
     successWithBaseResponse(res, true);
@@ -198,7 +300,11 @@ router.post(
     const path = req.body.path || "";
 
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
-      const filePath = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const filePath =
+        namespace === "modules"
+          ? `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`
+          : `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
+
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),
       );
@@ -241,7 +347,11 @@ router.post(
     const newName = req.body.newName || "";
 
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
-      const filePath = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const filePath =
+        namespace === "modules"
+          ? `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`
+          : `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
+
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),
       );
@@ -288,7 +398,10 @@ router.post(
     const path = req.body.path || "";
 
     ["en", "ms", "zh-CN", "zh-TW"].forEach((lang) => {
-      const filePath = `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
+      const filePath =
+        namespace === "modules"
+          ? `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`
+          : `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),
       );
