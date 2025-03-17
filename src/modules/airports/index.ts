@@ -1,11 +1,11 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import fs from "fs";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../utils/response";
 import COUNTRIES from "./data/countries";
 import REGIONS from "./data/regions";
-import airportRoutes from "./routes/airport";
-import NOTAMRoutes from "./routes/NOTAM";
+import airportRoutes from "./routes/airport.routes";
+import NOTAMRoutes from "./routes/NOTAM.routes";
 
 const CONTINENTS_NAME = {
   AF: "Africa",

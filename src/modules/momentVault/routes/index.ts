@@ -1,16 +1,16 @@
+import { checkExistence } from "@utils/PBRecordValidator";
+import { fetchAI } from "@utils/fetchAI";
+import { getAPIKey } from "@utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "@utils/response";
 import express, { Request, Response } from "express";
 import { param } from "express-validator";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import OpenAI from "openai";
 import { ListResult } from "pocketbase";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { IMomentVaultEntry } from "../../../interfaces/moment_vault_interfaces";
-import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import { fetchAI } from "../../../utils/fetchAI";
-import { getAPIKey } from "../../../utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+import { BaseResponse } from "../../../core/typescript/base_response";
+import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
 
 const router = express.Router();
 

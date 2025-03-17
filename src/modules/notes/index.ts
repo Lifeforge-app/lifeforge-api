@@ -1,7 +1,7 @@
 import express from "express";
-import entriesRoutes from "./routes/entries.js";
-import subjectRoutes from "./routes/subjects.js";
-import workspaceRoutes from "./routes/workspaces.js";
+import entriesRoutes from "./routes/entries.routes";
+import subjectRoutes from "./routes/subjects.routes";
+import workspaceRoutes from "./routes/workspaces.routes";
 
 const router = express.Router();
 

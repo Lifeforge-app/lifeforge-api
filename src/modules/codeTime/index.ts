@@ -1,7 +1,7 @@
 // @ts-nocheck
 import express from "express";
-import validationMiddleware from "../../middleware/validationMiddleware";
-import * as CodeTimeController from "./controllers/codeTimeController";
+import validationMiddleware from "../../core/middleware/validationMiddleware";
+import * as CodeTimeController from "./controllers/codeTime.controller";
 import {
   validateDays,
   validateLastXDays,

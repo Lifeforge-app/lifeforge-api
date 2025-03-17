@@ -1,5 +1,5 @@
 import { body, query } from "express-validator";
-import { ITodoSubtask } from "../../../interfaces/todo_list_interfaces";
+import { ITodoSubtask } from "../typescript/todo_list_interfaces";
 
 export const getEntriesValidation = [
   query("status")

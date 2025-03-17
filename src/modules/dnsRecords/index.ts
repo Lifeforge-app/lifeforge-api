@@ -1,8 +1,8 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { getAPIKey } from "@utils/getAPIKey";
+import { serverError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { body, query } from "express-validator";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { getAPIKey } from "../../utils/getAPIKey";
-import { serverError, successWithBaseResponse } from "../../utils/response";
 
 const router = express.Router();
 

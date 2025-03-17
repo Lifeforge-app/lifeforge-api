@@ -1,6 +1,6 @@
+import asyncWrapper from "@utils/asyncWrapper";
 import express from "express";
 import request from "request";
-import asyncWrapper from "../../utils/asyncWrapper";
 
 if (!process.env.PB_EMAIL || !process.env.PB_PASSWORD) {
   throw new Error("PB_EMAIL and PB_PASSWORD must be set");

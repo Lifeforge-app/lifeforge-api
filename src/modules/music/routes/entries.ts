@@ -1,13 +1,13 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { list } from "@utils/CRUD";
+import { successWithBaseResponse } from "@utils/response";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import fs from "fs";
 import mime from "mime-types";
 import * as mm from "music-metadata";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { IMusicEntry } from "../../../interfaces/music_interfaces";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { list } from "../../../utils/CRUD";
-import { successWithBaseResponse } from "../../../utils/response";
+import { BaseResponse } from "../../../core/typescript/base_response";
+import { IMusicEntry } from "../typescript/music_interfaces";
 
 const router = express.Router();
 

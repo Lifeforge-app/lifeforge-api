@@ -1,6 +1,6 @@
 import express from "express";
-import playlistRoutes from "./routes/playlist.js";
-import videoRoutes from "./routes/video.js";
+import playlistRoutes from "./routes/playlist.routes";
+import videoRoutes from "./routes/video.routes";
 
 const router = express.Router();
 

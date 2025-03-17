@@ -12,7 +12,7 @@ async function updateVideoChannelData(
 
   const { thumbnails, channel, id } = JSON.parse(
     execSync(
-      `${process.cwd()}/src/bin/yt-dlp ${uploaderUrl} --playlist-items 0 --dump-single-json`,
+      `${process.cwd()}/src/core/bin/yt-dlp ${uploaderUrl} --playlist-items 0 --dump-single-json`,
     )
       .toString()
       .trim(),

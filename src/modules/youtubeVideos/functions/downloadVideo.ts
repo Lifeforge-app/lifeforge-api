@@ -6,7 +6,7 @@ function downloadVideo(
   progressCallback: (progress: number) => void,
 ) {
   return new Promise((resolve, reject) => {
-    const ytDlp = spawn(`${process.cwd()}/src/bin/yt-dlp`, [
+    const ytDlp = spawn(`${process.cwd()}/src/core/bin/yt-dlp`, [
       "--newline", // Ensures that each line of output is printed immediately
       "-S",
       "ext:mp4:m4a",

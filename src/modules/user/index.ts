@@ -1,10 +1,10 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { successWithBaseResponse } from "@utils/response";
 import express from "express";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../utils/response";
-import twoFARoutes from "./routes/2fa";
-import authRoutes from "./routes/auth";
-import personalizationRoutes from "./routes/personalization";
-import settingsRoutes from "./routes/settings";
+import authRoutes from "./routes/auth.routes";
+import personalizationRoutes from "./routes/personalization.routes";
+import settingsRoutes from "./routes/settings.routes";
+import twoFARoutes from "./routes/twoFA.routes";
 
 const router = express.Router();
 

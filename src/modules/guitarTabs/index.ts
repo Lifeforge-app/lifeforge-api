@@ -1,6 +1,6 @@
 import express from "express";
-import entriesRoutes from "./routes/entries";
-import guitarWorldRoutes from "./routes/guitarWorld";
+import entriesRoutes from "./routes/entries.routes";
+import guitarWorldRoutes from "./routes/guitarWorld.routes";
 
 const router = express.Router();
 

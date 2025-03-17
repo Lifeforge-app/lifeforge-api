@@ -1,19 +1,19 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { validate } from "@utils/CRUD";
+import { decrypt, decrypt2, encrypt } from "@utils/encryption";
+import { fetchAI } from "@utils/fetchAI";
+import { getAPIKey } from "@utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "@utils/response";
 import bcrypt from "bcrypt";
 import express, { Request, Response } from "express";
 import { body, query } from "express-validator";
 import fs from "fs";
 import wordsCount from "words-count";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { IJournalEntry } from "../../../interfaces/journal_interfaces";
-import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
-import { uploadMiddleware } from "../../../middleware/uploadMiddleware";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { validate } from "../../../utils/CRUD";
-import { decrypt, decrypt2, encrypt } from "../../../utils/encryption";
-import { fetchAI } from "../../../utils/fetchAI";
-import { getAPIKey } from "../../../utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import { uploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+import { BaseResponse } from "../../../core/typescript/base_response";
+import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import { challenge } from "../index";
+import { IJournalEntry } from "../typescript/journal_interfaces";
 
 const router = express.Router();
 

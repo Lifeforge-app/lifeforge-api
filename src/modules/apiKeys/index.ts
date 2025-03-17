@@ -1,7 +1,7 @@
 import express from "express";
 import { v4 } from "uuid";
-import authRoutes from "./routes/auth";
-import entriesRoutes from "./routes/entries";
+import authRoutes from "./routes/auth.routes";
+import entriesRoutes from "./routes/entries.routes";
 
 const router = express.Router();
 

@@ -1,8 +1,8 @@
 // @ts-nocheck
+import asyncWrapper from "@utils/asyncWrapper";
+import { successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { body } from "express-validator";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 

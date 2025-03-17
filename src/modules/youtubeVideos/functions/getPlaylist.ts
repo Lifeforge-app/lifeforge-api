@@ -1,10 +1,10 @@
 import { exec } from "child_process";
-import { IYoutubePlaylistEntry } from "../../../interfaces/youtube_video_storage_interfaces.js";
+import { IYoutubePlaylistEntry } from "../typescript/youtube_video_storage_interfaces";
 
 function getPlaylist(url: string): Promise<IYoutubePlaylistEntry> {
   return new Promise((resolve, reject) => {
     exec(
-      `${process.cwd()}/src/bin/yt-dlp --flat-playlist --dump-single-json ${url}`,
+      `${process.cwd()}/src/core/bin/yt-dlp --flat-playlist --dump-single-json ${url}`,
       (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);

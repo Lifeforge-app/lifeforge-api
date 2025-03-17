@@ -1,10 +1,10 @@
 import express from "express";
 
-import containersRoutes from "./routes/containers";
-import foldersRoutes from "./routes/folders";
-import ideasRoutes from "./routes/ideas";
-import miscRoutes from "./routes/misc";
-import tagsRoutes from "./routes/tags";
+import containersRoutes from "./routes/containers.routes";
+import foldersRoutes from "./routes/folders.routes";
+import ideasRoutes from "./routes/ideas.routes";
+import miscRoutes from "./routes/misc.routes";
+import tagsRoutes from "./routes/tags.routes";
 
 const router = express.Router();
 

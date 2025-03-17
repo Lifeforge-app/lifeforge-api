@@ -1,9 +1,9 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { successWithBaseResponse } from "@utils/response";
 import express, { Response } from "express";
 import { body } from "express-validator";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { IPhotoAlbumTag } from "../../../interfaces/photos_interfaces";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { successWithBaseResponse } from "../../../utils/response";
+import { BaseResponse } from "../../../core/typescript/base_response";
+import { IPhotoAlbumTag } from "../typescript/photos_interfaces";
 
 const router = express.Router();
 

@@ -1,12 +1,12 @@
-import express from "express";
-import { query } from "express-validator";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { getAPIKey } from "../../utils/getAPIKey";
+import asyncWrapper from "@utils/asyncWrapper";
+import { getAPIKey } from "@utils/getAPIKey";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
-} from "../../utils/response";
+} from "@utils/response";
+import express from "express";
+import { query } from "express-validator";
 
 const router = express.Router();
 

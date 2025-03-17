@@ -1,7 +1,7 @@
+import { fetchAI } from "@utils/fetchAI";
 import ogs from "open-graph-scraper";
 import sharp from "sharp";
 import { createWorker } from "tesseract.js";
-import { fetchAI } from "../../../../utils/fetchAI";
 
 async function getPrice(imageURL: string) {
   try {
@@ -23,8 +23,8 @@ async function getPrice(imageURL: string) {
     const buffer = await crop.toBuffer();
 
     const worker = await createWorker("digits", 3, {
-      langPath: "./src/models",
-      cachePath: "./src/models",
+      langPath: "./src/core/models",
+      cachePath: "./src/core/models",
       cacheMethod: "readOnly",
       gzip: false,
     });

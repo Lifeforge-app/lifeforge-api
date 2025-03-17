@@ -10,6 +10,11 @@
     "moduleResolution": "bundler",
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "allowUnusedLabels": false
+    "allowUnusedLabels": false,
+    "paths": {
+      "@utils/*": [
+        "./src/core/utils/*"
+      ],
+    }
   }
 }

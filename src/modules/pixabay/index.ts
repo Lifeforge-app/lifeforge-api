@@ -1,10 +1,10 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import { getAPIKey } from "@utils/getAPIKey";
+import { serverError, successWithBaseResponse } from "@utils/response";
 import express, { Response } from "express";
 import { query } from "express-validator";
-import { BaseResponse } from "../../interfaces/base_response";
-import IPixabaySearchResult from "../../interfaces/pixabay_interfaces";
-import asyncWrapper from "../../utils/asyncWrapper";
-import { getAPIKey } from "../../utils/getAPIKey";
-import { serverError, successWithBaseResponse } from "../../utils/response";
+import { BaseResponse } from "../../core/typescript/base_response";
+import IPixabaySearchResult from "./typescript/pixabay_interfaces";
 
 const router = express.Router();
 

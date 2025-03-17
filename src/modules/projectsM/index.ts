@@ -1,10 +1,10 @@
 import express from "express";
-import categoryRoutes from "./routes/categories";
-import entriesRoutes from "./routes/entries";
-import kanbanRoutes from "./routes/kanban";
-import statusRoutes from "./routes/statuses";
-import technologyRoutes from "./routes/technologies";
-import visibilityRoutes from "./routes/visibilities";
+import categoryRoutes from "./routes/categories.routes";
+import entriesRoutes from "./routes/entries.routes";
+import kanbanRoutes from "./routes/kanban.routes";
+import statusRoutes from "./routes/statuses.routes";
+import technologyRoutes from "./routes/technologies.routes";
+import visibilityRoutes from "./routes/visibilities.routes";
 
 const router = express.Router();
 

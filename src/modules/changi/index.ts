@@ -1,5 +1,5 @@
 import express from "express";
-import flightsRoutes from "./routes/flights";
+import flightsRoutes from "./routes/flights.routes";
 
 const router = express.Router();
 

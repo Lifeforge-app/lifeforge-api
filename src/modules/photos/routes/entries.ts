@@ -1,13 +1,13 @@
 // @ts-nocheck
 import express from "express";
 
+import asyncWrapper from "@utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "@utils/response";
 import ExifReader from "exifreader";
 import fs from "fs";
 import sizeOf from "image-size";
 import mime from "mime-types";
 import moment from "moment";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
 
 const router = express.Router();
 

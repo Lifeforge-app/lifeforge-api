@@ -1,9 +1,9 @@
 import express from "express";
-import entriesRoutes from "./routes/entries.js";
-import listsRoutes from "./routes/lists.js";
-import prioritiesRoutes from "./routes/priorities.js";
-import subtasksRoutes from "./routes/subtasks.js";
-import tagsRoutes from "./routes/tags.js";
+import entriesRoutes from "./routes/entries.routes";
+import listsRoutes from "./routes/lists.routes";
+import prioritiesRoutes from "./routes/priorities.routes";
+import subtasksRoutes from "./routes/subtasks.routes";
+import tagsRoutes from "./routes/tags.routes";
 
 const router = express.Router();
 

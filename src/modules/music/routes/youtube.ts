@@ -1,16 +1,16 @@
+import asyncWrapper from "@utils/asyncWrapper";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "@utils/response";
 import { exec } from "child_process";
 import express, { Request, Response } from "express";
 import { body, param } from "express-validator";
 import { readFileSync, readdirSync, unlinkSync } from "fs";
 import { v4 } from "uuid";
-import { BaseResponse } from "../../../interfaces/base_response";
-import { IYoutubeData } from "../../../interfaces/music_interfaces";
-import asyncWrapper from "../../../utils/asyncWrapper";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "../../../utils/response";
+import { BaseResponse } from "../../../core/typescript/base_response";
+import { IYoutubeData } from "../typescript/music_interfaces";
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ router.get(
     }
 
     exec(
-      `${process.cwd()}/src/bin/yt-dlp --skip-download --print "title,upload_date,uploader,duration,view_count,like_count,thumbnail" "https://www.youtube.com/watch?v=${id}"`,
+      `${process.cwd()}/src/core/bin/yt-dlp --skip-download --print "title,upload_date,uploader,duration,view_count,like_count,thumbnail" "https://www.youtube.com/watch?v=${id}"`,
       (err, stdout) => {
         if (err) {
           serverError(res, err?.message ?? "Internal server error");
@@ -86,7 +86,7 @@ router.post(
     const downloadID = v4();
 
     exec(
-      `${process.cwd()}/src/bin/yt-dlp -f bestaudio -o "${process.cwd()}/medium/${downloadID}-%(title)s.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "https://www.youtube.com/watch?v=${id}"`,
+      `${process.cwd()}/src/core/bin/yt-dlp -f bestaudio -o "${process.cwd()}/medium/${downloadID}-%(title)s.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "https://www.youtube.com/watch?v=${id}"`,
       async (err) => {
         if (err) {
           downloading = "failed";
