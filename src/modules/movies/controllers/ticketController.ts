@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IMovieEntry } from "../../../interfaces/movies_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import { serverError, successWithBaseResponse } from "../../../utils/response";
 import * as TicketService from "../services/ticketService";
 
-export const updateTicket = async (req: Request, res: Response) => {
+export const updateTicket = async (
+  req: Request,
+  res: Response<BaseResponse<IMovieEntry>>,
+) => {
   try {
     const { pb } = req;
     const {
@@ -34,7 +39,10 @@ export const updateTicket = async (req: Request, res: Response) => {
   }
 };
 
-export const clearTicket = async (req: Request, res: Response) => {
+export const clearTicket = async (
+  req: Request,
+  res: Response<BaseResponse<IMovieEntry>>,
+) => {
   try {
     const { pb } = req;
     const { id } = req.params;

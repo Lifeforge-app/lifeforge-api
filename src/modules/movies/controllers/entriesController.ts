@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
+import { BaseResponse } from "../../../interfaces/base_response";
+import { IMovieEntry } from "../../../interfaces/movies_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
 import { serverError, successWithBaseResponse } from "../../../utils/response";
 import * as entriesService from "../services/entriesService";
 
-export const getAllEntries = async (req: Request, res: Response) => {
+export const getAllEntries = async (
+  req: Request,
+  res: Response<BaseResponse<IMovieEntry[]>>,
+) => {
   try {
     const { pb } = req;
     const entries = await entriesService.getAllEntries(pb);
@@ -14,7 +19,10 @@ export const getAllEntries = async (req: Request, res: Response) => {
   }
 };
 
-export const createEntryFromTMDB = async (req: Request, res: Response) => {
+export const createEntryFromTMDB = async (
+  req: Request,
+  res: Response<BaseResponse<IMovieEntry>>,
+) => {
   try {
     const { id } = req.params;
     const { pb } = req;

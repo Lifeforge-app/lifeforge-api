@@ -1,4 +1,5 @@
 import PocketBase from "pocketbase";
+import { IMovieEntry } from "../../../interfaces/movies_interfaces";
 
 export interface TicketData {
   ticket_number: string;
@@ -14,7 +15,9 @@ export const updateTicket = async (
   ticketData: TicketData,
 ) => {
   try {
-    return await pb.collection("movies_entries").update(entry_id, ticketData);
+    return await pb
+      .collection("movies_entries")
+      .update<IMovieEntry>(entry_id, ticketData);
   } catch (error) {
     throw error;
   }
@@ -22,7 +25,7 @@ export const updateTicket = async (
 
 export const clearTicket = async (pb: PocketBase, id: string) => {
   try {
-    await pb.collection("movies_entries").update(id, {
+    await pb.collection("movies_entries").update<IMovieEntry>(id, {
       ticket_number: "",
       theatre_location: "",
       theatre_number: "",

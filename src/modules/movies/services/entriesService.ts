@@ -1,9 +1,10 @@
 import PocketBase from "pocketbase";
+import { IMovieEntry } from "../../../interfaces/movies_interfaces";
 import { getAPIKey } from "../../../utils/getAPIKey";
 
 export const getAllEntries = async (pb: PocketBase) => {
   try {
-    return await pb.collection("movies_entries").getFullList({
+    return await pb.collection("movies_entries").getFullList<IMovieEntry>({
       sort: "-created",
     });
   } catch (error) {
@@ -22,7 +23,7 @@ export const createEntryFromTMDB = async (pb: PocketBase, id: number) => {
 
     const existedData = await pb
       .collection("movies_entries")
-      .getFirstListItem(`tmdb_id = ${id}`)
+      .getFirstListItem<IMovieEntry>(`tmdb_id = ${id}`)
       .catch(() => null);
 
     if (existedData) {
@@ -48,7 +49,7 @@ export const createEntryFromTMDB = async (pb: PocketBase, id: number) => {
       language: response.original_language,
     };
 
-    return await pb.collection("movies_entries").create(entryData);
+    return await pb.collection("movies_entries").create<IMovieEntry>(entryData);
   } catch (error) {
     throw error;
   }
