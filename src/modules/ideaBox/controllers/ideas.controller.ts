@@ -1,9 +1,5 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "@utils/response";
+import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import fs from "fs";
 import { BaseResponse } from "../../../core/typescript/base_response";
@@ -83,18 +79,12 @@ export const createIdea = async (
       break;
     case "image":
       if (imageLink) {
-        try {
-          const response = await fetch(imageLink);
-          const buffer = await response.arrayBuffer();
-          data["image"] = new File([buffer], "image.jpg", {
-            type: "image/jpeg",
-          });
-          data["title"] = title;
-        } catch (error) {
-          console.error(error);
-          serverError(res, "Failed to fetch image");
-          return;
-        }
+        const response = await fetch(imageLink);
+        const buffer = await response.arrayBuffer();
+        data["image"] = new File([buffer], "image.jpg", {
+          type: "image/jpeg",
+        });
+        data["title"] = title;
       } else {
         if (!file) {
           clientError(res, "image: Invalid value");

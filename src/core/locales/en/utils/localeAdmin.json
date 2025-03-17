@@ -22,7 +22,8 @@
   "namespaces": {
     "common": "Common",
     "modules": "Modules",
-    "utils": "Utilities"
+    "utils": "Utilities",
+    "core": "Core"
   },
   "buttons": {
     "syncWithServer": "Sync with Server"

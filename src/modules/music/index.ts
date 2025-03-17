@@ -1,6 +1,6 @@
 import express from "express";
-import entries from "./routes/entries.js";
-import youtube from "./routes/youtube.js";
+import entries from "./routes/entries";
+import youtube from "./routes/youtube";
 
 const router = express.Router();
 

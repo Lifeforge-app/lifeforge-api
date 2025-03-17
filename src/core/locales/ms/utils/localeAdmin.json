@@ -22,7 +22,8 @@
   "namespaces": {
     "common": "Umum",
     "modules": "Modul",
-    "utils": "Utiliti"
+    "utils": "Utiliti",
+    "core": "Teras"
   },
   "buttons": {
     "syncWithServer": "Selaraskan dengan Pelayan"

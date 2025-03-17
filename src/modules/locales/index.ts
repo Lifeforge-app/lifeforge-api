@@ -28,7 +28,7 @@ router.get(
 
     if (namespace === "modules") {
       const data = fs
-        .readdirSync(`${process.cwd()}/src/core/modules`)
+        .readdirSync(`${process.cwd()}/src/modules`)
         .filter((module) =>
           fs.existsSync(
             `${process.cwd()}/src/modules/${module}/locales/en.json`,
@@ -62,7 +62,7 @@ router.get(
 
     if (namespace === "modules") {
       if (
-        !fs.existsSync(`${process.cwd}/src/modules/${subnamespace}/locales`)
+        !fs.existsSync(`${process.cwd()}/src/modules/${subnamespace}/locales`)
       ) {
         clientError(res, "Locale file not found", 404);
         return;
@@ -76,7 +76,7 @@ router.get(
           ),
         );
       }
-    } else {
+    } else {·
       for (const lng of ["en", "ms", "zh-CN", "zh-TW"]) {
         if (
           !fs.existsSync(
@@ -127,7 +127,7 @@ router.get(
     let data;
 
     if (type === "modules") {
-      if (!fs.existsSync(`${process.cwd}/src/modules/${id}/locales`)) {
+      if (!fs.existsSync(`${process.cwd()}/src/modules/${id}/locales`)) {
         clientError(res, "Locale file not found", 404);
         return;
       }

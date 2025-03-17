@@ -13,16 +13,11 @@ export const getActivities = asyncWrapper(
     const { pb } = req;
     const year = req.query.year;
 
-    try {
-      const activitiesData = await CodeTimeService.getActivities(
-        pb,
-        year as string,
-      );
-      successWithBaseResponse(res, activitiesData);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to fetch activities");
-    }
+    const activitiesData = await CodeTimeService.getActivities(
+      pb,
+      year as string,
+    );
+    successWithBaseResponse(res, activitiesData);
   },
 );
 
@@ -30,13 +25,8 @@ export const getStatistics = asyncWrapper(
   async (req: Request, res: Response) => {
     const { pb } = req;
 
-    try {
-      const statistics = await CodeTimeService.getStatistics(pb);
-      successWithBaseResponse(res, statistics);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to fetch statistics");
-    }
+    const statistics = await CodeTimeService.getStatistics(pb);
+    successWithBaseResponse(res, statistics);
   },
 );
 
@@ -52,13 +42,8 @@ export const getLastXDays = asyncWrapper(
       return;
     }
 
-    try {
-      const data = await CodeTimeService.getLastXDays(pb, days ? +days : 7);
-      return successWithBaseResponse(res, data);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to fetch last x days data");
-    }
+    const data = await CodeTimeService.getLastXDays(pb, days ? +days : 7);
+    return successWithBaseResponse(res, data);
   },
 );
 
@@ -75,16 +60,11 @@ export const getLanguages = asyncWrapper(
     const { pb } = req;
     const lastXDays = req.query.last as string;
 
-    try {
-      const languagesStats = await CodeTimeService.getLanguagesStats(
-        pb,
-        lastXDays,
-      );
-      successWithBaseResponse(res, languagesStats);
-    } catch (error) {
-      console.error(error);
-      serverError(res, "Failed to fetch languages");
-    }
+    const languagesStats = await CodeTimeService.getLanguagesStats(
+      pb,
+      lastXDays,
+    );
+    successWithBaseResponse(res, languagesStats);
   },
 );
 
