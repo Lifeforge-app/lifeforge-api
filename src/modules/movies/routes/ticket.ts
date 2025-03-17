@@ -5,17 +5,17 @@ import { validateEntryId } from "../middlewares/entriesValidation";
 
 const router = express.Router();
 
-router.post("/ticket", TicketController.updateTicket);
+router.post("/", TicketController.updateTicket);
 
 router.patch(
-  "/ticket/:id",
+  "/:id",
   validateEntryId,
   validationMiddleware,
   TicketController.updateTicket,
 );
 
 router.delete(
-  "/ticket/:id",
+  "/:id",
   validateEntryId,
   validationMiddleware,
   TicketController.clearTicket,

@@ -9,10 +9,12 @@ import {
   successWithBaseResponse,
 } from "../../utils/response";
 import entriesRoutes from "./routes/entries";
+import ticketRoutes from "./routes/ticket";
 
 const router = express.Router();
 
 router.use("/entries", entriesRoutes);
+router.use("/entries/ticket", ticketRoutes);
 
 router.get(
   "/search",
