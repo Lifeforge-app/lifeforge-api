@@ -41,6 +41,7 @@ export const fetchCover = async (req: Request, res: Response) => {
   try {
     request(`http://libgen.is/covers/${req.params[0]}`).pipe(res);
   } catch (error) {
+    console.error(error);
     serverError(res, "Failed to fetch cover");
   }
 };
@@ -53,8 +54,9 @@ export const addToLibrary = async (req: Request, res: Response) => {
 
     await libgenService.initiateDownload(pb, md5, metadata);
     successWithBaseResponse(res, {}, 202);
-  } catch (error: any) {
-    clientError(res, error.message);
+  } catch (error) {
+    console.error(error);
+    serverError(res, "Failed to add book to library");
   }
 };
 
@@ -62,17 +64,19 @@ export const getDownloadProgresses = async (req: Request, res: Response) => {
   try {
     const progresses = libgenService.getDownloadProgresses();
     successWithBaseResponse(res, progresses);
-  } catch (error: any) {
-    serverError(res, error.message);
+  } catch (error) {
+    console.error(error);
+    serverError(res, "Failed to fetch download progresses");
   }
 };
 
 export const cancelDownload = async (req: Request, res: Response) => {
   try {
     const { md5 } = req.params;
-    await libgenService.cancelDownload(md5);
+    libgenService.cancelDownload(md5);
     successWithBaseResponse(res, undefined, 204);
-  } catch (error: any) {
-    clientError(res, error.message, 404);
+  } catch (error) {
+    console.error(error);
+    serverError(res, "Failed to cancel download");
   }
 };

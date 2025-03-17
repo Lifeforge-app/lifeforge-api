@@ -3,7 +3,11 @@ import fs from "fs";
 import { BaseResponse } from "../../../interfaces/base_response";
 import { IIdeaBoxContainer } from "../../../interfaces/ideabox_interfaces";
 import { checkExistence } from "../../../utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "../../../utils/response";
 import * as containersService from "../services/containersService";
 
 export const checkContainerExists = async (req: Request, res: Response) => {
@@ -56,8 +60,9 @@ export const createContainer = async (
       successWithBaseResponse(res, container, 201);
       fs.unlinkSync(req.file.path);
     } catch (error) {
+      console.error(error);
       if (req.file) fs.unlinkSync(req.file.path);
-      clientError(res, "Failed to create container");
+      serverError(res, "Failed to create container");
     }
     return;
   }
@@ -98,7 +103,8 @@ export const createContainer = async (
 
       successWithBaseResponse(res, container, 201);
     } catch (error) {
-      clientError(res, "Failed to create container");
+      console.error(error);
+      serverError(res, "Failed to create container");
     }
   }
 };
@@ -136,8 +142,9 @@ export const updateContainer = async (
       successWithBaseResponse(res, container);
       fs.unlinkSync(req.file.path);
     } catch (error) {
+      console.error(error);
       if (req.file) fs.unlinkSync(req.file.path);
-      clientError(res, "Failed to update container");
+      serverError(res, "Failed to update container");
     }
     return;
   }
@@ -162,7 +169,8 @@ export const updateContainer = async (
 
       successWithBaseResponse(res, container);
     } catch (error) {
-      clientError(res, "Failed to update container");
+      console.error(error);
+      serverError(res, "Failed to update container");
     }
   } else if (url) {
     try {
@@ -186,6 +194,7 @@ export const updateContainer = async (
 
       successWithBaseResponse(res, container);
     } catch (error) {
+      console.error(error);
       clientError(res, "Invalid file");
     }
   } else {
@@ -200,7 +209,8 @@ export const updateContainer = async (
 
       successWithBaseResponse(res, container);
     } catch (error) {
-      clientError(res, "Failed to update container");
+      console.error(error);
+      serverError(res, "Failed to update container");
     }
   }
 };
@@ -219,6 +229,7 @@ export const deleteContainer = async (
     await containersService.deleteContainer(req.pb, id);
     successWithBaseResponse(res, undefined, 204);
   } catch (error) {
-    clientError(res, "Failed to delete container");
+    console.error(error);
+    serverError(res, "Failed to delete container");
   }
 };

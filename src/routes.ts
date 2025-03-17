@@ -8,7 +8,7 @@ const userRoutes = lazyLoad(() => import("./modules/user"));
 const projectsMRoutes = lazyLoad(() => import("./modules/projectsM"));
 const todoListRoutes = lazyLoad(() => import("./modules/todoList"));
 const calendarRoutes = lazyLoad(() => import("./modules/calendar/routes"));
-const ideaBoxRoutes = lazyLoad(() => import("./modules/ideaBox"));
+const ideaBoxRoutes = lazyLoad(() => import("./modules/ideaBox/routes"));
 const codeTimeRoutes = lazyLoad(() => import("./modules/codeTime"));
 const booksLibraryRoutes = lazyLoad(
   () => import("./modules/booksLibrary/routes"),

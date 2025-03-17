@@ -3,15 +3,20 @@ import moment from "moment";
 import pdfThumbnail from "pdf-thumbnail";
 // @ts-expect-error - No types available
 import pdfPageCounter from "pdf-page-counter";
-import { IGuitarTabsEntry, IGuitarTabsSidebarData } from "../../../interfaces/guitar_tabs_interfaces";
-import PocketBase from 'pocketbase';
+import PocketBase from "pocketbase";
+import {
+  IGuitarTabsEntry,
+  IGuitarTabsSidebarData,
+} from "../../../interfaces/guitar_tabs_interfaces";
 
 // Status tracking variables for file processing
 let processing = "empty";
 let left = 0;
 let total = 0;
 
-export const getSidebarData = async (pb: PocketBase): Promise<IGuitarTabsSidebarData> => {
+export const getSidebarData = async (
+  pb: PocketBase,
+): Promise<IGuitarTabsSidebarData> => {
   try {
     const allScores = await pb
       .collection("guitar_tabs_entries")
@@ -21,8 +26,10 @@ export const getSidebarData = async (pb: PocketBase): Promise<IGuitarTabsSidebar
       total: allScores.length,
       favourites: allScores.filter((entry) => entry.isFavourite).length,
       categories: {
-        fingerstyle: allScores.filter((entry) => entry.type === "fingerstyle").length,
-        singalong: allScores.filter((entry) => entry.type === "singalong").length,
+        fingerstyle: allScores.filter((entry) => entry.type === "fingerstyle")
+          .length,
+        singalong: allScores.filter((entry) => entry.type === "singalong")
+          .length,
         uncategorized: allScores.filter((entry) => entry.type === "").length,
       },
       authors: allScores.reduce(
@@ -48,29 +55,30 @@ export const getEntries = async (
   category: string,
   author: string,
   starred: boolean,
-  sort: string
+  sort: string,
 ) => {
   try {
-    return await pb
-      .collection("guitar_tabs_entries")
-      .getList(page, 20, {
-        filter: `(name~"${search}" || author~"${search}") && ${
-          category === "uncategorized" ? "type=''" : `type~"${category}"`
-        } && author~"${author}" ${starred ? "&& isFavourite=true" : ""}`,
-        sort: `-isFavourite, ${
-          sort === "newest"
-            ? "-created"
-            : sort === "oldest"
-              ? "created"
-              : sort || "-created"
-        }`,
-      });
+    return await pb.collection("guitar_tabs_entries").getList(page, 20, {
+      filter: `(name~"${search}" || author~"${search}") && ${
+        category === "uncategorized" ? "type=''" : `type~"${category}"`
+      } && author~"${author}" ${starred ? "&& isFavourite=true" : ""}`,
+      sort: `-isFavourite, ${
+        sort === "newest"
+          ? "-created"
+          : sort === "oldest"
+            ? "created"
+            : sort || "-created"
+      }`,
+    });
   } catch (error) {
     throw error;
   }
 };
 
-export const uploadFiles = async (pb: PocketBase, files: Express.Multer.File[]) => {
+export const uploadFiles = async (
+  pb: PocketBase,
+  files: Express.Multer.File[],
+) => {
   try {
     if (processing === "in_progress") {
       for (const file of files) {
@@ -144,7 +152,7 @@ const processFiles = async (
       mscz: Express.Multer.File | null;
       mp3: Express.Multer.File | null;
     }
-  >
+  >,
 ) => {
   for (const group of Object.values(groups)) {
     try {
@@ -166,9 +174,7 @@ const processFiles = async (
       thumbnail
         .pipe(fs.createWriteStream(`medium/${decodedName}.jpg`))
         .once("close", async () => {
-          const thumbnailBuffer = fs.readFileSync(
-            `medium/${decodedName}.jpg`,
-          );
+          const thumbnailBuffer = fs.readFileSync(`medium/${decodedName}.jpg`);
 
           const otherFiles: {
             audio: File | null;
@@ -239,26 +245,27 @@ export const getProcessStatus = () => {
 };
 
 export const updateEntry = async (
-  pb: PocketBase, 
-  id: string, 
-  name: string, 
-  author: string, 
-  type: string
+  pb: PocketBase,
+  id: string,
+  name: string,
+  author: string,
+  type: string,
 ): Promise<IGuitarTabsEntry> => {
   try {
-    return await pb
-      .collection("guitar_tabs_entries")
-      .update(id, {
-        name,
-        author,
-        type,
-      });
+    return await pb.collection("guitar_tabs_entries").update(id, {
+      name,
+      author,
+      type,
+    });
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteEntry = async (pb: PocketBase, id: string): Promise<void> => {
+export const deleteEntry = async (
+  pb: PocketBase,
+  id: string,
+): Promise<void> => {
   try {
     await pb.collection("guitar_tabs_entries").delete(id);
   } catch (error) {
@@ -361,16 +368,10 @@ export const downloadAllEntries = async (pb: PocketBase): Promise<void> => {
   }
 };
 
-export const checkEntryExists = async (pb: PocketBase, id: string): Promise<boolean> => {
-  try {
-    await pb.collection("guitar_tabs_entries").getOne(id);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-export const toggleFavorite = async (pb: PocketBase, id: string): Promise<IGuitarTabsEntry> => {
+export const toggleFavorite = async (
+  pb: PocketBase,
+  id: string,
+): Promise<IGuitarTabsEntry> => {
   try {
     const entry = await pb
       .collection("guitar_tabs_entries")

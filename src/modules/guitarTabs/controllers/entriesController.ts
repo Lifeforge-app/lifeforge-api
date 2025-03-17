@@ -4,6 +4,7 @@ import {
   IGuitarTabsEntry,
   IGuitarTabsSidebarData,
 } from "../../../interfaces/guitar_tabs_interfaces";
+import { checkExistence } from "../../../utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "../../../utils/response";
 import * as entriesService from "../services/entriesService";
 
@@ -85,6 +86,10 @@ export const updateEntry = async (
   const { id } = req.params;
   const { name, author, type } = req.body;
 
+  if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) {
+    return;
+  }
+
   const updatedEntry = await entriesService.updateEntry(
     req.pb,
     id,
@@ -116,8 +121,7 @@ export const toggleFavorite = async (
 ) => {
   const { id } = req.params;
 
-  if (!(await entriesService.checkEntryExists(req.pb, id))) {
-    clientError(res, "Entry not found", 404);
+  if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) {
     return;
   }
 

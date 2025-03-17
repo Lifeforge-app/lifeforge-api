@@ -1,18 +1,18 @@
-import express, { Response } from "express";
-import { body, param, query } from "express-validator";
-import fs from "fs";
+import express from "express";
 import multer from "multer";
-import { BaseResponse } from "../../../interfaces/base_response";
-import {
-  IIdeaBoxEntry,
-  IIdeaBoxFolder,
-  IIdeaBoxTag,
-} from "../../../interfaces/ideabox_interfaces";
-import { WithoutPBDefault } from "../../../interfaces/pocketbase_interfaces";
+import validationMiddleware from "../../../middleware/validationMiddleware";
 import asyncWrapper from "../../../utils/asyncWrapper";
-import { list } from "../../../utils/CRUD";
-import { checkExistence } from "../../../utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "../../../utils/response";
+import * as ideasController from "../controllers/ideasController";
+import {
+  validateArchiveIdea,
+  validateCreateIdea,
+  validateDeleteIdea,
+  validateGetIdeas,
+  validateMoveIdea,
+  validatePinIdea,
+  validateRemoveFromFolder,
+  validateUpdateIdea,
+} from "../middleware/ideasValidation";
 
 const router = express.Router();
 
@@ -27,57 +27,9 @@ const router = express.Router();
  */
 router.get(
   "/:container/*",
-  [query("archived").isBoolean().optional(), param("container").isString()],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry[]>>) => {
-    const { pb } = req;
-    const path = req.params[0].split("/").filter((e) => e);
-    const { container } = req.params;
-    const { archived } = req.query as Record<string, string>;
-
-    const containerExist = await checkExistence(
-      req,
-      res,
-      "idea_box_containers",
-      container,
-    );
-    let folderExist = true;
-    let lastFolder = "";
-
-    for (const folder of path) {
-      if (!(await checkExistence(req, res, "idea_box_folders", folder))) {
-        folderExist = false;
-        break;
-      }
-
-      const folderEntry = await pb
-        .collection("idea_box_folders")
-        .getOne<IIdeaBoxFolder>(folder);
-
-      if (
-        folderEntry.parent !== lastFolder ||
-        folderEntry.container !== container
-      ) {
-        folderExist = false;
-        break;
-      }
-
-      lastFolder = folder;
-    }
-
-    if (!containerExist || !folderExist) {
-      try {
-        clientError(res, "folder: Not found", 400);
-      } catch {}
-      return;
-    }
-
-    await list(req, res, "idea_box_entries", {
-      filter: `container = "${container}" && archived = ${archived || "false"} ${
-        lastFolder ? `&& folder = "${lastFolder}"` : "&& folder=''"
-      }`,
-      sort: "-pinned,-created",
-    });
-  }),
+  validateGetIdeas,
+  validationMiddleware,
+  asyncWrapper(ideasController.getIdeas),
 );
 
 /**
@@ -96,127 +48,9 @@ router.get(
 router.post(
   "/",
   multer().single("image") as any,
-  [
-    body("container").isString(),
-    body("title").custom((value, { req }) => {
-      if (
-        ["link", "image"].includes(req.body.type) &&
-        (typeof value !== "string" || !value)
-      ) {
-        throw new Error("Invalid value");
-      }
-      return true;
-    }),
-    body("content").custom((value, { req }) => {
-      if (req.body.type === "image") return true;
-      if (typeof value !== "string" || !value) {
-        throw new Error("Invalid value");
-      }
-      return true;
-    }),
-    body("type").isString().isIn(["text", "link", "image"]).notEmpty(),
-    body("imageLink").custom((value, { req }) => {
-      if (req.body.type !== "image" && value) {
-        throw new Error("Invalid value");
-      }
-      return true;
-    }),
-    body("folder").isString().optional(),
-    body("file").custom((_, { req }) => {
-      if (req.body.type === "image" && !req.file && !req.body.imageLink) {
-        throw new Error("Image is required");
-      }
-      return true;
-    }),
-    body("tags").isString().optional(),
-  ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-    const { pb } = req;
-    const { container, title, content, type, imageLink, folder, tags } =
-      req.body;
-
-    const { file } = req;
-
-    if (!(await checkExistence(req, res, "idea_box_containers", container))) {
-      if (file) {
-        fs.unlinkSync(file.path);
-      }
-      return;
-    }
-
-    let data: WithoutPBDefault<
-      Omit<IIdeaBoxEntry, "image" | "pinned" | "archived">
-    > & {
-      image?: File;
-    } = {
-      type,
-      container,
-      folder,
-      tags: tags || null,
-    };
-
-    switch (type) {
-      case "text":
-      case "link":
-        data["title"] = title;
-        data["content"] = content;
-        break;
-      case "image":
-        if (imageLink) {
-          await fetch(imageLink).then(async (response) => {
-            const buffer = await response.arrayBuffer();
-            data["image"] = new File([buffer], "image.jpg", {
-              type: "image/jpeg",
-            });
-            data["title"] = title;
-          });
-        } else {
-          if (!file) {
-            clientError(res, "image: Invalid value");
-            return;
-          }
-
-          data["image"] = new File([file.buffer], file.originalname, {
-            type: file.mimetype,
-          });
-          data["title"] = title;
-        }
-        break;
-    }
-
-    const idea: IIdeaBoxEntry = await pb
-      .collection("idea_box_entries")
-      .create(data);
-
-    await pb.collection("idea_box_containers").update(container, {
-      [`${type}_count+`]: 1,
-    });
-
-    if (idea.tags) {
-      for (const tag of idea.tags) {
-        const tagEntry = await pb
-          .collection("idea_box_tags")
-          .getFirstListItem(
-            `name = "${tag}" && container = "${idea.container}"`,
-          )
-          .catch(() => null);
-
-        if (tagEntry) {
-          await pb.collection("idea_box_tags").update(tagEntry.id, {
-            "count+": 1,
-          });
-        } else {
-          await pb.collection("idea_box_tags").create({
-            name: tag,
-            container: idea.container,
-            count: 1,
-          });
-        }
-      }
-    }
-
-    successWithBaseResponse(res, idea, 201);
-  }),
+  validateCreateIdea,
+  validationMiddleware,
+  asyncWrapper(ideasController.createIdea),
 );
 
 /**
@@ -231,96 +65,9 @@ router.post(
  */
 router.patch(
   "/:id",
-  [
-    body("title").isString(),
-    body("content").isString(),
-    body("type").isIn(["text", "link", "image"]),
-    body("tags").isArray().optional(),
-  ],
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { title, content, type, tags } = req.body;
-
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
-
-    const oldEntry = await pb.collection("idea_box_entries").getOne(id);
-
-    let data;
-    switch (type) {
-      case "text":
-      case "link":
-        data = {
-          title,
-          content,
-          type,
-          tags: tags || null,
-        };
-        break;
-      case "image":
-        data = {
-          title,
-          type,
-          tags: tags || null,
-        };
-        break;
-    }
-
-    const entry: IIdeaBoxEntry = await pb
-      .collection("idea_box_entries")
-      .update(id, data);
-
-    if (oldEntry.type !== entry.type) {
-      await pb.collection("idea_box_containers").update(entry.container, {
-        [`${oldEntry.type}_count-`]: 1,
-        [`${entry.type}_count+`]: 1,
-      });
-    }
-
-    for (const tag of oldEntry.tags || []) {
-      if (entry.tags?.includes(tag)) continue;
-
-      const tagEntry = await pb
-        .collection("idea_box_tags")
-        .getFirstListItem<IIdeaBoxTag>(
-          `name = "${tag}" && container = "${entry.container}"`,
-        )
-        .catch(() => null);
-
-      if (tagEntry) {
-        if (tagEntry.count === 1) {
-          await pb.collection("idea_box_tags").delete(tagEntry.id);
-        } else {
-          await pb.collection("idea_box_tags").update(tagEntry.id, {
-            "count-": 1,
-          });
-        }
-      }
-    }
-
-    for (const tag of entry.tags || []) {
-      if (oldEntry.tags?.includes(tag)) continue;
-
-      const tagEntry = await pb
-        .collection("idea_box_tags")
-        .getFirstListItem(`name = "${tag}" && container = "${entry.container}"`)
-        .catch(() => null);
-
-      if (tagEntry) {
-        await pb.collection("idea_box_tags").update(tagEntry.id, {
-          "count+": 1,
-        });
-      } else {
-        await pb.collection("idea_box_tags").create({
-          name: tag,
-          container: entry.container,
-          count: 1,
-        });
-      }
-    }
-
-    successWithBaseResponse(res, entry);
-  }),
+  validateUpdateIdea,
+  validationMiddleware,
+  asyncWrapper(ideasController.updateIdea),
 );
 
 /**
@@ -332,43 +79,9 @@ router.patch(
  */
 router.delete(
   "/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
-
-    const idea = await pb
-      .collection("idea_box_entries")
-      .getOne<IIdeaBoxEntry>(id);
-    await pb.collection("idea_box_entries").delete(id);
-    await pb.collection("idea_box_containers").update(idea.container, {
-      [`${idea.type}_count-`]: 1,
-    });
-
-    if (idea.tags) {
-      for (const tag of idea.tags) {
-        const tagEntry = await pb
-          .collection("idea_box_tags")
-          .getFirstListItem(
-            `name = "${tag}" && container = "${idea.container}"`,
-          )
-          .catch(() => null);
-
-        if (tagEntry) {
-          if (tagEntry.count === 1) {
-            await pb.collection("idea_box_tags").delete(tagEntry.id);
-          } else {
-            await pb.collection("idea_box_tags").update(tagEntry.id, {
-              "count-": 1,
-            });
-          }
-        }
-      }
-    }
-
-    successWithBaseResponse(res, undefined, 204);
-  }),
+  validateDeleteIdea,
+  validationMiddleware,
+  asyncWrapper(ideasController.deleteIdea),
 );
 
 /**
@@ -380,21 +93,9 @@ router.delete(
  */
 router.post(
   "/pin/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
-
-    const idea = await pb.collection("idea_box_entries").getOne(id);
-    const entry: IIdeaBoxEntry = await pb
-      .collection("idea_box_entries")
-      .update(id, {
-        pinned: !idea.pinned,
-      });
-
-    successWithBaseResponse(res, entry);
-  }),
+  validatePinIdea,
+  validationMiddleware,
+  asyncWrapper(ideasController.pinIdea),
 );
 
 /**
@@ -406,22 +107,9 @@ router.post(
  */
 router.post(
   "/archive/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
-
-    const idea = await pb.collection("idea_box_entries").getOne(id);
-    const entry: IIdeaBoxEntry = await pb
-      .collection("idea_box_entries")
-      .update(id, {
-        archived: !idea.archived,
-        pinned: false,
-      });
-
-    successWithBaseResponse(res, entry);
-  }),
+  validateArchiveIdea,
+  validationMiddleware,
+  asyncWrapper(ideasController.archiveIdea),
 );
 
 /**
@@ -434,29 +122,9 @@ router.post(
  */
 router.post(
   "/move/:id",
-  query("target").isString(),
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { target } = req.query as Record<string, string>;
-
-    const entryExist = await checkExistence(req, res, "idea_box_entries", id);
-    const folderExist = await checkExistence(
-      req,
-      res,
-      "idea_box_folders",
-      target,
-    );
-    if (!(entryExist && folderExist)) return;
-
-    const entry: IIdeaBoxEntry = await pb
-      .collection("idea_box_entries")
-      .update(id, {
-        folder: target,
-      });
-
-    successWithBaseResponse(res, entry);
-  }),
+  validateMoveIdea,
+  validationMiddleware,
+  asyncWrapper(ideasController.moveIdea),
 );
 
 /**
@@ -468,20 +136,9 @@ router.post(
  */
 router.delete(
   "/move/:id",
-  asyncWrapper(async (req, res: Response<BaseResponse<IIdeaBoxEntry>>) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "idea_box_entries", id))) return;
-
-    const entry = await pb
-      .collection("idea_box_entries")
-      .update<IIdeaBoxEntry>(id, {
-        folder: "",
-      });
-
-    successWithBaseResponse(res, entry);
-  }),
+  validateRemoveFromFolder,
+  validationMiddleware,
+  asyncWrapper(ideasController.removeFromFolder),
 );
 
 export default router;
