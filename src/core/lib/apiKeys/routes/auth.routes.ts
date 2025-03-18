@@ -1,5 +1,5 @@
 import express from "express";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+import asyncWrapper from "../../../utils/asyncWrapper";
 import * as authController from "../controllers/auth.controller";
 import {
   createOrUpdateMasterPasswordValidation,

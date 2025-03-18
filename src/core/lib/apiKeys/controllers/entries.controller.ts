@@ -3,7 +3,7 @@ import { checkExistence } from "@utils/PBRecordValidator";
 import { serverError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { challenge } from "..";
-import { BaseResponse } from "../../../core/typescript/base_response";
+import { BaseResponse } from "../../../typescript/base_response";
 import * as entriesService from "../services/entries.service";
 import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
 import getDecryptedMaster from "../utils/getDecryptedMaster";

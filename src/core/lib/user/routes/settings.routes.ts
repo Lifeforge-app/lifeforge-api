@@ -4,7 +4,7 @@ import express from "express";
 import { body } from "express-validator";
 import fs from "fs";
 import moment from "moment";
-import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 
 const router = express.Router();
 

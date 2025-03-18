@@ -1,7 +1,4 @@
-export const ROUTES = {
-  "/locales": "locales",
-  "/user": "user",
-  "/api-keys": "apiKeys",
+export const MODULE_ROUTES = {
   "/projects-m": "projectsM",
   "/todo-list": "todoList",
   "/calendar": "calendar",
@@ -16,8 +13,6 @@ export const ROUTES = {
   "/youtube-videos": "youtubeVideos",
   "/passwords": "passwords",
   "/sudoku": "sudoku",
-  "/server": "server",
-  "/pixabay": "pixabay",
   "/quotes": "quotes",
   "/virtual-wardrobe": "virtualWardrobe",
   "/moment-vault": "momentVault/routes",

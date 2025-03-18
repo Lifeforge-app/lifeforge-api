@@ -6,7 +6,7 @@ import { CORS_ALLOWED_ORIGINS } from "./constants/corsAllowedOrigins";
 import morganMiddleware from "./middleware/morganMiddleware";
 import pocketbaseMiddleware from "./middleware/pocketbaseMiddleware";
 import rateLimitingMiddleware from "./middleware/rateLimitingMiddleware";
-import router from "./router";
+import router from "./routes";
 
 dotenv.config({
   path: "./env/.env.local",

@@ -4,7 +4,7 @@ import { clientError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { body, query } from "express-validator";
 import fs from "fs";
-import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
 
 const router = express.Router();
 

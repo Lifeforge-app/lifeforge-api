@@ -14,7 +14,7 @@ import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { z } from "zod";
-import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../core/constants/locales";
+import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../constants/locales";
 
 const router = express.Router();
 
@@ -26,13 +26,11 @@ router.get(
 
     const { namespace } = req.params;
 
-    if (namespace === "modules") {
+    if (namespace === "apps") {
       const data = fs
-        .readdirSync(`${process.cwd()}/src/modules`)
+        .readdirSync(`${process.cwd()}/src/apps`)
         .filter((module) =>
-          fs.existsSync(
-            `${process.cwd()}/src/modules/${module}/locales/en.json`,
-          ),
+          fs.existsSync(`${process.cwd()}/src/apps/${module}/locales/en.json`),
         )
         .map((module) => module.replace(".json", ""));
 
@@ -60,10 +58,8 @@ router.get(
 
     const final: Record<string, any> = {};
 
-    if (namespace === "modules") {
-      if (
-        !fs.existsSync(`${process.cwd()}/src/modules/${subnamespace}/locales`)
-      ) {
+    if (namespace === "apps") {
+      if (!fs.existsSync(`${process.cwd()}/src/apps/${subnamespace}/locales`)) {
         clientError(res, "Locale file not found", 404);
         return;
       }
@@ -71,7 +67,7 @@ router.get(
       for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
         final[lang] = JSON.parse(
           fs.readFileSync(
-            `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`,
+            `${process.cwd()}/src/apps/${subnamespace}/locales/${lang}.json`,
             "utf-8",
           ),
         );
@@ -126,15 +122,15 @@ router.get(
 
     let data;
 
-    if (type === "modules") {
-      if (!fs.existsSync(`${process.cwd()}/src/modules/${id}/locales`)) {
+    if (type === "apps") {
+      if (!fs.existsSync(`${process.cwd()}/src/apps/${id}/locales`)) {
         clientError(res, "Locale file not found", 404);
         return;
       }
 
       data = JSON.parse(
         fs.readFileSync(
-          `${process.cwd()}/src/modules/${id}/locales/${finalLang}.json`,
+          `${process.cwd()}/src/apps/${id}/locales/${finalLang}.json`,
           "utf-8",
         ),
       );
@@ -150,16 +146,16 @@ router.get(
     if (type === "common" && id === "sidebar") {
       const moduleLocales = Object.fromEntries(
         fs
-          .readdirSync(`${process.cwd()}/src/modules`)
+          .readdirSync(`${process.cwd()}/src/apps`)
           .filter((module) =>
             fs.existsSync(
-              `${process.cwd()}/src/modules/${module}/locales/${finalLang}.json`,
+              `${process.cwd()}/src/apps/${module}/locales/${finalLang}.json`,
             ),
           )
           .map((module) => {
             const data = JSON.parse(
               fs.readFileSync(
-                `${process.cwd()}/src/modules/${module}/locales/${finalLang}.json`,
+                `${process.cwd()}/src/apps/${module}/locales/${finalLang}.json`,
                 "utf-8",
               ),
             );
@@ -195,7 +191,7 @@ router.get(
           }),
       );
 
-      data.modules = {
+      data.apps = {
         ...moduleLocales,
         ...coreLocales,
       };
@@ -219,10 +215,10 @@ router.post(
 
     let fileContent;
 
-    if (namespace === "modules") {
+    if (namespace === "apps") {
       fileContent = ["en", "ms", "zh-CN", "zh-TW"].reduce<Record<string, any>>(
         (acc, lang) => {
-          const path = `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`;
+          const path = `${process.cwd()}/src/apps/${subnamespace}/locales/${lang}.json`;
           if (fs.existsSync(path)) {
             acc[lang] = JSON.parse(fs.readFileSync(path, "utf-8"));
           } else {
@@ -265,10 +261,10 @@ router.post(
       }
     }
 
-    if (namespace === "modules") {
+    if (namespace === "apps") {
       for (const lang in fileContent) {
         fs.writeFileSync(
-          `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`,
+          `${process.cwd()}/src/apps/${subnamespace}/locales/${lang}.json`,
           JSON.stringify(fileContent[lang], null, 2),
         );
       }
@@ -301,8 +297,8 @@ router.post(
 
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
       const filePath =
-        namespace === "modules"
-          ? `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`
+        namespace === "apps"
+          ? `${process.cwd()}/src/apps/${subnamespace}/locales/${lang}.json`
           : `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
 
       const data: Record<string, any> = JSON.parse(
@@ -348,8 +344,8 @@ router.post(
 
     for (const lang of ["en", "ms", "zh-CN", "zh-TW"]) {
       const filePath =
-        namespace === "modules"
-          ? `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`
+        namespace === "apps"
+          ? `${process.cwd()}/src/apps/${subnamespace}/locales/${lang}.json`
           : `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
 
       const data: Record<string, any> = JSON.parse(
@@ -399,8 +395,8 @@ router.post(
 
     ["en", "ms", "zh-CN", "zh-TW"].forEach((lang) => {
       const filePath =
-        namespace === "modules"
-          ? `${process.cwd()}/src/modules/${subnamespace}/locales/${lang}.json`
+        namespace === "apps"
+          ? `${process.cwd()}/src/apps/${subnamespace}/locales/${lang}.json`
           : `${process.cwd()}/src/core/locales/${lang}/${namespace}/${subnamespace}.json`;
       const data: Record<string, any> = JSON.parse(
         fs.readFileSync(filePath, "utf-8"),

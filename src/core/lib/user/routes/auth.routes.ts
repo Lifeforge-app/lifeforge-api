@@ -7,7 +7,7 @@ import moment from "moment";
 import Pocketbase, { AuthProviderInfo } from "pocketbase";
 import { v4 } from "uuid";
 import { currentSession } from "..";
-import { BaseResponse } from "../../../core/typescript/base_response";
+import { BaseResponse } from "../../../typescript/base_response";
 import { removeSensitiveData, updateNullData } from "../utils/auth";
 
 const router = express.Router();

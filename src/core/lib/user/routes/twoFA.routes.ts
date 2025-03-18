@@ -8,7 +8,7 @@ import moment from "moment";
 import speakeasy from "speakeasy";
 import { v4 } from "uuid";
 import { currentSession } from "..";
-import { BaseResponse } from "../../../core/typescript/base_response";
+import { BaseResponse } from "../../../typescript/base_response";
 import { removeSensitiveData, updateNullData } from "../utils/auth";
 
 let challenge = v4();

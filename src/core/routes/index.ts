@@ -3,19 +3,27 @@ import { createLazyRouter } from "express-lazy-router";
 import { query } from "express-validator";
 import path from "path";
 import request from "request";
-import { ROUTES } from "./constants/routes";
-import asyncWrapper from "./utils/asyncWrapper";
-import { successWithBaseResponse } from "./utils/response";
+import asyncWrapper from "../utils/asyncWrapper";
+import { successWithBaseResponse } from "../utils/response";
+import { LIB_ROUTES } from "./lib.routes";
+import { MODULE_ROUTES } from "./module.routes";
 
 const lazyLoad = createLazyRouter();
 const router = express.Router();
 
-Object.entries(ROUTES).forEach(([route, module]) => {
+Object.entries(LIB_ROUTES).forEach(([route, module]) => {
   router.use(
     route,
     lazyLoad(
-      () => import(path.resolve(process.cwd(), `./src/modules/${module}`)),
+      () => import(path.resolve(process.cwd(), `./src/core/lib/${module}`)),
     ),
+  );
+});
+
+Object.entries(MODULE_ROUTES).forEach(([route, module]) => {
+  router.use(
+    route,
+    lazyLoad(() => import(path.resolve(process.cwd(), `./src/apps/${module}`))),
   );
 });
 
