@@ -177,7 +177,7 @@
     "viewRule": "id = @request.auth.id",
     "createRule": "",
     "updateRule": "id = @request.auth.id",
-    "deleteRule": "id = @request.auth.id",
+    "deleteRule": null,
     "name": "users",
     "type": "auth",
     "fields": [
