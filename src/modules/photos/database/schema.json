@@ -1,0 +1,412 @@
+[
+  {
+    "id": "4ps14uxa5cksmc7",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\"",
+    "createRule": "@request.auth.id != \"\"",
+    "updateRule": "@request.auth.id != \"\"",
+    "deleteRule": "@request.auth.id != \"\"",
+    "name": "photos_album_tags",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "nq5mgohd",
+        "max": 0,
+        "min": 0,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [],
+    "system": false
+  },
+  {
+    "id": "xcb63mljbekeamb",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\"",
+    "createRule": "@request.auth.id != \"\"",
+    "updateRule": "@request.auth.id != \"\"",
+    "deleteRule": "@request.auth.id != \"\"",
+    "name": "photos_albums",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "cldiqpcs",
+        "max": 0,
+        "min": 0,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "diduic6b",
+        "max": null,
+        "min": 0,
+        "name": "amount",
+        "onlyInt": true,
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "number"
+      },
+      {
+        "hidden": false,
+        "id": "tmqbszob",
+        "name": "is_public",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "4ps14uxa5cksmc7",
+        "hidden": false,
+        "id": "qvlyzqku",
+        "maxSelect": 2147483647,
+        "minSelect": 0,
+        "name": "tags",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "cijhz0ixrrhviud",
+        "hidden": false,
+        "id": "cg3tn28i",
+        "maxSelect": 1,
+        "minSelect": 0,
+        "name": "cover",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [],
+    "system": false
+  },
+  {
+    "id": "sl9t2qy1jfcs3ve",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\"",
+    "createRule": "@request.auth.id != \"\"",
+    "updateRule": "@request.auth.id != \"\"",
+    "deleteRule": "@request.auth.id != \"\"",
+    "name": "photos_dimensions",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "zgarl6fa",
+        "max": null,
+        "min": null,
+        "name": "width",
+        "onlyInt": false,
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "number"
+      },
+      {
+        "hidden": false,
+        "id": "d345r812",
+        "max": null,
+        "min": null,
+        "name": "height",
+        "onlyInt": false,
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "number"
+      },
+      {
+        "hidden": false,
+        "id": "gbuncvsv",
+        "max": "",
+        "min": "",
+        "name": "shot_time",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "date"
+      },
+      {
+        "hidden": false,
+        "id": "gmr7ljvx",
+        "name": "is_deleted",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "hidden": false,
+        "id": "dy0mdrge",
+        "name": "is_in_album",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "hidden": false,
+        "id": "cuwynxps",
+        "name": "is_favourite",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "hidden": false,
+        "id": "lqixxwpa",
+        "name": "is_locked",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "cijhz0ixrrhviud",
+        "hidden": false,
+        "id": "jrzcacmq",
+        "maxSelect": 1,
+        "minSelect": 0,
+        "name": "photo",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [
+      "CREATE INDEX `idx_9X1H3qH` ON `photos_dimensions` (`shot_time`)"
+    ],
+    "system": false
+  },
+  {
+    "id": "cijhz0ixrrhviud",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\"",
+    "createRule": "@request.auth.id != \"\"",
+    "updateRule": "@request.auth.id != \"\"",
+    "deleteRule": "@request.auth.id != \"\"",
+    "name": "photos_entries",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "q3nlnvvl",
+        "maxSelect": 1,
+        "maxSize": 1073741824,
+        "mimeTypes": null,
+        "name": "image",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": [
+          "0x300"
+        ],
+        "type": "file"
+      },
+      {
+        "hidden": false,
+        "id": "j7tbrpwt",
+        "maxSelect": 1,
+        "maxSize": 1073741824,
+        "mimeTypes": null,
+        "name": "raw",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": null,
+        "type": "file"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "yovvafyj",
+        "max": 0,
+        "min": 0,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "xcb63mljbekeamb",
+        "hidden": false,
+        "id": "5lw9hyog",
+        "maxSelect": 1,
+        "minSelect": 0,
+        "name": "album",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [],
+    "system": false
+  }
+]

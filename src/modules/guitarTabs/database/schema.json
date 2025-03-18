@@ -1,0 +1,173 @@
+[
+  {
+    "id": "9agm22e3g44cdk8",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\"",
+    "createRule": "@request.auth.id != \"\"",
+    "updateRule": "@request.auth.id != \"\"",
+    "deleteRule": "@request.auth.id != \"\"",
+    "name": "guitar_tabs_entries",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "cgqi62gp",
+        "max": 0,
+        "min": 0,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "yinvfmgn",
+        "maxSelect": 1,
+        "name": "type",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "select",
+        "values": [
+          "fingerstyle",
+          "singalong"
+        ]
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "vojkjqoz",
+        "max": 0,
+        "min": 0,
+        "name": "pageCount",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "tb4by8gi",
+        "maxSelect": 1,
+        "maxSize": 5242880,
+        "mimeTypes": [],
+        "name": "thumbnail",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": [],
+        "type": "file"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "cu4e2kos",
+        "max": 0,
+        "min": 0,
+        "name": "author",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "hv0nhz4n",
+        "maxSelect": 1,
+        "maxSize": 52428800,
+        "mimeTypes": null,
+        "name": "pdf",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": null,
+        "type": "file"
+      },
+      {
+        "hidden": false,
+        "id": "0luzezpe",
+        "maxSelect": 1,
+        "maxSize": 52428800,
+        "mimeTypes": [
+          "audio/mpeg"
+        ],
+        "name": "audio",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": null,
+        "type": "file"
+      },
+      {
+        "hidden": false,
+        "id": "unlycjbb",
+        "maxSelect": 1,
+        "maxSize": 52428800,
+        "mimeTypes": null,
+        "name": "musescore",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": null,
+        "type": "file"
+      },
+      {
+        "hidden": false,
+        "id": "zglxrk9r",
+        "name": "isFavourite",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [],
+    "system": false
+  }
+]
