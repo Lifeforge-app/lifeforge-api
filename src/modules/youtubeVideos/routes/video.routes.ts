@@ -13,6 +13,7 @@ import { BaseResponse } from "../../../core/typescript/base_response";
 import downloadVideo from "../functions/downloadVideo";
 // @ts-expect-error no types available
 import getDimensions from "get-video-dimensions";
+import path from "path";
 import { IYoutubeData } from "../../music/typescript/music_interfaces";
 import updateVideoChannelData from "../functions/updateVideoChannelData";
 import { IYoutubeVidesStorageEntry } from "../typescript/youtube_video_storage_interfaces";
@@ -43,7 +44,7 @@ router.get(
       return;
     }
 
-    res.sendFile(`${process.cwd()}/../youtubeVideos/${id}.webp`);
+    res.sendFile(path.join(process.cwd(), `../youtubeVideos/${id}.webp`));
   }),
 );
 
