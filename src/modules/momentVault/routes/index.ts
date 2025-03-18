@@ -126,7 +126,6 @@ async function getTranscription(
       model: "whisper-1",
     })
     .catch((err) => {
-      console.log(err);
       return null;
     });
 

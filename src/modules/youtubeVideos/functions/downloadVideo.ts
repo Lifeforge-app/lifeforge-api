@@ -7,13 +7,13 @@ function downloadVideo(
 ) {
   return new Promise((resolve, reject) => {
     const ytDlp = spawn(`${process.cwd()}/src/core/bin/yt-dlp`, [
-      "--newline", // Ensures that each line of output is printed immediately
+      "--newline",
       "-S",
       "ext:mp4:m4a",
       "-o",
-      output, // Output format
-      "--write-thumbnail", // Write thumbnail to file
-      url, // Video URL
+      output,
+      "--write-thumbnail",
+      url,
     ]);
 
     ytDlp.stdout.on("data", (data) => {

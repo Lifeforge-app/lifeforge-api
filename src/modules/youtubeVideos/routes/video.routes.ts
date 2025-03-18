@@ -183,7 +183,6 @@ router.post(
       return;
     }
 
-    // Remove any redundant processes that are either completed or failed
     processes.forEach((value, key) => {
       if (value.status !== "in_progress") {
         processes.delete(key);

@@ -98,20 +98,17 @@ export const getStatistics = async (pb: PocketBase) => {
 
   let groupByDate: { date: string; count: number }[] = [];
 
-  // Group by date
   const dateMap: { [key: string]: number } = {};
   for (const item of everything) {
     const dateKey = moment(item.date).format("YYYY-MM-DD");
     dateMap[dateKey] = item.total_minutes;
   }
 
-  // Convert to array format
   groupByDate = Object.entries(dateMap).map(([date, count]) => ({
     date,
     count,
   }));
 
-  // Sort by count (descending)
   groupByDate = groupByDate.sort((a, b) => {
     if (a.count > b.count) {
       return -1;
@@ -126,12 +123,10 @@ export const getStatistics = async (pb: PocketBase) => {
   const total = everything.reduce((acc, curr) => acc + curr.total_minutes, 0);
   const average = groupByDate.length > 0 ? total / groupByDate.length : 0;
 
-  // Sort by date
   groupByDate = groupByDate.sort((a, b) => a.date.localeCompare(b.date));
 
   const allDates = groupByDate.map((item) => item.date);
 
-  // Calculate longest streak
   const longestStreak = (() => {
     if (allDates.length === 0) return 0;
 
@@ -159,7 +154,6 @@ export const getStatistics = async (pb: PocketBase) => {
     return longest;
   })();
 
-  // Calculate current streak
   const currentStreak = (() => {
     if (allDates.length === 0) return 0;
 
@@ -288,8 +282,6 @@ export const getEachDay = async (pb: PocketBase) => {
     const dateKey = moment(item.date).format("YYYY-MM-DD");
     groupByDate[dateKey] = item.total_minutes;
   }
-
-  console.log(groupByDate);
 
   return Object.entries(groupByDate).map(([date, item]) => ({
     date,

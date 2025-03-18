@@ -39,7 +39,7 @@ async function fetchMail(connection: imaps.ImapSimple) {
   const fetchOptions = {
     bodies: [""],
     markSeen: false,
-    struct: true, // Required to access attachments
+    struct: true,
   };
   const messages = await connection.openBox("INBOX").then(() => {
     return connection.search(searchCriteria, fetchOptions);
@@ -55,7 +55,6 @@ export async function watchInbox() {
     const connection = await imaps.connect(config!);
     await connection.openBox("INBOX");
 
-    // Access the native IMAP client instance and listen for events
     connection.on("mail", () => {
       fetchMail(connection);
     });
@@ -63,7 +62,7 @@ export async function watchInbox() {
     connection.on("error", (err) => {
       console.error("IMAP connection error:", err);
       connection.end();
-      setTimeout(watchInbox, 10000); // Reconnect after 10 seconds
+      setTimeout(watchInbox, 10000);
     });
   } catch (error) {
     console.error("Error watching inbox:", error);

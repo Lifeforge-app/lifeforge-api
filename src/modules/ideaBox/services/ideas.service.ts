@@ -82,7 +82,6 @@ export const updateIdeaTags = async (
   idea: IIdeaBoxEntry,
   oldTags: string[] = [],
 ) => {
-  // Remove tags that are no longer present
   for (const tag of oldTags || []) {
     if (idea.tags?.includes(tag)) continue;
 
@@ -103,7 +102,6 @@ export const updateIdeaTags = async (
     }
   }
 
-  // Add new tags
   for (const tag of idea.tags || []) {
     if (oldTags?.includes(tag)) continue;
 

@@ -5,7 +5,6 @@ import {
 } from "../../../typescript/books_library_interfaces";
 import { addToLibrary } from "./process";
 
-// Store for all active download processes
 const downloadProcesses = new Map<string, IBooksLibraryDownloadProcess>();
 
 export const initiateDownload = async (

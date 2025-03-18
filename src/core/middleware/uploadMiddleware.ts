@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 
-// Configure multer storage and file name
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "medium/");
@@ -12,7 +11,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Create multer upload instance
 const upload = multer({
   storage,
   limits: {
@@ -20,11 +18,8 @@ const upload = multer({
   },
 });
 
-// Custom file upload middleware
 const uploadMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  // Use multer upload instance
   upload.array("files", 100)(req, res, (err) => {
-    // Proceed to the next middleware or route handler
     next();
   });
 };
@@ -34,18 +29,14 @@ const singleUploadMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  // Use multer upload instance
   upload.single("file")(req, res, (err) => {
-    // Proceed to the next middleware or route handler
     next();
   });
 };
 
 const singleUploadMiddlewareOfKey =
   (key: string) => (req: Request, res: Response, next: NextFunction) => {
-    // Use multer upload instance
     upload.single(key)(req, res, (err) => {
-      // Proceed to the next middleware or route handler
       next();
     });
   };
@@ -56,9 +47,7 @@ function fieldsUploadMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  // Use multer upload instance
   upload.fields(this.fields ?? [])(req, res, (err) => {
-    // Proceed to the next middleware or route handler
     next();
   });
 }

@@ -115,7 +115,6 @@ async function processDownloadedFiles(
     file: File;
   },
 ) {
-  // Download and process thumbnail
   await fetch(`http://libgen.is/${metadata.thumbnail}`).then(
     async (response) => {
       if (response.ok) {
@@ -127,15 +126,12 @@ async function processDownloadedFiles(
     },
   );
 
-  // Process the book file
   const file = fs.readFileSync("./medium/" + md5 + "." + metadata.extension);
   if (!file) throw new Error("Failed to read file");
   metadata.file = new File([file], `${md5}.${metadata.extension}`);
 
-  // Add to database
   await pb.collection("books_library_entries").create(metadata);
 
-  // Update file type statistics
   await updateFileTypeStatistics(pb, metadata.extension);
 }
 

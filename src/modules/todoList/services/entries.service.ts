@@ -114,7 +114,6 @@ export const createEntry = async (
     subtasks?: { title: string }[];
   },
 ): Promise<ITodoListEntry> => {
-  // Create subtasks first if they exist
   if (data.subtasks) {
     const subtasks = [];
 
@@ -179,7 +178,6 @@ export const updateEntry = async (
 
   const { subtasks } = data;
 
-  // Process subtasks if they exist
   if (subtasks) {
     for (const subtaskIndex in subtasks) {
       const subtask = subtasks[subtaskIndex];
@@ -207,7 +205,6 @@ export const updateEntry = async (
     subtasks: string[];
   } = await pb.collection("todo_entries").update(id, data);
 
-  // Update list counts
   for (const list of [...new Set([originalEntries.list, entries.list])]) {
     if (!list) continue;
 
@@ -220,7 +217,6 @@ export const updateEntry = async (
     });
   }
 
-  // Update priority counts
   for (const priority of [
     ...new Set([originalEntries.priority, entries.priority]),
   ]) {
@@ -235,7 +231,6 @@ export const updateEntry = async (
     });
   }
 
-  // Update tag counts
   for (const tag of [...new Set([...originalEntries.tags, ...entries.tags])]) {
     if (!tag) continue;
 
@@ -248,7 +243,6 @@ export const updateEntry = async (
     });
   }
 
-  // Delete subtasks that are no longer in the entry
   for (const subtask of originalEntries.subtasks) {
     if (entries.subtasks.includes(subtask)) continue;
 

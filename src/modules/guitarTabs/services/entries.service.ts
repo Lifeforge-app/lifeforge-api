@@ -9,7 +9,6 @@ import {
   IGuitarTabsSidebarData,
 } from "../typescript/guitar_tabs_interfaces";
 
-// Status tracking variables for file processing
 let processing = "empty";
 let left = 0;
 let total = 0;
@@ -124,7 +123,6 @@ export const uploadFiles = async (
     left = Object.keys(groups).length;
     total = Object.keys(groups).length;
 
-    // Process files in background
     processFiles(pb, groups);
 
     return { status: "success" };
