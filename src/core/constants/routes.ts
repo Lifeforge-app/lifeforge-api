@@ -22,7 +22,6 @@ export const ROUTES = {
   "/airports": "airports",
   "/changi": "changi",
   "/mail-inbox": "mailInbox",
-  "/dns-records": "dnsRecords",
   "/sudoku": "sudoku",
   "/server": "server",
   "/pixabay": "pixabay",
