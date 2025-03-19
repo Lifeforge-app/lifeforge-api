@@ -114,8 +114,10 @@ export const createEntry = async (
     subtasks?: { title: string }[];
   },
 ): Promise<ITodoListEntry> => {
+  const subtasksEntries: ITodoSubtask[] = [];
+
   if (data.subtasks) {
-    const subtasks = [];
+    const subtaskIds = [];
 
     for (const task of data.subtasks) {
       const subtask: ITodoSubtask = await pb
@@ -124,10 +126,11 @@ export const createEntry = async (
           title: task.title,
         });
 
-      subtasks.push(subtask.id);
+      subtaskIds.push(subtask.id);
+      subtasksEntries.push(subtask);
     }
 
-    data.subtasks = subtasks as any;
+    data.subtasks = subtaskIds as any;
   }
 
   const entries: ITodoListEntry = await pb
@@ -152,6 +155,8 @@ export const createEntry = async (
     });
   }
 
+  entries.subtasks = subtasksEntries;
+
   return entries;
 };
 
@@ -165,11 +170,7 @@ export const updateEntry = async (
     list?: string;
     priority?: string;
     tags?: string[];
-    subtasks?: Array<{
-      id: string;
-      title: string;
-      hasChanged?: boolean;
-    }>;
+    subtasks?: Array<ITodoSubtask>;
   },
 ): Promise<Omit<ITodoListEntry, "subtasks"> & { subtasks: string[] }> => {
   const originalEntries: Omit<ITodoListEntry, "subtasks"> & {
@@ -178,22 +179,27 @@ export const updateEntry = async (
 
   const { subtasks } = data;
 
+  const subtasksEntries: ITodoSubtask[] = [];
+
   if (subtasks) {
     for (const subtaskIndex in subtasks) {
-      const subtask = subtasks[subtaskIndex];
-      let newSubtask: ITodoSubtask | { id: null } = { id: null };
+      let subtask = subtasks[subtaskIndex];
+      let newSubtask: ITodoSubtask | null = null;
 
       if (subtask.id.startsWith("new-")) {
         newSubtask = await pb
           .collection("todo_subtasks")
-          .create({ title: subtask.title });
+          .create<ITodoSubtask>({ title: subtask.title });
       } else if (subtask.hasChanged) {
-        await pb.collection("todo_subtasks").update(subtask.id, {
-          title: subtask.title,
-        });
+        subtask = await pb
+          .collection("todo_subtasks")
+          .update<ITodoSubtask>(subtask.id, {
+            title: subtask.title,
+          });
       }
 
-      subtasks[subtaskIndex] = { id: newSubtask.id || subtask.id } as any;
+      subtasks[subtaskIndex] = { id: newSubtask?.id || subtask.id } as any;
+      subtasksEntries.push(newSubtask ?? subtask);
     }
 
     data.subtasks = subtasks.map((subtask) =>
@@ -201,11 +207,11 @@ export const updateEntry = async (
     ) as any;
   }
 
-  const entries: Omit<ITodoListEntry, "subtasks"> & {
+  const entry: Omit<ITodoListEntry, "subtasks"> & {
     subtasks: string[];
   } = await pb.collection("todo_entries").update(id, data);
 
-  for (const list of [...new Set([originalEntries.list, entries.list])]) {
+  for (const list of [...new Set([originalEntries.list, entry.list])]) {
     if (!list) continue;
 
     const { totalItems } = await pb.collection("todo_entries").getList(1, 1, {
@@ -218,7 +224,7 @@ export const updateEntry = async (
   }
 
   for (const priority of [
-    ...new Set([originalEntries.priority, entries.priority]),
+    ...new Set([originalEntries.priority, entry.priority]),
   ]) {
     if (!priority) continue;
 
@@ -231,7 +237,7 @@ export const updateEntry = async (
     });
   }
 
-  for (const tag of [...new Set([...originalEntries.tags, ...entries.tags])]) {
+  for (const tag of [...new Set([...originalEntries.tags, ...entry.tags])]) {
     if (!tag) continue;
 
     const { totalItems } = await pb.collection("todo_entries").getList(1, 1, {
@@ -244,12 +250,14 @@ export const updateEntry = async (
   }
 
   for (const subtask of originalEntries.subtasks) {
-    if (entries.subtasks.includes(subtask)) continue;
+    if (entry.subtasks.includes(subtask)) continue;
 
     await pb.collection("todo_subtasks").delete(subtask);
   }
 
-  return entries;
+  entry.subtasks = subtasksEntries as any;
+
+  return entry;
 };
 
 export const deleteEntry = async (
