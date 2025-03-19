@@ -61,7 +61,7 @@ router.get(
       return;
     }
 
-    res.sendFile(`${process.cwd()}/../youtubeVideos/${id}.mp4`);
+    res.sendFile(path.join(process.cwd(), `../youtubeVideos/${id}.mp4`));
   }),
 );
 
