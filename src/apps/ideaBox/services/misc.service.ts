@@ -135,7 +135,15 @@ export const getOgData = async (
     return OGCache.get(id);
   }
 
-  const { result } = await ogs({ url: data.content });
+  const { result } = await ogs({
+    url: data.content,
+    fetchOptions: {
+      headers: {
+        "User-Agent":
+          "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+      },
+    },
+  });
   OGCache.set(id, result);
   return result;
 };

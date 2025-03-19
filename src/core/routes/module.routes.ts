@@ -19,4 +19,5 @@ export const MODULE_ROUTES = {
   "/movies": "movies",
   "/railway-map": "railwayMap",
   "/links-bookmark": "linksBookmark",
+  "/youtube-summarizer": "youtubeSummarizer",
 };
