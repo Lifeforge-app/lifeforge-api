@@ -21,9 +21,9 @@
   },
   "namespaces": {
     "common": "通用",
-    "modules": "模块",
     "utils": "工具",
-    "core": "核心"
+    "core": "核心",
+    "apps": "模块"
   },
   "buttons": {
     "syncWithServer": "与服务器同步"

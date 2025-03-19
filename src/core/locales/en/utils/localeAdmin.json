@@ -21,9 +21,9 @@
   },
   "namespaces": {
     "common": "Common",
-    "modules": "Modules",
     "utils": "Utilities",
-    "core": "Core"
+    "core": "Core",
+    "apps": "Modules"
   },
   "buttons": {
     "syncWithServer": "Sync with Server"

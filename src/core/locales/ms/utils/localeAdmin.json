@@ -21,9 +21,9 @@
   },
   "namespaces": {
     "common": "Umum",
-    "modules": "Modul",
     "utils": "Utiliti",
-    "core": "Teras"
+    "core": "Teras",
+    "apps": "Modul"
   },
   "buttons": {
     "syncWithServer": "Selaraskan dengan Pelayan"

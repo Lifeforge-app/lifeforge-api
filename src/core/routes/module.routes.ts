@@ -18,4 +18,6 @@ export const MODULE_ROUTES = {
   "/moment-vault": "momentVault/routes",
   "/movies": "movies",
   "/railway-map": "railwayMap",
+  "/currency-converter": "currencyConverter",
+  "/links-bookmark": "linksBookmark",
 };
