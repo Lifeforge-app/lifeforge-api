@@ -18,5 +18,4 @@ export const MODULE_ROUTES = {
   "/moment-vault": "momentVault/routes",
   "/movies": "movies",
   "/railway-map": "railwayMap",
-  "/locations": "locations",
 };

@@ -4,4 +4,5 @@ export const LIB_ROUTES = {
   "/api-keys": "apiKeys",
   "/pixabay": "pixabay",
   "/server": "server",
+  "/locations": "locations",
 };
