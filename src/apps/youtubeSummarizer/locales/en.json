@@ -22,11 +22,15 @@
     },
     "selectLanguage": {
       "title": "Select Language"
+    },
+    "videoSummary": {
+      "title": "Video Summary"
     }
   },
   "captionTypes": {
     "auto": "Auto-generated",
-    "manual": "Manual"
+    "manual": "Manual",
+    "any": "any"
   },
   "buttons": {
     "downloadCaptions": "Download Captions",

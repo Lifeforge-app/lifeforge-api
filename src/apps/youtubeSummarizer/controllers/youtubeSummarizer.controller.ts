@@ -13,3 +13,15 @@ export const getYoutubeVideoInfo = async (
 
   successWithBaseResponse(res, info);
 };
+
+export const summarizeVideo = async (
+  req: Request,
+  res: Response<BaseResponse<string>>,
+) => {
+  const summary = await YoutubeSummarizerService.summarizeVideo(
+    req.body.url,
+    req.pb,
+  );
+
+  successWithBaseResponse(res, summary);
+};

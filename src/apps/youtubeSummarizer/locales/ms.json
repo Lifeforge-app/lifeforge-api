@@ -22,11 +22,15 @@
     },
     "selectLanguage": {
       "title": "Pilih Bahasa"
+    },
+    "videoSummary": {
+      "title": "Ringkasan Video"
     }
   },
   "captionTypes": {
     "auto": "Dihasilkan secara automatik",
-    "manual": "Manual"
+    "manual": "Manual",
+    "any": "apa-apa"
   },
   "buttons": {
     "downloadCaptions": "Muat Turun Sarikata",

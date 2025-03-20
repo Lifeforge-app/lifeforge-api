@@ -8,7 +8,7 @@
     },
     "captions": {
       "title": "没有可用的字幕",
-      "description": "此视频没有{{type}}的可用字幕。请尝试另一个字母种类。"
+      "description": "此视频没有{{type}}的可用字幕。请尝试另一个字幕种类或另一条视频。"
     }
   },
   "inputs": {
@@ -22,11 +22,15 @@
     },
     "selectLanguage": {
       "title": "选择语言"
+    },
+    "videoSummary": {
+      "title": "视频摘要"
     }
   },
   "captionTypes": {
     "auto": "自动生成",
-    "manual": "手动"
+    "manual": "手动",
+    "any": "任何"
   },
   "buttons": {
     "downloadCaptions": "下载字幕",

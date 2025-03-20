@@ -8,7 +8,7 @@
     },
     "captions": {
       "title": "沒有可用的字幕",
-      "description": "此影片沒有{{type}}的可用字幕。請嘗試其他字幕種類。"
+      "description": "此影片沒有{{type}}的可用字幕。請嘗試其他字幕種類或另一個視頻。"
     }
   },
   "inputs": {
@@ -22,11 +22,15 @@
     },
     "selectLanguage": {
       "title": "選擇語言"
+    },
+    "videoSummary": {
+      "title": "視頻摘要"
     }
   },
   "captionTypes": {
     "auto": "自動生成",
-    "manual": "手動"
+    "manual": "手動",
+    "any": "任何"
   },
   "buttons": {
     "downloadCaptions": "下載字幕",
