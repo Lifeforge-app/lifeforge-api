@@ -8,7 +8,6 @@ import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as TransactionsService from "../services/transactions.service";
 import {
-  IWalletIncomeExpensesSummary,
   IWalletReceiptScanResult,
   IWalletTransactionEntry,
 } from "../wallet_interfaces";
@@ -21,21 +20,6 @@ export const getAllTransactions = async (
 
   const transactions = await TransactionsService.getAllTransactions(pb);
   successWithBaseResponse(res, transactions);
-};
-
-export const getIncomeExpensesSummary = async (
-  req: Request<{}, {}, {}, { year: string; month: string }>,
-  res: Response<BaseResponse<IWalletIncomeExpensesSummary>>,
-) => {
-  const { pb } = req;
-  const { year, month } = req.query;
-
-  const summary = await TransactionsService.getIncomeExpensesSummary(
-    pb,
-    year,
-    month,
-  );
-  successWithBaseResponse(res, summary);
 };
 
 export const createTransaction = async (

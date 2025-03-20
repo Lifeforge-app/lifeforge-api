@@ -6,18 +6,11 @@ import {
   validateBodyDataForCreation,
   validateBodyDataForUpdate,
   validateId,
-  validateYearAndMonth,
 } from "../middlewares/transactionsValidation";
 
 const router = express.Router();
 
 router.get("/", asyncWrapper(TransactionsController.getAllTransactions));
-
-router.get(
-  "/income-expenses",
-  validateYearAndMonth,
-  asyncWrapper(TransactionsController.getIncomeExpensesSummary),
-);
 
 router.post(
   "/",

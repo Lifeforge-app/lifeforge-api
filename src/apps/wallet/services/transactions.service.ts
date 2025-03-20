@@ -1,7 +1,6 @@
 import { getAPIKey } from "@utils/getAPIKey";
 import parseOCR from "@utils/parseOCR";
 import fs from "fs";
-import moment from "moment";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { fromPath } from "pdf2pic";
@@ -9,7 +8,6 @@ import Pocketbase from "pocketbase";
 import { z } from "zod";
 import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import {
-  IWalletIncomeExpensesSummary,
   IWalletReceiptScanResult,
   IWalletTransactionEntry,
 } from "../wallet_interfaces";
@@ -64,69 +62,6 @@ export const getAllTransactions = async (
     .getFullList<IWalletTransactionEntry>({
       sort: "-date,-created",
     });
-};
-
-export const getIncomeExpensesSummary = async (
-  pb: Pocketbase,
-  year: string,
-  month: string,
-): Promise<IWalletIncomeExpensesSummary> => {
-  const start = moment(`${year}-${month}-01`)
-    .startOf("month")
-    .format("YYYY-MM-DD");
-  const end = moment(`${year}-${month}-01`).endOf("month").format("YYYY-MM-DD");
-
-  const transactions = await pb.collection("wallet_transactions").getFullList({
-    filter: "type = 'income' || type = 'expenses'",
-    sort: "-date,-created",
-  });
-
-  const inThisMonth = transactions.filter(
-    (transaction) =>
-      moment(moment(transaction.date).format("YYYY-MM-DD")).isSameOrAfter(
-        start,
-      ) &&
-      moment(moment(transaction.date).format("YYYY-MM-DD")).isSameOrBefore(end),
-  );
-
-  const totalIncome = transactions.reduce((acc, cur) => {
-    if (cur.type === "income") {
-      return acc + cur.amount;
-    }
-
-    return acc;
-  }, 0);
-
-  const totalExpenses = transactions.reduce((acc, cur) => {
-    if (cur.type === "expenses") {
-      return acc + cur.amount;
-    }
-
-    return acc;
-  }, 0);
-
-  const monthlyIncome = inThisMonth.reduce((acc, cur) => {
-    if (cur.type === "income") {
-      return acc + cur.amount;
-    }
-
-    return acc;
-  }, 0);
-
-  const monthlyExpenses = inThisMonth.reduce((acc, cur) => {
-    if (cur.type === "expenses") {
-      return acc + cur.amount;
-    }
-
-    return acc;
-  }, 0);
-
-  return {
-    totalIncome,
-    totalExpenses,
-    monthlyIncome,
-    monthlyExpenses,
-  };
 };
 
 export const createTransaction = async (

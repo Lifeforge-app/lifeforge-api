@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
+import hasError from "./checkError";
 import { serverError } from "./response";
 
 const asyncWrapper =
   <Req extends Request = Request, Res extends Response = Response>(
     cb: (req: Req, res: Res, next: NextFunction) => Promise<void>,
   ) =>
-  (req: Request, res: Response, next: NextFunction) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    if (hasError(req, res)) {
+      return;
+    }
+
     (cb as (req: Request, res: Response, next: NextFunction) => Promise<void>)(
       req,
       res,
@@ -20,5 +25,6 @@ const asyncWrapper =
         console.error("Error while sending response");
       }
     });
+  };
 
 export default asyncWrapper;
