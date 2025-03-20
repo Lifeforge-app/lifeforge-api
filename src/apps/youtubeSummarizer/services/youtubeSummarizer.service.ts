@@ -48,7 +48,7 @@ export const summarizeVideo = async (
   url: string,
   pb: Pocketbase,
 ): Promise<string> => {
-  const apiKey = await getAPIKey("groq", pb);
+  const apiKey = await getAPIKey("openai", pb);
 
   if (!apiKey) {
     throw new Error("No API key found");
@@ -67,9 +67,9 @@ export const summarizeVideo = async (
   }
 
   const result = await fetchAI({
-    provider: "groq",
+    provider: "openai",
     apiKey,
-    model: "llama-3.3-70b-versatile",
+    model: "gpt-4o",
     messages: [
       {
         role: "system",
