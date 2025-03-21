@@ -20,7 +20,11 @@
       "create": "Create Item",
       "update": "Update Item"
     },
-    "sessionCart": "Session Cart"
+    "sessionCart": "Session Cart",
+    "checkout": {
+      "title": "Checkout",
+      "desc": "By clicking checkout, this set of items will be added to your wardrobe history. You can view them on the 'Histories' page."
+    }
   },
   "buttons": {
     "addToCart": "Add to Cart",
@@ -36,7 +40,8 @@
     "category": "Category",
     "subcategory": "Subcategory",
     "frontImage": "Front Image",
-    "backImage": "Back Image"
+    "backImage": "Back Image",
+    "notes": "Notes"
   },
   "items": {
     "clothes": "Clothes",

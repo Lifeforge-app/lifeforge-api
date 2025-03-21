@@ -20,7 +20,11 @@
       "create": "创建项目",
       "update": "更新项目"
     },
-    "sessionCart": "会话购物车"
+    "sessionCart": "会话购物车",
+    "checkout": {
+      "title": "结账",
+      "desc": "点击结账后，这一组物品将被添加到你的衣橱历史中。你可以在“历史”页面查看它们。"
+    }
   },
   "buttons": {
     "addToCart": "加入购物车",
@@ -36,7 +40,8 @@
     "category": "类别",
     "subcategory": "子类别",
     "frontImage": "正面图片",
-    "backImage": "背面图片"
+    "backImage": "背面图片",
+    "notes": "备注"
   },
   "items": {
     "clothes": "衣服",

@@ -20,7 +20,11 @@
       "create": "創建項目",
       "update": "更新項目"
     },
-    "sessionCart": "會話購物車"
+    "sessionCart": "會話購物車",
+    "checkout": {
+      "title": "結帳",
+      "desc": "點擊結帳後，這組物品將添加到您的衣櫃歷史中。您可以在「歷史」頁面查看它們。"
+    }
   },
   "buttons": {
     "addToCart": "加入購物車",
@@ -36,7 +40,8 @@
     "category": "類別",
     "subcategory": "子類別",
     "frontImage": "正面圖片",
-    "backImage": "背面圖片"
+    "backImage": "背面圖片",
+    "notes": "備註"
   },
   "items": {
     "clothes": "衣服",

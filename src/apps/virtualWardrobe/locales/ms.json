@@ -20,7 +20,11 @@
       "create": "Cipta Item",
       "update": "Kemas Kini Item"
     },
-    "sessionCart": "Troli Sesi"
+    "sessionCart": "Troli Sesi",
+    "checkout": {
+      "title": "Bayaran",
+      "desc": "Dengan mengklik checkout, set item ini akan ditambahkan ke dalam sejarah almari pakaian anda. Anda boleh melihatnya di halaman 'Sejarah'."
+    }
   },
   "buttons": {
     "addToCart": "Tambah ke Troli",
@@ -36,7 +40,8 @@
     "category": "Kategori",
     "subcategory": "Subkategori",
     "frontImage": "Gambar Depan",
-    "backImage": "Gambar Belakang"
+    "backImage": "Gambar Belakang",
+    "notes": "Catatan"
   },
   "items": {
     "clothes": "Pakaian",
