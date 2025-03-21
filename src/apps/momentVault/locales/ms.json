@@ -17,6 +17,13 @@
   "inputs": {
     "entryType": "Jenis Entri",
     "audio": "Audio",
-    "transcription": "Transkripsi"
+    "transcription": "Transkripsi",
+    "textContent": "Kandungan Teks"
+  },
+  "entryTypes": {
+    "audio": "Audio",
+    "video": "Video",
+    "photo": "Foto",
+    "text": "Teks"
   }
 }

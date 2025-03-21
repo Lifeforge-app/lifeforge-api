@@ -1,13 +1,17 @@
 import { checkExistence } from "@utils/PBRecordValidator";
-import { fetchAI } from "@utils/fetchAI";
 import { getAPIKey } from "@utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "@utils/response";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "@utils/response";
 import express, { Request, Response } from "express";
 import { param } from "express-validator";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import OpenAI from "openai";
 import { ListResult } from "pocketbase";
+import request from "request";
 import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
@@ -95,8 +99,39 @@ router.post(
 
       successWithBaseResponse(res, entry, 201);
     }
+
+    if (type === "text") {
+      const { content } = req.body;
+
+      const entry = await pb
+        .collection("moment_vault_entries")
+        .create<IMomentVaultEntry>({
+          type: "text",
+          content,
+        });
+
+      successWithBaseResponse(res, entry, 201);
+    }
   },
 );
+
+router.patch("/entries/:id", async (req, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
+
+  if (!(await checkExistence(req, res, "moment_vault_entries", id))) {
+    return;
+  }
+
+  const { pb } = req;
+  const updatedEntry = await pb
+    .collection("moment_vault_entries")
+    .update<IMomentVaultEntry>(id, {
+      content,
+    });
+
+  successWithBaseResponse(res, updatedEntry);
+});
 
 router.delete("/entries/:id", async (req, res) => {
   const { id } = req.params;
@@ -120,37 +155,12 @@ async function getTranscription(
     apiKey,
   });
 
-  const transcription = await openai.audio.transcriptions
-    .create({
-      file: fs.createReadStream(filePath),
-      model: "whisper-1",
-    })
-    .catch((err) => {
-      return null;
-    });
-
-  if (!transcription) {
-    return null;
-  }
-
-  const response = await fetchAI({
-    provider: "openai",
-    apiKey,
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant in adding punctuations to voice transcription. Given a voice transcription, your task is to add punctuations to the transcription without changing any words.",
-      },
-      {
-        role: "user",
-        content: transcription.text,
-      },
-    ],
+  const transcription = await openai.audio.transcriptions.create({
+    file: fs.createReadStream(filePath),
+    model: "gpt-4o-transcribe",
   });
 
-  return response;
+  return transcription.text;
 }
 
 router.post(
@@ -175,25 +185,43 @@ router.post(
       .collection("moment_vault_entries")
       .getOne<IMomentVaultEntry>(id);
 
-    const fileLocation = `${process.cwd()}/../database/pb_data/storage/${entry.collectionId}/${entry.id}/${entry.file}`;
-
-    if (!fs.existsSync(fileLocation)) {
+    if (!entry.file) {
       clientError(res, "File not found");
       return;
     }
 
-    const response = await getTranscription(fileLocation, apiKey);
+    const fileURL = pb.files.getURL(entry, entry.file);
 
-    if (!response) {
-      clientError(res, "Failed to add punctuations to transcription");
+    try {
+      const filePath = `/tmp/${fileURL.split("/").pop()}`;
+      const fileStream = fs.createWriteStream(filePath);
+
+      request(fileURL).pipe(fileStream);
+
+      await new Promise((resolve) => {
+        fileStream.on("finish", () => {
+          resolve(null);
+        });
+      });
+
+      const response = await getTranscription(filePath, apiKey);
+
+      if (!response) {
+        clientError(res, "Failed to add punctuations to transcription");
+        return;
+      }
+
+      await pb
+        .collection("moment_vault_entries")
+        .update<IMomentVaultEntry>(id, {
+          transcription: response,
+        });
+
+      successWithBaseResponse(res, response);
+    } catch {
+      serverError(res, "Failed to transcribe audio");
       return;
     }
-
-    await pb.collection("moment_vault_entries").update<IMomentVaultEntry>(id, {
-      transcription: response,
-    });
-
-    successWithBaseResponse(res, response);
   },
 );
 
@@ -219,16 +247,21 @@ router.post(
       return;
     }
 
-    const response = await getTranscription(file.path, apiKey);
+    try {
+      const response = await getTranscription(file.path, apiKey);
 
-    fs.unlinkSync(file.path);
+      if (!response) {
+        clientError(res, "Failed to add punctuations to transcription");
+        return;
+      }
 
-    if (!response) {
-      clientError(res, "Failed to add punctuations to transcription");
+      successWithBaseResponse(res, response);
+    } catch {
+      serverError(res, "Failed to transcribe audio");
       return;
+    } finally {
+      fs.unlinkSync(file.path);
     }
-
-    successWithBaseResponse(res, response);
   },
 );
 

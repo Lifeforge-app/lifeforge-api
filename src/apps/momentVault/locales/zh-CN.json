@@ -17,6 +17,13 @@
   "inputs": {
     "entryType": "条目类型",
     "audio": "音频",
-    "transcription": "转录內容"
+    "transcription": "转录內容",
+    "textContent": "文本内容"
+  },
+  "entryTypes": {
+    "audio": "音频",
+    "video": "视频",
+    "photo": "照片",
+    "text": "文本"
   }
 }

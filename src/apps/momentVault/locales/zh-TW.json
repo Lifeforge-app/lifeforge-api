@@ -17,6 +17,13 @@
   "inputs": {
     "entryType": "條目類型",
     "audio": "音訊",
-    "transcription": "轉錄內容"
+    "transcription": "轉錄內容",
+    "textContent": "文本內容"
+  },
+  "entryTypes": {
+    "audio": "音頻",
+    "video": "影片",
+    "photo": "照片",
+    "text": "文本"
   }
 }

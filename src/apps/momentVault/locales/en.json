@@ -17,6 +17,13 @@
   "inputs": {
     "entryType": "Entry Type",
     "audio": "Audio",
-    "transcription": "Transcription"
+    "transcription": "Transcription",
+    "textContent": "Text Content"
+  },
+  "entryTypes": {
+    "audio": "Audio",
+    "video": "Video",
+    "photo": "Photo",
+    "text": "Text"
   }
 }
