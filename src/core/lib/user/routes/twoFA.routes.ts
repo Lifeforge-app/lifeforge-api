@@ -165,11 +165,13 @@ router.post(
     const { otp, tid, type } = req.body;
 
     if (tid !== currentSession.tokenId) {
+      console.error("Invalid token ID");
       clientError(res, "Invalid token ID", 401);
       return;
     }
 
     if (moment().isAfter(moment(currentSession.tokenExpireAt))) {
+      console.error("Token expired");
       clientError(res, "Token expired", 401);
       return;
     }
@@ -177,6 +179,7 @@ router.post(
     const currentSessionToken = currentSession.token;
 
     if (!currentSessionToken) {
+      console.error("No token stored");
       clientError(res, "No token stored", 401);
       return;
     }
@@ -186,10 +189,12 @@ router.post(
       await pb.collection("users").authRefresh();
 
       if (!pb.authStore.record) {
+        console.error("Invalid authorization credentials");
         clientError(res, "Invalid authorization credentials", 401);
         return;
       }
     } catch {
+      console.error("Invalid authorization credentials");
       clientError(res, "Invalid authorization credentials", 401);
       return;
     }
@@ -198,6 +203,7 @@ router.post(
       const encryptedSecret = pb.authStore.record?.twoFASecret;
 
       if (!encryptedSecret) {
+        console.error("2FA not enabled");
         clientError(res, "2FA not enabled", 401);
         return;
       }
@@ -214,6 +220,7 @@ router.post(
       });
 
       if (!verified) {
+        console.error("Cannot verify OTP");
         clientError(res, "Invalid OTP", 401);
         return;
       }
@@ -229,6 +236,7 @@ router.post(
         .catch(() => null);
 
       if (!authData || !pb.authStore.isValid) {
+        console.error("Invalid OTP");
         clientError(res, "Invalid OTP", 401);
         return;
       }

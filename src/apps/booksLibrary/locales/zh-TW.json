@@ -42,7 +42,8 @@
     "alreadyInLibrary": "已在圖書館中",
     "viewDetails": "查看詳情",
     "uploadFromDevice": "從設備上傳",
-    "downloadFromLibgen": "從 Library Genesis 下載"
+    "downloadFromLibgen": "從 Library Genesis 下載",
+    "downloading": "下載中"
   },
   "inputs": {
     "isbn": "ISBN 碼",

@@ -102,7 +102,8 @@ router.post(
           clientError(res, "Invalid credentials", 401);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         clientError(res, "Invalid credentials", 401);
       })
       .finally(() => {
@@ -139,7 +140,7 @@ router.post(
 
 router.post(
   "/login",
-  [body("email").isEmail(), body("password").isString()],
+  [body("email").isString(), body("password").isString()],
   asyncWrapper(async (req, res) => {
     const { email, password } = req.body;
     const pb = new Pocketbase(process.env.PB_HOST);

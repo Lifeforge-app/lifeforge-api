@@ -42,7 +42,8 @@
     "alreadyInLibrary": "Already in Library",
     "viewDetails": "View Details",
     "uploadFromDevice": "Upload from Device",
-    "downloadFromLibgen": "Download from Library Genesis"
+    "downloadFromLibgen": "Download from Library Genesis",
+    "downloading": "Downloading"
   },
   "inputs": {
     "isbn": "ISBN",

@@ -42,7 +42,8 @@
     "alreadyInLibrary": "Sudah dalam Perpustakaan",
     "viewDetails": "Lihat Butiran",
     "uploadFromDevice": "Muat naik dari Peranti",
-    "downloadFromLibgen": "Muat turun dari Library Genesis"
+    "downloadFromLibgen": "Muat turun dari Library Genesis",
+    "downloading": "Sedang dimuat turun"
   },
   "inputs": {
     "isbn": "ISBN",
