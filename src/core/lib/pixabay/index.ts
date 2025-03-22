@@ -9,6 +9,15 @@ import IPixabaySearchResult from "./typescript/pixabay_interfaces";
 const router = express.Router();
 
 router.get(
+  "/key-exists",
+  asyncWrapper(async (req, res) => {
+    const key = await getAPIKey("pixabay", req.pb);
+
+    successWithBaseResponse(res, !!key);
+  }),
+);
+
+router.get(
   "/search",
   [
     query("q").isString().trim().escape(),
