@@ -59,7 +59,10 @@
   },
   "bgImageSelector": {
     "title": "背景圖片",
-    "desc": "上傳或搜索系統的背景圖片"
+    "desc": "上傳或搜索系統的背景圖片",
+    "pixabayDisabled": {
+      "tooltip": "要從Pixabay搜索圖片，請將您的Pixabay API金鑰添加到API庫中。如需更多資訊，請參考"
+    }
   },
   "adjustBackground": {
     "title": "調整背景",

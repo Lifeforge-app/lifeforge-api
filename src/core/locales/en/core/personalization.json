@@ -59,7 +59,10 @@
   },
   "bgImageSelector": {
     "title": "Background Image",
-    "desc": "Upload or search for a background image"
+    "desc": "Upload or search for a background image",
+    "pixabayDisabled": {
+      "tooltip": "To search for images from Pixabay, please add your Pixabay API key to the API vault. For more information, refer to"
+    }
   },
   "adjustBackground": {
     "title": "Adjust Background",
