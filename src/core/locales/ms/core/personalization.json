@@ -61,14 +61,37 @@
     "title": "Imej Latar Belakang",
     "desc": "Muat naik atau cari imej latar belakang",
     "pixabayDisabled": {
-      "tooltip": "Untuk mencari gambar dari Pixabay, sila tambah kunci API Pixabay anda ke dalam peti API. Untuk maklumat lanjut, rujuk kepada"
-    }
-  },
-  "adjustBackground": {
-    "title": "Laraskan Latar Belakang",
-    "desc": "Laraskan kecerahan, kontras, kabur, dan lain-lain imej latar belakang.",
+      "tooltip": "Untuk mencari imej dari Pixabay, sila tambahkan kunci API Pixabay anda ke dalam peti API. Untuk maklumat lanjut, rujuk kepada"
+    },
     "modals": {
-      "adjustBackgroundImage": "Laraskan Imej Latar Belakang"
+      "adjustBackground": {
+        "title": "Selaraskan Imej Latar Belakang",
+        "modals": {
+          "adjustBackgroundImage": "Selaraskan Imej Latar Belakang"
+        },
+        "columns": {
+          "blur": {
+            "title": "Kesan Kabur",
+            "desc": "Sesuaikan tahap kabur gambar latar belakang."
+          },
+          "brightness": {
+            "title": "Kecerahan",
+            "desc": "Laraskan kecerahan imej latar."
+          },
+          "contrast": {
+            "title": "Kontras",
+            "desc": "Laraskan kontras imej latar belakang anda."
+          },
+          "saturation": {
+            "title": "Ketepuan",
+            "desc": "Laraskan intensiti warna dalam imej latar."
+          },
+          "overlayOpacity": {
+            "title": "Kelegapan Lapisan",
+            "desc": "Laraskan ketelusan overlay latar belakang."
+          }
+        }
+      }
     }
   },
   "inputs": {
