@@ -59,16 +59,39 @@
   },
   "bgImageSelector": {
     "title": "背景图片",
-    "desc": "上传或搜索系统的背景图片",
+    "desc": "上传或搜索背景图片",
     "pixabayDisabled": {
-      "tooltip": "要从Pixabay搜索图片，请将您的Pixabay API密钥添加到API库中。如需更多信息，请参考"
-    }
-  },
-  "adjustBackground": {
-    "title": "调整背景",
-    "desc": "调整背景图片的亮度、对比度、模糊等。",
+      "tooltip": "要从Pixabay搜索图片，请将您的Pixabay API密钥添加到API保险库。欲了解更多信息，请参阅"
+    },
     "modals": {
-      "adjustBackgroundImage": "调整背景图片"
+      "adjustBackground": {
+        "title": "调整背景图片",
+        "modals": {
+          "adjustBackgroundImage": "调整背景图片"
+        },
+        "columns": {
+          "blur": {
+            "title": "模糊效果",
+            "desc": "调整背景图像的模糊程度。"
+          },
+          "brightness": {
+            "title": "亮度",
+            "desc": "调整背景图像的亮度。"
+          },
+          "contrast": {
+            "title": "对比度",
+            "desc": "调整背景图片的对比度。"
+          },
+          "saturation": {
+            "title": "饱和度",
+            "desc": "调整背景图像中色彩的强度。"
+          },
+          "overlayOpacity": {
+            "title": "覆盖层不透明度",
+            "desc": "调整背景覆盖层的透明度。"
+          }
+        }
+      }
     }
   },
   "inputs": {

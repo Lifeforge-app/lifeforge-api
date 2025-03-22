@@ -1,5 +1,6 @@
 node_modules
 dist
+localScripts
 
 *.local
 src/constants/corsAllowedOrigins.ts
