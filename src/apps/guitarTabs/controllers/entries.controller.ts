@@ -38,6 +38,14 @@ export const getEntries = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entries);
 };
 
+export const getRandomEntry = async (
+  req: Request,
+  res: Response<BaseResponse<IGuitarTabsEntry>>,
+) => {
+  const entry = await entriesService.getRandomEntry(req.pb);
+  successWithBaseResponse(res, entry);
+};
+
 export const uploadFiles = async (
   req: Request,
   res: Response<BaseResponse>,

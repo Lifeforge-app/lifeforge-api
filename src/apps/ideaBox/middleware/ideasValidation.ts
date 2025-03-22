@@ -7,15 +7,7 @@ export const validateGetIdeas = [
 
 export const validateCreateIdea = [
   body("container").isString(),
-  body("title").custom((value, { req }) => {
-    if (
-      ["link", "image"].includes(req.body.type) &&
-      (typeof value !== "string" || !value)
-    ) {
-      throw new Error("Invalid value");
-    }
-    return true;
-  }),
+  body("title").isString().optional(),
   body("content").custom((value, { req }) => {
     if (req.body.type === "image") return true;
     if (typeof value !== "string" || !value) {

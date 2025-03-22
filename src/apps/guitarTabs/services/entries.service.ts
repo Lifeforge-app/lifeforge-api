@@ -13,6 +13,16 @@ let processing = "empty";
 let left = 0;
 let total = 0;
 
+export const getRandomEntry = async (
+  pb: PocketBase,
+): Promise<IGuitarTabsEntry> => {
+  const allScores = await pb
+    .collection("guitar_tabs_entries")
+    .getFullList<IGuitarTabsEntry>();
+
+  return allScores[Math.floor(Math.random() * allScores.length)];
+};
+
 export const getSidebarData = async (
   pb: PocketBase,
 ): Promise<IGuitarTabsSidebarData> => {

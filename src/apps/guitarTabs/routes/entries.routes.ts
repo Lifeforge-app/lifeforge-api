@@ -15,6 +15,8 @@ router.get("/sidebar-data", asyncWrapper(entriesController.getSidebarData));
 
 router.get("/", validateGetEntries, asyncWrapper(entriesController.getEntries));
 
+router.get("/random", asyncWrapper(entriesController.getRandomEntry));
+
 router.post(
   "/upload",
   uploadMiddleware,

@@ -141,7 +141,7 @@ router.patch(
     body("data.color").optional().isString(),
     body("data.bgTemp").optional().isString(),
     body("data.language").optional().isString(),
-    body("data.dashboardLayout").optional().isString(),
+    body("data.dashboardLayout").optional().isObject(),
     body("data.backdropFilters").optional().isObject(),
   ],
   asyncWrapper(async (req, res) => {
