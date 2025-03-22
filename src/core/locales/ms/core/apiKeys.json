@@ -26,5 +26,11 @@
   },
   "items": {
     "apiKey": "Kunci API"
+  },
+  "empty": {
+    "apiKeys": {
+      "title": "Tiada Kunci API",
+      "description": "Tiada kunci API dijumpai. Klik butang di bawah untuk mencipta kunci API baru"
+    }
   }
 }

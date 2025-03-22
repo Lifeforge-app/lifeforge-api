@@ -17,9 +17,9 @@ export const createOrUpdateMasterPassword = async (
   res: Response<BaseResponse<undefined>>,
 ) => {
   const { pb } = req;
-  const { id, password } = req.body;
+  const { password } = req.body;
 
-  await authService.createOrUpdateMasterPassword(pb, id, password);
+  await authService.createOrUpdateMasterPassword(pb, password);
   successWithBaseResponse(res);
 };
 

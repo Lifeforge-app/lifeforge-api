@@ -4,11 +4,16 @@ import PocketBase from "pocketbase";
 
 export const createOrUpdateMasterPassword = async (
   pb: PocketBase,
-  id: string,
   password: string,
 ): Promise<void> => {
   const salt = await bcrypt.genSalt(10);
   const APIKeysMasterPasswordHash = await bcrypt.hash(password, salt);
+
+  const id = pb.authStore.record?.id;
+
+  if (!id) {
+    throw new Error("No user found");
+  }
 
   await pb.collection("users").update(id, {
     APIKeysMasterPasswordHash,

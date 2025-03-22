@@ -26,5 +26,11 @@
   },
   "items": {
     "apiKey": " API 金钥"
+  },
+  "empty": {
+    "apiKeys": {
+      "title": "无 API 金钥",
+      "description": "未找到 API 金钥。单击下面的按钮创建新的 API 金钥"
+    }
   }
 }

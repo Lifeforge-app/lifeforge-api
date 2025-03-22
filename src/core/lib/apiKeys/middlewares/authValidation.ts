@@ -1,7 +1,6 @@
 import { body } from "express-validator";
 
 export const createOrUpdateMasterPasswordValidation = [
-  body("id").exists().notEmpty(),
   body("password").exists().notEmpty(),
 ];
 

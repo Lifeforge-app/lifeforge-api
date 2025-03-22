@@ -26,5 +26,11 @@
   },
   "items": {
     "apiKey": "API Key"
+  },
+  "empty": {
+    "apiKeys": {
+      "title": "No API Keys",
+      "description": "No API keys found. Click the button below to create a new API key"
+    }
   }
 }
