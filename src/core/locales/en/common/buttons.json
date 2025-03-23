@@ -33,5 +33,7 @@
   "record": "Record",
   "overwrite": "Overwrite",
   "adjust": "Adjust",
-  "downloading": "Downloading ..."
+  "downloading": "Downloading ...",
+  "generate": "Generate",
+  "regenerate": "Regenerate"
 }

@@ -33,5 +33,7 @@
   "record": "錄製",
   "overwrite": "覆蓋",
   "adjust": "調整",
-  "downloading": "下載中 ..."
+  "downloading": "下載中 ...",
+  "generate": "生成",
+  "regenerate": "重新生成"
 }

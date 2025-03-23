@@ -33,5 +33,7 @@
   "record": "Rakam",
   "overwrite": "Timpa",
   "adjust": "Sesuaikan",
-  "downloading": "Sedang Muat Turun ..."
+  "downloading": "Sedang Muat Turun ...",
+  "generate": "Janakan",
+  "regenerate": "Regenerate"
 }

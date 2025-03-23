@@ -18,12 +18,12 @@ export const getIdeas = async (
 
   const ideas = await pb
     .collection("idea_box_entries")
-    .getList<IIdeaBoxEntry>(1, 50, {
+    .getFullList<IIdeaBoxEntry>({
       filter,
       sort: "-pinned,-created",
     });
 
-  return ideas.items;
+  return ideas;
 };
 
 export const validateFolderPath = async (

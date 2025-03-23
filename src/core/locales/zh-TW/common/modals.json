@@ -28,7 +28,8 @@
       "imageType": "圖片類型",
       "imageCategory": "圖片類別",
       "imageColor": "圖片顏色",
-      "editorsChoice": "編輯推薦"
+      "editorsChoice": "編輯推薦",
+      "prompt": "AI提示文本"
     },
     "imageType": {
       "all": "所有",
@@ -48,7 +49,8 @@
         "title": "由Pixabay提供",
         "description": "搜索超過1300萬張高質量免費圖片。"
       }
-    }
+    },
+    "ai": "AI影像生成"
   },
   "colorPicker": {
     "title": "選擇顏色",

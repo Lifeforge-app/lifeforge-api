@@ -28,7 +28,8 @@
       "imageType": "Jenis imej",
       "imageCategory": "Kategori imej",
       "imageColor": "Warna imej",
-      "editorsChoice": "Pilihan Editor"
+      "editorsChoice": "Pilihan Editor",
+      "prompt": "Teks Prompt AI"
     },
     "imageType": {
       "all": "Semua",
@@ -48,7 +49,8 @@
         "title": "Disediakan oleh Pixabay",
         "description": "Cari lebih daripada 13 juta imej percuma berkualiti tinggi."
       }
-    }
+    },
+    "ai": "Penjanaan Imej AI"
   },
   "colorPicker": {
     "title": "Pilih Warna",

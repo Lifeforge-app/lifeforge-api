@@ -5,4 +5,5 @@ export const LIB_ROUTES = {
   "/pixabay": "pixabay",
   "/server": "server",
   "/locations": "locations",
+  "/ai": "ai",
 };
