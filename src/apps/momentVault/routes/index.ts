@@ -12,7 +12,10 @@ import fs from "fs";
 import OpenAI from "openai";
 import { ListResult } from "pocketbase";
 import request from "request";
-import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+import {
+  singleUploadMiddleware,
+  uploadMiddleware,
+} from "../../../core/middleware/uploadMiddleware";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
 
@@ -51,7 +54,9 @@ router.get(
 
     entries.items.forEach((entry) => {
       if (entry.file)
-        entry.file = pb.files.getURL(entry, entry.file).split("/files/")[1];
+        entry.file = entry.file.map(
+          (file) => pb.files.getURL(entry, file).split("/files/")[1],
+        );
     });
 
     successWithBaseResponse(res, entries);
@@ -60,17 +65,20 @@ router.get(
 
 router.post(
   "/entries",
-  singleUploadMiddleware,
+  uploadMiddleware,
   async (req: Request, res: Response<BaseResponse<IMomentVaultEntry>>) => {
     const { type } = req.body;
     const { pb } = req;
 
     if (type === "audio") {
-      const { file } = req;
-      if (!file) {
+      const { files } = req as { files: Express.Multer.File[] };
+
+      if (!files?.length) {
         clientError(res, "No file uploaded");
         return;
       }
+
+      const file = files[0];
 
       if (file.mimetype !== "audio/mp3") {
         process.env.FFMPEG_PATH = "/usr/bin/ffmpeg";
@@ -92,7 +100,9 @@ router.post(
         });
 
       if (entry.file) {
-        entry.file = pb.files.getURL(entry, entry.file).split("/files/")[1];
+        entry.file = entry.file.map(
+          (file) => pb.files.getURL(entry, file).split("/files/")[1],
+        );
       }
 
       fs.unlinkSync(file.path);
@@ -109,6 +119,42 @@ router.post(
           type: "text",
           content,
         });
+
+      successWithBaseResponse(res, entry, 201);
+    }
+
+    if (type === "photos") {
+      const { files } = req as { files: Express.Multer.File[] };
+
+      if (!files?.length) {
+        clientError(res, "No file uploaded");
+        return;
+      }
+
+      const allImages = files.map((file) => {
+        const fileBuffer = fs.readFileSync(file.path);
+        return new File(
+          [fileBuffer],
+          file.path.split("/").pop() || "photo.jpg",
+        );
+      });
+
+      const entry = await pb
+        .collection("moment_vault_entries")
+        .create<IMomentVaultEntry>({
+          type: "photos",
+          file: allImages,
+        });
+
+      if (entry.file) {
+        entry.file = (entry.file as string[]).map(
+          (file) => pb.files.getURL(entry, file).split("/files/")[1],
+        );
+      }
+
+      files.forEach((file) => {
+        fs.unlinkSync(file.path);
+      });
 
       successWithBaseResponse(res, entry, 201);
     }
@@ -190,7 +236,7 @@ router.post(
       return;
     }
 
-    const fileURL = pb.files.getURL(entry, entry.file);
+    const fileURL = pb.files.getURL(entry, entry.file[0]);
 
     try {
       const filePath = `/tmp/${fileURL.split("/").pop()}`;

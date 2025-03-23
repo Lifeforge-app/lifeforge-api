@@ -23,7 +23,7 @@
   "entryTypes": {
     "audio": "音頻",
     "video": "影片",
-    "photo": "照片",
-    "text": "文本"
+    "text": "文本",
+    "photos": "照片"
   }
 }

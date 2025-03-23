@@ -23,7 +23,7 @@
   "entryTypes": {
     "audio": "Audio",
     "video": "Video",
-    "photo": "Foto",
-    "text": "Teks"
+    "text": "Teks",
+    "photos": "Gambar"
   }
 }

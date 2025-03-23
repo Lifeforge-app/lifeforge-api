@@ -11,7 +11,7 @@ const MomentVaultEntrySchema = s.assign(
       s.literal("photo"),
     ]),
     content: s.string(),
-    file: s.optional(s.string()),
+    file: s.optional(s.array(s.string())),
     transcript: s.optional(s.string()),
   }),
 );

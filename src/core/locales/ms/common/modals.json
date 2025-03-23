@@ -1,7 +1,13 @@
 {
   "deleteConfirmation": {
     "title": "Adakah anda pasti mahu memadam {{itemName}}?",
-    "desc": "Ini akan memadam {{itemName}} dan semua kandungan yang berkaitan. Tindakan ini tidak boleh dipulihkan!"
+    "desc": "Ini akan memadam {{itemName}} dan semua kandungan yang berkaitan. Tindakan ini tidak boleh dipulihkan!",
+    "inputs": {
+      "confirmation": {
+        "placeholder": "Sila taip \"{{text}}\" untuk mengesahkan pemadaman",
+        "label": "Sahkan Pembuangan"
+      }
+    }
   },
   "searchFilters": "Penapis Carian",
   "iconPicker": {

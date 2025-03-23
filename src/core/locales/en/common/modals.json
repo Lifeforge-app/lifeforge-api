@@ -1,7 +1,13 @@
 {
   "deleteConfirmation": {
     "title": "Are you sure you want to delete {{itemName}}?",
-    "desc": "This will delete {{itemName}} and all its related content. This action is irreversible!"
+    "desc": "This will delete {{itemName}} and all its related content. This action is irreversible!",
+    "inputs": {
+      "confirmation": {
+        "placeholder": "Please type \"{{text}}\" to confirm deletion",
+        "label": "Confirm Deletion"
+      }
+    }
   },
   "searchFilters": "Search Filters",
   "iconPicker": {

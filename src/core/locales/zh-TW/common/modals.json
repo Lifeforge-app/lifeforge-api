@@ -1,7 +1,13 @@
 {
   "deleteConfirmation": {
     "title": "您確定要刪除{{itemName}}嗎？",
-    "desc": "這將刪除{{itemName}}及其所有相關內容。此操作不可逆！"
+    "desc": "這將刪除{{itemName}}及其所有相關內容。此操作不可逆！",
+    "inputs": {
+      "confirmation": {
+        "placeholder": "請輸入 \"{{text}}\" 以確認刪除",
+        "label": "確認刪除"
+      }
+    }
   },
   "searchFilters": "搜索過濾器",
   "iconPicker": {
