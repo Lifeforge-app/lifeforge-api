@@ -84,10 +84,6 @@ export const createTransaction = async (
       targetFile = await convertPDFToImage(file.path);
     }
 
-    if (!(file instanceof File) && file && fs.existsSync(file.path)) {
-      fs.unlinkSync(file.path);
-    }
-
     return [targetFile, name];
   }
 
@@ -194,6 +190,10 @@ export const createTransaction = async (
     case "transfer":
       created = await createTransferTransactions();
       break;
+  }
+
+  if (file && fs.existsSync(file.path)) {
+    fs.unlinkSync(file.path);
   }
 
   return created;

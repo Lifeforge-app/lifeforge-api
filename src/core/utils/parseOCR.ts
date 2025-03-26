@@ -7,10 +7,15 @@ async function parseOCR(imagePath: string): Promise<string> {
     cacheMethod: "readOnly",
     gzip: false,
   });
-  const ret = await worker.recognize(imagePath);
-  await worker.terminate();
+  try {
+    const ret = await worker.recognize(imagePath);
+    await worker.terminate();
 
-  return ret.data.text;
+    return ret.data.text;
+  } catch {
+    await worker.terminate();
+    throw new Error("Error parsing OCR");
+  }
 }
 
 export default parseOCR;

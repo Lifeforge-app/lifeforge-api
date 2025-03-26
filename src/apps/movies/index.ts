@@ -5,8 +5,8 @@ import TMDBRoutes from "./routes/tmdb.routes";
 
 const router = express.Router();
 
-router.use("/entries", entriesRoutes);
 router.use("/entries/ticket", ticketRoutes);
+router.use("/entries", entriesRoutes);
 router.use("/tmdb", TMDBRoutes);
 
 export default router;
