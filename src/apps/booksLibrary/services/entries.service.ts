@@ -56,18 +56,14 @@ export const deleteEntry = async (
   }
 
   const fileTypeEntry = await pb
-    .collection("books_library_file_types")
+    .collection("books_library_file_types_with_amount")
     .getFirstListItem<IBooksLibraryFileType>(`name = "${entry.extension}"`);
 
   if (!fileTypeEntry) {
     throw new Error("File type not found");
   }
 
-  if (fileTypeEntry.count - 1 > 0) {
-    await pb.collection("books_library_file_types").update(fileTypeEntry.id, {
-      count: fileTypeEntry.count - 1,
-    });
-  } else {
+  if (fileTypeEntry.amount === 1) {
     await pb.collection("books_library_file_types").delete(fileTypeEntry.id);
   }
 

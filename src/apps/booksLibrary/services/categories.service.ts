@@ -5,7 +5,7 @@ export const getAllCategories = async (
   pb: PocketBase,
 ): Promise<IBooksLibraryCategory[]> => {
   const categories = await pb
-    .collection("books_library_categories")
+    .collection("books_library_categories_with_amount")
     .getFullList<IBooksLibraryCategory>({
       sort: "name",
     });

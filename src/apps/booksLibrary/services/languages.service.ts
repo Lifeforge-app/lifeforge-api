@@ -5,7 +5,7 @@ export const getAllLanguages = async (
   pb: PocketBase,
 ): Promise<IBooksLibraryLanguage[]> => {
   const languages = await pb
-    .collection("books_library_languages")
+    .collection("books_library_languages_with_amount")
     .getFullList<IBooksLibraryLanguage>();
   return languages;
 };

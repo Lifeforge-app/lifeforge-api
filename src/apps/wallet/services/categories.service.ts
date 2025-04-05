@@ -7,7 +7,9 @@ export const getAllCategories = async (
 ): Promise<IWalletCategory[]> => {
   const categories: IWalletCategory[] = await pb
     .collection("wallet_categories")
-    .getFullList<IWalletCategory>();
+    .getFullList<IWalletCategory>({
+      sort: "name",
+    });
   return categories;
 };
 

@@ -5,7 +5,7 @@ export const getAllPriorities = async (
   pb: PocketBase,
 ): Promise<ITodoPriority[]> => {
   const priorities: ITodoPriority[] = await pb
-    .collection("todo_priorities")
+    .collection("todo_priorities_with_amount")
     .getFullList();
   return priorities;
 };

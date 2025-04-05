@@ -27,11 +27,21 @@ function downloadVideo(
     });
 
     ytDlp.on("error", (err) => {
+      if (err.message.startsWith("WARNING")) {
+        console.error(`yt-dlp warning: ${err.message}`);
+        return;
+      }
+
       console.error(`yt-dlp error: ${err}`);
       reject(err);
     });
 
     ytDlp.stderr.on("data", (data) => {
+      if (data.toString().startsWith("WARNING")) {
+        console.error(`yt-dlp warning: ${data}`);
+        return;
+      }
+
       console.error(`yt-dlp error: ${data}`);
       reject(data);
     });

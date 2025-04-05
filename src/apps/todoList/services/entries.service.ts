@@ -108,6 +108,7 @@ export const createEntry = async (
     summary: string;
     notes: string;
     due_date: string;
+    due_date_has_time: boolean;
     list?: string;
     priority?: string;
     tags?: string[];
@@ -137,24 +138,6 @@ export const createEntry = async (
     .collection("todo_entries")
     .create(data);
 
-  if (entries.list) {
-    await pb.collection("todo_lists").update(entries.list, {
-      "amount+": 1,
-    });
-  }
-
-  if (entries.priority) {
-    await pb.collection("todo_priorities").update(entries.priority, {
-      "amount+": 1,
-    });
-  }
-
-  for (const tag of entries.tags) {
-    await pb.collection("todo_tags").update(tag, {
-      "amount+": 1,
-    });
-  }
-
   entries.subtasks = subtasksEntries;
 
   return entries;
@@ -167,6 +150,7 @@ export const updateEntry = async (
     summary: string;
     notes: string;
     due_date: string;
+    due_date_has_time: boolean;
     list?: string;
     priority?: string;
     tags?: string[];
@@ -211,44 +195,6 @@ export const updateEntry = async (
     subtasks: string[];
   } = await pb.collection("todo_entries").update(id, data);
 
-  for (const list of [...new Set([originalEntries.list, entry.list])]) {
-    if (!list) continue;
-
-    const { totalItems } = await pb.collection("todo_entries").getList(1, 1, {
-      filter: `list ~ "${list}"`,
-    });
-
-    await pb.collection("todo_lists").update(list, {
-      amount: totalItems,
-    });
-  }
-
-  for (const priority of [
-    ...new Set([originalEntries.priority, entry.priority]),
-  ]) {
-    if (!priority) continue;
-
-    const { totalItems } = await pb.collection("todo_entries").getList(1, 1, {
-      filter: `priority ~ "${priority}"`,
-    });
-
-    await pb.collection("todo_priorities").update(priority, {
-      amount: totalItems,
-    });
-  }
-
-  for (const tag of [...new Set([...originalEntries.tags, ...entry.tags])]) {
-    if (!tag) continue;
-
-    const { totalItems } = await pb.collection("todo_entries").getList(1, 1, {
-      filter: `tags ~ "${tag}"`,
-    });
-
-    await pb.collection("todo_tags").update(tag, {
-      amount: totalItems,
-    });
-  }
-
   for (const subtask of originalEntries.subtasks) {
     if (entry.subtasks.includes(subtask)) continue;
 
@@ -269,24 +215,6 @@ export const deleteEntry = async (
   } = await pb.collection("todo_entries").getOne(id);
 
   await pb.collection("todo_entries").delete(id);
-
-  if (entries.list) {
-    await pb.collection("todo_lists").update(entries.list, {
-      "amount-": 1,
-    });
-  }
-
-  if (entries.priority) {
-    await pb.collection("todo_priorities").update(entries.priority, {
-      "amount-": 1,
-    });
-  }
-
-  for (const tag of entries.tags) {
-    await pb.collection("todo_tags").update(tag, {
-      "amount-": 1,
-    });
-  }
 
   for (const subtask of entries.subtasks) {
     await pb.collection("todo_subtasks").delete(subtask);

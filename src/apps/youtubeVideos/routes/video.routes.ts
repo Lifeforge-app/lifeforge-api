@@ -97,8 +97,8 @@ router.get(
         video.channel = {
           id: channel.youtube_id,
           name: channel.name,
-          thumbnail: pb
-            .getFileUrl(channel, channel.thumbnail)
+          thumbnail: pb.files
+            .getURL(channel, channel.thumbnail)
             .split("/files/")[1],
         };
       });

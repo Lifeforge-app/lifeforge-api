@@ -60,7 +60,8 @@
     "listName": "List Name",
     "listIcon": "List Icon",
     "listColor": "List Color",
-    "tagName": "Tag Name"
+    "tagName": "Tag Name",
+    "hasTime": "Include Time"
   },
   "items": {
     "task": "Task"

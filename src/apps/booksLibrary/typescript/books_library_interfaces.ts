@@ -26,6 +26,7 @@ const BooksLibraryCategorySchema = s.assign(
   s.object({
     name: s.string(),
     icon: s.string(),
+    amount: s.number(),
   }),
 );
 
@@ -34,6 +35,7 @@ const BooksLibraryLanguageSchema = s.assign(
   s.object({
     name: s.string(),
     icon: s.string(),
+    amount: s.number(),
   }),
 );
 
@@ -41,7 +43,7 @@ const BooksLibraryFileTypeSchema = s.assign(
   BasePBCollectionSchema,
   s.object({
     name: s.string(),
-    count: s.number(),
+    amount: s.number(),
   }),
 );
 

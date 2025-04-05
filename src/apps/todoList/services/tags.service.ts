@@ -2,7 +2,9 @@ import PocketBase from "pocketbase";
 import { ITodoListTag } from "../typescript/todo_list_interfaces";
 
 export const getAllTags = async (pb: PocketBase): Promise<ITodoListTag[]> => {
-  const tags: ITodoListTag[] = await pb.collection("todo_tags").getFullList();
+  const tags: ITodoListTag[] = await pb
+    .collection("todo_tags_with_amount")
+    .getFullList();
   return tags;
 };
 

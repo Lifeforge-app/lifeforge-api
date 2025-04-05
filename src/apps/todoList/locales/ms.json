@@ -60,7 +60,8 @@
     "listName": "Nama Senarai",
     "listIcon": "Ikon Senarai",
     "listColor": "Warna Senarai",
-    "tagName": "Nama Tag"
+    "tagName": "Nama Tag",
+    "hasTime": "Sertakan Masa"
   },
   "items": {
     "task": "Tugasan"

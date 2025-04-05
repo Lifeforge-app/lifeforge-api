@@ -6,7 +6,7 @@ export const getAllCategories = async (
   pb: PocketBase,
 ): Promise<ICalendarCategory[]> => {
   return await pb
-    .collection("calendar_categories")
+    .collection("calendar_categories_with_amount")
     .getFullList<ICalendarCategory>({
       sort: "+name",
     });

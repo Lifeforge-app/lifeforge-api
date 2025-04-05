@@ -137,15 +137,11 @@ async function processDownloadedFiles(
 
 async function updateFileTypeStatistics(pb: Pocketbase, extension: string) {
   const fileTypeEntry = await pb
-    .collection("books_library_file_types")
+    .collection("books_library_file_types_with_amount")
     .getFirstListItem(`name = "${extension}"`)
     .catch(() => null);
 
-  if (fileTypeEntry) {
-    await pb.collection("books_library_file_types").update(fileTypeEntry.id, {
-      count: fileTypeEntry.count + 1,
-    });
-  } else {
+  if (!fileTypeEntry) {
     await pb.collection("books_library_file_types").create({
       name: extension,
       count: 1,

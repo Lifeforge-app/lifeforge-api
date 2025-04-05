@@ -60,7 +60,8 @@
     "listName": "清單名稱",
     "listIcon": "清單圖標",
     "listColor": "清單顏色",
-    "tagName": "標籤名稱"
+    "tagName": "標籤名稱",
+    "hasTime": "包含時間"
   },
   "items": {
     "task": "任務"

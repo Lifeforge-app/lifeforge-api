@@ -5,6 +5,7 @@ import pdfThumbnail from "pdf-thumbnail";
 import pdfPageCounter from "pdf-page-counter";
 import PocketBase from "pocketbase";
 import {
+  IGuitarTabsAuthors,
   IGuitarTabsEntry,
   IGuitarTabsSidebarData,
 } from "../typescript/guitar_tabs_interfaces";
@@ -29,6 +30,9 @@ export const getSidebarData = async (
   const allScores = await pb
     .collection("guitar_tabs_entries")
     .getFullList<IGuitarTabsEntry>();
+  const allAuthors = await pb
+    .collection("guitar_tabs_authors")
+    .getFullList<IGuitarTabsAuthors>();
 
   return {
     total: allScores.length,
@@ -39,15 +43,8 @@ export const getSidebarData = async (
       singalong: allScores.filter((entry) => entry.type === "singalong").length,
       uncategorized: allScores.filter((entry) => entry.type === "").length,
     },
-    authors: allScores.reduce(
-      (acc, entry) => {
-        if (!acc[entry.author]) {
-          acc[entry.author] = 0;
-        }
-        acc[entry.author]++;
-        return acc;
-      },
-      {} as Record<string, number>,
+    authors: Object.fromEntries(
+      allAuthors.map((author) => [author.name, author.amount]),
     ),
   };
 };
@@ -64,7 +61,7 @@ export const getEntries = async (
   return await pb.collection("guitar_tabs_entries").getList(page, 20, {
     filter: `(name~"${search}" || author~"${search}") && ${
       category === "uncategorized" ? "type=''" : `type~"${category}"`
-    } && author~"${author}" ${starred ? "&& isFavourite=true" : ""}`,
+    } && ${author === "na" ? "author = ''" : `author~"${author}"`} ${starred ? "&& isFavourite=true" : ""}`,
     sort: `-isFavourite, ${
       sort === "newest"
         ? "-created"

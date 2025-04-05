@@ -1,8 +1,11 @@
 import express from "express";
 import asyncWrapper from "../../../core/utils/asyncWrapper";
 import * as CategoriesController from "../controllers/categories.controller";
-import { validateBodyData, validateId } from "../middlewares/assetsValidation";
-import { validateType } from "../middlewares/categoriesValidation";
+import {
+  validateBodyData,
+  validateId,
+  validateType,
+} from "../middlewares/categoriesValidation";
 
 const router = express.Router();
 

@@ -6,6 +6,6 @@ export const validateBodyData = [
   body("color").isHexColor(),
 ];
 
-export const validateType = body("type").isIn(["income", "expense"]);
+export const validateType = body("type").isIn(["income", "expenses"]);
 
 export const validateId = param("id").isString();

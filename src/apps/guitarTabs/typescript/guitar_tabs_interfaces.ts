@@ -12,6 +12,11 @@ interface IGuitarTabsEntry extends BasePBCollection {
   isFavourite: boolean;
 }
 
+interface IGuitarTabsAuthors extends BasePBCollection {
+  name: string;
+  amount: number;
+}
+
 interface IGuitarTabsSidebarData {
   total: number;
   favourites: number;
@@ -23,4 +28,4 @@ interface IGuitarTabsSidebarData {
   authors: Record<string, number>;
 }
 
-export { IGuitarTabsEntry, IGuitarTabsSidebarData };
+export { IGuitarTabsAuthors, IGuitarTabsEntry, IGuitarTabsSidebarData };
