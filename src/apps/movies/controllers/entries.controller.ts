@@ -30,7 +30,7 @@ export const deleteEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { pb } = req;
 
-  if (!checkExistence(req, res, "movies_entries", id)) {
+  if (!(await checkExistence(req, res, "movies_entries", id))) {
     return;
   }
 

@@ -28,7 +28,8 @@
     "categoryName": "Nama Kategori",
     "categoryColor": "Warna Kategori",
     "categoryIcon": "Ikon Kategori",
-    "location": "Lokasi"
+    "location": "Lokasi",
+    "reference_link": "Pautan Rujukan"
   },
   "items": {
     "event": "Acara",

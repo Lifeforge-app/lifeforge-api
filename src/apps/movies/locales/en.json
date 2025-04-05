@@ -40,6 +40,7 @@
     "theatreSeat": "Theatre Seat",
     "theatreLocation": "Theatre Location",
     "theatreShowtime": "Theatre Showtime",
-    "theatreNumber": "Theatre Number"
+    "theatreNumber": "Theatre Number",
+    "category": "Category"
   }
 }

@@ -8,8 +8,11 @@ export const getEventsByDateRange = async (
   startDate: string,
   endDate: string,
 ): Promise<ICalendarEvent[]> => {
+  console.log(startDate, endDate);
   return await pb.collection("calendar_events").getFullList<ICalendarEvent>({
-    filter: `start >= '${startDate}' && end <= '${endDate}'`,
+    filter: `start >= '${moment(startDate)
+      .startOf("day")
+      .toISOString()}' && end <= '${moment(endDate).endOf("day").toISOString()}'`,
   });
 };
 

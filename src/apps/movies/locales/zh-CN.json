@@ -40,6 +40,7 @@
     "theatreSeat": "影院座位",
     "theatreLocation": "影院地点",
     "theatreShowtime": "影院放映时间",
-    "theatreNumber": "影院号码"
+    "theatreNumber": "影院号码",
+    "category": "类别"
   }
 }

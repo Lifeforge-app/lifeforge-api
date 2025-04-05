@@ -19,7 +19,7 @@ export const updateTicket = async (
     theatre_showtime,
   } = req.body;
 
-  if (!checkExistence(req, res, "movies_entries", entry_id)) {
+  if (!(await checkExistence(req, res, "movies_entries", entry_id))) {
     return;
   }
 
@@ -34,6 +34,32 @@ export const updateTicket = async (
   successWithBaseResponse(res, updatedEntry);
 };
 
+export const addToCalendar = async (
+  req: Request,
+  res: Response<BaseResponse<IMovieEntry>>,
+) => {
+  const { pb } = req;
+  const { id } = req.params;
+  const { category } = req.query;
+
+  if (!(await checkExistence(req, res, "movies_entries", id))) {
+    return;
+  }
+
+  if (
+    !(await checkExistence(req, res, "calendar_categories", category as string))
+  ) {
+    return;
+  }
+
+  const updatedEntry = await TicketService.addToCalendar(
+    pb,
+    id,
+    category as string,
+  );
+  successWithBaseResponse(res, updatedEntry);
+};
+
 export const clearTicket = async (
   req: Request,
   res: Response<BaseResponse<IMovieEntry>>,
@@ -41,7 +67,7 @@ export const clearTicket = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!checkExistence(req, res, "movies_entries", id)) {
+  if (!(await checkExistence(req, res, "movies_entries", id))) {
     return;
   }
 

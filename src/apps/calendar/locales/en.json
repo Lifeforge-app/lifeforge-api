@@ -28,7 +28,8 @@
     "categoryName": "Category Name",
     "categoryColor": "Category Color",
     "categoryIcon": "Category Icon",
-    "location": "Location"
+    "location": "Location",
+    "reference_link": "Reference Link"
   },
   "items": {
     "event": "Event",

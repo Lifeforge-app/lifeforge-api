@@ -40,6 +40,7 @@
     "theatreSeat": "Tempat Duduk Pawagam",
     "theatreLocation": "Lokasi Pawagam",
     "theatreShowtime": "Masa Tayangan Pawagam",
-    "theatreNumber": "Nombor Pawagam"
+    "theatreNumber": "Nombor Pawagam",
+    "category": "Kategori"
   }
 }

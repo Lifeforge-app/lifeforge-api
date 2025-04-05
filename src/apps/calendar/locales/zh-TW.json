@@ -28,7 +28,8 @@
     "categoryName": "類別名稱",
     "categoryColor": "類別顏色",
     "categoryIcon": "類別圖標",
-    "location": "地點"
+    "location": "地點",
+    "reference_link": "參考鏈接"
   },
   "items": {
     "event": "事件",

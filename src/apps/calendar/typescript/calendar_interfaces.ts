@@ -5,6 +5,8 @@ interface ICalendarEvent extends BasePBCollection {
   start: string | Date;
   end: string | Date;
   category: string;
+  reference_link: string;
+  cannot_delete: boolean;
 }
 
 interface ICalendarCategory extends BasePBCollection {

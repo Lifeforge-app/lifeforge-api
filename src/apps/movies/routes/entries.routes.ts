@@ -13,7 +13,6 @@ router.get("/", asyncWrapper(EntriesController.getAllEntries));
 router.post(
   "/:id",
   validateTMDBId,
-
   asyncWrapper(EntriesController.createEntryFromTMDB),
 );
 
