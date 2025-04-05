@@ -27,7 +27,8 @@
     "eventTitle": "Event Title",
     "categoryName": "Category Name",
     "categoryColor": "Category Color",
-    "categoryIcon": "Category Icon"
+    "categoryIcon": "Category Icon",
+    "location": "Location"
   },
   "items": {
     "event": "Event",

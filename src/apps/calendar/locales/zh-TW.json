@@ -27,7 +27,8 @@
     "eventTitle": "事件標題",
     "categoryName": "類別名稱",
     "categoryColor": "類別顏色",
-    "categoryIcon": "類別圖標"
+    "categoryIcon": "類別圖標",
+    "location": "地點"
   },
   "items": {
     "event": "事件",

@@ -27,7 +27,8 @@
     "eventTitle": "Tajuk Acara",
     "categoryName": "Nama Kategori",
     "categoryColor": "Warna Kategori",
-    "categoryIcon": "Ikon Kategori"
+    "categoryIcon": "Ikon Kategori",
+    "location": "Lokasi"
   },
   "items": {
     "event": "Acara",

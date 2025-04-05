@@ -27,7 +27,8 @@
     "eventTitle": "事件标题",
     "categoryName": "类别名称",
     "categoryColor": "类别颜色",
-    "categoryIcon": "类别图标"
+    "categoryIcon": "类别图标",
+    "location": "地点"
   },
   "items": {
     "event": "事件",
