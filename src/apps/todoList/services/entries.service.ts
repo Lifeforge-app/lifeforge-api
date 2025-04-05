@@ -42,6 +42,7 @@ export const getAllEntries = async (
     expand?: { subtasks: ITodoSubtask[] };
   })[] = await pb.collection("todo_entries").getFullList({
     filter: finalFilter,
+    sort: '-created',
     expand: "subtasks",
   });
 

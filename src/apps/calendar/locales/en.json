@@ -29,7 +29,8 @@
     "categoryColor": "Category Color",
     "categoryIcon": "Category Icon",
     "location": "Location",
-    "reference_link": "Reference Link"
+    "referenceLink": "Reference Link",
+    "description": "Description"
   },
   "items": {
     "event": "Event",

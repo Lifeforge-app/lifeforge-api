@@ -29,7 +29,8 @@
     "categoryColor": "类别颜色",
     "categoryIcon": "类别图标",
     "location": "地点",
-    "reference_link": "参考链接"
+    "referenceLink": "参考链接",
+    "description": "描述"
   },
   "items": {
     "event": "事件",
