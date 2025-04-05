@@ -5,7 +5,6 @@ export const getAllLists = async (pb: PocketBase): Promise<ITodoListList[]> => {
   const lists: ITodoListList[] = await pb
     .collection("todo_lists_with_amount")
     .getFullList();
-  console.log(lists);
   return lists;
 };
 
