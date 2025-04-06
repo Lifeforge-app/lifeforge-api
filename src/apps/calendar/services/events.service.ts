@@ -4,6 +4,8 @@ import moment from "moment";
 import PocketBase from "pocketbase";
 import { z } from "zod";
 import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
+import { IMovieEntry } from "../../movies/typescript/movies_interfaces";
+import { ITodoListEntry } from "../../todoList/typescript/todo_list_interfaces";
 import {
   ICalendarCategory,
   ICalendarEvent,
@@ -17,9 +19,72 @@ export const getEventsByDateRange = async (
   const start = moment(startDate).startOf("day").toISOString();
   const end = moment(endDate).endOf("day").toISOString();
 
-  return await pb.collection("calendar_events").getFullList<ICalendarEvent>({
-    filter: `(start >= '${start}' || end >= '${start}') && (start <= '${end}' || end <= '${end}')`,
+  const allEvents = [];
+
+  const calendarEvents = await pb
+    .collection("calendar_events")
+    .getFullList<ICalendarEvent>({
+      filter: `(start >= '${start}' || end >= '${start}') && (start <= '${end}' || end <= '${end}')`,
+    });
+
+  allEvents.push(...calendarEvents);
+
+  const todoEntries = (
+    await pb
+      .collection("todo_entries")
+      .getFullList<ITodoListEntry>({
+        filter: `due_date >= '${start}' && due_date <= '${end}'`,
+      })
+      .catch(() => [])
+  ).map((entry) => {
+    return {
+      id: entry.id,
+      title: entry.summary,
+      start: entry.due_date,
+      end: moment(entry.due_date).add(1, "second").toISOString(),
+      category: "_todo",
+      description: entry.notes,
+      reference_link: `/todo-list?entry=${entry.id}`,
+      is_strikethrough: entry.done,
+    } as ICalendarEvent;
   });
+
+  allEvents.push(...todoEntries);
+
+  const movieEntries = (
+    await pb
+      .collection("movies_entries")
+      .getFullList<IMovieEntry>({
+        filter: `theatre_showtime >= '${start}' && theatre_showtime <= '${end}'`,
+      })
+      .catch(() => [])
+  ).map((entry) => {
+    return {
+      id: entry.id,
+      title: entry.title,
+      start: entry.theatre_showtime,
+      end: moment(entry.theatre_showtime)
+        .add(entry.duration, "minutes")
+        .toISOString(),
+      category: "_movie",
+      location: entry.theatre_location ?? "",
+      description: `
+### Movie Description:
+${entry.overview}
+
+### Theatre Number:
+${entry.theatre_number}
+
+### Seat Number:
+${entry.theatre_seat}
+      `,
+      reference_link: `/movies?show-ticket=${entry.id}`,
+    } as ICalendarEvent;
+  });
+
+  allEvents.push(...movieEntries);
+
+  return allEvents;
 };
 
 export const getTodayEvents = async (

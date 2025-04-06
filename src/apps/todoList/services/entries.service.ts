@@ -6,6 +6,29 @@ import {
   ITodoSubtask,
 } from "../typescript/todo_list_interfaces";
 
+export const getEntryById = async (
+  pb: PocketBase,
+  id: string,
+): Promise<Omit<ITodoListEntry, "subtasks"> & { subtasks: ITodoSubtask[] }> => {
+  const entry = await pb.collection("todo_entries").getOne<
+    ITodoListEntry & {
+      expand?: { subtasks: ITodoSubtask[] };
+    }
+  >(id, {
+    expand: "subtasks",
+  });
+
+  entry.subtasks =
+    entry.expand?.subtasks?.map((subtask: ITodoSubtask) => ({
+      title: subtask.title,
+      done: subtask.done,
+      id: subtask.id,
+    })) ?? [];
+
+  delete entry.expand;
+  return entry;
+};
+
 export const getAllEntries = async (
   pb: PocketBase,
   statusFilter: string,
@@ -42,7 +65,7 @@ export const getAllEntries = async (
     expand?: { subtasks: ITodoSubtask[] };
   })[] = await pb.collection("todo_entries").getFullList({
     filter: finalFilter,
-    sort: '-created',
+    sort: "-created",
     expand: "subtasks",
   });
 

@@ -17,6 +17,8 @@ router.get(
 
 router.get("/status-counter", asyncWrapper(entriesController.getStatusCounter));
 
+router.get("/:id", asyncWrapper(entriesController.getEntryById));
+
 router.post(
   "/",
   createEntryValidation,

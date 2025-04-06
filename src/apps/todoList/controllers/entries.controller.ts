@@ -6,7 +6,27 @@ import * as entriesService from "../services/entries.service";
 import {
   ITodoListEntry,
   ITodoListStatusCounter,
+  ITodoSubtask,
 } from "../typescript/todo_list_interfaces";
+
+export const getEntryById = async (
+  req: Request<{ id: string }>,
+  res: Response<
+    BaseResponse<
+      Omit<ITodoListEntry, "subtasks"> & { subtasks: ITodoSubtask[] }
+    >
+  >,
+) => {
+  const { pb } = req;
+  const { id } = req.params;
+
+  if (!(await checkExistence(req, res, "todo_entries", id))) {
+    return;
+  }
+  const entry = await entriesService.getEntryById(pb, id);
+
+  successWithBaseResponse(res, entry);
+};
 
 export const getAllEntries = async (
   req: Request,
