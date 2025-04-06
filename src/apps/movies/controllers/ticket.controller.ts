@@ -23,6 +23,14 @@ export const updateTicket = async (
     return;
   }
 
+  const entry = await pb
+    .collection("movies_entries")
+    .getOne<IMovieEntry>(entry_id);
+
+  if (entry.calendar_record) {
+    await pb.collection("calendar_events").delete(entry.calendar_record);
+  }
+
   const updatedEntry = await TicketService.updateTicket(pb, entry_id, {
     ticket_number,
     theatre_location,

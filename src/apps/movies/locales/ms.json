@@ -33,7 +33,12 @@
     "alreadyInLibrary": "Sudah di dalam Pustaka",
     "addTicket": "Tambah Tiket",
     "updateTicket": "Kemaskini Tiket",
-    "markAsWatched": "Tanda sebagai Ditonton"
+    "markAsWatched": "Tandakan sebagai Ditonton",
+    "markAsUnwatched": "Tandakan sebagai Tidak Ditonton",
+    "watched": "Telah Ditonton",
+    "showTicket": "Tunjukkan Tiket",
+    "addToCalendar": "Tambah ke Kalendar",
+    "addedToCalendar": "Ditambahkan ke Kalendar"
   },
   "inputs": {
     "ticketNumber": "Nombor Tiket",

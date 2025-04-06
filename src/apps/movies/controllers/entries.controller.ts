@@ -37,3 +37,18 @@ export const deleteEntry = async (req: Request, res: Response) => {
   await entriesService.deleteEntry(pb, id);
   successWithBaseResponse(res, undefined, 204);
 };
+
+export const toggleWatchStatus = async (
+  req: Request,
+  res: Response<BaseResponse<IMovieEntry>>,
+) => {
+  const { id } = req.params;
+  const { pb } = req;
+
+  if (!(await checkExistence(req, res, "movies_entries", id))) {
+    return;
+  }
+
+  const entry = await entriesService.toggleWatchStatus(pb, id);
+  successWithBaseResponse(res, entry);
+};

@@ -23,4 +23,11 @@ router.delete(
   asyncWrapper(EntriesController.deleteEntry),
 );
 
+router.patch(
+  "/watch-status/:id",
+  validateEntryId,
+
+  asyncWrapper(EntriesController.toggleWatchStatus),
+);
+
 export default router;

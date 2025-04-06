@@ -6,10 +6,7 @@ const router = express.Router();
 
 router.post("/", asyncWrapper(TicketController.updateTicket));
 
-router.post(
-  "/add-to-calendar/:id",
-  asyncWrapper(TicketController.addToCalendar),
-);
+router.post("/calendar/:id", asyncWrapper(TicketController.addToCalendar));
 
 router.patch("/:id", asyncWrapper(TicketController.updateTicket));
 

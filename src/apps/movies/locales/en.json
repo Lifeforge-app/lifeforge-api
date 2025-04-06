@@ -33,7 +33,12 @@
     "alreadyInLibrary": "Already in Library",
     "addTicket": "Add Ticket",
     "updateTicket": "Update Ticket",
-    "markAsWatched": "Mark as Watched"
+    "markAsWatched": "Mark as Watched",
+    "markAsUnwatched": "Mark as Unwatched",
+    "watched": "Watched",
+    "showTicket": "Show Ticket",
+    "addToCalendar": "Add to Calendar",
+    "addedToCalendar": "Added to Calendar"
   },
   "inputs": {
     "ticketNumber": "Ticket Number",

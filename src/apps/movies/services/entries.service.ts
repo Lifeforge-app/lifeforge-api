@@ -50,3 +50,15 @@ export const createEntryFromTMDB = async (pb: PocketBase, id: number) => {
 export const deleteEntry = async (pb: PocketBase, id: string) => {
   await pb.collection("movies_entries").delete(id);
 };
+
+export const toggleWatchStatus = async (pb: PocketBase, id: string) => {
+  const entry = await pb.collection("movies_entries").getOne<IMovieEntry>(id);
+
+  const updatedEntry = await pb
+    .collection("movies_entries")
+    .update<IMovieEntry>(id, {
+      watched: !entry.is_watched,
+    });
+
+  return updatedEntry;
+};

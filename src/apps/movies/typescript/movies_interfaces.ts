@@ -20,6 +20,8 @@ const MovieEntrySchema = s.assign(
     theatre_location: s.optional(s.string()),
     theatre_showtime: s.optional(s.string()),
     theatre_number: s.optional(s.string()),
+    is_watched: s.boolean(),
+    calendar_record: s.optional(s.string()),
   }),
 );
 
