@@ -46,7 +46,10 @@
   "dnd": {
     "dropHere": "将项目拖放到这里",
     "dragAndDropToUpload": "拖放上传",
-    "or": "或"
+    "or": "或",
+    "buttons": {
+      "pasteFromClipboard": "从剪贴板粘贴"
+    }
   },
   "buttons": {
     "goBack": "返回",

@@ -46,7 +46,10 @@
   "dnd": {
     "dropHere": "Letakkan item di sini",
     "dragAndDropToUpload": "Seret dan lepaskan untuk memuat naik",
-    "or": "atau"
+    "or": "atau",
+    "buttons": {
+      "pasteFromClipboard": "Tampal dari Papan Klip"
+    }
   },
   "buttons": {
     "goBack": "Kembali",

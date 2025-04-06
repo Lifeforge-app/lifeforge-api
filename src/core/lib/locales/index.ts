@@ -135,6 +135,15 @@ router.get(
         ),
       );
     } else {
+      if (
+        !fs.existsSync(
+          `${process.cwd()}/src/core/locales/${finalLang}/${type}/${id}.json`,
+        )
+      ) {
+        clientError(res, "Locale file not found", 404);
+        return;
+      }
+
       data = JSON.parse(
         fs.readFileSync(
           `${process.cwd()}/src/core/locales/${finalLang}/${type}/${id}.json`,

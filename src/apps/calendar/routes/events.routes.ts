@@ -1,4 +1,5 @@
 import express from "express";
+import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
 import asyncWrapper from "../../../core/utils/asyncWrapper";
 import * as EventsController from "../controllers/events.controller";
 import {
@@ -20,6 +21,12 @@ router.get("/today", asyncWrapper(EventsController.getEventsToday));
 router.get("/:id", validateId, asyncWrapper(EventsController.getEventById));
 
 router.post("/", validateEventData, asyncWrapper(EventsController.createEvent));
+
+router.post(
+  "/scan-image",
+  singleUploadMiddleware,
+  asyncWrapper(EventsController.scanImage),
+);
 
 router.patch(
   "/:id",

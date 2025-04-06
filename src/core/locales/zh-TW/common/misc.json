@@ -46,7 +46,10 @@
   "dnd": {
     "dropHere": "將項目拖放到這裡",
     "dragAndDropToUpload": "拖放上傳",
-    "or": "或"
+    "or": "或",
+    "buttons": {
+      "pasteFromClipboard": "從剪貼簿貼上"
+    }
   },
   "buttons": {
     "goBack": "返回",

@@ -1,5 +1,6 @@
+import { getAPIKey } from "@utils/getAPIKey";
 import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import { BaseResponse } from "../../../core/typescript/base_response";
 import * as EventsService from "../services/events.service";
@@ -35,6 +36,29 @@ export const createEvent = async (
 
   const event = await EventsService.createEvent(pb, eventData);
   successWithBaseResponse(res, event, 201);
+};
+
+export const scanImage = async (
+  req: Request,
+  res: Response<BaseResponse<Partial<ICalendarEvent>>>,
+) => {
+  const { pb } = req;
+  const { file } = req;
+
+  if (!file) {
+    return clientError(res, "No file uploaded");
+  }
+
+  const apiKey = await getAPIKey("openai", pb);
+  if (!apiKey) {
+    return clientError(res, "No API key found");
+  }
+
+  const eventData = await EventsService.scanImage(pb, file.path, apiKey);
+  if (!eventData) {
+    return clientError(res, "Failed to scan image");
+  }
+  successWithBaseResponse(res, eventData);
 };
 
 export const updateEvent = async (

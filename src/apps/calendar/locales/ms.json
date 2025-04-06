@@ -18,6 +18,9 @@
     "category": {
       "create": "Cipta Kategori",
       "update": "Kemas Kini Kategori"
+    },
+    "scanImage": {
+      "title": "Imbas Imej"
     }
   },
   "inputs": {
@@ -30,10 +33,15 @@
     "categoryIcon": "Ikon Kategori",
     "location": "Lokasi",
     "referenceLink": "Pautan Rujukan",
-    "description": "Deskripsi"
+    "description": "Deskripsi",
+    "image": "Imej"
   },
   "items": {
     "event": "Acara",
     "category": "Kategori"
+  },
+  "buttons": {
+    "inputManually": "Masukkan Secara Manual",
+    "scanFromImage": "Imbas dari Imej"
   }
 }

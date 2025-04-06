@@ -18,6 +18,9 @@
     "category": {
       "create": "Create Category",
       "update": "Update Category"
+    },
+    "scanImage": {
+      "title": "Scan Image"
     }
   },
   "inputs": {
@@ -30,10 +33,15 @@
     "categoryIcon": "Category Icon",
     "location": "Location",
     "referenceLink": "Reference Link",
-    "description": "Description"
+    "description": "Description",
+    "image": "Image"
   },
   "items": {
     "event": "Event",
     "category": "Category"
+  },
+  "buttons": {
+    "inputManually": "Input Manually",
+    "scanFromImage": "Scan from Image"
   }
 }

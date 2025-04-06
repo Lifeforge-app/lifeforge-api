@@ -14,7 +14,10 @@
   "dnd": {
     "dropHere": "Drop items here",
     "dragAndDropToUpload": "Drag and drop to upload",
-    "or": "or"
+    "or": "or",
+    "buttons": {
+      "pasteFromClipboard": "Paste from Clipboard"
+    }
   },
   "buttons": {
     "goBack": "Go back",

@@ -18,6 +18,9 @@
     "category": {
       "create": "创建类别",
       "update": "更新类别"
+    },
+    "scanImage": {
+      "title": "扫描图像"
     }
   },
   "inputs": {
@@ -30,10 +33,15 @@
     "categoryIcon": "类别图标",
     "location": "地点",
     "referenceLink": "参考链接",
-    "description": "描述"
+    "description": "描述",
+    "image": "图像"
   },
   "items": {
     "event": "事件",
     "category": "类别"
+  },
+  "buttons": {
+    "inputManually": "手动输入",
+    "scanFromImage": "从图像扫描"
   }
 }

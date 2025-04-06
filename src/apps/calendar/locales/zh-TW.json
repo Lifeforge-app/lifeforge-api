@@ -18,6 +18,9 @@
     "category": {
       "create": "創建類別",
       "update": "更新類別"
+    },
+    "scanImage": {
+      "title": "掃描圖片"
     }
   },
   "inputs": {
@@ -30,10 +33,15 @@
     "categoryIcon": "類別圖標",
     "location": "地點",
     "referenceLink": "參考鏈接",
-    "description": "描述"
+    "description": "描述",
+    "image": "影像"
   },
   "items": {
     "event": "事件",
     "category": "類別"
+  },
+  "buttons": {
+    "inputManually": "手動輸入",
+    "scanFromImage": "從圖像掃描"
   }
 }
