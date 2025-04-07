@@ -34,7 +34,10 @@
     "location": "地点",
     "referenceLink": "参考链接",
     "description": "描述",
-    "image": "图像"
+    "image": "图像",
+    "eventType": "事件类型",
+    "eventTime": "事件时间",
+    "frequency": "频率"
   },
   "items": {
     "event": "事件",
@@ -43,5 +46,16 @@
   "buttons": {
     "inputManually": "手动输入",
     "scanFromImage": "从图像扫描"
+  },
+  "eventTypes": {
+    "single": "单个事件",
+    "recurring": "重复事件"
+  },
+  "recurringFreqs": {
+    "yearly": "每年",
+    "monthly": "每月",
+    "weekly": "每周",
+    "daily": "每日",
+    "hourly": "每小时"
   }
 }

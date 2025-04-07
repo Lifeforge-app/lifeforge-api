@@ -2,6 +2,7 @@ import BasePBCollection from "../../../core/typescript/pocketbase_interfaces";
 
 interface ITodoListEntry extends BasePBCollection {
   due_date: string;
+  due_date_has_time?: boolean;
   list: string;
   notes: string;
   priority: string;

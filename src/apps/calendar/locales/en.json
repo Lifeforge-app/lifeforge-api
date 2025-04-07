@@ -34,7 +34,10 @@
     "location": "Location",
     "referenceLink": "Reference Link",
     "description": "Description",
-    "image": "Image"
+    "image": "Image",
+    "eventType": "Event Type",
+    "eventTime": "Event Time",
+    "frequency": "Frequency"
   },
   "items": {
     "event": "Event",
@@ -43,5 +46,16 @@
   "buttons": {
     "inputManually": "Input Manually",
     "scanFromImage": "Scan from Image"
+  },
+  "eventTypes": {
+    "single": "Single Event",
+    "recurring": "Recurring Event"
+  },
+  "recurringFreqs": {
+    "yearly": "Yearly",
+    "monthly": "Monthly",
+    "weekly": "Weekly",
+    "daily": "Daily",
+    "hourly": "Hourly"
   }
 }

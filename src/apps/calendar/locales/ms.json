@@ -34,7 +34,10 @@
     "location": "Lokasi",
     "referenceLink": "Pautan Rujukan",
     "description": "Deskripsi",
-    "image": "Imej"
+    "image": "Imej",
+    "eventType": "Jenis Acara",
+    "eventTime": "Waktu Acara",
+    "frequency": "Kekerapan"
   },
   "items": {
     "event": "Acara",
@@ -43,5 +46,16 @@
   "buttons": {
     "inputManually": "Masukkan Secara Manual",
     "scanFromImage": "Imbas dari Imej"
+  },
+  "eventTypes": {
+    "single": "Acara Tunggal",
+    "recurring": "Acara Berulang"
+  },
+  "recurringFreqs": {
+    "yearly": "Tahunan",
+    "monthly": "Bulanan",
+    "weekly": "Mingguan",
+    "daily": "Harian",
+    "hourly": "Setiap Jam"
   }
 }

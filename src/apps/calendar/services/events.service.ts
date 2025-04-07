@@ -41,7 +41,7 @@ export const getEventsByDateRange = async (
       id: entry.id,
       title: entry.summary,
       start: entry.due_date,
-      end: moment(entry.due_date).add(1, "second").toISOString(),
+      end: moment(entry.due_date).add(1, "millisecond").toISOString(),
       category: "_todo",
       description: entry.notes,
       reference_link: `/todo-list?entry=${entry.id}`,

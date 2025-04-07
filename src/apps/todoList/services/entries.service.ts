@@ -1,5 +1,6 @@
 import moment from "moment";
 import PocketBase from "pocketbase";
+import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import {
   ITodoListEntry,
   ITodoListStatusCounter,
@@ -128,16 +129,7 @@ export const getStatusCounter = async (
 
 export const createEntry = async (
   pb: PocketBase,
-  data: {
-    summary: string;
-    notes: string;
-    due_date: string;
-    due_date_has_time: boolean;
-    list?: string;
-    priority?: string;
-    tags?: string[];
-    subtasks?: { title: string }[];
-  },
+  data: WithoutPBDefault<ITodoListEntry>,
 ): Promise<ITodoListEntry> => {
   const subtasksEntries: ITodoSubtask[] = [];
 
@@ -158,6 +150,12 @@ export const createEntry = async (
     data.subtasks = subtaskIds as any;
   }
 
+  if (data.due_date && !data.due_date_has_time) {
+    data.due_date = moment(data.due_date).endOf("day").toISOString();
+  }
+
+  delete data.due_date_has_time;
+
   const entries: ITodoListEntry = await pb
     .collection("todo_entries")
     .create(data);
@@ -170,16 +168,7 @@ export const createEntry = async (
 export const updateEntry = async (
   pb: PocketBase,
   id: string,
-  data: {
-    summary: string;
-    notes: string;
-    due_date: string;
-    due_date_has_time: boolean;
-    list?: string;
-    priority?: string;
-    tags?: string[];
-    subtasks?: Array<ITodoSubtask>;
-  },
+  data: ITodoListEntry,
 ): Promise<Omit<ITodoListEntry, "subtasks"> & { subtasks: string[] }> => {
   const originalEntries: Omit<ITodoListEntry, "subtasks"> & {
     subtasks: string[];
@@ -214,6 +203,12 @@ export const updateEntry = async (
       typeof subtask === "string" ? subtask : subtask.id,
     ) as any;
   }
+
+  if (data.due_date && !data.due_date_has_time) {
+    data.due_date = moment(data.due_date).endOf("day").toISOString();
+  }
+
+  delete data.due_date_has_time;
 
   const entry: Omit<ITodoListEntry, "subtasks"> & {
     subtasks: string[];
