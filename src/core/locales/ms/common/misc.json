@@ -87,5 +87,30 @@
   "locationDisabled": {
     "description": "Input lokasi kini tidak tersedia. Sila tambah kunci API Google Cloud yang telah dikonfigurasikan dengan betul untuk mengaktifkan ciri ini. Untuk maklumat lanjut, rujuk kepada",
     "title": "T/A"
+  },
+  "dates": {
+    "months": {
+      "0": "Januari",
+      "1": "Februari",
+      "2": "Mac",
+      "3": "April",
+      "4": "Mei",
+      "5": "Jun",
+      "6": "Julai",
+      "7": "Ogos",
+      "8": "September",
+      "9": "Oktober",
+      "10": "November",
+      "11": "Disember"
+    },
+    "days": {
+      "0": "Ahad",
+      "1": "Isnin",
+      "2": "Selasa",
+      "3": "Rabu",
+      "4": "Khamis",
+      "5": "Jumaat",
+      "6": "Sabtu"
+    }
   }
 }

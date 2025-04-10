@@ -37,7 +37,63 @@
     "image": "Imej",
     "eventType": "Jenis Acara",
     "eventTime": "Waktu Acara",
-    "frequency": "Kekerapan"
+    "frequency": "Kekerapan",
+    "yearly": {
+      "exactDate": {
+        "title": "Pada Tarikh Tepat",
+        "inputs": {
+          "month": "Bulan",
+          "date": "Tarikh"
+        }
+      },
+      "relativeDay": {
+        "title": "Pada Hari Relatif",
+        "inputs": {
+          "onThe": "Pada",
+          "onTheDay": "Hari",
+          "ofTheMonth": "Dalam Bulan"
+        }
+      }
+    },
+    "monthly": {
+      "inputs": {
+        "every": "Setiap",
+        "months": "Bulan"
+      },
+      "exactDate": {
+        "title": "Pada Tarikh Tepat",
+        "inputs": {
+          "date": "Tarikh"
+        }
+      },
+      "relativeDay": {
+        "title": "Pada Hari Relatif",
+        "inputs": {
+          "onThe": "Pada",
+          "onTheDay": "Hari"
+        }
+      }
+    },
+    "weekly": {
+      "inputs": {
+        "every": "Setiap",
+        "weeks": "Minggu",
+        "onDays": "Setiap"
+      }
+    },
+    "daily": {
+      "inputs": {
+        "every": "Setiap",
+        "days": "Hari"
+      }
+    },
+    "hourly": {
+      "inputs": {
+        "every": "Setiap",
+        "hours": "Jam"
+      }
+    },
+    "endType": "Tamat"
   },
   "items": {
     "event": "Acara",
@@ -51,11 +107,35 @@
     "single": "Acara Tunggal",
     "recurring": "Acara Berulang"
   },
-  "recurringFreqs": {
-    "yearly": "Tahunan",
-    "monthly": "Bulanan",
-    "weekly": "Mingguan",
-    "daily": "Harian",
-    "hourly": "Setiap Jam"
+  "recurring": {
+    "freqs": {
+      "yearly": "Tahunan",
+      "monthly": "Bulanan",
+      "weekly": "Mingguan",
+      "daily": "Harian",
+      "hourly": "Setiap Jam"
+    },
+    "onThe": {
+      "first": "Pertama",
+      "second": "Kedua",
+      "third": "KetigK",
+      "fourth": "Keempat",
+      "last": "Terakhir"
+    },
+    "onTheDay": {
+      "weekday": "Hari Minggu",
+      "day": "Hari",
+      "weekendDay": "Hari Weekend"
+    },
+    "endTypes": {
+      "never": "Tidak pernah",
+      "after": "Selepas",
+      "on": "Pada Tarikh"
+    },
+    "inputs": {
+      "on": "Tarikh",
+      "after": "Jumlah",
+      "executions": "Pelaksanaan"
+    }
   }
 }

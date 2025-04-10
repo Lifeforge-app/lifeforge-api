@@ -48,14 +48,17 @@ export const summarizeVideo = async (
   url: string,
   pb: Pocketbase,
 ): Promise<string> => {
-  const apiKey = await getAPIKey("openai", pb);
+  const apiKey = await getAPIKey("groq", pb);
 
   if (!apiKey) {
     throw new Error("No API key found");
   }
 
   const rawCaptions = await fetch(url).then((res) => res.text());
+  console.log(rawCaptions);
   const captionText = rawCaptions
+    .replace(/\n/g, " ")
+    .replace(/ +/g, " ")
     .match(/<text.*?>(.*?)<\/text>/g)
     ?.map((e) => {
       return e.replace(/<text.*?>|<\/text>/g, "");
@@ -67,9 +70,9 @@ export const summarizeVideo = async (
   }
 
   const result = await fetchAI({
-    provider: "openai",
+    provider: "groq",
     apiKey,
-    model: "gpt-4o",
+    model: "llama-3.3-70b-versatile",
     messages: [
       {
         role: "system",
