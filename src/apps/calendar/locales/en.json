@@ -93,7 +93,8 @@
         "hours": "Hour(s)"
       }
     },
-    "endType": "End"
+    "endType": "End",
+    "useGoogleMap": "Use Google Maps"
   },
   "items": {
     "event": "Event",

@@ -93,7 +93,8 @@
         "hours": "Jam"
       }
     },
-    "endType": "Tamat"
+    "endType": "Tamat",
+    "useGoogleMap": "Gunakan Peta Google"
   },
   "items": {
     "event": "Acara",

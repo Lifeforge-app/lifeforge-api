@@ -93,7 +93,8 @@
         "hours": "小時"
       }
     },
-    "endType": "結束於"
+    "endType": "結束於",
+    "useGoogleMap": "使用 Google 地圖"
   },
   "items": {
     "event": "事件",
