@@ -19,7 +19,11 @@ function successWithBaseResponse<T>(
 
 function clientError(res: Response, message = "Bad Request", status = 400) {
   fs.readdirSync("medium").forEach((file) => {
-    fs.unlinkSync(`medium/${file}`);
+    if (fs.statSync("medium/" + file).isFile()) {
+      fs.unlinkSync("medium/" + file);
+    } else {
+      fs.rmdirSync("medium/" + file, { recursive: true });
+    }
   });
 
   try {
@@ -34,7 +38,11 @@ function clientError(res: Response, message = "Bad Request", status = 400) {
 
 function serverError(res: Response, message = "Internal Server Error") {
   fs.readdirSync("medium").forEach((file) => {
-    fs.unlinkSync(`medium/${file}`);
+    if (fs.statSync("medium/" + file).isFile()) {
+      fs.unlinkSync("medium/" + file);
+    } else {
+      fs.rmdirSync("medium/" + file, { recursive: true });
+    }
   });
 
   try {
