@@ -10,6 +10,10 @@ interface ICalendarEvent extends BasePBCollection {
   description: string;
   cannot_delete: boolean;
   is_strikethrough: boolean;
+  type: "single" | "recurring";
+  recurring_rrule: string;
+  recurring_duration_amount: number;
+  recurring_duration_unit: string;
 }
 
 interface ICalendarCategory extends BasePBCollection {

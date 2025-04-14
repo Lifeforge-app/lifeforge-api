@@ -34,6 +34,10 @@ export const createEvent = async (
   const { pb } = req;
   const eventData = req.body;
 
+  if (eventData.type === "recurring" && !eventData.recurring_rrule) {
+    return clientError(res, "Recurring events must have a recurring rule");
+  }
+
   const event = await EventsService.createEvent(pb, eventData);
   successWithBaseResponse(res, event, 201);
 };
@@ -69,11 +73,17 @@ export const updateEvent = async (
   const { id } = req.params;
   const eventData = req.body;
 
-  if (!(await checkExistence(req, res, "calendar_events", id))) {
+  const finalId = id.split("-")[0];
+
+  if (eventData.type === "recurring" && !eventData.recurring_rrule) {
+    return clientError(res, "Recurring events must have a recurring rule");
+  }
+
+  if (!(await checkExistence(req, res, "calendar_events", finalId))) {
     return;
   }
 
-  const event = await EventsService.updateEvent(pb, id, eventData);
+  const event = await EventsService.updateEvent(pb, finalId, eventData);
   successWithBaseResponse(res, event);
 };
 

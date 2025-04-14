@@ -2,6 +2,7 @@ import { fetchAI } from "@utils/fetchAI";
 import fs from "fs";
 import moment from "moment";
 import PocketBase from "pocketbase";
+import rrule from "rrule";
 import { z } from "zod";
 import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import { IMovieEntry } from "../../movies/typescript/movies_interfaces";
@@ -21,13 +22,47 @@ export const getEventsByDateRange = async (
 
   const allEvents = [];
 
-  const calendarEvents = await pb
+  const singleCalendarEvents = await pb
     .collection("calendar_events")
     .getFullList<ICalendarEvent>({
-      filter: `(start >= '${start}' || end >= '${start}') && (start <= '${end}' || end <= '${end}')`,
+      filter: `(start >= '${start}' || end >= '${start}') && (start <= '${end}' || end <= '${end}') && type="single"`,
     });
 
-  allEvents.push(...calendarEvents);
+  allEvents.push(...singleCalendarEvents);
+
+  const recurringCalendarEvents = await pb
+    .collection("calendar_events")
+    .getFullList<ICalendarEvent>({
+      filter: "type='recurring'",
+    });
+
+  for (const event of recurringCalendarEvents) {
+    const parsed = rrule.RRule.fromString(event.recurring_rrule);
+    const eventsInRange = parsed.between(
+      moment(start).toDate(),
+      moment(end).toDate(),
+      true,
+    );
+
+    for (const eventDate of eventsInRange) {
+      const start = moment(eventDate).utc().format("YYYY-MM-DD HH:mm:ss");
+
+      const end = moment(eventDate)
+        .add(
+          event.recurring_duration_amount,
+          event.recurring_duration_unit as any,
+        )
+        .utc()
+        .format("YYYY-MM-DD HH:mm:ss");
+
+      allEvents.push({
+        ...event,
+        id: `${event.id}-${moment(eventDate).format("YYYYMMDD")}`,
+        start,
+        end,
+      });
+    }
+  }
 
   const todoEntries = (
     await pb

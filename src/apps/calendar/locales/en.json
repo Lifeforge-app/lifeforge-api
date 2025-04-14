@@ -78,7 +78,7 @@
       "inputs": {
         "every": "Every",
         "weeks": "Week(s)",
-        "onDays": "Every"
+        "onDays": "On Days"
       }
     },
     "daily": {
@@ -136,7 +136,17 @@
     "inputs": {
       "on": "Date",
       "after": "Amount",
-      "executions": "Execution(s)"
+      "executions": "Execution(s)",
+      "durationUnit": "Duration Unit",
+      "durationAmount": "Duration Amount"
+    },
+    "durationUnits": {
+      "minute": "Minutes",
+      "hour": "Hours",
+      "day": "Days",
+      "week": "Weeks",
+      "month": "Months",
+      "year": "Years"
     }
   }
 }

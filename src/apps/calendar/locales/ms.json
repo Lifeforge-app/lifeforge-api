@@ -78,7 +78,7 @@
       "inputs": {
         "every": "Setiap",
         "weeks": "Minggu",
-        "onDays": "Setiap"
+        "onDays": "Pada Hari"
       }
     },
     "daily": {
@@ -136,7 +136,17 @@
     "inputs": {
       "on": "Tarikh",
       "after": "Jumlah",
-      "executions": "Pelaksanaan"
+      "executions": "Pelaksanaan",
+      "durationUnit": "Unit Tempoh",
+      "durationAmount": "Jumlah Tempoh"
+    },
+    "durationUnits": {
+      "minute": "Minit",
+      "hour": "Jam",
+      "day": "Hari",
+      "week": "Minggu",
+      "month": "Bulan",
+      "year": "Tahun"
     }
   }
 }
