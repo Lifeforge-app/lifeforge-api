@@ -4,6 +4,8 @@ import * as libgenController from "../controllers/libgen.controller";
 
 const router = express.Router();
 
+router.get("/status", asyncWrapper(libgenController.getStatus));
+
 router.get("/search", asyncWrapper(libgenController.searchBooks));
 
 router.get("/covers/*", asyncWrapper(libgenController.fetchCover));

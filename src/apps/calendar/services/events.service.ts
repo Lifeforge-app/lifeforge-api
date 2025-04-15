@@ -128,13 +128,7 @@ export const getTodayEvents = async (
   const start = moment().startOf("day").toISOString();
   const end = moment().endOf("day").toISOString();
 
-  const allEvents = await pb
-    .collection("calendar_events")
-    .getFullList<ICalendarEvent>();
-
-  return allEvents.filter((event) => {
-    return moment(event.start).isBetween(start, end, null, "[]");
-  });
+  return await getEventsByDateRange(pb, start, end);
 };
 
 export const createEvent = async (

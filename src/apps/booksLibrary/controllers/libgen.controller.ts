@@ -3,6 +3,11 @@ import { Request, Response } from "express";
 import request from "request";
 import * as libgenService from "../services/libgen.service";
 
+export const getStatus = async (req: Request, res: Response) => {
+  const status = await libgenService.getStatus();
+  successWithBaseResponse(res, status);
+};
+
 export const searchBooks = async (req: Request, res: Response) => {
   const queries = req.query as Record<string, string>;
   const result = await libgenService.searchBooks(queries);
