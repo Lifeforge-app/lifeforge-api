@@ -9,6 +9,7 @@ export const ENDPOINT_WHITELIST = [
   "/user/2fa/verify",
   "/code-time/user/minutes",
   "/code-time/eventLog",
+  "/code-time/readme",
   "/media",
   "/books/list",
   "/books-library/cover",

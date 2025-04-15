@@ -7,4 +7,5 @@ export const CORS_ALLOWED_ORIGINS = [
   "https://lifeforge.melvinchia.dev",
   "https://api-explorer.lifeforge.thecodeblog.net",
   "https://locale.lifeforge.melvinchia.dev",
+  "https://github.com",
 ];
