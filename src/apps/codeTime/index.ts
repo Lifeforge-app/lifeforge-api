@@ -42,4 +42,6 @@ router.get(
 
 router.post("/eventLog", asyncWrapper(CodeTimeController.logEvent));
 
+router.get("/readme", asyncWrapper(CodeTimeController.getReadmeImage));
+
 export default router;

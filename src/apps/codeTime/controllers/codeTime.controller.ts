@@ -86,3 +86,9 @@ export const logEvent = async (req: Request, res: Response) => {
     message: "success",
   });
 };
+
+export const getReadmeImage = async (req: Request, res: Response) => {
+  const imageBuffer = await CodeTimeService.getReadmeImage(req.pb);
+  res.set("Content-Type", "image/png");
+  res.send(imageBuffer);
+};
