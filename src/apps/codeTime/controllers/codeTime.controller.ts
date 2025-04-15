@@ -89,6 +89,7 @@ export const logEvent = async (req: Request, res: Response) => {
 
 export const getReadmeImage = async (req: Request, res: Response) => {
   const imageBuffer = await CodeTimeService.getReadmeImage(req.pb);
+  res.set("Cache-Control", "no-cache, no-store, must-revalidate");
   res.set("Content-Type", "image/png");
   res.send(imageBuffer);
 };
