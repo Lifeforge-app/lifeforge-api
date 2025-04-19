@@ -250,7 +250,7 @@ router.post(
 
     res.json({
       state: "success",
-      token: pb.authStore.token,
+      session: pb.authStore.token,
       userData,
     });
   }),

@@ -184,7 +184,7 @@ router.post(
 
       res.json({
         state: "success",
-        token: pb.authStore.token,
+        session: pb.authStore.token,
         userData,
       });
     } else {
@@ -196,7 +196,7 @@ router.post(
 router.post(
   "/verify",
   asyncWrapper(async (req, res) => {
-    const bearerToken = req.headers.authorization?.split(" ")[1];
+    const bearerToken = req.headers.authorization?.split(" ")[1].trim();
     const pb = new Pocketbase(process.env.PB_HOST);
 
     if (!bearerToken) {
@@ -221,7 +221,7 @@ router.post(
 
       res.json({
         state: "success",
-        token: pb.authStore.token,
+        session: pb.authStore.token,
         userData,
       });
     }
