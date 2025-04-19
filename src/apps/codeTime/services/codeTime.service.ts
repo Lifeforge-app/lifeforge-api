@@ -539,9 +539,11 @@ export const getReadmeImage = async (pb: PocketBase) => {
       </div>
     </div>
     <div class="border-t-2 mt-4 border-zinc-800 flex items-center justify-between p-2 text-sm">
-      <p class="flex text-zinc-500">Report generated for: <span class="font-medium text-zinc-100 pl-1">Melvin Chia</span>
+      <p class="flex text-zinc-500">Computer generated report</span>
       </p>
-      <p class="flex text-zinc-500">Last updated: <span class="font-medium text-zinc-100 pl-1">15 Apr 2025 1:57 pm</span>
+      <p class="flex text-zinc-500">Last updated: <span class="font-medium text-zinc-100 pl-1">${
+        moment().format("YYYY-MM-DD HH:mm:ss")
+      }</span>
       </p>
     </div>
   </body>
@@ -551,7 +553,7 @@ export const getReadmeImage = async (pb: PocketBase) => {
 
   const browser = await puppeteer.launch({
     executablePath:
-      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "/usr/bin/chromium",
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
