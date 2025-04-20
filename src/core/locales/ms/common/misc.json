@@ -104,13 +104,13 @@
       "11": "Disember"
     },
     "days": {
-      "0": "Ahad",
-      "1": "Isnin",
-      "2": "Selasa",
-      "3": "Rabu",
-      "4": "Khamis",
-      "5": "Jumaat",
-      "6": "Sabtu"
+      "0": "Isnin",
+      "1": "Selasa",
+      "2": "Rabu",
+      "3": "Khamis",
+      "4": "Jumaat",
+      "5": "Sabtu",
+      "6": "Ahad"
     }
   }
 }
