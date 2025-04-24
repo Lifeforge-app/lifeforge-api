@@ -4,6 +4,22 @@ import { BaseResponse } from "../../../core/typescript/base_response";
 import * as UtilsService from "../services/utils.service";
 import { IWalletIncomeExpensesSummary } from "../wallet_interfaces";
 
+export const getTypesCount = async (
+  req: Request,
+  res: Response<
+    BaseResponse<{
+      [key: string]: {
+        amount: number;
+        accumulate: number;
+      };
+    }>
+  >,
+) => {
+  const { pb } = req;
+  const typesCount = await UtilsService.getTypesCount(pb);
+  successWithBaseResponse(res, typesCount);
+};
+
 export const getIncomeExpensesSummary = async (
   req: Request<{}, {}, {}, { year: string; month: string }>,
   res: Response<BaseResponse<IWalletIncomeExpensesSummary>>,

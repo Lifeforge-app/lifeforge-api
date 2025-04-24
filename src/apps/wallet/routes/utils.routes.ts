@@ -8,6 +8,8 @@ import {
 
 const router = express.Router();
 
+router.get("/types-count", asyncWrapper(UtilsController.getTypesCount));
+
 router.get(
   "/income-expenses",
   validateGetIncomeExpensesSummary,

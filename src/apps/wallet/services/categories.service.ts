@@ -6,7 +6,7 @@ export const getAllCategories = async (
   pb: Pocketbase,
 ): Promise<IWalletCategory[]> => {
   const categories: IWalletCategory[] = await pb
-    .collection("wallet_categories")
+    .collection("wallet_categories_with_amount")
     .getFullList<IWalletCategory>({
       sort: "name",
     });

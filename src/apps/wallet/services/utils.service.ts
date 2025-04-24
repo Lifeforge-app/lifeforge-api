@@ -6,6 +6,34 @@ import {
   IWalletTransactionEntry,
 } from "../wallet_interfaces";
 
+export const getTypesCount = async (
+  pb: Pocketbase,
+): Promise<{
+  [key: string]: {
+    amount: number;
+    accumulate: number;
+  };
+}> => {
+  const types = await pb
+    .collection("wallet_transaction_types_with_amount")
+    .getFullList();
+
+  const typesCount: {
+    [key: string]: {
+      amount: number;
+      accumulate: number;
+    };
+  } = {};
+  types.forEach((type) => {
+    typesCount[type.name] = {
+      amount: type.amount,
+      accumulate: type.accumulate,
+    };
+  });
+
+  return typesCount;
+};
+
 export const getIncomeExpensesSummary = async (
   pb: Pocketbase,
   year: string,

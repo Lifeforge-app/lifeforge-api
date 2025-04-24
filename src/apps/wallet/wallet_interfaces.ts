@@ -8,6 +8,7 @@ const WalletAssetSchema = s.assign(
     icon: s.string(),
     balance: s.optional(s.number()),
     starting_balance: s.number(),
+    amount: s.number(),
   }),
 );
 
@@ -17,6 +18,7 @@ const WalletLedgerSchema = s.assign(
     name: s.string(),
     icon: s.string(),
     color: s.string(),
+    amount: s.number(),
   }),
 );
 

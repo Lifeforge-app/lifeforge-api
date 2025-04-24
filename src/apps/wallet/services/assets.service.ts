@@ -4,7 +4,7 @@ import { IWalletAsset } from "../wallet_interfaces";
 
 export const getAllAssets = async (pb: Pocketbase): Promise<IWalletAsset[]> => {
   const assets = await pb
-    .collection("wallet_assets")
+    .collection("wallet_assets_with_amount")
     .getFullList<IWalletAsset>({
       sort: "name",
     });

@@ -6,7 +6,7 @@ export const getAllLedgers = async (
   pb: Pocketbase,
 ): Promise<IWalletLedger[]> => {
   const ledgers: IWalletLedger[] = await pb
-    .collection("wallet_ledgers")
+    .collection("wallet_ledgers_with_amount")
     .getFullList<IWalletLedger>({
       sort: "name",
     });
