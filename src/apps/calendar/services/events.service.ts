@@ -39,8 +39,18 @@ export const getEventsByDateRange = async (
   for (const event of recurringCalendarEvents) {
     const parsed = rrule.RRule.fromString(event.recurring_rrule);
     const eventsInRange = parsed.between(
-      moment(start).toDate(),
-      moment(end).toDate(),
+      moment(start)
+        .subtract(
+          event.recurring_duration_amount + 1,
+          event.recurring_duration_unit as any,
+        )
+        .toDate(),
+      moment(end)
+        .add(
+          event.recurring_duration_amount + 1,
+          event.recurring_duration_unit as any,
+        )
+        .toDate(),
       true,
     );
 
@@ -125,10 +135,11 @@ ${entry.theatre_seat}
 export const getTodayEvents = async (
   pb: PocketBase,
 ): Promise<ICalendarEvent[]> => {
-  const start = moment().startOf("day").toISOString();
-  const end = moment().endOf("day").toISOString();
+  const day = moment().format("YYYY-MM-DD");
 
-  return await getEventsByDateRange(pb, start, end);
+  const events = await getEventsByDateRange(pb, day, day);
+
+  return events;
 };
 
 export const createEvent = async (
