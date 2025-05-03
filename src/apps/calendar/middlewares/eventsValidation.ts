@@ -44,3 +44,14 @@ export const validateId = [
     .isLength({ min: 1 })
     .withMessage("ID cannot be empty"),
 ];
+
+export const validateExceptionDate = [
+  body("date")
+    .exists()
+    .withMessage("Date is required")
+    .isString()
+    .withMessage("Date must be a string")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Date cannot be empty"),
+];

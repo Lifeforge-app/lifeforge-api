@@ -57,6 +57,15 @@ export const getEventsByDateRange = async (
     for (const eventDate of eventsInRange) {
       const start = moment(eventDate).utc().format("YYYY-MM-DD HH:mm:ss");
 
+      if (
+        event.exceptions?.some(
+          (exception) =>
+            moment(exception).format("YYYY-MM-DD HH:mm:ss") === start,
+        )
+      ) {
+        continue;
+      }
+
       const end = moment(eventDate)
         .add(
           event.recurring_duration_amount,
@@ -146,6 +155,14 @@ export const createEvent = async (
   pb: PocketBase,
   eventData: WithoutPBDefault<ICalendarEvent>,
 ): Promise<ICalendarEvent> => {
+  if (eventData.type === "recurring") {
+    eventData.end = "";
+  } else {
+    eventData.recurring_rrule = "";
+    eventData.recurring_duration_amount = 0;
+    eventData.recurring_duration_unit = "";
+  }
+
   return await pb
     .collection("calendar_events")
     .create<ICalendarEvent>(eventData);
@@ -250,4 +267,32 @@ export const getEventById = async (
   id: string,
 ): Promise<ICalendarEvent> => {
   return await pb.collection("calendar_events").getOne<ICalendarEvent>(id);
+};
+
+export const addException = async (
+  pb: PocketBase,
+  id: string,
+  exceptionDate: string,
+): Promise<boolean> => {
+  const event = await pb
+    .collection("calendar_events")
+    .getOne<ICalendarEvent>(id);
+
+  if (!event) {
+    return false;
+  }
+
+  const exceptions = event.exceptions || [];
+
+  if (exceptions.includes(exceptionDate)) {
+    return false;
+  }
+
+  exceptions.push(exceptionDate);
+
+  await pb
+    .collection("calendar_events")
+    .update<ICalendarEvent>(id, { exceptions });
+
+  return true;
 };

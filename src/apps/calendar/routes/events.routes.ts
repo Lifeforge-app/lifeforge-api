@@ -4,6 +4,7 @@ import asyncWrapper from "../../../core/utils/asyncWrapper";
 import * as EventsController from "../controllers/events.controller";
 import {
   validateEventData,
+  validateExceptionDate,
   validateId,
   validateYearMonth,
 } from "../middlewares/eventsValidation";
@@ -26,6 +27,13 @@ router.post(
   "/scan-image",
   singleUploadMiddleware,
   asyncWrapper(EventsController.scanImage),
+);
+
+router.post(
+  "/exception/:id",
+  validateId,
+  validateExceptionDate,
+  asyncWrapper(EventsController.addException),
 );
 
 router.patch(

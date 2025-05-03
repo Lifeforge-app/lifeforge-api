@@ -116,3 +116,19 @@ export const getEventById = async (
   const event = await EventsService.getEventById(pb, id);
   successWithBaseResponse(res, event);
 };
+
+export const addException = async (
+  req: Request<{ id: string }>,
+  res: Response<BaseResponse<undefined>>,
+) => {
+  const { pb } = req;
+  const { id } = req.params;
+  const { date } = req.body;
+
+  if (!(await checkExistence(req, res, "calendar_events", id))) {
+    return;
+  }
+
+  await EventsService.addException(pb, id, date);
+  successWithBaseResponse(res, undefined, 204);
+};

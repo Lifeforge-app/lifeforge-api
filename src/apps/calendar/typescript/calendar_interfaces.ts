@@ -14,6 +14,7 @@ interface ICalendarEvent extends BasePBCollection {
   recurring_rrule: string;
   recurring_duration_amount: number;
   recurring_duration_unit: string;
+  exceptions: string[] | null;
 }
 
 interface ICalendarCategory extends BasePBCollection {

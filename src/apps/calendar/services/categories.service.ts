@@ -16,9 +16,13 @@ export const createCategory = async (
   pb: PocketBase,
   categoryData: WithoutPBDefault<ICalendarCategory>,
 ): Promise<ICalendarCategory> => {
-  return await pb
+  const createdEntry = await pb
     .collection("calendar_categories")
     .create<ICalendarCategory>(categoryData);
+
+  return await pb
+    .collection("calendar_categories_with_amount")
+    .getOne<ICalendarCategory>(createdEntry.id);
 };
 
 export const updateCategory = async (
@@ -26,9 +30,13 @@ export const updateCategory = async (
   id: string,
   categoryData: WithoutPBDefault<ICalendarCategory>,
 ): Promise<ICalendarCategory> => {
-  return await pb
+  const updatedEntry = await pb
     .collection("calendar_categories")
     .update<ICalendarCategory>(id, categoryData);
+
+  return await pb
+    .collection("calendar_categories_with_amount")
+    .getOne<ICalendarCategory>(updatedEntry.id);
 };
 
 export const deleteCategory = async (
