@@ -1,5 +1,4 @@
 export const MODULE_ROUTES = {
-  "/projects-m": "projectsM",
   "/todo-list": "todoList",
   "/calendar": "calendar",
   "/idea-box": "ideaBox",
