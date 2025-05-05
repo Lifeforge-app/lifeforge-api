@@ -39,7 +39,7 @@ router.put(
 );
 
 router.delete(
-  "/",
+  "/avatar",
   asyncWrapper(async (req, res) => {
     const { pb } = req;
     const { id } = pb.authStore.record as any;

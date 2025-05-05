@@ -38,7 +38,7 @@ export const getEntryById = async (
   const { id } = req.params;
   const master = decodeURIComponent(req.query.master as string);
 
-  if (!(await checkExistence(req, res, "api_keys", id))) {
+  if (!(await checkExistence(req, res, "api_keys_entries", id))) {
     return;
   }
 
@@ -94,7 +94,7 @@ export const updateEntry = async (
   const { id } = req.params;
   const { data } = req.body;
 
-  if (!(await checkExistence(req, res, "api_keys", id))) {
+  if (!(await checkExistence(req, res, "api_keys_entries", id))) {
     return;
   }
 
@@ -131,7 +131,7 @@ export const deleteEntry = async (
   const { pb } = req;
   const { id } = req.params;
 
-  if (!(await checkExistence(req, res, "api_keys", id))) {
+  if (!(await checkExistence(req, res, "api_keys_entries", id))) {
     return;
   }
 
