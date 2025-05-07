@@ -9,7 +9,7 @@ import express, { Request, Response } from "express";
 import { param } from "express-validator";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
-import OpenAI from "openai";
+import Groq from "groq-sdk";
 import { ListResult } from "pocketbase";
 import request from "request";
 import {
@@ -197,13 +197,13 @@ async function getTranscription(
   filePath: string,
   apiKey: string,
 ): Promise<string | null> {
-  const openai = new OpenAI({
+  const groq = new Groq({
     apiKey,
   });
 
-  const transcription = await openai.audio.transcriptions.create({
+  const transcription = await groq.audio.transcriptions.create({
     file: fs.createReadStream(filePath),
-    model: "gpt-4o-transcribe",
+    model: "whisper-large-v3",
   });
 
   return transcription.text;
@@ -216,7 +216,7 @@ router.post(
     const { id } = req.params;
     const { pb } = req;
 
-    const apiKey = await getAPIKey("openai", req.pb);
+    const apiKey = await getAPIKey("groq", req.pb);
 
     if (!apiKey) {
       clientError(res, "API key not found");
@@ -286,7 +286,7 @@ router.post(
       file.path = await convertToMp3(file.path);
     }
 
-    const apiKey = await getAPIKey("openai", req.pb);
+    const apiKey = await getAPIKey("groq", req.pb);
 
     if (!apiKey) {
       clientError(res, "API key not found");
