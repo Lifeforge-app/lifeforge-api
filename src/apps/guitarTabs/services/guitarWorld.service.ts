@@ -96,6 +96,11 @@ export const downloadTab = async (
         res.arrayBuffer(),
       );
 
+      if (!fs.existsSync(`./medium/${id}.pdf`)) {
+        reject(new Error("PDF file not found"));
+        return;
+      }
+
       const newEntry = await pb
         .collection("guitar_tabs_entries")
         .create<IGuitarTabsEntry>({
