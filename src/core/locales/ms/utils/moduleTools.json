@@ -1,123 +1,87 @@
 {
-    "title": "Alat Modul",
-    "description": "Urus semua modul dengan mudah",
-    "help": {
-        "usage": "Penggunaan:",
-        "command": "Perintah",
-        "options": "Pilihan",
-        "commandsTitle": "Perintah",
-        "optionsTitle": "Pilihan",
-        "commandDescriptions": {
-            "create": "Buat modul baru",
-            "list": "Senaraikan semua modul dan butirannya",
-            "delete": "Padam modul tertentu",
-            "update": "Kemas kini butiran modul tertentu",
-            "reorder": "Sesuaikan susunan paparan modul dalam bar sisi",
-            "help": "Tunjukkan bantuan"
-        },
-        "optionDescriptions": {
-            "language": "Bahasa yang digunakan, lalai adalah en",
-            "username": "Nama pengguna diperlukan untuk pengesahan, akan diminta jika tidak disediakan",
-            "password": "Kata laluan diperlukan untuk pengesahan, akan diminta jika tidak disediakan"
-        }
+  "title": "Alat Modul",
+  "description": "Urus semua modul dengan mudah",
+  "menu": {
+    "title": "Perintah Tersedia",
+    "commandCategories": {
+      "modulesManagement": "Pengurusan Modul",
+      "misc": "Pelbagai"
     },
-    "features": {
-        "list": {
-            "summary": {
-                "title": "Ringkasan Senarai Modul",
-                "totalModules": "Jumlah Modul",
-                "togglableModules": "Jumlah Modul Boleh Togol",
-                "deprecatedModules": "Jumlah Modul Usang",
-                "aiEnabledModules": "Jumlah Modul Didayakan AI",
-                "totalCategories": "Jumlah Kategori"
-            },
-            "headers": {
-                "category": "Kategori",
-                "name": "Nama Modul",
-                "icon": "Ikon",
-                "togglable": "Boleh Togol",
-                "routes": "Laluan",
-                "additionalInfo": "Maklumat Tambahan",
-                "descriptions": "Deskripsi Modul"
-            }
-        },
-        "delete": {
-            "beforeProceed": "Sila semak amaran berikut sebelum meneruskan:",
-            "warning": "Amaran Pemadaman Modul",
-            "warnings": {
-                "actionScope": {
-                    "title": "Skop Tindakan",
-                    "desc": "Tindakan ini akan memadamkan kod frontend modul yang dipilih tetapi tidak akan mengeluarkan komponen backend atau pangkalan data yang berkaitan dengan modul tersebut."
-                },
-                "recoverability": {
-                    "title": "Kebolehpulihan",
-                    "desc": "Tindakan ini akan mengeluarkan modul dari kod asas kerja semasa tetapi tidak sepenuhnya tidak dapat dipulihkan. Jika perlu, kod yang dipadamkan masih boleh dipulihkan melalui sejarah Git."
-                },
-                "systemImpact": {
-                    "title": "Kesan Sistem",
-                    "desc": "Memadamkan modul ini mungkin menjejaskan bahagian lain sistem yang bergantung padanya. Sila pastikan semua kebergantungan yang berkaitan telah disemak."
-                },
-                "backupRecommendation": {
-                    "title": "Cadangan Sandaran",
-                    "desc": "Untuk mengelakkan sebarang gangguan, disyorkan untuk komit perubahan semasa dan buat cawangan sandaran sebelum meneruskan."
-                },
-                "userResponsibility": {
-                    "title": "Tanggungjawab Pengguna",
-                    "desc": "Mengesahkan tindakan ini menunjukkan bahawa anda memahami dan menerima semua akibat daripada memadamkan modul ini."
-                },
-                "dependencies": {
-                    "desc": "Sebarang fungsi yang bergantung pada frontend modul ini mungkin gagal, termasuk laluan, komponen UI, atau ciri berkaitan.",
-                    "title": "Kebergantungan"
-                }
-            },
-            "prompts": {
-                "proceedConfirmation": "Adakah anda pasti mahu meneruskan proses pemadaman?",
-                "proceedConfirmation2": "Sila masukkan \"{}\" untuk meneruskan proses pemadaman.",
-                "proceedConfirmation3": "Adakah anda pasti mahu memadam modul \"{}\"?",
-                "selectModule": "Pilih modul untuk dipadam",
-                "finalConfirmation": "Pengesahan Akhir: Adakah anda benar-benar pasti mahu memadam modul ini?",
-                "proceedConfirmation4": "Sila masukkan nama modul \"{}\" untuk mengesahkan pemadaman.",
-                "OTP": "Sila masukkan OTP"
-            },
-            "messages": {
-                "cancelled": "Proses pemadaman telah dibatalkan"
-            }
-        }
+    "commandDescription": {
+      "logout": "Log keluar ddaripada alat-modul ini",
+      "installModule": "Pasang modul daripada fail zip tempatan",
+      "uninstallModule": "Nyahpasang dan keluarkan modul daripada sistem",
+      "exit": "Keluar dari alat modul",
+      "packageModule": "Pakej modul ke dalam fail zip"
     },
-    "misc": {
-        "yes": "Ya",
-        "no": "Tidak"
-    },
-    "auth": {
-        "messages": {
-            "auth": {
-                "validating": "Mengesahkan identiti...",
-                "success": "Log masuk berjaya",
-                "cancelled": "Pengesahan dibatalkan",
-                "failed": "Pengesahan gagal"
-            },
-            "OTP": {
-                "validating": "Mengesahkan OTP...",
-                "requesting": "Meminta OTP...",
-                "sent": "OTP telah dihantar ke e-mel anda",
-                "invalid": "OTP tidak sah",
-                "valid": "Pengesahan OTP berjaya"
-            }
-        },
-        "prompts": {
-            "username": "Nama Pengguna",
-            "password": "Kata Laluan",
-            "OTP": "Kata Laluan Sekali"
-        },
-        "inputErrors": {
-            "empty": {
-                "username": "Nama pengguna tidak boleh kosong",
-                "password": "Kata laluan tidak boleh kosong",
-                "OTP": "OTP tidak boleh kosong"
-            },
-            "invalid": {
-                "OTP": "Format OTP tidak sah, OTP mesti nombor 6 digit"
-            }
-        }
-    }
+    "frontendFolderPath": "Path Folder Frontend"
+  },
+  "prompts": {
+    "command": "Masukkan arahan",
+    "logoutConfirmation": "Adakah anda pasti ingin log keluar?",
+    "selectFrontendFolder": "Pilih folder di mana kod frontend anda berada",
+    "selectModuleZip": "Pilih fail zip bagi modul yang anda ingin pasang",
+    "selectCategory": "Pilih kategori untuk menambah modul ke",
+    "confirmManifest": "Adakah data manifest ini kelihatan betul kepada anda?",
+    "selectThisFolder": "Pilih folder ini",
+    "fileSelectorNavigationZip": "Pilih folder atau nama fail zip",
+    "fileSelectorNavigationFolder": "Pilih folder",
+    "selectModule": "Pilih modul",
+    "selectSavePath": "Pilih folder untuk menyimpan modul anda",
+    "backToIconSets": "Kembali ke senarai set ikon",
+    "selectIcon": "Pilih ikon",
+    "selectIconCollection": "Pilih koleksi ikon",
+    "selectBackendModulePath": "Pilih laluan modul backend",
+    "confirmModulePaths": "Adakah data laluan ini kelihatan betul kepada anda?",
+    "hasBackend": "Adakah modul ini mempunyai backend?"
+  },
+  "messages": {
+    "exit": "Program dihentikan",
+    "invalidCommand": "Perintah tidak sah",
+    "notImplemented": "Ciri belum dilaksanakan",
+    "operationCancelled": "Operasi dibatalkan",
+    "currentDirectory": "Direktori semasa",
+    "loggingOut": "Sedang log keluar...",
+    "logoutSuccess": "Log keluar berjaya",
+    "unzippingFile": "Membuka fail...",
+    "unzipSuccess": "Pemecahan zip berjaya",
+    "invalidOption": "Pilihan tidak sah",
+    "validatingZip": "Mengesahkan fail zip modul...",
+    "zipValidated": "Zip disahkan dengan jayanya",
+    "key": "Kunci",
+    "value": "Nilai",
+    "copyingFiles": "Menyalin fail...",
+    "copyFilesSuccess": "Fail telah berjaya disalin ke folder destinasi",
+    "copyFilesFailed": "Gagal untuk menyalin fail",
+    "configuringRoutes": "Mengkonfigurasi laluan...",
+    "configRoutesSuccess": "Rute telah dikonfigurasi dengan jayanya",
+    "configRoutesFailed": "Gagal untuk mengkonfigurasi laluan",
+    "frontendInstallationSuccess": "Pemasangan frontend berjaya untuk: ",
+    "zippingFile": "Mengempal fail...",
+    "zipSuccess": "Fail telah dimampatkan dengan jayanya",
+    "zipError": "Ralat ketika mengzip fail",
+    "failedToUploadBackend": "Gagal memuat naik ke backend",
+    "uploadingToBackend": "Mengunggah fail ke backend...",
+    "uploadToBackendSuccess": "Berjaya memuat naik fail ke backend",
+    "backendInstallationSuccess": "Pemasangan backend berjaya untuk: ",
+    "pressAnyKeyToContinue": "Tekan sebarang kekunci untuk meneruskan...",
+    "assetsFolderFound": "Folder aset ditemui untuk modul",
+    "fetchingBackendModulePath": "Sedang mengambil laluan modul dari pelayan backend...",
+    "backendModulePathsFetched": "Berjaya mendapatkan data dari server belakang",
+    "fetchingIconSetsFromIconify": "Sedang mengambil set ikon dari Iconify...",
+    "fetchingIconsFromIconify": "Sedang mengambil ikon dari Iconify...",
+    "failedToFetchIconSets": "Gagal memuat ikon set",
+    "failedToFetchIcons": "Gagal untuk memuatkan ikon",
+    "frontendPackagingSuccess": "Faila frontend berjaya ditambahkan ke dalam bungkusan",
+    "assetsPackagingSuccess": "Fail aset berjaya ditambahkan ke dalam bungkusan",
+    "fetchingBackendFiles": "Mengambil fail dari pelayan belakang...",
+    "backendPackagingError": "Ralat membungkus fail backend",
+    "successfullyFetchedBackendFiles": "Berjaya mendapatkan fail dari pelayan backend",
+    "backendPackagingSuccess": "Faila backend berjaya ditambahkan ke dalam bungkusan",
+    "manifestPackagingSuccess": "Berjaya menambah fail manifest ke dalam pakej",
+    "zipSavedTo": "Fail zip telah disimpan ke",
+    "checkModulePaths": "Sila semak jika data berikut adalah betul:",
+    "moduleAlreadyExistsInCategory": "Modul dengan nama yang sama sudah wujud dalam kategori.",
+    "frontendFolderStoredAs": "Folder frontend disimpan sebagai"
+  }
 }

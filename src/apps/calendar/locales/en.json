@@ -102,7 +102,8 @@
   },
   "buttons": {
     "inputManually": "Input Manually",
-    "scanFromImage": "Scan from Image"
+    "scanFromImage": "Scan from Image",
+    "today": "Today"
   },
   "eventTypes": {
     "single": "Single Event",

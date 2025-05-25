@@ -121,5 +121,6 @@
       "title": "No Widgets Enabled",
       "description": "You can add widgets from the 'Manage Widgets' menu."
     }
-  }
+  },
+  "loading": "Loading dashboard..."
 }

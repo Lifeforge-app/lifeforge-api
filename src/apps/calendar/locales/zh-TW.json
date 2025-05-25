@@ -102,7 +102,8 @@
   },
   "buttons": {
     "inputManually": "手動輸入",
-    "scanFromImage": "從圖像掃描"
+    "scanFromImage": "從圖像掃描",
+    "today": "今天"
   },
   "eventTypes": {
     "single": "單一事件",

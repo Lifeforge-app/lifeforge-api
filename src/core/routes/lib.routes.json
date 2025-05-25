@@ -1,4 +1,4 @@
-export const LIB_ROUTES = {
+{
   "/locales": "locales",
   "/user": "user",
   "/api-keys": "apiKeys",
@@ -6,4 +6,5 @@ export const LIB_ROUTES = {
   "/server": "server",
   "/locations": "locations",
   "/ai": "ai",
-};
+  "/modules": "modules"
+}

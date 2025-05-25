@@ -1,10 +1,9 @@
-export const MODULE_ROUTES = {
+{
   "/todo-list": "todoList",
   "/calendar": "calendar",
   "/idea-box": "ideaBox",
   "/code-time": "codeTime",
   "/books-library": "booksLibrary",
-  "/achievements": "achievements",
   "/wallet": "wallet",
   "/wishlist": "wishlist",
   "/music": "music",
@@ -19,4 +18,5 @@ export const MODULE_ROUTES = {
   "/railway-map": "railwayMap",
   "/links-bookmark": "linksBookmark",
   "/youtube-summarizer": "youtubeSummarizer",
-};
+  "/achievements": "achievements"
+}

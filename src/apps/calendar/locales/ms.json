@@ -102,7 +102,8 @@
   },
   "buttons": {
     "inputManually": "Masukkan Secara Manual",
-    "scanFromImage": "Imbas dari Imej"
+    "scanFromImage": "Imbas dari Imej",
+    "today": "Hari Ini"
   },
   "eventTypes": {
     "single": "Acara Tunggal",

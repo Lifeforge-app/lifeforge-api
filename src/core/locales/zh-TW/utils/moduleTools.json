@@ -1,123 +1,87 @@
 {
-    "title": "模組工具",
-    "description": "輕鬆管理所有模組",
-    "help": {
-        "usage": "使用方式：",
-        "command": "指令",
-        "options": "選項",
-        "commandsTitle": "指令",
-        "optionsTitle": "選項",
-        "commandDescriptions": {
-            "create": "建立新模組",
-            "list": "列出所有模組及其詳細資訊",
-            "delete": "刪除特定模組",
-            "update": "更新特定模組的詳細資訊",
-            "reorder": "調整側邊欄中模組的顯示順序",
-            "help": "顯示說明"
-        },
-        "optionDescriptions": {
-            "language": "使用的語言，預設為 en",
-            "username": "使用者名稱，身份驗證所需，若未提供將提示輸入",
-            "password": "密碼，身份驗證所需，若未提供將提示輸入"
-        }
+  "title": "模組工具",
+  "description": "輕鬆管理所有模組",
+  "menu": {
+    "title": "可用指令",
+    "commandCategories": {
+      "modulesManagement": "模塊管理",
+      "misc": "雜項"
     },
-    "features": {
-        "list": {
-            "summary": {
-                "title": "模組清單摘要",
-                "totalModules": "模組總數",
-                "togglableModules": "可切換的模組總數",
-                "deprecatedModules": "已棄用的模組總數",
-                "aiEnabledModules": "支援 AI 的模組總數",
-                "totalCategories": "分類總數"
-            },
-            "headers": {
-                "category": "分類",
-                "name": "模組名稱",
-                "icon": "圖示",
-                "togglable": "可切換",
-                "routes": "路由",
-                "additionalInfo": "更多資訊",
-                "descriptions": "模組描述"
-            }
-        },
-        "delete": {
-            "beforeProceed": "在繼續之前，請檢查以下警告：",
-            "warning": "刪除模組警告",
-            "warnings": {
-                "actionScope": {
-                    "title": "操作範圍",
-                    "desc": "此操作將刪除所選模組的前端程式碼，但不會移除與該模組相關的後端或資料庫組件。"
-                },
-                "recoverability": {
-                    "title": "可恢復性",
-                    "desc": "此操作會從當前工作程式碼庫中移除該模組，但並非完全不可逆。如果需要，仍可透過 Git 歷史恢復已刪除的程式碼。"
-                },
-                "systemImpact": {
-                    "title": "系統影響",
-                    "desc": "刪除此模組可能會影響系統中其他依賴該模組的部分，請確保已審查所有相關依賴關係。"
-                },
-                "backupRecommendation": {
-                    "title": "建議備份",
-                    "desc": "為避免任何中斷，建議在繼續操作之前提交當前變更並建立備份分支。"
-                },
-                "userResponsibility": {
-                    "title": "使用者責任",
-                    "desc": "確認此操作即表示您已了解並接受刪除此模組可能帶來的所有後果。"
-                },
-                "dependencies": {
-                    "desc": "任何依賴此模組前端的功能可能會失效，包括路由、UI 元件或相關功能。",
-                    "title": "依賴關係"
-                }
-            },
-            "prompts": {
-                "proceedConfirmation": "您確定要繼續刪除過程嗎？",
-                "proceedConfirmation2": "請輸入「{}」以繼續刪除過程。",
-                "proceedConfirmation3": "您確定要刪除模組「{}」嗎？",
-                "selectModule": "選擇要刪除的模組",
-                "finalConfirmation": "最終確認：您真的確定要刪除此模組嗎？",
-                "proceedConfirmation4": "請輸入模組名稱「{}」以確認刪除。",
-                "OTP": "請輸入 OTP"
-            },
-            "messages": {
-                "cancelled": "刪除過程已取消"
-            }
-        }
+    "commandDescription": {
+      "logout": "登出並從此模組工具",
+      "installModule": "從本機 zip 檔案安裝模組",
+      "uninstallModule": "從系統中卸載並刪除模組",
+      "exit": "退出模組工具",
+      "packageModule": "將模塊打包為zip檔案"
     },
-    "misc": {
-        "yes": "是",
-        "no": "否"
-    },
-    "auth": {
-        "messages": {
-            "auth": {
-                "validating": "正在驗證身份...",
-                "success": "登入成功",
-                "cancelled": "身份驗證已取消",
-                "failed": "驗證失敗"
-            },
-            "OTP": {
-                "validating": "正在驗證一次性密碼...",
-                "requesting": "正在請求一次性密碼...",
-                "sent": "一次性密碼已發送至您的電子郵件",
-                "invalid": "一次性密碼無效",
-                "valid": "一次性密碼驗證成功"
-            }
-        },
-        "prompts": {
-            "username": "使用者名稱",
-            "password": "密碼",
-            "OTP": "一次性密碼"
-        },
-        "inputErrors": {
-            "empty": {
-                "username": "使用者名稱不能為空",
-                "password": "密碼不能為空",
-                "OTP": "驗證碼不能為空"
-            },
-            "invalid": {
-                "OTP": "無效的一次性密碼格式，驗證碼必須是 6 位數字"
-            }
-        }
-    }
+    "frontendFolderPath": "前端資料夾路徑"
+  },
+  "prompts": {
+    "command": "輸入指令",
+    "logoutConfirmation": "您確定要登出嗎？",
+    "selectFrontendFolder": "選擇前端程式碼所在的資料夾",
+    "selectModuleZip": "選擇您要安裝的模組的zip檔案",
+    "selectCategory": "選擇要將模塊添加到的類別",
+    "confirmManifest": "這些清單數據看起來正確嗎？",
+    "selectThisFolder": "選擇此資料夾",
+    "fileSelectorNavigationZip": "選擇資料夾或壓縮文件",
+    "fileSelectorNavigationFolder": "選擇資料夾",
+    "selectModule": "選擇模組",
+    "selectSavePath": "選擇保存模組的資料夾",
+    "backToIconSets": "返回圖示集列表",
+    "selectIcon": "選擇圖示",
+    "selectIconCollection": "選擇圖示集合",
+    "selectBackendModulePath": "選擇後端模組路徑",
+    "confirmModulePaths": "這些路徑資料看起來正確嗎？",
+    "hasBackend": "這個模塊有後端嗎？"
+  },
+  "messages": {
+    "exit": "程序已終止",
+    "invalidCommand": "無效命令",
+    "notImplemented": "功能尚未實現",
+    "operationCancelled": "操作已取消",
+    "currentDirectory": "當前目錄",
+    "loggingOut": "正在登出...",
+    "logoutSuccess": "登出成功",
+    "unzippingFile": "正在解壓檔案...",
+    "unzipSuccess": "解壓成功",
+    "invalidOption": "無效的選項",
+    "validatingZip": "正在驗證模組 ZIP 檔案...",
+    "zipValidated": "壓縮檔驗證成功",
+    "key": "鍵",
+    "value": "值",
+    "copyingFiles": "正在複製檔案...",
+    "copyFilesSuccess": "檔案已成功複製到目標資料夾",
+    "copyFilesFailed": "複製檔案失敗",
+    "configuringRoutes": "正在配置路由...",
+    "configRoutesSuccess": "路由配置成功",
+    "configRoutesFailed": "路由配置失敗",
+    "frontendInstallationSuccess": "前端安裝成功：",
+    "zippingFile": "正在壓縮檔案...",
+    "zipSuccess": "檔案已成功壓縮",
+    "zipError": "壓縮檔案時出錯",
+    "failedToUploadBackend": "無法上傳到後端",
+    "uploadingToBackend": "正在將檔案上傳到後端...",
+    "uploadToBackendSuccess": "成功將文件上傳到後台",
+    "backendInstallationSuccess": "後端安裝成功: ",
+    "pressAnyKeyToContinue": "按任意鍵繼續...",
+    "assetsFolderFound": "找到模組的資產資料夾",
+    "fetchingBackendModulePath": "正在從後端伺服器獲取模組路徑...",
+    "backendModulePathsFetched": "成功從後端伺服器獲取數據",
+    "fetchingIconSetsFromIconify": "正在從 Iconify 獲取圖示集...",
+    "fetchingIconsFromIconify": "正在從 Iconify 獲取圖標...",
+    "failedToFetchIconSets": "無法獲取圖標集",
+    "failedToFetchIcons": "無法獲取圖示",
+    "frontendPackagingSuccess": "前端檔案已成功添加至包裡",
+    "assetsPackagingSuccess": "資產檔案已成功添加至包裡",
+    "fetchingBackendFiles": "正在從後端伺服器獲取檔案...",
+    "backendPackagingError": "打包後端檔案時出錯",
+    "successfullyFetchedBackendFiles": "成功從後端伺服器獲取文件",
+    "backendPackagingSuccess": "後端文件已成功添加到包中",
+    "manifestPackagingSuccess": "清單檔案已成功添加至包裡",
+    "zipSavedTo": "壓縮檔已儲存至",
+    "checkModulePaths": "請檢查以下資料是否正確：",
+    "moduleAlreadyExistsInCategory": "類別中已經存在同名模組。",
+    "frontendFolderStoredAs": "前端資料夾儲存為"
+  }
 }

@@ -1,123 +1,87 @@
 {
-    "title": "模块工具",
-    "description": "轻松管理所有模块",
-    "help": {
-        "usage": "使用方式：",
-        "command": "指令",
-        "options": "选项",
-        "commandsTitle": "指令",
-        "optionsTitle": "选项",
-        "commandDescriptions": {
-            "create": "建立新模块",
-            "list": "列出所有模块及其详细信息",
-            "delete": "删除特定模块",
-            "update": "更新特定模块的详细信息",
-            "reorder": "调整侧边栏中模块的显示顺序",
-            "help": "显示说明"
-        },
-        "optionDescriptions": {
-            "language": "使用的语言，默认为 en",
-            "username": "用户名，身份验证所需，若未提供将提示输入",
-            "password": "密码，身份验证所需，若未提供将提示输入"
-        }
+  "title": "模块工具",
+  "description": "轻松管理所有模块",
+  "menu": {
+    "title": "可用命令",
+    "commandCategories": {
+      "modulesManagement": "模块管理",
+      "misc": "杂项"
     },
-    "features": {
-        "list": {
-            "summary": {
-                "title": "模块清单摘要",
-                "totalModules": "模块总数",
-                "togglableModules": "可切换的模块总数",
-                "deprecatedModules": "已弃用的模块总数",
-                "aiEnabledModules": "支持 AI 的模块总数",
-                "totalCategories": "分类总数"
-            },
-            "headers": {
-                "category": "分类",
-                "name": "模块名称",
-                "icon": "图标",
-                "togglable": "可切换",
-                "routes": "路由",
-                "additionalInfo": "更多信息",
-                "descriptions": "模块描述"
-            }
-        },
-        "delete": {
-            "beforeProceed": "在继续之前，请检查以下警告：",
-            "warning": "删除模块警告",
-            "warnings": {
-                "actionScope": {
-                    "title": "操作范围",
-                    "desc": "此操作将删除所选模块的前端代码，但不会移除与该模块相关的后端或数据库组件。"
-                },
-                "recoverability": {
-                    "title": "可恢复性",
-                    "desc": "此操作会从当前工作代码库中移除该模块，但并非完全不可逆。如果需要，仍可通过 Git 历史恢复已删除的代码。"
-                },
-                "systemImpact": {
-                    "title": "系统影响",
-                    "desc": "删除此模块可能会影响系统中其他依赖该模块的部分，请确保已审查所有相关依赖关系。"
-                },
-                "backupRecommendation": {
-                    "title": "建议备份",
-                    "desc": "为避免任何中断，建议在继续操作之前提交当前变更并建立备份分支。"
-                },
-                "userResponsibility": {
-                    "title": "用户责任",
-                    "desc": "确认此操作即表示您已了解并接受删除此模块可能带来的所有后果。"
-                },
-                "dependencies": {
-                    "desc": "任何依赖此模块前端的功能可能会失效，包括路由、UI 组件或相关功能。",
-                    "title": "依赖关系"
-                }
-            },
-            "prompts": {
-                "proceedConfirmation": "您确定要继续删除过程吗？",
-                "proceedConfirmation2": "请输入「{}」以继续删除过程。",
-                "proceedConfirmation3": "您确定要删除模块「{}」吗？",
-                "selectModule": "选择要删除的模块",
-                "finalConfirmation": "最终确认：您真的确定要删除此模块吗？",
-                "proceedConfirmation4": "请输入模块名称「{}」以确认删除。",
-                "OTP": "请输入 OTP"
-            },
-            "messages": {
-                "cancelled": "删除过程已取消"
-            }
-        }
+    "commandDescription": {
+      "logout": "登出并从这个模块工具",
+      "installModule": "从本地 zip 文件安装模块",
+      "uninstallModule": "从系统中卸载并删除模块",
+      "exit": "退出模块工具",
+      "packageModule": "将模块打包成zip文件"
     },
-    "misc": {
-        "yes": "是",
-        "no": "否"
-    },
-    "auth": {
-        "messages": {
-            "auth": {
-                "validating": "正在验证身份...",
-                "success": "登录成功",
-                "cancelled": "身份验证已取消",
-                "failed": "验证失败"
-            },
-            "OTP": {
-                "validating": "正在验证一次性密码...",
-                "requesting": "正在请求一次性密码...",
-                "sent": "一次性密码已发送至您的电子邮件",
-                "invalid": "一次性密码无效",
-                "valid": "一次性密码验证成功"
-            }
-        },
-        "prompts": {
-            "username": "用户名",
-            "password": "密码",
-            "OTP": "一次性密码"
-        },
-        "inputErrors": {
-            "empty": {
-                "username": "用户名不能为空",
-                "password": "密码不能为空",
-                "OTP": "验证码不能为空"
-            },
-            "invalid": {
-                "OTP": "无效的一次性密码格式，验证码必须是 6 位数字"
-            }
-        }
-    }
+    "frontendFolderPath": "前端文件夹路径"
+  },
+  "prompts": {
+    "command": "输入命令",
+    "logoutConfirmation": "您确定要注销吗？",
+    "selectFrontendFolder": "选择前端代码所在的文件夹",
+    "selectModuleZip": "选择您要安装的模块的zip文件",
+    "selectCategory": "选择要将模块添加到的类别",
+    "confirmManifest": "这些清单数据看起来正确吗？",
+    "selectThisFolder": "选择此文件夹",
+    "fileSelectorNavigationZip": "选择文件夹或压缩文件",
+    "fileSelectorNavigationFolder": "选择文件夹",
+    "selectModule": "选择模块",
+    "selectSavePath": "选择保存模块的文件夹",
+    "backToIconSets": "返回图标集合列表",
+    "selectIcon": "选择图标",
+    "selectIconCollection": "选择图标集合",
+    "selectBackendModulePath": "选择后端模块路径",
+    "confirmModulePaths": "这些路径数据看起来正确吗？",
+    "hasBackend": "这个模块有后台吗？"
+  },
+  "messages": {
+    "exit": "程序已终止",
+    "invalidCommand": "无效命令",
+    "notImplemented": "功能尚未实现",
+    "operationCancelled": "操作已取消",
+    "currentDirectory": "当前目录",
+    "loggingOut": "正在退出登录...",
+    "logoutSuccess": "注销成功",
+    "unzippingFile": "正在解压文件...",
+    "unzipSuccess": "解压成功",
+    "invalidOption": "无效的选项",
+    "validatingZip": "正在验证模块 ZIP 文件...",
+    "zipValidated": "压缩文件验证成功",
+    "key": "键",
+    "value": "值",
+    "copyingFiles": "正在复制文件...",
+    "copyFilesSuccess": "文件已成功复制到目标文件夹",
+    "copyFilesFailed": "复制文件失败",
+    "configuringRoutes": "正在配置路由...",
+    "configRoutesSuccess": "路由配置成功",
+    "configRoutesFailed": "配置路由失败",
+    "frontendInstallationSuccess": "前端安装成功：",
+    "zippingFile": "正在压缩文件...",
+    "zipSuccess": "文件已成功压缩",
+    "zipError": "压缩文件时出错",
+    "failedToUploadBackend": "无法上传到后端",
+    "uploadingToBackend": "正在将文件上传到后台...",
+    "uploadToBackendSuccess": "成功将文件上传到后台",
+    "backendInstallationSuccess": "后端安装成功: ",
+    "pressAnyKeyToContinue": "按任意键继续...",
+    "assetsFolderFound": "找到模块的资产文件夹",
+    "fetchingBackendModulePath": "正在从后端服务器获取模块路径...",
+    "backendModulePathsFetched": "成功从后端服务器获取数据",
+    "fetchingIconSetsFromIconify": "正在从 Iconify 获取图标集...",
+    "fetchingIconsFromIconify": "正在从 Iconify 获取图标...",
+    "failedToFetchIconSets": "无法获取图标集",
+    "failedToFetchIcons": "无法获取图标",
+    "frontendPackagingSuccess": "前端文件已成功添加到包中",
+    "assetsPackagingSuccess": "资产文件已成功添加到包中",
+    "fetchingBackendFiles": "正在从后端服务器获取文件...",
+    "backendPackagingError": "打包后端文件时出错",
+    "successfullyFetchedBackendFiles": "成功从后端服务器获取文件",
+    "backendPackagingSuccess": "后端文件已成功添加到包中",
+    "manifestPackagingSuccess": "清单文件已成功添加到包中",
+    "zipSavedTo": "已将压缩文件保存到",
+    "checkModulePaths": "请检查以下数据是否正确：",
+    "moduleAlreadyExistsInCategory": "类别中已经存在同名模块。",
+    "frontendFolderStoredAs": "前端文件夹存储为"
+  }
 }
