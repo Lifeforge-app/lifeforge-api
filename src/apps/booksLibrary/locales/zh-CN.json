@@ -35,7 +35,8 @@
     "category": {
       "create": "添加类别",
       "update": "更新类别"
-    }
+    },
+    "sendToKindle": "发送到Kindle"
   },
   "buttons": {
     "addToLibrary": "添加到图书馆",
@@ -43,7 +44,8 @@
     "viewDetails": "查看详情",
     "uploadFromDevice": "从设备上传",
     "downloadFromLibgen": "从 Library Genesis 下载",
-    "downloading": "下载中"
+    "downloading": "下载中",
+    "sendToKindle": "发送到 Kindle"
   },
   "inputs": {
     "isbn": "ISBN 码",
@@ -61,7 +63,8 @@
     "languageIcon": "语言图标",
     "authors": "作者",
     "edition": "版本",
-    "extension": "文件类型"
+    "extension": "文件类型",
+    "kindleEmail": "Kindle 电子邮件地址"
   },
   "items": {
     "book": "书籍",
@@ -83,6 +86,12 @@
     "libgen": {
       "title": "由 Library Genesis 提供",
       "description": "浏览 Library Genesis 中的书籍并将其添加到您的图书馆。"
+    },
+    "noSMTPKeys": {
+      "title": "未找到 SMTP API 密钥",
+      "description": "在您的API密钥库中未找到适当的SMTP API配置。请前往模块并配置\"smtp-user\"和\"smtp-pass\"。"
     }
-  }
+  },
+  "checkingKeys": "正在检查SMTP API密钥...",
+  "kindleSent": "已启动进程，将所选文档发送到目标电子邮件地址。"
 }

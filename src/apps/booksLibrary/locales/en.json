@@ -35,7 +35,8 @@
     "category": {
       "create": "Add Category",
       "update": "Update Category"
-    }
+    },
+    "sendToKindle": "Send to Kindle"
   },
   "buttons": {
     "addToLibrary": "Add to Library",
@@ -43,7 +44,8 @@
     "viewDetails": "View Details",
     "uploadFromDevice": "Upload from Device",
     "downloadFromLibgen": "Download from Library Genesis",
-    "downloading": "Downloading"
+    "downloading": "Downloading",
+    "sendToKindle": "Send to Kindle"
   },
   "inputs": {
     "isbn": "ISBN",
@@ -61,7 +63,8 @@
     "languageIcon": "Language Icon",
     "authors": "Authors",
     "edition": "Edition",
-    "extension": "File Type"
+    "extension": "File Type",
+    "kindleEmail": "Kindle Email Address"
   },
   "items": {
     "book": "Book",
@@ -83,6 +86,12 @@
     "libgen": {
       "title": "Powered by Library Genesis",
       "description": "Browse books in Library Genesis and add them to your library."
+    },
+    "noSMTPKeys": {
+      "title": "No SMTP API Keys Found",
+      "description": "Proper SMTP API configurations are not found in your API key vault. Please go to the module and configure \"smtp-user\" and \"smtp-pass\"."
     }
-  }
+  },
+  "checkingKeys": "Checking SMTP API keys...",
+  "kindleSent": "Fired process to send the selected document to the targeted email address."
 }

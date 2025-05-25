@@ -11,4 +11,6 @@ export const validateBodyData = [
   body("year_published").isNumeric(),
 ];
 
+export const validateBodyEmail = body("target").isEmail();
+
 export const validateId = param("id").isString();

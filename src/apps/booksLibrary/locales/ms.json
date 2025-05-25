@@ -35,7 +35,8 @@
     "category": {
       "create": "Tambah Kategori",
       "update": "Kemas kini Kategori"
-    }
+    },
+    "sendToKindle": "Hantar ke Kindle"
   },
   "buttons": {
     "addToLibrary": "Tambah ke Perpustakaan",
@@ -43,7 +44,8 @@
     "viewDetails": "Lihat Butiran",
     "uploadFromDevice": "Muat naik dari Peranti",
     "downloadFromLibgen": "Muat turun dari Library Genesis",
-    "downloading": "Sedang dimuat turun"
+    "downloading": "Sedang dimuat turun",
+    "sendToKindle": "Hantar ke Kindle"
   },
   "inputs": {
     "isbn": "ISBN",
@@ -61,7 +63,8 @@
     "languageIcon": "Ikon Bahasa",
     "authors": "Pengarang",
     "edition": "Edisi",
-    "extension": "Jenis Fail"
+    "extension": "Jenis Fail",
+    "kindleEmail": "Alamat Emel Kindle"
   },
   "items": {
     "book": "Buku",
@@ -83,6 +86,12 @@
     "libgen": {
       "title": "Dikuasakan oleh Library Genesis",
       "description": "Semak imbas buku dalam Library Genesis dan tambahkannya ke perpustakaan anda."
+    },
+    "noSMTPKeys": {
+      "title": "Tiada Kunci API SMTP Ditemui",
+      "description": "Konfigurasi SMTP API yang betul tidak ditemui dalam vault kunci API anda. Sila pergi ke modul dan konfigurasi \"smtp-user\" dan \"smtp-pass\"."
     }
-  }
+  },
+  "checkingKeys": "Memeriksa kunci API SMTP...",
+  "kindleSent": "Proses dijalankan untuk menghantar dokumen yang dipilih ke alamat e-mel yang ditujukan."
 }

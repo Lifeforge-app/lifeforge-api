@@ -1,3 +1,4 @@
+import mailer from "nodemailer";
 import Pocketbase from "pocketbase";
 import {
   IBooksLibraryEntry,
@@ -41,6 +42,57 @@ export const toggleFavouriteStatus = async (
     .update<IBooksLibraryEntry>(id, {
       is_favourite: !book.is_favourite,
     });
+};
+
+export const sendToKindle = async (
+  pb: Pocketbase,
+  id: string,
+  credentials: { user: string; pass: string },
+  targetEmail: string,
+): Promise<void> => {
+  console.log(credentials);
+  const transporter = mailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: credentials,
+  });
+
+  try {
+    await transporter.verify();
+  } catch (err) {
+    throw new Error("SMTP credentials are invalid");
+  }
+
+  const entry = await pb
+    .collection("books_library_entries")
+    .getOne<IBooksLibraryEntry>(id);
+
+  const fileLink = pb.files.getURL(entry, entry.file);
+  const content = await fetch(fileLink).then((res) => res.arrayBuffer());
+  const fileName = `${entry.title}.${entry.extension}`;
+
+  const mail = {
+    from: `"Lifeforge Books Library" <${credentials.user}>`,
+    to: targetEmail,
+    subject: "",
+    text: `Here is your book: ${entry.title}`,
+    attachments: [
+      {
+        filename: fileName,
+        content: Buffer.from(content),
+      },
+    ],
+    headers: {
+      "X-SES-CONFIGURATION-SET": "Kindle",
+    },
+  };
+
+  try {
+    await transporter.sendMail(mail);
+  } catch (err) {
+    throw new Error("Failed to send email to Kindle: " + err);
+  }
 };
 
 export const deleteEntry = async (
