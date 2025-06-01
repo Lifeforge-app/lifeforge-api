@@ -10,9 +10,9 @@ export const getEntriesValidation = [
 ];
 
 export const createEntryValidation = [
-  body("summary").isString(),
-  body("notes").isString(),
-  body("due_date").isString(),
+  body("summary").isString().notEmpty(),
+  body("notes").isString().optional(),
+  body("due_date").isString().optional(),
   body("subtasks").isArray(),
   body("list").isString().optional(),
   body("priority").isString().optional(),
@@ -22,7 +22,7 @@ export const createEntryValidation = [
 export const updateEntryValidation = [
   body("summary").isString(),
   body("notes").isString(),
-  body("due_date").isString(),
+  body("due_date").isString().optional(),
   body("subtasks").isArray(),
   body("list").isString().optional(),
   body("priority").isString().optional(),

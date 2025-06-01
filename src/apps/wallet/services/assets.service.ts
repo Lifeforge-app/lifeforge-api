@@ -4,20 +4,10 @@ import { IWalletAsset } from "../wallet_interfaces";
 
 export const getAllAssets = async (pb: Pocketbase): Promise<IWalletAsset[]> => {
   const assets = await pb
-    .collection("wallet_assets_with_amount")
+    .collection("wallet_assets_aggregated")
     .getFullList<IWalletAsset>({
       sort: "name",
     });
-
-  const transactions = await pb.collection("wallet_transactions").getFullList();
-
-  assets.forEach((asset) => {
-    asset.balance = transactions
-      .filter((transaction) => transaction.asset === asset.id)
-      .reduce((acc, curr) => {
-        return curr.side === "credit" ? acc - curr.amount : acc + curr.amount;
-      }, asset.starting_balance);
-  });
 
   return assets;
 };
