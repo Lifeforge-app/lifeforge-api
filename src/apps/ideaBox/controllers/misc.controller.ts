@@ -1,6 +1,6 @@
+import { BaseResponse } from "@typescript/base_response";
 import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import * as miscService from "../services/misc.service";
 import {
   IIdeaBoxContainer,

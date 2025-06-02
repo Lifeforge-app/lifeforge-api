@@ -8,7 +8,8 @@
     "agenda": "议程"
   },
   "sidebar": {
-    "categories": "类别"
+    "categories": "类别",
+    "calendars": "日历"
   },
   "modals": {
     "event": {
@@ -21,6 +22,10 @@
     },
     "scanImage": {
       "title": "扫描图像"
+    },
+    "calendar": {
+      "create": "创建日历",
+      "update": "更新日历"
     }
   },
   "inputs": {
@@ -94,7 +99,10 @@
       }
     },
     "endType": "结束于",
-    "useGoogleMap": "使用谷歌地图"
+    "useGoogleMap": "使用谷歌地图",
+    "calendar": "日历",
+    "calendarName": "日历名称",
+    "calendarColor": "日历颜色"
   },
   "items": {
     "event": "事件",

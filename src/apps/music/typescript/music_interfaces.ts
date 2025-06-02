@@ -1,4 +1,4 @@
-import BasePBCollection from "../../../core/typescript/pocketbase_interfaces";
+import BasePBCollection from "@typescript/pocketbase_interfaces";
 
 interface IMusicEntry extends BasePBCollection {
   name: string;

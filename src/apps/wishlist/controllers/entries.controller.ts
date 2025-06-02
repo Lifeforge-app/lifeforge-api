@@ -1,9 +1,9 @@
+import { BaseResponse } from "@typescript/base_response";
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { serverError, successWithBaseResponse } from "@utils/response";
 import { Response } from "express";
 import fs from "fs";
-import { BaseResponse } from "../../../core/typescript/base_response";
-import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import * as entriesService from "../services/entries.service";
 import { IWishlistEntry } from "../typescript/wishlist_interfaces";
 

@@ -1,5 +1,5 @@
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import { JSDOM } from "jsdom";
-import { WithoutPBDefault } from "../../../../../core/typescript/pocketbase_interfaces";
 import { IBooksLibraryEntry } from "../../../typescript/books_library_interfaces";
 import { zip } from "../utils/parsing";
 

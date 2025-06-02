@@ -1,5 +1,5 @@
+import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces.js";
 import * as s from "superstruct";
-import { BasePBCollectionSchema } from "../../../core/typescript/pocketbase_interfaces.js";
 
 const AchievementsEntrySchema = s.assign(
   BasePBCollectionSchema,

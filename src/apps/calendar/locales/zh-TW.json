@@ -8,7 +8,8 @@
     "agenda": "議程"
   },
   "sidebar": {
-    "categories": "類別"
+    "categories": "類別",
+    "calendars": "日曆"
   },
   "modals": {
     "event": {
@@ -21,6 +22,10 @@
     },
     "scanImage": {
       "title": "掃描圖片"
+    },
+    "calendar": {
+      "create": "創建日曆",
+      "update": "更新日曆"
     }
   },
   "inputs": {
@@ -94,7 +99,10 @@
       }
     },
     "endType": "結束於",
-    "useGoogleMap": "使用 Google 地圖"
+    "useGoogleMap": "使用 Google 地圖",
+    "calendar": "日曆",
+    "calendarName": "日曆名稱",
+    "calendarColor": "日曆顏色"
   },
   "items": {
     "event": "事件",

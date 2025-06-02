@@ -1,3 +1,4 @@
+import { BaseResponse } from "@typescript/base_response";
 import { list } from "@utils/CRUD";
 import { checkExistence } from "@utils/PBRecordValidator";
 import asyncWrapper from "@utils/asyncWrapper";
@@ -14,7 +15,6 @@ import fs from "fs";
 import sharp from "sharp";
 import { z } from "zod";
 import { fieldsUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import { IVirtualWardrobeEntry } from "../typescript/virtual_wardrobe_interfaces";
 
 const router = express.Router();

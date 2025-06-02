@@ -1,6 +1,6 @@
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import { getAPIKey } from "@utils/getAPIKey";
 import PocketBase from "pocketbase";
-import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import scrapeProviders from "../helpers/scrapers/index";
 import { IWishlistEntry } from "../typescript/wishlist_interfaces";
 

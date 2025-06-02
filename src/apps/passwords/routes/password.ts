@@ -1,3 +1,4 @@
+import { BaseResponse } from "@typescript/base_response";
 import asyncWrapper from "@utils/asyncWrapper";
 import { list } from "@utils/CRUD";
 import { decrypt, decrypt2, encrypt, encrypt2 } from "@utils/encryption";
@@ -6,7 +7,6 @@ import bcrypt from "bcrypt";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { v4 } from "uuid";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import { IPasswordEntry } from "../typescript/password_interfaces";
 
 const router = express.Router();

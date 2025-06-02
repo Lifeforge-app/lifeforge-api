@@ -1,8 +1,8 @@
+import { BaseResponse } from "@typescript/base_response";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import fs from "fs";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import * as containersService from "../services/containers.service";
 import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
 

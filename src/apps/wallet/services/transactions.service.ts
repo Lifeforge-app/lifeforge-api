@@ -1,3 +1,4 @@
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import { getAPIKey } from "@utils/getAPIKey";
 import parseOCR from "@utils/parseOCR";
 import fs from "fs";
@@ -6,7 +7,6 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { fromPath } from "pdf2pic";
 import Pocketbase from "pocketbase";
 import { z } from "zod";
-import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import {
   IWalletReceiptScanResult,
   IWalletTransactionEntry,

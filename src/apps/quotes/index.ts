@@ -1,3 +1,4 @@
+import { BaseResponse } from "@typescript/base_response";
 import asyncWrapper from "@utils/asyncWrapper";
 import { fetchAI } from "@utils/fetchAI";
 import { getAPIKey } from "@utils/getAPIKey";
@@ -7,7 +8,6 @@ import {
   successWithBaseResponse,
 } from "@utils/response";
 import express, { Response } from "express";
-import { BaseResponse } from "../../core/typescript/base_response";
 
 const router = express.Router();
 

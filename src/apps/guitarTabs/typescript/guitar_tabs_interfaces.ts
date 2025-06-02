@@ -1,4 +1,4 @@
-import type BasePBCollection from "../../../core/typescript/pocketbase_interfaces.js";
+import type BasePBCollection from "@typescript/pocketbase_interfaces.js";
 
 interface IGuitarTabsEntry extends BasePBCollection {
   name: string;

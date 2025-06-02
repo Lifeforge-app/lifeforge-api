@@ -1,10 +1,11 @@
-import BasePBCollection from "../../../core/typescript/pocketbase_interfaces";
+import BasePBCollection from "@typescript/pocketbase_interfaces";
 
 interface ICalendarEvent extends BasePBCollection {
   title: string;
   start: string | Date;
   end: string | Date;
   category: string;
+  calendar: string;
   location: string;
   reference_link: string;
   description: string;
@@ -24,4 +25,9 @@ interface ICalendarCategory extends BasePBCollection {
   amount: number;
 }
 
-export type { ICalendarCategory, ICalendarEvent };
+interface ICalendarCalendar extends BasePBCollection {
+  name: string;
+  color: string;
+}
+
+export type { ICalendarCalendar, ICalendarCategory, ICalendarEvent };

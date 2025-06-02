@@ -1,6 +1,6 @@
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import moment from "moment";
 import PocketBase from "pocketbase";
-import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import {
   ITodoListEntry,
   ITodoListStatusCounter,

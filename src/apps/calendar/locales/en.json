@@ -8,7 +8,8 @@
     "agenda": "Agenda"
   },
   "sidebar": {
-    "categories": "Categories"
+    "categories": "Categories",
+    "calendars": "Calendars"
   },
   "modals": {
     "event": {
@@ -21,6 +22,10 @@
     },
     "scanImage": {
       "title": "Scan Image"
+    },
+    "calendar": {
+      "create": "Create Calendar",
+      "update": "Update Calendar"
     }
   },
   "inputs": {
@@ -94,7 +99,10 @@
       }
     },
     "endType": "End",
-    "useGoogleMap": "Use Google Maps"
+    "useGoogleMap": "Use Google Maps",
+    "calendar": "Calendar",
+    "calendarName": "Calendar Name",
+    "calendarColor": "Calendar Color"
   },
   "items": {
     "event": "Event",

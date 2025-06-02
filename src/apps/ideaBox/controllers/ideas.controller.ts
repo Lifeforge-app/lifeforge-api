@@ -1,9 +1,9 @@
+import { BaseResponse } from "@typescript/base_response";
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import fs from "fs";
-import { BaseResponse } from "../../../core/typescript/base_response";
-import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import * as ideasService from "../services/ideas.service";
 import { IIdeaBoxEntry } from "../typescript/ideabox_interfaces";
 

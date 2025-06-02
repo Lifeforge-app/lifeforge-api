@@ -1,3 +1,4 @@
+import { BaseResponse } from "@typescript/base_response";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { getAPIKey } from "@utils/getAPIKey";
 import {
@@ -16,7 +17,6 @@ import {
   singleUploadMiddleware,
   uploadMiddleware,
 } from "../../../core/middleware/uploadMiddleware";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
 
 const router = express.Router();

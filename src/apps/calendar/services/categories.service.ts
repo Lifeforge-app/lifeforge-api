@@ -1,5 +1,5 @@
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import PocketBase from "pocketbase";
-import { WithoutPBDefault } from "../../../core/typescript/pocketbase_interfaces";
 import { ICalendarCategory } from "../typescript/calendar_interfaces";
 
 export const getAllCategories = async (

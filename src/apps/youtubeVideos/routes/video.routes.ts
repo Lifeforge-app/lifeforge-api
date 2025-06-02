@@ -1,3 +1,4 @@
+import { BaseResponse } from "@typescript/base_response";
 import asyncWrapper from "@utils/asyncWrapper";
 import {
   clientError,
@@ -9,7 +10,6 @@ import express, { Request, Response } from "express";
 import { body, param } from "express-validator";
 import fs from "fs";
 import moment from "moment";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import downloadVideo from "../functions/downloadVideo";
 // @ts-expect-error no types available
 import getDimensions from "get-video-dimensions";

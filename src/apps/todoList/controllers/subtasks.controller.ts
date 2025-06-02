@@ -1,7 +1,7 @@
+import { BaseResponse } from "@typescript/base_response";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import * as subtasksService from "../services/subtasks.service";
 import { ITodoSubtask } from "../typescript/todo_list_interfaces";
 

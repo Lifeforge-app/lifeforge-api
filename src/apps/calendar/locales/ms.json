@@ -8,7 +8,8 @@
     "agenda": "Agenda"
   },
   "sidebar": {
-    "categories": "Kategori"
+    "categories": "Kategori",
+    "calendars": "Kalendar"
   },
   "modals": {
     "event": {
@@ -21,6 +22,10 @@
     },
     "scanImage": {
       "title": "Imbas Imej"
+    },
+    "calendar": {
+      "create": "Cipta Kalendar",
+      "update": "Kemaskini Kalendar"
     }
   },
   "inputs": {
@@ -94,7 +99,10 @@
       }
     },
     "endType": "Tamat",
-    "useGoogleMap": "Gunakan Peta Google"
+    "useGoogleMap": "Gunakan Peta Google",
+    "calendar": "Kalendar",
+    "calendarName": "Nama Kalendar",
+    "calendarColor": "Warna Kalendar"
   },
   "items": {
     "event": "Acara",

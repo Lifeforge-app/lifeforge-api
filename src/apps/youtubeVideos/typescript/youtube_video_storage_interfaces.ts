@@ -1,4 +1,4 @@
-import BasePBCollection from "../../../core/typescript/pocketbase_interfaces";
+import BasePBCollection from "@typescript/pocketbase_interfaces";
 
 interface IYoutubeVidesStorageEntry extends BasePBCollection {
   youtube_id: string;

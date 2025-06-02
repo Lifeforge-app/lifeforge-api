@@ -1,8 +1,8 @@
+import { BaseResponse } from "@typescript/base_response";
 import { getAPIKey } from "@utils/getAPIKey";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
-import { BaseResponse } from "../../../core/typescript/base_response";
 import * as EventsService from "../services/events.service";
 import { ICalendarEvent } from "../typescript/calendar_interfaces";
 
