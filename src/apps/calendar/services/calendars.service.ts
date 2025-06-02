@@ -11,6 +11,12 @@ export const getAllCalendars = (
     sort: "+name",
   });
 
+export const getCalendarById = (
+  pb: PocketBase,
+  id: string,
+): Promise<WithPB<ICalendarCalendar>> =>
+  pb.collection("calendar_calendars").getOne<WithPB<ICalendarCalendar>>(id);
+
 export const createCalendar = (
   pb: PocketBase,
   calendarData: ICalendarCalendar,
@@ -28,11 +34,5 @@ export const updateCalendar = (
     .collection("calendar_calendars")
     .update<WithPB<ICalendarCalendar>>(id, calendarData);
 
-export const deleteCalendar = (pb: PocketBase, id: string) =>
+export const deleteCalendar = (pb: PocketBase, id: string): Promise<boolean> =>
   pb.collection("calendar_calendars").delete(id);
-
-export const getCalendarById = (
-  pb: PocketBase,
-  id: string,
-): Promise<WithPB<ICalendarCalendar>> =>
-  pb.collection("calendar_calendars").getOne<WithPB<ICalendarCalendar>>(id);

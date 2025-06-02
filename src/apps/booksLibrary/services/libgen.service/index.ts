@@ -4,7 +4,7 @@ export * from "./download/manager";
 export * from "./download/process";
 export * from "./utils/parsing";
 
-export const getStatus = async () => {
+export const getStatus = async (): Promise<boolean> => {
   const status = await fetch("https://libgen.is/", {
     method: "HEAD",
     headers: {

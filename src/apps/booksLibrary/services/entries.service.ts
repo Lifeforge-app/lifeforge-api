@@ -3,10 +3,7 @@ import Pocketbase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import {
-  IBooksLibraryEntry,
-  IBooksLibraryFileType,
-} from "../typescript/books_library_interfaces";
+import { IBooksLibraryEntry } from "../typescript/books_library_interfaces";
 
 export const getAllEntries = (
   pb: Pocketbase,
@@ -56,7 +53,7 @@ export const sendToKindle = async (
   id: string,
   credentials: { user: string; pass: string },
   targetEmail: string,
-) => {
+): Promise<void> => {
   const transporter = mailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -101,5 +98,5 @@ export const sendToKindle = async (
   }
 };
 
-export const deleteEntry = (pb: Pocketbase, id: string) =>
+export const deleteEntry = (pb: Pocketbase, id: string): Promise<boolean> =>
   pb.collection("books_library_entries").delete(id);

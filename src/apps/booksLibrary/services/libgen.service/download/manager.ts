@@ -15,11 +15,14 @@ export const initiateDownload = async (
     thumbnail: File;
     file: File;
   },
-) => {
+): Promise<{ initiated: boolean }> => {
   return addToLibrary(pb, md5, metadata, downloadProcesses);
 };
 
-export const getDownloadProgresses = () => {
+export const getDownloadProgresses = (): Record<
+  string,
+  Omit<IBooksLibraryDownloadProcess, "kill">
+> => {
   return Object.fromEntries(
     Array.from(downloadProcesses.entries()).map(([k, v]) => [
       k,
@@ -28,7 +31,7 @@ export const getDownloadProgresses = () => {
   );
 };
 
-export const cancelDownload = (md5: string) => {
+export const cancelDownload = (md5: string): boolean => {
   const process = downloadProcesses.get(md5);
   if (!process) {
     throw new Error("No such download process");

@@ -61,8 +61,17 @@ export function zodHandler<
   ) => Promise<void>,
 ) {
   return async (
-    req: Request,
-    res: Response,
+    req: Request<
+      ParamsSchema extends ZodTypeAny ? z.infer<ParamsSchema> : {},
+      any,
+      BodySchema extends ZodTypeAny ? z.infer<BodySchema> : {},
+      QuerySchema extends ZodTypeAny ? z.infer<QuerySchema> : {}
+    >,
+    res: Response<
+      BaseResponse<
+        ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
+      >
+    >,
     next: NextFunction,
   ): Promise<void> => {
     try {

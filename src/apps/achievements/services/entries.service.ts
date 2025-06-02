@@ -4,48 +4,42 @@ import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import { IAchievementEntry } from "../typescript/achievements_interfaces";
 
-export const getAllEntriesByDifficulty = async (
+export const getAllEntriesByDifficulty = (
   pb: Pocketbase,
   difficulty: "easy" | "medium" | "hard" | "impossible",
-) => {
-  return pb
-    .collection("achievements_entries")
-    .getFullList<WithPB<IAchievementEntry>>({
-      filter: `difficulty = "${difficulty}"`,
-    });
-};
+): Promise<WithPB<IAchievementEntry>[]> =>
+  pb.collection("achievements_entries").getFullList<WithPB<IAchievementEntry>>({
+    filter: `difficulty = "${difficulty}"`,
+  });
 
-export const createEntry = async (
+export const createEntry = (
   pb: Pocketbase,
-  data: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">,
-) => {
-  const { difficulty, title, thoughts } = data;
+  {
+    difficulty,
+    title,
+    thoughts,
+  }: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">,
+): Promise<WithPB<IAchievementEntry>> =>
+  pb.collection("achievements_entries").create<WithPB<IAchievementEntry>>({
+    difficulty,
+    title,
+    thoughts,
+  });
 
-  return pb
-    .collection("achievements_entries")
-    .create<WithPB<IAchievementEntry>>({
-      difficulty,
-      title,
-      thoughts,
-    });
-};
-
-export const updateEntry = async (
+export const updateEntry = (
   pb: Pocketbase,
   id: string,
-  data: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">,
-) => {
-  const { difficulty, title, thoughts } = data;
+  {
+    difficulty,
+    title,
+    thoughts,
+  }: Pick<IAchievementEntry, "difficulty" | "title" | "thoughts">,
+): Promise<WithPB<IAchievementEntry>> =>
+  pb.collection("achievements_entries").update<WithPB<IAchievementEntry>>(id, {
+    difficulty,
+    title,
+    thoughts,
+  });
 
-  return pb
-    .collection("achievements_entries")
-    .update<WithPB<IAchievementEntry>>(id, {
-      difficulty,
-      title,
-      thoughts,
-    });
-};
-
-export const deleteEntry = async (pb: Pocketbase, id: string) => {
+export const deleteEntry = (pb: Pocketbase, id: string): Promise<boolean> =>
   pb.collection("achievements_entries").delete(id);
-};

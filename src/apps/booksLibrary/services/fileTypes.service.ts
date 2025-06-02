@@ -4,7 +4,9 @@ import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import { IBooksLibraryFileType } from "../typescript/books_library_interfaces";
 
-export const getAllFileTypes = (pb: PocketBase) =>
+export const getAllFileTypes = (
+  pb: PocketBase,
+): Promise<WithPB<IBooksLibraryFileType>[]> =>
   pb
     .collection("books_library_file_types_with_amount")
     .getFullList<WithPB<IBooksLibraryFileType>>({

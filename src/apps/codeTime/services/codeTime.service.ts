@@ -2,6 +2,14 @@ import moment from "moment";
 import PocketBase from "pocketbase";
 import puppeteer from "puppeteer-core";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
+import {
+  ICodeTimeActivities,
+  ICodeTimeDailyEntry,
+  ICodeTimeStatistics,
+} from "../typescript/codetime_interfaces";
+
 export const addDays = (date: Date, days: number): Date => {
   const newDate = new Date(date.valueOf());
   newDate.setDate(newDate.getDate() + days);
@@ -20,23 +28,24 @@ export const getDates = (startDate: Date, stopDate: Date): Date[] => {
 
 export const getActivities = async (
   pb: PocketBase,
-  year: string | number,
-): Promise => {
+  year?: number,
+): Promise<ICodeTimeActivities> => {
   const yearValue = Number(year) || new Date().getFullYear();
 
-  const data = await pb.collection("code_time_daily_entries").getFullList({
-    filter: `date >= "${yearValue}-01-01 00:00:00.000Z" && date <= "${yearValue}-12-31 23:59:59.999Z"`,
-  });
+  const data = await pb
+    .collection("code_time_daily_entries")
+    .getFullList<WithPB<ICodeTimeDailyEntry>>({
+      filter: `date >= "${yearValue}-01-01 00:00:00.000Z" && date <= "${yearValue}-12-31 23:59:59.999Z"`,
+    });
 
-  const groupByDate: { [key: string]: number } = {};
-
-  for (const item of data) {
-    const dateKey = moment(item.date).format("YYYY-MM-DD");
-    if (!groupByDate[dateKey]) {
-      groupByDate[dateKey] = 0;
-    }
-    groupByDate[dateKey] = item.total_minutes;
-  }
+  const groupByDate = data.reduce(
+    (acc, item) => {
+      const dateKey = moment(item.date).format("YYYY-MM-DD");
+      acc[dateKey] = item.total_minutes;
+      return acc;
+    },
+    {} as { [key: string]: number },
+  );
 
   const final = Object.entries(groupByDate).map(([date, totalMinutes]) => ({
     date,
@@ -77,7 +86,7 @@ export const getActivities = async (
 
   const firstRecordEver = await pb
     .collection("code_time_daily_entries")
-    .getList(1, 1, {
+    .getList<WithPB<ICodeTimeDailyEntry>>(1, 1, {
       sort: "+date",
     });
 
@@ -87,7 +96,9 @@ export const getActivities = async (
   };
 };
 
-export const getStatistics = async (pb: PocketBase) => {
+export const getStatistics = async (
+  pb: PocketBase,
+): Promise<ICodeTimeStatistics> => {
   const everything = await pb
     .collection("code_time_daily_entries")
     .getFullList({
@@ -149,6 +160,7 @@ export const getStatistics = async (pb: PocketBase) => {
         streak = 0;
       }
     }
+
     return longest;
   })();
 
@@ -170,6 +182,7 @@ export const getStatistics = async (pb: PocketBase) => {
 
       streak += 1;
     }
+
     return streak;
   })();
 
@@ -182,24 +195,30 @@ export const getStatistics = async (pb: PocketBase) => {
   };
 };
 
-export const getLastXDays = async (pb: PocketBase, days: number) => {
+export const getLastXDays = async (
+  pb: PocketBase,
+  days: number,
+): Promise<WithPB<ICodeTimeDailyEntry>[]> => {
   const lastXDays = moment().subtract(days, "days").format("YYYY-MM-DD");
 
-  const data = await pb.collection("code_time_daily_entries").getFullList({
-    filter: `date >= "${lastXDays} 00:00:00.000Z"`,
-  });
+  const data = await pb
+    .collection("code_time_daily_entries")
+    .getFullList<WithPB<ICodeTimeDailyEntry>>({
+      filter: `date >= "${lastXDays} 00:00:00.000Z"`,
+    });
 
   return data;
 };
 
-export const getProjectsStats = async (pb: PocketBase, lastXDays: string) => {
-  const timeMap: { [key: string]: [number, string] } = {
+export const getProjectsStats = async (
+  pb: PocketBase,
+  lastXDays: "24 hours" | "7 days" | "30 days",
+): Promise<{ [key: string]: number }> => {
+  const params = {
     "24 hours": [24, "hours"],
     "7 days": [7, "days"],
     "30 days": [30, "days"],
-  };
-
-  const params = timeMap[lastXDays] || [7, "days"];
+  }[lastXDays]!;
 
   const date = moment()
     .subtract(params[0], params[1] as moment.unitOfTime.DurationConstructor)
@@ -229,14 +248,15 @@ export const getProjectsStats = async (pb: PocketBase, lastXDays: string) => {
   return groupByProject;
 };
 
-export const getLanguagesStats = async (pb: PocketBase, lastXDays: string) => {
-  const timeMap: { [key: string]: [number, string] } = {
+export const getLanguagesStats = async (
+  pb: PocketBase,
+  lastXDays: "24 hours" | "7 days" | "30 days",
+): Promise<{ [key: string]: number }> => {
+  const params = {
     "24 hours": [24, "hours"],
     "7 days": [7, "days"],
     "30 days": [30, "days"],
-  };
-
-  const params = timeMap[lastXDays] || [7, "days"];
+  }[lastXDays]!;
 
   const date = moment()
     .subtract(params[0], params[1] as moment.unitOfTime.DurationConstructor)
@@ -266,13 +286,17 @@ export const getLanguagesStats = async (pb: PocketBase, lastXDays: string) => {
   return groupByLanguage;
 };
 
-export const getEachDay = async (pb: PocketBase) => {
+export const getEachDay = async (
+  pb: PocketBase,
+): Promise<{ date: string; duration: number }[]> => {
   const lastDay = moment().format("YYYY-MM-DD");
   const firstDay = moment().subtract(30, "days").format("YYYY-MM-DD");
 
-  const data = await pb.collection("code_time_daily_entries").getFullList({
-    filter: `date >= "${firstDay} 00:00:00.000Z" && date <= "${lastDay} 23:59:59.999Z"`,
-  });
+  const data = await pb
+    .collection("code_time_daily_entries")
+    .getFullList<WithPB<ICodeTimeDailyEntry>>({
+      filter: `date >= "${firstDay} 00:00:00.000Z" && date <= "${lastDay} 23:59:59.999Z"`,
+    });
 
   const groupByDate: { [key: string]: number } = {};
 
@@ -287,22 +311,27 @@ export const getEachDay = async (pb: PocketBase) => {
   }));
 };
 
-export const getUserMinutes = async (pb: PocketBase, minutes: number) => {
+export const getUserMinutes = async (
+  pb: PocketBase,
+  minutes: number,
+): Promise<{ minutes: number }> => {
   const minTime = moment().subtract(minutes, "minutes").format("YYYY-MM-DD");
 
-  const items = await pb.collection("code_time_daily_entries").getList(1, 1, {
-    filter: `date >= "${minTime}"`,
-  });
+  const items = await pb
+    .collection("code_time_daily_entries")
+    .getFullList<WithPB<ICodeTimeDailyEntry>>({
+      filter: `date >= "${minTime}"`,
+    });
 
   return {
-    minutes:
-      items.totalItems > 0
-        ? items.items.reduce((acc, item) => acc + item.total_minutes, 0)
-        : 0,
+    minutes: items.reduce((acc, item) => acc + item.total_minutes, 0),
   };
 };
 
-export const logEvent = async (pb: PocketBase, data: any) => {
+export const logEvent = async (
+  pb: PocketBase,
+  data: any,
+): Promise<{ status: string; message: string }> => {
   data.eventTime = Math.floor(Date.now() / 60000) * 60000;
 
   const date = moment(data.eventTime).format("YYYY-MM-DD");
@@ -368,7 +397,9 @@ export const logEvent = async (pb: PocketBase, data: any) => {
   return { status: "ok", message: "success" };
 };
 
-export const getReadmeImage = async (pb: PocketBase) => {
+export const getReadmeImage = async (
+  pb: PocketBase,
+): Promise<Uint8Array<ArrayBufferLike>> => {
   const statistics = await getStatistics(pb);
   const today = moment().format("YYYY-MM-DD");
   const todayRecord = await pb

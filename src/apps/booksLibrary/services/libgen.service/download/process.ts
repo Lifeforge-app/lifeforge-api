@@ -12,7 +12,7 @@ export const addToLibrary = async (
     file: File;
   },
   downloadProcesses: Map<string, any>,
-) => {
+): Promise<{ initiated: boolean }> => {
   const target = `http://libgen.li/ads.php?md5=${md5}`;
 
   downloadProcesses.set(md5, {
@@ -108,14 +108,14 @@ export const addToLibrary = async (
   }
 };
 
-async function processDownloadedFiles(
+const processDownloadedFiles = async (
   pb: Pocketbase,
   md5: string,
   metadata: Omit<IBooksLibraryEntry, "thumbnail" | "file"> & {
     thumbnail: File;
     file: File;
   },
-) {
+): Promise<void> => {
   await fetch(`http://libgen.is/${metadata.thumbnail}`).then(
     async (response) => {
       if (response.ok) {
@@ -134,9 +134,12 @@ async function processDownloadedFiles(
   await pb.collection("books_library_entries").create(metadata);
 
   await updateFileTypeStatistics(pb, metadata.extension);
-}
+};
 
-async function updateFileTypeStatistics(pb: Pocketbase, extension: string) {
+const updateFileTypeStatistics = async (
+  pb: Pocketbase,
+  extension: string,
+): Promise<void> => {
   const fileTypeEntry = await pb
     .collection("books_library_file_types_with_amount")
     .getFirstListItem(`name = "${extension}"`)
@@ -148,4 +151,4 @@ async function updateFileTypeStatistics(pb: Pocketbase, extension: string) {
       count: 1,
     });
   }
-}
+};
