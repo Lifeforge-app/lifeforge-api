@@ -1,17 +1,18 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-const BasePBCollectionSchema = s.object({
-  id: s.string(),
-  collectionId: s.string(),
-  collectionName: s.string(),
-  created: s.string(),
-  updated: s.string(),
+const BasePBSchema = z.object({
+  id: z.string(),
+  collectionId: z.string(),
+  collectionName: z.string(),
+  created: z.string(),
+  updated: z.string(),
 });
 
-type BasePBCollection = s.Infer<typeof BasePBCollectionSchema>;
+type WithPB<T> = T & z.infer<typeof BasePBSchema>;
 
-type WithoutPBDefault<T> = Omit<T, keyof BasePBCollection>;
+const WithPBSchema = <T extends z.ZodTypeAny>(schema: T) => {
+  return z.intersection(schema, BasePBSchema);
+};
 
-export default BasePBCollection;
-
-export { BasePBCollectionSchema, WithoutPBDefault };
+export type { WithPB };
+export { WithPBSchema };

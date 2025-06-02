@@ -1,31 +1,15 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as EntriesController from "../controllers/entries.controller";
-import {
-  validateBodyData,
-  validateDifficulty,
-  validateId,
-} from "../middlewares/entriesValidation";
 
 const router = express.Router();
 
-router.get(
-  "/:difficulty",
-  validateDifficulty,
-  asyncWrapper(EntriesController.getAllEntriesByDifficulty),
-);
+router.get("/:difficulty", EntriesController.getAllEntriesByDifficulty);
 
-router.post("/", validateBodyData, asyncWrapper(EntriesController.createEntry));
+router.post("/", EntriesController.createEntry);
 
-router.patch(
-  "/:id",
-  validateId,
-  validateBodyData,
-  asyncWrapper(EntriesController.updateEntry),
-);
+router.patch("/:id", EntriesController.updateEntry);
 
-router.delete("/:id", validateId, asyncWrapper(EntriesController.deleteEntry));
+router.delete("/:id", EntriesController.deleteEntry);
 
 export default router;

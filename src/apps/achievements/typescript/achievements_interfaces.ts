@@ -1,22 +1,12 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces.js";
+const AchievementsEntrySchema = z.object({
+  title: z.string(),
+  thoughts: z.string(),
+  difficulty: z.enum(["easy", "medium", "hard", "impossible"]),
+});
 
-const AchievementsEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    title: s.string(),
-    thoughts: s.string(),
-    difficulty: s.union([
-      s.literal("easy"),
-      s.literal("medium"),
-      s.literal("hard"),
-      s.literal("impossible"),
-    ]),
-  }),
-);
-
-type IAchievementEntry = s.Infer;
+type IAchievementEntry = z.infer<typeof AchievementsEntrySchema>;
 
 export { AchievementsEntrySchema };
 export type { IAchievementEntry };
