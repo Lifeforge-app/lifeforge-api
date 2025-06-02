@@ -8,7 +8,7 @@ import { successWithBaseResponse } from "@utils/response";
 import * as tagsService from "../services/tags.service";
 import { IIdeaBoxTag } from "../typescript/ideabox_interfaces";
 
-export const getTags = async (req: Request, res: Response) => {
+export const getTags = async (req, res) => {
   const { pb } = req;
   const { container } = req.params;
 
@@ -19,7 +19,7 @@ export const getTags = async (req: Request, res: Response) => {
   successWithBaseResponse(res, tags);
 };
 
-export const createTag = async (req: Request, res: Response) => {
+export const createTag = async (req, res) => {
   const { pb } = req;
   const { container } = req.params;
   const { name, icon, color } = req.body;
@@ -31,7 +31,7 @@ export const createTag = async (req: Request, res: Response) => {
   successWithBaseResponse(res, tag, 201);
 };
 
-export const updateTag = async (req: Request, res: Response) => {
+export const updateTag = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
   const { name, icon, color } = req.body;
@@ -44,7 +44,7 @@ export const updateTag = async (req: Request, res: Response) => {
   successWithBaseResponse(res, tag);
 };
 
-export const deleteTag = async (req: Request, res: Response) => {
+export const deleteTag = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 

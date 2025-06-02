@@ -1,33 +1,38 @@
-import BasePBCollection from "@typescript/pocketbase_interfaces";
+import { z } from "zod";
 
-interface ICalendarEvent extends BasePBCollection {
-  title: string;
-  start: string | Date;
-  end: string | Date;
-  category: string;
-  calendar: string;
-  location: string;
-  reference_link: string;
-  description: string;
-  cannot_delete: boolean;
-  is_strikethrough: boolean;
-  type: "single" | "recurring";
-  recurring_rrule: string;
-  recurring_duration_amount: number;
-  recurring_duration_unit: string;
-  exceptions: string[] | null;
-}
+const CalendarEventSchema = z.object({
+  title: z.string(),
+  start: z.union([z.string(), z.date()]),
+  end: z.union([z.string(), z.date()]),
+  category: z.string(),
+  calendar: z.string(),
+  location: z.string(),
+  reference_link: z.string(),
+  description: z.string(),
+  is_strikethrough: z.boolean(),
+  type: z.enum(["single", "recurring"]),
+  recurring_rrule: z.string(),
+  recurring_duration_amount: z.number(),
+  recurring_duration_unit: z.string(),
+  exceptions: z.array(z.string()).nullable(),
+});
 
-interface ICalendarCategory extends BasePBCollection {
-  color: string;
-  icon: string;
-  name: string;
-  amount: number;
-}
+const CalendarCategorySchema = z.object({
+  color: z.string(),
+  icon: z.string(),
+  name: z.string(),
+  amount: z.number(),
+});
 
-interface ICalendarCalendar extends BasePBCollection {
-  name: string;
-  color: string;
-}
+const CalendarCalendarSchema = z.object({
+  name: z.string(),
+  color: z.string(),
+});
+
+type ICalendarCategory = z.infer<typeof CalendarCategorySchema>;
+type ICalendarCalendar = z.infer<typeof CalendarCalendarSchema>;
+type ICalendarEvent = z.infer<typeof CalendarEventSchema>;
 
 export type { ICalendarCalendar, ICalendarCategory, ICalendarEvent };
+
+export { CalendarEventSchema, CalendarCategorySchema, CalendarCalendarSchema };

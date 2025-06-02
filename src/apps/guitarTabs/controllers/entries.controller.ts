@@ -11,12 +11,12 @@ import {
   IGuitarTabsSidebarData,
 } from "../typescript/guitar_tabs_interfaces";
 
-export const getSidebarData = async (req: Request, res: Response) => {
+export const getSidebarData = async (req, res) => {
   const data = await entriesService.getSidebarData(req.pb);
   successWithBaseResponse(res, data);
 };
 
-export const getEntries = async (req: Request, res: Response) => {
+export const getEntries = async (req, res) => {
   const page = parseInt(req.query.page as string) || 1;
   const search = decodeURIComponent((req.query.query as string) || "");
   const category =
@@ -38,12 +38,12 @@ export const getEntries = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entries);
 };
 
-export const getRandomEntry = async (req: Request, res: Response) => {
+export const getRandomEntry = async (req, res) => {
   const entry = await entriesService.getRandomEntry(req.pb);
   successWithBaseResponse(res, entry);
 };
 
-export const uploadFiles = async (req: Request, res: Response) => {
+export const uploadFiles = async (req, res) => {
   const files = req.files;
 
   if (!files) {
@@ -71,7 +71,7 @@ export const getProcessStatus = async (_: Request, res: Response) => {
   successWithBaseResponse(res, status);
 };
 
-export const updateEntry = async (req: Request, res: Response) => {
+export const updateEntry = async (req, res) => {
   const { id } = req.params;
   const { name, author, type } = req.body;
 
@@ -89,19 +89,19 @@ export const updateEntry = async (req: Request, res: Response) => {
   successWithBaseResponse(res, updatedEntry);
 };
 
-export const deleteEntry = async (req: Request, res: Response) => {
+export const deleteEntry = async (req, res) => {
   const { id } = req.params;
 
   await entriesService.deleteEntry(req.pb, id);
   successWithBaseResponse(res, undefined, 204);
 };
 
-export const downloadAllEntries = async (req: Request, res: Response) => {
+export const downloadAllEntries = async (req, res) => {
   await entriesService.downloadAllEntries(req.pb);
   successWithBaseResponse(res);
 };
 
-export const toggleFavorite = async (req: Request, res: Response) => {
+export const toggleFavorite = async (req, res) => {
   const { id } = req.params;
 
   if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) {

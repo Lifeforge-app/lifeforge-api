@@ -18,7 +18,7 @@ const upload = multer({
   },
 });
 
-const uploadMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const uploadMiddleware = (req, res, next: NextFunction) => {
   upload.array("files", 100)(req, res, (err) => {
     next();
   });
@@ -35,7 +35,7 @@ const singleUploadMiddleware = (
 };
 
 const singleUploadMiddlewareOfKey =
-  (key: string) => (req: Request, res: Response, next: NextFunction) => {
+  (key: string) => (req, res, next: NextFunction) => {
     upload.single(key)(req, res, (err) => {
       next();
     });

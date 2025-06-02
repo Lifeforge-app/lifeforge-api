@@ -1,68 +1,66 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
-
-const BooksLibraryEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    md5: s.string(),
-    authors: s.string(),
-    category: s.string(),
-    edition: s.string(),
-    extension: s.string(),
-    file: s.string(),
-    isbn: s.string(),
-    languages: s.array(s.string()),
-    publisher: s.string(),
-    size: s.number(),
-    thumbnail: s.string(),
-    title: s.string(),
-    year_published: s.number(),
-    is_favourite: s.boolean(),
-  }),
-);
-
-const BooksLibraryCategorySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    icon: s.string(),
-    amount: s.number(),
-  }),
-);
-
-const BooksLibraryLanguageSchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    icon: s.string(),
-    amount: s.number(),
-  }),
-);
-
-const BooksLibraryFileTypeSchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    amount: s.number(),
-  }),
-);
-
-const BooksLibraryDownloadProcessSchema = s.object({
-  kill: s.func(),
-  downloaded: s.string(),
-  total: s.string(),
-  percentage: s.string(),
-  speed: s.string(),
-  ETA: s.string(),
-  metadata: s.any(),
+const BooksLibraryEntrySchema = z.object({
+  md5: z.string(),
+  authors: z.string(),
+  category: z.string(),
+  edition: z.string(),
+  extension: z.string(),
+  file: z.string(),
+  isbn: z.string(),
+  languages: z.array(z.string()),
+  publisher: z.string(),
+  size: z.number(),
+  thumbnail: z.string(),
+  title: z.string(),
+  year_published: z.number(),
+  is_favourite: z.boolean(),
 });
 
-type IBooksLibraryEntry = s.Infer;
-type IBooksLibraryCategory = s.Infer;
-type IBooksLibraryLanguage = s.Infer;
-type IBooksLibraryFileType = s.Infer;
-type IBooksLibraryDownloadProcess = s.Infer;
+const BooksLibraryCategorySchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+  amount: z.number(),
+});
+
+const BooksLibraryLanguageSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+  amount: z.number(),
+});
+
+const BooksLibraryFileTypeSchema = z.object({
+  name: z.string(),
+  amount: z.number(),
+});
+
+const BooksLibraryDownloadProcessSchema = z.object({
+  kill: z.function(),
+  downloaded: z.string(),
+  total: z.string(),
+  percentage: z.string(),
+  speed: z.string(),
+  ETA: z.string(),
+  metadata: z.any(),
+});
+
+const BooksLibraryLibgenSearchResultSchema = z.object({
+  query: z.string(),
+  resultsCount: z.string(),
+  data: z.record(z.string(), z.any()),
+  page: z.number(),
+});
+
+type IBooksLibraryEntry = z.infer<typeof BooksLibraryEntrySchema>;
+type IBooksLibraryCategory = z.infer<typeof BooksLibraryCategorySchema>;
+type IBooksLibraryLanguage = z.infer<typeof BooksLibraryLanguageSchema>;
+type IBooksLibraryFileType = z.infer<typeof BooksLibraryFileTypeSchema>;
+type IBooksLibraryDownloadProcess = z.infer<
+  typeof BooksLibraryDownloadProcessSchema
+>;
+type IBooksLibraryLibgenSearchResult = z.infer<
+  typeof BooksLibraryLibgenSearchResultSchema
+>;
 
 export {
   BooksLibraryCategorySchema,
@@ -70,11 +68,14 @@ export {
   BooksLibraryEntrySchema,
   BooksLibraryFileTypeSchema,
   BooksLibraryLanguageSchema,
+  BooksLibraryLibgenSearchResultSchema,
 };
+
 export type {
   IBooksLibraryCategory,
   IBooksLibraryDownloadProcess,
   IBooksLibraryEntry,
   IBooksLibraryFileType,
   IBooksLibraryLanguage,
+  IBooksLibraryLibgenSearchResult,
 };

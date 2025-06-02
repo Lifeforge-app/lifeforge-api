@@ -14,6 +14,6 @@ const m =
           chalk.yellow(tokens["remote-addr"](req, res)),
         ].join(" "),
       )
-    : (req: Request, res: Response, next: any) => next();
+    : (req, res, next: any) => next();
 
 export default m;

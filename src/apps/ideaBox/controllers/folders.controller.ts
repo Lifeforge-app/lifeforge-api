@@ -8,7 +8,7 @@ import { serverError, successWithBaseResponse } from "@utils/response";
 import * as foldersService from "../services/folders.service";
 import { IIdeaBoxFolder } from "../typescript/ideabox_interfaces";
 
-export const getFolders = async (req: Request, res: Response) => {
+export const getFolders = async (req, res) => {
   const { pb } = req;
   const { container } = req.params;
   const path = req.params[0].split("/").filter((p) => p !== "");
@@ -32,7 +32,7 @@ export const getFolders = async (req: Request, res: Response) => {
   successWithBaseResponse(res, folders);
 };
 
-export const createFolder = async (req: Request, res: Response) => {
+export const createFolder = async (req, res) => {
   const { pb } = req;
   const { name, container, parent, icon, color } = req.body;
 
@@ -51,7 +51,7 @@ export const createFolder = async (req: Request, res: Response) => {
   successWithBaseResponse(res, folder, 201);
 };
 
-export const updateFolder = async (req: Request, res: Response) => {
+export const updateFolder = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
   const { name, icon, color } = req.body;
@@ -64,7 +64,7 @@ export const updateFolder = async (req: Request, res: Response) => {
   successWithBaseResponse(res, folder);
 };
 
-export const moveFolder = async (req: Request, res: Response) => {
+export const moveFolder = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
   const { target } = req.query as Record;
@@ -87,7 +87,7 @@ export const moveFolder = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entry);
 };
 
-export const removeFromFolder = async (req: Request, res: Response) => {
+export const removeFromFolder = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -99,7 +99,7 @@ export const removeFromFolder = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entry);
 };
 
-export const deleteFolder = async (req: Request, res: Response) => {
+export const deleteFolder = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 

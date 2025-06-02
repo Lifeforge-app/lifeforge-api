@@ -1,37 +1,32 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { IBooksLibraryCategory } from "../typescript/books_library_interfaces";
 
-export const getAllCategories = async (pb: PocketBase): Promise => {
-  const categories = await pb
+export const getAllCategories = (pb: PocketBase) =>
+  pb
     .collection("books_library_categories_with_amount")
-    .getFullList<IBooksLibraryCategory>({
+    .getFullList<WithPB<IBooksLibraryCategory>>({
       sort: "name",
     });
-  return categories;
-};
 
-export const createCategory = async (
+export const createCategory = (
   pb: PocketBase,
-  data: { name: string; icon: string },
-): Promise => {
-  const category = await pb
+  data: Omit<IBooksLibraryCategory, "amount">,
+) =>
+  pb
     .collection("books_library_categories")
-    .create<IBooksLibraryCategory>(data);
-  return category;
-};
+    .create<WithPB<IBooksLibraryCategory>>(data);
 
-export const updateCategory = async (
+export const updateCategory = (
   pb: PocketBase,
   id: string,
-  data: Partial,
-): Promise => {
-  const category = await pb
+  data: Omit<IBooksLibraryCategory, "amount">,
+) =>
+  pb
     .collection("books_library_categories")
-    .update<IBooksLibraryCategory>(id, data);
-  return category;
-};
+    .update<WithPB<IBooksLibraryCategory>>(id, data);
 
-export const deleteCategory = async (pb: PocketBase, id: string): Promise => {
-  await pb.collection("books_library_categories").delete(id);
-};
+export const deleteCategory = (pb: PocketBase, id: string) =>
+  pb.collection("books_library_categories").delete(id);

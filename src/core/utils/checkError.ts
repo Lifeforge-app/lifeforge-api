@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 
 import { clientError } from "./response";
 
-export default function hasError(req: Request, res: Response) {
+export default function hasError(req, res) {
   const result = validationResult(req);
   if (!result.isEmpty()) {
     clientError(

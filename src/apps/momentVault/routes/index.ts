@@ -70,7 +70,7 @@ router.get(
 router.post(
   "/entries",
   uploadMiddleware,
-  async (req: Request, res: Response<BaseResponse<IMomentVaultEntry>>) => {
+  async (req, res<BaseResponse<IMomentVaultEntry>>) => {
     const { type } = req.body;
     const { pb } = req;
 
@@ -216,7 +216,7 @@ async function getTranscription(
 router.post(
   "/transcribe-existed/:id",
   [param("id").isString()],
-  async (req: Request, res: Response<BaseResponse<string>>) => {
+  async (req, res<BaseResponse<string>>) => {
     const { id } = req.params;
     const { pb } = req;
 
@@ -278,7 +278,7 @@ router.post(
 router.post(
   "/transcribe",
   singleUploadMiddleware,
-  async (req: Request, res: Response<BaseResponse<string>>) => {
+  async (req, res<BaseResponse<string>>) => {
     const { file } = req;
     if (!file) {
       clientError(res, "No file uploaded");

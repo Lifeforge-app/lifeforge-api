@@ -16,7 +16,7 @@ export const getAllEntries = async (
   successWithBaseResponse(res, entries);
 };
 
-export const importMusicFromNAS = async (req: Request, res: Response) => {
+export const importMusicFromNAS = async (req, res) => {
   const { pb } = req;
 
   if (EntriesService.getImportProgress() === "in_progress") {
@@ -56,7 +56,7 @@ export const updateEntry = async (
   successWithBaseResponse(res, entry);
 };
 
-export const deleteEntry = async (req: Request, res: Response) => {
+export const deleteEntry = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 

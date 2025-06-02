@@ -1,53 +1,150 @@
-import { Request, Response } from "express";
 import request from "request";
+import { z } from "zod";
 
+import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
 
 import * as libgenService from "../services/libgen.service";
+import {
+  BooksLibraryDownloadProcessSchema,
+  BooksLibraryEntrySchema,
+  BooksLibraryLibgenSearchResultSchema,
+} from "../typescript/books_library_interfaces";
 
-export const getStatus = async (req: Request, res: Response) => {
-  const status = await libgenService.getStatus();
-  successWithBaseResponse(res, status);
-};
+export const getStatus = zodHandler(
+  {
+    response: z.boolean(),
+  },
+  async (req, res) => {
+    const status = await libgenService.getStatus();
+    successWithBaseResponse(res, status);
+  },
+);
 
-export const searchBooks = async (req: Request, res: Response) => {
-  const queries = req.query as Record;
-  const result = await libgenService.searchBooks(queries);
-  successWithBaseResponse(res, result);
-};
+export const searchBooks = zodHandler(
+  {
+    query: z.object({
+      mode: z.string(),
+      req: z.string(),
+      open: z.string(),
+      res: z.string(),
+      column: z.string(),
+      page: z.string(),
+      sort: z.string(),
+      sortmode: z.string(),
+    }),
+    response: BooksLibraryLibgenSearchResultSchema,
+  },
+  async (req, res) => {
+    const result = await libgenService.searchBooks(req.query);
 
-export const getBookDetails = async (req: Request, res: Response) => {
-  const { md5, tlm } = req.params;
-  const bookDetails = await libgenService.getBookDetails(md5, tlm);
-  successWithBaseResponse(res, bookDetails);
-};
+    successWithBaseResponse(res, result);
+  },
+);
 
-export const getLocalLibraryData = async (req: Request, res: Response) => {
-  const { md5, tlm } = req.params;
-  const libraryData = await libgenService.getLocalLibraryData(md5, tlm);
-  successWithBaseResponse(res, libraryData);
-};
+export const getBookDetails = zodHandler(
+  {
+    params: z.object({
+      md5: z.string(),
+    }),
+    response: z.record(z.string(), z.any()),
+  },
+  async (req, res) => {
+    const { md5 } = req.params;
 
-export const fetchCover = async (req: Request, res: Response) => {
-  request(`http://libgen.is/covers/${req.params[0]}`).pipe(res);
-};
+    const bookDetails = await libgenService.getBookDetails(md5);
 
-export const addToLibrary = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const { metadata } = req.body;
-  const { md5 } = req.params;
+    successWithBaseResponse(res, bookDetails);
+  },
+);
 
-  await libgenService.initiateDownload(pb, md5, metadata);
-  successWithBaseResponse(res, {}, 202);
-};
+export const getLocalLibraryData = zodHandler(
+  {
+    params: z.object({
+      md5: z.string(),
+    }),
+    response: BooksLibraryEntrySchema.omit({
+      category: true,
+      file: true,
+      is_favourite: true,
+    }),
+  },
+  async (req, res) => {
+    const { md5 } = req.params;
 
-export const getDownloadProgresses = async (req: Request, res: Response) => {
-  const progresses = libgenService.getDownloadProgresses();
-  successWithBaseResponse(res, progresses);
-};
+    const libraryData = await libgenService.getLocalLibraryData(md5);
 
-export const cancelDownload = async (req: Request, res: Response) => {
-  const { md5 } = req.params;
-  libgenService.cancelDownload(md5);
-  successWithBaseResponse(res, undefined, 204);
-};
+    successWithBaseResponse(res, libraryData);
+  },
+);
+
+export const fetchCover = zodHandler(
+  {
+    params: z.object({
+      "0": z.string(),
+    }),
+    response: z.void(),
+  },
+  async (req, res) => {
+    request(`http://libgen.is/covers/${req.params[0]}`).pipe(res);
+  },
+);
+
+export const addToLibrary = zodHandler(
+  {
+    params: z.object({
+      md5: z.string(),
+    }),
+    body: z.object({
+      metadata: BooksLibraryEntrySchema.omit({
+        thumbnail: true,
+        file: true,
+      }).extend({
+        thumbnail: z.instanceof(File),
+        file: z.instanceof(File),
+      }),
+    }),
+    response: z.void(),
+  },
+  async (req, res) => {
+    const { pb } = req;
+    const { metadata } = req.body;
+    const { md5 } = req.params;
+
+    await libgenService.initiateDownload(pb, md5, metadata);
+
+    successWithBaseResponse(res, undefined, 202);
+  },
+);
+
+export const getDownloadProgresses = zodHandler(
+  {
+    response: z.record(
+      z.string(),
+      BooksLibraryDownloadProcessSchema.omit({
+        kill: true,
+      }),
+    ),
+  },
+  async (req, res) => {
+    const progresses = libgenService.getDownloadProgresses();
+
+    successWithBaseResponse(res, progresses);
+  },
+);
+
+export const cancelDownload = zodHandler(
+  {
+    params: z.object({
+      md5: z.string(),
+    }),
+    response: z.void(),
+  },
+  async (req, res) => {
+    const { md5 } = req.params;
+
+    libgenService.cancelDownload(md5);
+
+    successWithBaseResponse(res, undefined, 204);
+  },
+);

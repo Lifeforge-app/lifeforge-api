@@ -4,7 +4,7 @@ import PocketBase from "pocketbase";
 import rrule from "rrule";
 import { z } from "zod";
 
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import { fetchAI } from "@utils/fetchAI";
 
@@ -19,7 +19,7 @@ export const getEventsByDateRange = async (
   pb: PocketBase,
   startDate: string,
   endDate: string,
-): Promise<ICalendarEvent[]> => {
+): Promise<WithPB<ICalendarEvent>[]> => {
   const start = moment(startDate).startOf("day").toISOString();
   const end = moment(endDate).endOf("day").toISOString();
 
@@ -27,7 +27,7 @@ export const getEventsByDateRange = async (
 
   const singleCalendarEvents = await pb
     .collection("calendar_events")
-    .getFullList<ICalendarEvent>({
+    .getFullList<WithPB<ICalendarEvent>>({
       filter: `(start >= '${start}' || end >= '${start}') && (start <= '${end}' || end <= '${end}') && type="single"`,
     });
 
@@ -35,7 +35,7 @@ export const getEventsByDateRange = async (
 
   const recurringCalendarEvents = await pb
     .collection("calendar_events")
-    .getFullList<ICalendarEvent>({
+    .getFullList<WithPB<ICalendarEvent>>({
       filter: "type='recurring'",
     });
 
@@ -89,7 +89,7 @@ export const getEventsByDateRange = async (
   const todoEntries = (
     await pb
       .collection("todo_entries")
-      .getFullList<ITodoListEntry>({
+      .getFullList<WithPB<ITodoListEntry>>({
         filter: `due_date >= '${start}' && due_date <= '${end}'`,
       })
       .catch(() => [])
@@ -103,7 +103,7 @@ export const getEventsByDateRange = async (
       description: entry.notes,
       reference_link: `/todo-list?entry=${entry.id}`,
       is_strikethrough: entry.done,
-    } as ICalendarEvent;
+    } as WithPB<ICalendarEvent>;
   });
 
   allEvents.push(...todoEntries);
@@ -136,7 +136,7 @@ ${entry.theatre_number}
 ${entry.theatre_seat}
       `,
       reference_link: `/movies?show-ticket=${entry.id}`,
-    } as ICalendarEvent;
+    } as WithPB<ICalendarEvent>;
   });
 
   allEvents.push(...movieEntries);
@@ -146,7 +146,7 @@ ${entry.theatre_seat}
 
 export const getTodayEvents = async (
   pb: PocketBase,
-): Promise<ICalendarEvent[]> => {
+): Promise<WithPB<ICalendarEvent>[]> => {
   const day = moment().format("YYYY-MM-DD");
 
   const events = await getEventsByDateRange(pb, day, day);
@@ -156,8 +156,18 @@ export const getTodayEvents = async (
 
 export const createEvent = async (
   pb: PocketBase,
-  eventData: WithoutPBDefault<ICalendarEvent>,
-): Promise<ICalendarEvent> => {
+  eventData: Pick<
+    ICalendarEvent,
+    | "title"
+    | "category"
+    | "start"
+    | "end"
+    | "type"
+    | "recurring_rrule"
+    | "recurring_duration_amount"
+    | "recurring_duration_unit"
+  >,
+): Promise<WithPB<ICalendarEvent>> => {
   if (eventData.type === "recurring") {
     eventData.end = "";
   } else {
@@ -168,7 +178,7 @@ export const createEvent = async (
 
   return await pb
     .collection("calendar_events")
-    .create<ICalendarEvent>(eventData);
+    .create<WithPB<ICalendarEvent>>(eventData);
 };
 
 export const scanImage = async (
@@ -178,7 +188,7 @@ export const scanImage = async (
 ): Promise<Partial<ICalendarEvent> | null> => {
   const categories = await pb
     .collection("calendar_categories")
-    .getFullList<ICalendarCategory>();
+    .getFullList<WithPB<ICalendarCategory>>();
 
   const categoryList = categories.map((category) => category.name);
 
@@ -251,26 +261,21 @@ export const scanImage = async (
 export const updateEvent = async (
   pb: PocketBase,
   id: string,
-  eventData: WithoutPBDefault<ICalendarEvent>,
-): Promise<ICalendarEvent> => {
+  eventData: Pick<ICalendarEvent, "title" | "category" | "start" | "end">,
+): Promise<WithPB<ICalendarEvent>> => {
   return await pb
     .collection("calendar_events")
-    .update<ICalendarEvent>(id, eventData);
+    .update<WithPB<ICalendarEvent>>(id, eventData);
 };
 
-export const deleteEvent = async (
-  pb: PocketBase,
-  id: string,
-): Promise<boolean> => {
-  return await pb.collection("calendar_events").delete(id);
-};
+export const deleteEvent = (pb: PocketBase, id: string) =>
+  pb.collection("calendar_events").delete(id);
 
 export const getEventById = async (
   pb: PocketBase,
   id: string,
-): Promise<ICalendarEvent> => {
-  return await pb.collection("calendar_events").getOne<ICalendarEvent>(id);
-};
+): Promise<WithPB<ICalendarEvent>> =>
+  pb.collection("calendar_events").getOne<WithPB<ICalendarEvent>>(id);
 
 export const addException = async (
   pb: PocketBase,

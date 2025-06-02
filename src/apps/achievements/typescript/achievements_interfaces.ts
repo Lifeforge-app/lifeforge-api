@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const AchievementsEntrySchema = z.object({
-  title: z.string(),
-  thoughts: z.string(),
+  title: z.string().min(1).max(100).trim(),
+  thoughts: z.string().min(0).max(500).trim(),
   difficulty: z.enum(["easy", "medium", "hard", "impossible"]),
 });
 

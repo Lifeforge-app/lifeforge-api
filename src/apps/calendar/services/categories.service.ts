@@ -1,50 +1,50 @@
 import PocketBase from "pocketbase";
 
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import { ICalendarCategory } from "../typescript/calendar_interfaces";
 
-export const getAllCategories = async (pb: PocketBase): Promise => {
-  return await pb
+export const getAllCategories = (
+  pb: PocketBase,
+): Promise<WithPB<ICalendarCategory>[]> =>
+  pb
     .collection("calendar_categories_with_amount")
-    .getFullList<ICalendarCategory>({
+    .getFullList<WithPB<ICalendarCategory>>({
       sort: "+name",
     });
-};
 
 export const createCategory = async (
   pb: PocketBase,
-  categoryData: WithoutPBDefault,
-): Promise => {
+  categoryData: Omit<ICalendarCategory, "amount">,
+): Promise<WithPB<ICalendarCategory>> => {
   const createdEntry = await pb
     .collection("calendar_categories")
-    .create<ICalendarCategory>(categoryData);
+    .create<WithPB<Omit<ICalendarCategory, "amount">>>(categoryData);
 
   return await pb
     .collection("calendar_categories_with_amount")
-    .getOne<ICalendarCategory>(createdEntry.id);
+    .getOne<WithPB<ICalendarCategory>>(createdEntry.id);
 };
 
 export const updateCategory = async (
   pb: PocketBase,
   id: string,
-  categoryData: WithoutPBDefault,
-): Promise => {
+  categoryData: Omit<ICalendarCategory, "amount">,
+): Promise<WithPB<ICalendarCategory>> => {
   const updatedEntry = await pb
     .collection("calendar_categories")
-    .update<ICalendarCategory>(id, categoryData);
+    .update<WithPB<Omit<ICalendarCategory, "amount">>>(id, categoryData);
 
   return await pb
     .collection("calendar_categories_with_amount")
-    .getOne<ICalendarCategory>(updatedEntry.id);
+    .getOne<WithPB<ICalendarCategory>>(updatedEntry.id);
 };
 
-export const deleteCategory = async (pb: PocketBase, id: string): Promise => {
-  return await pb.collection("calendar_categories").delete(id);
-};
+export const deleteCategory = (pb: PocketBase, id: string) =>
+  pb.collection("calendar_categories").delete(id);
 
-export const getCategoryById = async (pb: PocketBase, id: string): Promise => {
-  return await pb
-    .collection("calendar_categories")
-    .getOne<ICalendarCategory>(id);
-};
+export const getCategoryById = (
+  pb: PocketBase,
+  id: string,
+): Promise<WithPB<ICalendarCategory>> =>
+  pb.collection("calendar_categories").getOne<WithPB<ICalendarCategory>>(id);

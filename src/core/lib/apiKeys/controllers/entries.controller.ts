@@ -24,7 +24,7 @@ export const getAllEntries = async (
   successWithBaseResponse(res, entries);
 };
 
-export const checkKeys = async (req: Request, res: Response) => {
+export const checkKeys = async (req, res) => {
   const { pb } = req;
   const { keys } = req.query as { keys: string };
 

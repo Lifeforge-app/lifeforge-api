@@ -22,7 +22,7 @@ export const getVideoInfo = async (
   successWithBaseResponse(res, videoData);
 };
 
-export const downloadVideo = async (req: Request, res: Response) => {
+export const downloadVideo = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
   const { metadata } = req.body;

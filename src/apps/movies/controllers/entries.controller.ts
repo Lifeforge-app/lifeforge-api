@@ -29,7 +29,7 @@ export const createEntryFromTMDB = async (
   successWithBaseResponse(res, newEntry);
 };
 
-export const deleteEntry = async (req: Request, res: Response) => {
+export const deleteEntry = async (req, res) => {
   const { id } = req.params;
   const { pb } = req;
 

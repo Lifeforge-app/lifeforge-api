@@ -10,6 +10,12 @@ import * as EntriesService from "../services/entries.service";
 import { AchievementsEntrySchema } from "../typescript/achievements_interfaces";
 
 export const getAllEntriesByDifficulty = zodHandler(
+  {
+    params: z.object({
+      difficulty: AchievementsEntrySchema.shape.difficulty,
+    }),
+    response: z.array(WithPBSchema(AchievementsEntrySchema)),
+  },
   async (req, res) => {
     const { pb } = req;
     const { difficulty } = req.params;
@@ -21,15 +27,13 @@ export const getAllEntriesByDifficulty = zodHandler(
 
     successWithBaseResponse(res, achievements);
   },
-  {
-    params: z.object({
-      difficulty: AchievementsEntrySchema.shape.difficulty,
-    }),
-    response: z.array(WithPBSchema(AchievementsEntrySchema)),
-  },
 );
 
 export const createEntry = zodHandler(
+  {
+    body: AchievementsEntrySchema,
+    response: WithPBSchema(AchievementsEntrySchema),
+  },
   async (req, res) => {
     const { pb } = req;
     const { difficulty, title, thoughts } = req.body;
@@ -42,13 +46,16 @@ export const createEntry = zodHandler(
 
     successWithBaseResponse(res, achievement, 201);
   },
-  {
-    body: AchievementsEntrySchema,
-    response: WithPBSchema(AchievementsEntrySchema),
-  },
 );
 
 export const updateEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: AchievementsEntrySchema,
+    response: WithPBSchema(AchievementsEntrySchema),
+  },
   async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
@@ -66,16 +73,15 @@ export const updateEntry = zodHandler(
 
     successWithBaseResponse(res, achievement);
   },
+);
+
+export const deleteEntry = zodHandler(
   {
     params: z.object({
       id: z.string(),
     }),
-    body: AchievementsEntrySchema,
-    response: WithPBSchema(AchievementsEntrySchema),
+    response: z.void(),
   },
-);
-
-export const deleteEntry = zodHandler(
   async (req, res) => {
     const { pb } = req;
     const { id } = req.params;
@@ -86,10 +92,5 @@ export const deleteEntry = zodHandler(
 
     await EntriesService.deleteEntry(pb, id);
     successWithBaseResponse(res, undefined, 204);
-  },
-  {
-    params: z.object({
-      id: z.string(),
-    }),
   },
 );

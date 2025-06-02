@@ -1,46 +1,38 @@
 import PocketBase from "pocketbase";
 
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import { ICalendarCalendar } from "../typescript/calendar_interfaces";
 
-export const getAllCalendars = async (pb: PocketBase): Promise => {
-  return await pb
-    .collection("calendar_calendars")
-    .getFullList<ICalendarCalendar>({
-      sort: "+name",
-    });
-};
-
-export const createCalendar = async (
+export const getAllCalendars = (
   pb: PocketBase,
-  calendarData: WithoutPBDefault,
-): Promise => {
-  const createdEntry = await pb
+): Promise<WithPB<ICalendarCalendar>[]> =>
+  pb.collection("calendar_calendars").getFullList<WithPB<ICalendarCalendar>>({
+    sort: "+name",
+  });
+
+export const createCalendar = (
+  pb: PocketBase,
+  calendarData: ICalendarCalendar,
+): Promise<WithPB<ICalendarCalendar>> =>
+  pb
     .collection("calendar_calendars")
-    .create<ICalendarCalendar>(calendarData);
+    .create<WithPB<ICalendarCalendar>>(calendarData);
 
-  return createdEntry;
-};
-
-export const updateCalendar = async (
+export const updateCalendar = (
   pb: PocketBase,
   id: string,
-  calendarData: WithoutPBDefault,
-): Promise => {
-  const updatedEntry = await pb
+  calendarData: ICalendarCalendar,
+): Promise<WithPB<ICalendarCalendar>> =>
+  pb
     .collection("calendar_calendars")
-    .update<ICalendarCalendar>(id, calendarData);
+    .update<WithPB<ICalendarCalendar>>(id, calendarData);
 
-  return updatedEntry;
-};
+export const deleteCalendar = (pb: PocketBase, id: string) =>
+  pb.collection("calendar_calendars").delete(id);
 
-export const deleteCalendar = async (pb: PocketBase, id: string): Promise => {
-  return await pb.collection("calendar_calendars").delete(id);
-};
-
-export const getCalendarById = async (pb: PocketBase, id: string): Promise => {
-  return await pb
-    .collection("calendar_calendars")
-    .getOne<ICalendarCalendar>(id);
-};
+export const getCalendarById = (
+  pb: PocketBase,
+  id: string,
+): Promise<WithPB<ICalendarCalendar>> =>
+  pb.collection("calendar_calendars").getOne<WithPB<ICalendarCalendar>>(id);

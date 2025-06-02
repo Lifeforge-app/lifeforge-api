@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { decrypt2 } from "./encryption";
 import { successWithBaseResponse } from "./response";
 
-async function checkOTP(req: Request, res: Response, challenge?: string) {
+async function checkOTP(req, res, challenge?: string) {
   const { otp, otpId } = req.body;
   const { pb } = req;
   const id = pb.authStore.record?.id;

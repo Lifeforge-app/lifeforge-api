@@ -1,47 +1,80 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { checkExistence } from "@utils/PBRecordValidator";
+import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
 
 import * as CategoriesService from "../services/categories.service";
-import { IBooksLibraryCategory } from "../typescript/books_library_interfaces";
+import { BooksLibraryCategorySchema } from "../typescript/books_library_interfaces";
 
-export const getAllCategories = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const categories = await CategoriesService.getAllCategories(pb);
-  successWithBaseResponse(res, categories);
-};
+export const getAllCategories = zodHandler(
+  {
+    response: z.array(WithPBSchema(BooksLibraryCategorySchema)),
+  },
+  async (req, res) => {
+    const { pb } = req;
 
-export const createCategory = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const data = req.body;
-  const category = await CategoriesService.createCategory(pb, data);
-  successWithBaseResponse(res, category);
-};
+    const categories = await CategoriesService.getAllCategories(pb);
 
-export const updateCategory = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const data = req.body as Partial;
+    successWithBaseResponse(res, categories);
+  },
+);
 
-  if (!(await checkExistence(req, res, "books_library_categories", id))) {
-    return;
-  }
+export const createCategory = zodHandler(
+  {
+    body: BooksLibraryCategorySchema.omit({ amount: true }),
+    response: WithPBSchema(BooksLibraryCategorySchema),
+  },
+  async (req, res) => {
+    const { pb } = req;
 
-  const category = await CategoriesService.updateCategory(pb, id, data);
-  successWithBaseResponse(res, category);
-};
+    const category = await CategoriesService.createCategory(pb, req.body);
 
-export const deleteCategory = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
+    successWithBaseResponse(res, category);
+  },
+);
 
-  if (!(await checkExistence(req, res, "books_library_categories", id))) {
-    return;
-  }
+export const updateCategory = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: BooksLibraryCategorySchema.omit({ amount: true }),
+    response: WithPBSchema(BooksLibraryCategorySchema),
+  },
+  async (req, res) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-  await CategoriesService.deleteCategory(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+    if (!(await checkExistence(req, res, "books_library_categories", id))) {
+      return;
+    }
+
+    const category = await CategoriesService.updateCategory(pb, id, req.body);
+
+    successWithBaseResponse(res, category);
+  },
+);
+
+export const deleteCategory = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async (req, res) => {
+    const { pb } = req;
+    const { id } = req.params;
+
+    if (!(await checkExistence(req, res, "books_library_categories", id))) {
+      return;
+    }
+
+    await CategoriesService.deleteCategory(pb, id);
+
+    successWithBaseResponse(res, undefined, 204);
+  },
+);

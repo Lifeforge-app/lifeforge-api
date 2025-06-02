@@ -11,7 +11,7 @@ const downloadProcesses = new Map<string, IBooksLibraryDownloadProcess>();
 export const initiateDownload = async (
   pb: Pocketbase,
   md5: string,
-  metadata: Omit & {
+  metadata: Omit<IBooksLibraryEntry, "thumbnail" | "file"> & {
     thumbnail: File;
     file: File;
   },
@@ -36,5 +36,6 @@ export const cancelDownload = (md5: string) => {
 
   process.kill();
   downloadProcesses.delete(md5);
+
   return true;
 };

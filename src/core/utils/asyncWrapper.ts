@@ -6,7 +6,7 @@ import { BaseResponse } from "@typescript/base_response";
 import hasError from "./checkError";
 import { clientError, serverError } from "./response";
 
-export const asyncWrapper =
+const asyncWrapper =
   <Req extends Request = Request, Res extends Response = Response>(
     cb: (req: Req, res: Res, next: NextFunction) => Promise<void>,
   ) =>
@@ -34,11 +34,17 @@ export const asyncWrapper =
 export default asyncWrapper;
 
 export function zodHandler<
-  BodySchema extends ZodTypeAny = ZodTypeAny,
-  QuerySchema extends ZodTypeAny = ZodTypeAny,
-  ParamsSchema extends ZodTypeAny = ZodTypeAny,
-  ResponseSchema extends ZodTypeAny = ZodTypeAny,
+  BodySchema extends ZodTypeAny | undefined = undefined,
+  QuerySchema extends ZodTypeAny | undefined = undefined,
+  ParamsSchema extends ZodTypeAny | undefined = undefined,
+  ResponseSchema extends ZodTypeAny | undefined = undefined,
 >(
+  schema: {
+    body?: BodySchema;
+    query?: QuerySchema;
+    params?: ParamsSchema;
+    response: ResponseSchema;
+  },
   cb: (
     req: Request<
       ParamsSchema extends ZodTypeAny ? z.infer<ParamsSchema> : {},
@@ -46,15 +52,13 @@ export function zodHandler<
       BodySchema extends ZodTypeAny ? z.infer<BodySchema> : {},
       QuerySchema extends ZodTypeAny ? z.infer<QuerySchema> : {}
     >,
-    res: Response<BaseResponse<z.infer<ResponseSchema>>>,
+    res: Response<
+      BaseResponse<
+        ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
+      >
+    >,
     next: NextFunction,
   ) => Promise<void>,
-  schema?: {
-    body?: BodySchema;
-    query?: QuerySchema;
-    params?: ParamsSchema;
-    response?: ResponseSchema;
-  },
 ) {
   return async (
     req: Request,
@@ -62,31 +66,20 @@ export function zodHandler<
     next: NextFunction,
   ): Promise<void> => {
     try {
-      if (schema?.body) {
-        const result = schema.body.safeParse(req.body);
-        if (!result.success) {
-          return clientError(res, `Invalid body: ${result.error.message}`);
+      if (hasError(req, res)) return;
+
+      for (const key of ["body", "query", "params"] as const) {
+        const validator = schema[key];
+        if (validator) {
+          const result = validator.safeParse(req[key]);
+          if (!result.success) {
+            return clientError(res, `Invalid ${key}: ${result.error.message}`);
+          }
+          req[key] = result.data;
         }
-        req.body = result.data;
       }
 
-      if (schema?.query) {
-        const result = schema.query.safeParse(req.query);
-        if (!result.success) {
-          return clientError(res, `Invalid query: ${result.error.message}`);
-        }
-        req.query = result.data;
-      }
-
-      if (schema?.params) {
-        const result = schema.params.safeParse(req.params);
-        if (!result.success) {
-          return clientError(res, `Invalid params: ${result.error.message}`);
-        }
-        req.params = result.data;
-      }
-
-      await cb(req as any, res, next); // still need slight cast here for Zod-narrowed types
+      await cb(req as any, res as any, next);
     } catch (err) {
       console.error("Internal error:", err);
       serverError(res, "Internal server error");

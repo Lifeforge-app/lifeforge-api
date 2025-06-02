@@ -9,13 +9,13 @@ import { successWithBaseResponse } from "@utils/response";
 import * as containersService from "../services/containers.service";
 import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
 
-export const checkContainerExists = async (req: Request, res: Response) => {
+export const checkContainerExists = async (req, res) => {
   const { id } = req.params;
   const exists = await containersService.checkContainerExists(req.pb, id);
   successWithBaseResponse(res, exists);
 };
 
-export const getContainers = async (req: Request, res: Response) => {
+export const getContainers = async (req, res) => {
   const containers = await containersService.getContainers(req.pb);
 
   const processedContainers = containers.map((container) => ({
@@ -30,7 +30,7 @@ export const getContainers = async (req: Request, res: Response) => {
   successWithBaseResponse(res, processedContainers);
 };
 
-export const createContainer = async (req: Request, res: Response) => {
+export const createContainer = async (req, res) => {
   const { name, color, icon } = req.body;
 
   if (req.file) {
@@ -87,7 +87,7 @@ export const createContainer = async (req: Request, res: Response) => {
   }
 };
 
-export const updateContainer = async (req: Request, res: Response) => {
+export const updateContainer = async (req, res) => {
   const { id } = req.params;
   const { name, color, icon } = req.body;
 
@@ -169,7 +169,7 @@ export const updateContainer = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteContainer = async (req: Request, res: Response) => {
+export const deleteContainer = async (req, res) => {
   const { id } = req.params;
 
   if (!(await checkExistence(req, res, "idea_box_containers", id))) {

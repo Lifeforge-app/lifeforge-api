@@ -5,13 +5,13 @@ import { BaseResponse } from "../typescript/base_response";
 
 function successWithBaseResponse<T>(
   res: Response<BaseResponse<T>>,
-  data?: T,
+  data: T,
   status: number = 200,
 ) {
   try {
     res.status(status).json({
       state: "success",
-      data: data ?? undefined,
+      data: data,
     });
   } catch {
     console.error("Failed to send response");

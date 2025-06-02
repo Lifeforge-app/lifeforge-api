@@ -1,40 +1,17 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as CalendarsController from "../controllers/calendars.controller";
-import {
-  validateCalendarData,
-  validateId,
-} from "../middlewares/calendarsValidation";
 
 const router = express.Router();
 
-router.get("/", asyncWrapper(CalendarsController.getAllCalendars));
+router.get("/", CalendarsController.getAllCalendars);
 
-router.get(
-  "/:id",
-  validateId,
-  asyncWrapper(CalendarsController.getCalendarById),
-);
+router.get("/:id", CalendarsController.getCalendarById);
 
-router.post(
-  "/",
-  validateCalendarData,
-  asyncWrapper(CalendarsController.createCalendar),
-);
+router.post("/", CalendarsController.createCalendar);
 
-router.patch(
-  "/:id",
-  validateId,
-  validateCalendarData,
-  asyncWrapper(CalendarsController.updateCalendar),
-);
+router.patch("/:id", CalendarsController.updateCalendar);
 
-router.delete(
-  "/:id",
-  validateId,
-  asyncWrapper(CalendarsController.deleteCalendar),
-);
+router.delete("/:id", CalendarsController.deleteCalendar);
 
 export default router;

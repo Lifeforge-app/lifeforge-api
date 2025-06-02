@@ -1,44 +1,52 @@
 import mailer from "nodemailer";
 import Pocketbase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import {
   IBooksLibraryEntry,
   IBooksLibraryFileType,
 } from "../typescript/books_library_interfaces";
 
-export const getAllEntries = async (pb: Pocketbase): Promise => {
-  return await pb
+export const getAllEntries = (
+  pb: Pocketbase,
+): Promise<WithPB<IBooksLibraryEntry>[]> =>
+  pb
     .collection("books_library_entries")
-    .getFullList<IBooksLibraryEntry>({
+    .getFullList<WithPB<IBooksLibraryEntry>>({
       sort: "-is_favourite,-created",
     });
-};
 
-export const updateEntry = async (
+export const updateEntry = (
   pb: Pocketbase,
   id: string,
-  data: Partial,
-): Promise => {
-  return await pb
+  data: Pick<
+    IBooksLibraryEntry,
+    | "title"
+    | "authors"
+    | "category"
+    | "edition"
+    | "languages"
+    | "isbn"
+    | "publisher"
+    | "year_published"
+  >,
+): Promise<WithPB<IBooksLibraryEntry>> =>
+  pb
     .collection("books_library_entries")
-    .update<IBooksLibraryEntry>(id, data);
-};
+    .update<WithPB<IBooksLibraryEntry>>(id, data);
 
 export const toggleFavouriteStatus = async (
   pb: Pocketbase,
   id: string,
-): Promise => {
+): Promise<WithPB<IBooksLibraryEntry>> => {
   const book = await pb
     .collection("books_library_entries")
-    .getOne<IBooksLibraryEntry>(id);
-
-  if (!book) {
-    throw new Error("Entry not found");
-  }
+    .getOne<WithPB<IBooksLibraryEntry>>(id);
 
   return await pb
     .collection("books_library_entries")
-    .update<IBooksLibraryEntry>(id, {
+    .update<WithPB<IBooksLibraryEntry>>(id, {
       is_favourite: !book.is_favourite,
     });
 };
@@ -48,8 +56,7 @@ export const sendToKindle = async (
   id: string,
   credentials: { user: string; pass: string },
   targetEmail: string,
-): Promise => {
-  console.log(credentials);
+) => {
   const transporter = mailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -94,26 +101,5 @@ export const sendToKindle = async (
   }
 };
 
-export const deleteEntry = async (pb: Pocketbase, id: string): Promise => {
-  const entry = await pb
-    .collection("books_library_entries")
-    .getOne<IBooksLibraryEntry>(id);
-
-  if (!entry) {
-    throw new Error("Entry not found");
-  }
-
-  const fileTypeEntry = await pb
-    .collection("books_library_file_types_with_amount")
-    .getFirstListItem<IBooksLibraryFileType>(`name = "${entry.extension}"`);
-
-  if (!fileTypeEntry) {
-    throw new Error("File type not found");
-  }
-
-  if (fileTypeEntry.amount === 1) {
-    await pb.collection("books_library_file_types").delete(fileTypeEntry.id);
-  }
-
-  await pb.collection("books_library_entries").delete(id);
-};
+export const deleteEntry = (pb: Pocketbase, id: string) =>
+  pb.collection("books_library_entries").delete(id);

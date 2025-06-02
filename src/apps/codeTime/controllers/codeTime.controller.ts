@@ -9,7 +9,7 @@ import {
 
 import * as CodeTimeService from "../services/codeTime.service";
 
-export const getActivities = async (req: Request, res: Response) => {
+export const getActivities = async (req, res) => {
   const { pb } = req;
   const year = req.query.year;
 
@@ -20,14 +20,14 @@ export const getActivities = async (req: Request, res: Response) => {
   successWithBaseResponse(res, activitiesData);
 };
 
-export const getStatistics = async (req: Request, res: Response) => {
+export const getStatistics = async (req, res) => {
   const { pb } = req;
 
   const statistics = await CodeTimeService.getStatistics(pb);
   successWithBaseResponse(res, statistics);
 };
 
-export const getLastXDays = async (req: Request, res: Response) => {
+export const getLastXDays = async (req, res) => {
   if (hasError(req, res)) return;
 
   const { pb } = req;
@@ -42,7 +42,7 @@ export const getLastXDays = async (req: Request, res: Response) => {
   return successWithBaseResponse(res, data);
 };
 
-export const getProjects = async (req: Request, res: Response) => {
+export const getProjects = async (req, res) => {
   const { pb } = req;
   const lastXDays = req.query.last as string;
 
@@ -50,7 +50,7 @@ export const getProjects = async (req: Request, res: Response) => {
   successWithBaseResponse(res, projectsStats);
 };
 
-export const getLanguages = async (req: Request, res: Response) => {
+export const getLanguages = async (req, res) => {
   const { pb } = req;
   const lastXDays = req.query.last as string;
 
@@ -58,14 +58,14 @@ export const getLanguages = async (req: Request, res: Response) => {
   successWithBaseResponse(res, languagesStats);
 };
 
-export const getEachDay = async (req: Request, res: Response) => {
+export const getEachDay = async (req, res) => {
   const { pb } = req;
 
   const eachDayData = await CodeTimeService.getEachDay(pb);
   successWithBaseResponse(res, eachDayData);
 };
 
-export const getUserMinutes = async (req: Request, res: Response) => {
+export const getUserMinutes = async (req, res) => {
   try {
     const { pb } = req;
     const { minutes } = req.query;
@@ -77,7 +77,7 @@ export const getUserMinutes = async (req: Request, res: Response) => {
   }
 };
 
-export const logEvent = async (req: Request, res: Response) => {
+export const logEvent = async (req, res) => {
   const { pb } = req;
   const data = req.body;
 
@@ -89,7 +89,7 @@ export const logEvent = async (req: Request, res: Response) => {
   });
 };
 
-export const getReadmeImage = async (req: Request, res: Response) => {
+export const getReadmeImage = async (req, res) => {
   const imageBuffer = await CodeTimeService.getReadmeImage(req.pb);
   res.set("Cache-Control", "no-cache, no-store, must-revalidate");
   res.set("Content-Type", "image/png");

@@ -34,7 +34,7 @@ export const getIncomeExpensesSummary = async (
   successWithBaseResponse(res, summary);
 };
 
-export const getExpensesBreakdown = async (req: Request, res: Response) => {
+export const getExpensesBreakdown = async (req, res) => {
   const { year, month } = req.query as { year: string; month: string };
 
   const expensesBreakdown = await UtilsService.getExpensesBreakdown({

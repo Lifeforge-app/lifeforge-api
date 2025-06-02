@@ -1,79 +1,121 @@
 import { Request, Response } from "express";
+import { z } from "zod";
 
 import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { checkExistence } from "@utils/PBRecordValidator";
+import { zodHandler } from "@utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "@utils/response";
 
 import * as CalendarsService from "../services/calendars.service";
-import { ICalendarCalendar } from "../typescript/calendar_interfaces";
+import { CalendarCalendarSchema } from "../typescript/calendar_interfaces";
 
-export const getAllCalendars = async (req: Request, res: Response) => {
-  const { pb } = req;
+export const getAllCalendars = zodHandler(
+  {
+    response: z.array(WithPBSchema(CalendarCalendarSchema)),
+  },
+  async (req, res) => {
+    const { pb } = req;
 
-  const calendars = await CalendarsService.getAllCalendars(pb);
-  successWithBaseResponse(res, calendars);
-};
+    const calendars = await CalendarsService.getAllCalendars(pb);
 
-export const createCalendar = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const calendarData = req.body;
+    successWithBaseResponse(res, calendars);
+  },
+);
 
-  if (
-    await pb
-      .collection("calendar_calendars")
-      .getFirstListItem(`name="${calendarData.name}"`)
-      .catch(() => null)
-  ) {
-    return clientError(res, "Calendar with this name already exists");
-  }
+export const getCalendarById = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(CalendarCalendarSchema),
+  },
+  async (req, res) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-  const calendar = await CalendarsService.createCalendar(pb, calendarData);
-  successWithBaseResponse(res, calendar, 201);
-};
+    if (!(await checkExistence(req, res, "calendar_calendars", id))) {
+      return;
+    }
 
-export const updateCalendar = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const calendarData = req.body;
+    const calendar = await CalendarsService.getCalendarById(pb, id);
 
-  if (!(await checkExistence(req, res, "calendar_calendars", id))) {
-    return;
-  }
+    successWithBaseResponse(res, calendar);
+  },
+);
 
-  if (
-    await pb
-      .collection("calendar_calendars")
-      .getFirstListItem(`name="${calendarData.name}" && id != "${id}"`)
-      .catch(() => null)
-  ) {
-    return clientError(res, "Calendar with this name already exists");
-  }
+export const createCalendar = zodHandler(
+  {
+    body: CalendarCalendarSchema,
+    response: WithPBSchema(CalendarCalendarSchema),
+  },
+  async (req, res) => {
+    const { pb } = req;
 
-  const calendar = await CalendarsService.updateCalendar(pb, id, calendarData);
-  successWithBaseResponse(res, calendar);
-};
+    if (
+      await pb
+        .collection("calendar_calendars")
+        .getFirstListItem(`name="${req.body.name}"`)
+        .catch(() => null)
+    ) {
+      return clientError(res, "Calendar with this name already exists");
+    }
 
-export const deleteCalendar = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
+    const calendar = await CalendarsService.createCalendar(pb, req.body);
 
-  if (!(await checkExistence(req, res, "calendar_calendars", id))) {
-    return;
-  }
+    successWithBaseResponse(res, calendar, 201);
+  },
+);
 
-  await CalendarsService.deleteCalendar(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const updateCalendar = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: CalendarCalendarSchema,
+    response: WithPBSchema(CalendarCalendarSchema),
+  },
+  async (req, res) => {
+    const { pb } = req;
+    const { id } = req.params;
 
-export const getCalendarById = async (req: Request, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
+    if (!(await checkExistence(req, res, "calendar_calendars", id))) {
+      return;
+    }
 
-  if (!(await checkExistence(req, res, "calendar_calendars", id))) {
-    return;
-  }
+    if (
+      await pb
+        .collection("calendar_calendars")
+        .getFirstListItem(`name="${req.body.name}" && id != "${id}"`)
+        .catch(() => null)
+    ) {
+      return clientError(res, "Calendar with this name already exists");
+    }
 
-  const calendar = await CalendarsService.getCalendarById(pb, id);
-  successWithBaseResponse(res, calendar);
-};
+    const calendar = await CalendarsService.updateCalendar(pb, id, req.body);
+
+    successWithBaseResponse(res, calendar);
+  },
+);
+
+export const deleteCalendar = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async (req, res) => {
+    const { pb } = req;
+    const { id } = req.params;
+
+    if (!(await checkExistence(req, res, "calendar_calendars", id))) {
+      return;
+    }
+
+    await CalendarsService.deleteCalendar(pb, id);
+
+    successWithBaseResponse(res, undefined, 204);
+  },
+);

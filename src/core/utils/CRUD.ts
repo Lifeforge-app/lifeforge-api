@@ -17,7 +17,7 @@ async function list<T>(
   successWithBaseResponse(res, postProcess ? postProcess(data) : data);
 }
 
-async function validate(req: Request, res: Response, collectionName: string) {
+async function validate(req, res, collectionName: string) {
   const { pb } = req;
   const { id } = req.params;
 

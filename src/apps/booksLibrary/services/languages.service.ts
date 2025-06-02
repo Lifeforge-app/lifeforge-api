@@ -1,35 +1,30 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { IBooksLibraryLanguage } from "../typescript/books_library_interfaces";
 
-export const getAllLanguages = async (pb: PocketBase): Promise => {
-  const languages = await pb
+export const getAllLanguages = (pb: PocketBase) =>
+  pb
     .collection("books_library_languages_with_amount")
-    .getFullList<IBooksLibraryLanguage>();
-  return languages;
-};
+    .getFullList<WithPB<IBooksLibraryLanguage>>();
 
-export const createLanguage = async (
+export const createLanguage = (
   pb: PocketBase,
   languageData: { name: string; icon: string },
-): Promise => {
-  const language = await pb
+) =>
+  pb
     .collection("books_library_languages")
-    .create<IBooksLibraryLanguage>(languageData);
-  return language;
-};
+    .create<WithPB<IBooksLibraryLanguage>>(languageData);
 
-export const updateLanguage = async (
+export const updateLanguage = (
   pb: PocketBase,
   id: string,
   languageData: { name: string; icon: string },
-): Promise => {
-  const language = await pb
+) =>
+  pb
     .collection("books_library_languages")
-    .update<IBooksLibraryLanguage>(id, languageData);
-  return language;
-};
+    .update<WithPB<IBooksLibraryLanguage>>(id, languageData);
 
-export const deleteLanguage = async (pb: PocketBase, id: string): Promise => {
-  await pb.collection("books_library_languages").delete(id);
-};
+export const deleteLanguage = (pb: PocketBase, id: string) =>
+  pb.collection("books_library_languages").delete(id);

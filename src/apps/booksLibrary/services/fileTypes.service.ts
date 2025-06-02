@@ -1,12 +1,12 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { IBooksLibraryFileType } from "../typescript/books_library_interfaces";
 
-export const getAllFileTypes = async (pb: PocketBase): Promise => {
-  const fileTypes = await pb
+export const getAllFileTypes = (pb: PocketBase) =>
+  pb
     .collection("books_library_file_types_with_amount")
-    .getFullList<IBooksLibraryFileType>({
+    .getFullList<WithPB<IBooksLibraryFileType>>({
       sort: "name",
     });
-  return fileTypes;
-};

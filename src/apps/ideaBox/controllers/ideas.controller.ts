@@ -10,7 +10,7 @@ import { clientError, successWithBaseResponse } from "@utils/response";
 import * as ideasService from "../services/ideas.service";
 import { IIdeaBoxEntry } from "../typescript/ideabox_interfaces";
 
-export const getIdeas = async (req: Request, res: Response) => {
+export const getIdeas = async (req, res) => {
   const { pb } = req;
   const path = req.params[0].split("/").filter((e) => e);
   const { container } = req.params;
@@ -45,7 +45,7 @@ export const getIdeas = async (req: Request, res: Response) => {
   successWithBaseResponse(res, ideas);
 };
 
-export const createIdea = async (req: Request, res: Response) => {
+export const createIdea = async (req, res) => {
   const { pb } = req;
   const { container, title, content, type, imageLink, folder, tags } = req.body;
   const { file } = req;
@@ -100,7 +100,7 @@ export const createIdea = async (req: Request, res: Response) => {
   successWithBaseResponse(res, idea, 201);
 };
 
-export const updateIdea = async (req: Request, res: Response) => {
+export const updateIdea = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
   const { title, content, type, tags } = req.body;
@@ -139,7 +139,7 @@ export const updateIdea = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entry);
 };
 
-export const deleteIdea = async (req: Request, res: Response) => {
+export const deleteIdea = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -156,7 +156,7 @@ export const deleteIdea = async (req: Request, res: Response) => {
   successWithBaseResponse(res, undefined, 204);
 };
 
-export const pinIdea = async (req: Request, res: Response) => {
+export const pinIdea = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -168,7 +168,7 @@ export const pinIdea = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entry);
 };
 
-export const archiveIdea = async (req: Request, res: Response) => {
+export const archiveIdea = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -180,7 +180,7 @@ export const archiveIdea = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entry);
 };
 
-export const moveIdea = async (req: Request, res: Response) => {
+export const moveIdea = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
   const { target } = req.query as Record;
@@ -199,7 +199,7 @@ export const moveIdea = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entry);
 };
 
-export const removeFromFolder = async (req: Request, res: Response) => {
+export const removeFromFolder = async (req, res) => {
   const { pb } = req;
   const { id } = req.params;
 

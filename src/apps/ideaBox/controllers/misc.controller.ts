@@ -11,7 +11,7 @@ import {
   IIdeaBoxFolder,
 } from "../typescript/ideabox_interfaces";
 
-export const getPath = async (req: Request, res: Response) => {
+export const getPath = async (req, res) => {
   const { container } = req.params;
   const path = req.params[0].split("/").filter((p) => p !== "");
 
@@ -21,7 +21,7 @@ export const getPath = async (req: Request, res: Response) => {
   successWithBaseResponse(res, result);
 };
 
-export const checkValid = async (req: Request, res: Response) => {
+export const checkValid = async (req, res) => {
   const { container } = req.params;
   const path = req.params[0].split("/").filter((p) => p !== "");
 
@@ -35,7 +35,7 @@ export const checkValid = async (req: Request, res: Response) => {
   successWithBaseResponse(res, isValid);
 };
 
-export const getOgData = async (req: Request, res: Response) => {
+export const getOgData = async (req, res) => {
   const { id } = req.params;
 
   const result = await miscService.getOgData(req.pb, id, req, res);
@@ -44,7 +44,7 @@ export const getOgData = async (req: Request, res: Response) => {
   successWithBaseResponse(res, result);
 };
 
-export const search = async (req: Request, res: Response) => {
+export const search = async (req, res) => {
   const { q, container, tags, folder } = req.query as Record;
 
   const results = await miscService.search(
