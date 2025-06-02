@@ -1,5 +1,7 @@
-import { decrypt2, encrypt2 } from "@utils/encryption";
 import PocketBase from "pocketbase";
+
+import { decrypt2, encrypt2 } from "@utils/encryption";
+
 import { challenge } from "..";
 import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
 

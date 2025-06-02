@@ -114,9 +114,7 @@
         "protected": false,
         "required": false,
         "system": false,
-        "thumbs": [
-          "512x0"
-        ],
+        "thumbs": ["512x0"],
         "type": "file"
       },
       {
@@ -130,9 +128,7 @@
         "protected": false,
         "required": false,
         "system": false,
-        "thumbs": [
-          "512x0"
-        ],
+        "thumbs": ["512x0"],
         "type": "file"
       },
       {

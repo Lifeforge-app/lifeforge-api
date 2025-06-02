@@ -1,6 +1,9 @@
-import { BaseResponse } from "@typescript/base_response";
-import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
+
+import { BaseResponse } from "@typescript/base_response";
+
+import { successWithBaseResponse } from "@utils/response";
+
 import * as miscService from "../services/misc.service";
 import {
   IIdeaBoxContainer,
@@ -8,15 +11,7 @@ import {
   IIdeaBoxFolder,
 } from "../typescript/ideabox_interfaces";
 
-export const getPath = async (
-  req: Request,
-  res: Response<
-    BaseResponse<{
-      container: IIdeaBoxContainer;
-      path: IIdeaBoxFolder[];
-    }>
-  >,
-) => {
+export const getPath = async (req: Request, res: Response) => {
   const { container } = req.params;
   const path = req.params[0].split("/").filter((p) => p !== "");
 
@@ -26,10 +21,7 @@ export const getPath = async (
   successWithBaseResponse(res, result);
 };
 
-export const checkValid = async (
-  req: Request,
-  res: Response<BaseResponse<boolean>>,
-) => {
+export const checkValid = async (req: Request, res: Response) => {
   const { container } = req.params;
   const path = req.params[0].split("/").filter((p) => p !== "");
 
@@ -52,20 +44,8 @@ export const getOgData = async (req: Request, res: Response) => {
   successWithBaseResponse(res, result);
 };
 
-export const search = async (
-  req: Request,
-  res: Response<
-    BaseResponse<
-      (Omit<IIdeaBoxEntry, "folder"> & {
-        folder?: IIdeaBoxFolder;
-        expand: {
-          folder?: IIdeaBoxFolder;
-        };
-      })[]
-    >
-  >,
-) => {
-  const { q, container, tags, folder } = req.query as Record<string, string>;
+export const search = async (req: Request, res: Response) => {
+  const { q, container, tags, folder } = req.query as Record;
 
   const results = await miscService.search(
     req.pb,

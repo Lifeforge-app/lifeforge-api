@@ -12,12 +12,9 @@
     "strictNullChecks": true,
     "allowUnusedLabels": false,
     "paths": {
-      "@utils/*": [
-        "./src/core/utils/*"
-      ],
-      "@typescript/*": [
-        "./src/core/typescript/*"
-      ],
+      "@utils/*": ["./src/core/utils/*"],
+      "@typescript/*": ["./src/core/typescript/*"],
+      "@middlewares/*": ["./src/core/middlewares/*"]
     }
   }
 }

@@ -1,6 +1,7 @@
-import { decrypt2 } from "@utils/encryption";
 import bcrypt from "bcrypt";
 import PocketBase from "pocketbase";
+
+import { decrypt2 } from "@utils/encryption";
 
 export const createOrUpdateMasterPassword = async (
   pb: PocketBase,

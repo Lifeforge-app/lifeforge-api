@@ -1,5 +1,6 @@
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
 import * as s from "superstruct";
+
+import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
 
 const BooksLibraryEntrySchema = s.assign(
   BasePBCollectionSchema,
@@ -57,13 +58,11 @@ const BooksLibraryDownloadProcessSchema = s.object({
   metadata: s.any(),
 });
 
-type IBooksLibraryEntry = s.Infer<typeof BooksLibraryEntrySchema>;
-type IBooksLibraryCategory = s.Infer<typeof BooksLibraryCategorySchema>;
-type IBooksLibraryLanguage = s.Infer<typeof BooksLibraryLanguageSchema>;
-type IBooksLibraryFileType = s.Infer<typeof BooksLibraryFileTypeSchema>;
-type IBooksLibraryDownloadProcess = s.Infer<
-  typeof BooksLibraryDownloadProcessSchema
->;
+type IBooksLibraryEntry = s.Infer;
+type IBooksLibraryCategory = s.Infer;
+type IBooksLibraryLanguage = s.Infer;
+type IBooksLibraryFileType = s.Infer;
+type IBooksLibraryDownloadProcess = s.Infer;
 
 export {
   BooksLibraryCategorySchema,

@@ -1,7 +1,8 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import express, { Request } from "express";
 import { query } from "express-validator";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "@utils/response";
 
 const router = express.Router();
 

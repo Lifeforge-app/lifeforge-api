@@ -1,5 +1,7 @@
-import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
+
+import { successWithBaseResponse } from "@utils/response";
+
 import * as TMDBService from "../services/tmdb.service";
 
 export const searchMovies = async (req: Request, res: Response) => {

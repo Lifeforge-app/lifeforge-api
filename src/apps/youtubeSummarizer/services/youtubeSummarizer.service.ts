@@ -1,7 +1,8 @@
-import { fetchAI } from "@utils/fetchAI";
-import { getAPIKey } from "@utils/getAPIKey";
 import { exec } from "child_process";
 import Pocketbase from "pocketbase";
+
+import { fetchAI } from "@utils/fetchAI";
+import { getAPIKey } from "@utils/getAPIKey";
 
 export const getYoutubeVideoInfo = (videoId: string): Promise<IYoutubeInfo> => {
   return new Promise((resolve, reject) => {

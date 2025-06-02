@@ -1,4 +1,5 @@
 import express from "express";
+
 import master from "./routes/master.js";
 import password from "./routes/password.js";
 

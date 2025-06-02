@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Pocketbase from "pocketbase";
+
 import { ENDPOINT_WHITELIST } from "../constants/endpointWhitelist";
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../constants/locales";
 

@@ -1,6 +1,9 @@
 import express from "express";
-import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as TransactionsController from "../controllers/transactions.controller";
 import {
   validateBodyDataForCreation,

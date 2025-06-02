@@ -1,4 +1,5 @@
 import PocketBase from "pocketbase";
+
 import { ITodoPriority } from "../typescript/todo_list_interfaces";
 
 export const getAllPriorities = async (

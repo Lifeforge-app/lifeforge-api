@@ -1,9 +1,10 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import { getAPIKey } from "@utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { body } from "express-validator";
 import OpenAI from "openai";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import { getAPIKey } from "@utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "@utils/response";
 
 const router = express.Router();
 

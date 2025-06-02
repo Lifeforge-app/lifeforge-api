@@ -1,20 +1,23 @@
+import { exec } from "child_process";
+import express, { Request, Response } from "express";
+import { body, param } from "express-validator";
+import fs from "fs";
+// @ts-expect-error no types available
+import getDimensions from "get-video-dimensions";
+import moment from "moment";
+import path from "path";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import asyncWrapper from "@utils/asyncWrapper";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "@utils/response";
-import { exec } from "child_process";
-import express, { Request, Response } from "express";
-import { body, param } from "express-validator";
-import fs from "fs";
-import moment from "moment";
-import downloadVideo from "../functions/downloadVideo";
-// @ts-expect-error no types available
-import getDimensions from "get-video-dimensions";
-import path from "path";
+
 import { IYoutubeData } from "../../music/typescript/music_interfaces";
+import downloadVideo from "../functions/downloadVideo";
 import updateVideoChannelData from "../functions/updateVideoChannelData";
 import { IYoutubeVidesStorageEntry } from "../typescript/youtube_video_storage_interfaces";
 
@@ -124,7 +127,7 @@ router.get(
         if (err) {
           serverError(
             res,
-            err?.message ?? err?.message.includes("Video unavailable")
+            (err?.message ?? err?.message.includes("Video unavailable"))
               ? "Video unavailable"
               : "An error occurred",
           );

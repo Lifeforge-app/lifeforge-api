@@ -1,5 +1,7 @@
 import express from "express";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as CategoriesController from "../controllers/categories.controller";
 import {
   validateCategoryData,

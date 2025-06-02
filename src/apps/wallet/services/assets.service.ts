@@ -1,5 +1,7 @@
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import Pocketbase from "pocketbase";
+
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+
 import { IWalletAsset } from "../wallet_interfaces";
 
 export const getAllAssets = async (pb: Pocketbase): Promise<IWalletAsset[]> => {

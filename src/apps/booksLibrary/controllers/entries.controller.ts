@@ -1,24 +1,21 @@
-import { BaseResponse } from "@typescript/base_response";
-import { getAPIKey } from "@utils/getAPIKey";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
+
+import { BaseResponse } from "@typescript/base_response";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { getAPIKey } from "@utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
 import * as EntriesService from "../services/entries.service";
 import { IBooksLibraryEntry } from "../typescript/books_library_interfaces";
 
-export const getAllEntries = async (
-  req: Request,
-  res: Response<BaseResponse<IBooksLibraryEntry[]>>,
-) => {
+export const getAllEntries = async (req: Request, res: Response) => {
   const { pb } = req;
   const entries = await EntriesService.getAllEntries(pb);
   successWithBaseResponse(res, entries);
 };
 
-export const updateEntry = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IBooksLibraryEntry>>,
-) => {
+export const updateEntry = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -26,7 +23,7 @@ export const updateEntry = async (
     return;
   }
 
-  const data = req.body as Partial<IBooksLibraryEntry>;
+  const data = req.body as Partial;
 
   if (
     data.category &&
@@ -49,10 +46,7 @@ export const updateEntry = async (
   successWithBaseResponse(res, entry);
 };
 
-export const toggleFavouriteStatus = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IBooksLibraryEntry>>,
-) => {
+export const toggleFavouriteStatus = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -64,10 +58,7 @@ export const toggleFavouriteStatus = async (
   successWithBaseResponse(res, entry);
 };
 
-export const sendToKindle = async (
-  req: Request<{ id: string }, undefined, { target: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const sendToKindle = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const { target } = req.body;
@@ -98,10 +89,7 @@ export const sendToKindle = async (
   successWithBaseResponse(res);
 };
 
-export const deleteEntry = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const deleteEntry = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

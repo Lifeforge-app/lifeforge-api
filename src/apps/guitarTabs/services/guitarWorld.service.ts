@@ -3,10 +3,11 @@ import { JSDOM } from "jsdom";
 import PDFDocument from "pdfkit";
 import PocketBase from "pocketbase";
 import sharp from "sharp";
+
 import { IGuitarTabsEntry } from "../typescript/guitar_tabs_interfaces";
 
 export const getTabsList = async (cookie: string, page: number) => {
-  const data: Record<string, any> = await fetch(
+  const data: Record = await fetch(
     `https://user.guitarworld.com.cn/user/pu/my/pu_list?page=${page}`,
     {
       headers: {
@@ -19,8 +20,8 @@ export const getTabsList = async (cookie: string, page: number) => {
 
   return {
     data: data.data.list
-      .map((item: Record<string, any>) => item.qupu)
-      .map((item: Record<string, any>) => ({
+      .map((item: Record) => item.qupu)
+      .map((item: Record) => ({
         id: item.id,
         name: item.name,
         subtitle: item.sub_title,
@@ -42,7 +43,7 @@ export const downloadTab = async (
   category: string,
   mainArtist: string,
   audioUrl: string,
-): Promise<IGuitarTabsEntry> => {
+): Promise => {
   const rawHTML = await fetch(
     "https://user.guitarworld.com.cn/user/pu/my/" + id,
     {

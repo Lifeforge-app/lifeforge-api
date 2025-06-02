@@ -240,10 +240,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "single",
-          "recurring"
-        ]
+        "values": ["single", "recurring"]
       },
       {
         "autogeneratePattern": "",

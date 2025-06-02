@@ -1,5 +1,7 @@
-import asyncWrapper from "@utils/asyncWrapper";
 import express from "express";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as prioritiesController from "../controllers/priorities.controller";
 import { createOrUpdatePriorityValidation } from "../middlewares/prioritiesValidation";
 

@@ -1,10 +1,10 @@
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import PocketBase from "pocketbase";
+
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+
 import { ICalendarCalendar } from "../typescript/calendar_interfaces";
 
-export const getAllCalendars = async (
-  pb: PocketBase,
-): Promise<ICalendarCalendar[]> => {
+export const getAllCalendars = async (pb: PocketBase): Promise => {
   return await pb
     .collection("calendar_calendars")
     .getFullList<ICalendarCalendar>({
@@ -14,8 +14,8 @@ export const getAllCalendars = async (
 
 export const createCalendar = async (
   pb: PocketBase,
-  calendarData: WithoutPBDefault<ICalendarCalendar>,
-): Promise<ICalendarCalendar> => {
+  calendarData: WithoutPBDefault,
+): Promise => {
   const createdEntry = await pb
     .collection("calendar_calendars")
     .create<ICalendarCalendar>(calendarData);
@@ -26,8 +26,8 @@ export const createCalendar = async (
 export const updateCalendar = async (
   pb: PocketBase,
   id: string,
-  calendarData: WithoutPBDefault<ICalendarCalendar>,
-): Promise<ICalendarCalendar> => {
+  calendarData: WithoutPBDefault,
+): Promise => {
   const updatedEntry = await pb
     .collection("calendar_calendars")
     .update<ICalendarCalendar>(id, calendarData);
@@ -35,17 +35,11 @@ export const updateCalendar = async (
   return updatedEntry;
 };
 
-export const deleteCalendar = async (
-  pb: PocketBase,
-  id: string,
-): Promise<boolean> => {
+export const deleteCalendar = async (pb: PocketBase, id: string): Promise => {
   return await pb.collection("calendar_calendars").delete(id);
 };
 
-export const getCalendarById = async (
-  pb: PocketBase,
-  id: string,
-): Promise<ICalendarCalendar> => {
+export const getCalendarById = async (pb: PocketBase, id: string): Promise => {
   return await pb
     .collection("calendar_calendars")
     .getOne<ICalendarCalendar>(id);

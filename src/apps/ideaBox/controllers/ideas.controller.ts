@@ -1,20 +1,20 @@
-import { BaseResponse } from "@typescript/base_response";
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import fs from "fs";
+
+import { BaseResponse } from "@typescript/base_response";
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
 import * as ideasService from "../services/ideas.service";
 import { IIdeaBoxEntry } from "../typescript/ideabox_interfaces";
 
-export const getIdeas = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry[]>>,
-) => {
+export const getIdeas = async (req: Request, res: Response) => {
   const { pb } = req;
   const path = req.params[0].split("/").filter((e) => e);
   const { container } = req.params;
-  const { archived } = req.query as Record<string, string>;
+  const { archived } = req.query as Record;
 
   const containerExist = await checkExistence(
     req,
@@ -45,10 +45,7 @@ export const getIdeas = async (
   successWithBaseResponse(res, ideas);
 };
 
-export const createIdea = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry>>,
-) => {
+export const createIdea = async (req: Request, res: Response) => {
   const { pb } = req;
   const { container, title, content, type, imageLink, folder, tags } = req.body;
   const { file } = req;
@@ -60,9 +57,7 @@ export const createIdea = async (
     return;
   }
 
-  let data: WithoutPBDefault<
-    Omit<IIdeaBoxEntry, "image" | "pinned" | "archived">
-  > & {
+  let data: WithoutPBDefault & {
     image?: File;
   } = {
     type,
@@ -105,10 +100,7 @@ export const createIdea = async (
   successWithBaseResponse(res, idea, 201);
 };
 
-export const updateIdea = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry>>,
-) => {
+export const updateIdea = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const { title, content, type, tags } = req.body;
@@ -147,7 +139,7 @@ export const updateIdea = async (
   successWithBaseResponse(res, entry);
 };
 
-export const deleteIdea = async (req: Request, res: Response<BaseResponse>) => {
+export const deleteIdea = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -164,10 +156,7 @@ export const deleteIdea = async (req: Request, res: Response<BaseResponse>) => {
   successWithBaseResponse(res, undefined, 204);
 };
 
-export const pinIdea = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry>>,
-) => {
+export const pinIdea = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -179,10 +168,7 @@ export const pinIdea = async (
   successWithBaseResponse(res, entry);
 };
 
-export const archiveIdea = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry>>,
-) => {
+export const archiveIdea = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -194,13 +180,10 @@ export const archiveIdea = async (
   successWithBaseResponse(res, entry);
 };
 
-export const moveIdea = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry>>,
-) => {
+export const moveIdea = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
-  const { target } = req.query as Record<string, string>;
+  const { target } = req.query as Record;
 
   const entryExist = await checkExistence(req, res, "idea_box_entries", id);
   const folderExist = await checkExistence(
@@ -216,10 +199,7 @@ export const moveIdea = async (
   successWithBaseResponse(res, entry);
 };
 
-export const removeFromFolder = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxEntry>>,
-) => {
+export const removeFromFolder = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

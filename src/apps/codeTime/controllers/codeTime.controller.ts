@@ -1,10 +1,12 @@
+import { Request, Response } from "express";
+
 import hasError from "@utils/checkError";
 import {
   clientError,
   serverError,
   successWithBaseResponse,
 } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as CodeTimeService from "../services/codeTime.service";
 
 export const getActivities = async (req: Request, res: Response) => {

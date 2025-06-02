@@ -1,17 +1,17 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as entriesService from "../services/entries.service";
 import {
   IGuitarTabsEntry,
   IGuitarTabsSidebarData,
 } from "../typescript/guitar_tabs_interfaces";
 
-export const getSidebarData = async (
-  req: Request,
-  res: Response<BaseResponse<IGuitarTabsSidebarData>>,
-) => {
+export const getSidebarData = async (req: Request, res: Response) => {
   const data = await entriesService.getSidebarData(req.pb);
   successWithBaseResponse(res, data);
 };
@@ -38,18 +38,12 @@ export const getEntries = async (req: Request, res: Response) => {
   successWithBaseResponse(res, entries);
 };
 
-export const getRandomEntry = async (
-  req: Request,
-  res: Response<BaseResponse<IGuitarTabsEntry>>,
-) => {
+export const getRandomEntry = async (req: Request, res: Response) => {
   const entry = await entriesService.getRandomEntry(req.pb);
   successWithBaseResponse(res, entry);
 };
 
-export const uploadFiles = async (
-  req: Request,
-  res: Response<BaseResponse>,
-) => {
+export const uploadFiles = async (req: Request, res: Response) => {
   const files = req.files;
 
   if (!files) {
@@ -72,24 +66,12 @@ export const uploadFiles = async (
   });
 };
 
-export const getProcessStatus = async (
-  _: Request,
-  res: Response<
-    BaseResponse<{
-      status: string;
-      left: number;
-      total: number;
-    }>
-  >,
-) => {
+export const getProcessStatus = async (_: Request, res: Response) => {
   const status = entriesService.getProcessStatus();
   successWithBaseResponse(res, status);
 };
 
-export const updateEntry = async (
-  req: Request,
-  res: Response<BaseResponse<IGuitarTabsEntry>>,
-) => {
+export const updateEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, author, type } = req.body;
 
@@ -107,10 +89,7 @@ export const updateEntry = async (
   successWithBaseResponse(res, updatedEntry);
 };
 
-export const deleteEntry = async (
-  req: Request,
-  res: Response<BaseResponse>,
-) => {
+export const deleteEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   await entriesService.deleteEntry(req.pb, id);
@@ -122,10 +101,7 @@ export const downloadAllEntries = async (req: Request, res: Response) => {
   successWithBaseResponse(res);
 };
 
-export const toggleFavorite = async (
-  req: Request,
-  res: Response<BaseResponse<IGuitarTabsEntry>>,
-) => {
+export const toggleFavorite = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) {

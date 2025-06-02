@@ -1,5 +1,6 @@
-import { fetchAI } from "@utils/fetchAI";
 import ogs from "open-graph-scraper";
+
+import { fetchAI } from "@utils/fetchAI";
 
 async function scrapeLazada(url: string, groqKey: string) {
   try {

@@ -25,7 +25,7 @@ interface IGuitarTabsSidebarData {
     singalong: number;
     uncategorized: number;
   };
-  authors: Record<string, number>;
+  authors: Record;
 }
 
 export { IGuitarTabsAuthors, IGuitarTabsEntry, IGuitarTabsSidebarData };

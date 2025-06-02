@@ -1,7 +1,8 @@
-import { fetchAI } from "@utils/fetchAI";
 import ogs from "open-graph-scraper";
 import sharp from "sharp";
 import { createWorker } from "tesseract.js";
+
+import { fetchAI } from "@utils/fetchAI";
 
 async function getPrice(imageURL: string) {
   try {

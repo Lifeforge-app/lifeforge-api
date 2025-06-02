@@ -1,5 +1,7 @@
 import express from "express";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as AssetsController from "../controllers/assets.controller";
 import { validateBodyData, validateId } from "../middlewares/assetsValidation";
 

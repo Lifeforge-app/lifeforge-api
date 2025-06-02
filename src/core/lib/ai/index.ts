@@ -1,4 +1,5 @@
 import express from "express";
+
 import imageGenerationRoutes from "./routes/imageGeneration.routes";
 
 const router = express.Router();

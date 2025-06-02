@@ -1,24 +1,21 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as CategoriesService from "../services/categories.service";
 import { ICalendarCategory } from "../typescript/calendar_interfaces";
 
-export const getAllCategories = async (
-  req: Request,
-  res: Response<BaseResponse<ICalendarCategory[]>>,
-) => {
+export const getAllCategories = async (req: Request, res: Response) => {
   const { pb } = req;
 
   const categories = await CategoriesService.getAllCategories(pb);
   successWithBaseResponse(res, categories);
 };
 
-export const createCategory = async (
-  req: Request,
-  res: Response<BaseResponse<ICalendarCategory>>,
-) => {
+export const createCategory = async (req: Request, res: Response) => {
   const { pb } = req;
   const categoryData = req.body;
 
@@ -39,10 +36,7 @@ export const createCategory = async (
   successWithBaseResponse(res, category, 201);
 };
 
-export const updateCategory = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarCategory>>,
-) => {
+export const updateCategory = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const categoryData = req.body;
@@ -68,10 +62,7 @@ export const updateCategory = async (
   successWithBaseResponse(res, category);
 };
 
-export const deleteCategory = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const deleteCategory = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -83,10 +74,7 @@ export const deleteCategory = async (
   successWithBaseResponse(res, undefined, 204);
 };
 
-export const getCategoryById = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarCategory>>,
-) => {
+export const getCategoryById = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

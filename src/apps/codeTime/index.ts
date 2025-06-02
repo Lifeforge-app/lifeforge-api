@@ -1,6 +1,8 @@
 // @ts-nocheck
 import express from "express";
-import asyncWrapper from "../../core/utils/asyncWrapper";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as CodeTimeController from "./controllers/codeTime.controller";
 import {
   validateDays,

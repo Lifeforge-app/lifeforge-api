@@ -1,5 +1,6 @@
 import rateLimit from "express-rate-limit";
 import Pocketbase from "pocketbase";
+
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../constants/locales";
 
 export default rateLimit({

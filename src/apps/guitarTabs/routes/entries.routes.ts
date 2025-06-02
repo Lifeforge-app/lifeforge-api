@@ -1,6 +1,9 @@
 import express from "express";
-import { uploadMiddleware } from "../../../core/middleware/uploadMiddleware";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import { uploadMiddleware } from "@middlewares/uploadMiddleware";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as entriesController from "../controllers/entries.controller";
 import {
   validateDeleteEntry,

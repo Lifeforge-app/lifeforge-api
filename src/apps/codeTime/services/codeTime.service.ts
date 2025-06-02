@@ -21,10 +21,7 @@ export const getDates = (startDate: Date, stopDate: Date): Date[] => {
 export const getActivities = async (
   pb: PocketBase,
   year: string | number,
-): Promise<{
-  data: { date: string; count: number; level: number }[];
-  firstYear: number;
-}> => {
+): Promise => {
   const yearValue = Number(year) || new Date().getFullYear();
 
   const data = await pb.collection("code_time_daily_entries").getFullList({

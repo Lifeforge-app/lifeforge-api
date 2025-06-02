@@ -1,11 +1,12 @@
 import PocketBase from "pocketbase";
+
 import { IIdeaBoxFolder } from "../typescript/ideabox_interfaces";
 
 export const getFolders = async (
   pb: PocketBase,
   container: string,
   lastFolder: string,
-): Promise<IIdeaBoxFolder[]> => {
+): Promise => {
   const result = await pb
     .collection("idea_box_folders")
     .getFullList<IIdeaBoxFolder>({
@@ -22,7 +23,7 @@ export const createFolder = async (
   parent: string,
   icon: string,
   color: string,
-): Promise<IIdeaBoxFolder> => {
+): Promise => {
   const folder: IIdeaBoxFolder = await pb
     .collection("idea_box_folders")
     .create({
@@ -41,7 +42,7 @@ export const updateFolder = async (
   name: string,
   icon: string,
   color: string,
-): Promise<IIdeaBoxFolder> => {
+): Promise => {
   const folder: IIdeaBoxFolder = await pb
     .collection("idea_box_folders")
     .update(id, {
@@ -56,7 +57,7 @@ export const moveFolder = async (
   pb: PocketBase,
   id: string,
   target: string,
-): Promise<IIdeaBoxFolder> => {
+): Promise => {
   const entry: IIdeaBoxFolder = await pb
     .collection("idea_box_folders")
     .update(id, {
@@ -65,10 +66,7 @@ export const moveFolder = async (
   return entry;
 };
 
-export const removeFromFolder = async (
-  pb: PocketBase,
-  id: string,
-): Promise<IIdeaBoxFolder> => {
+export const removeFromFolder = async (pb: PocketBase, id: string): Promise => {
   const entry: IIdeaBoxFolder = await pb
     .collection("idea_box_folders")
     .update(id, {
@@ -77,10 +75,7 @@ export const removeFromFolder = async (
   return entry;
 };
 
-export const deleteFolder = async (
-  pb: PocketBase,
-  id: string,
-): Promise<void> => {
+export const deleteFolder = async (pb: PocketBase, id: string): Promise => {
   await pb.collection("idea_box_folders").delete(id);
 };
 
@@ -88,7 +83,7 @@ export const validateFolderPath = async (
   pb: PocketBase,
   container: string,
   path: string[],
-): Promise<{ folderExists: boolean; lastFolder: string }> => {
+): Promise => {
   let folderExists = true;
   let lastFolder = "";
 

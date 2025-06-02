@@ -1,5 +1,7 @@
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
 import PocketBase from "pocketbase";
+
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+
 import {
   IIdeaBoxEntry,
   IIdeaBoxFolder,

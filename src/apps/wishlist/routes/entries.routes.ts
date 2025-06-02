@@ -1,6 +1,9 @@
-import asyncWrapper from "@utils/asyncWrapper";
 import express from "express";
-import { singleUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as entriesController from "../controllers/entries.controller";
 import {
   validateBoughtQuery,

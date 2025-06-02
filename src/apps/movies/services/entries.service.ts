@@ -1,5 +1,7 @@
-import { getAPIKey } from "@utils/getAPIKey";
 import PocketBase from "pocketbase";
+
+import { getAPIKey } from "@utils/getAPIKey";
+
 import { IMovieEntry } from "../typescript/movies_interfaces";
 
 export const getAllEntries = async (pb: PocketBase) => {

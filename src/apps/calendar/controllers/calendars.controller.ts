@@ -1,24 +1,21 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { clientError, successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as CalendarsService from "../services/calendars.service";
 import { ICalendarCalendar } from "../typescript/calendar_interfaces";
 
-export const getAllCalendars = async (
-  req: Request,
-  res: Response<BaseResponse<ICalendarCalendar[]>>,
-) => {
+export const getAllCalendars = async (req: Request, res: Response) => {
   const { pb } = req;
 
   const calendars = await CalendarsService.getAllCalendars(pb);
   successWithBaseResponse(res, calendars);
 };
 
-export const createCalendar = async (
-  req: Request,
-  res: Response<BaseResponse<ICalendarCalendar>>,
-) => {
+export const createCalendar = async (req: Request, res: Response) => {
   const { pb } = req;
   const calendarData = req.body;
 
@@ -35,10 +32,7 @@ export const createCalendar = async (
   successWithBaseResponse(res, calendar, 201);
 };
 
-export const updateCalendar = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarCalendar>>,
-) => {
+export const updateCalendar = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const calendarData = req.body;
@@ -60,10 +54,7 @@ export const updateCalendar = async (
   successWithBaseResponse(res, calendar);
 };
 
-export const deleteCalendar = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const deleteCalendar = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -75,10 +66,7 @@ export const deleteCalendar = async (
   successWithBaseResponse(res, undefined, 204);
 };
 
-export const getCalendarById = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarCalendar>>,
-) => {
+export const getCalendarById = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

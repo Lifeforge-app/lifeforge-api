@@ -1,5 +1,6 @@
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces.js";
 import * as s from "superstruct";
+
+import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces.js";
 
 const AchievementsEntrySchema = s.assign(
   BasePBCollectionSchema,
@@ -15,7 +16,7 @@ const AchievementsEntrySchema = s.assign(
   }),
 );
 
-type IAchievementEntry = s.Infer<typeof AchievementsEntrySchema>;
+type IAchievementEntry = s.Infer;
 
 export { AchievementsEntrySchema };
 export type { IAchievementEntry };

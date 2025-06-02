@@ -1,4 +1,5 @@
 import express from "express";
+
 import playlistRoutes from "./routes/playlist.routes";
 import videoRoutes from "./routes/video.routes";
 

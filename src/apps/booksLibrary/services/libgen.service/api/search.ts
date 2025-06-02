@@ -1,4 +1,5 @@
 import { JSDOM } from "jsdom";
+
 import { cleanupTitle } from "../utils/parsing";
 
 export const searchBooks = async (queries: Record<string, string>) => {

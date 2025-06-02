@@ -1,8 +1,10 @@
-import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError } from "@utils/response";
 import { Request, Response } from "express";
 import ogs from "open-graph-scraper";
 import PocketBase from "pocketbase";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { clientError } from "@utils/response";
+
 import {
   IIdeaBoxContainer,
   IIdeaBoxEntry,

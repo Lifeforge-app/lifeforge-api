@@ -1,5 +1,6 @@
-import { serverError, successWithBaseResponse } from "@utils/response";
 import express from "express";
+
+import { serverError, successWithBaseResponse } from "@utils/response";
 
 const router = express.Router();
 

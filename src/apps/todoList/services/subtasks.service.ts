@@ -1,6 +1,8 @@
+import PocketBase from "pocketbase";
+
 import { fetchAI } from "@utils/fetchAI";
 import { getAPIKey } from "@utils/getAPIKey";
-import PocketBase from "pocketbase";
+
 import { BREAKDOWN_LEVELS } from "../constants/subtasks";
 import {
   ITodoListEntry,

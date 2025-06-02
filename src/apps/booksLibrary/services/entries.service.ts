@@ -1,13 +1,12 @@
 import mailer from "nodemailer";
 import Pocketbase from "pocketbase";
+
 import {
   IBooksLibraryEntry,
   IBooksLibraryFileType,
 } from "../typescript/books_library_interfaces";
 
-export const getAllEntries = async (
-  pb: Pocketbase,
-): Promise<IBooksLibraryEntry[]> => {
+export const getAllEntries = async (pb: Pocketbase): Promise => {
   return await pb
     .collection("books_library_entries")
     .getFullList<IBooksLibraryEntry>({
@@ -18,8 +17,8 @@ export const getAllEntries = async (
 export const updateEntry = async (
   pb: Pocketbase,
   id: string,
-  data: Partial<IBooksLibraryEntry>,
-): Promise<IBooksLibraryEntry> => {
+  data: Partial,
+): Promise => {
   return await pb
     .collection("books_library_entries")
     .update<IBooksLibraryEntry>(id, data);
@@ -28,7 +27,7 @@ export const updateEntry = async (
 export const toggleFavouriteStatus = async (
   pb: Pocketbase,
   id: string,
-): Promise<IBooksLibraryEntry> => {
+): Promise => {
   const book = await pb
     .collection("books_library_entries")
     .getOne<IBooksLibraryEntry>(id);
@@ -49,7 +48,7 @@ export const sendToKindle = async (
   id: string,
   credentials: { user: string; pass: string },
   targetEmail: string,
-): Promise<void> => {
+): Promise => {
   console.log(credentials);
   const transporter = mailer.createTransport({
     host: "smtp.gmail.com",
@@ -95,10 +94,7 @@ export const sendToKindle = async (
   }
 };
 
-export const deleteEntry = async (
-  pb: Pocketbase,
-  id: string,
-): Promise<void> => {
+export const deleteEntry = async (pb: Pocketbase, id: string): Promise => {
   const entry = await pb
     .collection("books_library_entries")
     .getOne<IBooksLibraryEntry>(id);

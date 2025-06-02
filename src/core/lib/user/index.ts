@@ -1,6 +1,8 @@
+import express from "express";
+
 import asyncWrapper from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
-import express from "express";
+
 import authRoutes from "./routes/auth.routes";
 import personalizationRoutes from "./routes/personalization.routes";
 import settingsRoutes from "./routes/settings.routes";

@@ -1,4 +1,5 @@
 import express from "express";
+
 import categoriesRoutes from "./routes/categories.routes";
 import entriesRoutes from "./routes/entries.routes";
 import fileTypesRoutes from "./routes/fileTypes.routes";

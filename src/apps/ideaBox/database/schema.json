@@ -118,9 +118,7 @@
         "protected": false,
         "required": false,
         "system": false,
-        "thumbs": [
-          "0x200"
-        ],
+        "thumbs": ["0x200"],
         "type": "file"
       },
       {
@@ -180,29 +178,20 @@
         "required": true,
         "system": false,
         "type": "select",
-        "values": [
-          "text",
-          "image",
-          "link"
-        ]
+        "values": ["text", "image", "link"]
       },
       {
         "hidden": false,
         "id": "rijetwzs",
         "maxSelect": 1,
         "maxSize": 104857600,
-        "mimeTypes": [
-          "image/png",
-          "image/jpeg"
-        ],
+        "mimeTypes": ["image/png", "image/jpeg"],
         "name": "image",
         "presentable": false,
         "protected": false,
         "required": false,
         "system": false,
-        "thumbs": [
-          "500x0"
-        ],
+        "thumbs": ["500x0"],
         "type": "file"
       },
       {

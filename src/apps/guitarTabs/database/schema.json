@@ -46,10 +46,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "fingerstyle",
-          "singalong"
-        ]
+        "values": ["fingerstyle", "singalong"]
       },
       {
         "autogeneratePattern": "",
@@ -112,9 +109,7 @@
         "id": "0luzezpe",
         "maxSelect": 1,
         "maxSize": 52428800,
-        "mimeTypes": [
-          "audio/mpeg"
-        ],
+        "mimeTypes": ["audio/mpeg"],
         "name": "audio",
         "presentable": false,
         "protected": false,

@@ -1,15 +1,15 @@
-import { BaseResponse } from "@typescript/base_response";
-import { getAPIKey } from "@utils/getAPIKey";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
+
+import { BaseResponse } from "@typescript/base_response";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { getAPIKey } from "@utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
 import * as EventsService from "../services/events.service";
 import { ICalendarEvent } from "../typescript/calendar_interfaces";
 
-export const getEventsByDateRange = async (
-  req: Request<{}, {}, {}, { start: string; end: string }>,
-  res: Response<BaseResponse<ICalendarEvent[]>>,
-) => {
+export const getEventsByDateRange = async (req: Request, res: Response) => {
   const { pb } = req;
   const { start, end } = req.query;
 
@@ -17,20 +17,14 @@ export const getEventsByDateRange = async (
   successWithBaseResponse(res, events);
 };
 
-export const getEventsToday = async (
-  req: Request,
-  res: Response<BaseResponse<ICalendarEvent[]>>,
-) => {
+export const getEventsToday = async (req: Request, res: Response) => {
   const { pb } = req;
 
   const events = await EventsService.getTodayEvents(pb);
   successWithBaseResponse(res, events);
 };
 
-export const createEvent = async (
-  req: Request,
-  res: Response<BaseResponse<ICalendarEvent>>,
-) => {
+export const createEvent = async (req: Request, res: Response) => {
   const { pb } = req;
   const eventData = req.body;
 
@@ -42,10 +36,7 @@ export const createEvent = async (
   successWithBaseResponse(res, event, 201);
 };
 
-export const scanImage = async (
-  req: Request,
-  res: Response<BaseResponse<Partial<ICalendarEvent>>>,
-) => {
+export const scanImage = async (req: Request, res: Response) => {
   const { pb } = req;
   const { file } = req;
 
@@ -65,10 +56,7 @@ export const scanImage = async (
   successWithBaseResponse(res, eventData);
 };
 
-export const updateEvent = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarEvent>>,
-) => {
+export const updateEvent = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const eventData = req.body;
@@ -87,10 +75,7 @@ export const updateEvent = async (
   successWithBaseResponse(res, event);
 };
 
-export const deleteEvent = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const deleteEvent = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -102,10 +87,7 @@ export const deleteEvent = async (
   successWithBaseResponse(res, undefined, 204);
 };
 
-export const getEventById = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ICalendarEvent>>,
-) => {
+export const getEventById = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -117,10 +99,7 @@ export const getEventById = async (
   successWithBaseResponse(res, event);
 };
 
-export const addException = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const addException = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const { date } = req.body;

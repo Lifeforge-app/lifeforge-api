@@ -1,10 +1,11 @@
 import PocketBase from "pocketbase";
+
 import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
 
 export const checkContainerExists = async (
   pb: PocketBase,
   id: string,
-): Promise<boolean> => {
+): Promise => {
   try {
     await pb.collection("idea_box_containers").getOne(id);
     return true;
@@ -13,9 +14,7 @@ export const checkContainerExists = async (
   }
 };
 
-export const getContainers = async (
-  pb: PocketBase,
-): Promise<IIdeaBoxContainer[]> => {
+export const getContainers = async (pb: PocketBase): Promise => {
   return await pb
     .collection("idea_box_containers")
     .getFullList<IIdeaBoxContainer>();
@@ -27,8 +26,8 @@ export const createContainer = async (
   color: string,
   icon: string,
   coverFile?: File,
-): Promise<IIdeaBoxContainer> => {
-  const containerData: Record<string, any> = {
+): Promise => {
+  const containerData: Record = {
     name,
     color,
     icon,
@@ -52,8 +51,8 @@ export const updateContainer = async (
   color: string,
   icon: string,
   coverFile?: File,
-): Promise<IIdeaBoxContainer> => {
-  const containerData: Record<string, any> = {
+): Promise => {
+  const containerData: Record = {
     name,
     color,
     icon,
@@ -76,7 +75,7 @@ export const updateContainerKeepCover = async (
   name: string,
   color: string,
   icon: string,
-): Promise<IIdeaBoxContainer> => {
+): Promise => {
   return await pb
     .collection("idea_box_containers")
     .update<IIdeaBoxContainer>(id, {
@@ -86,9 +85,6 @@ export const updateContainerKeepCover = async (
     });
 };
 
-export const deleteContainer = async (
-  pb: PocketBase,
-  id: string,
-): Promise<void> => {
+export const deleteContainer = async (pb: PocketBase, id: string): Promise => {
   await pb.collection("idea_box_containers").delete(id);
 };

@@ -1,5 +1,7 @@
 import express from "express";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as TicketController from "../controllers/ticket.controller";
 
 const router = express.Router();

@@ -1,5 +1,6 @@
 import express from "express";
 import { v4 } from "uuid";
+
 import authRoutes from "./routes/auth.routes";
 import entriesRoutes from "./routes/entries.routes";
 

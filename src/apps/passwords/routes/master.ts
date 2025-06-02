@@ -1,12 +1,14 @@
-import { BaseResponse } from "@typescript/base_response";
-import asyncWrapper from "@utils/asyncWrapper";
-import checkOTP from "@utils/checkOTP";
-import { decrypt2 } from "@utils/encryption";
-import { successWithBaseResponse } from "@utils/response";
 import bcrypt from "bcrypt";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { v4 } from "uuid";
+
+import { BaseResponse } from "@typescript/base_response";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import checkOTP from "@utils/checkOTP";
+import { decrypt2 } from "@utils/encryption";
+import { successWithBaseResponse } from "@utils/response";
 
 const router = express.Router();
 

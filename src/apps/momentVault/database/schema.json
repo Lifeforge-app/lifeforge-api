@@ -32,12 +32,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "text",
-          "audio",
-          "video",
-          "photos"
-        ]
+        "values": ["text", "audio", "video", "photos"]
       },
       {
         "hidden": false,

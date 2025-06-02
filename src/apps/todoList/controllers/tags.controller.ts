@@ -1,7 +1,10 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as tagsService from "../services/tags.service";
 import { ITodoListTag } from "../typescript/todo_list_interfaces";
 

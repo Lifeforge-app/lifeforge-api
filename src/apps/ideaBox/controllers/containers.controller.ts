@@ -1,8 +1,11 @@
-import { BaseResponse } from "@typescript/base_response";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
 import fs from "fs";
+
+import { BaseResponse } from "@typescript/base_response";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { successWithBaseResponse } from "@utils/response";
+
 import * as containersService from "../services/containers.service";
 import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
 
@@ -12,10 +15,7 @@ export const checkContainerExists = async (req: Request, res: Response) => {
   successWithBaseResponse(res, exists);
 };
 
-export const getContainers = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxContainer[]>>,
-) => {
+export const getContainers = async (req: Request, res: Response) => {
   const containers = await containersService.getContainers(req.pb);
 
   const processedContainers = containers.map((container) => ({
@@ -30,10 +30,7 @@ export const getContainers = async (
   successWithBaseResponse(res, processedContainers);
 };
 
-export const createContainer = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxContainer>>,
-) => {
+export const createContainer = async (req: Request, res: Response) => {
   const { name, color, icon } = req.body;
 
   if (req.file) {
@@ -90,10 +87,7 @@ export const createContainer = async (
   }
 };
 
-export const updateContainer = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxContainer>>,
-) => {
+export const updateContainer = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, color, icon } = req.body;
 
@@ -175,10 +169,7 @@ export const updateContainer = async (
   }
 };
 
-export const deleteContainer = async (
-  req: Request,
-  res: Response<BaseResponse>,
-) => {
+export const deleteContainer = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!(await checkExistence(req, res, "idea_box_containers", id))) {

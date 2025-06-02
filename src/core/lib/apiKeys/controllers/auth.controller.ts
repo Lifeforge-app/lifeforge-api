@@ -1,6 +1,8 @@
+import { Request, Response } from "express";
+
 import checkOTP from "@utils/checkOTP";
 import { successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import { BaseResponse } from "../../../typescript/base_response";
 import { challenge } from "../index";
 import * as authService from "../services/auth.service";

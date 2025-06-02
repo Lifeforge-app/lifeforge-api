@@ -1,14 +1,14 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { serverError, successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as foldersService from "../services/folders.service";
 import { IIdeaBoxFolder } from "../typescript/ideabox_interfaces";
 
-export const getFolders = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxFolder[]>>,
-) => {
+export const getFolders = async (req: Request, res: Response) => {
   const { pb } = req;
   const { container } = req.params;
   const path = req.params[0].split("/").filter((p) => p !== "");
@@ -32,10 +32,7 @@ export const getFolders = async (
   successWithBaseResponse(res, folders);
 };
 
-export const createFolder = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxFolder>>,
-) => {
+export const createFolder = async (req: Request, res: Response) => {
   const { pb } = req;
   const { name, container, parent, icon, color } = req.body;
 
@@ -54,10 +51,7 @@ export const createFolder = async (
   successWithBaseResponse(res, folder, 201);
 };
 
-export const updateFolder = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxFolder>>,
-) => {
+export const updateFolder = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const { name, icon, color } = req.body;
@@ -70,13 +64,10 @@ export const updateFolder = async (
   successWithBaseResponse(res, folder);
 };
 
-export const moveFolder = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxFolder>>,
-) => {
+export const moveFolder = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
-  const { target } = req.query as Record<string, string>;
+  const { target } = req.query as Record;
 
   const entryExist = await checkExistence(req, res, "idea_box_folders", id);
   if (!entryExist) {
@@ -96,10 +87,7 @@ export const moveFolder = async (
   successWithBaseResponse(res, entry);
 };
 
-export const removeFromFolder = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxFolder>>,
-) => {
+export const removeFromFolder = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 
@@ -111,10 +99,7 @@ export const removeFromFolder = async (
   successWithBaseResponse(res, entry);
 };
 
-export const deleteFolder = async (
-  req: Request,
-  res: Response<BaseResponse>,
-) => {
+export const deleteFolder = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

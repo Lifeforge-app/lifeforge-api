@@ -1,6 +1,8 @@
 import express from "express";
 import multer from "multer";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as ideasController from "../controllers/ideas.controller";
 import {
   validateArchiveIdea,

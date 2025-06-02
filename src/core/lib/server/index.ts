@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
-
-import asyncWrapper from "@utils/asyncWrapper";
-import { successWithBaseResponse } from "@utils/response";
 import { exec } from "child_process";
+import express, { Request, Response } from "express";
 import os from "os";
 import osUtils from "os-utils";
 import si from "systeminformation";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import { successWithBaseResponse } from "@utils/response";
 
 const router = express.Router();
 

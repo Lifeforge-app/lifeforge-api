@@ -1,4 +1,5 @@
 import fs from "fs";
+
 import { IRoute, IRoutes } from "../typescript/api_routes_interfaces";
 import parseRouteDocs from "./parseRouteDocs";
 

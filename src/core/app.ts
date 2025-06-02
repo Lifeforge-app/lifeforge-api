@@ -2,10 +2,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
+
 import { CORS_ALLOWED_ORIGINS } from "./constants/corsAllowedOrigins";
-import morganMiddleware from "./middleware/morganMiddleware";
-import pocketbaseMiddleware from "./middleware/pocketbaseMiddleware";
-import rateLimitingMiddleware from "./middleware/rateLimitingMiddleware";
+import morganMiddleware from "./middlewares/morganMiddleware";
+import pocketbaseMiddleware from "./middlewares/pocketbaseMiddleware";
+import rateLimitingMiddleware from "./middlewares/rateLimitingMiddleware";
 import router from "./routes";
 
 dotenv.config({

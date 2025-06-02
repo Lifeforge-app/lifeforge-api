@@ -2,6 +2,7 @@ import fs from "fs";
 import mime from "mime-types";
 import * as mm from "music-metadata";
 import Pocketbase from "pocketbase";
+
 import { IMusicEntry } from "../typescript/music_interfaces";
 
 let importProgress: "in_progress" | "completed" | "failed" | "empty" = "empty";

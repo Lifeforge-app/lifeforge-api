@@ -1,6 +1,8 @@
+import { Request, Response } from "express";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as LanguagesService from "../services/languages.service";
 
 export const getAllLanguages = async (req: Request, res: Response) => {

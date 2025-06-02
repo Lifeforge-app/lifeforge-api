@@ -1,8 +1,10 @@
+import express, { Response } from "express";
+import { query } from "express-validator";
+
 import asyncWrapper from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
 import { serverError, successWithBaseResponse } from "@utils/response";
-import express, { Response } from "express";
-import { query } from "express-validator";
+
 import { BaseResponse } from "../../typescript/base_response";
 import IPixabaySearchResult from "./typescript/pixabay_interfaces";
 

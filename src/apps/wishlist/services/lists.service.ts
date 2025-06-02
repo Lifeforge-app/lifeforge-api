@@ -1,4 +1,5 @@
 import PocketBase from "pocketbase";
+
 import { IIdeaBoxContainer } from "../../ideaBox/typescript/ideabox_interfaces";
 import { IWishlistList } from "../typescript/wishlist_interfaces";
 

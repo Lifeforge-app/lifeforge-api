@@ -1,12 +1,14 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import checkOTP from "@utils/checkOTP";
-import { decrypt, decrypt2, encrypt, encrypt2 } from "@utils/encryption";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import express, { Response } from "express";
 import { body, query } from "express-validator";
 import moment from "moment";
 import speakeasy from "speakeasy";
 import { v4 } from "uuid";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import checkOTP from "@utils/checkOTP";
+import { decrypt, decrypt2, encrypt, encrypt2 } from "@utils/encryption";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
 import { currentSession } from "..";
 import { BaseResponse } from "../../../typescript/base_response";
 import { removeSensitiveData, updateNullData } from "../utils/auth";

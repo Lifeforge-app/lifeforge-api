@@ -1,4 +1,5 @@
 import Pocketbase from "pocketbase";
+
 import {
   IBooksLibraryDownloadProcess,
   IBooksLibraryEntry,
@@ -10,7 +11,7 @@ const downloadProcesses = new Map<string, IBooksLibraryDownloadProcess>();
 export const initiateDownload = async (
   pb: Pocketbase,
   md5: string,
-  metadata: Omit<IBooksLibraryEntry, "thumbnail" | "file"> & {
+  metadata: Omit & {
     thumbnail: File;
     file: File;
   },

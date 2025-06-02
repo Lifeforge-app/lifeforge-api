@@ -1,4 +1,5 @@
 import express from "express";
+
 import assetsRoutes from "./routes/assets.routes";
 import categoriesRoutes from "./routes/categories.routes";
 import ledgersRoutes from "./routes/ledgers.routes";

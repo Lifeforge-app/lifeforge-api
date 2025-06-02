@@ -1,4 +1,13 @@
+import express, { Response } from "express";
+import { body, param, query } from "express-validator";
+import fs from "fs";
+import sharp from "sharp";
+import { z } from "zod";
+
 import { BaseResponse } from "@typescript/base_response";
+
+import { fieldsUploadMiddleware } from "@middlewares/uploadMiddleware";
+
 import { list } from "@utils/CRUD";
 import { checkExistence } from "@utils/PBRecordValidator";
 import asyncWrapper from "@utils/asyncWrapper";
@@ -9,12 +18,7 @@ import {
   serverError,
   successWithBaseResponse,
 } from "@utils/response";
-import express, { Response } from "express";
-import { body, param, query } from "express-validator";
-import fs from "fs";
-import sharp from "sharp";
-import { z } from "zod";
-import { fieldsUploadMiddleware } from "../../../core/middleware/uploadMiddleware";
+
 import { IVirtualWardrobeEntry } from "../typescript/virtual_wardrobe_interfaces";
 
 const router = express.Router();

@@ -1,5 +1,7 @@
-import asyncWrapper from "@utils/asyncWrapper";
 import express from "express";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as EntriesController from "../controllers/entries.controller";
 import {
   validateEntryId,

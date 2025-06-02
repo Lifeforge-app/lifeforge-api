@@ -1,8 +1,10 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { body, param } from "express-validator";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import asyncWrapper from "@utils/asyncWrapper";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
 import { IVirtualWardrobeEntry } from "../typescript/virtual_wardrobe_interfaces";
 
 const sessionCart = new Set<IVirtualWardrobeEntry>();

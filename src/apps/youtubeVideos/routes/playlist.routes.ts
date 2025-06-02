@@ -1,7 +1,9 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import { serverError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { param } from "express-validator";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import { serverError, successWithBaseResponse } from "@utils/response";
+
 import getPlaylist from "../functions/getPlaylist";
 
 const router = express.Router();

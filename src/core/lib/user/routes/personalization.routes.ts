@@ -1,10 +1,12 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import { getAPIKey } from "@utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import express from "express";
 import { body, query } from "express-validator";
 import fs from "fs";
-import { singleUploadMiddleware } from "../../../middleware/uploadMiddleware";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import { getAPIKey } from "@utils/getAPIKey";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
+import { singleUploadMiddleware } from "../../../middlewares/uploadMiddleware";
 
 const router = express.Router();
 

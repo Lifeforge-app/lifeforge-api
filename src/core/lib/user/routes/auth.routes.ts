@@ -1,11 +1,13 @@
-import asyncWrapper from "@utils/asyncWrapper";
-import checkOTP from "@utils/checkOTP";
-import { clientError, successWithBaseResponse } from "@utils/response";
 import express, { Response } from "express";
 import { body, query } from "express-validator";
 import moment from "moment";
 import Pocketbase, { AuthProviderInfo } from "pocketbase";
 import { v4 } from "uuid";
+
+import asyncWrapper from "@utils/asyncWrapper";
+import checkOTP from "@utils/checkOTP";
+import { clientError, successWithBaseResponse } from "@utils/response";
+
 import { currentSession } from "..";
 import { BaseResponse } from "../../../typescript/base_response";
 import { removeSensitiveData, updateNullData } from "../utils/auth";

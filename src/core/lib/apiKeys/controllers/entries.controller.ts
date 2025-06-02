@@ -1,7 +1,9 @@
-import { decrypt2 } from "@utils/encryption";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { decrypt2 } from "@utils/encryption";
+import { serverError, successWithBaseResponse } from "@utils/response";
+
 import { challenge } from "..";
 import { BaseResponse } from "../../../typescript/base_response";
 import * as entriesService from "../services/entries.service";

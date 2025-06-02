@@ -162,10 +162,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "income",
-          "expenses"
-        ]
+        "values": ["income", "expenses"]
       },
       {
         "hidden": false,
@@ -314,11 +311,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "income",
-          "expenses",
-          "transfer"
-        ]
+        "values": ["income", "expenses", "transfer"]
       },
       {
         "hidden": false,
@@ -329,10 +322,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "debit",
-          "credit"
-        ]
+        "values": ["debit", "credit"]
       },
       {
         "autogeneratePattern": "",
@@ -576,10 +566,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "income",
-          "expenses"
-        ]
+        "values": ["income", "expenses"]
       },
       {
         "autogeneratePattern": "",
@@ -756,11 +743,7 @@
         "required": false,
         "system": false,
         "type": "select",
-        "values": [
-          "income",
-          "expenses",
-          "transfer"
-        ]
+        "values": ["income", "expenses", "transfer"]
       },
       {
         "hidden": false,

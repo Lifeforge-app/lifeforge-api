@@ -1,4 +1,5 @@
 import PocketBase from "pocketbase";
+
 import { ITodoListList } from "../typescript/todo_list_interfaces";
 
 export const getAllLists = async (pb: PocketBase): Promise<ITodoListList[]> => {

@@ -1,5 +1,6 @@
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
 import * as s from "superstruct";
+
+import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
 
 const WishlistListSchema = s.assign(
   BasePBCollectionSchema,

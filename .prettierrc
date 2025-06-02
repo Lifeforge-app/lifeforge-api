@@ -1,5 +1,11 @@
 {
-    "plugins": [
-        "prettier-plugin-organize-imports"
-    ]
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^@typescript/(.*)$",
+    "^@middlewares/(.*)$",
+    "^@utils/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

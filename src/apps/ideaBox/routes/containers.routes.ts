@@ -1,6 +1,9 @@
 import express from "express";
-import { singleUploadMiddlewareOfKey } from "../../../core/middleware/uploadMiddleware";
-import asyncWrapper from "../../../core/utils/asyncWrapper";
+
+import { singleUploadMiddlewareOfKey } from "@middlewares/uploadMiddleware";
+
+import asyncWrapper from "@utils/asyncWrapper";
+
 import * as containersController from "../controllers/containers.controller";
 import {
   validateContainerId,

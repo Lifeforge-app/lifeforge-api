@@ -1,9 +1,10 @@
 import fs from "fs";
 import moment from "moment";
-import pdfThumbnail from "pdf-thumbnail";
 // @ts-expect-error - No types available
 import pdfPageCounter from "pdf-page-counter";
+import pdfThumbnail from "pdf-thumbnail";
 import PocketBase from "pocketbase";
+
 import {
   IGuitarTabsAuthors,
   IGuitarTabsEntry,
@@ -14,9 +15,7 @@ let processing = "empty";
 let left = 0;
 let total = 0;
 
-export const getRandomEntry = async (
-  pb: PocketBase,
-): Promise<IGuitarTabsEntry> => {
+export const getRandomEntry = async (pb: PocketBase): Promise => {
   const allScores = await pb
     .collection("guitar_tabs_entries")
     .getFullList<IGuitarTabsEntry>();
@@ -24,9 +23,7 @@ export const getRandomEntry = async (
   return allScores[Math.floor(Math.random() * allScores.length)];
 };
 
-export const getSidebarData = async (
-  pb: PocketBase,
-): Promise<IGuitarTabsSidebarData> => {
+export const getSidebarData = async (pb: PocketBase): Promise => {
   const allScores = await pb
     .collection("guitar_tabs_entries")
     .getFullList<IGuitarTabsEntry>();
@@ -61,7 +58,9 @@ export const getEntries = async (
   return await pb.collection("guitar_tabs_entries").getList(page, 20, {
     filter: `(name~"${search}" || author~"${search}") && ${
       category === "uncategorized" ? "type=''" : `type~"${category}"`
-    } && ${author === "na" ? "author = ''" : `author~"${author}"`} ${starred ? "&& isFavourite=true" : ""}`,
+    } && ${author === "na" ? "author = ''" : `author~"${author}"`} ${
+      starred ? "&& isFavourite=true" : ""
+    }`,
     sort: `-isFavourite, ${
       sort === "newest"
         ? "-created"
@@ -84,14 +83,7 @@ export const uploadFiles = async (
       return { status: "error", message: "Already processing" };
     }
 
-    let groups: Record<
-      string,
-      {
-        pdf: Express.Multer.File | null;
-        mscz: Express.Multer.File | null;
-        mp3: Express.Multer.File | null;
-      }
-    > = {};
+    let groups: Record = {};
 
     for (const file of files) {
       const decodedName = decodeURIComponent(file.originalname);
@@ -139,17 +131,7 @@ export const uploadFiles = async (
   }
 };
 
-const processFiles = async (
-  pb: PocketBase,
-  groups: Record<
-    string,
-    {
-      pdf: Express.Multer.File | null;
-      mscz: Express.Multer.File | null;
-      mp3: Express.Multer.File | null;
-    }
-  >,
-) => {
+const processFiles = async (pb: PocketBase, groups: Record) => {
   for (const group of Object.values(groups)) {
     try {
       const file = group.pdf!;
@@ -246,7 +228,7 @@ export const updateEntry = async (
   name: string,
   author: string,
   type: string,
-): Promise<IGuitarTabsEntry> => {
+): Promise => {
   return await pb.collection("guitar_tabs_entries").update(id, {
     name,
     author,
@@ -254,14 +236,11 @@ export const updateEntry = async (
   });
 };
 
-export const deleteEntry = async (
-  pb: PocketBase,
-  id: string,
-): Promise<void> => {
+export const deleteEntry = async (pb: PocketBase, id: string): Promise => {
   await pb.collection("guitar_tabs_entries").delete(id);
 };
 
-export const downloadAllEntries = async (pb: PocketBase): Promise<void> => {
+export const downloadAllEntries = async (pb: PocketBase): Promise => {
   const entries = await pb
     .collection("guitar_tabs_entries")
     .getFullList<IGuitarTabsEntry>();
@@ -282,7 +261,9 @@ export const downloadAllEntries = async (pb: PocketBase): Promise<void> => {
 
   for (const entry of entries) {
     let targetLocation = mediumLocation;
-    const folderLocation = `${process.cwd()}/../database/pb_data/storage/${entry.collectionId}/${entry.id}`;
+    const folderLocation = `${process.cwd()}/../database/pb_data/storage/${
+      entry.collectionId
+    }/${entry.id}`;
 
     let i = 0;
     if (entry.audio || entry.musescore) {
@@ -350,10 +331,7 @@ export const downloadAllEntries = async (pb: PocketBase): Promise<void> => {
   }
 };
 
-export const toggleFavorite = async (
-  pb: PocketBase,
-  id: string,
-): Promise<IGuitarTabsEntry> => {
+export const toggleFavorite = async (pb: PocketBase, id: string): Promise => {
   const entry = await pb
     .collection("guitar_tabs_entries")
     .getOne<IGuitarTabsEntry>(id);

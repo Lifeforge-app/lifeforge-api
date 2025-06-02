@@ -1,13 +1,16 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as EntriesService from "../services/entries.service";
 import { IAchievementEntry } from "../typescript/achievements_interfaces";
 
 export const getAllEntriesByDifficulty = async (
-  req: Request<{ difficulty: "easy" | "medium" | "hard" | "impossible" }>,
-  res: Response<BaseResponse<IAchievementEntry[]>>,
+  req: Request,
+  res: Response,
 ) => {
   const { pb } = req;
   const { difficulty } = req.params;
@@ -20,10 +23,7 @@ export const getAllEntriesByDifficulty = async (
   successWithBaseResponse(res, achievements);
 };
 
-export const createEntry = async (
-  req: Request,
-  res: Response<BaseResponse<IAchievementEntry>>,
-) => {
+export const createEntry = async (req: Request, res: Response) => {
   const { pb } = req;
   const { difficulty, title, thoughts } = req.body;
 
@@ -36,10 +36,7 @@ export const createEntry = async (
   successWithBaseResponse(res, achievement, 201);
 };
 
-export const updateEntry = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IAchievementEntry>>,
-) => {
+export const updateEntry = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const { difficulty, title, thoughts } = req.body;
@@ -57,10 +54,7 @@ export const updateEntry = async (
   successWithBaseResponse(res, achievement);
 };
 
-export const deleteEntry = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
+export const deleteEntry = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

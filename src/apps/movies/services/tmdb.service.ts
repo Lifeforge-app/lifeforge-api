@@ -1,5 +1,6 @@
-import { getAPIKey } from "@utils/getAPIKey";
 import Pocketbase from "pocketbase";
+
+import { getAPIKey } from "@utils/getAPIKey";
 
 export const searchMovies = async (pb: Pocketbase, q: string, page: string) => {
   const apiKey = await getAPIKey("tmdb", pb);
@@ -8,7 +9,9 @@ export const searchMovies = async (pb: Pocketbase, q: string, page: string) => {
     throw new Error("API key not found");
   }
 
-  const url = `https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(q)}&page=${page}`;
+  const url = `https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(
+    q,
+  )}&page=${page}`;
 
   const response = await fetch(url, {
     headers: {

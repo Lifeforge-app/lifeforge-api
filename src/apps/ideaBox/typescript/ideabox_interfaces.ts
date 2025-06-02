@@ -1,5 +1,6 @@
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
 import * as s from "superstruct";
+
+import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
 
 const IdeaBoxContainerSchema = s.assign(
   BasePBCollectionSchema,
@@ -51,10 +52,10 @@ const IdeaBoxTagSchema = s.assign(
   }),
 );
 
-type IIdeaBoxContainer = s.Infer<typeof IdeaBoxContainerSchema>;
-type IIdeaBoxFolder = s.Infer<typeof IdeaBoxFolderSchema>;
-type IIdeaBoxEntry = s.Infer<typeof IdeaBoxEntrySchema>;
-type IIdeaBoxTag = s.Infer<typeof IdeaBoxTagSchema>;
+type IIdeaBoxContainer = s.Infer;
+type IIdeaBoxFolder = s.Infer;
+type IIdeaBoxEntry = s.Infer;
+type IIdeaBoxTag = s.Infer;
 
 export {
   IdeaBoxContainerSchema,

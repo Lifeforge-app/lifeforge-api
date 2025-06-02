@@ -1,14 +1,14 @@
+import { Request, Response } from "express";
+
 import { BaseResponse } from "@typescript/base_response";
+
 import { checkExistence } from "@utils/PBRecordValidator";
 import { successWithBaseResponse } from "@utils/response";
-import { Request, Response } from "express";
+
 import * as tagsService from "../services/tags.service";
 import { IIdeaBoxTag } from "../typescript/ideabox_interfaces";
 
-export const getTags = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxTag[]>>,
-) => {
+export const getTags = async (req: Request, res: Response) => {
   const { pb } = req;
   const { container } = req.params;
 
@@ -19,10 +19,7 @@ export const getTags = async (
   successWithBaseResponse(res, tags);
 };
 
-export const createTag = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxTag>>,
-) => {
+export const createTag = async (req: Request, res: Response) => {
   const { pb } = req;
   const { container } = req.params;
   const { name, icon, color } = req.body;
@@ -34,10 +31,7 @@ export const createTag = async (
   successWithBaseResponse(res, tag, 201);
 };
 
-export const updateTag = async (
-  req: Request,
-  res: Response<BaseResponse<IIdeaBoxTag>>,
-) => {
+export const updateTag = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
   const { name, icon, color } = req.body;
@@ -50,7 +44,7 @@ export const updateTag = async (
   successWithBaseResponse(res, tag);
 };
 
-export const deleteTag = async (req: Request, res: Response<BaseResponse>) => {
+export const deleteTag = async (req: Request, res: Response) => {
   const { pb } = req;
   const { id } = req.params;
 

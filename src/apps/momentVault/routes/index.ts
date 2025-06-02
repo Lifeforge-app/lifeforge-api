@@ -1,11 +1,3 @@
-import { BaseResponse } from "@typescript/base_response";
-import { checkExistence } from "@utils/PBRecordValidator";
-import { getAPIKey } from "@utils/getAPIKey";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "@utils/response";
 import express, { Request, Response } from "express";
 import { param } from "express-validator";
 import ffmpeg from "fluent-ffmpeg";
@@ -13,10 +5,22 @@ import fs from "fs";
 import Groq from "groq-sdk";
 import { ListResult } from "pocketbase";
 import request from "request";
+
+import { BaseResponse } from "@typescript/base_response";
+
 import {
   singleUploadMiddleware,
   uploadMiddleware,
-} from "../../../core/middleware/uploadMiddleware";
+} from "@middlewares/uploadMiddleware";
+
+import { checkExistence } from "@utils/PBRecordValidator";
+import { getAPIKey } from "@utils/getAPIKey";
+import {
+  clientError,
+  serverError,
+  successWithBaseResponse,
+} from "@utils/response";
+
 import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
 
 const router = express.Router();

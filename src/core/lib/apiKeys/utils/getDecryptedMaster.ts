@@ -1,8 +1,10 @@
-import { decrypt2 } from "@utils/encryption";
-import { clientError } from "@utils/response";
 import bcrypt from "bcrypt";
 import { Response } from "express";
 import Pocketbase from "pocketbase";
+
+import { decrypt2 } from "@utils/encryption";
+import { clientError } from "@utils/response";
+
 import { challenge } from "..";
 
 export default async function getDecryptedMaster(

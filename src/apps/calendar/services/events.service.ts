@@ -1,10 +1,13 @@
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
-import { fetchAI } from "@utils/fetchAI";
 import fs from "fs";
 import moment from "moment";
 import PocketBase from "pocketbase";
 import rrule from "rrule";
 import { z } from "zod";
+
+import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+
+import { fetchAI } from "@utils/fetchAI";
+
 import { IMovieEntry } from "../../movies/typescript/movies_interfaces";
 import { ITodoListEntry } from "../../todoList/typescript/todo_list_interfaces";
 import {

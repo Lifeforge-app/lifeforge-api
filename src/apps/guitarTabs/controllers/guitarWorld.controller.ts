@@ -1,6 +1,9 @@
-import { BaseResponse } from "@typescript/base_response";
-import { successWithBaseResponse } from "@utils/response";
 import { Request, Response } from "express";
+
+import { BaseResponse } from "@typescript/base_response";
+
+import { successWithBaseResponse } from "@utils/response";
+
 import * as guitarWorldService from "../services/guitarWorld.service";
 import { IGuitarTabsEntry } from "../typescript/guitar_tabs_interfaces";
 
@@ -11,10 +14,7 @@ export const getTabsList = async (req: Request, res: Response) => {
   successWithBaseResponse(res, data);
 };
 
-export const downloadTab = async (
-  req: Request,
-  res: Response<BaseResponse<IGuitarTabsEntry>>,
-) => {
+export const downloadTab = async (req: Request, res: Response) => {
   const { cookie, id, name, category, mainArtist, audioUrl } = req.body;
 
   const newEntry = await guitarWorldService.downloadTab(
