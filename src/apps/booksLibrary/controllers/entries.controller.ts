@@ -2,10 +2,9 @@ import { z } from "zod";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
+import ClientError from "@utils/ClientError";
 import { zodHandler } from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
-import { clientError, successWithBaseResponse } from "@utils/response";
 
 import * as EntriesService from "../services/entries.service";
 import { BooksLibraryEntrySchema } from "../typescript/books_library_interfaces";
@@ -14,12 +13,7 @@ export const getAllEntries = zodHandler(
   {
     response: z.array(WithPBSchema(BooksLibraryEntrySchema)),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const entries = await EntriesService.getAllEntries(pb);
-
-    successWithBaseResponse(res, entries);
-  },
+  ({ pb }) => EntriesService.getAllEntries(pb),
 );
 
 export const updateEntry = zodHandler(
@@ -39,39 +33,17 @@ export const updateEntry = zodHandler(
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const data = req.body;
-
-    if (!(await checkExistence(req, res, "books_library_entries", id))) {
-      return;
-    }
-
-    if (
-      data.category &&
-      !(await checkExistence(
-        req,
-        res,
-        "books_library_categories",
-        data.category,
-      ))
-    ) {
-      return;
-    }
-
-    if (data.languages) {
-      for (const language of data.languages) {
-        if (
-          !(await checkExistence(req, res, "books_library_languages", language))
-        ) {
-          return;
-        }
-      }
-    }
-
-    const entry = await EntriesService.updateEntry(pb, id, data);
-    successWithBaseResponse(res, entry);
+  ({ pb, params, body }) => EntriesService.updateEntry(pb, params.id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_entries",
+      },
+      body: {
+        category: "[books_library_categories]",
+        languages: "[books_library_languages]",
+      },
+    },
   },
 );
 
@@ -82,17 +54,13 @@ export const toggleFavouriteStatus = zodHandler(
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "books_library_entries", id))) {
-      return;
-    }
-
-    const entry = await EntriesService.toggleFavouriteStatus(pb, id);
-
-    successWithBaseResponse(res, entry);
+  ({ pb, params }) => EntriesService.toggleFavouriteStatus(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_entries",
+      },
+    },
   },
 );
 
@@ -106,35 +74,32 @@ export const sendToKindle = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { target } = req.body;
-
-    if (!(await checkExistence(req, res, "books_library_entries", id))) {
-      return;
-    }
-
+  async ({ pb, params, body }) => {
     const smtpUser = await getAPIKey("smtp-user", pb);
     const smtpPassword = await getAPIKey("smtp-pass", pb);
+
     if (!smtpUser || !smtpPassword) {
-      return clientError(
-        res,
+      throw new ClientError(
         "SMTP user or password not found. Please set them in the API Keys module.",
       );
     }
 
-    await EntriesService.sendToKindle(
+    return EntriesService.sendToKindle(
       pb,
-      id,
+      params.id,
       {
         user: smtpUser,
         pass: smtpPassword,
       },
-      target,
+      body.target,
     );
-
-    successWithBaseResponse(res, undefined);
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_entries",
+      },
+    },
   },
 );
 
@@ -145,16 +110,13 @@ export const deleteEntry = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "books_library_entries", id))) {
-      return;
-    }
-
-    await EntriesService.deleteEntry(pb, id);
-
-    successWithBaseResponse(res, undefined, 204);
+  ({ pb, params }) => EntriesService.deleteEntry(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_entries",
+      },
+    },
+    statusCode: 204,
   },
 );

@@ -1,32 +1,28 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
+const MovieEntrySchema = z.object({
+  tmdb_id: z.number(),
+  title: z.string(),
+  original_title: z.string(),
+  poster: z.string(),
+  genres: z.array(z.string()),
+  duration: z.number(),
+  overview: z.string(),
+  countries: z.array(z.string()),
+  language: z.string(),
+  release_date: z.string(),
+  watch_date: z.string(),
+  ticket_number: z.string().optional(),
+  theatre_seat: z.string().optional(),
+  theatre_location: z.string().optional(),
+  theatre_showtime: z.string().optional(),
+  theatre_number: z.string().optional(),
+  is_watched: z.boolean(),
+  calendar_record: z.string().optional(),
+});
 
-const MovieEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    tmdb_id: s.number(),
-    title: s.string(),
-    original_title: s.string(),
-    poster: s.string(),
-    genres: s.array(s.string()),
-    duration: s.number(),
-    overview: s.string(),
-    countries: s.array(s.string()),
-    language: s.string(),
-    release_date: s.string(),
-    watch_date: s.string(),
-    ticket_number: s.optional(s.string()),
-    theatre_seat: s.optional(s.string()),
-    theatre_location: s.optional(s.string()),
-    theatre_showtime: s.optional(s.string()),
-    theatre_number: s.optional(s.string()),
-    is_watched: s.boolean(),
-    calendar_record: s.optional(s.string()),
-  }),
-);
+type IMovieEntry = z.infer<typeof MovieEntrySchema>;
 
-type IMovieEntry = s.Infer<typeof MovieEntrySchema>;
+export type { IMovieEntry };
 
 export { MovieEntrySchema };
-export type { IMovieEntry };

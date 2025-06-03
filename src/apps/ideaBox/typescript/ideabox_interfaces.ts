@@ -1,61 +1,47 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
+const IdeaBoxContainerSchema = z.object({
+  name: z.string(),
+  color: z.string(),
+  icon: z.string(),
+  cover: z.string(),
+  image_count: z.number(),
+  link_count: z.number(),
+  text_count: z.number(),
+});
 
-const IdeaBoxContainerSchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    color: s.string(),
-    icon: s.string(),
-    cover: s.string(),
-    image_count: s.number(),
-    link_count: s.number(),
-    text_count: s.number(),
-  }),
-);
+const IdeaBoxFolderSchema = z.object({
+  color: z.string(),
+  icon: z.string(),
+  name: z.string(),
+  container: z.string(),
+  parent: z.string().optional(),
+});
 
-const IdeaBoxFolderSchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    color: s.string(),
-    icon: s.string(),
-    name: s.string(),
-    container: s.string(),
-    parent: s.optional(s.string()),
-  }),
-);
+const IdeaBoxEntrySchema = z.object({
+  container: z.string(),
+  folder: z.string(),
+  content: z.string().optional(),
+  image: z.string().optional(),
+  title: z.string().optional(),
+  type: z.enum(["text", "image", "link"]),
+  tags: z.array(z.string()),
+  pinned: z.boolean(),
+  archived: z.boolean(),
+});
 
-const IdeaBoxEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    container: s.string(),
-    folder: s.string(),
-    content: s.optional(s.string()),
-    image: s.optional(s.string()),
-    title: s.optional(s.string()),
-    type: s.enums(["text", "image", "link"]),
-    tags: s.array(s.string()),
-    pinned: s.boolean(),
-    archived: s.boolean(),
-  }),
-);
+const IdeaBoxTagSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+  color: z.string(),
+  container: z.string(),
+  amount: z.number(),
+});
 
-const IdeaBoxTagSchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    icon: s.string(),
-    color: s.string(),
-    container: s.string(),
-    count: s.number(),
-  }),
-);
-
-type IIdeaBoxContainer = s.Infer;
-type IIdeaBoxFolder = s.Infer;
-type IIdeaBoxEntry = s.Infer;
-type IIdeaBoxTag = s.Infer;
+type IIdeaBoxContainer = z.infer<typeof IdeaBoxContainerSchema>;
+type IIdeaBoxFolder = z.infer<typeof IdeaBoxFolderSchema>;
+type IIdeaBoxEntry = z.infer<typeof IdeaBoxEntrySchema>;
+type IIdeaBoxTag = z.infer<typeof IdeaBoxTagSchema>;
 
 export {
   IdeaBoxContainerSchema,

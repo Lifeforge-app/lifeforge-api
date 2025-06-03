@@ -1,113 +1,151 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import {
+  PBListResultSchema,
+  WithPBSchema,
+} from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { clientError, successWithBaseResponse } from "@utils/response";
+import ClientError from "@utils/ClientError";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as entriesService from "../services/entries.service";
 import {
-  IGuitarTabsEntry,
-  IGuitarTabsSidebarData,
+  GuitarTabsEntrySchema,
+  GuitarTabsSidebarDataSchema,
 } from "../typescript/guitar_tabs_interfaces";
 
-export const getSidebarData = async (req, res) => {
-  const data = await entriesService.getSidebarData(req.pb);
-  successWithBaseResponse(res, data);
-};
+export const getSidebarData = zodHandler(
+  {
+    response: GuitarTabsSidebarDataSchema,
+  },
+  async ({ pb }) => await entriesService.getSidebarData(pb),
+);
 
-export const getEntries = async (req, res) => {
-  const page = parseInt(req.query.page as string) || 1;
-  const search = decodeURIComponent((req.query.query as string) || "");
-  const category =
-    req.query.category === "all" ? "" : (req.query.category as string);
-  const author = req.query.author === "all" ? "" : (req.query.author as string);
-  const starred = req.query.starred === "true";
-  const sort = req.query.sort as string;
+export const getEntries = zodHandler(
+  {
+    query: z.object({
+      page: z
+        .string()
+        .optional()
+        .transform((val) => parseInt(val ?? "1", 10) || 1),
+      query: z.string().optional(),
+      category: z.string().optional(),
+      author: z.string().optional(),
+      starred: z
+        .string()
+        .optional()
+        .transform((val) => val === "true"),
+      sort: z
+        .enum(["name", "author", "newest", "oldest"])
+        .optional()
+        .default("newest"),
+    }),
+    response: PBListResultSchema(WithPBSchema(GuitarTabsEntrySchema)),
+  },
+  async ({ pb, query }) => await entriesService.getEntries(pb, query),
+);
 
-  const entries = await entriesService.getEntries(
-    req.pb,
-    page,
-    search,
-    category,
-    author,
-    starred,
-    sort,
-  );
+export const getRandomEntry = zodHandler(
+  {
+    response: WithPBSchema(GuitarTabsEntrySchema),
+  },
+  async ({ pb }) => await entriesService.getRandomEntry(pb),
+);
 
-  successWithBaseResponse(res, entries);
-};
+export const uploadFiles = zodHandler(
+  {
+    response: z.boolean(),
+  },
+  async ({ pb, req }) => {
+    const files = req.files;
 
-export const getRandomEntry = async (req, res) => {
-  const entry = await entriesService.getRandomEntry(req.pb);
-  successWithBaseResponse(res, entry);
-};
+    if (!files) {
+      throw new ClientError("No files provided");
+    }
 
-export const uploadFiles = async (req, res) => {
-  const files = req.files;
+    const result = await entriesService.uploadFiles(
+      pb,
+      files as Express.Multer.File[],
+    );
 
-  if (!files) {
-    clientError(res, "No files provided");
-    return;
-  }
+    if (result.status === "error") {
+      throw new Error(result.message);
+    }
 
-  const result = await entriesService.uploadFiles(
-    req.pb,
-    files as Express.Multer.File[],
-  );
+    return true;
+  },
+  {
+    statusCode: 202,
+  },
+);
 
-  if (result.status === "error") {
-    throw new Error(result.message);
-  }
+export const getProcessStatus = zodHandler(
+  {
+    response: z.any(),
+  },
+  async () => entriesService.getProcessStatus(),
+);
 
-  res.status(202).json({
-    state: "accepted",
-    message: "Processing started",
-  });
-};
+export const updateEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      name: z.string(),
+      author: z.string(),
+      type: z.string(),
+    }),
+    response: WithPBSchema(GuitarTabsEntrySchema),
+  },
+  async ({ pb, params, body }) =>
+    await entriesService.updateEntry(
+      pb,
+      params.id,
+      body.name,
+      body.author,
+      body.type,
+    ),
+  {
+    existenceCheck: {
+      params: {
+        id: "guitar_tabs_entries",
+      },
+    },
+  },
+);
 
-export const getProcessStatus = async (_: Request, res: Response) => {
-  const status = entriesService.getProcessStatus();
-  successWithBaseResponse(res, status);
-};
+export const deleteEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params }) => await entriesService.deleteEntry(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "guitar_tabs_entries",
+      },
+    },
+    statusCode: 204,
+  },
+);
 
-export const updateEntry = async (req, res) => {
-  const { id } = req.params;
-  const { name, author, type } = req.body;
-
-  if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) {
-    return;
-  }
-
-  const updatedEntry = await entriesService.updateEntry(
-    req.pb,
-    id,
-    name,
-    author,
-    type,
-  );
-  successWithBaseResponse(res, updatedEntry);
-};
-
-export const deleteEntry = async (req, res) => {
-  const { id } = req.params;
-
-  await entriesService.deleteEntry(req.pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
-
-export const downloadAllEntries = async (req, res) => {
-  await entriesService.downloadAllEntries(req.pb);
-  successWithBaseResponse(res);
-};
-
-export const toggleFavorite = async (req, res) => {
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "guitar_tabs_entries", id))) {
-    return;
-  }
-
-  const updatedEntry = await entriesService.toggleFavorite(req.pb, id);
-  successWithBaseResponse(res, updatedEntry);
-};
+export const toggleFavorite = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(GuitarTabsEntrySchema),
+  },
+  async ({ pb, params }) => await entriesService.toggleFavorite(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "guitar_tabs_entries",
+      },
+    },
+  },
+);

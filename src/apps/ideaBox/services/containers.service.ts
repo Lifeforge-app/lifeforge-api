@@ -1,24 +1,22 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
 
 export const checkContainerExists = async (
   pb: PocketBase,
   id: string,
-): Promise => {
-  try {
-    await pb.collection("idea_box_containers").getOne(id);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-export const getContainers = async (pb: PocketBase): Promise => {
-  return await pb
+): Promise<boolean> =>
+  !!(await pb
     .collection("idea_box_containers")
-    .getFullList<IIdeaBoxContainer>();
-};
+    .getOne(id)
+    .catch(() => {}));
+
+export const getContainers = async (
+  pb: PocketBase,
+): Promise<WithPB<IIdeaBoxContainer>[]> =>
+  pb.collection("idea_box_containers").getFullList<WithPB<IIdeaBoxContainer>>();
 
 export const createContainer = async (
   pb: PocketBase,
@@ -26,8 +24,10 @@ export const createContainer = async (
   color: string,
   icon: string,
   coverFile?: File,
-): Promise => {
-  const containerData: Record = {
+): Promise<WithPB<IIdeaBoxContainer>> => {
+  const containerData: Pick<IIdeaBoxContainer, "name" | "color" | "icon"> & {
+    cover?: File | string;
+  } = {
     name,
     color,
     icon,
@@ -41,7 +41,7 @@ export const createContainer = async (
 
   return await pb
     .collection("idea_box_containers")
-    .create<IIdeaBoxContainer>(containerData);
+    .create<WithPB<IIdeaBoxContainer>>(containerData);
 };
 
 export const updateContainer = async (
@@ -50,41 +50,25 @@ export const updateContainer = async (
   name: string,
   color: string,
   icon: string,
-  coverFile?: File,
-): Promise => {
-  const containerData: Record = {
+  coverFile?: File | "keep",
+): Promise<WithPB<IIdeaBoxContainer>> => {
+  const containerData: Pick<IIdeaBoxContainer, "name" | "color" | "icon"> & {
+    cover?: File | string;
+  } = {
     name,
     color,
     icon,
   };
 
-  if (coverFile !== undefined) {
-    containerData.cover = coverFile || "";
-  } else {
-    containerData.cover = "";
+  if (coverFile !== "keep") {
+    containerData.cover = coverFile ?? "";
   }
 
   return await pb
     .collection("idea_box_containers")
-    .update<IIdeaBoxContainer>(id, containerData);
+    .update<WithPB<IIdeaBoxContainer>>(id, containerData);
 };
 
-export const updateContainerKeepCover = async (
-  pb: PocketBase,
-  id: string,
-  name: string,
-  color: string,
-  icon: string,
-): Promise => {
-  return await pb
-    .collection("idea_box_containers")
-    .update<IIdeaBoxContainer>(id, {
-      name,
-      color,
-      icon,
-    });
-};
-
-export const deleteContainer = async (pb: PocketBase, id: string): Promise => {
+export const deleteContainer = async (pb: PocketBase, id: string) => {
   await pb.collection("idea_box_containers").delete(id);
 };

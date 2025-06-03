@@ -2,7 +2,7 @@ import Pocketbase from "pocketbase";
 
 import { getAPIKey } from "@utils/getAPIKey";
 
-export const searchMovies = async (pb: Pocketbase, q: string, page: string) => {
+export const searchMovies = async (pb: Pocketbase, q: string, page: number) => {
   const apiKey = await getAPIKey("tmdb", pb);
 
   if (!apiKey) {

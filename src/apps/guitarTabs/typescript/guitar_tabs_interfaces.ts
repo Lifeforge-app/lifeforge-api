@@ -1,31 +1,68 @@
-import type BasePBCollection from "@typescript/pocketbase_interfaces.js";
+import { z } from "zod";
 
-interface IGuitarTabsEntry extends BasePBCollection {
-  name: string;
-  author: string;
-  thumbnail: string;
-  pageCount: number;
-  pdf: string;
-  audio: string;
-  musescore: string;
-  type: "fingerstyle" | "singalong" | "";
-  isFavourite: boolean;
-}
+const BasePBCollectionSchema = z.object({
+  id: z.string(),
+  created: z.string(),
+  updated: z.string(),
+  collectionId: z.string(),
+  collectionName: z.string(),
+});
 
-interface IGuitarTabsAuthors extends BasePBCollection {
-  name: string;
-  amount: number;
-}
+const GuitarTabsEntrySchema = BasePBCollectionSchema.extend({
+  name: z.string(),
+  author: z.string(),
+  thumbnail: z.string(),
+  pageCount: z.number(),
+  pdf: z.string(),
+  audio: z.string(),
+  musescore: z.string(),
+  type: z.enum(["fingerstyle", "singalong", ""]),
+  isFavourite: z.boolean(),
+});
 
-interface IGuitarTabsSidebarData {
-  total: number;
-  favourites: number;
-  categories: {
-    fingerstyle: number;
-    singalong: number;
-    uncategorized: number;
-  };
-  authors: Record;
-}
+const GuitarTabsAuthorsSchema = BasePBCollectionSchema.extend({
+  name: z.string(),
+  amount: z.number(),
+});
 
-export { IGuitarTabsAuthors, IGuitarTabsEntry, IGuitarTabsSidebarData };
+const GuitarTabsSidebarDataSchema = z.object({
+  total: z.number(),
+  favourites: z.number(),
+  categories: z.object({
+    fingerstyle: z.number(),
+    singalong: z.number(),
+    uncategorized: z.number(),
+  }),
+  authors: z.record(z.string(), z.number()),
+});
+
+const GuitarTabsGuitarWorldEntrySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  subtitle: z.string(),
+  category: z.string(),
+  mainArtist: z.string(),
+  uploader: z.string(),
+  audioUrl: z.string(),
+});
+
+type IGuitarTabsEntry = z.infer<typeof GuitarTabsEntrySchema>;
+type IGuitarTabsAuthors = z.infer<typeof GuitarTabsAuthorsSchema>;
+type IGuitarTabsSidebarData = z.infer<typeof GuitarTabsSidebarDataSchema>;
+type IGuitarTabsGuitarWorldEntry = z.infer<
+  typeof GuitarTabsGuitarWorldEntrySchema
+>;
+
+export type {
+  IGuitarTabsEntry,
+  IGuitarTabsAuthors,
+  IGuitarTabsSidebarData,
+  IGuitarTabsGuitarWorldEntry,
+};
+
+export {
+  GuitarTabsEntrySchema,
+  GuitarTabsAuthorsSchema,
+  GuitarTabsSidebarDataSchema,
+  GuitarTabsGuitarWorldEntrySchema,
+};

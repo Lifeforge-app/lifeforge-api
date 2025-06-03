@@ -1,17 +1,13 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as TicketController from "../controllers/ticket.controller";
 
 const router = express.Router();
 
-router.post("/", asyncWrapper(TicketController.updateTicket));
+router.post("/", TicketController.updateTicket);
 
-router.post("/calendar/:id", asyncWrapper(TicketController.addToCalendar));
+router.patch("/:id", TicketController.updateTicket);
 
-router.patch("/:id", asyncWrapper(TicketController.updateTicket));
-
-router.delete("/:id", asyncWrapper(TicketController.clearTicket));
+router.delete("/:id", TicketController.clearTicket);
 
 export default router;

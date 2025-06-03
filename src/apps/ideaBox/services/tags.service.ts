@@ -1,46 +1,56 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { IIdeaBoxTag } from "../typescript/ideabox_interfaces";
 
-export const getTags = async (pb: PocketBase, container: string): Promise => {
-  const result = await pb.collection("idea_box_tags").getFullList<IIdeaBoxTag>({
+export const getTags = (
+  pb: PocketBase,
+  container: string,
+): Promise<WithPB<IIdeaBoxTag>[]> =>
+  pb.collection("idea_box_tags_with_amount").getFullList<WithPB<IIdeaBoxTag>>({
     filter: `container = "${container}"`,
   });
-  return result;
-};
 
-export const createTag = async (
+export const createTag = (
   pb: PocketBase,
-  name: string,
-  icon: string,
-  color: string,
   container: string,
-): Promise => {
-  const tag: IIdeaBoxTag = await pb.collection("idea_box_tags").create({
+  {
+    name,
+    icon,
+    color,
+  }: {
+    name: string;
+    icon: string;
+    color: string;
+  },
+) =>
+  pb.collection("idea_box_tags").create<WithPB<IIdeaBoxTag>>({
     name,
     icon,
     color,
     container,
-    count: 0,
   });
-  return tag;
-};
 
-export const updateTag = async (
+export const updateTag = (
   pb: PocketBase,
   id: string,
-  name: string,
-  icon: string,
-  color: string,
-): Promise => {
-  const tag: IIdeaBoxTag = await pb.collection("idea_box_tags").update(id, {
+  {
+    name,
+    icon,
+    color,
+  }: {
+    name: string;
+    icon: string;
+    color: string;
+  },
+): Promise<WithPB<IIdeaBoxTag>> =>
+  pb.collection("idea_box_tags").update(id, {
     name,
     icon,
     color,
   });
-  return tag;
-};
 
-export const deleteTag = async (pb: PocketBase, id: string): Promise => {
+export const deleteTag = async (pb: PocketBase, id: string) => {
   await pb.collection("idea_box_tags").delete(id);
 };

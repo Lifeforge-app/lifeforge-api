@@ -1,57 +1,84 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { checkExistence } from "@utils/PBRecordValidator";
+import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
 
 import * as tagsService from "../services/tags.service";
-import { IIdeaBoxTag } from "../typescript/ideabox_interfaces";
+import { IdeaBoxTagSchema } from "../typescript/ideabox_interfaces";
 
-export const getTags = async (req, res) => {
-  const { pb } = req;
-  const { container } = req.params;
+export const getTags = zodHandler(
+  {
+    params: z.object({
+      container: z.string(),
+    }),
+    response: z.array(WithPBSchema(IdeaBoxTagSchema)),
+  },
+  async ({ pb, params }) => await tagsService.getTags(pb, params.container),
+  {
+    existenceCheck: {
+      params: {
+        container: "idea_box_containers",
+      },
+    },
+  },
+);
 
-  if (!(await checkExistence(req, res, "idea_box_containers", container)))
-    return;
+export const createTag = zodHandler(
+  {
+    body: IdeaBoxTagSchema,
+    params: z.object({
+      container: z.string(),
+    }),
+    response: WithPBSchema(IdeaBoxTagSchema),
+  },
+  async ({ pb, params, body }) =>
+    await tagsService.createTag(pb, params.container, body),
+  {
+    existenceCheck: {
+      params: {
+        container: "idea_box_containers",
+      },
+    },
+    statusCode: 201,
+  },
+);
 
-  const tags = await tagsService.getTags(pb, container);
-  successWithBaseResponse(res, tags);
-};
+export const updateTag = zodHandler(
+  {
+    body: IdeaBoxTagSchema,
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(IdeaBoxTagSchema),
+  },
+  async ({ pb, params, body }) =>
+    await tagsService.updateTag(pb, params.id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_tags",
+      },
+    },
+  },
+);
 
-export const createTag = async (req, res) => {
-  const { pb } = req;
-  const { container } = req.params;
-  const { name, icon, color } = req.body;
-
-  if (!(await checkExistence(req, res, "idea_box_containers", container)))
-    return;
-
-  const tag = await tagsService.createTag(pb, name, icon, color, container);
-  successWithBaseResponse(res, tag, 201);
-};
-
-export const updateTag = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, icon, color } = req.body;
-
-  if (!(await checkExistence(req, res, "idea_box_tags", id))) {
-    return;
-  }
-
-  const tag = await tagsService.updateTag(pb, id, name, icon, color);
-  successWithBaseResponse(res, tag);
-};
-
-export const deleteTag = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "idea_box_tags", id))) {
-    return;
-  }
-
-  await tagsService.deleteTag(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteTag = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params }) => await tagsService.deleteTag(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_tags",
+      },
+    },
+    statusCode: 204,
+  },
+);

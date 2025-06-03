@@ -1,57 +1,59 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as entriesService from "../services/entries.service";
-import { IMovieEntry } from "../typescript/movies_interfaces";
+import { MovieEntrySchema } from "../typescript/movies_interfaces";
 
-export const getAllEntries = async (
-  req: Request,
-  res: Response<BaseResponse<IMovieEntry[]>>,
-) => {
-  const { pb } = req;
+export const getAllEntries = zodHandler(
+  {
+    response: z.array(WithPBSchema(MovieEntrySchema)),
+  },
+  (req) => entriesService.getAllEntries(req.pb),
+);
 
-  const entries = await entriesService.getAllEntries(pb);
-  successWithBaseResponse(res, entries);
-};
+export const createEntryFromTMDB = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(MovieEntrySchema),
+  },
+  (req) => entriesService.createEntryFromTMDB(req.pb, req.params.id),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createEntryFromTMDB = async (
-  req: Request,
-  res: Response<BaseResponse<IMovieEntry>>,
-) => {
-  const { id } = req.params;
-  const { pb } = req;
+export const deleteEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  (req) => entriesService.deleteEntry(req.pb, req.params.id),
+  {
+    statusCode: 204,
+    existenceCheck: {
+      id: "movies_entries",
+    },
+  },
+);
 
-  const newEntry = await entriesService.createEntryFromTMDB(pb, parseInt(id));
-  successWithBaseResponse(res, newEntry);
-};
-
-export const deleteEntry = async (req, res) => {
-  const { id } = req.params;
-  const { pb } = req;
-
-  if (!(await checkExistence(req, res, "movies_entries", id))) {
-    return;
-  }
-
-  await entriesService.deleteEntry(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
-
-export const toggleWatchStatus = async (
-  req: Request,
-  res: Response<BaseResponse<IMovieEntry>>,
-) => {
-  const { id } = req.params;
-  const { pb } = req;
-
-  if (!(await checkExistence(req, res, "movies_entries", id))) {
-    return;
-  }
-
-  const entry = await entriesService.toggleWatchStatus(pb, id);
-  successWithBaseResponse(res, entry);
-};
+export const toggleWatchStatus = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(MovieEntrySchema),
+  },
+  (req) => entriesService.toggleWatchStatus(req.pb, req.params.id),
+  {
+    existenceCheck: {
+      id: "movies_entries",
+    },
+  },
+);

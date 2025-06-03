@@ -111,7 +111,7 @@ export const getEventsByDateRange = async (
   const movieEntries = (
     await pb
       .collection("movies_entries")
-      .getFullList<IMovieEntry>({
+      .getFullList<WithPB<IMovieEntry>>({
         filter: `theatre_showtime >= '${start}' && theatre_showtime <= '${end}'`,
       })
       .catch(() => [])
@@ -156,17 +156,7 @@ export const getTodayEvents = async (
 
 export const createEvent = async (
   pb: PocketBase,
-  eventData: Pick<
-    ICalendarEvent,
-    | "title"
-    | "category"
-    | "start"
-    | "end"
-    | "type"
-    | "recurring_rrule"
-    | "recurring_duration_amount"
-    | "recurring_duration_unit"
-  >,
+  eventData: Omit<ICalendarEvent, "is_strikethrough" | "exceptions">,
 ): Promise<WithPB<ICalendarEvent>> => {
   if (eventData.type === "recurring") {
     eventData.end = "";
@@ -201,7 +191,7 @@ export const scanImage = async (
     category: z.string().optional(),
   });
 
-  const base64Image = await fs.readFileSync(filePath, {
+  const base64Image = fs.readFileSync(filePath, {
     encoding: "base64",
   });
 
@@ -258,18 +248,18 @@ export const scanImage = async (
   return response;
 };
 
-export const updateEvent = async (
+export const updateEvent = (
   pb: PocketBase,
   id: string,
-  eventData: Pick<ICalendarEvent, "title" | "category" | "start" | "end">,
-): Promise<WithPB<ICalendarEvent>> => {
-  return await pb
+  eventData: Omit<Partial<ICalendarEvent>, "is_strikethrough" | "exceptions">,
+): Promise<WithPB<ICalendarEvent>> =>
+  pb
     .collection("calendar_events")
     .update<WithPB<ICalendarEvent>>(id, eventData);
-};
 
-export const deleteEvent = (pb: PocketBase, id: string) =>
-  pb.collection("calendar_events").delete(id);
+export const deleteEvent = async (pb: PocketBase, id: string) => {
+  await pb.collection("calendar_events").delete(id);
+};
 
 export const getEventById = async (
   pb: PocketBase,
@@ -284,11 +274,7 @@ export const addException = async (
 ): Promise<boolean> => {
   const event = await pb
     .collection("calendar_events")
-    .getOne<ICalendarEvent>(id);
-
-  if (!event) {
-    return false;
-  }
+    .getOne<WithPB<ICalendarEvent>>(id);
 
   const exceptions = event.exceptions || [];
 
@@ -300,7 +286,7 @@ export const addException = async (
 
   await pb
     .collection("calendar_events")
-    .update<ICalendarEvent>(id, { exceptions });
+    .update<WithPB<ICalendarEvent>>(id, { exceptions });
 
   return true;
 };

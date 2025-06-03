@@ -1,37 +1,43 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { getAPIKey } from "@utils/getAPIKey";
 
 import { IMovieEntry } from "../typescript/movies_interfaces";
 
-export const getAllEntries = async (pb: PocketBase) => {
-  return await pb.collection("movies_entries").getFullList<IMovieEntry>({
-    sort: "-created",
+export const getAllEntries = (pb: PocketBase): Promise<WithPB<IMovieEntry>[]> =>
+  pb.collection("movies_entries").getFullList<WithPB<IMovieEntry>>({
+    sort: "is_watched, -ticket_number, title",
   });
-};
 
-export const createEntryFromTMDB = async (pb: PocketBase, id: number) => {
+export const createEntryFromTMDB = async (
+  pb: PocketBase,
+  id: string,
+): Promise<WithPB<IMovieEntry>> => {
   const apiKey = await getAPIKey("tmdb", pb);
   if (!apiKey) {
     throw new Error("API key not found");
   }
 
-  const url = `https://api.themoviedb.org/3/movie/${id}`;
-
   const existedData = await pb
     .collection("movies_entries")
-    .getFirstListItem<IMovieEntry>(`tmdb_id = ${id}`)
+    .getFirstListItem<WithPB<IMovieEntry>>(`tmdb_id = ${id}`)
     .catch(() => null);
 
   if (existedData) {
     throw new Error("Entry already exists");
   }
 
-  const response = await fetch(url, {
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${id}`, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      throw new Error(`Failed to fetch data from TMDB: ${err.message}`);
+    });
 
   const entryData = {
     tmdb_id: response.id,
@@ -46,20 +52,30 @@ export const createEntryFromTMDB = async (pb: PocketBase, id: number) => {
     language: response.original_language,
   };
 
-  return await pb.collection("movies_entries").create<IMovieEntry>(entryData);
+  return await pb
+    .collection("movies_entries")
+    .create<WithPB<IMovieEntry>>(entryData);
 };
 
-export const deleteEntry = async (pb: PocketBase, id: string) => {
+export const deleteEntry = async (
+  pb: PocketBase,
+  id: string,
+): Promise<void> => {
   await pb.collection("movies_entries").delete(id);
 };
 
-export const toggleWatchStatus = async (pb: PocketBase, id: string) => {
-  const entry = await pb.collection("movies_entries").getOne<IMovieEntry>(id);
+export const toggleWatchStatus = async (
+  pb: PocketBase,
+  id: string,
+): Promise<WithPB<IMovieEntry>> => {
+  const entry = await pb
+    .collection("movies_entries")
+    .getOne<WithPB<IMovieEntry>>(id);
 
   const updatedEntry = await pb
     .collection("movies_entries")
-    .update<IMovieEntry>(id, {
-      watched: !entry.is_watched,
+    .update<WithPB<IMovieEntry>>(id, {
+      is_watched: !entry.is_watched,
     });
 
   return updatedEntry;

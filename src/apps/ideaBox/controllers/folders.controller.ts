@@ -1,112 +1,148 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import ClientError from "@utils/ClientError";
 import { checkExistence } from "@utils/PBRecordValidator";
+import { zodHandler } from "@utils/asyncWrapper";
 import { serverError, successWithBaseResponse } from "@utils/response";
 
 import * as foldersService from "../services/folders.service";
-import { IIdeaBoxFolder } from "../typescript/ideabox_interfaces";
+import { IdeaBoxFolderSchema } from "../typescript/ideabox_interfaces";
 
-export const getFolders = async (req, res) => {
-  const { pb } = req;
-  const { container } = req.params;
-  const path = req.params[0].split("/").filter((p) => p !== "");
+export const getFolders = zodHandler(
+  {
+    params: z.object({
+      container: z.string(),
+      "0": z.string(),
+    }),
+    response: z.array(WithPBSchema(IdeaBoxFolderSchema)),
+  },
+  async ({ pb, params }) => {
+    const { container } = params;
+    const path = params[0].split("/").filter((p) => p !== "");
 
-  if (!(await checkExistence(req, res, "idea_box_containers", container))) {
-    return;
-  }
+    const { folderExists, lastFolder } =
+      await foldersService.validateFolderPath(pb, container, path);
 
-  const { folderExists, lastFolder } = await foldersService.validateFolderPath(
-    pb,
-    container,
-    path,
-  );
+    if (!folderExists) {
+      throw new ClientError(
+        `Folder with path "${params[0]}" does not exist in container "${container}"`,
+      );
+    }
 
-  if (!folderExists) {
-    serverError(res, "folder: Not found");
-    return;
-  }
+    return await foldersService.getFolders(pb, container, lastFolder);
+  },
+  {
+    existenceCheck: {
+      params: {
+        container: "idea_box_containers",
+      },
+    },
+  },
+);
 
-  const folders = await foldersService.getFolders(pb, container, lastFolder);
-  successWithBaseResponse(res, folders);
-};
+export const createFolder = zodHandler(
+  {
+    body: z.object({
+      name: z.string(),
+      container: z.string(),
+      parent: z.string(),
+      icon: z.string(),
+      color: z.string(),
+    }),
+    response: WithPBSchema(IdeaBoxFolderSchema),
+  },
+  async ({ pb, body }) => await foldersService.createFolder(pb, body),
+  {
+    statusCode: 201,
+    existenceCheck: {
+      body: {
+        container: "idea_box_containers",
+      },
+    },
+  },
+);
 
-export const createFolder = async (req, res) => {
-  const { pb } = req;
-  const { name, container, parent, icon, color } = req.body;
+export const updateFolder = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      name: z.string(),
+      icon: z.string(),
+      color: z.string(),
+    }),
+    response: WithPBSchema(IdeaBoxFolderSchema),
+  },
+  async ({ pb, params, body }) =>
+    await foldersService.updateFolder(pb, params.id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_folders",
+      },
+    },
+  },
+);
 
-  if (!(await checkExistence(req, res, "idea_box_containers", container))) {
-    return;
-  }
+export const moveFolder = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    query: z.object({
+      target: z.string(),
+    }),
+    response: WithPBSchema(IdeaBoxFolderSchema),
+  },
+  async ({ pb, params, query }) =>
+    await foldersService.moveFolder(pb, params.id, query.target),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_folders",
+      },
+      query: {
+        target: "idea_box_folders",
+      },
+    },
+  },
+);
 
-  const folder = await foldersService.createFolder(
-    pb,
-    name,
-    container,
-    parent,
-    icon,
-    color,
-  );
-  successWithBaseResponse(res, folder, 201);
-};
+export const removeFromFolder = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(IdeaBoxFolderSchema),
+  },
+  async ({ pb, params }) =>
+    await foldersService.removeFromFolder(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_folders",
+      },
+    },
+  },
+);
 
-export const updateFolder = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, icon, color } = req.body;
-
-  if (!(await checkExistence(req, res, "idea_box_folders", id))) {
-    return;
-  }
-
-  const folder = await foldersService.updateFolder(pb, id, name, icon, color);
-  successWithBaseResponse(res, folder);
-};
-
-export const moveFolder = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { target } = req.query as Record;
-
-  const entryExist = await checkExistence(req, res, "idea_box_folders", id);
-  if (!entryExist) {
-    return;
-  }
-  const folderExist = await checkExistence(
-    req,
-    res,
-    "idea_box_folders",
-    target,
-  );
-  if (!folderExist) {
-    return;
-  }
-
-  const entry = await foldersService.moveFolder(pb, id, target);
-  successWithBaseResponse(res, entry);
-};
-
-export const removeFromFolder = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "idea_box_folders", id))) {
-    return;
-  }
-
-  const entry = await foldersService.removeFromFolder(pb, id);
-  successWithBaseResponse(res, entry);
-};
-
-export const deleteFolder = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "idea_box_folders", id))) {
-    return;
-  }
-
-  await foldersService.deleteFolder(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteFolder = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params }) => await foldersService.deleteFolder(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_folders",
+      },
+    },
+    statusCode: 204,
+  },
+);

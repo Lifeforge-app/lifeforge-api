@@ -34,5 +34,6 @@ export const updateCalendar = (
     .collection("calendar_calendars")
     .update<WithPB<ICalendarCalendar>>(id, calendarData);
 
-export const deleteCalendar = (pb: PocketBase, id: string): Promise<boolean> =>
-  pb.collection("calendar_calendars").delete(id);
+export const deleteCalendar = async (pb: PocketBase, id: string) => {
+  await pb.collection("calendar_calendars").delete(id);
+};

@@ -41,5 +41,6 @@ export const updateEntry = (
     thoughts,
   });
 
-export const deleteEntry = (pb: Pocketbase, id: string): Promise<boolean> =>
-  pb.collection("achievements_entries").delete(id);
+export const deleteEntry = async (pb: Pocketbase, id: string) => {
+  await pb.collection("achievements_entries").delete(id);
+};

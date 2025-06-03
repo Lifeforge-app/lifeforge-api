@@ -2,9 +2,7 @@ import { z } from "zod";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
 import { zodHandler } from "@utils/asyncWrapper";
-import { successWithBaseResponse } from "@utils/response";
 
 import * as EntriesService from "../services/entries.service";
 import { AchievementsEntrySchema } from "../typescript/achievements_interfaces";
@@ -16,17 +14,8 @@ export const getAllEntriesByDifficulty = zodHandler(
     }),
     response: z.array(WithPBSchema(AchievementsEntrySchema)),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { difficulty } = req.params;
-
-    const achievements = await EntriesService.getAllEntriesByDifficulty(
-      pb,
-      difficulty,
-    );
-
-    successWithBaseResponse(res, achievements);
-  },
+  ({ pb, params }) =>
+    EntriesService.getAllEntriesByDifficulty(pb, params.difficulty),
 );
 
 export const createEntry = zodHandler(
@@ -34,17 +23,9 @@ export const createEntry = zodHandler(
     body: AchievementsEntrySchema,
     response: WithPBSchema(AchievementsEntrySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { difficulty, title, thoughts } = req.body;
-
-    const achievement = await EntriesService.createEntry(pb, {
-      difficulty,
-      title,
-      thoughts,
-    });
-
-    successWithBaseResponse(res, achievement, 201);
+  ({ pb, body }) => EntriesService.createEntry(pb, body),
+  {
+    statusCode: 201,
   },
 );
 
@@ -56,22 +37,13 @@ export const updateEntry = zodHandler(
     body: AchievementsEntrySchema,
     response: WithPBSchema(AchievementsEntrySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { difficulty, title, thoughts } = req.body;
-
-    if (!(await checkExistence(req, res, "achievements_entries", id))) {
-      return;
-    }
-
-    const achievement = await EntriesService.updateEntry(pb, id, {
-      difficulty,
-      title,
-      thoughts,
-    });
-
-    successWithBaseResponse(res, achievement);
+  ({ pb, params, body }) => EntriesService.updateEntry(pb, params.id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "achievements_entries",
+      },
+    },
   },
 );
 
@@ -82,15 +54,13 @@ export const deleteEntry = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "achievements_entries", id))) {
-      return;
-    }
-
-    await EntriesService.deleteEntry(pb, id);
-    successWithBaseResponse(res, undefined, 204);
+  ({ pb, params }) => EntriesService.deleteEntry(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "achievements_entries",
+      },
+    },
+    statusCode: 204,
   },
 );

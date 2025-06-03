@@ -1,65 +1,24 @@
 import express from "express";
 import multer from "multer";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as ideasController from "../controllers/ideas.controller";
-import {
-  validateArchiveIdea,
-  validateCreateIdea,
-  validateDeleteIdea,
-  validateGetIdeas,
-  validateMoveIdea,
-  validatePinIdea,
-  validateRemoveFromFolder,
-  validateUpdateIdea,
-} from "../middleware/ideasValidation";
 
 const router = express.Router();
 
-router.get(
-  "/:container/*",
-  validateGetIdeas,
-  asyncWrapper(ideasController.getIdeas),
-);
+router.get("/:container/*", ideasController.getIdeas);
 
-router.post(
-  "/",
-  multer().single("image") as any,
-  validateCreateIdea,
-  asyncWrapper(ideasController.createIdea),
-);
+router.post("/", multer().single("image") as any, ideasController.createIdea);
 
-router.patch(
-  "/:id",
-  validateUpdateIdea,
-  asyncWrapper(ideasController.updateIdea),
-);
+router.patch("/:id", ideasController.updateIdea);
 
-router.delete(
-  "/:id",
-  validateDeleteIdea,
-  asyncWrapper(ideasController.deleteIdea),
-);
+router.delete("/:id", ideasController.deleteIdea);
 
-router.post("/pin/:id", validatePinIdea, asyncWrapper(ideasController.pinIdea));
+router.post("/pin/:id", ideasController.pinIdea);
 
-router.post(
-  "/archive/:id",
-  validateArchiveIdea,
-  asyncWrapper(ideasController.archiveIdea),
-);
+router.post("/archive/:id", ideasController.archiveIdea);
 
-router.post(
-  "/move/:id",
-  validateMoveIdea,
-  asyncWrapper(ideasController.moveIdea),
-);
+router.post("/move/:id", ideasController.moveIdea);
 
-router.delete(
-  "/move/:id",
-  validateRemoveFromFolder,
-  asyncWrapper(ideasController.removeFromFolder),
-);
+router.delete("/move/:id", ideasController.removeFromFolder);
 
 export default router;

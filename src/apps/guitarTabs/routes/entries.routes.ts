@@ -2,50 +2,24 @@ import express from "express";
 
 import { uploadMiddleware } from "@middlewares/uploadMiddleware";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as entriesController from "../controllers/entries.controller";
-import {
-  validateDeleteEntry,
-  validateGetEntries,
-  validateToggleFavorite,
-  validateUpdateEntry,
-} from "../middleware/entriesValidation";
 
 const router = express.Router();
 
-router.get("/sidebar-data", asyncWrapper(entriesController.getSidebarData));
+router.get("/sidebar-data", entriesController.getSidebarData);
 
-router.get("/", validateGetEntries, asyncWrapper(entriesController.getEntries));
+router.get("/", entriesController.getEntries);
 
-router.get("/random", asyncWrapper(entriesController.getRandomEntry));
+router.get("/random", entriesController.getRandomEntry);
 
-router.post(
-  "/upload",
-  uploadMiddleware,
-  asyncWrapper(entriesController.uploadFiles),
-);
+router.get("/process-status", entriesController.getProcessStatus);
 
-router.get("/process-status", asyncWrapper(entriesController.getProcessStatus));
+router.post("/upload", uploadMiddleware, entriesController.uploadFiles);
 
-router.patch(
-  "/:id",
-  validateUpdateEntry,
-  asyncWrapper(entriesController.updateEntry),
-);
+router.post("/favourite/:id", entriesController.toggleFavorite);
 
-router.delete(
-  "/:id",
-  validateDeleteEntry,
-  asyncWrapper(entriesController.deleteEntry),
-);
+router.patch("/:id", entriesController.updateEntry);
 
-router.get("/download-all", asyncWrapper(entriesController.downloadAllEntries));
-
-router.post(
-  "/favourite/:id",
-  validateToggleFavorite,
-  asyncWrapper(entriesController.toggleFavorite),
-);
+router.delete("/:id", entriesController.deleteEntry);
 
 export default router;

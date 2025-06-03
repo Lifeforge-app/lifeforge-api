@@ -1,181 +1,170 @@
-import { Request, Response } from "express";
 import fs from "fs";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as containersService from "../services/containers.service";
-import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
+import { IdeaBoxContainerSchema } from "../typescript/ideabox_interfaces";
 
-export const checkContainerExists = async (req, res) => {
-  const { id } = req.params;
-  const exists = await containersService.checkContainerExists(req.pb, id);
-  successWithBaseResponse(res, exists);
-};
+export const checkContainerExists = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, params }) =>
+    await containersService.checkContainerExists(pb, params.id),
+);
 
-export const getContainers = async (req, res) => {
-  const containers = await containersService.getContainers(req.pb);
+export const getContainers = zodHandler(
+  {
+    response: z.array(WithPBSchema(IdeaBoxContainerSchema)),
+  },
+  async ({ pb }) =>
+    (await containersService.getContainers(pb)).map((container) => ({
+      ...container,
+      cover: container.cover
+        ? pb.files
+            .getURL(container, container.cover)
+            .replace(`${pb.baseURL}/api/files`, "")
+        : "",
+    })),
+);
 
-  const processedContainers = containers.map((container) => ({
-    ...container,
-    cover: container.cover
-      ? req.pb.files
-          .getURL(container, container.cover)
-          .replace(`${req.pb.baseURL}/api/files`, "")
-      : "",
-  }));
-
-  successWithBaseResponse(res, processedContainers);
-};
-
-export const createContainer = async (req, res) => {
-  const { name, color, icon } = req.body;
-
-  if (req.file) {
-    const fileBuffer = fs.readFileSync(req.file.path);
-    const container = await containersService.createContainer(
-      req.pb,
-      name,
-      color,
-      icon,
-      new File([fileBuffer], req.file.filename),
-    );
-
-    if (container.cover) {
-      container.cover = req.pb.files
-        .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
-    }
-
-    successWithBaseResponse(res, container, 201);
-    fs.unlinkSync(req.file.path);
-    return;
-  }
-
-  const url = req.body.cover;
-
-  if (url) {
-    const response = await fetch(url);
-    const fileBuffer = await response.arrayBuffer();
+export const createContainer = zodHandler(
+  {
+    body: z.object({
+      name: z.string(),
+      color: z.string(),
+      icon: z.string(),
+      cover: z.string().optional(),
+    }),
+    response: WithPBSchema(IdeaBoxContainerSchema),
+  },
+  async ({ pb, body, req, res }) => {
+    const { name, color, icon } = body;
 
     const container = await containersService.createContainer(
-      req.pb,
+      pb,
       name,
       color,
       icon,
-      new File([fileBuffer], "cover.jpg"),
+      await (async () => {
+        if (req.file) {
+          return new File([fs.readFileSync(req.file.path)], req.file.filename);
+        }
+
+        const url = body.cover;
+        if (url) {
+          const response = await fetch(url);
+          const fileBuffer = await response.arrayBuffer();
+
+          return new File([fileBuffer], "cover.jpg");
+        }
+
+        return undefined;
+      })(),
     );
 
     if (container.cover) {
-      container.cover = req.pb.files
+      container.cover = pb.files
         .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
+        .replace(`${pb.baseURL}/api/files`, "");
     }
 
-    successWithBaseResponse(res, container, 201);
-  } else {
-    const container = await containersService.createContainer(
-      req.pb,
-      name,
-      color,
-      icon,
-    );
-
-    successWithBaseResponse(res, container, 201);
-  }
-};
-
-export const updateContainer = async (req, res) => {
-  const { id } = req.params;
-  const { name, color, icon } = req.body;
-
-  if (!(await checkExistence(req, res, "idea_box_containers", id))) {
-    if (req.file) fs.unlinkSync(req.file.path);
-    return;
-  }
-
-  if (req.file) {
-    const fileBuffer = fs.readFileSync(req.file.path);
-    const container = await containersService.updateContainer(
-      req.pb,
-      id,
-      name,
-      color,
-      icon,
-      new File([fileBuffer], req.file.filename),
-    );
-
-    if (container.cover) {
-      container.cover = req.pb.files
-        .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
     }
 
-    successWithBaseResponse(res, container);
-    fs.unlinkSync(req.file.path);
-    return;
-  }
+    return container;
+  },
+  {
+    statusCode: 201,
+  },
+);
 
-  const url = req.body.cover;
-
-  if (url === "keep") {
-    const container = await containersService.updateContainerKeepCover(
-      req.pb,
-      id,
-      name,
-      color,
-      icon,
-    );
-
-    if (container.cover) {
-      container.cover = req.pb.files
-        .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
-    }
-
-    successWithBaseResponse(res, container);
-  } else if (url) {
-    const response = await fetch(url);
-    const fileBuffer = await response.arrayBuffer();
+export const updateContainer = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      name: z.string(),
+      color: z.string(),
+      icon: z.string(),
+      cover: z.string().optional(),
+    }),
+    response: WithPBSchema(IdeaBoxContainerSchema),
+  },
+  async ({ pb, params, body, req }) => {
+    const { name, color, icon } = body;
 
     const container = await containersService.updateContainer(
-      req.pb,
-      id,
+      pb,
+      params.id,
       name,
       color,
       icon,
-      new File([fileBuffer], "cover.jpg"),
+      await (async () => {
+        if (req.file) {
+          return new File([fs.readFileSync(req.file.path)], req.file.filename);
+        }
+
+        const url = body.cover;
+
+        if (url === "keep") {
+          return "keep";
+        }
+
+        if (url) {
+          const response = await fetch(url);
+          const fileBuffer = await response.arrayBuffer();
+
+          return new File([fileBuffer], "cover.jpg");
+        }
+
+        return undefined;
+      })(),
     );
 
     if (container.cover) {
-      container.cover = req.pb.files
+      container.cover = pb.files
         .getURL(container, container.cover)
-        .replace(`${req.pb.baseURL}/api/files`, "");
+        .replace(`${pb.baseURL}/api/files`, "");
     }
 
-    successWithBaseResponse(res, container);
-  } else {
-    const container = await containersService.updateContainer(
-      req.pb,
-      id,
-      name,
-      color,
-      icon,
-    );
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
 
-    successWithBaseResponse(res, container);
-  }
-};
+    return container;
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_containers",
+      },
+    },
+  },
+);
 
-export const deleteContainer = async (req, res) => {
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "idea_box_containers", id))) {
-    return;
-  }
-
-  await containersService.deleteContainer(req.pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteContainer = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params }) => containersService.deleteContainer(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_containers",
+      },
+    },
+    statusCode: 204,
+  },
+);

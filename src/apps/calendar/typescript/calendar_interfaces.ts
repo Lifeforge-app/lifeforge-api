@@ -12,7 +12,7 @@ const CalendarEventSchema = z.object({
   is_strikethrough: z.boolean(),
   type: z.enum(["single", "recurring"]),
   recurring_rrule: z.string(),
-  recurring_duration_amount: z.number(),
+  recurring_duration_amount: z.string().transform((val) => parseInt(val, 10)),
   recurring_duration_unit: z.string(),
   exceptions: z.array(z.string()).nullable(),
 });

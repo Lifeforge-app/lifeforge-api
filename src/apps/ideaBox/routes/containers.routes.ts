@@ -2,43 +2,26 @@ import express from "express";
 
 import { singleUploadMiddlewareOfKey } from "@middlewares/uploadMiddleware";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as containersController from "../controllers/containers.controller";
-import {
-  validateContainerId,
-  validateCreateContainer,
-  validateUpdateContainer,
-} from "../middleware/containersValidation";
 
 const router = express.Router();
 
-router.get(
-  "/valid/:id",
-  validateContainerId,
-  asyncWrapper(containersController.checkContainerExists),
-);
+router.get("/valid/:id", containersController.checkContainerExists);
 
-router.get("/", asyncWrapper(containersController.getContainers));
+router.get("/", containersController.getContainers);
 
 router.post(
   "/",
   singleUploadMiddlewareOfKey("cover"),
-  validateCreateContainer,
-  asyncWrapper(containersController.createContainer),
+  containersController.createContainer,
 );
 
 router.patch(
   "/:id",
   singleUploadMiddlewareOfKey("cover"),
-  validateUpdateContainer,
-  asyncWrapper(containersController.updateContainer),
+  containersController.updateContainer,
 );
 
-router.delete(
-  "/:id",
-  validateContainerId,
-  asyncWrapper(containersController.deleteContainer),
-);
+router.delete("/:id", containersController.deleteContainer);
 
 export default router;

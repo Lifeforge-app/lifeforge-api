@@ -3,13 +3,9 @@ import fs from "fs";
 
 import { BaseResponse } from "../typescript/base_response";
 
-function successWithBaseResponse<T>(
-  res: Response<BaseResponse<T>>,
-  data: T,
-  status: number = 200,
-) {
+function successWithBaseResponse<T>(res: Response<BaseResponse<T>>, data: T) {
   try {
-    res.status(status).json({
+    res.json({
       state: "success",
       data: data,
     });
@@ -18,7 +14,7 @@ function successWithBaseResponse<T>(
   }
 }
 
-function clientError(res: Response, message = "Bad Request", status = 400) {
+function clientError(res: Response, message = "Bad Request") {
   fs.readdirSync("medium").forEach((file) => {
     if (fs.statSync("medium/" + file).isFile()) {
       fs.unlinkSync("medium/" + file);
@@ -28,7 +24,7 @@ function clientError(res: Response, message = "Bad Request", status = 400) {
   });
 
   try {
-    res.status(status).json({
+    res.json({
       state: "error",
       message,
     });

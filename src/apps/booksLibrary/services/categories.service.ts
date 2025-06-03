@@ -30,5 +30,6 @@ export const updateCategory = (
     .collection("books_library_categories")
     .update<WithPB<IBooksLibraryCategory>>(id, data);
 
-export const deleteCategory = (pb: PocketBase, id: string): Promise<boolean> =>
-  pb.collection("books_library_categories").delete(id);
+export const deleteCategory = async (pb: PocketBase, id: string) => {
+  await pb.collection("books_library_categories").delete(id);
+};

@@ -14,5 +14,15 @@ const WithPBSchema = <T extends z.ZodTypeAny>(schema: T) => {
   return z.intersection(schema, BasePBSchema);
 };
 
+const PBListResultSchema = <T extends z.ZodTypeAny>(schema: T) => {
+  return z.object({
+    page: z.number(),
+    perPage: z.number(),
+    totalItems: z.number(),
+    totalPages: z.number(),
+    items: z.array(schema),
+  });
+};
+
 export type { WithPB };
-export { WithPBSchema };
+export { WithPBSchema, PBListResultSchema };

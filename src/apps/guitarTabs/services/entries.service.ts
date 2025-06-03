@@ -3,7 +3,9 @@ import moment from "moment";
 // @ts-expect-error - No types available
 import pdfPageCounter from "pdf-page-counter";
 import pdfThumbnail from "pdf-thumbnail";
-import PocketBase from "pocketbase";
+import PocketBase, { ListResult } from "pocketbase";
+
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import {
   IGuitarTabsAuthors,
@@ -15,21 +17,25 @@ let processing = "empty";
 let left = 0;
 let total = 0;
 
-export const getRandomEntry = async (pb: PocketBase): Promise => {
+export const getRandomEntry = async (
+  pb: PocketBase,
+): Promise<IGuitarTabsEntry> => {
   const allScores = await pb
     .collection("guitar_tabs_entries")
-    .getFullList<IGuitarTabsEntry>();
+    .getFullList<WithPB<IGuitarTabsEntry>>();
 
   return allScores[Math.floor(Math.random() * allScores.length)];
 };
 
-export const getSidebarData = async (pb: PocketBase): Promise => {
+export const getSidebarData = async (
+  pb: PocketBase,
+): Promise<IGuitarTabsSidebarData> => {
   const allScores = await pb
     .collection("guitar_tabs_entries")
-    .getFullList<IGuitarTabsEntry>();
+    .getFullList<WithPB<IGuitarTabsEntry>>();
   const allAuthors = await pb
     .collection("guitar_tabs_authors")
-    .getFullList<IGuitarTabsAuthors>();
+    .getFullList<WithPB<IGuitarTabsAuthors>>();
 
   return {
     total: allScores.length,
@@ -43,33 +49,43 @@ export const getSidebarData = async (pb: PocketBase): Promise => {
     authors: Object.fromEntries(
       allAuthors.map((author) => [author.name, author.amount]),
     ),
-  };
+  } satisfies IGuitarTabsSidebarData;
 };
 
-export const getEntries = async (
+export const getEntries = (
   pb: PocketBase,
-  page: number,
-  search: string,
-  category: string,
-  author: string,
-  starred: boolean,
-  sort: string,
-) => {
-  return await pb.collection("guitar_tabs_entries").getList(page, 20, {
-    filter: `(name~"${search}" || author~"${search}") && ${
-      category === "uncategorized" ? "type=''" : `type~"${category}"`
-    } && ${author === "na" ? "author = ''" : `author~"${author}"`} ${
-      starred ? "&& isFavourite=true" : ""
-    }`,
-    sort: `-isFavourite, ${
-      sort === "newest"
-        ? "-created"
-        : sort === "oldest"
-          ? "created"
-          : sort || "-created"
-    }`,
-  });
-};
+  {
+    page,
+    search = "",
+    category,
+    author,
+    starred,
+    sort,
+  }: {
+    page: number;
+    search?: string;
+    category?: string;
+    author?: string;
+    starred: boolean;
+    sort: "name" | "author" | "newest" | "oldest";
+  },
+): Promise<ListResult<WithPB<IGuitarTabsEntry>>> =>
+  pb
+    .collection("guitar_tabs_entries")
+    .getList<WithPB<IGuitarTabsEntry>>(page, 20, {
+      filter: `(name~"${search}" || author~"${search}") 
+        ${category ? `&& type="${category === "uncategorized" ? "" : category}"` : ""} 
+        ${author ? `&& ${author === "[na]" ? "author = ''" : `author~"${author}"`}` : ""} 
+        ${starred ? "&& isFavourite=true" : ""}`,
+      sort: `-isFavourite, ${
+        {
+          name: "name",
+          author: "author",
+          newest: "-created",
+          oldest: "created",
+        }[sort]
+      }`,
+    });
 
 export const uploadFiles = async (
   pb: PocketBase,
@@ -83,7 +99,14 @@ export const uploadFiles = async (
       return { status: "error", message: "Already processing" };
     }
 
-    let groups: Record = {};
+    let groups: Record<
+      string,
+      {
+        pdf: Express.Multer.File | null;
+        mscz: Express.Multer.File | null;
+        mp3: Express.Multer.File | null;
+      }
+    > = {};
 
     for (const file of files) {
       const decodedName = decodeURIComponent(file.originalname);
@@ -131,7 +154,17 @@ export const uploadFiles = async (
   }
 };
 
-const processFiles = async (pb: PocketBase, groups: Record) => {
+const processFiles = async (
+  pb: PocketBase,
+  groups: Record<
+    string,
+    {
+      pdf: Express.Multer.File | null;
+      mscz: Express.Multer.File | null;
+      mp3: Express.Multer.File | null;
+    }
+  >,
+) => {
   for (const group of Object.values(groups)) {
     try {
       const file = group.pdf!;
@@ -176,19 +209,21 @@ const processFiles = async (pb: PocketBase, groups: Record) => {
             );
           }
 
-          await pb.collection("guitar_tabs_entries").create(
-            {
-              name,
-              thumbnail: new File([thumbnailBuffer], `${decodedName}.jpeg`),
-              author: "",
-              pdf: new File([buffer], decodedName),
-              pageCount: numpages,
-              ...otherFiles,
-            },
-            {
-              $autoCancel: false,
-            },
-          );
+          await pb
+            .collection("guitar_tabs_entries")
+            .create<WithPB<IGuitarTabsEntry>>(
+              {
+                name,
+                thumbnail: new File([thumbnailBuffer], `${decodedName}.jpeg`),
+                author: "",
+                pdf: new File([buffer], decodedName),
+                pageCount: numpages,
+                ...otherFiles,
+              },
+              {
+                $autoCancel: false,
+              },
+            );
 
           fs.unlinkSync(path);
           fs.unlinkSync(`medium/${decodedName}.jpg`);
@@ -218,127 +253,44 @@ const processFiles = async (pb: PocketBase, groups: Record) => {
   }
 };
 
-export const getProcessStatus = () => {
-  return { status: processing, left, total };
-};
+export const getProcessStatus = (): {
+  status: string;
+  left: number;
+  total: number;
+} => ({
+  status: processing,
+  left,
+  total,
+});
 
-export const updateEntry = async (
+export const updateEntry = (
   pb: PocketBase,
   id: string,
   name: string,
   author: string,
   type: string,
-): Promise => {
-  return await pb.collection("guitar_tabs_entries").update(id, {
+): Promise<IGuitarTabsEntry> =>
+  pb.collection("guitar_tabs_entries").update<WithPB<IGuitarTabsEntry>>(id, {
     name,
     author,
     type,
   });
-};
 
-export const deleteEntry = async (pb: PocketBase, id: string): Promise => {
+export const deleteEntry = async (pb: PocketBase, id: string) => {
   await pb.collection("guitar_tabs_entries").delete(id);
 };
 
-export const downloadAllEntries = async (pb: PocketBase): Promise => {
-  const entries = await pb
-    .collection("guitar_tabs_entries")
-    .getFullList<IGuitarTabsEntry>();
-
-  let mediumLocation = `${process.cwd()}/../medium`;
-  const date = moment().format("YYYY-MM-DD");
-  if (!fs.existsSync(`${mediumLocation}/guitar_tabs-${date}`)) {
-    fs.mkdirSync(`${mediumLocation}/guitar_tabs-${date}`);
-    mediumLocation = `${mediumLocation}/guitar_tabs-${date}`;
-  } else {
-    let i = 1;
-    while (fs.existsSync(`${mediumLocation}/guitar_tabs-${date}-${i}`)) {
-      i++;
-    }
-    fs.mkdirSync(`${mediumLocation}/guitar_tabs-${date}-${i}`);
-    mediumLocation = `${mediumLocation}/guitar_tabs-${date}-${i}`;
-  }
-
-  for (const entry of entries) {
-    let targetLocation = mediumLocation;
-    const folderLocation = `${process.cwd()}/../database/pb_data/storage/${
-      entry.collectionId
-    }/${entry.id}`;
-
-    let i = 0;
-    if (entry.audio || entry.musescore) {
-      while (true) {
-        const number = i === 0 ? "" : `-${i}`;
-        if (fs.existsSync(`${mediumLocation}/${entry.name}${number}`)) {
-          i++;
-          continue;
-        }
-        fs.mkdirSync(`${mediumLocation}/${entry.name}${number}`);
-        targetLocation = `${mediumLocation}/${entry.name}${number}`;
-        break;
-      }
-    }
-
-    i = 0;
-    while (true) {
-      const number = i === 0 ? "" : `-${i}`;
-      if (fs.existsSync(`${targetLocation}/${entry.name}${number}.pdf`)) {
-        i++;
-        continue;
-      }
-      fs.copyFileSync(
-        `${folderLocation}/${entry.pdf}`,
-        `${targetLocation}/${entry.name}${number}.pdf`,
-      );
-      break;
-    }
-
-    if (entry.audio) {
-      i = 0;
-      const ext = entry.audio.split(".").pop();
-      while (true) {
-        const number = i === 0 ? "" : `-${i}`;
-        if (fs.existsSync(`${targetLocation}/${entry.name}${number}.${ext}`)) {
-          i++;
-          continue;
-        }
-        fs.copyFileSync(
-          `${folderLocation}/${entry.audio}`,
-          `${targetLocation}/${entry.name}${number}.${ext}`,
-        );
-        break;
-      }
-
-      if (entry.musescore) {
-        i = 0;
-        const ext = entry.musescore.split(".").pop();
-        while (true) {
-          const number = i === 0 ? "" : `-${i}`;
-          if (
-            fs.existsSync(`${targetLocation}/${entry.name}${number}.${ext}`)
-          ) {
-            i++;
-            continue;
-          }
-          fs.copyFileSync(
-            `${folderLocation}/${entry.musescore}`,
-            `${targetLocation}/${entry.name}${number}.${ext}`,
-          );
-          break;
-        }
-      }
-    }
-  }
-};
-
-export const toggleFavorite = async (pb: PocketBase, id: string): Promise => {
+export const toggleFavorite = async (
+  pb: PocketBase,
+  id: string,
+): Promise<IGuitarTabsEntry> => {
   const entry = await pb
     .collection("guitar_tabs_entries")
-    .getOne<IGuitarTabsEntry>(id);
+    .getOne<WithPB<IGuitarTabsEntry>>(id);
 
   return await pb
     .collection("guitar_tabs_entries")
-    .update<IGuitarTabsEntry>(id, {
+    .update<WithPB<IGuitarTabsEntry>>(id, {
       isFavourite: !entry.isFavourite,
     });
 };

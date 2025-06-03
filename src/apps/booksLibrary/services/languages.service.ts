@@ -28,5 +28,6 @@ export const updateLanguage = (
     .collection("books_library_languages")
     .update<WithPB<IBooksLibraryLanguage>>(id, languageData);
 
-export const deleteLanguage = (pb: PocketBase, id: string): Promise<boolean> =>
-  pb.collection("books_library_languages").delete(id);
+export const deleteLanguage = async (pb: PocketBase, id: string) => {
+  await pb.collection("books_library_languages").delete(id);
+};

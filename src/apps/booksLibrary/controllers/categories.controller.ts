@@ -2,9 +2,7 @@ import { z } from "zod";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
 import { zodHandler } from "@utils/asyncWrapper";
-import { successWithBaseResponse } from "@utils/response";
 
 import * as CategoriesService from "../services/categories.service";
 import { BooksLibraryCategorySchema } from "../typescript/books_library_interfaces";
@@ -13,13 +11,7 @@ export const getAllCategories = zodHandler(
   {
     response: z.array(WithPBSchema(BooksLibraryCategorySchema)),
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const categories = await CategoriesService.getAllCategories(pb);
-
-    successWithBaseResponse(res, categories);
-  },
+  ({ pb }) => CategoriesService.getAllCategories(pb),
 );
 
 export const createCategory = zodHandler(
@@ -27,12 +19,9 @@ export const createCategory = zodHandler(
     body: BooksLibraryCategorySchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryCategorySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const category = await CategoriesService.createCategory(pb, req.body);
-
-    successWithBaseResponse(res, category);
+  ({ pb, body }) => CategoriesService.createCategory(pb, body),
+  {
+    statusCode: 201,
   },
 );
 
@@ -44,17 +33,14 @@ export const updateCategory = zodHandler(
     body: BooksLibraryCategorySchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryCategorySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "books_library_categories", id))) {
-      return;
-    }
-
-    const category = await CategoriesService.updateCategory(pb, id, req.body);
-
-    successWithBaseResponse(res, category);
+  ({ pb, params, body }) =>
+    CategoriesService.updateCategory(pb, params.id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_categories",
+      },
+    },
   },
 );
 
@@ -65,16 +51,13 @@ export const deleteCategory = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "books_library_categories", id))) {
-      return;
-    }
-
-    await CategoriesService.deleteCategory(pb, id);
-
-    successWithBaseResponse(res, undefined, 204);
+  ({ pb, params }) => CategoriesService.deleteCategory(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_categories",
+      },
+    },
+    statusCode: 204,
   },
 );

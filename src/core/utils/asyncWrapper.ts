@@ -1,10 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { ZodTypeAny, z } from "zod";
+import PocketBase from "pocketbase";
+import { ZodObject, ZodRawShape, ZodTypeAny, z } from "zod";
 
 import { BaseResponse } from "@typescript/base_response";
 
+import ClientError from "./ClientError";
+import { checkExistence } from "./PBRecordValidator";
 import hasError from "./checkError";
-import { clientError, serverError } from "./response";
+import { clientError, serverError, successWithBaseResponse } from "./response";
 
 const asyncWrapper =
   <Req extends Request = Request, Res extends Response = Response>(
@@ -34,10 +37,10 @@ const asyncWrapper =
 export default asyncWrapper;
 
 export function zodHandler<
-  BodySchema extends ZodTypeAny | undefined = undefined,
-  QuerySchema extends ZodTypeAny | undefined = undefined,
-  ParamsSchema extends ZodTypeAny | undefined = undefined,
-  ResponseSchema extends ZodTypeAny | undefined = undefined,
+  BodySchema extends ZodObject<ZodRawShape> | undefined = undefined,
+  QuerySchema extends ZodObject<ZodRawShape> | undefined = undefined,
+  ParamsSchema extends ZodObject<ZodRawShape> | undefined = undefined,
+  ResponseSchema extends ZodTypeAny = ZodTypeAny,
 >(
   schema: {
     body?: BodySchema;
@@ -45,34 +48,69 @@ export function zodHandler<
     params?: ParamsSchema;
     response: ResponseSchema;
   },
-  cb: (
+  cb: (_: {
     req: Request<
-      ParamsSchema extends ZodTypeAny ? z.infer<ParamsSchema> : {},
+      ParamsSchema extends ZodObject<ZodRawShape> ? z.infer<ParamsSchema> : {},
       any,
-      BodySchema extends ZodTypeAny ? z.infer<BodySchema> : {},
-      QuerySchema extends ZodTypeAny ? z.infer<QuerySchema> : {}
-    >,
+      BodySchema extends ZodObject<ZodRawShape> ? z.infer<BodySchema> : {},
+      QuerySchema extends ZodObject<ZodRawShape> ? z.infer<QuerySchema> : {}
+    >;
     res: Response<
       BaseResponse<
         ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
       >
-    >,
-    next: NextFunction,
-  ) => Promise<void>,
+    >;
+    pb: PocketBase;
+    params: ParamsSchema extends ZodObject<ZodRawShape>
+      ? z.infer<ParamsSchema>
+      : {};
+    body: BodySchema extends ZodObject<ZodRawShape> ? z.infer<BodySchema> : {};
+    query: QuerySchema extends ZodObject<ZodRawShape>
+      ? z.infer<QuerySchema>
+      : {};
+  }) => Promise<
+    ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
+  >,
+  options?: {
+    existenceCheck?: {
+      params?: Partial<
+        Record<
+          keyof (ParamsSchema extends ZodObject<any>
+            ? z.infer<ParamsSchema>
+            : {}),
+          string
+        >
+      >;
+      body?: Partial<
+        Record<
+          keyof (BodySchema extends ZodObject<any> ? z.infer<BodySchema> : {}),
+          string
+        >
+      >;
+      query?: Partial<
+        Record<
+          keyof (QuerySchema extends ZodObject<any>
+            ? z.infer<QuerySchema>
+            : {}),
+          string
+        >
+      >;
+    };
+    statusCode?: number;
+  },
 ) {
   return async (
     req: Request<
-      ParamsSchema extends ZodTypeAny ? z.infer<ParamsSchema> : {},
+      ParamsSchema extends ZodObject<ZodRawShape> ? z.infer<ParamsSchema> : {},
       any,
-      BodySchema extends ZodTypeAny ? z.infer<BodySchema> : {},
-      QuerySchema extends ZodTypeAny ? z.infer<QuerySchema> : {}
+      BodySchema extends ZodObject<ZodRawShape> ? z.infer<BodySchema> : {},
+      QuerySchema extends ZodObject<ZodRawShape> ? z.infer<QuerySchema> : {}
     >,
     res: Response<
       BaseResponse<
         ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
       >
     >,
-    next: NextFunction,
   ): Promise<void> => {
     try {
       if (hasError(req, res)) return;
@@ -82,14 +120,82 @@ export function zodHandler<
         if (validator) {
           const result = validator.safeParse(req[key]);
           if (!result.success) {
-            return clientError(res, `Invalid ${key}: ${result.error.message}`);
+            throw new ClientError(`Invalid ${key}: ${result.error.message}`);
           }
-          req[key] = result.data;
+
+          if (key === "body") {
+            req.body = result.data as BodySchema extends ZodObject<ZodRawShape>
+              ? z.infer<BodySchema>
+              : {};
+          } else if (key === "query") {
+            req.query =
+              result.data as QuerySchema extends ZodObject<ZodRawShape>
+                ? z.infer<QuerySchema>
+                : {};
+          } else if (key === "params") {
+            req.params =
+              result.data as ParamsSchema extends ZodObject<ZodRawShape>
+                ? z.infer<ParamsSchema>
+                : {};
+          }
         }
       }
 
-      await cb(req as any, res as any, next);
+      for (const type of ["params", "body", "query"] as const) {
+        if (options?.existenceCheck?.[type]) {
+          for (const [key, collection] of Object.entries(
+            options.existenceCheck[type],
+          ) as Array<[keyof (typeof req)[typeof type], string]>) {
+            const optional = collection.match(/^\[(.*)\]$/);
+            const value = req[type][key] as string | string[] | undefined;
+
+            if (optional && value === undefined) {
+              continue;
+            }
+
+            if (Array.isArray(value)) {
+              for (const val of value) {
+                if (
+                  !(await checkExistence(
+                    req,
+                    res,
+                    collection.replace(/^\[(.*)\]$/, "$1"),
+                    val,
+                  ))
+                ) {
+                  return;
+                }
+              }
+            } else if (
+              !(await checkExistence(
+                req,
+                res,
+                collection.replace(/^\[(.*)\]$/, "$1"),
+                value as string,
+              ))
+            ) {
+              return;
+            }
+          }
+        }
+      }
+
+      const response = await cb({
+        req,
+        res,
+        pb: req.pb,
+        params: req.params,
+        body: req.body,
+        query: req.query,
+      });
+
+      res.status(options?.statusCode || 200);
+      successWithBaseResponse(res, response);
     } catch (err) {
+      if (ClientError.isClientError(err)) {
+        return clientError(res, err.message);
+      }
+
       console.error("Internal error:", err);
       serverError(res, "Internal server error");
     }

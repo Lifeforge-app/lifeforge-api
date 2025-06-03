@@ -2,9 +2,8 @@ import { z } from "zod";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
+import ClientError from "@utils/ClientError";
 import { zodHandler } from "@utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "@utils/response";
 
 import * as CategoriesService from "../services/categories.service";
 import { CalendarCategorySchema } from "../typescript/calendar_interfaces";
@@ -13,13 +12,7 @@ export const getAllCategories = zodHandler(
   {
     response: z.array(WithPBSchema(CalendarCategorySchema)),
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const categories = await CategoriesService.getAllCategories(pb);
-
-    successWithBaseResponse(res, categories);
-  },
+  async ({ pb }) => await CategoriesService.getAllCategories(pb),
 );
 
 export const getCategoryById = zodHandler(
@@ -29,17 +22,14 @@ export const getCategoryById = zodHandler(
     }),
     response: WithPBSchema(CalendarCategorySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "calendar_categories", id))) {
-      return;
-    }
-
-    const category = await CategoriesService.getCategoryById(pb, id);
-
-    successWithBaseResponse(res, category);
+  async ({ pb, params }) =>
+    await CategoriesService.getCategoryById(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "calendar_categories",
+      },
+    },
   },
 );
 
@@ -50,26 +40,21 @@ export const createCategory = zodHandler(
     }),
     response: WithPBSchema(CalendarCategorySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const categoryData = req.body;
-
-    if (categoryData.name.startsWith("_")) {
-      return clientError(res, "Category name cannot start with _");
+  async ({ pb, body }) => {
+    if (body.name.startsWith("_")) {
+      throw new ClientError("Category name cannot start with _");
     }
 
     if (
       await pb
         .collection("calendar_categories")
-        .getFirstListItem(`name="${categoryData.name}"`)
+        .getFirstListItem(`name="${body.name}"`)
         .catch(() => null)
     ) {
-      return clientError(res, "Category with this name already exists");
+      throw new ClientError("Category with this name already exists");
     }
 
-    const category = await CategoriesService.createCategory(pb, categoryData);
-
-    successWithBaseResponse(res, category, 201);
+    return await CategoriesService.createCategory(pb, body);
   },
 );
 
@@ -83,35 +68,28 @@ export const updateCategory = zodHandler(
     }),
     response: WithPBSchema(CalendarCategorySchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const categoryData = req.body;
-
-    if (categoryData.name.startsWith("_")) {
-      return clientError(res, "Category name cannot start with _");
-    }
-
-    if (!(await checkExistence(req, res, "calendar_categories", id))) {
-      return;
+  async ({ pb, params, body }) => {
+    if (body.name.startsWith("_")) {
+      throw new ClientError("Category name cannot start with _");
     }
 
     if (
       await pb
         .collection("calendar_categories")
-        .getFirstListItem(`name="${categoryData.name}" && id != "${id}"`)
+        .getFirstListItem(`name="${body.name}" && id != "${params.id}"`)
         .catch(() => null)
     ) {
-      return clientError(res, "Category with this name already exists");
+      throw new ClientError("Category with this name already exists");
     }
 
-    const category = await CategoriesService.updateCategory(
-      pb,
-      id,
-      categoryData,
-    );
-
-    successWithBaseResponse(res, category);
+    return await CategoriesService.updateCategory(pb, params.id, body);
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "calendar_categories",
+      },
+    },
   },
 );
 
@@ -122,16 +100,14 @@ export const deleteCategory = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "calendar_categories", id))) {
-      return;
-    }
-
-    await CategoriesService.deleteCategory(pb, id);
-
-    successWithBaseResponse(res, undefined, 204);
+  async ({ pb, params }) =>
+    await CategoriesService.deleteCategory(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "calendar_categories",
+      },
+    },
+    statusCode: 204,
   },
 );

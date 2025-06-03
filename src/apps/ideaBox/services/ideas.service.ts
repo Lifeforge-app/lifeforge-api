@@ -1,38 +1,33 @@
 import PocketBase from "pocketbase";
 
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import {
   IIdeaBoxEntry,
   IIdeaBoxFolder,
-  IIdeaBoxTag,
 } from "../typescript/ideabox_interfaces";
 
-export const getIdeas = async (
+export const getIdeas = (
   pb: PocketBase,
   container: string,
   folder: string,
-  archived: string,
-) => {
-  const filter = `container = "${container}" && archived = ${archived || "false"} ${
-    folder ? `&& folder = "${folder}"` : "&& folder=''"
-  }`;
-
-  const ideas = await pb
-    .collection("idea_box_entries")
-    .getFullList<IIdeaBoxEntry>({
-      filter,
-      sort: "-pinned,-created",
-    });
-
-  return ideas;
-};
+  archived: boolean,
+): Promise<WithPB<IIdeaBoxEntry>[]> =>
+  pb.collection("idea_box_entries").getFullList<WithPB<IIdeaBoxEntry>>({
+    filter: `container = "${container}" && archived = ${archived} ${
+      folder ? `&& folder = "${folder}"` : "&& folder=''"
+    }`,
+    sort: "-pinned,-created",
+  });
 
 export const validateFolderPath = async (
   pb: PocketBase,
   container: string,
   path: string[],
-) => {
+): Promise<{
+  folderExists: boolean;
+  lastFolder: string;
+}> => {
   let folderExists = true;
   let lastFolder = "";
 
@@ -60,113 +55,33 @@ export const validateFolderPath = async (
   return { folderExists, lastFolder };
 };
 
-export const createIdea = async (
+export const createIdea = (
   pb: PocketBase,
-  data: WithoutPBDefault<
-    Omit<IIdeaBoxEntry, "image" | "pinned" | "archived">
-  > & {
+  data: Omit<IIdeaBoxEntry, "image" | "pinned" | "archived"> & {
     image?: File;
   },
-) => {
-  const idea: IIdeaBoxEntry = await pb
-    .collection("idea_box_entries")
-    .create(data);
-
-  await pb.collection("idea_box_containers").update(data.container, {
-    [`${data.type}_count+`]: 1,
-  });
-
-  return idea;
-};
-
-export const updateIdeaTags = async (
-  pb: PocketBase,
-  idea: IIdeaBoxEntry,
-  oldTags: string[] = [],
-) => {
-  for (const tag of oldTags || []) {
-    if (idea.tags?.includes(tag)) continue;
-
-    const tagEntry = await pb
-      .collection("idea_box_tags")
-      .getFirstListItem<IIdeaBoxTag>(
-        `name = "${tag}" && container = "${idea.container}"`,
-      );
-
-    if (tagEntry) {
-      if (tagEntry.count === 1) {
-        await pb.collection("idea_box_tags").delete(tagEntry.id);
-      } else {
-        await pb.collection("idea_box_tags").update(tagEntry.id, {
-          "count-": 1,
-        });
-      }
-    }
-  }
-
-  for (const tag of idea.tags || []) {
-    if (oldTags?.includes(tag)) continue;
-
-    try {
-      const tagEntry = await pb
-        .collection("idea_box_tags")
-        .getFirstListItem(`name = "${tag}" && container = "${idea.container}"`);
-
-      await pb.collection("idea_box_tags").update(tagEntry.id, {
-        "count+": 1,
-      });
-    } catch (error) {
-      await pb.collection("idea_box_tags").create({
-        name: tag,
-        container: idea.container,
-        count: 1,
-      });
-    }
-  }
-};
+): Promise<WithPB<IIdeaBoxEntry>> =>
+  pb.collection("idea_box_entries").create<WithPB<IIdeaBoxEntry>>(data);
 
 export const updateIdea = async (
   pb: PocketBase,
   id: string,
   data: Partial<IIdeaBoxEntry>,
-) => {
-  const oldEntry = await pb
-    .collection("idea_box_entries")
-    .getOne<IIdeaBoxEntry>(id);
-  const entry: IIdeaBoxEntry = await pb
-    .collection("idea_box_entries")
-    .update(id, data);
-
-  if (oldEntry.type !== entry.type) {
-    await pb.collection("idea_box_containers").update(entry.container, {
-      [`${oldEntry.type}_count-`]: 1,
-      [`${entry.type}_count+`]: 1,
-    });
-  }
-
-  return { entry, oldEntry };
-};
+): Promise<WithPB<IIdeaBoxEntry>> =>
+  pb.collection("idea_box_entries").update<WithPB<IIdeaBoxEntry>>(id, data);
 
 export const deleteIdea = async (pb: PocketBase, id: string) => {
-  const idea = await pb
-    .collection("idea_box_entries")
-    .getOne<IIdeaBoxEntry>(id);
   await pb.collection("idea_box_entries").delete(id);
-
-  await pb.collection("idea_box_containers").update(idea.container, {
-    [`${idea.type}_count-`]: 1,
-  });
-
-  return idea;
 };
 
 export const updatePinStatus = async (pb: PocketBase, id: string) => {
   const idea = await pb
     .collection("idea_box_entries")
-    .getOne<IIdeaBoxEntry>(id);
-  const entry: IIdeaBoxEntry = await pb
+    .getOne<WithPB<IIdeaBoxEntry>>(id);
+
+  const entry = await pb
     .collection("idea_box_entries")
-    .update(id, {
+    .update<WithPB<IIdeaBoxEntry>>(id, {
       pinned: !idea.pinned,
     });
 
@@ -176,10 +91,11 @@ export const updatePinStatus = async (pb: PocketBase, id: string) => {
 export const updateArchiveStatus = async (pb: PocketBase, id: string) => {
   const idea = await pb
     .collection("idea_box_entries")
-    .getOne<IIdeaBoxEntry>(id);
-  const entry: IIdeaBoxEntry = await pb
+    .getOne<WithPB<IIdeaBoxEntry>>(id);
+
+  const entry = await pb
     .collection("idea_box_entries")
-    .update(id, {
+    .update<WithPB<IIdeaBoxEntry>>(id, {
       archived: !idea.archived,
       pinned: false,
     });
@@ -187,22 +103,19 @@ export const updateArchiveStatus = async (pb: PocketBase, id: string) => {
   return entry;
 };
 
-export const moveIdea = async (pb: PocketBase, id: string, target: string) => {
-  const entry: IIdeaBoxEntry = await pb
-    .collection("idea_box_entries")
-    .update(id, {
-      folder: target,
-    });
+export const moveIdea = async (
+  pb: PocketBase,
+  id: string,
+  target: string,
+): Promise<WithPB<IIdeaBoxEntry>> =>
+  pb.collection("idea_box_entries").update<WithPB<IIdeaBoxEntry>>(id, {
+    folder: target,
+  });
 
-  return entry;
-};
-
-export const removeFromFolder = async (pb: PocketBase, id: string) => {
-  const entry = await pb
-    .collection("idea_box_entries")
-    .update<IIdeaBoxEntry>(id, {
-      folder: "",
-    });
-
-  return entry;
-};
+export const removeFromFolder = (
+  pb: PocketBase,
+  id: string,
+): Promise<WithPB<IIdeaBoxEntry>> =>
+  pb.collection("idea_box_entries").update<WithPB<IIdeaBoxEntry>>(id, {
+    folder: "",
+  });

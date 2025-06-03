@@ -1,62 +1,98 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
-
+import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
 
 import * as miscService from "../services/misc.service";
-import {
-  IIdeaBoxContainer,
-  IIdeaBoxEntry,
-  IIdeaBoxFolder,
-} from "../typescript/ideabox_interfaces";
 
-export const getPath = async (req, res) => {
-  const { container } = req.params;
-  const path = req.params[0].split("/").filter((p) => p !== "");
+export const getPath = zodHandler(
+  {
+    params: z.object({
+      container: z.string(),
+      "0": z.string(),
+    }),
+    response: z.any(),
+  },
+  async ({ pb, params, req, res }) => {
+    const result = await miscService.getPath(
+      pb,
+      params.container,
+      params[0].split("/").filter((p) => p !== ""),
+      req,
+      res,
+    );
 
-  const result = await miscService.getPath(req.pb, container, path, req, res);
-  if (!result) return;
+    if (!result) {
+      throw new Error("Something went wrong while fetching the path");
+    }
 
-  successWithBaseResponse(res, result);
-};
+    return result;
+  },
+);
 
-export const checkValid = async (req, res) => {
-  const { container } = req.params;
-  const path = req.params[0].split("/").filter((p) => p !== "");
+export const checkValid = zodHandler(
+  {
+    params: z.object({
+      container: z.string(),
+      "0": z.string(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, params, req, res }) =>
+    await miscService.checkValid(
+      pb,
+      params.container,
+      params[0].split("/").filter((p) => p !== ""),
+      req,
+      res,
+    ),
+);
 
-  const isValid = await miscService.checkValid(
-    req.pb,
-    container,
-    path,
-    req,
-    res,
-  );
-  successWithBaseResponse(res, isValid);
-};
+export const getOgData = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.record(z.string(), z.any()),
+  },
+  async ({ pb, params }) => await miscService.getOgData(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "idea_box_entries",
+      },
+    },
+  },
+);
 
-export const getOgData = async (req, res) => {
-  const { id } = req.params;
+export const search = zodHandler(
+  {
+    query: z.object({
+      q: z.string(),
+      container: z.string().optional(),
+      tags: z.string().optional(),
+      folder: z.string().optional(),
+    }),
+    response: z.any(),
+  },
+  async ({ pb, query, req, res }) => {
+    const { q, container, tags, folder } = query;
 
-  const result = await miscService.getOgData(req.pb, id, req, res);
-  if (!result) return;
-
-  successWithBaseResponse(res, result);
-};
-
-export const search = async (req, res) => {
-  const { q, container, tags, folder } = req.query as Record;
-
-  const results = await miscService.search(
-    req.pb,
-    q,
-    container || "",
-    tags || "",
-    folder || "",
-    req,
-    res,
-  );
-  if (!results) return;
-
-  successWithBaseResponse(res, results as any);
-};
+    return await miscService.search(
+      pb,
+      q,
+      container || "",
+      tags || "",
+      folder || "",
+      req,
+      res,
+    );
+  },
+  {
+    existenceCheck: {
+      query: {
+        container: "[idea_box_containers]",
+      },
+    },
+  },
+);

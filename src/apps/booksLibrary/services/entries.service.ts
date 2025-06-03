@@ -3,6 +3,8 @@ import Pocketbase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
+import ClientError from "@utils/ClientError";
+
 import { IBooksLibraryEntry } from "../typescript/books_library_interfaces";
 
 export const getAllEntries = (
@@ -64,7 +66,7 @@ export const sendToKindle = async (
   try {
     await transporter.verify();
   } catch (err) {
-    throw new Error("SMTP credentials are invalid");
+    throw new ClientError("SMTP credentials are invalid");
   }
 
   const entry = await pb
@@ -98,5 +100,6 @@ export const sendToKindle = async (
   }
 };
 
-export const deleteEntry = (pb: Pocketbase, id: string): Promise<boolean> =>
-  pb.collection("books_library_entries").delete(id);
+export const deleteEntry = async (pb: Pocketbase, id: string) => {
+  await pb.collection("books_library_entries").delete(id);
+};

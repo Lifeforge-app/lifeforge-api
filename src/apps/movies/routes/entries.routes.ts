@@ -1,35 +1,15 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as EntriesController from "../controllers/entries.controller";
-import {
-  validateEntryId,
-  validateTMDBId,
-} from "../middlewares/entriesValidation";
 
 const router = express.Router();
 
-router.get("/", asyncWrapper(EntriesController.getAllEntries));
+router.get("/", EntriesController.getAllEntries);
 
-router.post(
-  "/:id",
-  validateTMDBId,
-  asyncWrapper(EntriesController.createEntryFromTMDB),
-);
+router.post("/:id", EntriesController.createEntryFromTMDB);
 
-router.delete(
-  "/:id",
-  validateEntryId,
+router.delete("/:id", EntriesController.deleteEntry);
 
-  asyncWrapper(EntriesController.deleteEntry),
-);
-
-router.patch(
-  "/watch-status/:id",
-  validateEntryId,
-
-  asyncWrapper(EntriesController.toggleWatchStatus),
-);
+router.patch("/watch-status/:id", EntriesController.toggleWatchStatus);
 
 export default router;

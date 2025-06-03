@@ -1,12 +1,9 @@
-import { Request, Response } from "express";
 import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
+import ClientError from "@utils/ClientError";
 import { zodHandler } from "@utils/asyncWrapper";
-import { clientError, successWithBaseResponse } from "@utils/response";
 
 import * as CalendarsService from "../services/calendars.service";
 import { CalendarCalendarSchema } from "../typescript/calendar_interfaces";
@@ -15,13 +12,7 @@ export const getAllCalendars = zodHandler(
   {
     response: z.array(WithPBSchema(CalendarCalendarSchema)),
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const calendars = await CalendarsService.getAllCalendars(pb);
-
-    successWithBaseResponse(res, calendars);
-  },
+  async ({ pb }) => await CalendarsService.getAllCalendars(pb),
 );
 
 export const getCalendarById = zodHandler(
@@ -31,17 +22,14 @@ export const getCalendarById = zodHandler(
     }),
     response: WithPBSchema(CalendarCalendarSchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "calendar_calendars", id))) {
-      return;
-    }
-
-    const calendar = await CalendarsService.getCalendarById(pb, id);
-
-    successWithBaseResponse(res, calendar);
+  async ({ pb, params }) =>
+    await CalendarsService.getCalendarById(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "calendar_calendars",
+      },
+    },
   },
 );
 
@@ -50,21 +38,20 @@ export const createCalendar = zodHandler(
     body: CalendarCalendarSchema,
     response: WithPBSchema(CalendarCalendarSchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-
+  async ({ pb, body }) => {
     if (
       await pb
         .collection("calendar_calendars")
-        .getFirstListItem(`name="${req.body.name}"`)
+        .getFirstListItem(`name="${body.name}"`)
         .catch(() => null)
     ) {
-      return clientError(res, "Calendar with this name already exists");
+      throw new ClientError("Calendar with this name already exists");
     }
 
-    const calendar = await CalendarsService.createCalendar(pb, req.body);
-
-    successWithBaseResponse(res, calendar, 201);
+    return await CalendarsService.createCalendar(pb, body);
+  },
+  {
+    statusCode: 201,
   },
 );
 
@@ -76,26 +63,24 @@ export const updateCalendar = zodHandler(
     body: CalendarCalendarSchema,
     response: WithPBSchema(CalendarCalendarSchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "calendar_calendars", id))) {
-      return;
-    }
-
+  async ({ pb, params, body }) => {
     if (
       await pb
         .collection("calendar_calendars")
-        .getFirstListItem(`name="${req.body.name}" && id != "${id}"`)
+        .getFirstListItem(`name="${body.name}" && id != "${params.id}"`)
         .catch(() => null)
     ) {
-      return clientError(res, "Calendar with this name already exists");
+      throw new ClientError("Calendar with this name already exists");
     }
 
-    const calendar = await CalendarsService.updateCalendar(pb, id, req.body);
-
-    successWithBaseResponse(res, calendar);
+    return await CalendarsService.updateCalendar(pb, params.id, body);
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "calendar_calendars",
+      },
+    },
   },
 );
 
@@ -106,16 +91,14 @@ export const deleteCalendar = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "calendar_calendars", id))) {
-      return;
-    }
-
-    await CalendarsService.deleteCalendar(pb, id);
-
-    successWithBaseResponse(res, undefined, 204);
+  async ({ pb, params }) =>
+    await CalendarsService.deleteCalendar(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "calendar_calendars",
+      },
+    },
+    statusCode: 204,
   },
 );

@@ -4,10 +4,38 @@ import PDFDocument from "pdfkit";
 import PocketBase from "pocketbase";
 import sharp from "sharp";
 
-import { IGuitarTabsEntry } from "../typescript/guitar_tabs_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
-export const getTabsList = async (cookie: string, page: number) => {
-  const data: Record = await fetch(
+import {
+  IGuitarTabsEntry,
+  IGuitarTabsGuitarWorldEntry,
+} from "../typescript/guitar_tabs_interfaces";
+
+export const getTabsList = async (
+  cookie: string,
+  page: number,
+): Promise<{
+  data: IGuitarTabsGuitarWorldEntry[];
+  totalItems: number;
+  perPage: number;
+}> => {
+  const data: {
+    data: {
+      list: {
+        qupu: {
+          id: string;
+          name: string;
+          sub_title: string;
+          category_txt: string;
+          main_artist: string;
+          creator_name: string;
+          audio: string;
+        };
+      }[];
+      total: number;
+      page_size: number;
+    };
+  } = await fetch(
     `https://user.guitarworld.com.cn/user/pu/my/pu_list?page=${page}`,
     {
       headers: {
@@ -20,16 +48,19 @@ export const getTabsList = async (cookie: string, page: number) => {
 
   return {
     data: data.data.list
-      .map((item: Record) => item.qupu)
-      .map((item: Record) => ({
-        id: item.id,
-        name: item.name,
-        subtitle: item.sub_title,
-        category: item.category_txt,
-        mainArtist: item.main_artist,
-        uploader: item.creator_name,
-        audioUrl: item.audio,
-      })),
+      .map((item) => item.qupu)
+      .map(
+        (item) =>
+          ({
+            id: item.id,
+            name: item.name,
+            subtitle: item.sub_title,
+            category: item.category_txt,
+            mainArtist: item.main_artist,
+            uploader: item.creator_name,
+            audioUrl: item.audio,
+          }) satisfies IGuitarTabsGuitarWorldEntry,
+      ),
     totalItems: data.data.total,
     perPage: data.data.page_size,
   };
@@ -43,7 +74,7 @@ export const downloadTab = async (
   category: string,
   mainArtist: string,
   audioUrl: string,
-): Promise => {
+): Promise<WithPB<IGuitarTabsEntry>> => {
   const rawHTML = await fetch(
     "https://user.guitarworld.com.cn/user/pu/my/" + id,
     {
@@ -104,7 +135,7 @@ export const downloadTab = async (
 
       const newEntry = await pb
         .collection("guitar_tabs_entries")
-        .create<IGuitarTabsEntry>({
+        .create<WithPB<IGuitarTabsEntry>>({
           name,
           author: mainArtist,
           pageCount: images.length,

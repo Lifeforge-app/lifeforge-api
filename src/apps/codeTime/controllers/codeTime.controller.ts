@@ -2,13 +2,8 @@ import { z } from "zod";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import ClientError from "@utils/ClientError";
 import { zodHandler } from "@utils/asyncWrapper";
-import hasError from "@utils/checkError";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "@utils/response";
 
 import * as CodeTimeService from "../services/codeTime.service";
 import {
@@ -24,27 +19,14 @@ export const getActivities = zodHandler(
     }),
     response: CodeTimeActivitiesSchema,
   },
-  async (req, res) => {
-    const { pb } = req;
-    const year = req.query.year;
-
-    const activitiesData = await CodeTimeService.getActivities(pb, year);
-
-    successWithBaseResponse(res, activitiesData);
-  },
+  async ({ pb, query }) => await CodeTimeService.getActivities(pb, query.year),
 );
 
 export const getStatistics = zodHandler(
   {
     response: CodeTimeStatisticsSchema,
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const statistics = await CodeTimeService.getStatistics(pb);
-
-    successWithBaseResponse(res, statistics);
-  },
+  async ({ pb }) => await CodeTimeService.getStatistics(pb),
 );
 
 export const getLastXDays = zodHandler(
@@ -54,20 +36,14 @@ export const getLastXDays = zodHandler(
     }),
     response: z.array(WithPBSchema(CodeTimeDailyEntrySchema)),
   },
-  async (req, res) => {
-    if (hasError(req, res)) return;
-
-    const { pb } = req;
-    const { days } = req.query;
+  async ({ pb, query }) => {
+    const { days } = query;
 
     if (days > 30) {
-      clientError(res, "days must be less than or equal to 30", 400);
-      return;
+      throw new ClientError("days must be less than or equal to 30");
     }
 
-    const data = await CodeTimeService.getLastXDays(pb, days);
-
-    return successWithBaseResponse(res, data);
+    return await CodeTimeService.getLastXDays(pb, days);
   },
 );
 
@@ -78,14 +54,8 @@ export const getProjects = zodHandler(
     }),
     response: z.record(z.string(), z.number()),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const lastXDays = req.query.last;
-
-    const projectsStats = await CodeTimeService.getProjectsStats(pb, lastXDays);
-
-    successWithBaseResponse(res, projectsStats);
-  },
+  async ({ pb, query }) =>
+    await CodeTimeService.getProjectsStats(pb, query.last),
 );
 
 export const getLanguages = zodHandler(
@@ -95,17 +65,8 @@ export const getLanguages = zodHandler(
     }),
     response: z.record(z.string(), z.number()),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const lastXDays = req.query.last;
-
-    const languagesStats = await CodeTimeService.getLanguagesStats(
-      pb,
-      lastXDays,
-    );
-
-    successWithBaseResponse(res, languagesStats);
-  },
+  async ({ pb, query }) =>
+    await CodeTimeService.getLanguagesStats(pb, query.last),
 );
 
 export const getEachDay = zodHandler(
@@ -117,13 +78,7 @@ export const getEachDay = zodHandler(
       }),
     ),
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const eachDayData = await CodeTimeService.getEachDay(pb);
-
-    successWithBaseResponse(res, eachDayData);
-  },
+  async ({ pb }) => await CodeTimeService.getEachDay(pb),
 );
 
 export const getUserMinutes = zodHandler(
@@ -135,42 +90,28 @@ export const getUserMinutes = zodHandler(
       minutes: z.number(),
     }),
   },
-  async (req, res) => {
-    try {
-      const { pb } = req;
-      const { minutes } = req.query;
-
-      const result = await CodeTimeService.getUserMinutes(pb, +minutes!);
-
-      res.json(result as any);
-    } catch (e: any) {
-      serverError(res, e.message);
-    }
-  },
+  async ({ pb, query }) =>
+    await CodeTimeService.getUserMinutes(pb, query.minutes),
 );
 
 export const logEvent = zodHandler(
   {
-    body: z.object({
-      event: z.string(),
-      data: z.record(z.string(), z.any()),
-    }),
+    // @ts-ignore
+    body: z.any(),
     response: z.object({
       status: z.string(),
       data: z.array(z.any()),
       message: z.string(),
     }),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const data = req.body;
+  async ({ pb, body }) => {
+    await CodeTimeService.logEvent(pb, body);
 
-    await CodeTimeService.logEvent(pb, data);
-    res.send({
+    return {
       status: "ok",
       data: [],
       message: "success",
-    } as any);
+    };
   },
 );
 
@@ -178,12 +119,12 @@ export const getReadmeImage = zodHandler(
   {
     response: z.instanceof(Uint8Array<ArrayBufferLike>),
   },
-  async (req, res) => {
-    const imageBuffer = await CodeTimeService.getReadmeImage(req.pb);
+  async ({ pb, res }) => {
+    const imageBuffer = await CodeTimeService.getReadmeImage(pb);
 
     res.set("Cache-Control", "no-cache, no-store, must-revalidate");
     res.set("Content-Type", "image/png");
 
-    res.send(imageBuffer as any);
+    return imageBuffer;
   },
 );

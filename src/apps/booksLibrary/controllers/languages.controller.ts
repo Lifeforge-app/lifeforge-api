@@ -1,11 +1,8 @@
-import { Request, Response } from "express";
 import { z } from "zod";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
 import { zodHandler } from "@utils/asyncWrapper";
-import { successWithBaseResponse } from "@utils/response";
 
 import * as LanguagesService from "../services/languages.service";
 import { BooksLibraryLanguageSchema } from "../typescript/books_library_interfaces";
@@ -14,13 +11,7 @@ export const getAllLanguages = zodHandler(
   {
     response: z.array(BooksLibraryLanguageSchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-
-    const languages = await LanguagesService.getAllLanguages(pb);
-
-    successWithBaseResponse(res, languages);
-  },
+  ({ pb }) => LanguagesService.getAllLanguages(pb),
 );
 
 export const createLanguage = zodHandler(
@@ -28,14 +19,8 @@ export const createLanguage = zodHandler(
     body: BooksLibraryLanguageSchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryLanguageSchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { name, icon } = req.body;
-
-    const language = await LanguagesService.createLanguage(pb, { name, icon });
-
-    successWithBaseResponse(res, language, 201);
-  },
+  async ({ pb, body }) => await LanguagesService.createLanguage(pb, body),
+  { statusCode: 201 },
 );
 
 export const updateLanguage = zodHandler(
@@ -46,21 +31,14 @@ export const updateLanguage = zodHandler(
     body: BooksLibraryLanguageSchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryLanguageSchema),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-    const { name, icon } = req.body;
-
-    if (!(await checkExistence(req, res, "languages", id))) {
-      return;
-    }
-
-    const language = await LanguagesService.updateLanguage(pb, id, {
-      name,
-      icon,
-    });
-
-    successWithBaseResponse(res, language);
+  async ({ pb, params, body }) =>
+    await LanguagesService.updateLanguage(pb, params.id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "books_library_languages",
+      },
+    },
   },
 );
 
@@ -71,16 +49,14 @@ export const deleteLanguage = zodHandler(
     }),
     response: z.void(),
   },
-  async (req, res) => {
-    const { pb } = req;
-    const { id } = req.params;
-
-    if (!(await checkExistence(req, res, "languages", id))) {
-      return;
-    }
-
-    await LanguagesService.deleteLanguage(pb, id);
-
-    successWithBaseResponse(res, undefined, 204);
+  async ({ pb, params }) =>
+    await LanguagesService.deleteLanguage(pb, params.id),
+  {
+    existenceCheck: {
+      params: {
+        id: "languages",
+      },
+    },
+    statusCode: 204,
   },
 );

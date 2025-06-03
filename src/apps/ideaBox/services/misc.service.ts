@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import ogs from "open-graph-scraper";
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
+import ClientError from "@utils/ClientError";
 import { checkExistence } from "@utils/PBRecordValidator";
 import { clientError } from "@utils/response";
 
@@ -19,7 +22,10 @@ export const getPath = async (
   path: string[],
   req: Request,
   res: Response,
-) => {
+): Promise<{
+  container: WithPB<IIdeaBoxContainer>;
+  path: WithPB<IIdeaBoxFolder>[];
+} | null> => {
   const containerExists = await checkExistence(
     req,
     res,
@@ -31,14 +37,14 @@ export const getPath = async (
 
   const containerEntry = await pb
     .collection("idea_box_containers")
-    .getOne<IIdeaBoxContainer>(container);
+    .getOne<WithPB<IIdeaBoxContainer>>(container);
 
   containerEntry.cover = pb.files
     .getURL(containerEntry, containerEntry.cover)
     .replace(`${pb.baseURL}/api/files`, "");
 
   let lastFolder = "";
-  const fullPath: IIdeaBoxFolder[] = [];
+  const fullPath: WithPB<IIdeaBoxFolder>[] = [];
 
   for (const folder of path) {
     if (!(await checkExistence(req, res, "idea_box_folders", folder))) {
@@ -47,7 +53,7 @@ export const getPath = async (
 
     const folderEntry = await pb
       .collection("idea_box_folders")
-      .getOne<IIdeaBoxFolder>(folder);
+      .getOne<WithPB<IIdeaBoxFolder>>(folder);
 
     if (
       folderEntry.parent !== lastFolder ||
@@ -73,7 +79,7 @@ export const checkValid = async (
   path: string[],
   req: Request,
   res: Response,
-) => {
+): Promise<boolean> => {
   const containerExists = await checkExistence(
     req,
     res,
@@ -116,24 +122,18 @@ export const checkValid = async (
 export const getOgData = async (
   pb: PocketBase,
   id: string,
-  req: Request,
-  res: Response,
-) => {
-  if (!(await checkExistence(req, res, "idea_box_entries", id))) {
-    return;
-  }
-  null;
-
+): Promise<any | null> => {
   const data = await pb
     .collection("idea_box_entries")
     .getOne<IIdeaBoxEntry>(id);
 
   if (data.type !== "link") {
-    clientError(res, "This is not a link entry");
-    return null;
+    throw new ClientError(
+      "Open Graph data can only be fetched for entries of type 'link'",
+    );
   }
 
-  if (OGCache.has(id) && OGCache.get(id).requestUrl === data.content) {
+  if (OGCache.has(id) && OGCache.get(id)?.requestUrl === data.content) {
     return OGCache.get(id);
   }
 
@@ -145,8 +145,13 @@ export const getOgData = async (
           "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
       },
     },
+  }).catch(() => {
+    console.error("Error fetching Open Graph data:", data.content);
+    return { result: null };
   });
+
   OGCache.set(id, result);
+
   return result;
 };
 
@@ -158,19 +163,27 @@ async function recursivelySearchFolder(
   req: Request,
   parents: string,
   pb: PocketBase,
-) {
+): Promise<
+  (Omit<WithPB<IIdeaBoxEntry>, "folder"> & {
+    folder: WithPB<IIdeaBoxFolder>;
+    expand?: {
+      folder: WithPB<IIdeaBoxFolder>;
+    };
+    fullPath: string;
+  })[]
+> {
   const folderInsideFolder = await pb
     .collection("idea_box_folders")
-    .getFullList<IIdeaBoxFolder>({
+    .getFullList<WithPB<IIdeaBoxFolder>>({
       filter: `parent = "${folderId}"`,
     });
 
   const allResults = (
     await pb.collection("idea_box_entries").getFullList<
-      Omit<IIdeaBoxEntry, "folder"> & {
-        folder: IIdeaBoxFolder;
+      Omit<WithPB<IIdeaBoxEntry>, "folder"> & {
+        folder: WithPB<IIdeaBoxFolder>;
         expand?: {
-          folder: IIdeaBoxFolder;
+          folder: WithPB<IIdeaBoxFolder>;
         };
       }
     >({
@@ -216,7 +229,16 @@ export const search = async (
   folder: string,
   req: Request,
   res: Response,
-) => {
+): Promise<
+  | (Omit<WithPB<IIdeaBoxEntry>, "folder"> & {
+      folder: WithPB<IIdeaBoxFolder>;
+      expand?: {
+        folder: WithPB<IIdeaBoxFolder>;
+      };
+      fullPath: string;
+    })[]
+  | null
+> => {
   if (container) {
     const containerExists = await checkExistence(
       req,

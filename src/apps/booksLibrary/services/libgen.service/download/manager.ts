@@ -15,8 +15,8 @@ export const initiateDownload = async (
     thumbnail: File;
     file: File;
   },
-): Promise<{ initiated: boolean }> => {
-  return addToLibrary(pb, md5, metadata, downloadProcesses);
+) => {
+  await addToLibrary(pb, md5, metadata, downloadProcesses);
 };
 
 export const getDownloadProgresses = (): Record<
@@ -31,7 +31,7 @@ export const getDownloadProgresses = (): Record<
   );
 };
 
-export const cancelDownload = (md5: string): boolean => {
+export const cancelDownload = (md5: string) => {
   const process = downloadProcesses.get(md5);
   if (!process) {
     throw new Error("No such download process");
@@ -39,6 +39,4 @@ export const cancelDownload = (md5: string): boolean => {
 
   process.kill();
   downloadProcesses.delete(md5);
-
-  return true;
 };

@@ -40,8 +40,9 @@ export const updateCategory = async (
     .getOne<WithPB<ICalendarCategory>>(updatedEntry.id);
 };
 
-export const deleteCategory = (pb: PocketBase, id: string) =>
-  pb.collection("calendar_categories").delete(id);
+export const deleteCategory = async (pb: PocketBase, id: string) => {
+  await pb.collection("calendar_categories").delete(id);
+};
 
 export const getCategoryById = (
   pb: PocketBase,

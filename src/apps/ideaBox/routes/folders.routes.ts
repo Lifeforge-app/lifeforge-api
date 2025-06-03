@@ -1,53 +1,19 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as foldersController from "../controllers/folders.controller";
-import {
-  validateCreateFolder,
-  validateDeleteFolder,
-  validateGetFolders,
-  validateMoveFolder,
-  validateRemoveFromFolder,
-  validateUpdateFolder,
-} from "../middleware/foldersValidation";
 
 const router = express.Router();
 
-router.get(
-  "/:container/*",
-  validateGetFolders,
-  asyncWrapper(foldersController.getFolders),
-);
+router.get("/:container/*", foldersController.getFolders);
 
-router.post(
-  "/",
-  validateCreateFolder,
-  asyncWrapper(foldersController.createFolder),
-);
+router.post("/", foldersController.createFolder);
 
-router.patch(
-  "/:id",
-  validateUpdateFolder,
-  asyncWrapper(foldersController.updateFolder),
-);
+router.patch("/:id", foldersController.updateFolder);
 
-router.post(
-  "/move/:id",
-  validateMoveFolder,
-  asyncWrapper(foldersController.moveFolder),
-);
+router.post("/move/:id", foldersController.moveFolder);
 
-router.delete(
-  "/move/:id",
-  validateRemoveFromFolder,
-  asyncWrapper(foldersController.removeFromFolder),
-);
+router.delete("/move/:id", foldersController.removeFromFolder);
 
-router.delete(
-  "/:id",
-  validateDeleteFolder,
-  asyncWrapper(foldersController.deleteFolder),
-);
+router.delete("/:id", foldersController.deleteFolder);
 
 export default router;
