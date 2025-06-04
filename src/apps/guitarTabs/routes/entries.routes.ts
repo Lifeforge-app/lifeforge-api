@@ -2,24 +2,24 @@ import express from "express";
 
 import { uploadMiddleware } from "@middlewares/uploadMiddleware";
 
-import * as entriesController from "../controllers/entries.controller";
+import * as EntriesController from "../controllers/entries.controller";
 
 const router = express.Router();
 
-router.get("/sidebar-data", entriesController.getSidebarData);
+router.get("/sidebar-data", EntriesController.getSidebarData);
 
-router.get("/", entriesController.getEntries);
+router.get("/", EntriesController.getEntries);
 
-router.get("/random", entriesController.getRandomEntry);
+router.get("/random", EntriesController.getRandomEntry);
 
-router.get("/process-status", entriesController.getProcessStatus);
+router.get("/process-status", EntriesController.getProcessStatus);
 
-router.post("/upload", uploadMiddleware, entriesController.uploadFiles);
+router.post("/upload", uploadMiddleware, EntriesController.uploadFiles);
 
-router.post("/favourite/:id", entriesController.toggleFavorite);
+router.post("/favourite/:id", EntriesController.toggleFavorite);
 
-router.patch("/:id", entriesController.updateEntry);
+router.patch("/:id", EntriesController.updateEntry);
 
-router.delete("/:id", entriesController.deleteEntry);
+router.delete("/:id", EntriesController.deleteEntry);
 
 export default router;

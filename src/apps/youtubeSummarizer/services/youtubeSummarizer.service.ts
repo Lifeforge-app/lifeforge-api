@@ -4,6 +4,8 @@ import Pocketbase from "pocketbase";
 import { fetchAI } from "@utils/fetchAI";
 import { getAPIKey } from "@utils/getAPIKey";
 
+import { IYoutubeInfo } from "../typescript/youtube_summarizer_interfaces";
+
 export const getYoutubeVideoInfo = (videoId: string): Promise<IYoutubeInfo> => {
   return new Promise((resolve, reject) => {
     exec(

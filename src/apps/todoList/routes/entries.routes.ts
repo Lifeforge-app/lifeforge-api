@@ -1,21 +1,21 @@
 import express from "express";
 
-import * as entriesController from "../controllers/entries.controller";
+import * as EntriesController from "../controllers/entries.controller";
 
 const router = express.Router();
 
-router.get("/", entriesController.getAllEntries);
+router.get("/", EntriesController.getAllEntries);
 
-router.get("/status-counter", entriesController.getStatusCounter);
+router.get("/status-counter", EntriesController.getStatusCounter);
 
-router.get("/:id", entriesController.getEntryById);
+router.get("/:id", EntriesController.getEntryById);
 
-router.post("/", entriesController.createEntry);
+router.post("/", EntriesController.createEntry);
 
-router.patch("/:id", entriesController.updateEntry);
+router.patch("/:id", EntriesController.updateEntry);
 
-router.delete("/:id", entriesController.deleteEntry);
+router.delete("/:id", EntriesController.deleteEntry);
 
-router.post("/toggle/:id", entriesController.toggleEntry);
+router.post("/toggle/:id", EntriesController.toggleEntry);
 
 export default router;

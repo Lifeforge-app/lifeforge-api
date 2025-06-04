@@ -1,7 +1,7 @@
 import express from "express";
 
 import asyncWrapper from "../../../utils/asyncWrapper";
-import * as entriesController from "../controllers/entries.controller";
+import * as EntriesController from "../controllers/entries.controller";
 import {
   checkKeysValidation,
   createEntryValidation,
@@ -16,37 +16,37 @@ const router = express.Router();
 router.get(
   "/",
   getEntriesValidation,
-  asyncWrapper(entriesController.getAllEntries),
+  asyncWrapper(EntriesController.getAllEntries),
 );
 
 router.get(
   "/check",
   checkKeysValidation,
-  asyncWrapper(entriesController.checkKeys),
+  asyncWrapper(EntriesController.checkKeys),
 );
 
 router.get(
   "/:id",
   getEntryByIdValidation,
-  asyncWrapper(entriesController.getEntryById),
+  asyncWrapper(EntriesController.getEntryById),
 );
 
 router.post(
   "/",
   createEntryValidation,
-  asyncWrapper(entriesController.createEntry),
+  asyncWrapper(EntriesController.createEntry),
 );
 
 router.patch(
   "/:id",
   updateEntryValidation,
-  asyncWrapper(entriesController.updateEntry),
+  asyncWrapper(EntriesController.updateEntry),
 );
 
 router.delete(
   "/:id",
   deleteEntryValidation,
-  asyncWrapper(entriesController.deleteEntry),
+  asyncWrapper(EntriesController.deleteEntry),
 );
 
 export default router;

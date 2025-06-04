@@ -2,22 +2,22 @@ import express from "express";
 
 import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
-import * as entriesController from "../controllers/entries.controller";
+import * as EntriesController from "../controllers/entries.controller";
 
 const router = express.Router();
 
-router.get("/collection-id", entriesController.getCollectionId);
+router.get("/collection-id", EntriesController.getCollectionId);
 
-router.get("/:id", entriesController.getEntriesByListId);
+router.get("/:id", EntriesController.getEntriesByListId);
 
-router.post("/external", entriesController.scrapeExternal);
+router.post("/external", EntriesController.scrapeExternal);
 
-router.post("/", singleUploadMiddleware, entriesController.createEntry);
+router.post("/", singleUploadMiddleware, EntriesController.createEntry);
 
-router.patch("/:id", singleUploadMiddleware, entriesController.updateEntry);
+router.patch("/:id", singleUploadMiddleware, EntriesController.updateEntry);
 
-router.patch("/bought/:id", entriesController.updateEntryBoughtStatus);
+router.patch("/bought/:id", EntriesController.updateEntryBoughtStatus);
 
-router.delete("/:id", entriesController.deleteEntry);
+router.delete("/:id", EntriesController.deleteEntry);
 
 export default router;

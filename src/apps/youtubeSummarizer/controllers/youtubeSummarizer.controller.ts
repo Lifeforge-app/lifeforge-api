@@ -1,30 +1,27 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
-
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as YoutubeSummarizerService from "../services/youtubeSummarizer.service";
+import { YoutubeInfoSchema } from "../typescript/youtube_summarizer_interfaces";
 
-export const getYoutubeVideoInfo = async (
-  req: Request,
-  res: Response<BaseResponse<IYoutubeInfo>>,
-) => {
-  const info = await YoutubeSummarizerService.getYoutubeVideoInfo(
-    req.params.id,
-  );
+export const getYoutubeVideoInfo = zodHandler(
+  {
+    params: z.object({
+      id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
+    }),
+    response: YoutubeInfoSchema,
+  },
+  async ({ params: { id } }) =>
+    await YoutubeSummarizerService.getYoutubeVideoInfo(id),
+);
 
-  successWithBaseResponse(res, info);
-};
-
-export const summarizeVideo = async (
-  req: Request,
-  res: Response<BaseResponse<string>>,
-) => {
-  const summary = await YoutubeSummarizerService.summarizeVideo(
-    req.body.url,
-    req.pb,
-  );
-
-  successWithBaseResponse(res, summary);
-};
+export const summarizeVideo = zodHandler(
+  {
+    body: z.object({
+      url: z.string().url("Invalid URL"),
+    }),
+    response: z.string(),
+  },
+  ({ body: { url }, pb }) => YoutubeSummarizerService.summarizeVideo(url, pb),
+);

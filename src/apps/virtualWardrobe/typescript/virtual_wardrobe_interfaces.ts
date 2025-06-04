@@ -1,30 +1,49 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
-
-const VirtualWardrobeEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    category: s.string(),
-    subcategory: s.string(),
-    brand: s.string(),
-    size: s.string(),
-    colors: s.array(s.string()),
-    price: s.number(),
-    notes: s.string(),
-    front_image: s.string(),
-    back_image: s.string(),
-    is_favourite: s.boolean(),
-  }),
-);
-
-const VirtualWardrobeHistorySchema = s.object({
-  entries: s.array(s.string()),
+const VirtualWardrobeEntrySchema = z.object({
+  name: z.string(),
+  category: z.string(),
+  subcategory: z.string(),
+  brand: z.string(),
+  size: z.string(),
+  colors: z.array(z.string()),
+  price: z.number(),
+  notes: z.string(),
+  front_image: z.string(),
+  back_image: z.string(),
+  is_favourite: z.boolean(),
+  times_worn: z.number().optional(),
+  last_worn: z.string().optional(),
 });
 
-type IVirtualWardrobeEntry = s.Infer<typeof VirtualWardrobeEntrySchema>;
-type IVirtualWardrobeHistory = s.Infer<typeof VirtualWardrobeHistorySchema>;
+const VirtualWardrobeHistorySchema = z.object({
+  entries: z.array(z.string()),
+  notes: z.string(),
+});
 
-export { VirtualWardrobeEntrySchema, VirtualWardrobeHistorySchema };
-export type { IVirtualWardrobeEntry, IVirtualWardrobeHistory };
+const VirtualWardrobeSidebarDataSchema = z.object({
+  total: z.number(),
+  favourites: z.number(),
+  categories: z.record(z.string(), z.number()),
+  subcategories: z.record(z.string(), z.number()),
+  brands: z.record(z.string(), z.number()),
+  sizes: z.record(z.string(), z.number()),
+  colors: z.record(z.string(), z.number()),
+});
+
+type IVirtualWardrobeEntry = z.infer<typeof VirtualWardrobeEntrySchema>;
+type IVirtualWardrobeHistory = z.infer<typeof VirtualWardrobeHistorySchema>;
+type IVirtualWardrobeSidebarData = z.infer<
+  typeof VirtualWardrobeSidebarDataSchema
+>;
+
+export {
+  VirtualWardrobeEntrySchema,
+  VirtualWardrobeHistorySchema,
+  VirtualWardrobeSidebarDataSchema,
+};
+export type {
+  IVirtualWardrobeEntry,
+  IVirtualWardrobeHistory,
+  IVirtualWardrobeSidebarData,
+};
