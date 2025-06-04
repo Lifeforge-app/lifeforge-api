@@ -1,5 +1,5 @@
 import fs from "fs";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import ClientError from "@utils/ClientError";
 import { fetchAI } from "@utils/fetchAI";

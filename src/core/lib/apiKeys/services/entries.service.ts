@@ -1,16 +1,43 @@
+import bcrypt from "bcrypt";
 import PocketBase from "pocketbase";
+import { v4 } from "uuid";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
+import ClientError from "@utils/ClientError";
 import { decrypt2, encrypt2 } from "@utils/encryption";
 
-import { challenge } from "..";
 import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
+import { challenge } from "./auth.service";
+
+export default async function getDecryptedMaster(
+  pb: PocketBase,
+  master: string,
+): Promise<string> {
+  if (!pb.authStore.record) {
+    throw new ClientError("Auth store not initialized", 401);
+  }
+
+  const { APIKeysMasterPasswordHash } = pb.authStore.record;
+  const decryptedMaster = decrypt2(master, challenge);
+  const isMatch = await bcrypt.compare(
+    decryptedMaster,
+    APIKeysMasterPasswordHash,
+  );
+
+  if (!isMatch) {
+    throw new ClientError("Invalid master password", 401);
+  }
+
+  return decryptedMaster;
+}
 
 export const getAllEntries = async (
   pb: PocketBase,
-): Promise<IAPIKeyEntry[]> => {
+): Promise<WithPB<IAPIKeyEntry>[]> => {
   const entries = await pb
     .collection("api_keys_entries")
-    .getFullList<IAPIKeyEntry>({
+    .getFullList<WithPB<IAPIKeyEntry>>({
       sort: "name",
     });
 
@@ -52,31 +79,36 @@ export const getEntryById = async (
   return encryptedSecondTime;
 };
 
-interface EntryCreateData {
-  keyId: string;
-  name: string;
-  description: string;
-  icon: string;
-  key: string;
-  decryptedMaster: string;
-}
-
 export const createEntry = async (
   pb: PocketBase,
-  data: EntryCreateData,
-): Promise<IAPIKeyEntry> => {
-  const { keyId, name, description, icon, key, decryptedMaster } = data;
-
-  const decryptedKey = decrypt2(key, decryptedMaster);
-  const encryptedKey = encrypt2(decryptedKey, process.env.MASTER_KEY!);
-
-  const entry = await pb.collection("api_keys_entries").create<IAPIKeyEntry>({
+  {
     keyId,
     name,
     description,
     icon,
-    key: encryptedKey,
-  });
+    key,
+    decryptedMaster,
+  }: {
+    keyId: string;
+    name: string;
+    description: string;
+    icon: string;
+    key: string;
+    decryptedMaster: string;
+  },
+): Promise<WithPB<IAPIKeyEntry>> => {
+  const decryptedKey = decrypt2(key, decryptedMaster);
+  const encryptedKey = encrypt2(decryptedKey, process.env.MASTER_KEY!);
+
+  const entry = await pb
+    .collection("api_keys_entries")
+    .create<WithPB<IAPIKeyEntry>>({
+      keyId,
+      name,
+      description,
+      icon,
+      key: encryptedKey,
+    });
 
   entry.key = decryptedKey.slice(-4);
 
@@ -86,16 +118,28 @@ export const createEntry = async (
 export const updateEntry = async (
   pb: PocketBase,
   id: string,
-  data: EntryCreateData,
-): Promise<IAPIKeyEntry> => {
-  const { keyId, name, description, icon, key, decryptedMaster } = data;
-
+  {
+    keyId,
+    name,
+    description,
+    icon,
+    key,
+    decryptedMaster,
+  }: {
+    keyId: string;
+    name: string;
+    description: string;
+    icon: string;
+    key: string;
+    decryptedMaster: string;
+  },
+): Promise<WithPB<IAPIKeyEntry>> => {
   const decryptedKey = decrypt2(key, decryptedMaster);
   const encryptedKey = encrypt2(decryptedKey, process.env.MASTER_KEY!);
 
   const updatedEntry = await pb
     .collection("api_keys_entries")
-    .update<IAPIKeyEntry>(id, {
+    .update<WithPB<IAPIKeyEntry>>(id, {
       keyId,
       name,
       description,

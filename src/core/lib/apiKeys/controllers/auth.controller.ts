@@ -1,48 +1,47 @@
-import { Request, Response } from "express";
+import { v4 } from "uuid";
+import { z } from "zod/v4";
 
-import { successWithBaseResponse } from "@utils/response";
-import checkOTP from "@utils/validateOTP";
+import { zodHandler } from "@utils/asyncWrapper";
+import { default as _validateOTP } from "@utils/validateOTP";
 
-import { BaseResponse } from "../../../typescript/base_response";
-import { challenge } from "../index";
 import * as authService from "../services/auth.service";
 
-export const getChallenge = async (
-  _: Request,
-  res: Response<BaseResponse<string>>,
-) => {
-  successWithBaseResponse(res, challenge);
-};
+export const getChallenge = zodHandler(
+  {
+    response: z.string(),
+  },
+  async () => authService.challenge,
+);
 
-export const createOrUpdateMasterPassword = async (
-  req: Request,
-  res: Response<BaseResponse<undefined>>,
-) => {
-  const { pb } = req;
-  const { password } = req.body;
+export const createOrUpdateMasterPassword = zodHandler(
+  {
+    body: z.object({
+      password: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, body: { password } }) =>
+    authService.createOrUpdateMasterPassword(pb, password),
+);
 
-  await authService.createOrUpdateMasterPassword(pb, password);
-  successWithBaseResponse(res);
-};
+export const verifyMasterPassword = zodHandler(
+  {
+    body: z.object({
+      password: z.string(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, body: { password } }) =>
+    authService.verifyMasterPassword(pb, password, authService.challenge),
+);
 
-export const verifyMasterPassword = async (
-  req: Request,
-  res: Response<BaseResponse<boolean>>,
-) => {
-  const { pb } = req;
-  const { password } = req.body;
-
-  const isMatch = await authService.verifyMasterPassword(
-    pb,
-    password,
-    challenge,
-  );
-  successWithBaseResponse(res, isMatch);
-};
-
-export const verifyOTP = async (
-  req: Request,
-  res: Response<BaseResponse<boolean>>,
-) => {
-  checkOTP(req, res, challenge);
-};
+export const verifyOTP = zodHandler(
+  {
+    body: z.object({
+      otp: z.string(),
+      otpId: z.string(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, body }) => await _validateOTP(pb, body, authService.challenge),
+);

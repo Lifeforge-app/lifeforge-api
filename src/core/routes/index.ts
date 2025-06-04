@@ -6,7 +6,7 @@ import path from "path";
 import request from "request";
 import { z } from "zod/v4";
 
-import asyncWrapper, { zodHandler } from "../utils/asyncWrapper";
+import { zodHandler } from "../utils/asyncWrapper";
 import { successWithBaseResponse } from "../utils/response";
 
 const LIB_ROUTES = JSON.parse(
@@ -54,27 +54,42 @@ router.get("/", (_, res) => {
 router.get(
   "/media/:collectionId/:entriesId/:photoId",
   [query("thumb").optional().isString(), query("token").optional().isString()],
-  asyncWrapper(async (req, res) => {
-    const { thumb, token } = req.query as {
-      thumb?: string;
-      token?: string;
-    };
+  zodHandler(
+    {
+      params: z.object({
+        collectionId: z.string(),
+        entriesId: z.string(),
+        photoId: z.string(),
+      }),
+      query: z.object({
+        thumb: z.string().optional(),
+        token: z.string().optional(),
+      }),
+      response: z.any(),
+    },
+    async ({
+      params: { collectionId, entriesId, photoId },
+      query: { thumb, token },
+      res,
+    }) => {
+      const searchParams = new URLSearchParams();
 
-    const { collectionId, entriesId, photoId } = req.params;
-    const searchParams = new URLSearchParams();
+      if (thumb) {
+        searchParams.append("thumb", thumb);
+      }
 
-    if (thumb) {
-      searchParams.append("thumb", thumb);
-    }
+      if (token) {
+        searchParams.append("token", token);
+      }
 
-    if (token) {
-      searchParams.append("token", token);
-    }
-
-    request(
-      `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`,
-    ).pipe(res);
-  }),
+      request(
+        `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`,
+      ).pipe(res);
+    },
+    {
+      noDefaultResponse: true,
+    },
+  ),
 );
 
 router.get(

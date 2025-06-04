@@ -9,8 +9,8 @@ const YoutubeInfoSchema = z.object({
   viewCount: z.number(),
   likeCount: z.number(),
   thumbnail: z.string(),
-  captions: z.record(z.any()).optional(),
-  auto_captions: z.record(z.any()).optional(),
+  captions: z.record(z.string(), z.any()).optional(),
+  auto_captions: z.record(z.string(), z.any()).optional(),
 });
 
 type IYoutubeInfo = z.infer<typeof YoutubeInfoSchema>;

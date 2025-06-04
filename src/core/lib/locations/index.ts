@@ -1,49 +1,43 @@
 import express from "express";
-import { query } from "express-validator";
+import { z } from "zod/v4";
 
-import asyncWrapper from "@utils/asyncWrapper";
+import ClientError from "@utils/ClientError";
+import { zodHandler } from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "@utils/response";
 
 const router = express.Router();
 
 router.get(
   "/",
-  [query("q").isString()],
-  asyncWrapper(async (req, res) => {
-    const { q } = req.query;
-    const key = await getAPIKey("gcloud", req.pb);
+  zodHandler(
+    {
+      query: z.object({
+        q: z.string(),
+      }),
+      response: z.any(),
+    },
+    async ({ query: { q }, pb }) => {
+      const key = await getAPIKey("gcloud", pb);
 
-    if (!key) {
-      clientError(res, "API key not found");
-      return;
-    }
+      if (!key) {
+        throw new ClientError("API key not found");
+      }
 
-    try {
-      fetch(
+      return await fetch(
         `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`,
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          successWithBaseResponse(res, data);
-        })
-        .catch((error) => {
-          serverError(res);
-        });
-    } catch (error) {
-      serverError(res);
-    }
-  }),
+      ).then((response) => response.json());
+    },
+  ),
 );
 
-router.get("/enabled", async (req, res) => {
-  const key = await getAPIKey("gcloud", req.pb);
-
-  successWithBaseResponse(res, !!key);
-});
+router.get(
+  "/enabled",
+  zodHandler(
+    {
+      response: z.boolean(),
+    },
+    async ({ pb }) => !!(await getAPIKey("gcloud", pb)),
+  ),
+);
 
 export default router;

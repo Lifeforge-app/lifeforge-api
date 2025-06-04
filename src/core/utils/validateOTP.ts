@@ -11,7 +11,7 @@ export default async (
     otp: string;
     otpId: string;
   },
-  challenge: string,
+  challenge?: string,
 ): Promise<boolean> => {
   const id = pb.authStore.record?.id;
 

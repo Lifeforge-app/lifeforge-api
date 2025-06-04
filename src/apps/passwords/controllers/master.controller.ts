@@ -50,7 +50,4 @@ export const validateOTP = zodHandler(
     response: z.boolean(),
   },
   async ({ pb, body }) => await _validateOTP(pb, body, challenge),
-  {
-    statusCode: 200,
-  },
 );

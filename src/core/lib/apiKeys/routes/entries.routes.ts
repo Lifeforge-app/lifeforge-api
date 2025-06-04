@@ -1,52 +1,19 @@
 import express from "express";
 
-import asyncWrapper from "../../../utils/asyncWrapper";
-import * as EntriesController from "../controllers/entries.controller";
-import {
-  checkKeysValidation,
-  createEntryValidation,
-  deleteEntryValidation,
-  getEntriesValidation,
-  getEntryByIdValidation,
-  updateEntryValidation,
-} from "../middlewares/entriesValidation";
+import * as entriesController from "../controllers/entries.controller";
 
 const router = express.Router();
 
-router.get(
-  "/",
-  getEntriesValidation,
-  asyncWrapper(EntriesController.getAllEntries),
-);
+router.get("/", entriesController.getAllEntries);
 
-router.get(
-  "/check",
-  checkKeysValidation,
-  asyncWrapper(EntriesController.checkKeys),
-);
+router.get("/check", entriesController.checkKeys);
 
-router.get(
-  "/:id",
-  getEntryByIdValidation,
-  asyncWrapper(EntriesController.getEntryById),
-);
+router.get("/:id", entriesController.getEntryById);
 
-router.post(
-  "/",
-  createEntryValidation,
-  asyncWrapper(EntriesController.createEntry),
-);
+router.post("/", entriesController.createEntry);
 
-router.patch(
-  "/:id",
-  updateEntryValidation,
-  asyncWrapper(EntriesController.updateEntry),
-);
+router.patch("/:id", entriesController.updateEntry);
 
-router.delete(
-  "/:id",
-  deleteEntryValidation,
-  asyncWrapper(EntriesController.deleteEntry),
-);
+router.delete("/:id", entriesController.deleteEntry);
 
 export default router;

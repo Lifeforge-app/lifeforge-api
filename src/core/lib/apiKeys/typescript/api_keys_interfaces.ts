@@ -1,11 +1,15 @@
-import BasePBCollection from "../../../typescript/pocketbase_interfaces";
+import { z } from "zod/v4";
 
-interface IAPIKeyEntry extends BasePBCollection {
-  keyId: string;
-  name: string;
-  description: string;
-  icon: string;
-  key: string;
-}
+const APIKeyEntrySchema = z.object({
+  keyId: z.string(),
+  name: z.string(),
+  description: z.string(),
+  icon: z.string(),
+  key: z.string(),
+});
+
+type IAPIKeyEntry = z.infer<typeof APIKeyEntrySchema>;
 
 export type { IAPIKeyEntry };
+
+export { APIKeyEntrySchema };

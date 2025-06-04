@@ -1,7 +1,14 @@
 import bcrypt from "bcrypt";
 import PocketBase from "pocketbase";
+import { v4 } from "uuid";
 
 import { decrypt2 } from "@utils/encryption";
+
+export let challenge = v4();
+
+setTimeout(() => {
+  challenge = v4();
+}, 1000 * 60);
 
 export const createOrUpdateMasterPassword = async (
   pb: PocketBase,

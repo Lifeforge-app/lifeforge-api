@@ -1,141 +1,139 @@
-import { Request, Response } from "express";
+import { v4 } from "uuid";
+import { z } from "zod/v4";
 
-import { checkExistence } from "@utils/PBRecordValidator";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
+
+import { zodHandler } from "@utils/asyncWrapper";
 import { decrypt2 } from "@utils/encryption";
-import { serverError, successWithBaseResponse } from "@utils/response";
 
-import { challenge } from "..";
-import { BaseResponse } from "../../../typescript/base_response";
-import * as entriesService from "../services/entries.service";
-import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
+import { challenge } from "../services/auth.service";
+import getDecryptedMaster, * as entriesService from "../services/entries.service";
+import { APIKeyEntrySchema } from "../typescript/api_keys_interfaces";
 
-export const getAllEntries = async (
-  req: Request,
-  res: Response<BaseResponse<IAPIKeyEntry[]>>,
-) => {
-  const { pb } = req;
-  const master = decodeURIComponent(req.query.master as string);
+export const getAllEntries = zodHandler(
+  {
+    query: z.object({
+      master: z.string(),
+    }),
+    response: z.array(WithPBSchema(APIKeyEntrySchema)),
+  },
+  async ({ pb, query: { master } }) => {
+    await getDecryptedMaster(pb, decodeURIComponent(master));
+    return await entriesService.getAllEntries(pb);
+  },
+);
 
-  const decryptedMaster = await getDecryptedMaster(master, pb, res);
-  if (!decryptedMaster) return;
+export const checkKeys = zodHandler(
+  {
+    query: z.object({
+      keys: z.string(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, query: { keys } }) => await entriesService.checkKeys(pb, keys),
+);
 
-  const entries = await entriesService.getAllEntries(pb);
-  successWithBaseResponse(res, entries);
-};
+export const getEntryById = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    query: z.object({
+      master: z.string(),
+    }),
+    response: z.string(),
+  },
+  async ({ pb, params: { id }, query: { master } }) => {
+    const decryptedMaster = await getDecryptedMaster(
+      pb,
+      decodeURIComponent(master),
+    );
+    return await entriesService.getEntryById(pb, id, decryptedMaster);
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "api_keys_entries",
+      },
+    },
+  },
+);
 
-export const checkKeys = async (req, res) => {
-  const { pb } = req;
-  const { keys } = req.query as { keys: string };
+export const createEntry = zodHandler(
+  {
+    body: z.object({
+      data: z.string(),
+    }),
+    response: WithPBSchema(APIKeyEntrySchema),
+  },
+  async ({ pb, body: { data } }) => {
+    const decryptedData = JSON.parse(decrypt2(data, challenge));
+    const { keyId, name, description, icon, key, master } = decryptedData;
 
-  const result = await entriesService.checkKeys(pb, keys);
-  successWithBaseResponse(res, result);
-};
+    const decryptedMaster = await getDecryptedMaster(pb, master);
 
-export const getEntryById = async (
-  req: Request,
-  res: Response<BaseResponse<string>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const master = decodeURIComponent(req.query.master as string);
+    return await entriesService.createEntry(pb, {
+      keyId,
+      name,
+      description,
+      icon,
+      key,
+      decryptedMaster,
+    });
+  },
+  {
+    statusCode: 201,
+  },
+);
 
-  if (!(await checkExistence(req, res, "api_keys_entries", id))) {
-    return;
-  }
+export const updateEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      data: z.string(),
+    }),
+    response: WithPBSchema(APIKeyEntrySchema),
+  },
+  async ({ pb, params: { id }, body: { data } }) => {
+    const decryptedData = JSON.parse(decrypt2(data, challenge));
+    const { keyId, name, description, icon, key, master } = decryptedData;
 
-  const decryptedMaster = await getDecryptedMaster(master, pb, res);
-  if (!decryptedMaster) return;
+    const decryptedMaster = await getDecryptedMaster(pb, master);
 
-  const encryptedKey = await entriesService.getEntryById(
-    pb,
-    id,
-    decryptedMaster,
-  );
-  successWithBaseResponse(res, encryptedKey);
-};
+    return await entriesService.updateEntry(pb, id, {
+      keyId,
+      name,
+      description,
+      icon,
+      key,
+      decryptedMaster,
+    });
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "api_keys_entries",
+      },
+    },
+  },
+);
 
-export const createEntry = async (
-  req: Request,
-  res: Response<BaseResponse<IAPIKeyEntry>>,
-) => {
-  const { pb } = req;
-  const { data } = req.body;
-
-  let decryptedData = null;
-
-  try {
-    decryptedData = JSON.parse(decrypt2(data, challenge));
-  } catch (e) {
-    serverError(res, "Invalid data format");
-    return;
-  }
-
-  const { keyId, name, description, icon, key, master } = decryptedData;
-
-  const decryptedMaster = await getDecryptedMaster(master, pb, res);
-  if (!decryptedMaster) return;
-
-  const entry = await entriesService.createEntry(pb, {
-    keyId,
-    name,
-    description,
-    icon,
-    key,
-    decryptedMaster,
-  });
-
-  successWithBaseResponse(res, entry, 201);
-};
-
-export const updateEntry = async (
-  req: Request,
-  res: Response<BaseResponse<IAPIKeyEntry>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { data } = req.body;
-
-  if (!(await checkExistence(req, res, "api_keys_entries", id))) {
-    return;
-  }
-
-  let decryptedData = null;
-
-  try {
-    decryptedData = JSON.parse(decrypt2(data, challenge));
-  } catch (e) {
-    serverError(res, "Invalid data format");
-    return;
-  }
-
-  const { keyId, name, description, icon, key, master } = decryptedData;
-
-  const decryptedMaster = await getDecryptedMaster(master, pb, res);
-  if (!decryptedMaster) return;
-
-  const updatedEntry = await entriesService.updateEntry(pb, id, {
-    keyId,
-    name,
-    description,
-    icon,
-    key,
-    decryptedMaster,
-  });
-
-  successWithBaseResponse(res, updatedEntry);
-};
-
-export const deleteEntry = async (
-  req: Request,
-  res: Response<BaseResponse<undefined>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "api_keys_entries", id))) {
-    return;
-  }
-
-  await entriesService.deleteEntry(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "api_keys_entries",
+      },
+    },
+    statusCode: 204,
+  },
+);

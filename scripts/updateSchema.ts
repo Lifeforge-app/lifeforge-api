@@ -14,14 +14,14 @@ fs.readdirSync("../src/apps").forEach((app) => {
   for (const index in schema) {
     if (
       newSchema.find(
-        (s) =>
+        (s: any) =>
           s.id === schema[index].id &&
           JSON.stringify(s) === JSON.stringify(schema[index]),
       )
     ) {
       continue;
     }
-    const newData = newSchema.find((s) => s.id === schema[index].id);
+    const newData = newSchema.find((s: any) => s.id === schema[index].id);
     if (newData) {
       schema[index] = newData;
     } else {

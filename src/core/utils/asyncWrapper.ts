@@ -6,35 +6,7 @@ import { BaseResponse } from "@typescript/base_response";
 
 import ClientError from "./ClientError";
 import { checkExistence } from "./PBRecordValidator";
-import hasError from "./checkError";
 import { clientError, serverError, successWithBaseResponse } from "./response";
-
-const asyncWrapper =
-  <Req extends Request = Request, Res extends Response = Response>(
-    cb: (req: Req, res: Res, next: NextFunction) => Promise<void>,
-  ) =>
-  (req: Request, res: Response, next: NextFunction) => {
-    if (hasError(req, res)) {
-      return;
-    }
-
-    (cb as (req: Request, res: Response, next: NextFunction) => Promise<void>)(
-      req,
-      res,
-      next,
-    ).catch((err) => {
-      console.error(
-        `Error: ${err instanceof Error ? err.message : JSON.stringify(err)}`,
-      );
-      try {
-        serverError(res, "Internal server error");
-      } catch {
-        console.error("Error while sending response");
-      }
-    });
-  };
-
-export default asyncWrapper;
 
 export function zodHandler<
   BodySchema extends ZodObject<ZodRawShape> | undefined = undefined,
@@ -97,6 +69,7 @@ export function zodHandler<
       >;
     };
     statusCode?: number;
+    noDefaultResponse?: boolean;
   },
 ) {
   return async (
@@ -113,8 +86,6 @@ export function zodHandler<
     >,
   ): Promise<void> => {
     try {
-      if (hasError(req, res)) return;
-
       for (const key of ["body", "query", "params"] as const) {
         const validator = schema[key];
         if (validator) {
@@ -189,8 +160,10 @@ export function zodHandler<
         query: req.query,
       });
 
-      res.status(options?.statusCode || 200);
-      successWithBaseResponse(res, response);
+      if (!options?.noDefaultResponse) {
+        res.status(options?.statusCode || 200);
+        successWithBaseResponse(res, response);
+      }
     } catch (err) {
       if (ClientError.isClientError(err)) {
         return clientError(res, err.message, err.code);

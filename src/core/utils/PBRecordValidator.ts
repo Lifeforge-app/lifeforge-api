@@ -17,7 +17,11 @@ export async function checkExistence(
       .catch(() => {})) ?? false;
 
   if (!found && sendError) {
-    clientError(res, `Related record not found in database`, 400);
+    clientError(
+      res,
+      `Document with ID ${id} not found in collection ${collection}`,
+      404,
+    );
   }
 
   return found;

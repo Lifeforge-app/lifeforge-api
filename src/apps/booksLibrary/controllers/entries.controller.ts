@@ -70,7 +70,7 @@ export const sendToKindle = zodHandler(
       id: z.string(),
     }),
     body: z.object({
-      target: z.string().email().endsWith("@kindle.com"),
+      target: z.email().endsWith("@kindle.com"),
     }),
     response: z.void(),
   },

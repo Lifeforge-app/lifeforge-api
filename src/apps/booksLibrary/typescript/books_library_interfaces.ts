@@ -35,7 +35,7 @@ const BooksLibraryFileTypeSchema = z.object({
 });
 
 const BooksLibraryDownloadProcessSchema = z.object({
-  kill: z.function(),
+  kill: z.function().output(z.void()),
   downloaded: z.string(),
   total: z.string(),
   percentage: z.string(),
@@ -55,9 +55,12 @@ type IBooksLibraryEntry = z.infer<typeof BooksLibraryEntrySchema>;
 type IBooksLibraryCategory = z.infer<typeof BooksLibraryCategorySchema>;
 type IBooksLibraryLanguage = z.infer<typeof BooksLibraryLanguageSchema>;
 type IBooksLibraryFileType = z.infer<typeof BooksLibraryFileTypeSchema>;
-type IBooksLibraryDownloadProcess = z.infer<
-  typeof BooksLibraryDownloadProcessSchema
->;
+type IBooksLibraryDownloadProcess = Omit<
+  z.infer<typeof BooksLibraryDownloadProcessSchema>,
+  "kill"
+> & {
+  kill: () => void;
+};
 type IBooksLibraryLibgenSearchResult = z.infer<
   typeof BooksLibraryLibgenSearchResultSchema
 >;

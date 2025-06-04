@@ -39,7 +39,7 @@ export const createTransaction = zodHandler(
     statusCode: 201,
     existenceCheck: {
       body: {
-        category: "wallet_categories",
+        category: "[wallet_categories]",
         asset: "[wallet_assets]",
         ledger: "[wallet_ledgers]",
         fromAsset: "[wallet_assets]",
