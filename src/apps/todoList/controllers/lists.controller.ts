@@ -1,61 +1,64 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as listsService from "../services/lists.service";
-import { ITodoListList } from "../typescript/todo_list_interfaces";
+import { TodoListListSchema } from "../typescript/todo_list_interfaces";
 
-export const getAllLists = async (
-  req: Request,
-  res: Response<BaseResponse<ITodoListList[]>>,
-) => {
-  const { pb } = req;
+export const getAllLists = zodHandler(
+  {
+    response: z.array(
+      WithPBSchema(TodoListListSchema.extend({ amount: z.number() })),
+    ),
+  },
+  ({ pb }) => listsService.getAllLists(pb),
+);
 
-  const lists = await listsService.getAllLists(pb);
-  successWithBaseResponse(res, lists);
-};
+export const createList = zodHandler(
+  {
+    body: TodoListListSchema.pick({ name: true, icon: true, color: true }),
+    response: WithPBSchema(TodoListListSchema.extend({ amount: z.number() })),
+  },
+  ({ pb, body }) => listsService.createList(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createList = async (
-  req: Request,
-  res: Response<BaseResponse<ITodoListList>>,
-) => {
-  const { pb } = req;
-  const { name, icon, color } = req.body;
+export const updateList = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: TodoListListSchema.pick({ name: true, icon: true, color: true }),
+    response: WithPBSchema(TodoListListSchema.extend({ amount: z.number() })),
+  },
+  ({ pb, params: { id }, body }) => listsService.updateList(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "todo_lists",
+      },
+    },
+  },
+);
 
-  const list = await listsService.createList(pb, { name, icon, color });
-  successWithBaseResponse(res, list, 201);
-};
-
-export const updateList = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ITodoListList>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, icon, color } = req.body;
-
-  if (!(await checkExistence(req, res, "todo_lists", id))) {
-    return;
-  }
-
-  const list = await listsService.updateList(pb, id, { name, icon, color });
-  successWithBaseResponse(res, list);
-};
-
-export const deleteList = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "todo_lists", id))) {
-    return;
-  }
-
-  await listsService.deleteList(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteList = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  ({ pb, params: { id } }) => listsService.deleteList(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "todo_lists",
+      },
+    },
+    statusCode: 204,
+  },
+);

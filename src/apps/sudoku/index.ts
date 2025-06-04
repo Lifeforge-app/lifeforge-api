@@ -28,11 +28,11 @@ router.get(
         }),
       ),
     },
-    async ({ params, query }) => {
+    async ({ params: { difficulty }, query: { count } }) => {
       const boards: any[] = [];
 
-      for (let i = 0; i < query.count; i++) {
-        await fetch(`https://sudoku.com/api/v2/level/${params.difficulty}`, {
+      for (let i = 0; i < count; i++) {
+        await fetch(`https://sudoku.com/api/v2/level/${difficulty}`, {
           method: "GET",
           headers: {
             "x-easy-locale": "en",

@@ -1,57 +1,59 @@
-import BasePBCollection from "@typescript/pocketbase_interfaces";
+import { z } from "zod";
 
-interface ITodoListEntry extends BasePBCollection {
-  due_date: string;
-  due_date_has_time?: boolean;
-  list: string;
-  notes: string;
-  priority: string;
-  summary: string;
-  tags: string[];
-  done: boolean;
-  completed_at: string;
-  subtasks: ITodoSubtask[];
-}
+const TodoListEntrySchema = z.object({
+  due_date: z.string(),
+  due_date_has_time: z.boolean().optional(),
+  list: z.string(),
+  notes: z.string(),
+  priority: z.string(),
+  summary: z.string(),
+  tags: z.array(z.string()),
+  done: z.boolean(),
+  completed_at: z.string(),
+});
 
-interface ITodoSubtask {
-  id: string;
-  title: string;
-  done: boolean;
-  hasChanged?: boolean;
-}
+const TodoListListSchema = z.object({
+  color: z.string(),
+  icon: z.string(),
+  name: z.string(),
+});
 
-interface ITodoListList extends BasePBCollection {
-  color: string;
-  icon: string;
-  name: string;
-  amount: number;
-}
+const TodoListPrioritySchema = z.object({
+  color: z.string(),
+  name: z.string(),
+});
 
-interface ITodoPriority extends BasePBCollection {
-  color: string;
-  name: string;
-  amount: number;
-}
+const TodoListTagSchema = z.object({
+  color: z.string(),
+  name: z.string(),
+});
 
-interface ITodoListTag extends BasePBCollection {
-  amount: number;
-  color: string;
-  name: string;
-}
+const TodoListStatusCounterSchema = z.object({
+  all: z.number(),
+  today: z.number(),
+  scheduled: z.number(),
+  overdue: z.number(),
+  completed: z.number(),
+});
 
-interface ITodoListStatusCounter {
-  all: number;
-  today: number;
-  scheduled: number;
-  overdue: number;
-  completed: number;
-}
+type ITodoListEntry = z.infer<typeof TodoListEntrySchema>;
+type ITodoListList = z.infer<typeof TodoListListSchema>;
+type ITodoListPriority = z.infer<typeof TodoListPrioritySchema>;
+type ITodoListTag = z.infer<typeof TodoListTagSchema>;
+type ITodoListStatusCounter = z.infer<typeof TodoListStatusCounterSchema>;
+
+export {
+  TodoListEntrySchema,
+  TodoListListSchema,
+  TodoListPrioritySchema,
+  TodoListTagSchema,
+  TodoListStatusCounterSchema,
+};
 
 export type {
   ITodoListEntry,
   ITodoListList,
   ITodoListStatusCounter,
   ITodoListTag,
-  ITodoPriority,
-  ITodoSubtask,
+  ITodoListPriority,
 };

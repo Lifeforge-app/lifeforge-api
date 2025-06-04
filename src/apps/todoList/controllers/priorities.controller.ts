@@ -1,67 +1,69 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as prioritiesService from "../services/priorities.service";
-import { ITodoPriority } from "../typescript/todo_list_interfaces";
+import { TodoListPrioritySchema } from "../typescript/todo_list_interfaces";
 
-export const getAllPriorities = async (
-  req: Request,
-  res: Response<BaseResponse<ITodoPriority[]>>,
-) => {
-  const { pb } = req;
+export const getAllPriorities = zodHandler(
+  {
+    response: z.array(
+      WithPBSchema(TodoListPrioritySchema.extend({ amount: z.number() })),
+    ),
+  },
+  ({ pb }) => prioritiesService.getAllPriorities(pb),
+);
 
-  const priorities = await prioritiesService.getAllPriorities(pb);
-  successWithBaseResponse(res, priorities);
-};
+export const createPriority = zodHandler(
+  {
+    body: TodoListPrioritySchema.pick({ name: true, color: true }),
+    response: WithPBSchema(
+      TodoListPrioritySchema.extend({ amount: z.number() }),
+    ),
+  },
+  ({ pb, body }) => prioritiesService.createPriority(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createPriority = async (
-  req: Request,
-  res: Response<BaseResponse<ITodoPriority>>,
-) => {
-  const { pb } = req;
-  const { name, color } = req.body;
+export const updatePriority = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: TodoListPrioritySchema.pick({ name: true, color: true }),
+    response: WithPBSchema(
+      TodoListPrioritySchema.extend({ amount: z.number() }),
+    ),
+  },
+  ({ pb, params: { id }, body }) =>
+    prioritiesService.updatePriority(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "todo_priorities",
+      },
+    },
+  },
+);
 
-  const priority = await prioritiesService.createPriority(pb, {
-    name,
-    color,
-  });
-  successWithBaseResponse(res, priority, 201);
-};
-
-export const updatePriority = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ITodoPriority>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, color } = req.body;
-
-  if (!(await checkExistence(req, res, "todo_priorities", id))) {
-    return;
-  }
-
-  const priority = await prioritiesService.updatePriority(pb, id, {
-    name,
-    color,
-  });
-  successWithBaseResponse(res, priority);
-};
-
-export const deletePriority = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "todo_priorities", id))) {
-    return;
-  }
-
-  await prioritiesService.deletePriority(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deletePriority = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  ({ pb, params: { id } }) => prioritiesService.deletePriority(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "todo_priorities",
+      },
+    },
+    statusCode: 204,
+  },
+);

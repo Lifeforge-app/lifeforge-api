@@ -1,26 +1,15 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as listsController from "../controllers/lists.controller";
-import { createOrUpdateListValidation } from "../middlewares/listsValidation";
 
 const router = express.Router();
 
-router.get("/", asyncWrapper(listsController.getAllLists));
+router.get("/", listsController.getAllLists);
 
-router.post(
-  "/",
-  createOrUpdateListValidation,
-  asyncWrapper(listsController.createList),
-);
+router.post("/", listsController.createList);
 
-router.patch(
-  "/:id",
-  createOrUpdateListValidation,
-  asyncWrapper(listsController.updateList),
-);
+router.patch("/:id", listsController.updateList);
 
-router.delete("/:id", asyncWrapper(listsController.deleteList));
+router.delete("/:id", listsController.deleteList);
 
 export default router;

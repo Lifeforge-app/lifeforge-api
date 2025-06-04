@@ -1,41 +1,63 @@
 import PocketBase from "pocketbase";
 
-import { ITodoPriority } from "../typescript/todo_list_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
-export const getAllPriorities = async (
+import { ITodoListPriority } from "../typescript/todo_list_interfaces";
+
+export const getAllPriorities = (
   pb: PocketBase,
-): Promise<ITodoPriority[]> => {
-  const priorities: ITodoPriority[] = await pb
-    .collection("todo_priorities_with_amount")
-    .getFullList();
-  return priorities;
-};
+): Promise<
+  WithPB<
+    ITodoListPriority & {
+      amount: number;
+    }
+  >[]
+> =>
+  pb.collection("todo_priorities_with_amount").getFullList<
+    WithPB<
+      ITodoListPriority & {
+        amount: number;
+      }
+    >
+  >();
 
 export const createPriority = async (
   pb: PocketBase,
-  data: { name: string; color: string },
-): Promise<ITodoPriority> => {
-  const priority: ITodoPriority = await pb
+  data: ITodoListPriority,
+): Promise<
+  WithPB<
+    ITodoListPriority & {
+      amount: number;
+    }
+  >
+> => {
+  const created = await pb
     .collection("todo_priorities")
-    .create({
-      name: data.name,
-      color: data.color,
-    });
-  return priority;
+    .create<WithPB<ITodoListPriority>>(data);
+
+  return pb
+    .collection("todo_priorities_with_amount")
+    .getOne<WithPB<ITodoListPriority & { amount: number }>>(created.id);
 };
 
 export const updatePriority = async (
   pb: PocketBase,
   id: string,
-  data: { name: string; color: string },
-): Promise<ITodoPriority> => {
-  const priority: ITodoPriority = await pb
+  data: ITodoListPriority,
+): Promise<
+  WithPB<
+    ITodoListPriority & {
+      amount: number;
+    }
+  >
+> => {
+  const updated = await pb
     .collection("todo_priorities")
-    .update(id, {
-      name: data.name,
-      color: data.color,
-    });
-  return priority;
+    .update<WithPB<ITodoListPriority>>(id, data);
+
+  return pb
+    .collection("todo_priorities_with_amount")
+    .getOne<WithPB<ITodoListPriority & { amount: number }>>(updated.id);
 };
 
 export const deletePriority = async (

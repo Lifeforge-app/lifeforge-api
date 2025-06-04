@@ -1,33 +1,63 @@
 import PocketBase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { ITodoListTag } from "../typescript/todo_list_interfaces";
 
-export const getAllTags = async (pb: PocketBase): Promise<ITodoListTag[]> => {
-  const tags: ITodoListTag[] = await pb
-    .collection("todo_tags_with_amount")
-    .getFullList();
-  return tags;
-};
+export const getAllTags = (
+  pb: PocketBase,
+): Promise<
+  WithPB<
+    ITodoListTag & {
+      amount: number;
+    }
+  >[]
+> =>
+  pb.collection("todo_tags_with_amount").getFullList<
+    WithPB<
+      ITodoListTag & {
+        amount: number;
+      }
+    >
+  >();
 
 export const createTag = async (
   pb: PocketBase,
-  data: { name: string },
-): Promise<ITodoListTag> => {
-  const tag: ITodoListTag = await pb.collection("todo_tags").create({
-    name: data.name,
-  });
-  return tag;
+  data: ITodoListTag,
+): Promise<
+  WithPB<
+    ITodoListTag & {
+      amount: number;
+    }
+  >
+> => {
+  const created = await pb
+    .collection("todo_tags")
+    .create<WithPB<ITodoListTag>>(data);
+
+  return pb
+    .collection("todo_tags_with_amount")
+    .getOne<WithPB<ITodoListTag & { amount: number }>>(created.id);
 };
 
 export const updateTag = async (
   pb: PocketBase,
   id: string,
-  data: { name: string },
-): Promise<ITodoListTag> => {
-  const tag: ITodoListTag = await pb.collection("todo_tags").update(id, {
-    name: data.name,
-  });
-  return tag;
+  data: ITodoListTag,
+): Promise<
+  WithPB<
+    ITodoListTag & {
+      amount: number;
+    }
+  >
+> => {
+  const updated = await pb
+    .collection("todo_tags")
+    .update<WithPB<ITodoListTag>>(id, data);
+
+  return pb
+    .collection("todo_tags_with_amount")
+    .getOne<WithPB<ITodoListTag & { amount: number }>>(updated.id);
 };
 
 export const deleteTag = async (pb: PocketBase, id: string): Promise<void> => {

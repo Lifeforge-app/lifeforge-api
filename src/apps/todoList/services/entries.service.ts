@@ -1,36 +1,18 @@
 import moment from "moment";
 import PocketBase from "pocketbase";
 
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import {
   ITodoListEntry,
   ITodoListStatusCounter,
-  ITodoSubtask,
 } from "../typescript/todo_list_interfaces";
 
-export const getEntryById = async (
+export const getEntryById = (
   pb: PocketBase,
   id: string,
-): Promise<Omit<ITodoListEntry, "subtasks"> & { subtasks: ITodoSubtask[] }> => {
-  const entry = await pb.collection("todo_entries").getOne<
-    ITodoListEntry & {
-      expand?: { subtasks: ITodoSubtask[] };
-    }
-  >(id, {
-    expand: "subtasks",
-  });
-
-  entry.subtasks =
-    entry.expand?.subtasks?.map((subtask: ITodoSubtask) => ({
-      title: subtask.title,
-      done: subtask.done,
-      id: subtask.id,
-    })) ?? [];
-
-  delete entry.expand;
-  return entry;
-};
+): Promise<WithPB<ITodoListEntry>> =>
+  pb.collection("todo_entries").getOne<WithPB<ITodoListEntry>>(id);
 
 export const getAllEntries = async (
   pb: PocketBase,
@@ -38,7 +20,7 @@ export const getAllEntries = async (
   tag?: string,
   list?: string,
   priority?: string,
-): Promise<ITodoListEntry[]> => {
+): Promise<WithPB<ITodoListEntry>[]> => {
   const filters = {
     all: "done = false",
     today: `done = false && due_date >= "${moment()
@@ -64,28 +46,12 @@ export const getAllEntries = async (
   if (list) finalFilter += ` && list = "${list}"`;
   if (priority) finalFilter += ` && priority = "${priority}"`;
 
-  const entries: (ITodoListEntry & {
-    expand?: { subtasks: ITodoSubtask[] };
-  })[] = await pb.collection("todo_entries").getFullList({
-    filter: finalFilter,
-    sort: "-created",
-    expand: "subtasks",
-  });
-
-  entries.forEach((entry) => {
-    if (entry.subtasks.length === 0) return;
-
-    entry.subtasks =
-      entry.expand?.subtasks.map((subtask: ITodoSubtask) => ({
-        title: subtask.title,
-        done: subtask.done,
-        id: subtask.id,
-      })) ?? [];
-
-    delete entry.expand;
-  });
-
-  return entries;
+  return await pb
+    .collection("todo_entries")
+    .getFullList<WithPB<ITodoListEntry>>({
+      filter: finalFilter,
+      sort: "-created",
+    });
 };
 
 export const getStatusCounter = async (
@@ -131,141 +97,54 @@ export const getStatusCounter = async (
 
 export const createEntry = async (
   pb: PocketBase,
-  data: WithoutPBDefault<ITodoListEntry>,
-): Promise<ITodoListEntry> => {
-  const subtasksEntries: ITodoSubtask[] = [];
-
-  if (data.subtasks) {
-    const subtaskIds = [];
-
-    for (const task of data.subtasks) {
-      const subtask: ITodoSubtask = await pb
-        .collection("todo_subtasks")
-        .create({
-          title: task.title,
-        });
-
-      subtaskIds.push(subtask.id);
-      subtasksEntries.push(subtask);
-    }
-
-    data.subtasks = subtaskIds as any;
-  }
-
+  data: Omit<ITodoListEntry, "completed_at">,
+): Promise<WithPB<ITodoListEntry>> => {
   if (data.due_date && !data.due_date_has_time) {
     data.due_date = moment(data.due_date).endOf("day").toISOString();
   }
 
   delete data.due_date_has_time;
 
-  const entries: ITodoListEntry = await pb
+  return await pb
     .collection("todo_entries")
-    .create(data);
-
-  entries.subtasks = subtasksEntries;
-
-  return entries;
+    .create<WithPB<ITodoListEntry>>(data);
 };
 
 export const updateEntry = async (
   pb: PocketBase,
   id: string,
-  data: ITodoListEntry,
-): Promise<Omit<ITodoListEntry, "subtasks"> & { subtasks: string[] }> => {
-  const originalEntries: Omit<ITodoListEntry, "subtasks"> & {
-    subtasks: string[];
-  } = await pb.collection("todo_entries").getOne(id);
-
-  const { subtasks } = data;
-
-  const subtasksEntries: ITodoSubtask[] = [];
-
-  if (subtasks) {
-    for (const subtaskIndex in subtasks) {
-      let subtask = subtasks[subtaskIndex];
-      let newSubtask: ITodoSubtask | null = null;
-
-      if (subtask.id.startsWith("new-")) {
-        newSubtask = await pb
-          .collection("todo_subtasks")
-          .create<ITodoSubtask>({ title: subtask.title });
-      } else if (subtask.hasChanged) {
-        subtask = await pb
-          .collection("todo_subtasks")
-          .update<ITodoSubtask>(subtask.id, {
-            title: subtask.title,
-          });
-      }
-
-      subtasks[subtaskIndex] = { id: newSubtask?.id || subtask.id } as any;
-      subtasksEntries.push(newSubtask ?? subtask);
-    }
-
-    data.subtasks = subtasks.map((subtask) =>
-      typeof subtask === "string" ? subtask : subtask.id,
-    ) as any;
-  }
-
+  data: Omit<ITodoListEntry, "completed_at">,
+): Promise<WithPB<ITodoListEntry>> => {
   if (data.due_date && !data.due_date_has_time) {
     data.due_date = moment(data.due_date).endOf("day").toISOString();
   }
 
   delete data.due_date_has_time;
 
-  const entry: Omit<ITodoListEntry, "subtasks"> & {
-    subtasks: string[];
-  } = await pb.collection("todo_entries").update(id, data);
-
-  for (const subtask of originalEntries.subtasks) {
-    if (entry.subtasks.includes(subtask)) continue;
-
-    await pb.collection("todo_subtasks").delete(subtask);
-  }
-
-  entry.subtasks = subtasksEntries as any;
-
-  return entry;
+  return await pb.collection("todo_entries").update(id, data);
 };
 
 export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  const entries: Omit<ITodoListEntry, "subtasks"> & {
-    subtasks: string[];
-  } = await pb.collection("todo_entries").getOne(id);
-
   await pb.collection("todo_entries").delete(id);
-
-  for (const subtask of entries.subtasks) {
-    await pb.collection("todo_subtasks").delete(subtask);
-  }
 };
 
 export const toggleEntry = async (
   pb: PocketBase,
   id: string,
-): Promise<Omit<ITodoListEntry, "subtasks"> & { subtasks: string[] }> => {
-  const entries: Omit<ITodoListEntry, "subtasks"> & {
-    subtasks: string[];
-  } = await pb.collection("todo_entries").getOne(id);
+): Promise<WithPB<ITodoListEntry>> => {
+  const entry = await pb
+    .collection("todo_entries")
+    .getOne<WithPB<ITodoListEntry>>(id);
 
-  if (!entries.done) {
-    for (const subtask of entries.subtasks) {
-      await pb.collection("todo_subtasks").update(subtask, {
-        done: true,
-      });
-    }
-  }
-
-  const entry: Omit<ITodoListEntry, "subtasks"> & {
-    subtasks: string[];
-  } = await pb.collection("todo_entries").update(id, {
-    done: !entries.done,
-    completed_at: entries.done
-      ? null
-      : moment().utc().format("YYYY-MM-DD HH:mm:ss"),
-  });
-
-  return entry;
+  return await pb
+    .collection("todo_entries")
+    .update<WithPB<ITodoListEntry>>(id, {
+      done: !entry.done,
+      completed_at: entry.done
+        ? null
+        : moment().utc().format("YYYY-MM-DD HH:mm:ss"),
+    });
 };

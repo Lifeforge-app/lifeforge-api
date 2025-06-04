@@ -1,61 +1,64 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as tagsService from "../services/tags.service";
-import { ITodoListTag } from "../typescript/todo_list_interfaces";
+import { TodoListTagSchema } from "../typescript/todo_list_interfaces";
 
-export const getAllTags = async (
-  req: Request,
-  res: Response<BaseResponse<ITodoListTag[]>>,
-) => {
-  const { pb } = req;
+export const getAllTags = zodHandler(
+  {
+    response: z.array(
+      WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
+    ),
+  },
+  ({ pb }) => tagsService.getAllTags(pb),
+);
 
-  const tags = await tagsService.getAllTags(pb);
-  successWithBaseResponse(res, tags);
-};
+export const createTag = zodHandler(
+  {
+    body: TodoListTagSchema.pick({ name: true, color: true }),
+    response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
+  },
+  ({ pb, body }) => tagsService.createTag(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createTag = async (
-  req: Request,
-  res: Response<BaseResponse<ITodoListTag>>,
-) => {
-  const { pb } = req;
-  const { name } = req.body;
+export const updateTag = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: TodoListTagSchema.pick({ name: true, color: true }),
+    response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
+  },
+  ({ pb, params: { id }, body }) => tagsService.updateTag(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "todo_tags",
+      },
+    },
+  },
+);
 
-  const tag = await tagsService.createTag(pb, { name });
-  successWithBaseResponse(res, tag, 201);
-};
-
-export const updateTag = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<ITodoListTag>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name } = req.body;
-
-  if (!(await checkExistence(req, res, "todo_tags", id))) {
-    return;
-  }
-
-  const tag = await tagsService.updateTag(pb, id, { name });
-  successWithBaseResponse(res, tag);
-};
-
-export const deleteTag = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<undefined>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "todo_tags", id))) {
-    return;
-  }
-
-  await tagsService.deleteTag(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteTag = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  ({ pb, params: { id } }) => tagsService.deleteTag(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "todo_tags",
+      },
+    },
+    statusCode: 204,
+  },
+);
