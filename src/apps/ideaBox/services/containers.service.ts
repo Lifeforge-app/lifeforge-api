@@ -16,15 +16,26 @@ export const checkContainerExists = async (
 export const getContainers = async (
   pb: PocketBase,
 ): Promise<WithPB<IIdeaBoxContainer>[]> =>
-  pb.collection("idea_box_containers_with_amount").getFullList<
-    WithPB<
-      IIdeaBoxContainer & {
-        text_count: number;
-        link_count: number;
-        image_count: number;
-      }
-    >
-  >();
+  (
+    await pb.collection("idea_box_containers_with_amount").getFullList<
+      WithPB<
+        IIdeaBoxContainer & {
+          text_count: number;
+          link_count: number;
+          image_count: number;
+        }
+      >
+    >({
+      sort: "name",
+    })
+  ).map((container) => ({
+    ...container,
+    cover: container.cover
+      ? pb.files
+          .getURL(container, container.cover)
+          .replace(`${pb.baseURL}/api/files`, "")
+      : "",
+  }));
 
 export const createContainer = async (
   pb: PocketBase,

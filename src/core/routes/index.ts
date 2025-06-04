@@ -4,8 +4,9 @@ import { query } from "express-validator";
 import fs from "fs";
 import path from "path";
 import request from "request";
+import { z } from "zod";
 
-import asyncWrapper from "../utils/asyncWrapper";
+import asyncWrapper, { zodHandler } from "../utils/asyncWrapper";
 import { successWithBaseResponse } from "../utils/response";
 
 const LIB_ROUTES = JSON.parse(
@@ -74,6 +75,37 @@ router.get(
       `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`,
     ).pipe(res);
   }),
+);
+
+router.get(
+  "/cors-anywhere",
+  zodHandler(
+    {
+      query: z.object({
+        url: z.string().url(),
+      }),
+      response: z.any(),
+    },
+    async ({ query: { url }, res }) => {
+      const response = await fetch(url, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch URL: ${url}`);
+      }
+
+      if (response.headers.get("content-type")?.includes("application/json")) {
+        const json = await response.json();
+        return json;
+      }
+
+      return response.text();
+    },
+  ),
 );
 
 router.use((req, res) => {

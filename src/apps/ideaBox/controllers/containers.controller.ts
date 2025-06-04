@@ -23,15 +23,7 @@ export const getContainers = zodHandler(
   {
     response: z.array(WithPBSchema(IdeaBoxContainerSchema)),
   },
-  async ({ pb }) =>
-    (await containersService.getContainers(pb)).map((container) => ({
-      ...container,
-      cover: container.cover
-        ? pb.files
-            .getURL(container, container.cover)
-            .replace(`${pb.baseURL}/api/files`, "")
-        : "",
-    })),
+  async ({ pb }) => await containersService.getContainers(pb),
 );
 
 export const createContainer = zodHandler(
