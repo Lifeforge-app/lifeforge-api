@@ -1,142 +1,187 @@
-import { Response } from "express";
 import fs from "fs";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
-import { WithoutPBDefault } from "@typescript/pocketbase_interfaces";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { serverError, successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as entriesService from "../services/entries.service";
-import { IWishlistEntry } from "../typescript/wishlist_interfaces";
+import { WishlistEntrySchema } from "../typescript/wishlist_interfaces";
 
-export const getCollectionId = async (req: any, res: Response) => {
-  const { pb } = req;
+export const getCollectionId = zodHandler(
+  {
+    response: z.string(),
+  },
+  async ({ pb }) => await entriesService.getCollectionId(pb),
+);
 
-  const collectionId = await entriesService.getCollectionId(pb);
-  successWithBaseResponse(res, collectionId);
-};
+export const getEntriesByListId = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    query: z.object({
+      bought: z
+        .string()
+        .optional()
+        .transform((val) => val === "true"),
+    }),
+    response: z.array(WithPBSchema(WishlistEntrySchema)),
+  },
+  async ({ pb, params: { id }, query: { bought } }) =>
+    await entriesService.getEntriesByListId(pb, id, bought),
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_lists",
+      },
+    },
+  },
+);
 
-export const getEntriesByListId = async (req: any, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const bought = req.query.bought ? req.query.bought === "true" : undefined;
+export const scrapeExternal = zodHandler(
+  {
+    body: z.object({
+      url: z.string(),
+      provider: z.string(),
+    }),
+    response: z.any(),
+  },
+  async ({ pb, body: { url, provider } }) =>
+    await entriesService.scrapeExternal(pb, provider, url),
+);
 
-  if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-    return;
-  }
+export const createEntry = zodHandler(
+  {
+    body: WishlistEntrySchema.pick({
+      name: true,
+      url: true,
+      price: true,
+      list: true,
+    }),
+    response: WithPBSchema(WishlistEntrySchema),
+  },
+  async ({ pb, body, req }) => {
+    const { file } = req;
 
-  const entries = await entriesService.getEntriesByListId(pb, id, bought);
-  successWithBaseResponse(res, entries);
-};
+    let imageFile: File | undefined;
 
-export const scrapeExternal = async (req: any, res: Response) => {
-  const { pb } = req;
+    if (file) {
+      const fileBuffer = fs.readFileSync(file.path);
+      imageFile = new File([fileBuffer], file.originalname);
+      fs.unlinkSync(file.path);
+    }
 
-  const { url, provider } = req.body;
+    const data = {
+      ...body,
+      bought: false,
+      image: imageFile,
+    };
 
-  const result = await entriesService.scrapeExternal(pb, provider, url);
+    return await entriesService.createEntry(pb, data);
+  },
+  {
+    existenceCheck: {
+      body: {
+        list: "wishlist_lists",
+      },
+    },
+    statusCode: 201,
+  },
+);
 
-  if (!result) {
-    serverError(res, "Error scraping provider");
-    return;
-  }
+export const updateEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      name: z.string(),
+      url: z.string(),
+      price: z.number(),
+      list: z.string(),
+      imageRemoved: z.string().optional(),
+    }),
+    response: z.union([
+      WithPBSchema(WishlistEntrySchema),
+      z.literal("removed"),
+    ]),
+  },
+  async ({
+    pb,
+    params: { id },
+    body: { list, name, url, price, imageRemoved },
+    req,
+  }) => {
+    const { file } = req;
+    let finalFile: null | File = null;
 
-  successWithBaseResponse(res, result);
-};
+    if (imageRemoved === "true") {
+      finalFile = null;
+    }
 
-export const createEntry = async (
-  req: any,
-  res: Response<BaseResponse<IWishlistEntry>>,
-) => {
-  const { pb } = req;
-  const { name, url, price, list } = req.body;
+    if (file) {
+      const fileBuffer = fs.readFileSync(file.path);
+      finalFile = new File([fileBuffer], file.originalname);
+      fs.unlinkSync(file.path);
+    }
 
-  if (!(await checkExistence(req, res, "wishlist_lists", list))) {
-    return;
-  }
+    const oldEntry = await entriesService.getEntry(pb, id);
 
-  const finalData: Omit<WithoutPBDefault<IWishlistEntry>, "image"> & {
-    image?: File;
-  } = {
-    name,
-    url,
-    price,
-    list,
-    bought: false,
-  };
+    const entry = await entriesService.updateEntry(pb, id, {
+      list,
+      name,
+      url,
+      price,
+      ...(imageRemoved === "true" || finalFile ? { image: finalFile } : {}),
+    });
 
-  if (req.file) {
-    finalData.image = new File([req.file.buffer], req.file.originalname);
-  } else if (req.body.image) {
-    const { image } = req.body;
+    return oldEntry.list === list ? entry : "removed";
+  },
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_entries",
+      },
+      body: {
+        list: "wishlist_lists",
+      },
+    },
+  },
+);
 
-    const response = await fetch(image);
-    const fileBuffer = await response.arrayBuffer();
-    finalData.image = new File(
-      [new Uint8Array(fileBuffer)],
-      image.split("/").pop(),
-    );
-  }
+export const updateEntryBoughtStatus = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(WishlistEntrySchema),
+  },
+  async ({ pb, params: { id } }) =>
+    await entriesService.updateEntryBoughtStatus(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_entries",
+      },
+    },
+  },
+);
 
-  const entry = await entriesService.createEntry(pb, finalData);
-  successWithBaseResponse(res, entry, 201);
-};
-
-export const updateEntry = async (req: any, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wishlist_entries", id))) {
-    return;
-  }
-
-  const { list, name, url, price, imageRemoved } = req.body;
-  const file = req.file;
-  let finalFile: null | File = null;
-
-  if (imageRemoved === "true") {
-    finalFile = null;
-  }
-
-  if (file) {
-    const fileBuffer = fs.readFileSync(file.path);
-    finalFile = new File([fileBuffer], file.originalname);
-  }
-
-  const oldEntry = await entriesService.getEntry(pb, id);
-
-  const entry = await entriesService.updateEntry(pb, id, {
-    list,
-    name,
-    url,
-    price,
-    ...(imageRemoved === "true" || finalFile ? { image: finalFile } : {}),
-  });
-
-  successWithBaseResponse(res, oldEntry.list === list ? entry : "removed");
-};
-
-export const updateEntryBoughtStatus = async (req: any, res: Response) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wishlist_entries", id))) {
-    return;
-  }
-
-  const entry = await entriesService.updateEntryBoughtStatus(pb, id);
-  successWithBaseResponse(res, entry);
-};
-
-export const deleteEntry = async (req: any, res: Response<BaseResponse>) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wishlist_entries", id))) {
-    return;
-  }
-
-  await entriesService.deleteEntry(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_entries",
+      },
+    },
+    statusCode: 204,
+  },
+);

@@ -2,58 +2,22 @@ import express from "express";
 
 import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as entriesController from "../controllers/entries.controller";
-import {
-  validateBoughtQuery,
-  validateEntryData,
-  validateEntryId,
-  validateExternalData,
-  validateListId,
-} from "../middlewares/entriesValidation";
 
 const router = express.Router();
 
-router.get("/collection-id", asyncWrapper(entriesController.getCollectionId));
+router.get("/collection-id", entriesController.getCollectionId);
 
-router.get(
-  "/:id",
-  validateListId,
-  validateBoughtQuery,
-  asyncWrapper(entriesController.getEntriesByListId),
-);
+router.get("/:id", entriesController.getEntriesByListId);
 
-router.post(
-  "/external",
-  validateExternalData,
-  asyncWrapper(entriesController.scrapeExternal),
-);
+router.post("/external", entriesController.scrapeExternal);
 
-router.post(
-  "/",
-  singleUploadMiddleware,
-  validateEntryData,
-  asyncWrapper(entriesController.createEntry),
-);
+router.post("/", singleUploadMiddleware, entriesController.createEntry);
 
-router.patch(
-  "/:id",
-  singleUploadMiddleware,
-  validateEntryId,
-  asyncWrapper(entriesController.updateEntry),
-);
+router.patch("/:id", singleUploadMiddleware, entriesController.updateEntry);
 
-router.patch(
-  "/bought/:id",
-  validateEntryId,
-  asyncWrapper(entriesController.updateEntryBoughtStatus),
-);
+router.patch("/bought/:id", entriesController.updateEntryBoughtStatus);
 
-router.delete(
-  "/:id",
-  validateEntryId,
-  asyncWrapper(entriesController.deleteEntry),
-);
+router.delete("/:id", entriesController.deleteEntry);
 
 export default router;

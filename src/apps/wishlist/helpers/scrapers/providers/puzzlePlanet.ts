@@ -1,6 +1,12 @@
 import { JSDOM } from "jsdom";
 
-async function scrapePuzzlePlanet(url: string) {
+const scrapePuzzlePlanet = async (
+  url: string,
+): Promise<{
+  name: string;
+  image: string;
+  price: number;
+} | null> => {
   try {
     const dom = (await JSDOM.fromURL(url)).window.document;
 
@@ -13,12 +19,12 @@ async function scrapePuzzlePlanet(url: string) {
     return {
       name: structuredData.name,
       image: structuredData.image,
-      price: structuredData.offers.price,
+      price: +structuredData.offers.price,
     };
   } catch (error) {
     console.error("Error scraping data", error);
     return null;
   }
-}
+};
 
 export default scrapePuzzlePlanet;

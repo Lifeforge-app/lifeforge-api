@@ -2,7 +2,14 @@ import ogs from "open-graph-scraper";
 
 import { fetchAI } from "@utils/fetchAI";
 
-async function scrapeLazada(url: string, groqKey: string) {
+const scrapeLazada = async (
+  url: string,
+  groqKey: string,
+): Promise<{
+  name: string;
+  image: string;
+  price: number;
+} | null> => {
   try {
     const options = {
       url,
@@ -15,39 +22,42 @@ async function scrapeLazada(url: string, groqKey: string) {
     };
 
     const final: {
-      name: string | null;
-      image: string | null;
+      name: string;
+      image: string;
+      price: number;
     } = {
-      name: null,
-      image: null,
+      name: "",
+      image: "",
+      price: 0,
     };
 
     const { result } = await ogs(options);
 
     const imageURL = result.ogImage?.[0]?.url;
-    final.image = imageURL || null;
+    final.image = imageURL || "";
 
     const prompt = `Extract the most relevant and concise product name from the given product title, removing any unnecessary words or phrases such as descriptions, locations, and promotions. The extracted product name should be a clear and accurate representation of the product being sold. If there is the brand name of the product, the result should be in the format of "{brand} - {product name}". Please provide the extracted product name without any other words other than the product name itself.
   
   ${result.ogTitle}`;
 
-    final.name = await fetchAI({
-      provider: "groq",
-      apiKey: groqKey,
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-    });
+    final.name =
+      (await fetchAI({
+        provider: "groq",
+        apiKey: groqKey,
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+      })) || "";
 
     return final;
   } catch (error) {
     console.error("Error scraping data", error);
     return null;
   }
-}
+};
 
 export default scrapeLazada;

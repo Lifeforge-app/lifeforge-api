@@ -1,32 +1,23 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
+const WishlistListSchema = z.object({
+  color: z.string(),
+  icon: z.string(),
+  name: z.string(),
+  description: z.string(),
+});
 
-const WishlistListSchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    color: s.string(),
-    icon: s.string(),
-    name: s.string(),
-    description: s.string(),
-    item_count: s.number(),
-  }),
-);
+const WishlistEntrySchema = z.object({
+  name: z.string(),
+  url: z.string(),
+  price: z.number(),
+  image: z.string(),
+  list: z.string(),
+  bought: z.boolean(),
+});
 
-const WishlistEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    name: s.string(),
-    url: s.string(),
-    price: s.number(),
-    image: s.string(),
-    list: s.string(),
-    bought: s.boolean(),
-  }),
-);
-
-type IWishlistList = s.Infer<typeof WishlistListSchema>;
-type IWishlistEntry = s.Infer<typeof WishlistEntrySchema>;
+type IWishlistList = z.infer<typeof WishlistListSchema>;
+type IWishlistEntry = z.infer<typeof WishlistEntrySchema>;
 
 export { WishlistEntrySchema, WishlistListSchema };
 export type { IWishlistEntry, IWishlistList };

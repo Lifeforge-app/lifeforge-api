@@ -1,6 +1,7 @@
 import PocketBase from "pocketbase";
 
-import { IIdeaBoxContainer } from "../../ideaBox/typescript/ideabox_interfaces";
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import { IWishlistList } from "../typescript/wishlist_interfaces";
 
 export const checkListExists = async (
@@ -15,34 +16,65 @@ export const checkListExists = async (
   }
 };
 
-export const getList = async (
+export const getList = (
   pb: PocketBase,
   id: string,
-): Promise<IWishlistList> => {
-  return await pb.collection("wishlist_lists").getOne(id);
-};
+): Promise<
+  WithPB<
+    IWishlistList & {
+      total_count: number;
+      bought_count: number;
+      total_amount: number;
+      bought_amount: number;
+    }
+  >
+> =>
+  pb.collection("wishlist_lists_aggregated").getOne<
+    WithPB<
+      IWishlistList & {
+        total_count: number;
+        bought_count: number;
+        total_amount: number;
+        bought_amount: number;
+      }
+    >
+  >(id);
 
-export const getAllLists = async (pb: PocketBase): Promise<IWishlistList[]> => {
-  const result = await pb
-    .collection("wishlist_lists")
-    .getFullList<IWishlistList>();
-  return result;
-};
-
-export const createList = async (
+export const getAllLists = (
   pb: PocketBase,
-  data: { name: string; description?: string; color: string; icon: string },
-): Promise<IWishlistList> => {
-  return await pb.collection("wishlist_lists").create(data);
-};
+): Promise<
+  WithPB<
+    IWishlistList & {
+      total_count: number;
+      bought_count: number;
+      total_amount: number;
+      bought_amount: number;
+    }
+  >[]
+> =>
+  pb.collection("wishlist_lists_aggregated").getFullList<
+    WithPB<
+      IWishlistList & {
+        total_count: number;
+        bought_count: number;
+        total_amount: number;
+        bought_amount: number;
+      }
+    >
+  >();
+
+export const createList = (
+  pb: PocketBase,
+  data: IWishlistList,
+): Promise<WithPB<IWishlistList>> =>
+  pb.collection("wishlist_lists").create<WithPB<IWishlistList>>(data);
 
 export const updateList = async (
   pb: PocketBase,
   id: string,
-  data: { name: string; description?: string; color: string; icon: string },
-): Promise<IIdeaBoxContainer> => {
-  return await pb.collection("wishlist_lists").update(id, data);
-};
+  data: IWishlistList,
+): Promise<WithPB<IWishlistList>> =>
+  pb.collection("wishlist_lists").update<WithPB<IWishlistList>>(id, data);
 
 export const deleteList = async (pb: PocketBase, id: string): Promise<void> => {
   await pb.collection("wishlist_lists").delete(id);

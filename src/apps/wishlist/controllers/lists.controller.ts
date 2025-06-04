@@ -1,94 +1,99 @@
-import { Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
-import { IIdeaBoxContainer } from "../../ideaBox/typescript/ideabox_interfaces";
 import * as listsService from "../services/lists.service";
-import { IWishlistList } from "../typescript/wishlist_interfaces";
+import { WishlistListSchema } from "../typescript/wishlist_interfaces";
 
-export const getList = async (
-  req: any,
-  res: Response<BaseResponse<IWishlistList>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
+export const getList = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(WishlistListSchema),
+  },
+  async ({ pb, params: { id } }) => await listsService.getList(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_lists",
+      },
+    },
+  },
+);
 
-  if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-    return;
-  }
+export const checkListExists = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, params: { id } }) => await listsService.checkListExists(pb, id),
+);
 
-  const list = await listsService.getList(pb, id);
-  successWithBaseResponse(res, list);
-};
+export const getAllLists = zodHandler(
+  {
+    response: z.array(
+      WithPBSchema(
+        WishlistListSchema.extend({
+          total_count: z.number(),
+          bought_count: z.number(),
+          total_amount: z.number(),
+          bought_amount: z.number(),
+        }),
+      ),
+    ),
+  },
+  async ({ pb }) => await listsService.getAllLists(pb),
+);
 
-export const checkListExists = async (req: any, res: Response) => {
-  const { id } = req.params;
-  const { pb } = req;
+export const createList = zodHandler(
+  {
+    body: WishlistListSchema,
+    response: WithPBSchema(WishlistListSchema),
+  },
+  async ({ pb, body }) => await listsService.createList(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-  const exists = await listsService.checkListExists(pb, id);
-  successWithBaseResponse(res, exists);
-};
+export const updateList = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: WishlistListSchema,
+    response: WithPBSchema(WishlistListSchema),
+  },
+  async ({ pb, params: { id }, body }) =>
+    await listsService.updateList(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_lists",
+      },
+    },
+  },
+);
 
-export const getAllLists = async (
-  req: any,
-  res: Response<BaseResponse<IWishlistList[]>>,
-) => {
-  const { pb } = req;
-
-  const lists = await listsService.getAllLists(pb);
-  successWithBaseResponse(res, lists);
-};
-
-export const createList = async (
-  req: any,
-  res: Response<BaseResponse<IWishlistList>>,
-) => {
-  const { pb } = req;
-  const { name, description, color, icon } = req.body;
-
-  const list = await listsService.createList(pb, {
-    name,
-    description,
-    color,
-    icon,
-  });
-
-  successWithBaseResponse(res, list, 201);
-};
-
-export const updateList = async (
-  req: any,
-  res: Response<BaseResponse<IIdeaBoxContainer>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, description, color, icon } = req.body;
-
-  if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-    return;
-  }
-
-  const list = await listsService.updateList(pb, id, {
-    name,
-    description,
-    color,
-    icon,
-  });
-
-  successWithBaseResponse(res, list);
-};
-
-export const deleteList = async (req: any, res: Response<BaseResponse>) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wishlist_lists", id))) {
-    return;
-  }
-
-  await listsService.deleteList(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteList = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) => await listsService.deleteList(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wishlist_lists",
+      },
+    },
+    statusCode: 204,
+  },
+);

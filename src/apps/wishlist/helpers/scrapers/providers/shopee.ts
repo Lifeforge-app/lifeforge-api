@@ -4,7 +4,7 @@ import { createWorker } from "tesseract.js";
 
 import { fetchAI } from "@utils/fetchAI";
 
-async function getPrice(imageURL: string) {
+const getPrice = async (imageURL: string): Promise<number> => {
   try {
     const imageBuffer = await fetch(imageURL).then((res) => res.arrayBuffer());
     const image = sharp(Buffer.from(imageBuffer));
@@ -42,11 +42,11 @@ async function getPrice(imageURL: string) {
     return Math.max(...numbers);
   } catch (error) {
     console.error("Error getting price");
-    return null;
+    return 0;
   }
-}
+};
 
-async function getImageURL(url: string) {
+async function getImageURL(url: string): Promise<string> {
   const options = {
     url,
     fetchOptions: {
@@ -58,10 +58,17 @@ async function getImageURL(url: string) {
 
   const { result } = await ogs(options);
 
-  return result.ogImage?.[0]?.url || null;
+  return result.ogImage?.[0]?.url || "";
 }
 
-async function scrapeShopee(url: string, groqKey: string) {
+const scrapeShopee = async (
+  url: string,
+  groqKey: string,
+): Promise<{
+  name: string;
+  image: string;
+  price: number;
+} | null> => {
   try {
     const options = {
       url,
@@ -74,13 +81,13 @@ async function scrapeShopee(url: string, groqKey: string) {
     };
 
     const final: {
-      name: string | null;
-      price: number | null;
-      image: string | null;
+      name: string;
+      price: number;
+      image: string;
     } = {
-      name: null,
-      price: null,
-      image: null,
+      name: "",
+      price: 0,
+      image: "",
     };
 
     const { result } = await ogs(options);
@@ -96,23 +103,24 @@ async function scrapeShopee(url: string, groqKey: string) {
   
   ${result.ogTitle}`;
 
-    final.name = await fetchAI({
-      provider: "groq",
-      apiKey: groqKey,
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-    });
+    final.name =
+      (await fetchAI({
+        provider: "groq",
+        apiKey: groqKey,
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+      })) || "";
 
     return final;
   } catch (error) {
     console.error("Error scraping data", error);
     return null;
   }
-}
+};
 
 export default scrapeShopee;
