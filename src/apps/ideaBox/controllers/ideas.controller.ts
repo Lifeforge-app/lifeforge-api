@@ -69,6 +69,7 @@ export const createIdea = forgeController(
       tags: true,
     }).extend({
       imageLink: z.string().optional(),
+      tags: z.string().transform((val) => JSON.parse(val)),
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },

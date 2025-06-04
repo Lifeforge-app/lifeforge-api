@@ -15,7 +15,12 @@ import {
 export const getActivities = forgeController(
   {
     query: z.object({
-      year: z.number().optional(),
+      year: z
+        .string()
+        .optional()
+        .transform((val) =>
+          val ? parseInt(val, 10) : new Date().getFullYear(),
+        ),
     }),
     response: CodeTimeActivitiesSchema,
   },
