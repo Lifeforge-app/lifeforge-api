@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import PocketBase from "pocketbase";
 import { ZodObject, ZodRawShape, ZodTypeAny, z } from "zod/v4";
 
@@ -8,7 +8,7 @@ import ClientError from "./ClientError";
 import { checkExistence } from "./PBRecordValidator";
 import { clientError, serverError, successWithBaseResponse } from "./response";
 
-export function zodHandler<
+export function forgeController<
   BodySchema extends ZodObject<ZodRawShape> | undefined = undefined,
   QuerySchema extends ZodObject<ZodRawShape> | undefined = undefined,
   ParamsSchema extends ZodObject<ZodRawShape> | undefined = undefined,

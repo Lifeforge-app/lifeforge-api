@@ -3,13 +3,13 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as EventsService from "../services/events.service";
 import { CalendarEventSchema } from "../typescript/calendar_interfaces";
 
-export const getEventsByDateRange = zodHandler(
+export const getEventsByDateRange = forgeController(
   {
     query: z.object({
       start: z.string(),
@@ -21,7 +21,7 @@ export const getEventsByDateRange = zodHandler(
     await EventsService.getEventsByDateRange(pb, start, end),
 );
 
-export const getEventById = zodHandler(
+export const getEventById = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -38,14 +38,14 @@ export const getEventById = zodHandler(
   },
 );
 
-export const getEventsToday = zodHandler(
+export const getEventsToday = forgeController(
   {
     response: z.array(WithPBSchema(CalendarEventSchema)),
   },
   async ({ pb }) => await EventsService.getTodayEvents(pb),
 );
 
-export const createEvent = zodHandler(
+export const createEvent = forgeController(
   {
     body: CalendarEventSchema.omit({
       is_strikethrough: true,
@@ -65,7 +65,7 @@ export const createEvent = zodHandler(
   },
 );
 
-export const scanImage = zodHandler(
+export const scanImage = forgeController(
   {
     response: CalendarEventSchema.partial(),
   },
@@ -86,7 +86,7 @@ export const scanImage = zodHandler(
   },
 );
 
-export const updateEvent = zodHandler(
+export const updateEvent = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -108,7 +108,7 @@ export const updateEvent = zodHandler(
   },
 );
 
-export const deleteEvent = zodHandler(
+export const deleteEvent = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -126,7 +126,7 @@ export const deleteEvent = zodHandler(
   },
 );
 
-export const addException = zodHandler(
+export const addException = forgeController(
   {
     params: z.object({
       id: z.string(),

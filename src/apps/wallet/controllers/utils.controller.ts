@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as UtilsService from "../services/utils.service";
 import { WalletIncomeExpensesSummarySchema } from "../wallet_interfaces";
 
-export const getTypesCount = zodHandler(
+export const getTypesCount = forgeController(
   {
     response: z.record(
       z.string(),
@@ -18,7 +18,7 @@ export const getTypesCount = zodHandler(
   async ({ pb }) => await UtilsService.getTypesCount(pb),
 );
 
-export const getIncomeExpensesSummary = zodHandler(
+export const getIncomeExpensesSummary = forgeController(
   {
     query: z.object({
       year: z.string(),
@@ -30,7 +30,7 @@ export const getIncomeExpensesSummary = zodHandler(
     await UtilsService.getIncomeExpensesSummary(pb, year, month),
 );
 
-export const getExpensesBreakdown = zodHandler(
+export const getExpensesBreakdown = forgeController(
   {
     query: z.object({
       year: z

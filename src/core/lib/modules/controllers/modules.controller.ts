@@ -1,11 +1,11 @@
 import _ from "lodash";
 import z from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as ModuleService from "../services/modules.service";
 
-export const toggleModule = zodHandler(
+export const toggleModule = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -22,14 +22,14 @@ export const toggleModule = zodHandler(
   },
 );
 
-export const listAppPaths = zodHandler(
+export const listAppPaths = forgeController(
   {
     response: z.array(z.string()),
   },
   async () => ModuleService.listAppPaths(),
 );
 
-export const packageModule = zodHandler(
+export const packageModule = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -54,7 +54,7 @@ export const packageModule = zodHandler(
   },
 );
 
-export const installModule = zodHandler(
+export const installModule = forgeController(
   {
     body: z.object({
       name: z.string().min(1, "Name is required"),

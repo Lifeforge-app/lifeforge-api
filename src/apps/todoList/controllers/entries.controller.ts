@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as entriesService from "../services/entries.service";
 import {
@@ -10,7 +10,7 @@ import {
   TodoListStatusCounterSchema,
 } from "../typescript/todo_list_interfaces";
 
-export const getEntryById = zodHandler(
+export const getEntryById = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -27,7 +27,7 @@ export const getEntryById = zodHandler(
   },
 );
 
-export const getAllEntries = zodHandler(
+export const getAllEntries = forgeController(
   {
     query: z.object({
       list: z.string().optional(),
@@ -51,14 +51,14 @@ export const getAllEntries = zodHandler(
   },
 );
 
-export const getStatusCounter = zodHandler(
+export const getStatusCounter = forgeController(
   {
     response: TodoListStatusCounterSchema,
   },
   async ({ pb }) => await entriesService.getStatusCounter(pb),
 );
 
-export const createEntry = zodHandler(
+export const createEntry = forgeController(
   {
     body: TodoListEntrySchema.omit({
       completed_at: true,
@@ -78,7 +78,7 @@ export const createEntry = zodHandler(
   },
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -104,7 +104,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -122,7 +122,7 @@ export const deleteEntry = zodHandler(
   },
 );
 
-export const toggleEntry = zodHandler(
+export const toggleEntry = forgeController(
   {
     params: z.object({
       id: z.string(),

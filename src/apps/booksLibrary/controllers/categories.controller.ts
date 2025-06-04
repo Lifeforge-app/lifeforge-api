@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as CategoriesService from "../services/categories.service";
 import { BooksLibraryCategorySchema } from "../typescript/books_library_interfaces";
 
-export const getAllCategories = zodHandler(
+export const getAllCategories = forgeController(
   {
     response: z.array(WithPBSchema(BooksLibraryCategorySchema)),
   },
   ({ pb }) => CategoriesService.getAllCategories(pb),
 );
 
-export const createCategory = zodHandler(
+export const createCategory = forgeController(
   {
     body: BooksLibraryCategorySchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryCategorySchema),
@@ -25,7 +25,7 @@ export const createCategory = zodHandler(
   },
 );
 
-export const updateCategory = zodHandler(
+export const updateCategory = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -44,7 +44,7 @@ export const updateCategory = zodHandler(
   },
 );
 
-export const deleteCategory = zodHandler(
+export const deleteCategory = forgeController(
   {
     params: z.object({
       id: z.string(),

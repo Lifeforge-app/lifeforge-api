@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as guitarWorldService from "../services/guitarWorld.service";
 import {
@@ -10,7 +10,7 @@ import {
   GuitarTabsGuitarWorldEntrySchema,
 } from "../typescript/guitar_tabs_interfaces";
 
-export const getTabsList = zodHandler(
+export const getTabsList = forgeController(
   {
     body: z.object({
       cookie: z.string(),
@@ -26,7 +26,7 @@ export const getTabsList = zodHandler(
     await guitarWorldService.getTabsList(cookie, page),
 );
 
-export const downloadTab = zodHandler(
+export const downloadTab = forgeController(
   {
     body: z.object({
       cookie: z.string(),

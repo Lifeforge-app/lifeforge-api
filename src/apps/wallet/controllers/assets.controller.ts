@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as AssetsService from "../services/assets.service";
 import { WalletAssetSchema } from "../typescript/wallet_interfaces";
 
-export const getAllAssets = zodHandler(
+export const getAllAssets = forgeController(
   {
     response: z.array(WithPBSchema(WalletAssetSchema)),
   },
   async ({ pb }) => await AssetsService.getAllAssets(pb),
 );
 
-export const createAsset = zodHandler(
+export const createAsset = forgeController(
   {
     body: WalletAssetSchema.pick({
       name: true,
@@ -29,7 +29,7 @@ export const createAsset = zodHandler(
   },
 );
 
-export const updateAsset = zodHandler(
+export const updateAsset = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -52,7 +52,7 @@ export const updateAsset = zodHandler(
   },
 );
 
-export const deleteAsset = zodHandler(
+export const deleteAsset = forgeController(
   {
     params: z.object({
       id: z.string(),

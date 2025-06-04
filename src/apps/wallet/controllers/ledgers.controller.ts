@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as LedgersService from "../services/ledgers.service";
 import { WalletLedgerSchema } from "../typescript/wallet_interfaces";
 
-export const getAllLedgers = zodHandler(
+export const getAllLedgers = forgeController(
   {
     response: z.array(WithPBSchema(WalletLedgerSchema)),
   },
   async ({ pb }) => await LedgersService.getAllLedgers(pb),
 );
 
-export const createLedger = zodHandler(
+export const createLedger = forgeController(
   {
     body: WalletLedgerSchema.omit({
       amount: true,
@@ -27,7 +27,7 @@ export const createLedger = zodHandler(
   },
 );
 
-export const updateLedger = zodHandler(
+export const updateLedger = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -48,7 +48,7 @@ export const updateLedger = zodHandler(
   },
 );
 
-export const deleteLedger = zodHandler(
+export const deleteLedger = forgeController(
   {
     params: z.object({
       id: z.string(),

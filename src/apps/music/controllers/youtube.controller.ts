@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as YoutubeService from "../services/youtube.service";
 import { YoutubeDataSchema } from "../typescript/music_interfaces";
 
-export const getVideoInfo = zodHandler(
+export const getVideoInfo = forgeController(
   {
     params: z.object({
       id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
@@ -15,7 +15,7 @@ export const getVideoInfo = zodHandler(
   async ({ params: { id } }) => await YoutubeService.getVideoInfo(id),
 );
 
-export const downloadVideo = zodHandler(
+export const downloadVideo = forgeController(
   {
     params: z.object({
       id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
@@ -42,7 +42,7 @@ export const downloadVideo = zodHandler(
   },
 );
 
-export const getDownloadStatus = zodHandler(
+export const getDownloadStatus = forgeController(
   {
     response: z.object({
       status: z.enum(["empty", "in_progress", "completed", "failed"]),

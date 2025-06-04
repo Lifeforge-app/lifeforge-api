@@ -3,19 +3,19 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as CalendarsService from "../services/calendars.service";
 import { CalendarCalendarSchema } from "../typescript/calendar_interfaces";
 
-export const getAllCalendars = zodHandler(
+export const getAllCalendars = forgeController(
   {
     response: z.array(WithPBSchema(CalendarCalendarSchema)),
   },
   async ({ pb }) => await CalendarsService.getAllCalendars(pb),
 );
 
-export const getCalendarById = zodHandler(
+export const getCalendarById = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -33,7 +33,7 @@ export const getCalendarById = zodHandler(
   },
 );
 
-export const createCalendar = zodHandler(
+export const createCalendar = forgeController(
   {
     body: CalendarCalendarSchema,
     response: WithPBSchema(CalendarCalendarSchema),
@@ -55,7 +55,7 @@ export const createCalendar = zodHandler(
   },
 );
 
-export const updateCalendar = zodHandler(
+export const updateCalendar = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -84,7 +84,7 @@ export const updateCalendar = zodHandler(
   },
 );
 
-export const deleteCalendar = zodHandler(
+export const deleteCalendar = forgeController(
   {
     params: z.object({
       id: z.string(),

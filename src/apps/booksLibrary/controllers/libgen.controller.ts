@@ -1,7 +1,7 @@
 import request from "request";
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as libgenService from "../services/libgen.service";
 import {
@@ -10,14 +10,14 @@ import {
   BooksLibraryLibgenSearchResultSchema,
 } from "../typescript/books_library_interfaces";
 
-export const getStatus = zodHandler(
+export const getStatus = forgeController(
   {
     response: z.boolean(),
   },
   libgenService.getStatus,
 );
 
-export const searchBooks = zodHandler(
+export const searchBooks = forgeController(
   {
     query: z.object({
       mode: z.string(),
@@ -34,7 +34,7 @@ export const searchBooks = zodHandler(
   async ({ query }) => await libgenService.searchBooks(query),
 );
 
-export const getBookDetails = zodHandler(
+export const getBookDetails = forgeController(
   {
     params: z.object({
       md5: z.string(),
@@ -44,7 +44,7 @@ export const getBookDetails = zodHandler(
   async ({ params: { md5 } }) => await libgenService.getBookDetails(md5),
 );
 
-export const getLocalLibraryData = zodHandler(
+export const getLocalLibraryData = forgeController(
   {
     params: z.object({
       md5: z.string(),
@@ -58,7 +58,7 @@ export const getLocalLibraryData = zodHandler(
   async ({ params: { md5 } }) => await libgenService.getLocalLibraryData(md5),
 );
 
-export const fetchCover = zodHandler(
+export const fetchCover = forgeController(
   {
     params: z.object({
       "0": z.string(),
@@ -71,7 +71,7 @@ export const fetchCover = zodHandler(
   },
 );
 
-export const addToLibrary = zodHandler(
+export const addToLibrary = forgeController(
   {
     params: z.object({
       md5: z.string(),
@@ -92,7 +92,7 @@ export const addToLibrary = zodHandler(
   { statusCode: 202 },
 );
 
-export const getDownloadProgresses = zodHandler(
+export const getDownloadProgresses = forgeController(
   {
     response: z.record(
       z.string(),
@@ -104,7 +104,7 @@ export const getDownloadProgresses = zodHandler(
   async () => libgenService.getDownloadProgresses(),
 );
 
-export const cancelDownload = zodHandler(
+export const cancelDownload = forgeController(
   {
     params: z.object({
       md5: z.string(),

@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as LanguagesService from "../services/languages.service";
 import { BooksLibraryLanguageSchema } from "../typescript/books_library_interfaces";
 
-export const getAllLanguages = zodHandler(
+export const getAllLanguages = forgeController(
   {
     response: z.array(BooksLibraryLanguageSchema),
   },
   ({ pb }) => LanguagesService.getAllLanguages(pb),
 );
 
-export const createLanguage = zodHandler(
+export const createLanguage = forgeController(
   {
     body: BooksLibraryLanguageSchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryLanguageSchema),
@@ -23,7 +23,7 @@ export const createLanguage = zodHandler(
   { statusCode: 201 },
 );
 
-export const updateLanguage = zodHandler(
+export const updateLanguage = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -42,7 +42,7 @@ export const updateLanguage = zodHandler(
   },
 );
 
-export const deleteLanguage = zodHandler(
+export const deleteLanguage = forgeController(
   {
     params: z.object({
       id: z.string(),

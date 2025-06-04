@@ -1,18 +1,18 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as ImageGenerationService from "../services/imageGeneration.service";
 
-export const checkKey = zodHandler(
+export const checkKey = forgeController(
   {
     response: z.boolean(),
   },
   async ({ pb }) => !!(await getAPIKey("openai", pb)),
 );
 
-export const generateImage = zodHandler(
+export const generateImage = forgeController(
   {
     body: z.object({
       prompt: z.string().min(1, "Prompt cannot be empty"),

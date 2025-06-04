@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as TransactionsService from "../services/transactions.service";
 import {
@@ -10,14 +10,14 @@ import {
   WalletTransactionEntrySchema,
 } from "../typescript/wallet_interfaces";
 
-export const getAllTransactions = zodHandler(
+export const getAllTransactions = forgeController(
   {
     response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
   },
   async ({ pb }) => await TransactionsService.getAllTransactions(pb),
 );
 
-export const createTransaction = zodHandler(
+export const createTransaction = forgeController(
   {
     body: z.object({
       particulars: z.string(),
@@ -49,7 +49,7 @@ export const createTransaction = zodHandler(
   },
 );
 
-export const updateTransaction = zodHandler(
+export const updateTransaction = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -89,7 +89,7 @@ export const updateTransaction = zodHandler(
   },
 );
 
-export const deleteTransaction = zodHandler(
+export const deleteTransaction = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -108,7 +108,7 @@ export const deleteTransaction = zodHandler(
   },
 );
 
-export const scanReceipt = zodHandler(
+export const scanReceipt = forgeController(
   {
     response: WalletReceiptScanResultSchema,
   },

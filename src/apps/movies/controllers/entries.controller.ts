@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as entriesService from "../services/entries.service";
 import { MovieEntrySchema } from "../typescript/movies_interfaces";
 
-export const getAllEntries = zodHandler(
+export const getAllEntries = forgeController(
   {
     response: z.array(WithPBSchema(MovieEntrySchema)),
   },
   ({ pb }) => entriesService.getAllEntries(pb),
 );
 
-export const createEntryFromTMDB = zodHandler(
+export const createEntryFromTMDB = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -27,7 +27,7 @@ export const createEntryFromTMDB = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -45,7 +45,7 @@ export const deleteEntry = zodHandler(
   },
 );
 
-export const toggleWatchStatus = zodHandler(
+export const toggleWatchStatus = forgeController(
   {
     params: z.object({
       id: z.string(),

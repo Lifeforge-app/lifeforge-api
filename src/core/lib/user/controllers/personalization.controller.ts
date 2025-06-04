@@ -1,11 +1,11 @@
 import fs from "fs";
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as PersonalizationService from "../services/personalization.service";
 
-export const listGoogleFonts = zodHandler(
+export const listGoogleFonts = forgeController(
   {
     response: z.object({
       enabled: z.boolean(),
@@ -15,7 +15,7 @@ export const listGoogleFonts = zodHandler(
   async ({ pb }) => PersonalizationService.listGoogleFonts(pb),
 );
 
-export const getGoogleFont = zodHandler(
+export const getGoogleFont = forgeController(
   {
     query: z.object({
       family: z.string(),
@@ -29,7 +29,7 @@ export const getGoogleFont = zodHandler(
     PersonalizationService.getGoogleFont(pb, family),
 );
 
-export const updateBgImage = zodHandler(
+export const updateBgImage = forgeController(
   {
     body: z.object({
       url: z.string().optional(),
@@ -40,7 +40,7 @@ export const updateBgImage = zodHandler(
     PersonalizationService.updateBgImage(pb, req.file, url),
 );
 
-export const deleteBgImage = zodHandler(
+export const deleteBgImage = forgeController(
   {
     response: z.void(),
   },
@@ -51,7 +51,7 @@ export const deleteBgImage = zodHandler(
   },
 );
 
-export const updatePersonalization = zodHandler(
+export const updatePersonalization = forgeController(
   {
     body: z.object({
       data: z.object({

@@ -1,10 +1,10 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as TMDBService from "../services/tmdb.service";
 
-export const searchMovies = zodHandler(
+export const searchMovies = forgeController(
   {
     query: z.object({
       q: z.string().min(1, "Query must not be empty"),

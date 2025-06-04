@@ -2,12 +2,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as TicketService from "../services/ticket.service";
 import { MovieEntrySchema } from "../typescript/movies_interfaces";
 
-export const updateTicket = zodHandler(
+export const updateTicket = forgeController(
   {
     body: MovieEntrySchema.pick({
       ticket_number: true,
@@ -30,7 +30,7 @@ export const updateTicket = zodHandler(
   },
 );
 
-export const clearTicket = zodHandler(
+export const clearTicket = forgeController(
   {
     params: z.object({
       id: z.string(),

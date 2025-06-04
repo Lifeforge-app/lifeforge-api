@@ -6,7 +6,7 @@ import {
 } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as entriesService from "../services/entries.service";
 import {
@@ -14,14 +14,14 @@ import {
   GuitarTabsSidebarDataSchema,
 } from "../typescript/guitar_tabs_interfaces";
 
-export const getSidebarData = zodHandler(
+export const getSidebarData = forgeController(
   {
     response: GuitarTabsSidebarDataSchema,
   },
   async ({ pb }) => await entriesService.getSidebarData(pb),
 );
 
-export const getEntries = zodHandler(
+export const getEntries = forgeController(
   {
     query: z.object({
       page: z
@@ -45,14 +45,14 @@ export const getEntries = zodHandler(
   async ({ pb, query }) => await entriesService.getEntries(pb, query),
 );
 
-export const getRandomEntry = zodHandler(
+export const getRandomEntry = forgeController(
   {
     response: WithPBSchema(GuitarTabsEntrySchema),
   },
   async ({ pb }) => await entriesService.getRandomEntry(pb),
 );
 
-export const uploadFiles = zodHandler(
+export const uploadFiles = forgeController(
   {
     response: z.boolean(),
   },
@@ -79,14 +79,14 @@ export const uploadFiles = zodHandler(
   },
 );
 
-export const getProcessStatus = zodHandler(
+export const getProcessStatus = forgeController(
   {
     response: z.any(),
   },
   async () => entriesService.getProcessStatus(),
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -109,7 +109,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -127,7 +127,7 @@ export const deleteEntry = zodHandler(
   },
 );
 
-export const toggleFavorite = zodHandler(
+export const toggleFavorite = forgeController(
   {
     params: z.object({
       id: z.string(),

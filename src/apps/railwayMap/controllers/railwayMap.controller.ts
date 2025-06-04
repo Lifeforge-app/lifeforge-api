@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as RailwayMapServices from "../services/railwayMap.service";
 import {
@@ -10,21 +10,21 @@ import {
   RailwayMapStationSchema,
 } from "../typescript/railwayMap.types";
 
-export const getLines = zodHandler(
+export const getLines = forgeController(
   {
     response: z.array(WithPBSchema(RailwayMapLineSchema)),
   },
   async ({ pb }) => await RailwayMapServices.getLines(pb),
 );
 
-export const getStations = zodHandler(
+export const getStations = forgeController(
   {
     response: z.array(WithPBSchema(RailwayMapStationSchema)),
   },
   async ({ pb }) => RailwayMapServices.getStations(pb),
 );
 
-export const getShortestPath = zodHandler(
+export const getShortestPath = forgeController(
   {
     query: z.object({
       start: z.string(),

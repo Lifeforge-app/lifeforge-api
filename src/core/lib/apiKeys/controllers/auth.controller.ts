@@ -1,19 +1,19 @@
 import { v4 } from "uuid";
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
 import { default as _validateOTP } from "@utils/validateOTP";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as authService from "../services/auth.service";
 
-export const getChallenge = zodHandler(
+export const getChallenge = forgeController(
   {
     response: z.string(),
   },
   async () => authService.challenge,
 );
 
-export const createOrUpdateMasterPassword = zodHandler(
+export const createOrUpdateMasterPassword = forgeController(
   {
     body: z.object({
       password: z.string(),
@@ -24,7 +24,7 @@ export const createOrUpdateMasterPassword = zodHandler(
     authService.createOrUpdateMasterPassword(pb, password),
 );
 
-export const verifyMasterPassword = zodHandler(
+export const verifyMasterPassword = forgeController(
   {
     body: z.object({
       password: z.string(),
@@ -35,7 +35,7 @@ export const verifyMasterPassword = zodHandler(
     authService.verifyMasterPassword(pb, password, authService.challenge),
 );
 
-export const verifyOTP = zodHandler(
+export const verifyOTP = forgeController(
   {
     body: z.object({
       otp: z.string(),

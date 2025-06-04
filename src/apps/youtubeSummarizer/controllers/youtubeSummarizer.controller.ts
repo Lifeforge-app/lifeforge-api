@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as YoutubeSummarizerService from "../services/youtubeSummarizer.service";
 import { YoutubeInfoSchema } from "../typescript/youtube_summarizer_interfaces";
 
-export const getYoutubeVideoInfo = zodHandler(
+export const getYoutubeVideoInfo = forgeController(
   {
     params: z.object({
       id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
@@ -16,7 +16,7 @@ export const getYoutubeVideoInfo = zodHandler(
     await YoutubeSummarizerService.getYoutubeVideoInfo(id),
 );
 
-export const summarizeVideo = zodHandler(
+export const summarizeVideo = forgeController(
   {
     body: z.object({
       url: z.string().url("Invalid URL"),

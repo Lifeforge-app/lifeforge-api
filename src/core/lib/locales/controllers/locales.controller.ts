@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 import * as LocalesService from "../services/locales.service";
 
-export const getLocales = zodHandler(
+export const getLocales = forgeController(
   {
     params: z.object({
       lang: z.enum(ALLOWED_LANG),

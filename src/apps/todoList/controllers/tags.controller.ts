@@ -2,12 +2,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as tagsService from "../services/tags.service";
 import { TodoListTagSchema } from "../typescript/todo_list_interfaces";
 
-export const getAllTags = zodHandler(
+export const getAllTags = forgeController(
   {
     response: z.array(
       WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
@@ -16,7 +16,7 @@ export const getAllTags = zodHandler(
   ({ pb }) => tagsService.getAllTags(pb),
 );
 
-export const createTag = zodHandler(
+export const createTag = forgeController(
   {
     body: TodoListTagSchema.pick({ name: true, color: true }),
     response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
@@ -27,7 +27,7 @@ export const createTag = zodHandler(
   },
 );
 
-export const updateTag = zodHandler(
+export const updateTag = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -45,7 +45,7 @@ export const updateTag = zodHandler(
   },
 );
 
-export const deleteTag = zodHandler(
+export const deleteTag = forgeController(
   {
     params: z.object({
       id: z.string(),

@@ -2,12 +2,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as listsService from "../services/lists.service";
 import { WishlistListSchema } from "../typescript/wishlist_interfaces";
 
-export const getList = zodHandler(
+export const getList = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -24,7 +24,7 @@ export const getList = zodHandler(
   },
 );
 
-export const checkListExists = zodHandler(
+export const checkListExists = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -34,7 +34,7 @@ export const checkListExists = zodHandler(
   async ({ pb, params: { id } }) => await listsService.checkListExists(pb, id),
 );
 
-export const getAllLists = zodHandler(
+export const getAllLists = forgeController(
   {
     response: z.array(
       WithPBSchema(
@@ -50,7 +50,7 @@ export const getAllLists = zodHandler(
   async ({ pb }) => await listsService.getAllLists(pb),
 );
 
-export const createList = zodHandler(
+export const createList = forgeController(
   {
     body: WishlistListSchema,
     response: WithPBSchema(WishlistListSchema),
@@ -61,7 +61,7 @@ export const createList = zodHandler(
   },
 );
 
-export const updateList = zodHandler(
+export const updateList = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -80,7 +80,7 @@ export const updateList = zodHandler(
   },
 );
 
-export const deleteList = zodHandler(
+export const deleteList = forgeController(
   {
     params: z.object({
       id: z.string(),

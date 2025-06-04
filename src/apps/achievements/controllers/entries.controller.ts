@@ -2,12 +2,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as EntriesService from "../services/entries.service";
 import { AchievementsEntrySchema } from "../typescript/achievements_interfaces";
 
-export const getAllEntriesByDifficulty = zodHandler(
+export const getAllEntriesByDifficulty = forgeController(
   {
     params: z.object({
       difficulty: AchievementsEntrySchema.shape.difficulty,
@@ -18,7 +18,7 @@ export const getAllEntriesByDifficulty = zodHandler(
     EntriesService.getAllEntriesByDifficulty(pb, difficulty),
 );
 
-export const createEntry = zodHandler(
+export const createEntry = forgeController(
   {
     body: AchievementsEntrySchema,
     response: WithPBSchema(AchievementsEntrySchema),
@@ -29,7 +29,7 @@ export const createEntry = zodHandler(
   },
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -47,7 +47,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),

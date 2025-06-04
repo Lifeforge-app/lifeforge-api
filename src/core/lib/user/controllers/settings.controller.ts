@@ -1,17 +1,17 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as SettingsService from "../services/settings.service";
 
-export const updateAvatar = zodHandler(
+export const updateAvatar = forgeController(
   {
     response: z.string(),
   },
   async ({ req: { file }, pb }) => SettingsService.updateAvatar(pb, file),
 );
 
-export const deleteAvatar = zodHandler(
+export const deleteAvatar = forgeController(
   {
     response: z.void(),
   },
@@ -21,7 +21,7 @@ export const deleteAvatar = zodHandler(
   },
 );
 
-export const updateProfile = zodHandler(
+export const updateProfile = forgeController(
   {
     body: z.object({
       data: z.object({
@@ -42,7 +42,7 @@ export const updateProfile = zodHandler(
   },
 );
 
-export const requestPasswordReset = zodHandler(
+export const requestPasswordReset = forgeController(
   {
     response: z.void(),
   },

@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as miscService from "../services/misc.service";
 
-export const getPath = zodHandler(
+export const getPath = forgeController(
   {
     params: z.object({
       container: z.string(),
@@ -30,7 +30,7 @@ export const getPath = zodHandler(
   },
 );
 
-export const checkValid = zodHandler(
+export const checkValid = forgeController(
   {
     params: z.object({
       container: z.string(),
@@ -48,7 +48,7 @@ export const checkValid = zodHandler(
     ),
 );
 
-export const getOgData = zodHandler(
+export const getOgData = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -65,7 +65,7 @@ export const getOgData = zodHandler(
   },
 );
 
-export const search = zodHandler(
+export const search = forgeController(
   {
     query: z.object({
       q: z.string(),

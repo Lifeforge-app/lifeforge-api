@@ -1,12 +1,12 @@
 import z from "zod/v4";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as TranscriptionService from "../services/transcription.service";
 import { convertToMp3 } from "../utils/convertToMP3";
 
-export const transcribeExisted = zodHandler(
+export const transcribeExisted = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -24,7 +24,7 @@ export const transcribeExisted = zodHandler(
   },
 );
 
-export const transcribeNew = zodHandler(
+export const transcribeNew = forgeController(
   {
     response: z.string(),
   },

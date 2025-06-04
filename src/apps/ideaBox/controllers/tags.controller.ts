@@ -3,13 +3,13 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { checkExistence } from "@utils/PBRecordValidator";
-import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as tagsService from "../services/tags.service";
 import { IdeaBoxTagSchema } from "../typescript/ideabox_interfaces";
 
-export const getTags = zodHandler(
+export const getTags = forgeController(
   {
     params: z.object({
       container: z.string(),
@@ -27,7 +27,7 @@ export const getTags = zodHandler(
   },
 );
 
-export const createTag = zodHandler(
+export const createTag = forgeController(
   {
     body: IdeaBoxTagSchema,
     params: z.object({
@@ -47,7 +47,7 @@ export const createTag = zodHandler(
   },
 );
 
-export const updateTag = zodHandler(
+export const updateTag = forgeController(
   {
     body: IdeaBoxTagSchema,
     params: z.object({
@@ -66,7 +66,7 @@ export const updateTag = zodHandler(
   },
 );
 
-export const deleteTag = zodHandler(
+export const deleteTag = forgeController(
   {
     params: z.object({
       id: z.string(),

@@ -5,8 +5,8 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
 import { checkExistence } from "@utils/PBRecordValidator";
-import { zodHandler } from "@utils/asyncWrapper";
 import { clientError, successWithBaseResponse } from "@utils/response";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as ideasService from "../services/ideas.service";
 import {
@@ -14,7 +14,7 @@ import {
   IdeaBoxEntrySchema,
 } from "../typescript/ideabox_interfaces";
 
-export const getIdeas = zodHandler(
+export const getIdeas = forgeController(
   {
     params: z.object({
       container: z.string(),
@@ -58,7 +58,7 @@ export const getIdeas = zodHandler(
   },
 );
 
-export const createIdea = zodHandler(
+export const createIdea = forgeController(
   {
     body: IdeaBoxEntrySchema.pick({
       type: true,
@@ -129,7 +129,7 @@ export const createIdea = zodHandler(
   },
 );
 
-export const updateIdea = zodHandler(
+export const updateIdea = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -174,7 +174,7 @@ export const updateIdea = zodHandler(
   },
 );
 
-export const deleteIdea = zodHandler(
+export const deleteIdea = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -192,7 +192,7 @@ export const deleteIdea = zodHandler(
   },
 );
 
-export const pinIdea = zodHandler(
+export const pinIdea = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -209,7 +209,7 @@ export const pinIdea = zodHandler(
   },
 );
 
-export const archiveIdea = zodHandler(
+export const archiveIdea = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -227,7 +227,7 @@ export const archiveIdea = zodHandler(
   },
 );
 
-export const moveIdea = zodHandler(
+export const moveIdea = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -251,7 +251,7 @@ export const moveIdea = zodHandler(
   },
 );
 
-export const removeFromFolder = zodHandler(
+export const removeFromFolder = forgeController(
   {
     params: z.object({
       id: z.string(),

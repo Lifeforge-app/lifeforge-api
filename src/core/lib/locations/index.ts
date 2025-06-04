@@ -2,14 +2,14 @@ import express from "express";
 import { z } from "zod/v4";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
+import { forgeController } from "@utils/zodifiedHandler";
 
 const router = express.Router();
 
 router.get(
   "/",
-  zodHandler(
+  forgeController(
     {
       query: z.object({
         q: z.string(),
@@ -32,7 +32,7 @@ router.get(
 
 router.get(
   "/enabled",
-  zodHandler(
+  forgeController(
     {
       response: z.boolean(),
     },

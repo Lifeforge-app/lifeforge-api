@@ -1,21 +1,21 @@
 import { z } from "zod/v4";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
 import { default as _validateOTP } from "@utils/validateOTP";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as twoFAService from "../services/twoFA.service";
 
 export let canDisable2FA = false;
 
-export const getChallenge = zodHandler(
+export const getChallenge = forgeController(
   {
     response: z.string(),
   },
   async () => twoFAService.getChallenge(),
 );
 
-export const requestOTP = zodHandler(
+export const requestOTP = forgeController(
   {
     body: z.object({
       email: z.email(),
@@ -25,7 +25,7 @@ export const requestOTP = zodHandler(
   async ({ pb, body: { email } }) => await twoFAService.requestOTP(pb, email),
 );
 
-export const validateOTP = zodHandler(
+export const validateOTP = forgeController(
   {
     body: z.object({
       otp: z.string(),
@@ -51,7 +51,7 @@ export const validateOTP = zodHandler(
   },
 );
 
-export const generateAuthtenticatorLink = zodHandler(
+export const generateAuthtenticatorLink = forgeController(
   {
     response: z.string(),
   },
@@ -67,7 +67,7 @@ export const generateAuthtenticatorLink = zodHandler(
     ),
 );
 
-export const verifyAndEnable2FA = zodHandler(
+export const verifyAndEnable2FA = forgeController(
   {
     body: z.object({
       otp: z.string(),
@@ -88,7 +88,7 @@ export const verifyAndEnable2FA = zodHandler(
     ),
 );
 
-export const disable2FA = zodHandler(
+export const disable2FA = forgeController(
   {
     response: z.void(),
   },
@@ -105,7 +105,7 @@ export const disable2FA = zodHandler(
   },
 );
 
-export const verify2FA = zodHandler(
+export const verify2FA = forgeController(
   {
     body: z.object({
       otp: z.string(),

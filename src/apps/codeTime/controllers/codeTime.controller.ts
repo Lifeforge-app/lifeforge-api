@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as CodeTimeService from "../services/codeTime.service";
 import {
@@ -12,7 +12,7 @@ import {
   CodeTimeStatisticsSchema,
 } from "../typescript/codetime_interfaces";
 
-export const getActivities = zodHandler(
+export const getActivities = forgeController(
   {
     query: z.object({
       year: z.number().optional(),
@@ -23,14 +23,14 @@ export const getActivities = zodHandler(
     await CodeTimeService.getActivities(pb, year),
 );
 
-export const getStatistics = zodHandler(
+export const getStatistics = forgeController(
   {
     response: CodeTimeStatisticsSchema,
   },
   async ({ pb }) => await CodeTimeService.getStatistics(pb),
 );
 
-export const getLastXDays = zodHandler(
+export const getLastXDays = forgeController(
   {
     query: z.object({
       days: z.string().transform((val) => parseInt(val, 10)),
@@ -46,7 +46,7 @@ export const getLastXDays = zodHandler(
   },
 );
 
-export const getProjects = zodHandler(
+export const getProjects = forgeController(
   {
     query: z.object({
       last: z.enum(["24 hours", "7 days", "30 days"]).default("7 days"),
@@ -57,7 +57,7 @@ export const getProjects = zodHandler(
     await CodeTimeService.getProjectsStats(pb, last),
 );
 
-export const getLanguages = zodHandler(
+export const getLanguages = forgeController(
   {
     query: z.object({
       last: z.enum(["24 hours", "7 days", "30 days"]).default("7 days"),
@@ -68,7 +68,7 @@ export const getLanguages = zodHandler(
     await CodeTimeService.getLanguagesStats(pb, last),
 );
 
-export const getEachDay = zodHandler(
+export const getEachDay = forgeController(
   {
     response: z.array(
       z.object({
@@ -80,7 +80,7 @@ export const getEachDay = zodHandler(
   async ({ pb }) => await CodeTimeService.getEachDay(pb),
 );
 
-export const getUserMinutes = zodHandler(
+export const getUserMinutes = forgeController(
   {
     query: z.object({
       minutes: z.string().transform((val) => parseInt(val, 10)),
@@ -93,7 +93,7 @@ export const getUserMinutes = zodHandler(
     await CodeTimeService.getUserMinutes(pb, minutes),
 );
 
-export const logEvent = zodHandler(
+export const logEvent = forgeController(
   {
     // @ts-ignore
     body: z.any(),
@@ -114,7 +114,7 @@ export const logEvent = zodHandler(
   },
 );
 
-export const getReadmeImage = zodHandler(
+export const getReadmeImage = forgeController(
   {
     response: z.instanceof(Uint8Array<ArrayBufferLike>),
   },

@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as EntriesService from "../services/entries.service";
 import { MusicEntrySchema } from "../typescript/music_interfaces";
 
-export const getAllEntries = zodHandler(
+export const getAllEntries = forgeController(
   {
     response: z.array(WithPBSchema(MusicEntrySchema)),
   },
   async ({ pb }) => await EntriesService.getAllEntries(pb),
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -26,7 +26,7 @@ export const updateEntry = zodHandler(
     await EntriesService.updateEntry(pb, id, body),
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -44,7 +44,7 @@ export const deleteEntry = zodHandler(
   },
 );
 
-export const toggleFavorite = zodHandler(
+export const toggleFavorite = forgeController(
   {
     params: z.object({
       id: z.string(),

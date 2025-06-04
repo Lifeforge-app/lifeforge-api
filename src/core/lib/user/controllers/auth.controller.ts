@@ -1,11 +1,11 @@
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
 import { default as _validateOTP } from "@utils/validateOTP";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as AuthService from "../services/auth.service";
 
-export const validateOTP = zodHandler(
+export const validateOTP = forgeController(
   {
     body: z.object({
       otp: z.string(),
@@ -16,14 +16,14 @@ export const validateOTP = zodHandler(
   async ({ pb, body }) => await _validateOTP(pb, body),
 );
 
-export const generateOTP = zodHandler(
+export const generateOTP = forgeController(
   {
     response: z.string(),
   },
   async ({ pb }) => await AuthService.generateOTP(pb),
 );
 
-export const login = zodHandler(
+export const login = forgeController(
   {
     body: z.object({
       email: z.string(),
@@ -45,7 +45,7 @@ export const login = zodHandler(
     await AuthService.login(email, password),
 );
 
-export const verifySessionToken = zodHandler(
+export const verifySessionToken = forgeController(
   {
     response: z.object({
       session: z.string(),

@@ -4,13 +4,13 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
 import { checkExistence } from "@utils/PBRecordValidator";
-import { zodHandler } from "@utils/asyncWrapper";
 import { serverError, successWithBaseResponse } from "@utils/response";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as foldersService from "../services/folders.service";
 import { IdeaBoxFolderSchema } from "../typescript/ideabox_interfaces";
 
-export const getFolders = zodHandler(
+export const getFolders = forgeController(
   {
     params: z.object({
       container: z.string(),
@@ -42,7 +42,7 @@ export const getFolders = zodHandler(
   },
 );
 
-export const createFolder = zodHandler(
+export const createFolder = forgeController(
   {
     body: z.object({
       name: z.string(),
@@ -64,7 +64,7 @@ export const createFolder = zodHandler(
   },
 );
 
-export const updateFolder = zodHandler(
+export const updateFolder = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -87,7 +87,7 @@ export const updateFolder = zodHandler(
   },
 );
 
-export const moveFolder = zodHandler(
+export const moveFolder = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -111,7 +111,7 @@ export const moveFolder = zodHandler(
   },
 );
 
-export const removeFromFolder = zodHandler(
+export const removeFromFolder = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -129,7 +129,7 @@ export const removeFromFolder = zodHandler(
   },
 );
 
-export const deleteFolder = zodHandler(
+export const deleteFolder = forgeController(
   {
     params: z.object({
       id: z.string(),

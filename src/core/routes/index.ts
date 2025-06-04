@@ -6,8 +6,8 @@ import path from "path";
 import request from "request";
 import { z } from "zod/v4";
 
-import { zodHandler } from "../utils/asyncWrapper";
 import { successWithBaseResponse } from "../utils/response";
+import { forgeController } from "../utils/zodifiedHandler";
 
 const LIB_ROUTES = JSON.parse(
   fs.readFileSync(
@@ -54,7 +54,7 @@ router.get("/", (_, res) => {
 router.get(
   "/media/:collectionId/:entriesId/:photoId",
   [query("thumb").optional().isString(), query("token").optional().isString()],
-  zodHandler(
+  forgeController(
     {
       params: z.object({
         collectionId: z.string(),
@@ -94,7 +94,7 @@ router.get(
 
 router.get(
   "/cors-anywhere",
-  zodHandler(
+  forgeController(
     {
       query: z.object({
         url: z.string().url(),

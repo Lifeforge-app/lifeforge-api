@@ -2,12 +2,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as prioritiesService from "../services/priorities.service";
 import { TodoListPrioritySchema } from "../typescript/todo_list_interfaces";
 
-export const getAllPriorities = zodHandler(
+export const getAllPriorities = forgeController(
   {
     response: z.array(
       WithPBSchema(TodoListPrioritySchema.extend({ amount: z.number() })),
@@ -16,7 +16,7 @@ export const getAllPriorities = zodHandler(
   ({ pb }) => prioritiesService.getAllPriorities(pb),
 );
 
-export const createPriority = zodHandler(
+export const createPriority = forgeController(
   {
     body: TodoListPrioritySchema.pick({ name: true, color: true }),
     response: WithPBSchema(
@@ -29,7 +29,7 @@ export const createPriority = zodHandler(
   },
 );
 
-export const updatePriority = zodHandler(
+export const updatePriority = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -50,7 +50,7 @@ export const updatePriority = zodHandler(
   },
 );
 
-export const deletePriority = zodHandler(
+export const deletePriority = forgeController(
   {
     params: z.object({
       id: z.string(),

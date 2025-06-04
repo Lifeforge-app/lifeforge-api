@@ -2,19 +2,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as sessionService from "../services/session.service";
 import { VirtualWardrobeEntrySchema } from "../typescript/virtual_wardrobe_interfaces";
 
-export const getCart = zodHandler(
+export const getCart = forgeController(
   {
     response: z.array(WithPBSchema(VirtualWardrobeEntrySchema)),
   },
   async () => sessionService.getSessionCart(),
 );
 
-export const addToCart = zodHandler(
+export const addToCart = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -33,7 +33,7 @@ export const addToCart = zodHandler(
   },
 );
 
-export const removeFromCart = zodHandler(
+export const removeFromCart = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -52,7 +52,7 @@ export const removeFromCart = zodHandler(
   },
 );
 
-export const checkout = zodHandler(
+export const checkout = forgeController(
   {
     body: z.object({
       notes: z.string(),
@@ -64,7 +64,7 @@ export const checkout = zodHandler(
   },
 );
 
-export const clearCart = zodHandler(
+export const clearCart = forgeController(
   {
     response: z.void(),
   },

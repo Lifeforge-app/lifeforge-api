@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as entriesService from "../services/entries.service";
 import * as visionService from "../services/vision.service";
@@ -12,14 +12,14 @@ import {
   VirtualWardrobeSidebarDataSchema,
 } from "../typescript/virtual_wardrobe_interfaces";
 
-export const getSidebarData = zodHandler(
+export const getSidebarData = forgeController(
   {
     response: VirtualWardrobeSidebarDataSchema,
   },
   async ({ pb }) => await entriesService.getSidebarData(pb),
 );
 
-export const getEntries = zodHandler(
+export const getEntries = forgeController(
   {
     query: z.object({
       category: z.string().optional(),
@@ -38,7 +38,7 @@ export const getEntries = zodHandler(
   async ({ pb, query }) => await entriesService.getEntries(pb, query),
 );
 
-export const createEntry = zodHandler(
+export const createEntry = forgeController(
   {
     body: z.object({
       name: z.string(),
@@ -85,7 +85,7 @@ export const createEntry = zodHandler(
   },
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -113,7 +113,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -131,7 +131,7 @@ export const deleteEntry = zodHandler(
   },
 );
 
-export const toggleFavourite = zodHandler(
+export const toggleFavourite = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -149,7 +149,7 @@ export const toggleFavourite = zodHandler(
   },
 );
 
-export const analyzeVision = zodHandler(
+export const analyzeVision = forgeController(
   {
     response: z.object({
       name: z.string(),

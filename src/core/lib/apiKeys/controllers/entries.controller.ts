@@ -3,14 +3,14 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
 import { decrypt2 } from "@utils/encryption";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import { challenge } from "../services/auth.service";
 import getDecryptedMaster, * as entriesService from "../services/entries.service";
 import { APIKeyEntrySchema } from "../typescript/api_keys_interfaces";
 
-export const getAllEntries = zodHandler(
+export const getAllEntries = forgeController(
   {
     query: z.object({
       master: z.string(),
@@ -23,7 +23,7 @@ export const getAllEntries = zodHandler(
   },
 );
 
-export const checkKeys = zodHandler(
+export const checkKeys = forgeController(
   {
     query: z.object({
       keys: z.string(),
@@ -33,7 +33,7 @@ export const checkKeys = zodHandler(
   async ({ pb, query: { keys } }) => await entriesService.checkKeys(pb, keys),
 );
 
-export const getEntryById = zodHandler(
+export const getEntryById = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -59,7 +59,7 @@ export const getEntryById = zodHandler(
   },
 );
 
-export const createEntry = zodHandler(
+export const createEntry = forgeController(
   {
     body: z.object({
       data: z.string(),
@@ -86,7 +86,7 @@ export const createEntry = zodHandler(
   },
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -120,7 +120,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),

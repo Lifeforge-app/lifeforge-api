@@ -3,12 +3,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as containersService from "../services/containers.service";
 import { IdeaBoxContainerSchema } from "../typescript/ideabox_interfaces";
 
-export const checkContainerExists = zodHandler(
+export const checkContainerExists = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -19,14 +19,14 @@ export const checkContainerExists = zodHandler(
     await containersService.checkContainerExists(pb, id),
 );
 
-export const getContainers = zodHandler(
+export const getContainers = forgeController(
   {
     response: z.array(WithPBSchema(IdeaBoxContainerSchema)),
   },
   async ({ pb }) => await containersService.getContainers(pb),
 );
 
-export const createContainer = zodHandler(
+export const createContainer = forgeController(
   {
     body: IdeaBoxContainerSchema,
     response: WithPBSchema(IdeaBoxContainerSchema),
@@ -70,7 +70,7 @@ export const createContainer = zodHandler(
   },
 );
 
-export const updateContainer = zodHandler(
+export const updateContainer = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -131,7 +131,7 @@ export const updateContainer = zodHandler(
   },
 );
 
-export const deleteContainer = zodHandler(
+export const deleteContainer = forgeController(
   {
     params: z.object({
       id: z.string(),

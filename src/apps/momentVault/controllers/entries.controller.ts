@@ -6,12 +6,12 @@ import {
 } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as EntriesServices from "../services/entries.service";
 import { MomentVaultEntrySchema } from "../typescript/moment_vault_interfaces";
 
-export const getEntries = zodHandler(
+export const getEntries = forgeController(
   {
     query: z.object({
       page: z
@@ -24,7 +24,7 @@ export const getEntries = zodHandler(
   async ({ pb, query }) => await EntriesServices.getAllEntries(pb, query.page),
 );
 
-export const createEntry = zodHandler(
+export const createEntry = forgeController(
   {
     body: z.object({
       type: z.enum(["text", "audio", "photos"]),
@@ -80,7 +80,7 @@ export const createEntry = zodHandler(
   },
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -101,7 +101,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),

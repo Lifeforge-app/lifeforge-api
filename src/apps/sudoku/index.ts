@@ -1,13 +1,13 @@
 import express from "express";
 import { z } from "zod/v4";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 const router = express.Router();
 
 router.get(
   "/:difficulty",
-  zodHandler(
+  forgeController(
     {
       params: z.object({
         difficulty: z.enum(["easy", "medium", "hard", "expert", "evil"]),

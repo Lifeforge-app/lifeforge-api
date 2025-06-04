@@ -2,13 +2,13 @@ import fs from "fs";
 import { z } from "zod/v4";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
 import { fetchAI } from "@utils/fetchAI";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 import * as LocalesManagerService from "../services/localesManager.service";
 
-export const listSubnamespaces = zodHandler(
+export const listSubnamespaces = forgeController(
   {
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
@@ -19,7 +19,7 @@ export const listSubnamespaces = zodHandler(
     LocalesManagerService.listSubnamespaces(namespace),
 );
 
-export const listLocales = zodHandler(
+export const listLocales = forgeController(
   {
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
@@ -31,7 +31,7 @@ export const listLocales = zodHandler(
     LocalesManagerService.listLocales(namespace, subnamespace),
 );
 
-export const syncLocales = zodHandler(
+export const syncLocales = forgeController(
   {
     body: z.object({
       data: z.record(
@@ -49,7 +49,7 @@ export const syncLocales = zodHandler(
     LocalesManagerService.syncLocales(data, namespace, subnamespace),
 );
 
-export const createLocale = zodHandler(
+export const createLocale = forgeController(
   {
     params: z.object({
       type: z.enum(["entry", "namespace"]),
@@ -68,7 +68,7 @@ export const createLocale = zodHandler(
   },
 );
 
-export const renameLocale = zodHandler(
+export const renameLocale = forgeController(
   {
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
@@ -84,7 +84,7 @@ export const renameLocale = zodHandler(
     LocalesManagerService.renameLocale(namespace, subnamespace, path, newName),
 );
 
-export const deleteLocale = zodHandler(
+export const deleteLocale = forgeController(
   {
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
@@ -102,7 +102,7 @@ export const deleteLocale = zodHandler(
   },
 );
 
-export const getTranslationSuggestions = zodHandler(
+export const getTranslationSuggestions = forgeController(
   {
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),

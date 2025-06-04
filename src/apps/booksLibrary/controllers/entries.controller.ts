@@ -3,20 +3,20 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
 import { getAPIKey } from "@utils/getAPIKey";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as EntriesService from "../services/entries.service";
 import { BooksLibraryEntrySchema } from "../typescript/books_library_interfaces";
 
-export const getAllEntries = zodHandler(
+export const getAllEntries = forgeController(
   {
     response: z.array(WithPBSchema(BooksLibraryEntrySchema)),
   },
   ({ pb }) => EntriesService.getAllEntries(pb),
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -47,7 +47,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const toggleFavouriteStatus = zodHandler(
+export const toggleFavouriteStatus = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -64,7 +64,7 @@ export const toggleFavouriteStatus = zodHandler(
   },
 );
 
-export const sendToKindle = zodHandler(
+export const sendToKindle = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -103,7 +103,7 @@ export const sendToKindle = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),

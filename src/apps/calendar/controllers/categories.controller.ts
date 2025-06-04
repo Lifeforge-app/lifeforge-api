@@ -3,19 +3,19 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as CategoriesService from "../services/categories.service";
 import { CalendarCategorySchema } from "../typescript/calendar_interfaces";
 
-export const getAllCategories = zodHandler(
+export const getAllCategories = forgeController(
   {
     response: z.array(WithPBSchema(CalendarCategorySchema)),
   },
   async ({ pb }) => await CategoriesService.getAllCategories(pb),
 );
 
-export const getCategoryById = zodHandler(
+export const getCategoryById = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -33,7 +33,7 @@ export const getCategoryById = zodHandler(
   },
 );
 
-export const createCategory = zodHandler(
+export const createCategory = forgeController(
   {
     body: CalendarCategorySchema.omit({
       amount: true,
@@ -58,7 +58,7 @@ export const createCategory = zodHandler(
   },
 );
 
-export const updateCategory = zodHandler(
+export const updateCategory = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -93,7 +93,7 @@ export const updateCategory = zodHandler(
   },
 );
 
-export const deleteCategory = zodHandler(
+export const deleteCategory = forgeController(
   {
     params: z.object({
       id: z.string(),

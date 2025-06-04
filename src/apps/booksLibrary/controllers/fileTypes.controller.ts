@@ -2,12 +2,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as FileTypesService from "../services/fileTypes.service";
 import { BooksLibraryFileTypeSchema } from "../typescript/books_library_interfaces";
 
-export const getAllFileTypes = zodHandler(
+export const getAllFileTypes = forgeController(
   {
     response: z.array(WithPBSchema(BooksLibraryFileTypeSchema)),
   },

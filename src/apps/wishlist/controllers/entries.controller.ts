@@ -3,19 +3,19 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { zodHandler } from "@utils/asyncWrapper";
+import { forgeController } from "@utils/zodifiedHandler";
 
 import * as entriesService from "../services/entries.service";
 import { WishlistEntrySchema } from "../typescript/wishlist_interfaces";
 
-export const getCollectionId = zodHandler(
+export const getCollectionId = forgeController(
   {
     response: z.string(),
   },
   async ({ pb }) => await entriesService.getCollectionId(pb),
 );
 
-export const getEntriesByListId = zodHandler(
+export const getEntriesByListId = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -39,7 +39,7 @@ export const getEntriesByListId = zodHandler(
   },
 );
 
-export const scrapeExternal = zodHandler(
+export const scrapeExternal = forgeController(
   {
     body: z.object({
       url: z.string(),
@@ -51,7 +51,7 @@ export const scrapeExternal = zodHandler(
     await entriesService.scrapeExternal(pb, provider, url),
 );
 
-export const createEntry = zodHandler(
+export const createEntry = forgeController(
   {
     body: WishlistEntrySchema.pick({
       name: true,
@@ -90,7 +90,7 @@ export const createEntry = zodHandler(
   },
 );
 
-export const updateEntry = zodHandler(
+export const updateEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -150,7 +150,7 @@ export const updateEntry = zodHandler(
   },
 );
 
-export const updateEntryBoughtStatus = zodHandler(
+export const updateEntryBoughtStatus = forgeController(
   {
     params: z.object({
       id: z.string(),
@@ -168,7 +168,7 @@ export const updateEntryBoughtStatus = zodHandler(
   },
 );
 
-export const deleteEntry = zodHandler(
+export const deleteEntry = forgeController(
   {
     params: z.object({
       id: z.string(),
