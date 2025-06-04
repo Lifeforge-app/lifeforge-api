@@ -3,11 +3,15 @@ import { ChatCompletionMessageParam as GroqChatCompletionMessageParam } from "gr
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
 import { ChatCompletionMessageParam as OpenAIChatCompletionMessageParam } from "openai/resources/index.mjs";
+import PocketBase from "pocketbase";
 import { z } from "zod";
 
+import ClientError from "./ClientError";
+import { getAPIKey } from "./getAPIKey";
+
 export interface FetchAIParams<T extends z.ZodType<any> | undefined> {
+  pb: PocketBase;
   provider: "groq" | "openai";
-  apiKey: string;
   model: string;
   messages:
     | GroqChatCompletionMessageParam[]
@@ -18,8 +22,8 @@ export interface FetchAIParams<T extends z.ZodType<any> | undefined> {
 export async function fetchAI<
   T extends z.ZodType<any> | undefined = undefined,
 >({
+  pb,
   provider,
-  apiKey,
   model,
   messages,
   structure,
@@ -30,6 +34,12 @@ export async function fetchAI<
     throw new Error("Structure is only supported for OpenAI provider");
   }
 
+  const apiKey = await getAPIKey(provider, pb);
+
+  if (!apiKey) {
+    throw new ClientError(`API key for ${provider} not found.`);
+  }
+
   const client = new {
     groq: Groq,
     openai: OpenAI,
@@ -38,9 +48,10 @@ export async function fetchAI<
   });
 
   if (structure) {
-    const completion = await (client as OpenAI).beta.chat.completions.parse({
+    const completion = await (client as OpenAI).chat.completions.parse({
       model,
       messages: messages as OpenAIChatCompletionMessageParam[],
+      // @ts-ignore
       response_format: zodResponseFormat(structure, "response"),
     });
 

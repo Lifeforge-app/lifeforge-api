@@ -4,7 +4,7 @@ import { query } from "express-validator";
 import fs from "fs";
 import path from "path";
 import request from "request";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import asyncWrapper, { zodHandler } from "../utils/asyncWrapper";
 import { successWithBaseResponse } from "../utils/response";

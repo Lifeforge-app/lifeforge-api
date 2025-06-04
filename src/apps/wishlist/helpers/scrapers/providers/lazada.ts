@@ -1,10 +1,11 @@
 import ogs from "open-graph-scraper";
+import PocketBase from "pocketbase";
 
 import { fetchAI } from "@utils/fetchAI";
 
 const scrapeLazada = async (
+  pb: PocketBase,
   url: string,
-  groqKey: string,
 ): Promise<{
   name: string;
   image: string;
@@ -42,8 +43,8 @@ const scrapeLazada = async (
 
     final.name =
       (await fetchAI({
+        pb,
         provider: "groq",
-        apiKey: groqKey,
         model: "llama-3.3-70b-versatile",
         messages: [
           {

@@ -1,4 +1,5 @@
 import ogs from "open-graph-scraper";
+import PocketBase from "pocketbase";
 import sharp from "sharp";
 import { createWorker } from "tesseract.js";
 
@@ -62,8 +63,8 @@ async function getImageURL(url: string): Promise<string> {
 }
 
 const scrapeShopee = async (
+  pb: PocketBase,
   url: string,
-  groqKey: string,
 ): Promise<{
   name: string;
   image: string;
@@ -105,8 +106,8 @@ const scrapeShopee = async (
 
     final.name =
       (await fetchAI({
+        pb,
         provider: "groq",
-        apiKey: groqKey,
         model: "llama-3.3-70b-versatile",
         messages: [
           {

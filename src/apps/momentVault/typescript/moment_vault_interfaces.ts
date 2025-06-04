@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const MomentVaultEntrySchema = z.object({
   type: z.enum(["text", "audio", "video", "photos"]),

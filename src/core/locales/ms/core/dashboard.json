@@ -122,5 +122,6 @@
       "description": "Anda boleh menambah widget dari menu 'Urus Widget'."
     }
   },
-  "loading": "Memuatkan papan pemuka..."
+  "loading": "Memuatkan papan pemuka...",
+  "test": ""
 }

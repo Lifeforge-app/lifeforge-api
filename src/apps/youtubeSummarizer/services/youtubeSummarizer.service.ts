@@ -51,12 +51,6 @@ export const summarizeVideo = async (
   url: string,
   pb: Pocketbase,
 ): Promise<string> => {
-  const apiKey = await getAPIKey("groq", pb);
-
-  if (!apiKey) {
-    throw new Error("No API key found");
-  }
-
   const rawCaptions = await fetch(url).then((res) => res.text());
   console.log(rawCaptions);
   const captionText = rawCaptions
@@ -73,8 +67,8 @@ export const summarizeVideo = async (
   }
 
   const result = await fetchAI({
+    pb,
     provider: "groq",
-    apiKey,
     model: "llama-3.3-70b-versatile",
     messages: [
       {

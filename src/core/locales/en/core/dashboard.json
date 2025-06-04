@@ -122,5 +122,6 @@
       "description": "You can add widgets from the 'Manage Widgets' menu."
     }
   },
-  "loading": "Loading dashboard..."
+  "loading": "Loading dashboard...",
+  "test": ""
 }

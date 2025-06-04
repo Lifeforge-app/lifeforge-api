@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { zodHandler } from "@utils/asyncWrapper";
 

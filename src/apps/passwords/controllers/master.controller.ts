@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { zodHandler } from "@utils/asyncWrapper";
 import { default as _validateOTP } from "@utils/validateOTP";

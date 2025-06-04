@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod/v4";
 
 import ClientError from "@utils/ClientError";
 import { zodHandler } from "@utils/asyncWrapper";

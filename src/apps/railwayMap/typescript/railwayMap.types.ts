@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const RailwayMapLineSchema = z.object({
   country: z.string(),

@@ -174,7 +174,6 @@ export const createEvent = async (
 export const scanImage = async (
   pb: PocketBase,
   filePath: string,
-  apiKey: string,
 ): Promise<Partial<ICalendarEvent> | null> => {
   const categories = await pb
     .collection("calendar_categories")
@@ -196,8 +195,8 @@ export const scanImage = async (
   });
 
   const response = await fetchAI({
+    pb,
     provider: "openai",
-    apiKey,
     model: "gpt-4o",
     structure: responseStructure,
     messages: [

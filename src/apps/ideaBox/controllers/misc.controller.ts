@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { zodHandler } from "@utils/asyncWrapper";
 import { successWithBaseResponse } from "@utils/response";

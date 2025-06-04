@@ -1,6 +1,8 @@
 import { JSDOM } from "jsdom";
+import PocketBase from "pocketbase";
 
 const scrapePuzzlePlanet = async (
+  _: PocketBase,
   url: string,
 ): Promise<{
   name: string;

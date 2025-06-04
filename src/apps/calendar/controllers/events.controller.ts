@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
@@ -76,13 +76,7 @@ export const scanImage = zodHandler(
       throw new ClientError("No file uploaded");
     }
 
-    const apiKey = await getAPIKey("openai", pb);
-
-    if (!apiKey) {
-      throw new ClientError("No API key found");
-    }
-
-    const eventData = await EventsService.scanImage(pb, file.path, apiKey);
+    const eventData = await EventsService.scanImage(pb, file.path);
 
     if (!eventData) {
       throw new Error("Failed to scan image");

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const MovieEntrySchema = z.object({
   tmdb_id: z.number(),

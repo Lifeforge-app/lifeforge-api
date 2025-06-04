@@ -25,7 +25,7 @@ export const generateImage = async (
     size: "1792x1024",
   });
 
-  if (!response.data.length || !response.data[0].url) {
+  if (!response.data?.[0].url) {
     throw new Error("No image generated");
   }
 

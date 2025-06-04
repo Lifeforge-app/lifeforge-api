@@ -1,9 +1,7 @@
 import fs from "fs";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
-
-import { fieldsUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import { zodHandler } from "@utils/asyncWrapper";
 

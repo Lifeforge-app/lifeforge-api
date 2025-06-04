@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import PocketBase from "pocketbase";
-import { ZodObject, ZodRawShape, ZodTypeAny, z } from "zod";
+import { ZodObject, ZodRawShape, ZodTypeAny, z } from "zod/v4";
 
 import { BaseResponse } from "@typescript/base_response";
 
@@ -157,7 +157,7 @@ export function zodHandler<
               for (const val of value) {
                 if (
                   !(await checkExistence(
-                    req,
+                    req as Request,
                     res,
                     collection.replace(/^\[(.*)\]$/, "$1"),
                     val,
@@ -168,7 +168,7 @@ export function zodHandler<
               }
             } else if (
               !(await checkExistence(
-                req,
+                req as Request,
                 res,
                 collection.replace(/^\[(.*)\]$/, "$1"),
                 value as string,

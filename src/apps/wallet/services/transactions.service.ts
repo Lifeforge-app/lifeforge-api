@@ -1,13 +1,12 @@
-import fs from "fs";
+import fs, { copyFile } from "fs";
 import OpenAI from "openai";
-import { zodResponseFormat } from "openai/helpers/zod";
 import { fromPath } from "pdf2pic";
 import Pocketbase from "pocketbase";
 import { z } from "zod";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { getAPIKey } from "@utils/getAPIKey";
+import { fetchAI } from "@utils/fetchAI";
 import parseOCR from "@utils/parseOCR";
 
 import {
@@ -316,17 +315,7 @@ export const scanReceipt = async (
   pb: Pocketbase,
   file: Express.Multer.File,
 ): Promise<IWalletReceiptScanResult> => {
-  const key = await getAPIKey("openai", pb);
-
-  if (!key) {
-    throw new Error("OpenAI API key not found");
-  }
-
   async function getTransactionDetails(): Promise<IWalletReceiptScanResult> {
-    const client = new OpenAI({
-      apiKey: key!,
-    });
-
     const TransactionDetails = z.object({
       date: z.string(),
       particulars: z.string(),
@@ -334,7 +323,9 @@ export const scanReceipt = async (
       amount: z.number(),
     });
 
-    const completion = await client.beta.chat.completions.parse({
+    const completion = await fetchAI({
+      pb,
+      provider: "openai",
       model: "gpt-4o-mini",
       messages: [
         {
@@ -347,16 +338,14 @@ export const scanReceipt = async (
           content: OCRResult,
         },
       ],
-      response_format: zodResponseFormat(TransactionDetails, "transaction"),
+      structure: TransactionDetails,
     });
 
-    const transaction = completion.choices[0].message.parsed;
-
-    if (!transaction) {
+    if (!completion) {
       throw new Error("Failed to extract transaction details");
     }
 
-    return transaction;
+    return completion;
   }
 
   if (file.originalname.endsWith(".pdf")) {

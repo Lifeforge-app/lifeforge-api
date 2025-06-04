@@ -30,15 +30,9 @@ export const scrapeExternal = async (
   price: number;
   image?: string;
 }> => {
-  const apiKey = await getAPIKey("groq", pb);
-
-  if (!apiKey) {
-    throw new Error("No API key found");
-  }
-
   const result = await scrapeProviders[
     provider as keyof typeof scrapeProviders
-  ]?.(url, apiKey);
+  ]?.(pb, url);
 
   if (!result) {
     throw new Error("Error scraping provider");
