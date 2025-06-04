@@ -16,7 +16,8 @@ export const getTags = zodHandler(
     }),
     response: z.array(WithPBSchema(IdeaBoxTagSchema)),
   },
-  async ({ pb, params }) => await tagsService.getTags(pb, params.container),
+  async ({ pb, params: { container } }) =>
+    await tagsService.getTags(pb, container),
   {
     existenceCheck: {
       params: {
@@ -34,8 +35,8 @@ export const createTag = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxTagSchema),
   },
-  async ({ pb, params, body }) =>
-    await tagsService.createTag(pb, params.container, body),
+  async ({ pb, params: { container }, body }) =>
+    await tagsService.createTag(pb, container, body),
   {
     existenceCheck: {
       params: {
@@ -54,8 +55,8 @@ export const updateTag = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxTagSchema),
   },
-  async ({ pb, params, body }) =>
-    await tagsService.updateTag(pb, params.id, body),
+  async ({ pb, params: { id }, body }) =>
+    await tagsService.updateTag(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -72,7 +73,7 @@ export const deleteTag = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) => await tagsService.deleteTag(pb, params.id),
+  async ({ pb, params: { id } }) => await tagsService.deleteTag(pb, id),
   {
     existenceCheck: {
       params: {

@@ -15,8 +15,8 @@ export const checkContainerExists = zodHandler(
     }),
     response: z.boolean(),
   },
-  async ({ pb, params }) =>
-    await containersService.checkContainerExists(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await containersService.checkContainerExists(pb, id),
 );
 
 export const getContainers = zodHandler(
@@ -36,17 +36,10 @@ export const getContainers = zodHandler(
 
 export const createContainer = zodHandler(
   {
-    body: z.object({
-      name: z.string(),
-      color: z.string(),
-      icon: z.string(),
-      cover: z.string().optional(),
-    }),
+    body: IdeaBoxContainerSchema,
     response: WithPBSchema(IdeaBoxContainerSchema),
   },
-  async ({ pb, body, req, res }) => {
-    const { name, color, icon } = body;
-
+  async ({ pb, body: { name, color, icon, cover }, req }) => {
     const container = await containersService.createContainer(
       pb,
       name,
@@ -57,9 +50,8 @@ export const createContainer = zodHandler(
           return new File([fs.readFileSync(req.file.path)], req.file.filename);
         }
 
-        const url = body.cover;
-        if (url) {
-          const response = await fetch(url);
+        if (cover) {
+          const response = await fetch(cover);
           const fileBuffer = await response.arrayBuffer();
 
           return new File([fileBuffer], "cover.jpg");
@@ -99,12 +91,10 @@ export const updateContainer = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxContainerSchema),
   },
-  async ({ pb, params, body, req }) => {
-    const { name, color, icon } = body;
-
+  async ({ pb, params: { id }, body: { name, icon, color, cover }, req }) => {
     const container = await containersService.updateContainer(
       pb,
-      params.id,
+      id,
       name,
       color,
       icon,
@@ -113,14 +103,12 @@ export const updateContainer = zodHandler(
           return new File([fs.readFileSync(req.file.path)], req.file.filename);
         }
 
-        const url = body.cover;
-
-        if (url === "keep") {
+        if (cover === "keep") {
           return "keep";
         }
 
-        if (url) {
-          const response = await fetch(url);
+        if (cover) {
+          const response = await fetch(cover);
           const fileBuffer = await response.arrayBuffer();
 
           return new File([fileBuffer], "cover.jpg");
@@ -158,7 +146,7 @@ export const deleteContainer = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) => containersService.deleteContainer(pb, params.id),
+  async ({ pb, params: { id } }) => containersService.deleteContainer(pb, id),
   {
     existenceCheck: {
       params: {

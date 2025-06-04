@@ -16,7 +16,15 @@ export const checkContainerExists = async (
 export const getContainers = async (
   pb: PocketBase,
 ): Promise<WithPB<IIdeaBoxContainer>[]> =>
-  pb.collection("idea_box_containers").getFullList<WithPB<IIdeaBoxContainer>>();
+  pb.collection("idea_box_containers_with_amount").getFullList<
+    WithPB<
+      IIdeaBoxContainer & {
+        text_count: number;
+        link_count: number;
+        image_count: number;
+      }
+    >
+  >();
 
 export const createContainer = async (
   pb: PocketBase,

@@ -1,11 +1,8 @@
-import { Request, Response } from "express";
 import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { zodHandler } from "@utils/asyncWrapper";
-import { successWithBaseResponse } from "@utils/response";
 
 import * as guitarWorldService from "../services/guitarWorld.service";
 import {
@@ -25,13 +22,8 @@ export const getTabsList = zodHandler(
       perPage: z.number(),
     }),
   },
-  async (req, res) => {
-    const { cookie, page } = req.body;
-
-    const data = await guitarWorldService.getTabsList(cookie, page);
-
-    successWithBaseResponse(res, data);
-  },
+  async ({ body: { cookie, page } }) =>
+    await guitarWorldService.getTabsList(cookie, page),
 );
 
 export const downloadTab = zodHandler(
@@ -46,18 +38,5 @@ export const downloadTab = zodHandler(
     }),
     response: WithPBSchema(GuitarTabsEntrySchema),
   },
-  async (req, res) => {
-    const { cookie, id, name, category, mainArtist, audioUrl } = req.body;
-
-    const newEntry = await guitarWorldService.downloadTab(
-      req.pb,
-      cookie,
-      id,
-      name,
-      category,
-      mainArtist,
-      audioUrl,
-    );
-    successWithBaseResponse(res, newEntry);
-  },
+  async ({ pb, body }) => await guitarWorldService.downloadTab(pb, body),
 );

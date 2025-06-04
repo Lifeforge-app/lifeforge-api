@@ -91,21 +91,15 @@ export const updateEntry = zodHandler(
     params: z.object({
       id: z.string(),
     }),
-    body: z.object({
-      name: z.string(),
-      author: z.string(),
-      type: z.string(),
+    body: GuitarTabsEntrySchema.pick({
+      name: true,
+      author: true,
+      type: true,
     }),
     response: WithPBSchema(GuitarTabsEntrySchema),
   },
-  async ({ pb, params, body }) =>
-    await entriesService.updateEntry(
-      pb,
-      params.id,
-      body.name,
-      body.author,
-      body.type,
-    ),
+  async ({ pb, params: { id }, body }) =>
+    await entriesService.updateEntry(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -122,7 +116,7 @@ export const deleteEntry = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) => await entriesService.deleteEntry(pb, params.id),
+  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
   {
     existenceCheck: {
       params: {
@@ -140,7 +134,7 @@ export const toggleFavorite = zodHandler(
     }),
     response: WithPBSchema(GuitarTabsEntrySchema),
   },
-  async ({ pb, params }) => await entriesService.toggleFavorite(pb, params.id),
+  async ({ pb, params: { id } }) => await entriesService.toggleFavorite(pb, id),
   {
     existenceCheck: {
       params: {

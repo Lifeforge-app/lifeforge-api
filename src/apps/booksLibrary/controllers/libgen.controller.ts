@@ -41,7 +41,7 @@ export const getBookDetails = zodHandler(
     }),
     response: z.record(z.string(), z.any()),
   },
-  async ({ params }) => await libgenService.getBookDetails(params.md5),
+  async ({ params: { md5 } }) => await libgenService.getBookDetails(md5),
 );
 
 export const getLocalLibraryData = zodHandler(
@@ -55,7 +55,7 @@ export const getLocalLibraryData = zodHandler(
       is_favourite: true,
     }),
   },
-  async ({ params }) => await libgenService.getLocalLibraryData(params.md5),
+  async ({ params: { md5 } }) => await libgenService.getLocalLibraryData(md5),
 );
 
 export const fetchCover = zodHandler(
@@ -87,8 +87,8 @@ export const addToLibrary = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params, body }) =>
-    await libgenService.initiateDownload(pb, params.md5, body.metadata),
+  async ({ pb, params: { md5 }, body: { metadata } }) =>
+    await libgenService.initiateDownload(pb, md5, metadata),
   { statusCode: 202 },
 );
 
@@ -111,6 +111,6 @@ export const cancelDownload = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ params }) => libgenService.cancelDownload(params.md5),
+  async ({ params: { md5 } }) => libgenService.cancelDownload(md5),
   { statusCode: 204 },
 );

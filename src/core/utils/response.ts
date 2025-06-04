@@ -24,7 +24,7 @@ function clientError(res: Response, message = "Bad Request") {
   });
 
   try {
-    res.json({
+    res.status(400).json({
       state: "error",
       message,
     });

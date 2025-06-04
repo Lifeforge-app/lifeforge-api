@@ -13,11 +13,11 @@ export const getPath = zodHandler(
     }),
     response: z.any(),
   },
-  async ({ pb, params, req, res }) => {
+  async ({ pb, params: { container, "0": pathParam }, req, res }) => {
     const result = await miscService.getPath(
       pb,
-      params.container,
-      params[0].split("/").filter((p) => p !== ""),
+      container,
+      pathParam.split("/").filter((p) => p !== ""),
       req,
       res,
     );
@@ -38,11 +38,11 @@ export const checkValid = zodHandler(
     }),
     response: z.boolean(),
   },
-  async ({ pb, params, req, res }) =>
+  async ({ pb, params: { container, "0": pathParam }, req, res }) =>
     await miscService.checkValid(
       pb,
-      params.container,
-      params[0].split("/").filter((p) => p !== ""),
+      container,
+      pathParam.split("/").filter((p) => p !== ""),
       req,
       res,
     ),
@@ -55,7 +55,7 @@ export const getOgData = zodHandler(
     }),
     response: z.record(z.string(), z.any()),
   },
-  async ({ pb, params }) => await miscService.getOgData(pb, params.id),
+  async ({ pb, params: { id } }) => await miscService.getOgData(pb, id),
   {
     existenceCheck: {
       params: {
@@ -75,10 +75,8 @@ export const search = zodHandler(
     }),
     response: z.any(),
   },
-  async ({ pb, query, req, res }) => {
-    const { q, container, tags, folder } = query;
-
-    return await miscService.search(
+  async ({ pb, query: { q, container, tags, folder }, req, res }) =>
+    await miscService.search(
       pb,
       q,
       container || "",
@@ -86,8 +84,7 @@ export const search = zodHandler(
       folder || "",
       req,
       res,
-    );
-  },
+    ),
   {
     existenceCheck: {
       query: {

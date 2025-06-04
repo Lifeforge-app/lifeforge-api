@@ -19,7 +19,8 @@ export const getActivities = zodHandler(
     }),
     response: CodeTimeActivitiesSchema,
   },
-  async ({ pb, query }) => await CodeTimeService.getActivities(pb, query.year),
+  async ({ pb, query: { year } }) =>
+    await CodeTimeService.getActivities(pb, year),
 );
 
 export const getStatistics = zodHandler(
@@ -36,9 +37,7 @@ export const getLastXDays = zodHandler(
     }),
     response: z.array(WithPBSchema(CodeTimeDailyEntrySchema)),
   },
-  async ({ pb, query }) => {
-    const { days } = query;
-
+  async ({ pb, query: { days } }) => {
     if (days > 30) {
       throw new ClientError("days must be less than or equal to 30");
     }
@@ -54,8 +53,8 @@ export const getProjects = zodHandler(
     }),
     response: z.record(z.string(), z.number()),
   },
-  async ({ pb, query }) =>
-    await CodeTimeService.getProjectsStats(pb, query.last),
+  async ({ pb, query: { last } }) =>
+    await CodeTimeService.getProjectsStats(pb, last),
 );
 
 export const getLanguages = zodHandler(
@@ -65,8 +64,8 @@ export const getLanguages = zodHandler(
     }),
     response: z.record(z.string(), z.number()),
   },
-  async ({ pb, query }) =>
-    await CodeTimeService.getLanguagesStats(pb, query.last),
+  async ({ pb, query: { last } }) =>
+    await CodeTimeService.getLanguagesStats(pb, last),
 );
 
 export const getEachDay = zodHandler(
@@ -90,8 +89,8 @@ export const getUserMinutes = zodHandler(
       minutes: z.number(),
     }),
   },
-  async ({ pb, query }) =>
-    await CodeTimeService.getUserMinutes(pb, query.minutes),
+  async ({ pb, query: { minutes } }) =>
+    await CodeTimeService.getUserMinutes(pb, minutes),
 );
 
 export const logEvent = zodHandler(

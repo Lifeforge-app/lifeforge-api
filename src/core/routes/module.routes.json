@@ -13,7 +13,7 @@
   "/sudoku": "sudoku",
   "/quotes": "quotes",
   "/virtual-wardrobe": "virtualWardrobe",
-  "/moment-vault": "momentVault/routes",
+  "/moment-vault": "momentVault",
   "/movies": "movies",
   "/railway-map": "railwayMap",
   "/links-bookmark": "linksBookmark",

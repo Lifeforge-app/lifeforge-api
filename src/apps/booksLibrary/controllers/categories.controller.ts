@@ -33,8 +33,8 @@ export const updateCategory = zodHandler(
     body: BooksLibraryCategorySchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryCategorySchema),
   },
-  ({ pb, params, body }) =>
-    CategoriesService.updateCategory(pb, params.id, body),
+  ({ pb, params: { id }, body }) =>
+    CategoriesService.updateCategory(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -51,7 +51,7 @@ export const deleteCategory = zodHandler(
     }),
     response: z.void(),
   },
-  ({ pb, params }) => CategoriesService.deleteCategory(pb, params.id),
+  ({ pb, params: { id } }) => CategoriesService.deleteCategory(pb, id),
   {
     existenceCheck: {
       params: {

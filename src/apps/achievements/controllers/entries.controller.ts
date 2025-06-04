@@ -14,8 +14,8 @@ export const getAllEntriesByDifficulty = zodHandler(
     }),
     response: z.array(WithPBSchema(AchievementsEntrySchema)),
   },
-  ({ pb, params }) =>
-    EntriesService.getAllEntriesByDifficulty(pb, params.difficulty),
+  ({ pb, params: { difficulty } }) =>
+    EntriesService.getAllEntriesByDifficulty(pb, difficulty),
 );
 
 export const createEntry = zodHandler(
@@ -37,7 +37,7 @@ export const updateEntry = zodHandler(
     body: AchievementsEntrySchema,
     response: WithPBSchema(AchievementsEntrySchema),
   },
-  ({ pb, params, body }) => EntriesService.updateEntry(pb, params.id, body),
+  ({ pb, params: { id }, body }) => EntriesService.updateEntry(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -54,7 +54,7 @@ export const deleteEntry = zodHandler(
     }),
     response: z.void(),
   },
-  ({ pb, params }) => EntriesService.deleteEntry(pb, params.id),
+  ({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id),
   {
     existenceCheck: {
       params: {

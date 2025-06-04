@@ -16,5 +16,5 @@ export const searchMovies = zodHandler(
     }),
     response: z.any(),
   },
-  (req) => TMDBService.searchMovies(req.pb, req.query.q, req.query.page),
+  ({ pb, query: { q, page } }) => TMDBService.searchMovies(pb, q, page),
 );

@@ -31,8 +31,8 @@ export const updateLanguage = zodHandler(
     body: BooksLibraryLanguageSchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryLanguageSchema),
   },
-  async ({ pb, params, body }) =>
-    await LanguagesService.updateLanguage(pb, params.id, body),
+  async ({ pb, params: { id }, body }) =>
+    await LanguagesService.updateLanguage(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -49,8 +49,8 @@ export const deleteLanguage = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) =>
-    await LanguagesService.deleteLanguage(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await LanguagesService.deleteLanguage(pb, id),
   {
     existenceCheck: {
       params: {

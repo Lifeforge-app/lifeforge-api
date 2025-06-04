@@ -8,7 +8,7 @@ const BasePBCollectionSchema = z.object({
   collectionName: z.string(),
 });
 
-const GuitarTabsEntrySchema = BasePBCollectionSchema.extend({
+const GuitarTabsEntrySchema = z.object({
   name: z.string(),
   author: z.string(),
   thumbnail: z.string(),
@@ -20,7 +20,7 @@ const GuitarTabsEntrySchema = BasePBCollectionSchema.extend({
   isFavourite: z.boolean(),
 });
 
-const GuitarTabsAuthorsSchema = BasePBCollectionSchema.extend({
+const GuitarTabsAuthorsSchema = z.object({
   name: z.string(),
   amount: z.number(),
 });

@@ -33,7 +33,7 @@ export const updateEntry = zodHandler(
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
   },
-  ({ pb, params, body }) => EntriesService.updateEntry(pb, params.id, body),
+  ({ pb, params: { id }, body }) => EntriesService.updateEntry(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -54,7 +54,7 @@ export const toggleFavouriteStatus = zodHandler(
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
   },
-  ({ pb, params }) => EntriesService.toggleFavouriteStatus(pb, params.id),
+  ({ pb, params: { id } }) => EntriesService.toggleFavouriteStatus(pb, id),
   {
     existenceCheck: {
       params: {
@@ -74,7 +74,7 @@ export const sendToKindle = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params, body }) => {
+  async ({ pb, params: { id }, body: { target } }) => {
     const smtpUser = await getAPIKey("smtp-user", pb);
     const smtpPassword = await getAPIKey("smtp-pass", pb);
 
@@ -86,12 +86,12 @@ export const sendToKindle = zodHandler(
 
     return EntriesService.sendToKindle(
       pb,
-      params.id,
+      id,
       {
         user: smtpUser,
         pass: smtpPassword,
       },
-      body.target,
+      target,
     );
   },
   {
@@ -110,7 +110,7 @@ export const deleteEntry = zodHandler(
     }),
     response: z.void(),
   },
-  ({ pb, params }) => EntriesService.deleteEntry(pb, params.id),
+  ({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id),
   {
     existenceCheck: {
       params: {

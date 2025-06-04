@@ -76,8 +76,8 @@ export const updateFolder = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxFolderSchema),
   },
-  async ({ pb, params, body }) =>
-    await foldersService.updateFolder(pb, params.id, body),
+  async ({ pb, params: { id }, body }) =>
+    await foldersService.updateFolder(pb, id, body),
   {
     existenceCheck: {
       params: {
@@ -97,8 +97,8 @@ export const moveFolder = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxFolderSchema),
   },
-  async ({ pb, params, query }) =>
-    await foldersService.moveFolder(pb, params.id, query.target),
+  async ({ pb, params: { id }, query: { target } }) =>
+    await foldersService.moveFolder(pb, id, target),
   {
     existenceCheck: {
       params: {
@@ -118,8 +118,8 @@ export const removeFromFolder = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxFolderSchema),
   },
-  async ({ pb, params }) =>
-    await foldersService.removeFromFolder(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await foldersService.removeFromFolder(pb, id),
   {
     existenceCheck: {
       params: {
@@ -136,7 +136,7 @@ export const deleteFolder = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) => await foldersService.deleteFolder(pb, params.id),
+  async ({ pb, params: { id } }) => await foldersService.deleteFolder(pb, id),
   {
     existenceCheck: {
       params: {

@@ -17,8 +17,8 @@ export const getEventsByDateRange = zodHandler(
     }),
     response: z.array(WithPBSchema(CalendarEventSchema)),
   },
-  async ({ pb, query }) =>
-    await EventsService.getEventsByDateRange(pb, query.start, query.end),
+  async ({ pb, query: { start, end } }) =>
+    await EventsService.getEventsByDateRange(pb, start, end),
 );
 
 export const getEventById = zodHandler(
@@ -28,7 +28,7 @@ export const getEventById = zodHandler(
     }),
     response: WithPBSchema(CalendarEventSchema),
   },
-  async ({ pb, params }) => await EventsService.getEventById(pb, params.id),
+  async ({ pb, params: { id } }) => await EventsService.getEventById(pb, id),
   {
     existenceCheck: {
       params: {
@@ -103,8 +103,8 @@ export const updateEvent = zodHandler(
     }),
     response: WithPBSchema(CalendarEventSchema),
   },
-  async ({ pb, params, body }) =>
-    await EventsService.updateEvent(pb, params.id.split("-")[0], body),
+  async ({ pb, params: { id }, body }) =>
+    await EventsService.updateEvent(pb, id.split("-")[0], body),
   {
     existenceCheck: {
       params: {
@@ -121,7 +121,7 @@ export const deleteEvent = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) => await EventsService.deleteEvent(pb, params.id),
+  async ({ pb, params: { id } }) => await EventsService.deleteEvent(pb, id),
   {
     existenceCheck: {
       params: {
@@ -142,8 +142,8 @@ export const addException = zodHandler(
     }),
     response: z.boolean(),
   },
-  async ({ pb, params, body }) =>
-    await EventsService.addException(pb, params.id, body.date),
+  async ({ pb, params: { id }, body: { date } }) =>
+    await EventsService.addException(pb, id, date),
   {
     existenceCheck: {
       params: {

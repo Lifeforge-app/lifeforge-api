@@ -5,9 +5,6 @@ const IdeaBoxContainerSchema = z.object({
   color: z.string(),
   icon: z.string(),
   cover: z.string(),
-  image_count: z.number(),
-  link_count: z.number(),
-  text_count: z.number(),
 });
 
 const IdeaBoxFolderSchema = z.object({

@@ -1,24 +1,14 @@
-import * as s from "superstruct";
+import { z } from "zod";
 
-import { BasePBCollectionSchema } from "@typescript/pocketbase_interfaces";
+const MomentVaultEntrySchema = z.object({
+  type: z.enum(["text", "audio", "video", "photos"]),
+  content: z.string().optional(),
+  file: z.array(z.string()).optional(),
+  transcription: z.string().optional(),
+});
 
-const MomentVaultEntrySchema = s.assign(
-  BasePBCollectionSchema,
-  s.object({
-    type: s.union([
-      s.literal("text"),
-      s.literal("audio"),
-      s.literal("video"),
-      s.literal("photo"),
-    ]),
-    content: s.string(),
-    file: s.optional(s.array(s.string())),
-    transcript: s.optional(s.string()),
-  }),
-);
-
-type IMomentVaultEntry = s.Infer<typeof MomentVaultEntrySchema>;
-
-export { MomentVaultEntrySchema };
+type IMomentVaultEntry = z.infer<typeof MomentVaultEntrySchema>;
 
 export type { IMomentVaultEntry };
+
+export { MomentVaultEntrySchema };

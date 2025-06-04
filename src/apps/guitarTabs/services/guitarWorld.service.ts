@@ -68,12 +68,21 @@ export const getTabsList = async (
 
 export const downloadTab = async (
   pb: PocketBase,
-  cookie: string,
-  id: string,
-  name: string,
-  category: string,
-  mainArtist: string,
-  audioUrl: string,
+  {
+    cookie,
+    id,
+    name,
+    category,
+    mainArtist,
+    audioUrl,
+  }: {
+    cookie: string;
+    id: string;
+    name: string;
+    category: string;
+    mainArtist: string;
+    audioUrl: string;
+  },
 ): Promise<WithPB<IGuitarTabsEntry>> => {
   const rawHTML = await fetch(
     "https://user.guitarworld.com.cn/user/pu/my/" + id,

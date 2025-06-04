@@ -22,8 +22,8 @@ export const getCalendarById = zodHandler(
     }),
     response: WithPBSchema(CalendarCalendarSchema),
   },
-  async ({ pb, params }) =>
-    await CalendarsService.getCalendarById(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await CalendarsService.getCalendarById(pb, id),
   {
     existenceCheck: {
       params: {
@@ -63,17 +63,17 @@ export const updateCalendar = zodHandler(
     body: CalendarCalendarSchema,
     response: WithPBSchema(CalendarCalendarSchema),
   },
-  async ({ pb, params, body }) => {
+  async ({ pb, params: { id }, body }) => {
     if (
       await pb
         .collection("calendar_calendars")
-        .getFirstListItem(`name="${body.name}" && id != "${params.id}"`)
+        .getFirstListItem(`name="${body.name}" && id != "${id}"`)
         .catch(() => null)
     ) {
       throw new ClientError("Calendar with this name already exists");
     }
 
-    return await CalendarsService.updateCalendar(pb, params.id, body);
+    return await CalendarsService.updateCalendar(pb, id, body);
   },
   {
     existenceCheck: {
@@ -91,8 +91,8 @@ export const deleteCalendar = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) =>
-    await CalendarsService.deleteCalendar(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await CalendarsService.deleteCalendar(pb, id),
   {
     existenceCheck: {
       params: {

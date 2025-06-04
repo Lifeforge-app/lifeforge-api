@@ -11,7 +11,7 @@ export const getAllEntries = zodHandler(
   {
     response: z.array(WithPBSchema(MovieEntrySchema)),
   },
-  (req) => entriesService.getAllEntries(req.pb),
+  ({ pb }) => entriesService.getAllEntries(pb),
 );
 
 export const createEntryFromTMDB = zodHandler(
@@ -21,7 +21,7 @@ export const createEntryFromTMDB = zodHandler(
     }),
     response: WithPBSchema(MovieEntrySchema),
   },
-  (req) => entriesService.createEntryFromTMDB(req.pb, req.params.id),
+  ({ pb, params: { id } }) => entriesService.createEntryFromTMDB(pb, id),
   {
     statusCode: 201,
   },
@@ -34,12 +34,14 @@ export const deleteEntry = zodHandler(
     }),
     response: z.void(),
   },
-  (req) => entriesService.deleteEntry(req.pb, req.params.id),
+  ({ pb, params: { id } }) => entriesService.deleteEntry(pb, id),
   {
-    statusCode: 204,
     existenceCheck: {
-      id: "movies_entries",
+      params: {
+        id: "movies_entries",
+      },
     },
+    statusCode: 204,
   },
 );
 
@@ -50,10 +52,12 @@ export const toggleWatchStatus = zodHandler(
     }),
     response: WithPBSchema(MovieEntrySchema),
   },
-  (req) => entriesService.toggleWatchStatus(req.pb, req.params.id),
+  ({ pb, params: { id } }) => entriesService.toggleWatchStatus(pb, id),
   {
     existenceCheck: {
-      id: "movies_entries",
+      params: {
+        id: "movies_entries",
+      },
     },
   },
 );

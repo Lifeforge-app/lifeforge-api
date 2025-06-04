@@ -1,0 +1,37 @@
+import { z } from "zod";
+
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
+
+import { zodHandler } from "@utils/asyncWrapper";
+
+import * as RailwayMapServices from "../services/railwayMap.service";
+import {
+  RailwayMapLineSchema,
+  RailwayMapStationSchema,
+} from "../typescript/railwayMap.types";
+
+export const getLines = zodHandler(
+  {
+    response: z.array(WithPBSchema(RailwayMapLineSchema)),
+  },
+  async ({ pb }) => await RailwayMapServices.getLines(pb),
+);
+
+export const getStations = zodHandler(
+  {
+    response: z.array(WithPBSchema(RailwayMapStationSchema)),
+  },
+  async ({ pb }) => RailwayMapServices.getStations(pb),
+);
+
+export const getShortestPath = zodHandler(
+  {
+    query: z.object({
+      start: z.string(),
+      end: z.string(),
+    }),
+    response: z.array(WithPBSchema(RailwayMapStationSchema)),
+  },
+  async ({ pb, query: { start, end } }) =>
+    await RailwayMapServices.getShortestPath(pb, start, end),
+);

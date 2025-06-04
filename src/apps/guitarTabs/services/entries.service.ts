@@ -19,7 +19,7 @@ let total = 0;
 
 export const getRandomEntry = async (
   pb: PocketBase,
-): Promise<IGuitarTabsEntry> => {
+): Promise<WithPB<IGuitarTabsEntry>> => {
   const allScores = await pb
     .collection("guitar_tabs_entries")
     .getFullList<WithPB<IGuitarTabsEntry>>();
@@ -266,10 +266,8 @@ export const getProcessStatus = (): {
 export const updateEntry = (
   pb: PocketBase,
   id: string,
-  name: string,
-  author: string,
-  type: string,
-): Promise<IGuitarTabsEntry> =>
+  { name, author, type }: Pick<IGuitarTabsEntry, "name" | "author" | "type">,
+): Promise<WithPB<IGuitarTabsEntry>> =>
   pb.collection("guitar_tabs_entries").update<WithPB<IGuitarTabsEntry>>(id, {
     name,
     author,
@@ -283,7 +281,7 @@ export const deleteEntry = async (pb: PocketBase, id: string) => {
 export const toggleFavorite = async (
   pb: PocketBase,
   id: string,
-): Promise<IGuitarTabsEntry> => {
+): Promise<WithPB<IGuitarTabsEntry>> => {
   const entry = await pb
     .collection("guitar_tabs_entries")
     .getOne<WithPB<IGuitarTabsEntry>>(id);

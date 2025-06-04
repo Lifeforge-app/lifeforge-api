@@ -28,9 +28,12 @@ export const getIdeas = zodHandler(
     }),
     response: z.array(WithPBSchema(IdeaBoxEntrySchema)),
   },
-  async ({ pb, params, query }) => {
-    const path = params[0].split("/").filter((e) => e);
-    const { container } = params;
+  async ({
+    pb,
+    params: { "0": pathParam, container },
+    query: { archived },
+  }) => {
+    const path = pathParam.split("/").filter((e) => e);
 
     const { folderExists, lastFolder } = await ideasService.validateFolderPath(
       pb,
@@ -40,16 +43,11 @@ export const getIdeas = zodHandler(
 
     if (!folderExists) {
       throw new ClientError(
-        `Folder with path "${params[0]}" does not exist in container "${container}"`,
+        `Folder with path "${pathParam}" does not exist in container "${container}"`,
       );
     }
 
-    return await ideasService.getIdeas(
-      pb,
-      container,
-      lastFolder,
-      query.archived,
-    );
+    return await ideasService.getIdeas(pb, container, lastFolder, archived);
   },
   {
     existenceCheck: {
@@ -62,19 +60,23 @@ export const getIdeas = zodHandler(
 
 export const createIdea = zodHandler(
   {
-    body: z.object({
-      container: z.string(),
-      title: z.string().optional(),
-      content: z.string().optional(),
-      type: z.enum(["text", "link", "image"]),
+    body: IdeaBoxEntrySchema.pick({
+      type: true,
+      container: true,
+      folder: true,
+      title: true,
+      content: true,
+      tags: true,
+    }).extend({
       imageLink: z.string().optional(),
-      folder: z.string(),
-      tags: z.array(z.string()),
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },
-  async ({ pb, body, res, req }) => {
-    const { container, title, content, type, imageLink, folder, tags } = body;
+  async ({
+    pb,
+    body: { type, container, folder, title, content, imageLink, tags },
+    req,
+  }) => {
     const { file } = req;
 
     let data: Omit<IIdeaBoxEntry, "image" | "archived" | "pinned"> & {
@@ -140,10 +142,7 @@ export const updateIdea = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },
-  async ({ pb, params, body }) => {
-    const { id } = params;
-    const { title, content, type, tags } = body;
-
+  async ({ pb, params: { id }, body: { title, content, type, tags } }) => {
     let data;
     switch (type) {
       case "text":
@@ -182,7 +181,7 @@ export const deleteIdea = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) => await ideasService.deleteIdea(pb, params.id),
+  async ({ pb, params: { id } }) => await ideasService.deleteIdea(pb, id),
   {
     existenceCheck: {
       params: {
@@ -200,7 +199,7 @@ export const pinIdea = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },
-  async ({ pb, params }) => await ideasService.updatePinStatus(pb, params.id),
+  async ({ pb, params: { id } }) => await ideasService.updatePinStatus(pb, id),
   {
     existenceCheck: {
       params: {
@@ -217,8 +216,8 @@ export const archiveIdea = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },
-  async ({ pb, params }) =>
-    await ideasService.updateArchiveStatus(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await ideasService.updateArchiveStatus(pb, id),
   {
     existenceCheck: {
       params: {
@@ -238,8 +237,8 @@ export const moveIdea = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },
-  async ({ pb, params, query }) =>
-    await ideasService.moveIdea(pb, params.id, query.target),
+  async ({ pb, params: { id }, query: { target } }) =>
+    await ideasService.moveIdea(pb, id, target),
   {
     existenceCheck: {
       params: {
@@ -259,7 +258,7 @@ export const removeFromFolder = zodHandler(
     }),
     response: WithPBSchema(IdeaBoxEntrySchema),
   },
-  async ({ pb, params }) => await ideasService.removeFromFolder(pb, params.id),
+  async ({ pb, params: { id } }) => await ideasService.removeFromFolder(pb, id),
   {
     existenceCheck: {
       params: {

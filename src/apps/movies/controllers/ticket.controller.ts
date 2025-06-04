@@ -20,10 +20,12 @@ export const updateTicket = zodHandler(
     }),
     response: WithPBSchema(MovieEntrySchema),
   },
-  (req) => TicketService.updateTicket(req.pb, req.body),
+  ({ pb, body }) => TicketService.updateTicket(pb, body),
   {
     existenceCheck: {
-      entry_id: "movies_entries",
+      params: {
+        entry_id: "movies_entries",
+      },
     },
   },
 );
@@ -35,10 +37,12 @@ export const clearTicket = zodHandler(
     }),
     response: z.void(),
   },
-  (req) => TicketService.clearTicket(req.pb, req.params.id),
+  ({ pb, params: { id } }) => TicketService.clearTicket(pb, id),
   {
     existenceCheck: {
-      id: "movies_entries",
+      params: {
+        id: "movies_entries",
+      },
     },
     statusCode: 204,
   },

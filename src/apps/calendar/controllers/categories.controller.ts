@@ -22,8 +22,8 @@ export const getCategoryById = zodHandler(
     }),
     response: WithPBSchema(CalendarCategorySchema),
   },
-  async ({ pb, params }) =>
-    await CategoriesService.getCategoryById(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await CategoriesService.getCategoryById(pb, id),
   {
     existenceCheck: {
       params: {
@@ -68,7 +68,7 @@ export const updateCategory = zodHandler(
     }),
     response: WithPBSchema(CalendarCategorySchema),
   },
-  async ({ pb, params, body }) => {
+  async ({ pb, params: { id }, body }) => {
     if (body.name.startsWith("_")) {
       throw new ClientError("Category name cannot start with _");
     }
@@ -76,13 +76,13 @@ export const updateCategory = zodHandler(
     if (
       await pb
         .collection("calendar_categories")
-        .getFirstListItem(`name="${body.name}" && id != "${params.id}"`)
+        .getFirstListItem(`name="${body.name}" && id != "${id}"`)
         .catch(() => null)
     ) {
       throw new ClientError("Category with this name already exists");
     }
 
-    return await CategoriesService.updateCategory(pb, params.id, body);
+    return await CategoriesService.updateCategory(pb, id, body);
   },
   {
     existenceCheck: {
@@ -100,8 +100,8 @@ export const deleteCategory = zodHandler(
     }),
     response: z.void(),
   },
-  async ({ pb, params }) =>
-    await CategoriesService.deleteCategory(pb, params.id),
+  async ({ pb, params: { id } }) =>
+    await CategoriesService.deleteCategory(pb, id),
   {
     existenceCheck: {
       params: {
