@@ -41,7 +41,6 @@ export const getGoogleFont = async (
   const target = `https://www.googleapis.com/webfonts/v1/webfonts?family=${encodeURIComponent(family)}&key=${key}`;
   const response = await fetch(target);
   const data = await response.json();
-  console.log(data);
 
   return {
     enabled: true,
@@ -143,6 +142,8 @@ export const updatePersonalization = async (
   if (!Object.keys(toBeUpdated).length) {
     throw new ClientError("No data to update");
   }
+
+  console.log(toBeUpdated);
 
   await pb.collection("users").update(userId, data);
 };

@@ -44,8 +44,6 @@ export const transcribeExisted = async (
 
   const fileURL = pb.files.getURL(entry, entry.file[0]);
 
-  console.log(fileURL);
-
   try {
     const filePath = `medium/${fileURL.split("/").pop()}`;
     const fileStream = fs.createWriteStream(filePath);
