@@ -1,47 +1,54 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
-
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as UtilsService from "../services/utils.service";
-import { IWalletIncomeExpensesSummary } from "../wallet_interfaces";
+import { WalletIncomeExpensesSummarySchema } from "../wallet_interfaces";
 
-export const getTypesCount = async (
-  req: Request,
-  res: Response<
-    BaseResponse<{
-      [key: string]: {
-        amount: number;
-        accumulate: number;
-      };
-    }>
-  >,
-) => {
-  const { pb } = req;
-  const typesCount = await UtilsService.getTypesCount(pb);
-  successWithBaseResponse(res, typesCount);
-};
+export const getTypesCount = zodHandler(
+  {
+    response: z.record(
+      z.string(),
+      z.object({
+        amount: z.number(),
+        accumulate: z.number(),
+      }),
+    ),
+  },
+  async ({ pb }) => await UtilsService.getTypesCount(pb),
+);
 
-export const getIncomeExpensesSummary = async (
-  req: Request<{}, {}, {}, { year: string; month: string }>,
-  res: Response<BaseResponse<IWalletIncomeExpensesSummary>>,
-) => {
-  const { pb } = req;
-  const { year, month } = req.query;
+export const getIncomeExpensesSummary = zodHandler(
+  {
+    query: z.object({
+      year: z.string(),
+      month: z.string(),
+    }),
+    response: WalletIncomeExpensesSummarySchema,
+  },
+  async ({ pb, query: { year, month } }) =>
+    await UtilsService.getIncomeExpensesSummary(pb, year, month),
+);
 
-  const summary = await UtilsService.getIncomeExpensesSummary(pb, year, month);
-  successWithBaseResponse(res, summary);
-};
-
-export const getExpensesBreakdown = async (req, res) => {
-  const { year, month } = req.query as { year: string; month: string };
-
-  const expensesBreakdown = await UtilsService.getExpensesBreakdown({
-    pb: req.pb,
-    year: +year,
-    month: +month,
-  });
-
-  successWithBaseResponse(res, expensesBreakdown);
-};
+export const getExpensesBreakdown = zodHandler(
+  {
+    query: z.object({
+      year: z
+        .string()
+        .transform((val) => parseInt(val) || new Date().getFullYear()),
+      month: z
+        .string()
+        .transform((val) => parseInt(val) || new Date().getMonth() + 1),
+    }),
+    response: z.record(
+      z.string(),
+      z.object({
+        amount: z.number(),
+        count: z.number(),
+        percentage: z.number(),
+      }),
+    ),
+  },
+  async ({ pb, query: { year, month } }) =>
+    await UtilsService.getExpensesBreakdown(pb, year, month),
+);

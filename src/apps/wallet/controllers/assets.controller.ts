@@ -1,69 +1,71 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
-import * as AssetsServices from "../services/assets.service";
-import { IWalletAsset } from "../wallet_interfaces";
+import * as AssetsService from "../services/assets.service";
+import { WalletAssetSchema } from "../typescript/wallet_interfaces";
 
-export const getAllAssets = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletAsset[]>>,
-) => {
-  const { pb } = req;
+export const getAllAssets = zodHandler(
+  {
+    response: z.array(WithPBSchema(WalletAssetSchema)),
+  },
+  async ({ pb }) => await AssetsService.getAllAssets(pb),
+);
 
-  const assets = await AssetsServices.getAllAssets(pb);
-  successWithBaseResponse(res, assets);
-};
+export const createAsset = zodHandler(
+  {
+    body: WalletAssetSchema.pick({
+      name: true,
+      icon: true,
+      starting_balance: true,
+    }),
+    response: WithPBSchema(WalletAssetSchema),
+  },
+  async ({ pb, body }) => await AssetsService.createAsset(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createAsset = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletAsset>>,
-) => {
-  const { pb } = req;
-  const { name, icon, starting_balance } = req.body;
+export const updateAsset = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: WalletAssetSchema.pick({
+      name: true,
+      icon: true,
+      starting_balance: true,
+    }),
+    response: WithPBSchema(WalletAssetSchema),
+  },
+  async ({ pb, params: { id }, body }) =>
+    await AssetsService.updateAsset(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_assets",
+      },
+    },
+  },
+);
 
-  const asset = await AssetsServices.createAsset(pb, {
-    name,
-    icon,
-    starting_balance,
-  });
-  successWithBaseResponse(res, asset, 201);
-};
-
-export const updateAsset = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletAsset>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, icon, starting_balance } = req.body;
-
-  if (!(await checkExistence(req, res, "wallet_assets", id))) {
-    return;
-  }
-
-  const asset = await AssetsServices.updateAsset(pb, id, {
-    name,
-    icon,
-    starting_balance,
-  });
-  successWithBaseResponse(res, asset);
-};
-
-export const deleteAsset = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wallet_assets", id))) {
-    return;
-  }
-
-  await AssetsServices.deleteAsset(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteAsset = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) => await AssetsService.deleteAsset(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_assets",
+      },
+    },
+    statusCode: 204,
+  },
+);

@@ -1,10 +1,13 @@
 import moment from "moment";
 import Pocketbase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
 import {
   IWalletCategory,
   IWalletIncomeExpensesSummary,
   IWalletTransactionEntry,
+  IWalletTransactionType,
 } from "../wallet_interfaces";
 
 export const getTypesCount = async (
@@ -17,7 +20,7 @@ export const getTypesCount = async (
 }> => {
   const types = await pb
     .collection("wallet_transaction_types_with_amount")
-    .getFullList();
+    .getFullList<WithPB<IWalletTransactionType>>();
 
   const typesCount: {
     [key: string]: {
@@ -25,6 +28,7 @@ export const getTypesCount = async (
       accumulate: number;
     };
   } = {};
+
   types.forEach((type) => {
     typesCount[type.name] = {
       amount: type.amount,
@@ -45,10 +49,12 @@ export const getIncomeExpensesSummary = async (
     .format("YYYY-MM-DD");
   const end = moment(`${year}-${month}-01`).endOf("month").format("YYYY-MM-DD");
 
-  const transactions = await pb.collection("wallet_transactions").getFullList({
-    filter: "type = 'income' || type = 'expenses'",
-    sort: "-date,-created",
-  });
+  const transactions = await pb
+    .collection("wallet_transactions")
+    .getFullList<WithPB<IWalletTransactionEntry>>({
+      filter: "type = 'income' || type = 'expenses'",
+      sort: "-date,-created",
+    });
 
   const inThisMonth = transactions.filter(
     (transaction) =>
@@ -98,15 +104,20 @@ export const getIncomeExpensesSummary = async (
   };
 };
 
-export const getExpensesBreakdown = async ({
-  pb,
-  year,
-  month,
-}: {
-  pb: Pocketbase;
-  year: number;
-  month: number;
-}) => {
+export const getExpensesBreakdown = async (
+  pb: Pocketbase,
+  year: number,
+  month: number,
+): Promise<
+  Record<
+    string,
+    {
+      amount: number;
+      count: number;
+      percentage: number;
+    }
+  >
+> => {
   const startDate = moment()
     .year(year)
     .month(month - 1)
@@ -119,8 +130,8 @@ export const getExpensesBreakdown = async ({
     .format("YYYY-MM-DD");
 
   const expenses = await pb.collection("wallet_transactions").getFullList<
-    IWalletTransactionEntry & {
-      expand?: { category: IWalletCategory };
+    WithPB<IWalletTransactionEntry> & {
+      expand?: { category: WithPB<IWalletCategory> };
     }
   >({
     filter: `date >= '${startDate}' && date <= '${endDate}' && type = 'expenses'`,

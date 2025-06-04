@@ -1,69 +1,67 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as LedgersService from "../services/ledgers.service";
-import { IWalletLedger } from "../wallet_interfaces";
+import { WalletLedgerSchema } from "../typescript/wallet_interfaces";
 
-export const getAllLedgers = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletLedger[]>>,
-) => {
-  const { pb } = req;
+export const getAllLedgers = zodHandler(
+  {
+    response: z.array(WithPBSchema(WalletLedgerSchema)),
+  },
+  async ({ pb }) => await LedgersService.getAllLedgers(pb),
+);
 
-  const ledgers = await LedgersService.getAllLedgers(pb);
-  successWithBaseResponse(res, ledgers);
-};
+export const createLedger = zodHandler(
+  {
+    body: WalletLedgerSchema.omit({
+      amount: true,
+    }),
+    response: WithPBSchema(WalletLedgerSchema),
+  },
+  async ({ pb, body }) => await LedgersService.createLedger(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createLedger = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletLedger>>,
-) => {
-  const { pb } = req;
-  const { name, icon, color } = req.body;
+export const updateLedger = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: WalletLedgerSchema.omit({
+      amount: true,
+    }),
+    response: WithPBSchema(WalletLedgerSchema),
+  },
+  async ({ pb, params: { id }, body }) =>
+    await LedgersService.updateLedger(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_ledgers",
+      },
+    },
+  },
+);
 
-  const ledger = await LedgersService.createLedger(pb, {
-    name,
-    icon,
-    color,
-  });
-  successWithBaseResponse(res, ledger, 201);
-};
-
-export const updateLedger = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletLedger>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, icon, color } = req.body;
-
-  if (!(await checkExistence(req, res, "wallet_ledgers", id))) {
-    return;
-  }
-
-  const ledger = await LedgersService.updateLedger(pb, id, {
-    name,
-    icon,
-    color,
-  });
-  successWithBaseResponse(res, ledger);
-};
-
-export const deleteLedger = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wallet_ledgers", id))) {
-    return;
-  }
-
-  await LedgersService.deleteLedger(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteLedger = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) => await LedgersService.deleteLedger(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_ledgers",
+      },
+    },
+    statusCode: 204,
+  },
+);

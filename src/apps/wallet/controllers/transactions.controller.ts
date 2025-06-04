@@ -1,182 +1,122 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import {
-  clientError,
-  serverError,
-  successWithBaseResponse,
-} from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as TransactionsService from "../services/transactions.service";
 import {
-  IWalletReceiptScanResult,
-  IWalletTransactionEntry,
-} from "../wallet_interfaces";
+  WalletReceiptScanResultSchema,
+  WalletTransactionEntrySchema,
+} from "../typescript/wallet_interfaces";
 
-export const getAllTransactions = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletTransactionEntry[]>>,
-) => {
-  const { pb } = req;
+export const getAllTransactions = zodHandler(
+  {
+    response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
+  },
+  async ({ pb }) => await TransactionsService.getAllTransactions(pb),
+);
 
-  const transactions = await TransactionsService.getAllTransactions(pb);
-  successWithBaseResponse(res, transactions);
-};
+export const createTransaction = zodHandler(
+  {
+    body: z.object({
+      particulars: z.string(),
+      date: z.string(),
+      amount: z.number(),
+      category: z.string().optional(),
+      location: z.string().optional(),
+      asset: z.string().optional(),
+      ledger: z.string().optional(),
+      type: z.enum(["income", "expenses", "transfer"]),
+      fromAsset: z.string().optional(),
+      toAsset: z.string().optional(),
+    }),
+    response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
+  },
+  async ({ pb, body, req }) =>
+    await TransactionsService.createTransaction(pb, body, req.file),
+  {
+    statusCode: 201,
+    existenceCheck: {
+      body: {
+        category: "wallet_categories",
+        asset: "[wallet_assets]",
+        ledger: "[wallet_ledgers]",
+        fromAsset: "[wallet_assets]",
+        toAsset: "[wallet_assets]",
+      },
+    },
+  },
+);
 
-export const createTransaction = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletTransactionEntry[]>>,
-) => {
-  const { pb } = req;
-  let {
-    particulars,
-    date,
-    amount,
-    category,
-    location,
-    asset,
-    ledger,
-    type,
-    fromAsset,
-    toAsset,
-  } = req.body;
+export const updateTransaction = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      particulars: z.string(),
+      date: z.string(),
+      amount: z.number(),
+      category: z.string().optional(),
+      location: z.string().optional(),
+      asset: z.string(),
+      ledger: z.string().optional(),
+      type: z.enum(["income", "expenses", "transfer"]),
+      removeReceipt: z.boolean().optional(),
+    }),
+    response: WithPBSchema(WalletTransactionEntrySchema),
+  },
+  async ({ pb, params: { id }, body, req }) =>
+    await TransactionsService.updateTransaction(
+      pb,
+      id,
+      body,
+      req.file,
+      body.removeReceipt ?? false,
+    ),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_transactions",
+      },
+      body: {
+        category: "wallet_categories",
+        asset: "wallet_assets",
+        ledger: "[wallet_ledgers]",
+      },
+    },
+  },
+);
 
-  if (
-    category &&
-    !(await checkExistence(req, res, "wallet_categories", category))
-  ) {
-    return;
-  }
+export const deleteTransaction = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) =>
+    TransactionsService.deleteTransaction(pb, id),
+  {
+    statusCode: 204,
+    existenceCheck: {
+      params: {
+        id: "wallet_transactions",
+      },
+    },
+  },
+);
 
-  if (
-    ["income", "expenses"].includes(type) &&
-    !(await checkExistence(req, res, "wallet_assets", asset))
-  ) {
-    return;
-  }
-
-  if (ledger && !(await checkExistence(req, res, "wallet_ledgers", ledger))) {
-    return;
-  }
-
-  if (type === "transfer") {
-    if (!(await checkExistence(req, res, "wallet_assets", fromAsset))) {
-      return;
+export const scanReceipt = zodHandler(
+  {
+    response: WalletReceiptScanResultSchema,
+  },
+  async ({ pb, req }) => {
+    if (!req.file) {
+      throw new Error("No file uploaded");
     }
 
-    if (!(await checkExistence(req, res, "wallet_assets", toAsset))) {
-      return;
-    }
-  }
-
-  const transaction = await TransactionsService.createTransaction(
-    pb,
-    {
-      particulars,
-      date,
-      amount,
-      category,
-      location,
-      asset,
-      ledger,
-      type,
-      fromAsset,
-      toAsset,
-    },
-    req.file,
-  );
-  successWithBaseResponse(res, transaction, 201);
-};
-
-export const updateTransaction = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletTransactionEntry>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  let {
-    particulars,
-    date,
-    amount,
-    category,
-    location,
-    asset,
-    ledger,
-    type,
-    removeReceipt,
-  } = req.body;
-
-  if (
-    category &&
-    !(await checkExistence(req, res, "wallet_categories", category))
-  ) {
-    return;
-  }
-
-  if (!(await checkExistence(req, res, "wallet_assets", asset))) {
-    return;
-  }
-
-  if (ledger && !(await checkExistence(req, res, "wallet_ledgers", ledger))) {
-    return;
-  }
-
-  if (!(await checkExistence(req, res, "wallet_transactions", id))) {
-    return;
-  }
-
-  const transaction = await TransactionsService.updateTransaction(
-    pb,
-    id,
-    {
-      particulars,
-      date,
-      amount,
-      location,
-      category,
-      asset,
-      ledger,
-      type,
-    },
-    req.file,
-    removeReceipt,
-  );
-  successWithBaseResponse(res, transaction);
-};
-
-export const deleteTransaction = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wallet_transactions", id))) {
-    return;
-  }
-
-  const isDeleted = await TransactionsService.deleteTransaction(pb, id);
-
-  if (isDeleted) {
-    successWithBaseResponse(res, undefined, 204);
-  } else {
-    serverError(res, "Failed to delete transaction");
-  }
-};
-
-export const scanReceipt = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletReceiptScanResult>>,
-) => {
-  const { file } = req;
-
-  if (!file) {
-    clientError(res, "No file uploaded");
-    return;
-  }
-
-  const result = await TransactionsService.scanReceipt(req.pb, file);
-  successWithBaseResponse(res, result);
-};
+    return await TransactionsService.scanReceipt(pb, req.file);
+  },
+);

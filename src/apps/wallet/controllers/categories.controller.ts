@@ -1,71 +1,68 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { checkExistence } from "@utils/PBRecordValidator";
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as CategoriesService from "../services/categories.service";
-import { IWalletCategory } from "../wallet_interfaces";
+import { WalletCategorySchema } from "../typescript/wallet_interfaces";
 
-export const getAllCategories = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletCategory[]>>,
-) => {
-  const { pb } = req;
+export const getAllCategories = zodHandler(
+  {
+    response: z.array(WithPBSchema(WalletCategorySchema)),
+  },
+  async ({ pb }) => await CategoriesService.getAllCategories(pb),
+);
 
-  const categories = await CategoriesService.getAllCategories(pb);
-  successWithBaseResponse(res, categories);
-};
+export const createCategory = zodHandler(
+  {
+    body: WalletCategorySchema.omit({
+      amount: true,
+    }),
+    response: WithPBSchema(WalletCategorySchema),
+  },
+  async ({ pb, body }) => await CategoriesService.createCategory(pb, body),
+  {
+    statusCode: 201,
+  },
+);
 
-export const createCategory = async (
-  req: Request,
-  res: Response<BaseResponse<IWalletCategory>>,
-) => {
-  const { pb } = req;
-  const { name, icon, color, type } = req.body;
+export const updateCategory = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: WalletCategorySchema.omit({
+      amount: true,
+    }),
+    response: WithPBSchema(WalletCategorySchema),
+  },
+  async ({ pb, params: { id }, body }) =>
+    await CategoriesService.updateCategory(pb, id, body),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_categories",
+      },
+    },
+  },
+);
 
-  const category = await CategoriesService.createCategory(pb, {
-    name,
-    icon,
-    color,
-    type,
-  });
-  successWithBaseResponse(res, category, 201);
-};
-
-export const updateCategory = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<IWalletCategory>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, icon, color, type } = req.body;
-
-  if (!(await checkExistence(req, res, "wallet_categories", id))) {
-    return;
-  }
-
-  const category = await CategoriesService.updateCategory(pb, id, {
-    name,
-    icon,
-    color,
-    type,
-  });
-  successWithBaseResponse(res, category);
-};
-
-export const deleteCategory = async (
-  req: Request<{ id: string }>,
-  res: Response<BaseResponse<null>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  if (!(await checkExistence(req, res, "wallet_categories", id))) {
-    return;
-  }
-
-  await CategoriesService.deleteCategory(pb, id);
-  successWithBaseResponse(res, undefined, 204);
-};
+export const deleteCategory = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) =>
+    await CategoriesService.deleteCategory(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "wallet_categories",
+      },
+    },
+    statusCode: 204,
+  },
+);

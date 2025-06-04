@@ -38,7 +38,7 @@ const WalletCategorySchema = z.object({
   type: z.enum(["income", "expenses"]),
 });
 
-const WalletIncomeExpensesSummarySchema = z.object({
+const WalletIncomeExpensesSchema = z.object({
   totalIncome: z.number(),
   totalExpenses: z.number(),
   monthlyIncome: z.number(),
@@ -52,38 +52,27 @@ const WalletReceiptScanResultSchema = z.object({
   amount: z.number(),
 });
 
-const WalletTransactionTypeSchema = z.object({
-  name: z.string(),
-  amount: z.number(),
-  accumulate: z.number(),
-});
-
 type IWalletAsset = z.infer<typeof WalletAssetSchema>;
 type IWalletLedger = z.infer<typeof WalletLedgerSchema>;
 type IWalletTransactionEntry = z.infer<typeof WalletTransactionEntrySchema>;
 type IWalletCategory = z.infer<typeof WalletCategorySchema>;
-type IWalletIncomeExpensesSummary = z.infer<
-  typeof WalletIncomeExpensesSummarySchema
->;
+type IWalletIncomeExpenses = z.infer<typeof WalletIncomeExpensesSchema>;
 type IWalletReceiptScanResult = z.infer<typeof WalletReceiptScanResultSchema>;
-type IWalletTransactionType = z.infer<typeof WalletTransactionTypeSchema>;
 
 export {
   WalletAssetSchema,
   WalletCategorySchema,
-  WalletIncomeExpensesSummarySchema,
+  WalletIncomeExpensesSchema,
   WalletLedgerSchema,
   WalletReceiptScanResultSchema,
   WalletTransactionEntrySchema,
-  WalletTransactionTypeSchema,
 };
 
 export type {
   IWalletAsset,
   IWalletCategory,
-  IWalletIncomeExpensesSummary,
+  IWalletIncomeExpenses,
   IWalletLedger,
   IWalletReceiptScanResult,
   IWalletTransactionEntry,
-  IWalletTransactionType,
 };

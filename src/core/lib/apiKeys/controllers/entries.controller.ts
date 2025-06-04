@@ -8,7 +8,6 @@ import { challenge } from "..";
 import { BaseResponse } from "../../../typescript/base_response";
 import * as entriesService from "../services/entries.service";
 import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
-import getDecryptedMaster from "../utils/getDecryptedMaster";
 
 export const getAllEntries = async (
   req: Request,

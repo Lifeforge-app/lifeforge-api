@@ -149,7 +149,7 @@ export function zodHandler<
             const optional = collection.match(/^\[(.*)\]$/);
             const value = req[type][key] as string | string[] | undefined;
 
-            if (optional && value === undefined) {
+            if (optional && !value) {
               continue;
             }
 

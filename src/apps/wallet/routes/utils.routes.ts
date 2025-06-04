@@ -1,27 +1,13 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as UtilsController from "../controllers/utils.controller";
-import {
-  validateGetExpensesBreakdown,
-  validateGetIncomeExpensesSummary,
-} from "../middlewares/utilsValidation";
 
 const router = express.Router();
 
-router.get("/types-count", asyncWrapper(UtilsController.getTypesCount));
+router.get("/types-count", UtilsController.getTypesCount);
 
-router.get(
-  "/income-expenses",
-  validateGetIncomeExpensesSummary,
-  asyncWrapper(UtilsController.getIncomeExpensesSummary),
-);
+router.get("/income-expenses", UtilsController.getIncomeExpensesSummary);
 
-router.get(
-  "/expenses-breakdown",
-  validateGetExpensesBreakdown,
-  asyncWrapper(UtilsController.getExpensesBreakdown),
-);
+router.get("/expenses-breakdown", UtilsController.getExpensesBreakdown);
 
 export default router;
