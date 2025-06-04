@@ -1,16 +1,22 @@
-import { Request, Response } from "express";
+import PocketBase from "pocketbase";
 
 import { decrypt2 } from "./encryption";
-import { successWithBaseResponse } from "./response";
 
-async function checkOTP(req, res, challenge?: string) {
-  const { otp, otpId } = req.body;
-  const { pb } = req;
+export default async (
+  pb: PocketBase,
+  {
+    otp,
+    otpId,
+  }: {
+    otp: string;
+    otpId: string;
+  },
+  challenge: string,
+): Promise<boolean> => {
   const id = pb.authStore.record?.id;
 
   if (!id) {
-    successWithBaseResponse(res, false);
-    return;
+    return false;
   }
 
   let decryptedOTP;
@@ -27,12 +33,9 @@ async function checkOTP(req, res, challenge?: string) {
     .catch(() => null);
 
   if (!authData || !pb.authStore.isValid) {
-    successWithBaseResponse(res, false);
-    return;
+    return false;
   }
 
   pb.authStore.clear();
-  successWithBaseResponse(res, true);
-}
-
-export default checkOTP;
+  return true;
+};

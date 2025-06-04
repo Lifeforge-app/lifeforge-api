@@ -193,7 +193,7 @@ export function zodHandler<
       successWithBaseResponse(res, response);
     } catch (err) {
       if (ClientError.isClientError(err)) {
-        return clientError(res, err.message);
+        return clientError(res, err.message, err.code);
       }
 
       console.error("Internal error:", err);

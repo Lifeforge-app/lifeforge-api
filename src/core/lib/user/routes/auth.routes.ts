@@ -5,8 +5,8 @@ import Pocketbase, { AuthProviderInfo } from "pocketbase";
 import { v4 } from "uuid";
 
 import asyncWrapper from "@utils/asyncWrapper";
-import checkOTP from "@utils/checkOTP";
 import { clientError, successWithBaseResponse } from "@utils/response";
+import checkOTP from "@utils/validateOTP";
 
 import { currentSession } from "..";
 import { BaseResponse } from "../../../typescript/base_response";

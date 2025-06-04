@@ -1,14 +1,18 @@
-import BasePBCollection from "@typescript/pocketbase_interfaces";
+import { z } from "zod";
 
-interface IPasswordEntry extends BasePBCollection {
-  color: string;
-  icon: string;
-  name: string;
-  password: string;
-  username: string;
-  website: string;
-  decrypted?: string;
-  pinned: boolean;
-}
+const PasswordEntrySchema = z.object({
+  color: z.string(),
+  icon: z.string(),
+  name: z.string(),
+  password: z.string(),
+  username: z.string(),
+  website: z.string(),
+  decrypted: z.string().optional(),
+  pinned: z.boolean(),
+});
+
+type IPasswordEntry = z.infer<typeof PasswordEntrySchema>;
 
 export type { IPasswordEntry };
+
+export { PasswordEntrySchema };
