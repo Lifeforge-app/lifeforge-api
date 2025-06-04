@@ -1,23 +1,13 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as YoutubeController from "../controllers/youtube.controller";
-import { validateYoutubeDownload } from "../middlewares/validation";
 
 const router = express.Router();
 
-router.get("/get-info/:id", asyncWrapper(YoutubeController.getVideoInfo));
+router.get("/get-info/:id", YoutubeController.getVideoInfo);
 
-router.post(
-  "/async-download/:id",
-  validateYoutubeDownload,
-  asyncWrapper(YoutubeController.downloadVideo),
-);
+router.post("/async-download/:id", YoutubeController.downloadVideo);
 
-router.get(
-  "/download-status",
-  asyncWrapper(YoutubeController.getDownloadStatus),
-);
+router.get("/download-status", YoutubeController.getDownloadStatus);
 
 export default router;

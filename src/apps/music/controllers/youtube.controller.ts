@@ -1,52 +1,52 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
-
-import { clientError, successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as YoutubeService from "../services/youtube.service";
-import { IYoutubeData } from "../typescript/music_interfaces";
+import { YoutubeDataSchema } from "../typescript/music_interfaces";
 
-export const getVideoInfo = async (
-  req: Request,
-  res: Response<BaseResponse<IYoutubeData>>,
-) => {
-  const { id } = req.params;
+export const getVideoInfo = zodHandler(
+  {
+    params: z.object({
+      id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
+    }),
+    response: YoutubeDataSchema,
+  },
+  async ({ params: { id } }) => await YoutubeService.getVideoInfo(id),
+);
 
-  if (!id.match(/^[a-zA-Z0-9_-]{11}$/)) {
-    clientError(res, "Invalid video ID");
-    return;
-  }
+export const downloadVideo = zodHandler(
+  {
+    params: z.object({
+      id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
+    }),
+    body: z.object({
+      title: z.string(),
+      uploader: z.string(),
+      duration: z.number(),
+    }),
+    response: z.boolean(),
+  },
+  async ({ pb, params: { id }, body }) => {
+    if (YoutubeService.getDownloadStatus().status === "in_progress") {
+      throw new Error("A download is already in progress");
+    }
 
-  const videoData = await YoutubeService.getVideoInfo(id);
-  successWithBaseResponse(res, videoData);
-};
+    YoutubeService.setDownloadStatus("in_progress");
+    YoutubeService.downloadVideo(pb, id, body);
 
-export const downloadVideo = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { metadata } = req.body;
+    return true;
+  },
+  {
+    statusCode: 202,
+  },
+);
 
-  if (YoutubeService.getDownloadStatus() === "in_progress") {
-    clientError(res, "Already downloading");
-    return;
-  }
-
-  YoutubeService.setDownloadStatus("in_progress");
-  res.status(202).json({
-    state: "accepted",
-    message: "Download started",
-  });
-
-  YoutubeService.downloadVideo(pb, id, metadata);
-};
-
-export const getDownloadStatus = async (
-  _: Request,
-  res: Response<
-    BaseResponse<{ status: "empty" | "in_progress" | "completed" | "failed" }>
-  >,
-) => {
-  const status = YoutubeService.getDownloadStatus();
-  successWithBaseResponse(res, { status });
-};
+export const getDownloadStatus = zodHandler(
+  {
+    response: z.object({
+      status: z.enum(["empty", "in_progress", "completed", "failed"]),
+    }),
+  },
+  async () => YoutubeService.getDownloadStatus(),
+);

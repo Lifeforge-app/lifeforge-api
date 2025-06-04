@@ -1,76 +1,62 @@
-import { Request, Response } from "express";
+import { z } from "zod";
 
-import { BaseResponse } from "@typescript/base_response";
+import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { successWithBaseResponse } from "@utils/response";
+import { zodHandler } from "@utils/asyncWrapper";
 
 import * as EntriesService from "../services/entries.service";
-import { IMusicEntry } from "../typescript/music_interfaces";
+import { MusicEntrySchema } from "../typescript/music_interfaces";
 
-export const getAllEntries = async (
-  req: Request,
-  res: Response<BaseResponse<IMusicEntry[]>>,
-) => {
-  const { pb } = req;
-  const entries = await EntriesService.getAllEntries(pb);
-  successWithBaseResponse(res, entries);
-};
+export const getAllEntries = zodHandler(
+  {
+    response: z.array(WithPBSchema(MusicEntrySchema)),
+  },
+  async ({ pb }) => await EntriesService.getAllEntries(pb),
+);
 
-export const importMusicFromNAS = async (req, res) => {
-  const { pb } = req;
+export const updateEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: MusicEntrySchema.pick({ name: true, author: true }),
+    response: WithPBSchema(MusicEntrySchema),
+  },
+  async ({ pb, params: { id }, body }) =>
+    await EntriesService.updateEntry(pb, id, body),
+);
 
-  if (EntriesService.getImportProgress() === "in_progress") {
-    res.status(400).json({ error: "Already importing" });
-    return;
-  }
+export const deleteEntry = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: z.void(),
+  },
+  async ({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "music_entries",
+      },
+    },
+    statusCode: 204,
+  },
+);
 
-  EntriesService.setImportProgress("in_progress");
-  res.status(202).json({
-    state: "accepted",
-    message: "Download started",
-  });
-
-  await EntriesService.importMusicFromNAS(pb);
-  EntriesService.setImportProgress("completed");
-};
-
-export const getImportStatus = async (
-  _: Request,
-  res: Response<
-    BaseResponse<{ status: "in_progress" | "completed" | "failed" | "empty" }>
-  >,
-) => {
-  const status = EntriesService.getImportProgress();
-  successWithBaseResponse(res, { status });
-};
-
-export const updateEntry = async (
-  req: Request,
-  res: Response<BaseResponse<IMusicEntry>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-  const { name, author } = req.body;
-
-  const entry = await EntriesService.updateEntry(pb, id, { name, author });
-  successWithBaseResponse(res, entry);
-};
-
-export const deleteEntry = async (req, res) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  await EntriesService.deleteEntry(pb, id);
-  successWithBaseResponse(res);
-};
-
-export const toggleFavorite = async (
-  req: Request,
-  res: Response<BaseResponse<IMusicEntry>>,
-) => {
-  const { pb } = req;
-  const { id } = req.params;
-
-  const entry = await EntriesService.toggleFavorite(pb, id);
-  successWithBaseResponse(res, entry);
-};
+export const toggleFavorite = zodHandler(
+  {
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(MusicEntrySchema),
+  },
+  async ({ pb, params: { id } }) => await EntriesService.toggleFavorite(pb, id),
+  {
+    existenceCheck: {
+      params: {
+        id: "music_entries",
+      },
+    },
+  },
+);

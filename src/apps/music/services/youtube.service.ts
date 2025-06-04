@@ -7,13 +7,9 @@ import { IYoutubeData } from "../typescript/music_interfaces";
 
 let downloadStatus: "empty" | "in_progress" | "completed" | "failed" = "empty";
 
-export const getDownloadStatus = ():
-  | "empty"
-  | "in_progress"
-  | "completed"
-  | "failed" => {
-  return downloadStatus;
-};
+export const getDownloadStatus = () => ({
+  status: downloadStatus,
+});
 
 export const setDownloadStatus = (
   status: "empty" | "in_progress" | "completed" | "failed",
@@ -60,7 +56,11 @@ export const getVideoInfo = (videoId: string): Promise<IYoutubeData> => {
 export const downloadVideo = (
   pb: Pocketbase,
   videoId: string,
-  metadata: any,
+  metadata: {
+    title: string;
+    uploader: string;
+    duration: number;
+  },
 ) => {
   const downloadID = v4();
 

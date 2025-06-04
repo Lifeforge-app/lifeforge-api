@@ -1,37 +1,15 @@
 import express from "express";
 
-import asyncWrapper from "@utils/asyncWrapper";
-
 import * as EntriesController from "../controllers/entries.controller";
-import {
-  validateEntryId,
-  validateMusicUpdate,
-} from "../middlewares/validation";
 
 const router = express.Router();
 
-router.get("/", asyncWrapper(EntriesController.getAllEntries));
+router.get("/", EntriesController.getAllEntries);
 
-router.get("/import-status", asyncWrapper(EntriesController.getImportStatus));
+router.patch("/:id", EntriesController.updateEntry);
 
-router.post("/import", asyncWrapper(EntriesController.importMusicFromNAS));
+router.delete("/:id", EntriesController.deleteEntry);
 
-router.patch(
-  "/:id",
-  validateMusicUpdate,
-  asyncWrapper(EntriesController.updateEntry),
-);
-
-router.delete(
-  "/:id",
-  validateEntryId,
-  asyncWrapper(EntriesController.deleteEntry),
-);
-
-router.post(
-  "/favourite/:id",
-  validateEntryId,
-  asyncWrapper(EntriesController.toggleFavorite),
-);
+router.post("/favourite/:id", EntriesController.toggleFavorite);
 
 export default router;
