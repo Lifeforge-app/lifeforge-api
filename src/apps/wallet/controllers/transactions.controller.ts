@@ -22,7 +22,7 @@ export const createTransaction = zodHandler(
     body: z.object({
       particulars: z.string(),
       date: z.string(),
-      amount: z.number(),
+      amount: z.string().transform((val) => parseFloat(val)),
       category: z.string().optional(),
       location: z.string().optional(),
       asset: z.string().optional(),
@@ -57,7 +57,7 @@ export const updateTransaction = zodHandler(
     body: z.object({
       particulars: z.string(),
       date: z.string(),
-      amount: z.number(),
+      amount: z.string().transform((val) => parseFloat(val)),
       category: z.string().optional(),
       location: z.string().optional(),
       asset: z.string(),
