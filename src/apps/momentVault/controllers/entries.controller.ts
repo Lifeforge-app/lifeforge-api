@@ -6,7 +6,7 @@ import {
 } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as EntriesServices from "../services/entries.service";
 import { MomentVaultEntrySchema } from "../typescript/moment_vault_interfaces";

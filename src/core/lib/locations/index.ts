@@ -2,8 +2,8 @@ import express from "express";
 import { z } from "zod/v4";
 
 import ClientError from "@utils/ClientError";
+import { forgeController } from "@utils/forgeController";
 import { getAPIKey } from "@utils/getAPIKey";
-import { forgeController } from "@utils/zodifiedHandler";
 
 const router = express.Router();
 

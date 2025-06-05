@@ -5,8 +5,8 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
 import { checkExistence } from "@utils/PBRecordValidator";
+import { forgeController } from "@utils/forgeController";
 import { clientError, successWithBaseResponse } from "@utils/response";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as ideasService from "../services/ideas.service";
 import {

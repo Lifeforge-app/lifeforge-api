@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as UtilsService from "../services/utils.service";
 import { WalletIncomeExpensesSummarySchema } from "../wallet_interfaces";

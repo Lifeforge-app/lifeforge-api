@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as entriesService from "../services/entries.service";
 import {

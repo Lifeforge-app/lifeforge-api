@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as CategoriesService from "../services/categories.service";
 import { CalendarCategorySchema } from "../typescript/calendar_interfaces";

@@ -2,8 +2,8 @@ import { z } from "zod/v4";
 
 const CalendarEventSchema = z.object({
   title: z.string(),
-  start: z.union([z.string(), z.date()]),
-  end: z.union([z.string(), z.date()]),
+  start: z.string(),
+  end: z.string(),
   category: z.string(),
   calendar: z.string(),
   location: z.string(),
@@ -12,9 +12,9 @@ const CalendarEventSchema = z.object({
   is_strikethrough: z.boolean(),
   type: z.enum(["single", "recurring"]),
   recurring_rrule: z.string(),
-  recurring_duration_amount: z.string().transform((val) => parseInt(val, 10)),
+  recurring_duration_amount: z.string(),
   recurring_duration_unit: z.string(),
-  exceptions: z.array(z.string()).nullable(),
+  exceptions: z.array(z.string()).optional(),
 });
 
 const CalendarCategorySchema = z.object({

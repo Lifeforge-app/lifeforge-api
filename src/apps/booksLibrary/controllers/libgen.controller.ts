@@ -1,7 +1,7 @@
 import request from "request";
 import { z } from "zod/v4";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as libgenService from "../services/libgen.service";
 import {

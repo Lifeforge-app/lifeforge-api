@@ -4,8 +4,8 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
 import { checkExistence } from "@utils/PBRecordValidator";
+import { forgeController } from "@utils/forgeController";
 import { serverError, successWithBaseResponse } from "@utils/response";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as foldersService from "../services/folders.service";
 import { IdeaBoxFolderSchema } from "../typescript/ideabox_interfaces";

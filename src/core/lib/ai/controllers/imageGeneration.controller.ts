@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 
+import { forgeController } from "@utils/forgeController";
 import { getAPIKey } from "@utils/getAPIKey";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as ImageGenerationService from "../services/imageGeneration.service";
 

@@ -6,8 +6,8 @@ import path from "path";
 import request from "request";
 import { z } from "zod/v4";
 
+import { forgeController } from "../utils/forgeController";
 import { successWithBaseResponse } from "../utils/response";
-import { forgeController } from "../utils/zodifiedHandler";
 
 const LIB_ROUTES = JSON.parse(
   fs.readFileSync(
@@ -25,21 +25,20 @@ const MODULE_ROUTES = JSON.parse(
 const lazyLoad = createLazyRouter();
 const router = express.Router();
 
-Object.entries(LIB_ROUTES).forEach(([route, module]) => {
+for (const [route, module] of Object.entries(LIB_ROUTES)) {
   router.use(
     route,
-    lazyLoad(
-      () => import(path.resolve(process.cwd(), `src/core/lib/${module}`)),
-    ),
+    (await import(path.resolve(process.cwd(), `src/core/lib/${module}`)))
+      .default,
   );
-});
+}
 
-Object.entries(MODULE_ROUTES).forEach(([route, module]) => {
+for (const [route, module] of Object.entries(MODULE_ROUTES)) {
   router.use(
     route,
-    lazyLoad(() => import(path.resolve(process.cwd(), `src/apps/${module}`))),
+    (await import(path.resolve(process.cwd(), `src/apps/${module}`))).default,
   );
-});
+}
 
 router.get("/status", async (req, res) => {
   successWithBaseResponse(res, {

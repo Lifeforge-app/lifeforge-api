@@ -1,7 +1,7 @@
 import _ from "lodash";
 import z from "zod/v4";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as ModuleService from "../services/modules.service";
 

@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 
 import ClientError from "@utils/ClientError";
 import { fetchAI } from "@utils/fetchAI";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 import * as LocalesManagerService from "../services/localesManager.service";

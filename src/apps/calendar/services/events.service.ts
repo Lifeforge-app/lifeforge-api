@@ -162,7 +162,7 @@ export const createEvent = async (
     eventData.end = "";
   } else {
     eventData.recurring_rrule = "";
-    eventData.recurring_duration_amount = 0;
+    eventData.recurring_duration_amount = "0";
     eventData.recurring_duration_unit = "";
   }
 

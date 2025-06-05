@@ -4,7 +4,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { decrypt2 } from "@utils/encryption";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import { challenge } from "../services/auth.service";
 import getDecryptedMaster, * as entriesService from "../services/entries.service";

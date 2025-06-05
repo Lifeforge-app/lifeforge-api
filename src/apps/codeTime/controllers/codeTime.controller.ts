@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as CodeTimeService from "../services/codeTime.service";
 import {
@@ -121,7 +121,7 @@ export const logEvent = forgeController(
 
 export const getReadmeImage = forgeController(
   {
-    response: z.instanceof(Uint8Array<ArrayBufferLike>),
+    response: z.any(),
   },
   async ({ pb, res }) => {
     const imageBuffer = await CodeTimeService.getReadmeImage(pb);
@@ -129,6 +129,10 @@ export const getReadmeImage = forgeController(
     res.set("Cache-Control", "no-cache, no-store, must-revalidate");
     res.set("Content-Type", "image/png");
 
-    return imageBuffer;
+    // @ts-expect-error
+    res.status(200).send(imageBuffer);
+  },
+  {
+    noDefaultResponse: true,
   },
 );

@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as YoutubeService from "../services/youtube.service";
 import { YoutubeDataSchema } from "../typescript/music_interfaces";

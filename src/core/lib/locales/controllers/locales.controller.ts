@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 import * as LocalesService from "../services/locales.service";

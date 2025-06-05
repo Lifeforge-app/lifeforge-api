@@ -3,8 +3,8 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
+import { forgeController } from "@utils/forgeController";
 import { getAPIKey } from "@utils/getAPIKey";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as EntriesService from "../services/entries.service";
 import { BooksLibraryEntrySchema } from "../typescript/books_library_interfaces";

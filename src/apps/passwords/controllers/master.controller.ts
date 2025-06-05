@@ -1,8 +1,8 @@
 import { v4 } from "uuid";
 import { z } from "zod/v4";
 
+import { forgeController } from "@utils/forgeController";
 import { default as _validateOTP } from "@utils/validateOTP";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as MasterService from "../services/master.service";
 

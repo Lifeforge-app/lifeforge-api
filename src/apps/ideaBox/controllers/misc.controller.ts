@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 
+import { forgeController } from "@utils/forgeController";
 import { successWithBaseResponse } from "@utils/response";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as miscService from "../services/misc.service";
 

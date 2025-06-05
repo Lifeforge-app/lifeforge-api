@@ -4,6 +4,13 @@ import { ZodObject, ZodRawShape, ZodTypeAny, z } from "zod/v4";
 
 import { BaseResponse } from "@typescript/base_response";
 
+import {
+  ControllerCallback,
+  ControllerOptions,
+  ControllerSchema,
+  InferResponseType,
+  InferZodType,
+} from "../typescript/forge_controller.types";
 import ClientError from "./ClientError";
 import { checkExistence } from "./PBRecordValidator";
 import { clientError, serverError, successWithBaseResponse } from "./response";
@@ -14,77 +21,25 @@ export function forgeController<
   ParamsSchema extends ZodObject<ZodRawShape> | undefined = undefined,
   ResponseSchema extends ZodTypeAny = ZodTypeAny,
 >(
-  schema: {
-    body?: BodySchema;
-    query?: QuerySchema;
-    params?: ParamsSchema;
-    response: ResponseSchema;
-  },
-  cb: (_: {
-    req: Request<
-      ParamsSchema extends ZodObject<ZodRawShape> ? z.infer<ParamsSchema> : {},
-      any,
-      BodySchema extends ZodObject<ZodRawShape> ? z.infer<BodySchema> : {},
-      QuerySchema extends ZodObject<ZodRawShape> ? z.infer<QuerySchema> : {}
-    >;
-    res: Response<
-      BaseResponse<
-        ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
-      >
-    >;
-    pb: PocketBase;
-    params: ParamsSchema extends ZodObject<ZodRawShape>
-      ? z.infer<ParamsSchema>
-      : {};
-    body: BodySchema extends ZodObject<ZodRawShape> ? z.infer<BodySchema> : {};
-    query: QuerySchema extends ZodObject<ZodRawShape>
-      ? z.infer<QuerySchema>
-      : {};
-  }) => Promise<
-    ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
+  schema: ControllerSchema<
+    BodySchema,
+    QuerySchema,
+    ParamsSchema,
+    ResponseSchema
   >,
-  options?: {
-    existenceCheck?: {
-      params?: Partial<
-        Record<
-          keyof (ParamsSchema extends ZodObject<any>
-            ? z.infer<ParamsSchema>
-            : {}),
-          string
-        >
-      >;
-      body?: Partial<
-        Record<
-          keyof (BodySchema extends ZodObject<any> ? z.infer<BodySchema> : {}),
-          string
-        >
-      >;
-      query?: Partial<
-        Record<
-          keyof (QuerySchema extends ZodObject<any>
-            ? z.infer<QuerySchema>
-            : {}),
-          string
-        >
-      >;
-    };
-    statusCode?: number;
-    noDefaultResponse?: boolean;
-  },
+  cb: ControllerCallback<BodySchema, QuerySchema, ParamsSchema, ResponseSchema>,
+  options?: ControllerOptions<BodySchema, QuerySchema, ParamsSchema>,
 ) {
-  return async (
+  const controller = async function LifeforgeRouteController(
+    this: { pb: PocketBase },
     req: Request<
-      ParamsSchema extends ZodObject<ZodRawShape> ? z.infer<ParamsSchema> : {},
+      InferZodType<ParamsSchema>,
       any,
-      BodySchema extends ZodObject<ZodRawShape> ? z.infer<BodySchema> : {},
-      QuerySchema extends ZodObject<ZodRawShape> ? z.infer<QuerySchema> : {}
+      InferZodType<BodySchema>,
+      InferZodType<QuerySchema>
     >,
-    res: Response<
-      BaseResponse<
-        ResponseSchema extends ZodTypeAny ? z.infer<ResponseSchema> : {}
-      >
-    >,
-  ): Promise<void> => {
+    res: Response<BaseResponse<InferResponseType<ResponseSchema>>>,
+  ): Promise<void> {
     try {
       for (const key of ["body", "query", "params"] as const) {
         const validator = schema[key];
@@ -95,19 +50,11 @@ export function forgeController<
           }
 
           if (key === "body") {
-            req.body = result.data as BodySchema extends ZodObject<ZodRawShape>
-              ? z.infer<BodySchema>
-              : {};
+            req.body = result.data as InferZodType<BodySchema>;
           } else if (key === "query") {
-            req.query =
-              result.data as QuerySchema extends ZodObject<ZodRawShape>
-                ? z.infer<QuerySchema>
-                : {};
+            req.query = result.data as InferZodType<QuerySchema>;
           } else if (key === "params") {
-            req.params =
-              result.data as ParamsSchema extends ZodObject<ZodRawShape>
-                ? z.infer<ParamsSchema>
-                : {};
+            req.params = result.data as InferZodType<ParamsSchema>;
           }
         }
       }
@@ -173,4 +120,11 @@ export function forgeController<
       serverError(res, "Internal server error");
     }
   };
+
+  controller.meta = {
+    schema,
+    options,
+  };
+
+  return controller;
 }

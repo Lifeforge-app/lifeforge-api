@@ -1,7 +1,7 @@
 import z from "zod/v4";
 
 import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as TranscriptionService from "../services/transcription.service";
 import { convertToMp3 } from "../utils/convertToMP3";

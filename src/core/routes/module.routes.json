@@ -14,7 +14,6 @@
   "/moment-vault": "momentVault",
   "/movies": "movies",
   "/railway-map": "railwayMap",
-  "/links-bookmark": "linksBookmark",
   "/youtube-summarizer": "youtubeSummarizer",
   "/achievements": "achievements"
 }

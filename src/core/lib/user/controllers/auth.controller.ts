@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 
+import { forgeController } from "@utils/forgeController";
 import { default as _validateOTP } from "@utils/validateOTP";
-import { forgeController } from "@utils/zodifiedHandler";
 
 import * as AuthService from "../services/auth.service";
 
@@ -31,11 +31,11 @@ export const login = forgeController(
     }),
     response: z.union([
       z.object({
-        state: "2fa_required",
+        state: z.literal("2fa_required"),
         tid: z.string(),
       }),
       z.object({
-        state: "success",
+        state: z.literal("success"),
         session: z.string(),
         userData: z.record(z.string(), z.any()),
       }),

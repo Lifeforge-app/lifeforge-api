@@ -3,8 +3,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import ClientError from "@utils/ClientError";
-import { getAPIKey } from "@utils/getAPIKey";
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as EventsService from "../services/events.service";
 import { CalendarEventSchema } from "../typescript/calendar_interfaces";

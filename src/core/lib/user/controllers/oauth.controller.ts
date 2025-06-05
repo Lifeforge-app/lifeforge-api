@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { forgeController } from "@utils/zodifiedHandler";
+import { forgeController } from "@utils/forgeController";
 
 import * as OAuthService from "../services/oauth.service";
 
