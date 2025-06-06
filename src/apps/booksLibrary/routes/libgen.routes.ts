@@ -8,7 +8,7 @@ router.get("/status", libgenController.getStatus);
 
 router.get("/search", libgenController.searchBooks);
 
-router.get("/covers/*", libgenController.fetchCover);
+router.get("/cover/:id/:name", libgenController.fetchCover);
 
 router.get("/details/:md5", libgenController.getBookDetails);
 

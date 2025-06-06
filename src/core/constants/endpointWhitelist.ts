@@ -17,5 +17,5 @@ export const ENDPOINT_WHITELIST = [
   "/style.css",
   "/youtube-videos/video/thumbnail",
   "/youtube-videos/video/stream",
-  "/books-library/libgen/covers",
+  "/books-library/libgen/cover",
 ];

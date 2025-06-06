@@ -20,7 +20,7 @@ export const getStatus = forgeController(
 export const searchBooks = forgeController(
   {
     query: z.object({
-      mode: z.string(),
+      view: z.string(),
       req: z.string(),
       open: z.string(),
       res: z.string(),
@@ -61,13 +61,19 @@ export const getLocalLibraryData = forgeController(
 export const fetchCover = forgeController(
   {
     params: z.object({
-      "0": z.string(),
+      id: z.string(),
+      name: z.string(),
     }),
     response: z.void(),
   },
-  async ({ params, res }) => {
-    request(`http://libgen.is/covers/${params[0]}`).pipe(res);
-    return undefined;
+  async ({ params: { id, name }, res }) => {
+    res.setHeader("Content-Type", "image/jpeg");
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+
+    request(`https://books.ms/covers/${id}/${name}`).pipe(res);
+  },
+  {
+    noDefaultResponse: true,
   },
 );
 
@@ -77,12 +83,18 @@ export const addToLibrary = forgeController(
       md5: z.string(),
     }),
     body: z.object({
-      metadata: BooksLibraryEntrySchema.omit({
-        thumbnail: true,
-        file: true,
-      }).extend({
-        thumbnail: z.instanceof(File),
-        file: z.instanceof(File),
+      metadata: z.object({
+        authors: z.string(),
+        category: z.string(),
+        extension: z.string(),
+        isbn: z.string(),
+        languages: z.array(z.string()),
+        md5: z.string(),
+        publisher: z.string(),
+        size: z.string(),
+        thumbnail: z.string(),
+        title: z.string(),
+        year_published: z.string(),
       }),
     }),
     response: z.void(),

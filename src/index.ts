@@ -1,4 +1,3 @@
-import { zodToTs } from "zod-to-ts";
 import { z } from "zod/v4";
 
 import app from "./core/app";
