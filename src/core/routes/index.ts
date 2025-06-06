@@ -1,5 +1,4 @@
 import express from "express";
-import { createLazyRouter } from "express-lazy-router";
 import { query } from "express-validator";
 import fs from "fs";
 import path from "path";
@@ -22,7 +21,6 @@ const MODULE_ROUTES = JSON.parse(
   ),
 ) as Record<string, string>;
 
-const lazyLoad = createLazyRouter();
 const router = express.Router();
 
 for (const [route, module] of Object.entries(LIB_ROUTES)) {

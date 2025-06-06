@@ -14,7 +14,7 @@ function successWithBaseResponse<T>(res: Response<BaseResponse<T>>, data: T) {
   }
 }
 
-function clientError(res: Response, message = "Bad Request", code = 400) {
+function clientError(res: Response, message: any = "Bad Request", code = 400) {
   fs.readdirSync("medium").forEach((file) => {
     if (fs.statSync("medium/" + file).isFile()) {
       fs.unlinkSync("medium/" + file);

@@ -46,7 +46,10 @@ export function forgeController<
         if (validator) {
           const result = validator.safeParse(req[key]);
           if (!result.success) {
-            throw new ClientError(`Invalid ${key}: ${result.error.message}`);
+            return clientError(res, {
+              location: key,
+              message: JSON.parse(result.error.message),
+            });
           }
 
           if (key === "body") {

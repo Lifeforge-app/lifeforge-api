@@ -4,7 +4,7 @@ import { IBooksLibraryLibgenSearchResult } from "../../../typescript/books_libra
 import { cleanupTitle } from "../utils/parsing";
 
 export const searchBooks = async (queries: {
-  mode: string;
+  view: string;
   req: string;
   open: string;
   res: string;
@@ -14,7 +14,7 @@ export const searchBooks = async (queries: {
   sortmode: string;
 }): Promise<IBooksLibraryLibgenSearchResult> => {
   const target = new URL("http://libgen.is/search.php");
-  target.searchParams.set("mode", queries.mode);
+  target.searchParams.set("view", queries.view);
   target.searchParams.set("req", queries.req);
   target.searchParams.set("lg_topic", "libgen");
   target.searchParams.set("open", queries.open);
@@ -41,47 +41,13 @@ export const searchBooks = async (queries: {
     };
   } catch (error) {
     return {
-      query: ["last", "modified"].includes(queries.mode)
-        ? {
-            last: "Last added",
-            modified: "Last modified",
-          }[queries.mode as "last" | "modified"]
-        : queries.req,
+      query: queries.req,
       resultsCount: "0",
       data: [],
       page: parseInt(queries.page),
     };
   }
 };
-
-function parseSimpleView(document: Document) {
-  const table = document.querySelector("table.c");
-
-  return Array.from(table!.querySelectorAll("tr"))
-    .slice(1)
-    .map((row) => {
-      const cells = row.querySelectorAll("td");
-      return {
-        md5: Array.from(row.querySelectorAll("a"))
-          .find((e) => e.href.includes("?md5="))
-          ?.href.split("=")?.[1],
-        id: cells[0].textContent,
-        author: cells[1].textContent,
-        series: Array.from(cells[2].querySelectorAll("a")).filter((e) =>
-          e.href.includes("&column=series"),
-        )?.[0]?.textContent,
-        title: cleanupTitle(cells[2].querySelector("[title]")),
-        publisher: cells[3].textContent,
-        year: cells[4].textContent,
-        pages: cells[5].textContent,
-        language: cells[6].textContent,
-        size: cells[7].textContent,
-        extension: cells[8].textContent,
-        mirror1: cells[9].querySelector("a")?.href,
-        mirror2: cells[10].querySelector("a")?.href,
-      };
-    });
-}
 
 function parseDetailedView(document: Document) {
   const table = Array.from(

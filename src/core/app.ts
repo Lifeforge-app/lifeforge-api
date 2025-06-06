@@ -33,7 +33,6 @@ app.use(express.json({ limit: "50mb" }));
 app.use(morganMiddleware);
 app.use(pocketbaseMiddleware);
 app.use(rateLimitingMiddleware);
-app.use(express.static("static"));
 
 app.use("/", router);
 
