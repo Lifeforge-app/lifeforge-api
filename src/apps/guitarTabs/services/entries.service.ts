@@ -56,24 +56,24 @@ export const getEntries = (
   pb: PocketBase,
   {
     page,
-    search = "",
+    query = "",
     category,
     author,
     starred,
     sort,
   }: {
     page: number;
-    search?: string;
+    query?: string;
     category?: string;
     author?: string;
     starred: boolean;
     sort: "name" | "author" | "newest" | "oldest";
   },
-): Promise<ListResult<WithPB<IGuitarTabsEntry>>> =>
-  pb
+): Promise<ListResult<WithPB<IGuitarTabsEntry>>> => {
+  return pb
     .collection("guitar_tabs_entries")
     .getList<WithPB<IGuitarTabsEntry>>(page, 20, {
-      filter: `(name~"${search}" || author~"${search}") 
+      filter: `(name~"${query}" || author~"${query}") 
         ${category ? `&& type="${category === "uncategorized" ? "" : category}"` : ""} 
         ${author ? `&& ${author === "[na]" ? "author = ''" : `author~"${author}"`}` : ""} 
         ${starred ? "&& isFavourite=true" : ""}`,
@@ -86,6 +86,7 @@ export const getEntries = (
         }[sort]
       }`,
     });
+};
 
 export const uploadFiles = async (
   pb: PocketBase,
