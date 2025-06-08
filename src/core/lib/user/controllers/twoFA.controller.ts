@@ -17,12 +17,12 @@ export const getChallenge = forgeController(
 
 export const requestOTP = forgeController(
   {
-    body: z.object({
+    query: z.object({
       email: z.email(),
     }),
     response: z.string(),
   },
-  async ({ pb, body: { email } }) => await twoFAService.requestOTP(pb, email),
+  async ({ pb, query: { email } }) => await twoFAService.requestOTP(pb, email),
 );
 
 export const validateOTP = forgeController(

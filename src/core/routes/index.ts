@@ -3,7 +3,9 @@ import { query } from "express-validator";
 import fs from "fs";
 import path from "path";
 import request from "request";
-import { z } from "zod/v4";
+import { success, z } from "zod/v4";
+
+import traceRouteStack from "@utils/traceRouteStack";
 
 import { forgeController } from "../utils/forgeController";
 import { successWithBaseResponse } from "../utils/response";
@@ -119,6 +121,11 @@ router.get(
     },
   ),
 );
+
+router.get("/_routes", async (req, res) => {
+  const routes = traceRouteStack(router.stack);
+  successWithBaseResponse(res, routes);
+});
 
 router.use((req, res) => {
   res.status(404);

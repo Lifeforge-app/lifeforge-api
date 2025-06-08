@@ -1,4 +1,5 @@
 export const ENDPOINT_WHITELIST = [
+  "/_routes",
   "/status",
   "/user/passkey",
   "/user/auth/login",

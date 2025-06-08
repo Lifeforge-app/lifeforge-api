@@ -4,10 +4,6 @@
     "title": "Oops! Tiada apa-apa di sini.",
     "description": "Halaman yang anda cari tidak dapat dijumpai. Sila semak URL dan cuba lagi."
   },
-  "modules": {
-    "localizationManager": "Pengurus Lokalisasi",
-    "documentation": "Dokumentasi"
-  },
   "tipsAndTricks": "Petua dan Trik",
   "loadingModule": "Memuatkan modul...",
   "deprecated": "Tidak lagi disokong",

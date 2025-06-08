@@ -4,10 +4,6 @@
     "title": "糟糕！這裡什麼都沒有。",
     "description": "找不到您正在尋找的頁面。請檢查網址並重試。"
   },
-  "modules": {
-    "localizationManager": "本地化管理器",
-    "documentation": "文檔"
-  },
   "tipsAndTricks": "提示與技巧",
   "loadingModule": "加載模塊中...",
   "deprecated": "不再支持",
