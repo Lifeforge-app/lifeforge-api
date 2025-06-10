@@ -41,6 +41,10 @@
     "entries": {
       "title": "No Items",
       "description": "You haven't added any items yet. Click the button above to add one."
+    },
+    "search": {
+      "title": "Nothing Found",
+      "description": "No items found in your wishlist. Please try a different search."
     }
   },
   "tabs": {

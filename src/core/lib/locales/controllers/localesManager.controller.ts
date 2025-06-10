@@ -52,7 +52,7 @@ export const syncLocales = forgeController(
 export const createLocale = forgeController(
   {
     params: z.object({
-      type: z.enum(["entry", "namespace"]),
+      type: z.enum(["entry", "folder"]),
       namespace: z.enum(ALLOWED_NAMESPACE),
       subnamespace: z.string(),
     }),

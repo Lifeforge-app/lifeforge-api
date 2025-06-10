@@ -53,11 +53,12 @@ export const scrapeExternal = forgeController(
 
 export const createEntry = forgeController(
   {
-    body: WishlistEntrySchema.pick({
-      name: true,
-      url: true,
-      price: true,
-      list: true,
+    body: z.object({
+      name: z.string(),
+      url: z.string(),
+      price: z.string().transform((val) => parseFloat(val) || 0 || 0),
+      list: z.string(),
+      image: z.any().optional(),
     }),
     response: WithPBSchema(WishlistEntrySchema),
   },
@@ -70,6 +71,10 @@ export const createEntry = forgeController(
       const fileBuffer = fs.readFileSync(file.path);
       imageFile = new File([fileBuffer], file.originalname);
       fs.unlinkSync(file.path);
+    } else if (typeof body.image === "string") {
+      const response = await fetch(body.image);
+      const buffer = await response.arrayBuffer();
+      imageFile = new File([buffer], "image.jpg");
     }
 
     const data = {
@@ -98,7 +103,7 @@ export const updateEntry = forgeController(
     body: z.object({
       name: z.string(),
       url: z.string(),
-      price: z.number(),
+      price: z.string().transform((val) => parseFloat(val) || 0 || 0),
       list: z.string(),
       imageRemoved: z.string().optional(),
     }),

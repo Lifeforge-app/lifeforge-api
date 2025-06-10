@@ -61,7 +61,9 @@ export const getAllLists = (
         bought_amount: number;
       }
     >
-  >();
+  >({
+    sort: "name",
+  });
 
 export const createList = (
   pb: PocketBase,

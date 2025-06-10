@@ -156,7 +156,7 @@ export const syncLocales = (
 };
 
 export const createLocale = (
-  type: "namespace" | "entry",
+  type: "folder" | "entry",
   namespace: (typeof ALLOWED_NAMESPACE)[number],
   subnamespace: string,
   path: string,

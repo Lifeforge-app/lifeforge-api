@@ -41,6 +41,10 @@
     "entries": {
       "title": "Tiada Item",
       "description": "Anda belum menambah sebarang item lagi. Klik butang di atas untuk menambah satu."
+    },
+    "search": {
+      "title": "Tiada Ditemui",
+      "description": "Tiada item dijumpai dalam senarai keinginan anda. Sila cuba carian yang berbeza."
     }
   },
   "tabs": {
