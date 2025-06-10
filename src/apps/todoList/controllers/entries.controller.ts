@@ -62,6 +62,7 @@ export const createEntry = forgeController(
   {
     body: TodoListEntrySchema.omit({
       completed_at: true,
+      done: true,
     }),
     response: WithPBSchema(TodoListEntrySchema),
   },
@@ -85,6 +86,7 @@ export const updateEntry = forgeController(
     }),
     body: TodoListEntrySchema.omit({
       completed_at: true,
+      done: true,
     }),
     response: WithPBSchema(TodoListEntrySchema),
   },

@@ -97,7 +97,7 @@ export const getStatusCounter = async (
 
 export const createEntry = async (
   pb: PocketBase,
-  data: Omit<ITodoListEntry, "completed_at">,
+  data: Omit<ITodoListEntry, "completed_at" | "done">,
 ): Promise<WithPB<ITodoListEntry>> => {
   if (data.due_date && !data.due_date_has_time) {
     data.due_date = moment(data.due_date).endOf("day").toISOString();
@@ -113,7 +113,7 @@ export const createEntry = async (
 export const updateEntry = async (
   pb: PocketBase,
   id: string,
-  data: Omit<ITodoListEntry, "completed_at">,
+  data: Omit<ITodoListEntry, "completed_at" | "done">,
 ): Promise<WithPB<ITodoListEntry>> => {
   if (data.due_date && !data.due_date_has_time) {
     data.due_date = moment(data.due_date).endOf("day").toISOString();

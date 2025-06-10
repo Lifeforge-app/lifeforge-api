@@ -25,7 +25,11 @@ router.get(
     {
       query: z.object({
         q: z.string().min(1),
-        page: z.number().int().min(1).default(1),
+        page: z
+          .string()
+          .optional()
+          .default("1")
+          .transform((val) => parseInt(val, 10) || 1),
         type: z.enum(["all", "photo", "illustration", "vector"]).default("all"),
         category: z
           .enum([
@@ -68,8 +72,12 @@ router.get(
             "black",
             "brown",
           ])
-          .optional(),
-        editors_choice: z.boolean().default(false),
+          .optional()
+          .nullable(),
+        editors_choice: z
+          .enum(["true", "false"])
+          .default("false")
+          .transform((val) => val === "true"),
       }),
       response: PixabaySearchResultSchema,
     },
