@@ -22,6 +22,11 @@
     "password": {
       "title": "No Passwords",
       "description": "You haven't added any passwords yet. Click the button below to add one."
+    },
+    "search": {
+      "title": "No Entries Found",
+      "description": "No entries found for your search query. Please try another one."
     }
-  }
+  },
+  "lastUpdated": "Last Updated"
 }

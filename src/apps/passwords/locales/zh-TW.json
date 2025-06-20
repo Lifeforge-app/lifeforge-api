@@ -22,6 +22,11 @@
     "password": {
       "title": "沒有密碼",
       "description": "您還沒有添加任何密碼。點擊下面的按鈕添加一個。"
+    },
+    "search": {
+      "title": "未找到條目",
+      "description": "未找到您搜索查詢的任何條目。請再試一次。"
     }
-  }
+  },
+  "lastUpdated": "最後更新"
 }

@@ -77,7 +77,7 @@ export const downloadTab = async (
     audioUrl,
   }: {
     cookie: string;
-    id: string;
+    id: number;
     name: string;
     category: string;
     mainArtist: string;

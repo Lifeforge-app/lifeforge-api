@@ -30,7 +30,7 @@ export const downloadTab = forgeController(
   {
     body: z.object({
       cookie: z.string(),
-      id: z.string(),
+      id: z.number(),
       name: z.string(),
       category: z.string(),
       mainArtist: z.string(),

@@ -22,6 +22,11 @@
     "password": {
       "title": "Tiada Kata Laluan",
       "description": "Anda belum menambah sebarang kata laluan lagi. Klik butang di bawah untuk menambah satu."
+    },
+    "search": {
+      "title": "Tiada Entri Ditemui",
+      "description": "Tiada entri ditemukan untuk carian anda. Sila cuba lagi."
     }
-  }
+  },
+  "lastUpdated": "Terakhir Dikemas kini"
 }

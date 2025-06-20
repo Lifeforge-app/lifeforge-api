@@ -63,7 +63,11 @@ export const updateTransaction = forgeController(
       asset: z.string(),
       ledger: z.string().optional(),
       type: z.enum(["income", "expenses", "transfer"]),
-      removeReceipt: z.boolean().optional(),
+      removeReceipt: z
+        .string()
+        .optional()
+        .default("false")
+        .transform((val) => val === "true"),
     }),
     response: WithPBSchema(WalletTransactionEntrySchema),
   },
