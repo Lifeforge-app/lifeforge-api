@@ -1,7 +1,6 @@
+import { forgeController } from "@functions/forgeController";
 import express from "express";
 import { z } from "zod/v4";
-
-import { forgeController } from "@utils/forgeController";
 
 const router = express.Router();
 

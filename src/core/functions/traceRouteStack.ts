@@ -1,9 +1,9 @@
-import { Router } from "express";
 import { z } from "zod";
 
 interface Route {
   method: string;
   path: string;
+  description: string;
   schema: {
     response: z.ZodTypeAny;
     params?: z.ZodTypeAny;
@@ -45,6 +45,7 @@ export default function traceRouteStack(
         schema: {
           response: z.void(),
         },
+        description: "",
       };
 
       routes.push(route);
@@ -55,6 +56,7 @@ export default function traceRouteStack(
         continue;
       }
 
+      route.description = controllerLayerMeta.description;
       route.schema = controllerLayerMeta.schema;
     }
   }

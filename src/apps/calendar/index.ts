@@ -1,13 +1,13 @@
 import express from "express";
 
-import calendarsRoutes from "./routes/calendars.routes";
-import categoriesRoutes from "./routes/categories.routes";
-import eventsRoutes from "./routes/events.routes";
+import calendarCalendarsRouter from "./controllers/calendars.controller";
+import calendarCategoriesRouter from "./controllers/categories.controller";
+import calendarEventsRouter from "./controllers/events.controller";
 
 const router = express.Router();
 
-router.use("/events", eventsRoutes);
-router.use("/calendars", calendarsRoutes);
-router.use("/categories", categoriesRoutes);
+router.use("/events", calendarEventsRouter);
+router.use("/calendars", calendarCalendarsRouter);
+router.use("/categories", calendarCategoriesRouter);
 
 export default router;

@@ -1,9 +1,8 @@
+import ClientError from "@functions/ClientError";
+import { forgeController } from "@functions/forgeController";
+import { getAPIKey } from "@functions/getAPIKey";
 import express from "express";
 import { z } from "zod/v4";
-
-import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/forgeController";
-import { getAPIKey } from "@utils/getAPIKey";
 
 import { PixabaySearchResultSchema } from "./typescript/pixabay_interfaces";
 

@@ -1,66 +1,77 @@
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { forgeController } from "@utils/forgeController";
-
 import * as EntriesService from "../services/entries.service";
 import { AchievementsEntrySchema } from "../typescript/achievements_interfaces";
 
-export const getAllEntriesByDifficulty = forgeController(
-  {
+const achievementsEntriesRouter = express.Router();
+
+const getAllEntriesByDifficulty = forgeController
+  .route("GET /:difficulty")
+  .description("Get all achievements entries by difficulty")
+  .schema({
     params: z.object({
       difficulty: AchievementsEntrySchema.shape.difficulty,
     }),
     response: z.array(WithPBSchema(AchievementsEntrySchema)),
-  },
-  ({ pb, params: { difficulty } }) =>
+  })
+  .callback(({ pb, params: { difficulty } }) =>
     EntriesService.getAllEntriesByDifficulty(pb, difficulty),
-);
+  );
 
-export const createEntry = forgeController(
-  {
+const createEntry = forgeController
+  .route("POST /")
+  .description("Create a new achievements entry")
+  .schema({
     body: AchievementsEntrySchema,
     response: WithPBSchema(AchievementsEntrySchema),
-  },
-  ({ pb, body }) => EntriesService.createEntry(pb, body),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(({ pb, body }) => EntriesService.createEntry(pb, body));
 
-export const updateEntry = forgeController(
-  {
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing achievements entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     body: AchievementsEntrySchema,
     response: WithPBSchema(AchievementsEntrySchema),
-  },
-  ({ pb, params: { id }, body }) => EntriesService.updateEntry(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "achievements_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "achievements_entries",
+  })
+  .callback(({ pb, params: { id }, body }) =>
+    EntriesService.updateEntry(pb, id, body),
+  );
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete an existing achievements entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  ({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "achievements_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "achievements_entries",
+  })
+  .statusCode(204)
+  .callback(({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id));
+
+bulkRegisterControllers(achievementsEntriesRouter, [
+  getAllEntriesByDifficulty,
+  createEntry,
+  updateEntry,
+  deleteEntry,
+]);
+
+export default achievementsEntriesRouter;

@@ -1,8 +1,7 @@
+import { decrypt2 } from "@functions/encryption";
 import bcrypt from "bcrypt";
 import PocketBase from "pocketbase";
 import { v4 } from "uuid";
-
-import { decrypt2 } from "@utils/encryption";
 
 export let challenge = v4();
 

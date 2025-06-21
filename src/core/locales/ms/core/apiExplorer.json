@@ -1,4 +1,13 @@
 {
-    "title": "Penjelajah API",
-    "description": "Terokai dan uji API sistem"
+  "title": "Penjelajah API",
+  "description": "Terokai dan uji API sistem",
+  "items": {
+    "endpoints": "Akhir Pangkalan API"
+  },
+  "empty": {
+    "search": {
+      "title": "Tiada Titik Akhir Ditemui",
+      "description": "Tiada hasil ditemui. Cuba kueri yang lain."
+    }
+  }
 }

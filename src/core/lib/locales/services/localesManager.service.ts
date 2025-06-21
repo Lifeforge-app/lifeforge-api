@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
+import { fetchAI } from "@functions/fetchAI";
 import fs from "fs";
 import { z } from "zod";
-
-import ClientError from "@utils/ClientError";
-import { fetchAI } from "@utils/fetchAI";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 

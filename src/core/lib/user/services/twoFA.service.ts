@@ -1,10 +1,9 @@
+import ClientError from "@functions/ClientError";
+import { decrypt, decrypt2, encrypt, encrypt2 } from "@functions/encryption";
 import moment from "moment";
 import PocketBase from "pocketbase";
 import speakeasy from "speakeasy";
 import { v4 } from "uuid";
-
-import ClientError from "@utils/ClientError";
-import { decrypt, decrypt2, encrypt, encrypt2 } from "@utils/encryption";
 
 import { currentSession } from "..";
 import { removeSensitiveData, updateNullData } from "../utils/auth";

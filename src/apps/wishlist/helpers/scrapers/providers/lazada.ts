@@ -1,7 +1,6 @@
+import { fetchAI } from "@functions/fetchAI";
 import ogs from "open-graph-scraper";
 import PocketBase from "pocketbase";
-
-import { fetchAI } from "@utils/fetchAI";
 
 const scrapeLazada = async (
   pb: PocketBase,

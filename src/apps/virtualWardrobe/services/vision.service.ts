@@ -1,9 +1,8 @@
+import { fetchAI } from "@functions/fetchAI";
 import fs from "fs";
 import PocketBase from "pocketbase";
 import sharp from "sharp";
 import { z as zodV3 } from "zod";
-
-import { fetchAI } from "@utils/fetchAI";
 
 export interface VisionAnalysisResult {
   name: string;

@@ -1,8 +1,6 @@
+import { fetchAI } from "@functions/fetchAI";
 import { exec } from "child_process";
 import Pocketbase from "pocketbase";
-
-import { fetchAI } from "@utils/fetchAI";
-import { getAPIKey } from "@utils/getAPIKey";
 
 import { IYoutubeInfo } from "../typescript/youtube_summarizer_interfaces";
 

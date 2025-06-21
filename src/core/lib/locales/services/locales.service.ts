@@ -1,6 +1,5 @@
+import ClientError from "@functions/ClientError";
 import fs from "fs";
-
-import ClientError from "@utils/ClientError";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 

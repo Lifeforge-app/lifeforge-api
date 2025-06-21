@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
+import { getAPIKey } from "@functions/getAPIKey";
 import OpenAI from "openai";
 import PocketBase from "pocketbase";
-
-import ClientError from "@utils/ClientError";
-import { getAPIKey } from "@utils/getAPIKey";
 
 export const generateImage = async (
   pb: PocketBase,

@@ -1,3 +1,4 @@
+import { fetchAI } from "@functions/fetchAI";
 import fs from "fs";
 import moment from "moment";
 import PocketBase from "pocketbase";
@@ -5,8 +6,6 @@ import rrule from "rrule";
 import { z } from "zod";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import { fetchAI } from "@utils/fetchAI";
 
 import { IMovieEntry } from "../../movies/typescript/movies_interfaces";
 import { ITodoListEntry } from "../../todoList/typescript/todo_list_interfaces";
@@ -185,9 +184,9 @@ export const scanImage = async (
     title: z.string(),
     start: z.string(),
     end: z.string(),
-    location: z.string().optional(),
-    description: z.string().optional(),
-    category: z.string().optional(),
+    location: z.string().nullable(),
+    description: z.string().nullable(),
+    category: z.string().nullable(),
   });
 
   const base64Image = fs.readFileSync(filePath, {
@@ -240,11 +239,11 @@ export const scanImage = async (
     return null;
   }
 
-  response.category = categories.find(
+  (response as Partial<ICalendarEvent>).category = categories.find(
     (category) => category.name === response.category,
   )?.id;
 
-  return response;
+  return response as Partial<ICalendarEvent>;
 };
 
 export const updateEvent = (

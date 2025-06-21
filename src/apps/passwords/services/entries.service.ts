@@ -1,8 +1,7 @@
+import { decrypt, decrypt2, encrypt, encrypt2 } from "@functions/encryption";
 import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import { decrypt, decrypt2, encrypt, encrypt2 } from "@utils/encryption";
 
 import { IPasswordEntry } from "../typescript/password_interfaces";
 import { getDecryptedMaster } from "./master.service";

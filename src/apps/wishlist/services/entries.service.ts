@@ -2,8 +2,6 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { getAPIKey } from "@utils/getAPIKey";
-
 import scrapeProviders from "../helpers/scrapers/index";
 import { IWishlistEntry } from "../typescript/wishlist_interfaces";
 

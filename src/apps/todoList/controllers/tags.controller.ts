@@ -1,8 +1,7 @@
+import { forgeController } from "@functions/forgeController";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
-
-import { forgeController } from "@utils/forgeController";
 
 import * as tagsService from "../services/tags.service";
 import { TodoListTagSchema } from "../typescript/todo_list_interfaces";

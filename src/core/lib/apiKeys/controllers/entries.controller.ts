@@ -1,10 +1,8 @@
-import { v4 } from "uuid";
+import { decrypt2 } from "@functions/encryption";
+import { forgeController } from "@functions/forgeController";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
-
-import { decrypt2 } from "@utils/encryption";
-import { forgeController } from "@utils/forgeController";
 
 import { challenge } from "../services/auth.service";
 import getDecryptedMaster, * as entriesService from "../services/entries.service";

@@ -1,14 +1,11 @@
+import { forgeController } from "@functions/forgeController";
+import { successWithBaseResponse } from "@functions/response";
+import traceRouteStack from "@functions/traceRouteStack";
 import express from "express";
-import { query } from "express-validator";
 import fs from "fs";
 import path from "path";
 import request from "request";
-import { success, z } from "zod/v4";
-
-import traceRouteStack from "@utils/traceRouteStack";
-
-import { forgeController } from "../utils/forgeController";
-import { successWithBaseResponse } from "../utils/response";
+import { z } from "zod/v4";
 
 const LIB_ROUTES = JSON.parse(
   fs.readFileSync(
@@ -52,7 +49,6 @@ router.get("/", (_, res) => {
 
 router.get(
   "/media/:collectionId/:entriesId/:photoId",
-  [query("thumb").optional().isString(), query("token").optional().isString()],
   forgeController(
     {
       params: z.object({

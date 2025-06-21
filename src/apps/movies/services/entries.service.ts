@@ -1,8 +1,7 @@
+import { getAPIKey } from "@functions/getAPIKey";
 import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import { getAPIKey } from "@utils/getAPIKey";
 
 import { IMovieEntry } from "../typescript/movies_interfaces";
 

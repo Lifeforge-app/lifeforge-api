@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
 import fs from "fs";
 import moment from "moment";
 import PocketBase from "pocketbase";
-
-import ClientError from "@utils/ClientError";
 
 export const updateAvatar = async (
   pb: PocketBase,
@@ -30,8 +29,7 @@ export const updateAvatar = async (
 
 export const deleteAvatar = async (pb: PocketBase) => {
   const { id } = pb.authStore.record!;
-
-  const newRecord = await pb.collection("users").update(id, {
+  await pb.collection("users").update(id, {
     avatar: null,
   });
 };

@@ -1,7 +1,6 @@
+import { forgeController } from "@functions/forgeController";
+import { getAPIKey } from "@functions/getAPIKey";
 import { z } from "zod/v4";
-
-import { forgeController } from "@utils/forgeController";
-import { getAPIKey } from "@utils/getAPIKey";
 
 import * as ImageGenerationService from "../services/imageGeneration.service";
 

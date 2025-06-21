@@ -1,9 +1,9 @@
 import express from "express";
 
-import entriesRoutes from "./routes/entries.routes";
+import achievementsEntriesRouter from "./controllers/entries.controller";
 
 const router = express.Router();
 
-router.use("/entries", entriesRoutes);
+router.use("/entries", achievementsEntriesRouter);
 
 export default router;

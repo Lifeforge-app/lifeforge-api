@@ -1,9 +1,8 @@
+import ClientError from "@functions/ClientError";
 import moment from "moment";
 import PocketBase from "pocketbase";
 import { AuthProviderInfo } from "pocketbase";
 import { v4 } from "uuid";
-
-import ClientError from "@utils/ClientError";
 
 import { currentSession } from "..";
 

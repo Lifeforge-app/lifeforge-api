@@ -1,9 +1,8 @@
+import { forgeController } from "@functions/forgeController";
 import { v4 } from "uuid";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
-
-import { forgeController } from "@utils/forgeController";
 
 import * as EntriesService from "../services/entries.service";
 import { PasswordEntrySchema } from "../typescript/password_interfaces";

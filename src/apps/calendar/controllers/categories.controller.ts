@@ -1,46 +1,54 @@
+import ClientError from "@functions/ClientError";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/forgeController";
-
 import * as CategoriesService from "../services/categories.service";
 import { CalendarCategorySchema } from "../typescript/calendar_interfaces";
 
-export const getAllCategories = forgeController(
-  {
-    response: z.array(WithPBSchema(CalendarCategorySchema)),
-  },
-  async ({ pb }) => await CategoriesService.getAllCategories(pb),
-);
+const calendarCategoriesRouter = express.Router();
 
-export const getCategoryById = forgeController(
-  {
+const getAllCategories = forgeController
+  .route("GET /")
+  .description("Get all calendar categories")
+  .schema({
+    response: z.array(WithPBSchema(CalendarCategorySchema)),
+  })
+  .callback(async ({ pb }) => await CategoriesService.getAllCategories(pb));
+
+const getCategoryById = forgeController
+  .route("GET /:id")
+  .description("Get a calendar category by ID")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(CalendarCategorySchema),
-  },
-  async ({ pb, params: { id } }) =>
-    await CategoriesService.getCategoryById(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "calendar_categories",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "calendar_categories",
+  })
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await CategoriesService.getCategoryById(pb, id),
+  );
 
-export const createCategory = forgeController(
-  {
+const createCategory = forgeController
+  .route("POST /")
+  .description("Create a new calendar category")
+  .schema({
     body: CalendarCategorySchema.omit({
       amount: true,
     }),
     response: WithPBSchema(CalendarCategorySchema),
-  },
-  async ({ pb, body }) => {
+  })
+  .statusCode(201)
+  .callback(async ({ pb, body }) => {
     if (body.name.startsWith("_")) {
       throw new ClientError("Category name cannot start with _");
     }
@@ -55,11 +63,12 @@ export const createCategory = forgeController(
     }
 
     return await CategoriesService.createCategory(pb, body);
-  },
-);
+  });
 
-export const updateCategory = forgeController(
-  {
+const updateCategory = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing calendar category")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -67,8 +76,11 @@ export const updateCategory = forgeController(
       amount: true,
     }),
     response: WithPBSchema(CalendarCategorySchema),
-  },
-  async ({ pb, params: { id }, body }) => {
+  })
+  .existenceCheck("params", {
+    id: "calendar_categories",
+  })
+  .callback(async ({ pb, params: { id }, body }) => {
     if (body.name.startsWith("_")) {
       throw new ClientError("Category name cannot start with _");
     }
@@ -83,31 +95,32 @@ export const updateCategory = forgeController(
     }
 
     return await CategoriesService.updateCategory(pb, id, body);
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "calendar_categories",
-      },
-    },
-  },
-);
+  });
 
-export const deleteCategory = forgeController(
-  {
+const deleteCategory = forgeController
+  .route("DELETE /:id")
+  .description("Delete an existing calendar category")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) =>
-    await CategoriesService.deleteCategory(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "calendar_categories",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "calendar_categories",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await CategoriesService.deleteCategory(pb, id),
+  );
+
+bulkRegisterControllers(calendarCategoriesRouter, [
+  getAllCategories,
+  getCategoryById,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+]);
+
+export default calendarCategoriesRouter;

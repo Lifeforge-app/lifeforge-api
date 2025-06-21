@@ -1,7 +1,6 @@
 import { JSDOM } from "jsdom";
 
 import { IBooksLibraryLibgenSearchResult } from "../../../typescript/books_library_interfaces";
-import { cleanupTitle } from "../utils/parsing";
 
 export const searchBooks = async (queries: {
   view: string;

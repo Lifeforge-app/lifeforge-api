@@ -1,11 +1,9 @@
+import ClientError from "@functions/ClientError";
+import { decrypt2, encrypt2 } from "@functions/encryption";
 import bcrypt from "bcrypt";
 import PocketBase from "pocketbase";
-import { v4 } from "uuid";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import ClientError from "@utils/ClientError";
-import { decrypt2, encrypt2 } from "@utils/encryption";
 
 import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
 import { challenge } from "./auth.service";

@@ -1,17 +1,17 @@
 import express from "express";
 
-import categoriesRoutes from "./routes/categories.routes";
-import entriesRoutes from "./routes/entries.routes";
-import fileTypesRoutes from "./routes/fileTypes.routes";
-import languagesRoutes from "./routes/languages.routes";
-import libgenRoutes from "./routes/libgen.routes";
+import booksLibraryCategoriesRouter from "./controllers/categories.controller";
+import booksLibraryEntriesRouter from "./controllers/entries.controller";
+import booksLibraryFileTypesRouter from "./controllers/fileTypes.controller";
+import booksLibraryLanguagesRouter from "./controllers/languages.controller";
+import booksLibraryLibgenRouter from "./controllers/libgen.controller";
 
 const router = express.Router();
 
-router.use("/entries", entriesRoutes);
-router.use("/categories", categoriesRoutes);
-router.use("/languages", languagesRoutes);
-router.use("/file-types", fileTypesRoutes);
-router.use("/libgen", libgenRoutes);
+router.use("/entries", booksLibraryEntriesRouter);
+router.use("/categories", booksLibraryCategoriesRouter);
+router.use("/languages", booksLibraryLanguagesRouter);
+router.use("/file-types", booksLibraryFileTypesRouter);
+router.use("/libgen", booksLibraryLibgenRouter);
 
 export default router;

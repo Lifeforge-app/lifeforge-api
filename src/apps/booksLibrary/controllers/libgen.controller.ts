@@ -1,7 +1,10 @@
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import request from "request";
 import { z } from "zod/v4";
-
-import { forgeController } from "@utils/forgeController";
 
 import * as libgenService from "../services/libgen.service";
 import {
@@ -10,15 +13,20 @@ import {
   BooksLibraryLibgenSearchResultSchema,
 } from "../typescript/books_library_interfaces";
 
-export const getStatus = forgeController(
-  {
-    response: z.boolean(),
-  },
-  libgenService.getStatus,
-);
+const booksLibraryLibgenRouter = express.Router();
 
-export const searchBooks = forgeController(
-  {
+const getStatus = forgeController
+  .route("GET /status")
+  .description("Get libgen service status")
+  .schema({
+    response: z.boolean(),
+  })
+  .callback(libgenService.getStatus);
+
+const searchBooks = forgeController
+  .route("GET /search")
+  .description("Search books in libgen")
+  .schema({
     query: z.object({
       view: z.string(),
       req: z.string(),
@@ -30,22 +38,26 @@ export const searchBooks = forgeController(
       sortmode: z.string(),
     }),
     response: BooksLibraryLibgenSearchResultSchema,
-  },
-  async ({ query }) => await libgenService.searchBooks(query),
-);
+  })
+  .callback(async ({ query }) => await libgenService.searchBooks(query));
 
-export const getBookDetails = forgeController(
-  {
+const getBookDetails = forgeController
+  .route("GET /details/:md5")
+  .description("Get book details from libgen")
+  .schema({
     params: z.object({
       md5: z.string(),
     }),
     response: z.record(z.string(), z.any()),
-  },
-  async ({ params: { md5 } }) => await libgenService.getBookDetails(md5),
-);
+  })
+  .callback(
+    async ({ params: { md5 } }) => await libgenService.getBookDetails(md5),
+  );
 
-export const getLocalLibraryData = forgeController(
-  {
+const getLocalLibraryData = forgeController
+  .route("GET /local-library-data/:md5")
+  .description("Get local library data for a book")
+  .schema({
     params: z.object({
       md5: z.string(),
     }),
@@ -54,31 +66,33 @@ export const getLocalLibraryData = forgeController(
       file: true,
       is_favourite: true,
     }),
-  },
-  async ({ params: { md5 } }) => await libgenService.getLocalLibraryData(md5),
-);
+  })
+  .callback(
+    async ({ params: { md5 } }) => await libgenService.getLocalLibraryData(md5),
+  );
 
-export const fetchCover = forgeController(
-  {
+const fetchCover = forgeController
+  .route("GET /cover/:id/:name")
+  .description("Fetch book cover from libgen")
+  .schema({
     params: z.object({
       id: z.string(),
       name: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ params: { id, name }, res }) => {
+  })
+  .noDefaultResponse()
+  .callback(async ({ params: { id, name }, res }) => {
     res.setHeader("Content-Type", "image/jpeg");
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
 
     request(`https://books.ms/covers/${id}/${name}`).pipe(res);
-  },
-  {
-    noDefaultResponse: true,
-  },
-);
+  });
 
-export const addToLibrary = forgeController(
-  {
+const addToLibrary = forgeController
+  .route("POST /add-to-library/:md5")
+  .description("Add a book to the library from libgen")
+  .schema({
     params: z.object({
       md5: z.string(),
     }),
@@ -98,31 +112,47 @@ export const addToLibrary = forgeController(
       }),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { md5 }, body: { metadata } }) =>
-    await libgenService.initiateDownload(pb, md5, metadata),
-  { statusCode: 202 },
-);
+  })
+  .statusCode(202)
+  .callback(
+    async ({ pb, params: { md5 }, body: { metadata } }) =>
+      await libgenService.initiateDownload(pb, md5, metadata),
+  );
 
-export const getDownloadProgresses = forgeController(
-  {
+const getDownloadProgresses = forgeController
+  .route("GET /download-progresses")
+  .description("Get download progresses for all downloads")
+  .schema({
     response: z.record(
       z.string(),
       BooksLibraryDownloadProcessSchema.omit({
         kill: true,
       }),
     ),
-  },
-  async () => libgenService.getDownloadProgresses(),
-);
+  })
+  .callback(async () => libgenService.getDownloadProgresses());
 
-export const cancelDownload = forgeController(
-  {
+const cancelDownload = forgeController
+  .route("DELETE /download-progresses/:md5")
+  .description("Cancel a download")
+  .schema({
     params: z.object({
       md5: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ params: { md5 } }) => libgenService.cancelDownload(md5),
-  { statusCode: 204 },
-);
+  })
+  .statusCode(204)
+  .callback(async ({ params: { md5 } }) => libgenService.cancelDownload(md5));
+
+bulkRegisterControllers(booksLibraryLibgenRouter, [
+  getStatus,
+  searchBooks,
+  getBookDetails,
+  getLocalLibraryData,
+  fetchCover,
+  addToLibrary,
+  getDownloadProgresses,
+  cancelDownload,
+]);
+
+export default booksLibraryLibgenRouter;

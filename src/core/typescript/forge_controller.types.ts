@@ -54,6 +54,7 @@ type ForgeOptions<
   };
   statusCode?: number;
   noDefaultResponse?: boolean;
+  description?: string;
 };
 
 export type {

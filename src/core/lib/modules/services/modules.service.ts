@@ -1,11 +1,9 @@
+import ClientError from "@functions/ClientError";
 import fs from "fs";
 import JSZip from "jszip";
 import _ from "lodash";
 import path from "path";
 import PocketBase from "pocketbase";
-
-import ClientError from "@utils/ClientError";
-import { clientError } from "@utils/response";
 
 function traverse(path: string, rootPath: string, zip: JSZip) {
   const listing = fs.readdirSync(path);

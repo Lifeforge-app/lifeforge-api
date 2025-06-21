@@ -1,13 +1,11 @@
-import fs, { copyFile } from "fs";
-import OpenAI from "openai";
+import { fetchAI } from "@functions/fetchAI";
+import parseOCR from "@functions/parseOCR";
+import fs from "fs";
 import { fromPath } from "pdf2pic";
 import Pocketbase from "pocketbase";
 import { z } from "zod";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import { fetchAI } from "@utils/fetchAI";
-import parseOCR from "@utils/parseOCR";
 
 import {
   IWalletReceiptScanResult,

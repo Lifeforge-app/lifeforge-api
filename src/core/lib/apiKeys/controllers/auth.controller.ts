@@ -1,8 +1,6 @@
-import { v4 } from "uuid";
+import { forgeController } from "@functions/forgeController";
+import { default as _validateOTP } from "@functions/validateOTP";
 import { z } from "zod/v4";
-
-import { forgeController } from "@utils/forgeController";
-import { default as _validateOTP } from "@utils/validateOTP";
 
 import * as authService from "../services/auth.service";
 

@@ -1,9 +1,6 @@
 import Pocketbase from "pocketbase";
 
-import {
-  IBooksLibraryDownloadProcess,
-  IBooksLibraryEntry,
-} from "../../../typescript/books_library_interfaces";
+import { IBooksLibraryDownloadProcess } from "../../../typescript/books_library_interfaces";
 import { addToLibrary } from "./process";
 
 const downloadProcesses = new Map<string, IBooksLibraryDownloadProcess>();

@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
 import moment from "moment";
 import PocketBase from "pocketbase";
 import { v4 } from "uuid";
-
-import ClientError from "@utils/ClientError";
 
 import { currentSession } from "..";
 import { removeSensitiveData, updateNullData } from "../utils/auth";

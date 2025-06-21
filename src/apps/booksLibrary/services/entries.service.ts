@@ -1,9 +1,8 @@
+import ClientError from "@functions/ClientError";
 import mailer from "nodemailer";
 import Pocketbase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import ClientError from "@utils/ClientError";
 
 import { IBooksLibraryEntry } from "../typescript/books_library_interfaces";
 

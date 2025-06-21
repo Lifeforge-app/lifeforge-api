@@ -11,10 +11,20 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "allowUnusedLabels": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "noUnusedLocals": true,
     "paths": {
-      "@utils/*": ["./src/core/utils/*"],
-      "@typescript/*": ["./src/core/typescript/*"],
-      "@middlewares/*": ["./src/core/middlewares/*"]
+      "@functions/*": [
+        "./src/core/functions/*"
+      ],
+      "@typescript/*": [
+        "./src/core/typescript/*"
+      ],
+      "@middlewares/*": [
+        "./src/core/middlewares/*"
+      ]
     }
   }
 }

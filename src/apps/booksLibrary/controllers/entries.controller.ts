@@ -1,23 +1,31 @@
+import ClientError from "@functions/ClientError";
+import { getAPIKey } from "@functions/getAPIKey";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/forgeController";
-import { getAPIKey } from "@utils/getAPIKey";
-
 import * as EntriesService from "../services/entries.service";
 import { BooksLibraryEntrySchema } from "../typescript/books_library_interfaces";
 
-export const getAllEntries = forgeController(
-  {
-    response: z.array(WithPBSchema(BooksLibraryEntrySchema)),
-  },
-  ({ pb }) => EntriesService.getAllEntries(pb),
-);
+const booksLibraryEntriesRouter = express.Router();
 
-export const updateEntry = forgeController(
-  {
+const getAllEntries = forgeController
+  .route("GET /")
+  .description("Get all entries in the books library")
+  .schema({
+    response: z.array(WithPBSchema(BooksLibraryEntrySchema)),
+  })
+  .callback(({ pb }) => EntriesService.getAllEntries(pb));
+
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing entry in the books library")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -32,49 +40,50 @@ export const updateEntry = forgeController(
       year_published: true,
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
-  },
-  ({ pb, params: { id }, body }) => EntriesService.updateEntry(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "books_library_entries",
-      },
-      body: {
-        category: "[books_library_categories]",
-        languages: "[books_library_languages]",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "books_library_entries",
+  })
+  .existenceCheck("body", {
+    category: "[books_library_categories]",
+    languages: "[books_library_languages]",
+  })
+  .callback(({ pb, params: { id }, body }) =>
+    EntriesService.updateEntry(pb, id, body),
+  );
 
-export const toggleFavouriteStatus = forgeController(
-  {
+const toggleFavouriteStatus = forgeController
+  .route("POST /favourite/:id")
+  .description("Toggle the favourite status of an entry in the books library")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
-  },
-  ({ pb, params: { id } }) => EntriesService.toggleFavouriteStatus(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "books_library_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "books_library_entries",
+  })
+  .callback(({ pb, params: { id } }) =>
+    EntriesService.toggleFavouriteStatus(pb, id),
+  );
 
-export const sendToKindle = forgeController(
-  {
+const sendToKindle = forgeController
+  .route("POST /send-to-kindle/:id")
+  .description("Send an entry to a Kindle email address")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     body: z.object({
-      target: z.email().endsWith("@kindle.com"),
+      target: z.string().email().endsWith("@kindle.com"),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id }, body: { target } }) => {
+  })
+  .existenceCheck("params", {
+    id: "books_library_entries",
+  })
+  .callback(async ({ pb, params: { id }, body: { target } }) => {
     const smtpUser = await getAPIKey("smtp-user", pb);
     const smtpPassword = await getAPIKey("smtp-pass", pb);
 
@@ -93,30 +102,29 @@ export const sendToKindle = forgeController(
       },
       target,
     );
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "books_library_entries",
-      },
-    },
-  },
-);
+  });
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete an existing entry in the books library")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  ({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "books_library_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "books_library_entries",
+  })
+  .statusCode(204)
+  .callback(({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id));
+
+bulkRegisterControllers(booksLibraryEntriesRouter, [
+  getAllEntries,
+  updateEntry,
+  toggleFavouriteStatus,
+  sendToKindle,
+  deleteEntry,
+]);
+
+export default booksLibraryEntriesRouter;

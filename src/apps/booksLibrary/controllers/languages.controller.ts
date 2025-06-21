@@ -1,62 +1,78 @@
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { forgeController } from "@utils/forgeController";
-
 import * as LanguagesService from "../services/languages.service";
 import { BooksLibraryLanguageSchema } from "../typescript/books_library_interfaces";
 
-export const getAllLanguages = forgeController(
-  {
-    response: z.array(BooksLibraryLanguageSchema),
-  },
-  ({ pb }) => LanguagesService.getAllLanguages(pb),
-);
+const booksLibraryLanguagesRouter = express.Router();
 
-export const createLanguage = forgeController(
-  {
+const getAllLanguages = forgeController
+  .route("GET /")
+  .description("Get all languages for the books library")
+  .schema({
+    response: z.array(BooksLibraryLanguageSchema),
+  })
+  .callback(({ pb }) => LanguagesService.getAllLanguages(pb));
+
+const createLanguage = forgeController
+  .route("POST /")
+  .description("Create a new language for the books library")
+  .schema({
     body: BooksLibraryLanguageSchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryLanguageSchema),
-  },
-  async ({ pb, body }) => await LanguagesService.createLanguage(pb, body),
-  { statusCode: 201 },
-);
+  })
+  .statusCode(201)
+  .callback(
+    async ({ pb, body }) => await LanguagesService.createLanguage(pb, body),
+  );
 
-export const updateLanguage = forgeController(
-  {
+const updateLanguage = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing language for the books library")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     body: BooksLibraryLanguageSchema.omit({ amount: true }),
     response: WithPBSchema(BooksLibraryLanguageSchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await LanguagesService.updateLanguage(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "books_library_languages",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "books_library_languages",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await LanguagesService.updateLanguage(pb, id, body),
+  );
 
-export const deleteLanguage = forgeController(
-  {
+const deleteLanguage = forgeController
+  .route("DELETE /:id")
+  .description("Delete an existing language for the books library")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) =>
-    await LanguagesService.deleteLanguage(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "languages",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "books_library_languages",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await LanguagesService.deleteLanguage(pb, id),
+  );
+
+bulkRegisterControllers(booksLibraryLanguagesRouter, [
+  getAllLanguages,
+  createLanguage,
+  updateLanguage,
+  deleteLanguage,
+]);
+
+export default booksLibraryLanguagesRouter;

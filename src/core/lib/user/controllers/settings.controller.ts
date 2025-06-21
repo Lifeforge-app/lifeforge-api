@@ -1,6 +1,5 @@
+import { forgeController } from "@functions/forgeController";
 import { z } from "zod/v4";
-
-import { forgeController } from "@utils/forgeController";
 
 import * as SettingsService from "../services/settings.service";
 

@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
+import { forgeController } from "@functions/forgeController";
+import { default as _validateOTP } from "@functions/validateOTP";
 import { z } from "zod/v4";
-
-import ClientError from "@utils/ClientError";
-import { forgeController } from "@utils/forgeController";
-import { default as _validateOTP } from "@utils/validateOTP";
 
 import * as twoFAService from "../services/twoFA.service";
 

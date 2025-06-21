@@ -1,15 +1,25 @@
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { forgeController } from "@utils/forgeController";
-
 import * as FileTypesService from "../services/fileTypes.service";
 import { BooksLibraryFileTypeSchema } from "../typescript/books_library_interfaces";
 
-export const getAllFileTypes = forgeController(
-  {
+const booksLibraryFileTypesRouter = express.Router();
+
+const getAllFileTypes = forgeController
+  .route("GET /")
+  .description("Get all file types for the books library")
+  .schema({
     response: z.array(WithPBSchema(BooksLibraryFileTypeSchema)),
-  },
-  async ({ pb }) => await FileTypesService.getAllFileTypes(pb),
-);
+  })
+  .callback(async ({ pb }) => await FileTypesService.getAllFileTypes(pb));
+
+bulkRegisterControllers(booksLibraryFileTypesRouter, [getAllFileTypes]);
+
+export default booksLibraryFileTypesRouter;

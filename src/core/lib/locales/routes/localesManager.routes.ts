@@ -29,7 +29,7 @@ router.patch(
 );
 
 router.delete(
-  "/delete/:namespace/:subnamespace",
+  "/:namespace/:subnamespace",
   LocalesManagerController.deleteLocale,
 );
 

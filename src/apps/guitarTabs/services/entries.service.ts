@@ -1,5 +1,4 @@
 import fs from "fs";
-import moment from "moment";
 // @ts-expect-error - No types available
 import pdfPageCounter from "pdf-page-counter";
 import pdfThumbnail from "pdf-thumbnail";

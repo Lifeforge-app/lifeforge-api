@@ -1,9 +1,8 @@
+import { fetchAI } from "@functions/fetchAI";
 import ogs from "open-graph-scraper";
 import PocketBase from "pocketbase";
 import sharp from "sharp";
 import { createWorker } from "tesseract.js";
-
-import { fetchAI } from "@utils/fetchAI";
 
 const getPrice = async (imageURL: string): Promise<number> => {
   try {

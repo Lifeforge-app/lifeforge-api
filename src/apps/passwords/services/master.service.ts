@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
+import { decrypt2 } from "@functions/encryption";
 import bcrypt from "bcrypt";
 import PocketBase from "pocketbase";
-
-import ClientError from "@utils/ClientError";
-import { decrypt2 } from "@utils/encryption";
 
 export const getDecryptedMaster = async (
   pb: PocketBase,

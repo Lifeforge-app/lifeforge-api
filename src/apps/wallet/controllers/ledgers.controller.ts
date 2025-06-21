@@ -1,8 +1,7 @@
+import { forgeController } from "@functions/forgeController";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
-
-import { forgeController } from "@utils/forgeController";
 
 import * as LedgersService from "../services/ledgers.service";
 import { WalletLedgerSchema } from "../typescript/wallet_interfaces";

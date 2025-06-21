@@ -1,8 +1,7 @@
+import ClientError from "@functions/ClientError";
 import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
-
-import ClientError from "@utils/ClientError";
 
 import {
   IRailwayMapLine,

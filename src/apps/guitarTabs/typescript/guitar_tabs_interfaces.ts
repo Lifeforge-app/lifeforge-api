@@ -1,13 +1,5 @@
 import { z } from "zod/v4";
 
-const BasePBCollectionSchema = z.object({
-  id: z.string(),
-  created: z.string(),
-  updated: z.string(),
-  collectionId: z.string(),
-  collectionName: z.string(),
-});
-
 const GuitarTabsEntrySchema = z.object({
   name: z.string(),
   author: z.string(),
