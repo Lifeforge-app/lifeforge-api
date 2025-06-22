@@ -1,11 +1,11 @@
 import express from "express";
 
-import entriesRoutes from "./routes/entries.routes";
-import sessionRoutes from "./routes/session.routes";
+import virtualWardrobeEntriesRouter from "./controllers/entries.controller";
+import virtualWardrobeSessionRouter from "./controllers/session.controller";
 
 const router = express.Router();
 
-router.use("/entries", entriesRoutes);
-router.use("/session", sessionRoutes);
+router.use("/entries", virtualWardrobeEntriesRouter);
+router.use("/session", virtualWardrobeSessionRouter);
 
 export default router;

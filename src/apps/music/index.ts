@@ -1,11 +1,11 @@
 import express from "express";
 
-import entries from "./routes/entries";
-import youtube from "./routes/youtube";
+import musicEntriesRouter from "./controllers/entries.controller";
+import musicYoutubeRouter from "./controllers/youtube.controller";
 
 const router = express.Router();
 
-router.use("/entries", entries);
-router.use("/youtube", youtube);
+router.use("/entries", musicEntriesRouter);
+router.use("/youtube", musicYoutubeRouter);
 
 export default router;

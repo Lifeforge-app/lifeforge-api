@@ -1,33 +1,43 @@
 import ClientError from "@functions/ClientError";
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import z from "zod/v4";
+
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import * as TranscriptionService from "../services/transcription.service";
 import { convertToMp3 } from "../utils/convertToMP3";
 
-export const transcribeExisted = forgeController(
-  {
+const momentVaultTranscriptionRouter = express.Router();
+
+const transcribeExisted = forgeController
+  .route("POST /:id")
+  .description("Transcribe an existing audio entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.string(),
-  },
-  async ({ pb, params: { id } }) =>
-    await TranscriptionService.transcribeExisted(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "moment_vault_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "moment_vault_entries",
+  })
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await TranscriptionService.transcribeExisted(pb, id),
+  );
 
-export const transcribeNew = forgeController(
-  {
+const transcribeNew = forgeController
+  .route("POST /")
+  .description("Transcribe a new audio file")
+  .schema({
     response: z.string(),
-  },
-  async ({ pb, req }) => {
+  })
+  .middlewares(singleUploadMiddleware)
+  .callback(async ({ pb, req }) => {
     const { file } = req;
     if (!file) {
       throw new ClientError("No file uploaded");
@@ -38,5 +48,11 @@ export const transcribeNew = forgeController(
     }
 
     return await TranscriptionService.transcribeNew(pb, file.path);
-  },
-);
+  });
+
+bulkRegisterControllers(momentVaultTranscriptionRouter, [
+  transcribeExisted,
+  transcribeNew,
+]);
+
+export default momentVaultTranscriptionRouter;

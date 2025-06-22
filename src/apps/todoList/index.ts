@@ -1,15 +1,15 @@
 import express from "express";
 
-import entriesRoutes from "./routes/entries.routes";
-import listsRoutes from "./routes/lists.routes";
-import prioritiesRoutes from "./routes/priorities.routes";
-import tagsRoutes from "./routes/tags.routes";
+import todoListEntriesRouter from "./controllers/entries.controller";
+import todoListListsRouter from "./controllers/lists.controller";
+import todoListPrioritiesRouter from "./controllers/priorities.controller";
+import todoListTagsRouter from "./controllers/tags.controller";
 
 const router = express.Router();
 
-router.use("/entries", entriesRoutes);
-router.use("/priorities", prioritiesRoutes);
-router.use("/lists", listsRoutes);
-router.use("/tags", tagsRoutes);
+router.use("/entries", todoListEntriesRouter);
+router.use("/priorities", todoListPrioritiesRouter);
+router.use("/lists", todoListListsRouter);
+router.use("/tags", todoListTagsRouter);
 
 export default router;

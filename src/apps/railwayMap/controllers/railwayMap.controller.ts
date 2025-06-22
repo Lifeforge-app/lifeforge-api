@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -9,28 +13,43 @@ import {
   RailwayMapStationSchema,
 } from "../typescript/railwayMap.types";
 
-export const getLines = forgeController(
-  {
+const railwayMapRouter = express.Router();
+
+const getLines = forgeController
+  .route("GET /lines")
+  .description("Get all railway lines")
+  .schema({
     response: z.array(WithPBSchema(RailwayMapLineSchema)),
-  },
-  async ({ pb }) => await RailwayMapServices.getLines(pb),
-);
+  })
+  .callback(async ({ pb }) => await RailwayMapServices.getLines(pb));
 
-export const getStations = forgeController(
-  {
+const getStations = forgeController
+  .route("GET /stations")
+  .description("Get all railway stations")
+  .schema({
     response: z.array(WithPBSchema(RailwayMapStationSchema)),
-  },
-  async ({ pb }) => RailwayMapServices.getStations(pb),
-);
+  })
+  .callback(async ({ pb }) => RailwayMapServices.getStations(pb));
 
-export const getShortestPath = forgeController(
-  {
+const getShortestPath = forgeController
+  .route("GET /shortest")
+  .description("Get shortest path between two stations")
+  .schema({
     query: z.object({
       start: z.string(),
       end: z.string(),
     }),
     response: z.array(WithPBSchema(RailwayMapStationSchema)),
-  },
-  async ({ pb, query: { start, end } }) =>
-    await RailwayMapServices.getShortestPath(pb, start, end),
-);
+  })
+  .callback(
+    async ({ pb, query: { start, end } }) =>
+      await RailwayMapServices.getShortestPath(pb, start, end),
+  );
+
+bulkRegisterControllers(railwayMapRouter, [
+  getLines,
+  getStations,
+  getShortestPath,
+]);
+
+export default railwayMapRouter;

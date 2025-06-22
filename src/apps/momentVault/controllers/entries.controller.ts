@@ -1,5 +1,9 @@
 import ClientError from "@functions/ClientError";
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import {
@@ -7,11 +11,17 @@ import {
   WithPBSchema,
 } from "@typescript/pocketbase_interfaces";
 
+import { uploadMiddleware } from "@middlewares/uploadMiddleware";
+
 import * as EntriesServices from "../services/entries.service";
 import { MomentVaultEntrySchema } from "../typescript/moment_vault_interfaces";
 
-export const getEntries = forgeController(
-  {
+const momentVaultEntriesRouter = express.Router();
+
+const getEntries = forgeController
+  .route("GET /")
+  .description("Get all moment vault entries")
+  .schema({
     query: z.object({
       page: z
         .string()
@@ -19,20 +29,25 @@ export const getEntries = forgeController(
         .transform((val) => parseInt(val ?? "1", 10) || 1),
     }),
     response: PBListResultSchema(WithPBSchema(MomentVaultEntrySchema)),
-  },
-  async ({ pb, query }) => await EntriesServices.getAllEntries(pb, query.page),
-);
+  })
+  .callback(
+    async ({ pb, query }) =>
+      await EntriesServices.getAllEntries(pb, query.page),
+  );
 
-export const createEntry = forgeController(
-  {
+const createEntry = forgeController
+  .route("POST /")
+  .description("Create a new moment vault entry")
+  .schema({
     body: z.object({
       type: z.enum(["text", "audio", "photos"]),
       content: z.string().optional(),
       transcription: z.string().optional(),
     }),
     response: WithPBSchema(MomentVaultEntrySchema),
-  },
-  async ({ pb, body: { type, content, transcription }, req }) => {
+  })
+  .middlewares(uploadMiddleware)
+  .callback(async ({ pb, body: { type, content, transcription }, req }) => {
     if (type === "audio") {
       const { files } = req as { files: Express.Multer.File[] };
 
@@ -73,14 +88,13 @@ export const createEntry = forgeController(
     }
 
     throw new ClientError("Invalid entry type");
-  },
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201);
 
-export const updateEntry = forgeController(
-  {
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update a moment vault entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -88,32 +102,37 @@ export const updateEntry = forgeController(
       content: z.string(),
     }),
     response: WithPBSchema(MomentVaultEntrySchema),
-  },
-  async ({ pb, params: { id }, body: { content } }) =>
-    await EntriesServices.updateEntry(pb, id, content),
-  {
-    existenceCheck: {
-      params: {
-        id: "moment_vault_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "moment_vault_entries",
+  })
+  .callback(
+    async ({ pb, params: { id }, body: { content } }) =>
+      await EntriesServices.updateEntry(pb, id, content),
+  );
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete a moment vault entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await EntriesServices.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "moment_vault_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "moment_vault_entries",
+  })
+  .callback(
+    async ({ pb, params: { id } }) => await EntriesServices.deleteEntry(pb, id),
+  )
+  .statusCode(204);
+
+bulkRegisterControllers(momentVaultEntriesRouter, [
+  getEntries,
+  createEntry,
+  updateEntry,
+  deleteEntry,
+]);
+
+export default momentVaultEntriesRouter;

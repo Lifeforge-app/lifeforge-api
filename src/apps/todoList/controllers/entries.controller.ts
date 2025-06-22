@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -9,25 +13,28 @@ import {
   TodoListStatusCounterSchema,
 } from "../typescript/todo_list_interfaces";
 
-export const getEntryById = forgeController(
-  {
+const todoListEntriesRouter = express.Router();
+
+const getEntryById = forgeController
+  .route("GET /:id")
+  .description("Get todo entry by ID")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(TodoListEntrySchema),
-  },
-  async ({ pb, params: { id } }) => await entriesService.getEntryById(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "todo_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "todo_entries",
+  })
+  .callback(
+    async ({ pb, params: { id } }) => await entriesService.getEntryById(pb, id),
+  );
 
-export const getAllEntries = forgeController(
-  {
+const getAllEntries = forgeController
+  .route("GET /")
+  .description("Get all todo entries with optional filters")
+  .schema({
     query: z.object({
       list: z.string().optional(),
       status: z.string().optional().default("all"),
@@ -36,50 +43,47 @@ export const getAllEntries = forgeController(
       query: z.string().optional(),
     }),
     response: z.array(WithPBSchema(TodoListEntrySchema)),
-  },
-  async ({ pb, query: { status, tag, list, priority } }) =>
-    await entriesService.getAllEntries(pb, status, tag, list, priority),
-  {
-    existenceCheck: {
-      query: {
-        tag: "[todo_tags]",
-        list: "[todo_lists]",
-        priority: "[todo_priorities]",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("query", {
+    tag: "[todo_tags]",
+    list: "[todo_lists]",
+    priority: "[todo_priorities]",
+  })
+  .callback(
+    async ({ pb, query: { status, tag, list, priority } }) =>
+      await entriesService.getAllEntries(pb, status, tag, list, priority),
+  );
 
-export const getStatusCounter = forgeController(
-  {
+const getStatusCounter = forgeController
+  .route("GET /status-counter")
+  .description("Get status counter for todo entries")
+  .schema({
     response: TodoListStatusCounterSchema,
-  },
-  async ({ pb }) => await entriesService.getStatusCounter(pb),
-);
+  })
+  .callback(async ({ pb }) => await entriesService.getStatusCounter(pb));
 
-export const createEntry = forgeController(
-  {
+const createEntry = forgeController
+  .route("POST /")
+  .description("Create a new todo entry")
+  .schema({
     body: TodoListEntrySchema.omit({
       completed_at: true,
       done: true,
     }),
     response: WithPBSchema(TodoListEntrySchema),
-  },
-  async ({ pb, body }) => await entriesService.createEntry(pb, body),
-  {
-    existenceCheck: {
-      body: {
-        list: "[todo_lists]",
-        priority: "[todo_priorities]",
-        tags: "[todo_tags]",
-      },
-    },
-    statusCode: 201,
-  },
-);
+  })
+  .existenceCheck("body", {
+    list: "[todo_lists]",
+    priority: "[todo_priorities]",
+    tags: "[todo_tags]",
+  })
+  .statusCode(201)
+  .callback(async ({ pb, body }) => await entriesService.createEntry(pb, body));
 
-export const updateEntry = forgeController(
-  {
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing todo entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -88,54 +92,61 @@ export const updateEntry = forgeController(
       done: true,
     }),
     response: WithPBSchema(TodoListEntrySchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await entriesService.updateEntry(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "todo_entries",
-      },
-      body: {
-        list: "[todo_lists]",
-        priority: "[todo_priorities]",
-        tags: "[todo_tags]",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "todo_entries",
+  })
+  .existenceCheck("body", {
+    list: "[todo_lists]",
+    priority: "[todo_priorities]",
+    tags: "[todo_tags]",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await entriesService.updateEntry(pb, id, body),
+  );
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete a todo entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "todo_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "todo_entries",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
+  );
 
-export const toggleEntry = forgeController(
-  {
+const toggleEntry = forgeController
+  .route("PATCH /toggle/:id")
+  .description("Toggle completion status of a todo entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(TodoListEntrySchema),
-  },
-  async ({ pb, params: { id } }) => await entriesService.toggleEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "todo_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "todo_entries",
+  })
+  .callback(
+    async ({ pb, params: { id } }) => await entriesService.toggleEntry(pb, id),
+  );
+
+bulkRegisterControllers(todoListEntriesRouter, [
+  getEntryById,
+  getAllEntries,
+  getStatusCounter,
+  createEntry,
+  updateEntry,
+  deleteEntry,
+  toggleEntry,
+]);
+
+export default todoListEntriesRouter;

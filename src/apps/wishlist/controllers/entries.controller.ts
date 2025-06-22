@@ -1,21 +1,32 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import fs from "fs";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
+
 import * as entriesService from "../services/entries.service";
 import { WishlistEntrySchema } from "../typescript/wishlist_interfaces";
 
-export const getCollectionId = forgeController(
-  {
-    response: z.string(),
-  },
-  async ({ pb }) => await entriesService.getCollectionId(pb),
-);
+const wishlistEntriesRouter = express.Router();
 
-export const getEntriesByListId = forgeController(
-  {
+const getCollectionId = forgeController
+  .route("GET /collection-id")
+  .description("Get wishlist entries collection ID")
+  .schema({
+    response: z.string(),
+  })
+  .callback(async ({ pb }) => await entriesService.getCollectionId(pb));
+
+const getEntriesByListId = forgeController
+  .route("GET /:id")
+  .description("Get wishlist entries by list ID")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -26,32 +37,34 @@ export const getEntriesByListId = forgeController(
         .transform((val) => val === "true"),
     }),
     response: z.array(WithPBSchema(WishlistEntrySchema)),
-  },
-  async ({ pb, params: { id }, query: { bought } }) =>
-    await entriesService.getEntriesByListId(pb, id, bought),
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_lists",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wishlist_lists",
+  })
+  .callback(
+    async ({ pb, params: { id }, query: { bought } }) =>
+      await entriesService.getEntriesByListId(pb, id, bought),
+  );
 
-export const scrapeExternal = forgeController(
-  {
+const scrapeExternal = forgeController
+  .route("POST /external")
+  .description("Scrape external website for wishlist entry data")
+  .schema({
     body: z.object({
       url: z.string(),
       provider: z.string(),
     }),
     response: z.any(),
-  },
-  async ({ pb, body: { url, provider } }) =>
-    await entriesService.scrapeExternal(pb, provider, url),
-);
+  })
+  .callback(
+    async ({ pb, body: { url, provider } }) =>
+      await entriesService.scrapeExternal(pb, provider, url),
+  );
 
-export const createEntry = forgeController(
-  {
+const createEntry = forgeController
+  .route("POST /")
+  .description("Create a new wishlist entry")
+  .schema({
     body: z.object({
       name: z.string(),
       url: z.string(),
@@ -60,8 +73,13 @@ export const createEntry = forgeController(
       image: z.any().optional(),
     }),
     response: WithPBSchema(WishlistEntrySchema),
-  },
-  async ({ pb, body, req }) => {
+  })
+  .middlewares(singleUploadMiddleware)
+  .existenceCheck("body", {
+    list: "wishlist_lists",
+  })
+  .statusCode(201)
+  .callback(async ({ pb, body, req }) => {
     const { file } = req;
 
     let imageFile: File | undefined;
@@ -83,19 +101,12 @@ export const createEntry = forgeController(
     };
 
     return await entriesService.createEntry(pb, data);
-  },
-  {
-    existenceCheck: {
-      body: {
-        list: "wishlist_lists",
-      },
-    },
-    statusCode: 201,
-  },
-);
+  });
 
-export const updateEntry = forgeController(
-  {
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing wishlist entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -110,82 +121,90 @@ export const updateEntry = forgeController(
       WithPBSchema(WishlistEntrySchema),
       z.literal("removed"),
     ]),
-  },
-  async ({
-    pb,
-    params: { id },
-    body: { list, name, url, price, imageRemoved },
-    req,
-  }) => {
-    const { file } = req;
-    let finalFile: null | File = null;
+  })
+  .middlewares(singleUploadMiddleware)
+  .existenceCheck("params", {
+    id: "wishlist_entries",
+  })
+  .existenceCheck("body", {
+    list: "wishlist_lists",
+  })
+  .callback(
+    async ({
+      pb,
+      params: { id },
+      body: { list, name, url, price, imageRemoved },
+      req,
+    }) => {
+      const { file } = req;
+      let finalFile: null | File = null;
 
-    if (imageRemoved === "true") {
-      finalFile = null;
-    }
+      if (imageRemoved === "true") {
+        finalFile = null;
+      }
 
-    if (file) {
-      const fileBuffer = fs.readFileSync(file.path);
-      finalFile = new File([fileBuffer], file.originalname);
-      fs.unlinkSync(file.path);
-    }
+      if (file) {
+        const fileBuffer = fs.readFileSync(file.path);
+        finalFile = new File([fileBuffer], file.originalname);
+        fs.unlinkSync(file.path);
+      }
 
-    const oldEntry = await entriesService.getEntry(pb, id);
+      const oldEntry = await entriesService.getEntry(pb, id);
 
-    const entry = await entriesService.updateEntry(pb, id, {
-      list,
-      name,
-      url,
-      price,
-      ...(imageRemoved === "true" || finalFile ? { image: finalFile } : {}),
-    });
+      const entry = await entriesService.updateEntry(pb, id, {
+        list,
+        name,
+        url,
+        price,
+        ...(imageRemoved === "true" || finalFile ? { image: finalFile } : {}),
+      });
 
-    return oldEntry.list === list ? entry : "removed";
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_entries",
-      },
-      body: {
-        list: "wishlist_lists",
-      },
+      return oldEntry.list === list ? entry : "removed";
     },
-  },
-);
+  );
 
-export const updateEntryBoughtStatus = forgeController(
-  {
+const updateEntryBoughtStatus = forgeController
+  .route("PATCH /bought/:id")
+  .description("Update wishlist entry bought status")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(WishlistEntrySchema),
-  },
-  async ({ pb, params: { id } }) =>
-    await entriesService.updateEntryBoughtStatus(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wishlist_entries",
+  })
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await entriesService.updateEntryBoughtStatus(pb, id),
+  );
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete a wishlist entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wishlist_entries",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
+  );
+
+bulkRegisterControllers(wishlistEntriesRouter, [
+  getCollectionId,
+  getEntriesByListId,
+  scrapeExternal,
+  createEntry,
+  updateEntry,
+  updateEntryBoughtStatus,
+  deleteEntry,
+]);
+
+export default wishlistEntriesRouter;

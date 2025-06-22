@@ -1,9 +1,9 @@
 import express from "express";
 
-import railwayMapRoutes from "./routes/railwayMap.routes";
+import railwayMapRouter from "./controllers/railwayMap.controller";
 
 const router = express.Router();
 
-router.use("/", railwayMapRoutes);
+router.use("/", railwayMapRouter);
 
 export default router;

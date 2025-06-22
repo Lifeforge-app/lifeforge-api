@@ -1,26 +1,45 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import * as YoutubeSummarizerService from "../services/youtubeSummarizer.service";
 import { YoutubeInfoSchema } from "../typescript/youtube_summarizer_interfaces";
 
-export const getYoutubeVideoInfo = forgeController(
-  {
+const youtubeSummarizerRouter = express.Router();
+
+const getYoutubeVideoInfo = forgeController
+  .route("GET /info/:id")
+  .description("Get YouTube video information by video ID")
+  .schema({
     params: z.object({
       id: z.string().regex(/^[a-zA-Z0-9_-]{11}$/, "Invalid YouTube video ID"),
     }),
     response: YoutubeInfoSchema,
-  },
-  async ({ params: { id } }) =>
-    await YoutubeSummarizerService.getYoutubeVideoInfo(id),
-);
+  })
+  .callback(
+    async ({ params: { id } }) =>
+      await YoutubeSummarizerService.getYoutubeVideoInfo(id),
+  );
 
-export const summarizeVideo = forgeController(
-  {
+const summarizeVideo = forgeController
+  .route("POST /summarize")
+  .description("Summarize a YouTube video from URL")
+  .schema({
     body: z.object({
       url: z.string().url("Invalid URL"),
     }),
     response: z.string(),
-  },
-  ({ body: { url }, pb }) => YoutubeSummarizerService.summarizeVideo(url, pb),
-);
+  })
+  .callback(({ body: { url }, pb }) =>
+    YoutubeSummarizerService.summarizeVideo(url, pb),
+  );
+
+bulkRegisterControllers(youtubeSummarizerRouter, [
+  getYoutubeVideoInfo,
+  summarizeVideo,
+]);
+
+export default youtubeSummarizerRouter;

@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,77 +10,84 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as tagsService from "../services/tags.service";
 import { IdeaBoxTagSchema } from "../typescript/ideabox_interfaces";
 
-export const getTags = forgeController(
-  {
+const ideaBoxTagsRouter = express.Router();
+
+const getTags = forgeController
+  .route("GET /:container")
+  .description("Get tags for a container")
+  .schema({
     params: z.object({
       container: z.string(),
     }),
     response: z.array(WithPBSchema(IdeaBoxTagSchema)),
-  },
-  async ({ pb, params: { container } }) =>
-    await tagsService.getTags(pb, container),
-  {
-    existenceCheck: {
-      params: {
-        container: "idea_box_containers",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    container: "idea_box_containers",
+  })
+  .callback(
+    async ({ pb, params: { container } }) =>
+      await tagsService.getTags(pb, container),
+  );
 
-export const createTag = forgeController(
-  {
+const createTag = forgeController
+  .route("POST /:container")
+  .description("Create a new tag")
+  .schema({
     body: IdeaBoxTagSchema,
     params: z.object({
       container: z.string(),
     }),
     response: WithPBSchema(IdeaBoxTagSchema),
-  },
-  async ({ pb, params: { container }, body }) =>
-    await tagsService.createTag(pb, container, body),
-  {
-    existenceCheck: {
-      params: {
-        container: "idea_box_containers",
-      },
-    },
-    statusCode: 201,
-  },
-);
+  })
+  .existenceCheck("params", {
+    container: "idea_box_containers",
+  })
+  .callback(
+    async ({ pb, params: { container }, body }) =>
+      await tagsService.createTag(pb, container, body),
+  )
+  .statusCode(201);
 
-export const updateTag = forgeController(
-  {
+const updateTag = forgeController
+  .route("PATCH /:id")
+  .description("Update a tag")
+  .schema({
     body: IdeaBoxTagSchema,
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(IdeaBoxTagSchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await tagsService.updateTag(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "idea_box_tags",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "idea_box_tags",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await tagsService.updateTag(pb, id, body),
+  );
 
-export const deleteTag = forgeController(
-  {
+const deleteTag = forgeController
+  .route("DELETE /:id")
+  .description("Delete a tag")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await tagsService.deleteTag(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "idea_box_tags",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "idea_box_tags",
+  })
+  .callback(
+    async ({ pb, params: { id } }) => await tagsService.deleteTag(pb, id),
+  )
+  .statusCode(204);
+
+bulkRegisterControllers(ideaBoxTagsRouter, [
+  getTags,
+  createTag,
+  updateTag,
+  deleteTag,
+]);
+
+export default ideaBoxTagsRouter;

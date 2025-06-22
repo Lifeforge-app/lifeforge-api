@@ -1,10 +1,18 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import * as TMDBService from "../services/tmdb.service";
 
-export const searchMovies = forgeController(
-  {
+const moviesTMDBRouter = express.Router();
+
+const searchMovies = forgeController
+  .route("GET /search")
+  .description("Search movies using TMDB API")
+  .schema({
     query: z.object({
       q: z.string().min(1, "Query must not be empty"),
       page: z
@@ -14,6 +22,11 @@ export const searchMovies = forgeController(
         .transform((val) => parseInt(val) || 1),
     }),
     response: z.any(),
-  },
-  ({ pb, query: { q, page } }) => TMDBService.searchMovies(pb, q, page),
-);
+  })
+  .callback(({ pb, query: { q, page } }) =>
+    TMDBService.searchMovies(pb, q, page),
+  );
+
+bulkRegisterControllers(moviesTMDBRouter, [searchMovies]);
+
+export default moviesTMDBRouter;

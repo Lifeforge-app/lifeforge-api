@@ -1,27 +1,40 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
+
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import * as SettingsService from "../services/settings.service";
 
-export const updateAvatar = forgeController(
-  {
+const userSettingsRouter = express.Router();
+
+const updateAvatar = forgeController
+  .route("PUT /avatar")
+  .description("Update user avatar")
+  .middlewares(singleUploadMiddleware)
+  .schema({
     response: z.string(),
-  },
-  async ({ req: { file }, pb }) => SettingsService.updateAvatar(pb, file),
-);
+  })
+  .callback(
+    async ({ req: { file }, pb }) => SettingsService.updateAvatar(pb, file),
+  );
 
-export const deleteAvatar = forgeController(
-  {
+const deleteAvatar = forgeController
+  .route("DELETE /avatar")
+  .description("Delete user avatar")
+  .schema({
     response: z.void(),
-  },
-  async ({ pb }) => SettingsService.deleteAvatar(pb),
-  {
-    statusCode: 204,
-  },
-);
+  })
+  .statusCode(204)
+  .callback(async ({ pb }) => SettingsService.deleteAvatar(pb));
 
-export const updateProfile = forgeController(
-  {
+const updateProfile = forgeController
+  .route("PATCH /")
+  .description("Update user profile")
+  .schema({
     body: z.object({
       data: z.object({
         username: z
@@ -34,16 +47,25 @@ export const updateProfile = forgeController(
       }),
     }),
     response: z.void(),
-  },
-  async ({ body: { data }, pb }) => SettingsService.updateProfile(pb, data),
-  {
-    statusCode: 200,
-  },
-);
+  })
+  .statusCode(200)
+  .callback(
+    async ({ body: { data }, pb }) => SettingsService.updateProfile(pb, data),
+  );
 
-export const requestPasswordReset = forgeController(
-  {
+const requestPasswordReset = forgeController
+  .route("POST /request-password-reset")
+  .description("Request password reset")
+  .schema({
     response: z.void(),
-  },
-  async ({ pb }) => SettingsService.requestPasswordReset(pb),
-);
+  })
+  .callback(async ({ pb }) => SettingsService.requestPasswordReset(pb));
+
+bulkRegisterControllers(userSettingsRouter, [
+  updateAvatar,
+  deleteAvatar,
+  updateProfile,
+  requestPasswordReset,
+]);
+
+export default userSettingsRouter;

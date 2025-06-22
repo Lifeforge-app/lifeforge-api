@@ -1,34 +1,46 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { ALLOWED_LANG, ALLOWED_NAMESPACE } from "../../../constants/locales";
 import * as LocalesManagerService from "../services/localesManager.service";
 
-export const listSubnamespaces = forgeController(
-  {
+const localesManagerRouter = express.Router();
+
+const listSubnamespaces = forgeController
+  .route("GET /:namespace")
+  .description("List subnamespaces for a namespace")
+  .schema({
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
     }),
     response: z.array(z.string()),
-  },
-  async ({ params: { namespace } }) =>
+  })
+  .callback(async ({ params: { namespace } }) =>
     LocalesManagerService.listSubnamespaces(namespace),
-);
+  );
 
-export const listLocales = forgeController(
-  {
+const listLocales = forgeController
+  .route("GET /:namespace/:subnamespace")
+  .description("List locales for a namespace and subnamespace")
+  .schema({
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
       subnamespace: z.string(),
     }),
     response: z.record(z.enum(ALLOWED_LANG).exclude(["zh"]), z.string()),
-  },
-  async ({ params: { namespace, subnamespace } }) =>
+  })
+  .callback(async ({ params: { namespace, subnamespace } }) =>
     LocalesManagerService.listLocales(namespace, subnamespace),
-);
+  );
 
-export const syncLocales = forgeController(
-  {
+const syncLocales = forgeController
+  .route("POST /sync/:namespace/:subnamespace")
+  .description("Sync locales for a namespace and subnamespace")
+  .schema({
     body: z.object({
       data: z.record(
         z.string(),
@@ -40,13 +52,15 @@ export const syncLocales = forgeController(
       subnamespace: z.string(),
     }),
     response: z.boolean(),
-  },
-  async ({ body: { data }, params: { namespace, subnamespace } }) =>
+  })
+  .callback(async ({ body: { data }, params: { namespace, subnamespace } }) =>
     LocalesManagerService.syncLocales(data, namespace, subnamespace),
-);
+  );
 
-export const createLocale = forgeController(
-  {
+const createLocale = forgeController
+  .route("POST /:type/:namespace/:subnamespace")
+  .description("Create a new locale entry or folder")
+  .schema({
     params: z.object({
       type: z.enum(["entry", "folder"]),
       namespace: z.enum(ALLOWED_NAMESPACE),
@@ -56,16 +70,17 @@ export const createLocale = forgeController(
       path: z.string().optional().default(""),
     }),
     response: z.boolean(),
-  },
-  async ({ params: { type, namespace, subnamespace }, body: { path } }) =>
-    LocalesManagerService.createLocale(type, namespace, subnamespace, path),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(
+    async ({ params: { type, namespace, subnamespace }, body: { path } }) =>
+      LocalesManagerService.createLocale(type, namespace, subnamespace, path),
+  );
 
-export const renameLocale = forgeController(
-  {
+const renameLocale = forgeController
+  .route("PATCH /:namespace/:subnamespace")
+  .description("Rename a locale")
+  .schema({
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
       subnamespace: z.string(),
@@ -75,13 +90,21 @@ export const renameLocale = forgeController(
       newName: z.string().optional().default(""),
     }),
     response: z.boolean(),
-  },
-  async ({ params: { namespace, subnamespace }, body: { path, newName } }) =>
-    LocalesManagerService.renameLocale(namespace, subnamespace, path, newName),
-);
+  })
+  .callback(
+    async ({ params: { namespace, subnamespace }, body: { path, newName } }) =>
+      LocalesManagerService.renameLocale(
+        namespace,
+        subnamespace,
+        path,
+        newName,
+      ),
+  );
 
-export const deleteLocale = forgeController(
-  {
+const deleteLocale = forgeController
+  .route("DELETE /:namespace/:subnamespace")
+  .description("Delete a locale")
+  .schema({
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
       subnamespace: z.string(),
@@ -90,16 +113,16 @@ export const deleteLocale = forgeController(
       path: z.string().optional().default(""),
     }),
     response: z.boolean(),
-  },
-  async ({ params: { namespace, subnamespace }, body: { path } }) =>
+  })
+  .statusCode(204)
+  .callback(async ({ params: { namespace, subnamespace }, body: { path } }) =>
     LocalesManagerService.deleteLocale(namespace, subnamespace, path),
-  {
-    statusCode: 204,
-  },
-);
+  );
 
-export const getTranslationSuggestions = forgeController(
-  {
+const getTranslationSuggestions = forgeController
+  .route("POST /suggestions/:namespace/:subnamespace")
+  .description("Get translation suggestions")
+  .schema({
     params: z.object({
       namespace: z.enum(ALLOWED_NAMESPACE),
       subnamespace: z.string(),
@@ -114,13 +137,26 @@ export const getTranslationSuggestions = forgeController(
       "zh-CN": z.string(),
       "zh-TW": z.string(),
     }),
-  },
-  async ({ pb, params: { namespace, subnamespace }, body: { path, hint } }) =>
-    await LocalesManagerService.getTranslationSuggestions(
-      namespace,
-      subnamespace,
-      path,
-      hint,
-      pb,
-    ),
-);
+  })
+  .callback(
+    async ({ pb, params: { namespace, subnamespace }, body: { path, hint } }) =>
+      await LocalesManagerService.getTranslationSuggestions(
+        namespace,
+        subnamespace,
+        path,
+        hint,
+        pb,
+      ),
+  );
+
+bulkRegisterControllers(localesManagerRouter, [
+  listSubnamespaces,
+  listLocales,
+  syncLocales,
+  getTranslationSuggestions,
+  createLocale,
+  renameLocale,
+  deleteLocale,
+]);
+
+export default localesManagerRouter;

@@ -1,8 +1,14 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import fs from "fs";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
+
+import { fieldsUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import * as entriesService from "../services/entries.service";
 import * as visionService from "../services/vision.service";
@@ -11,15 +17,20 @@ import {
   VirtualWardrobeSidebarDataSchema,
 } from "../typescript/virtual_wardrobe_interfaces";
 
-export const getSidebarData = forgeController(
-  {
-    response: VirtualWardrobeSidebarDataSchema,
-  },
-  async ({ pb }) => await entriesService.getSidebarData(pb),
-);
+const virtualWardrobeEntriesRouter = express.Router();
 
-export const getEntries = forgeController(
-  {
+const getSidebarData = forgeController
+  .route("GET /sidebar-data")
+  .description("Get sidebar data for virtual wardrobe")
+  .schema({
+    response: VirtualWardrobeSidebarDataSchema,
+  })
+  .callback(async ({ pb }) => await entriesService.getSidebarData(pb));
+
+const getEntries = forgeController
+  .route("GET /")
+  .description("Get virtual wardrobe entries with optional filters")
+  .schema({
     query: z.object({
       category: z.string().optional(),
       subcategory: z.string().optional(),
@@ -33,12 +44,15 @@ export const getEntries = forgeController(
       q: z.string().optional(),
     }),
     response: z.array(WithPBSchema(VirtualWardrobeEntrySchema)),
-  },
-  async ({ pb, query }) => await entriesService.getEntries(pb, query),
-);
+  })
+  .callback(
+    async ({ pb, query }) => await entriesService.getEntries(pb, query),
+  );
 
-export const createEntry = forgeController(
-  {
+const createEntry = forgeController
+  .route("POST /")
+  .description("Create a new virtual wardrobe entry")
+  .schema({
     body: z.object({
       name: z.string(),
       category: z.string(),
@@ -50,8 +64,17 @@ export const createEntry = forgeController(
       notes: z.string(),
     }),
     response: WithPBSchema(VirtualWardrobeEntrySchema),
-  },
-  async ({ pb, body, req }) => {
+  })
+  .middlewares(
+    fieldsUploadMiddleware.bind({
+      fields: [
+        { name: "backImage", maxCount: 1 },
+        { name: "frontImage", maxCount: 1 },
+      ],
+    }),
+  )
+  .statusCode(201)
+  .callback(async ({ pb, body, req }) => {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const {
       backImage: [backImage],
@@ -78,14 +101,12 @@ export const createEntry = forgeController(
       if (frontImage?.path) fs.unlinkSync(frontImage.path);
       if (backImage?.path) fs.unlinkSync(backImage.path);
     }
-  },
-  {
-    statusCode: 201,
-  },
-);
+  });
 
-export const updateEntry = forgeController(
-  {
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing virtual wardrobe entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -100,64 +121,69 @@ export const updateEntry = forgeController(
       notes: z.string().optional(),
     }),
     response: WithPBSchema(VirtualWardrobeEntrySchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await entriesService.updateEntry(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "virtual_wardrobe_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "virtual_wardrobe_entries",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await entriesService.updateEntry(pb, id, body),
+  );
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete a virtual wardrobe entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "virtual_wardrobe_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "virtual_wardrobe_entries",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
+  );
 
-export const toggleFavourite = forgeController(
-  {
+const toggleFavourite = forgeController
+  .route("PATCH /favourite/:id")
+  .description("Toggle favourite status of a virtual wardrobe entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(VirtualWardrobeEntrySchema),
-  },
-  async ({ pb, params: { id } }) =>
-    await entriesService.toggleFavourite(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "virtual_wardrobe_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "virtual_wardrobe_entries",
+  })
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await entriesService.toggleFavourite(pb, id),
+  );
 
-export const analyzeVision = forgeController(
-  {
+const analyzeVision = forgeController
+  .route("POST /vision")
+  .description("Analyze clothing images using AI vision")
+  .schema({
     response: z.object({
       name: z.string(),
       category: z.string(),
       subcategory: z.string(),
       colors: z.array(z.string()),
     }),
-  },
-  async ({ pb, req }) => {
+  })
+  .middlewares(
+    fieldsUploadMiddleware.bind({
+      fields: [
+        { name: "frontImage", maxCount: 1 },
+        { name: "backImage", maxCount: 1 },
+      ],
+    }),
+  )
+  .callback(async ({ pb, req }) => {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const {
       frontImage: [frontImage],
@@ -181,5 +207,16 @@ export const analyzeVision = forgeController(
       if (frontImage?.path) fs.unlinkSync(frontImage.path);
       if (backImage?.path) fs.unlinkSync(backImage.path);
     }
-  },
-);
+  });
+
+bulkRegisterControllers(virtualWardrobeEntriesRouter, [
+  getSidebarData,
+  getEntries,
+  createEntry,
+  updateEntry,
+  deleteEntry,
+  toggleFavourite,
+  analyzeVision,
+]);
+
+export default virtualWardrobeEntriesRouter;

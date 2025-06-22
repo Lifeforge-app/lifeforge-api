@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,35 +10,42 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as listsService from "../services/lists.service";
 import { WishlistListSchema } from "../typescript/wishlist_interfaces";
 
-export const getList = forgeController(
-  {
+const wishlistListsRouter = express.Router();
+
+const getList = forgeController
+  .route("GET /:id")
+  .description("Get wishlist by ID")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(WishlistListSchema),
-  },
-  async ({ pb, params: { id } }) => await listsService.getList(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_lists",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wishlist_lists",
+  })
+  .callback(
+    async ({ pb, params: { id } }) => await listsService.getList(pb, id),
+  );
 
-export const checkListExists = forgeController(
-  {
+const checkListExists = forgeController
+  .route("GET /exists/:id")
+  .description("Check if wishlist exists")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.boolean(),
-  },
-  async ({ pb, params: { id } }) => await listsService.checkListExists(pb, id),
-);
+  })
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await listsService.checkListExists(pb, id),
+  );
 
-export const getAllLists = forgeController(
-  {
+const getAllLists = forgeController
+  .route("GET /")
+  .description("Get all wishlists with statistics")
+  .schema({
     response: z.array(
       WithPBSchema(
         WishlistListSchema.extend({
@@ -45,54 +56,61 @@ export const getAllLists = forgeController(
         }),
       ),
     ),
-  },
-  async ({ pb }) => await listsService.getAllLists(pb),
-);
+  })
+  .callback(async ({ pb }) => await listsService.getAllLists(pb));
 
-export const createList = forgeController(
-  {
+const createList = forgeController
+  .route("POST /")
+  .description("Create a new wishlist")
+  .schema({
     body: WishlistListSchema,
     response: WithPBSchema(WishlistListSchema),
-  },
-  async ({ pb, body }) => await listsService.createList(pb, body),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(async ({ pb, body }) => await listsService.createList(pb, body));
 
-export const updateList = forgeController(
-  {
+const updateList = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing wishlist")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     body: WishlistListSchema,
     response: WithPBSchema(WishlistListSchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await listsService.updateList(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_lists",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wishlist_lists",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await listsService.updateList(pb, id, body),
+  );
 
-export const deleteList = forgeController(
-  {
+const deleteList = forgeController
+  .route("DELETE /:id")
+  .description("Delete a wishlist")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await listsService.deleteList(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wishlist_lists",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wishlist_lists",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await listsService.deleteList(pb, id),
+  );
+
+bulkRegisterControllers(wishlistListsRouter, [
+  getList,
+  checkListExists,
+  getAllLists,
+  createList,
+  updateList,
+  deleteList,
+]);
+
+export default wishlistListsRouter;

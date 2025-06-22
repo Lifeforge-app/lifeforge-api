@@ -1,23 +1,36 @@
-import { forgeController } from "@functions/forgeController";
 import { getAPIKey } from "@functions/getAPIKey";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import * as ImageGenerationService from "../services/imageGeneration.service";
 
-export const checkKey = forgeController(
-  {
-    response: z.boolean(),
-  },
-  async ({ pb }) => !!(await getAPIKey("openai", pb)),
-);
+const imageGenerationRouter = express.Router();
 
-export const generateImage = forgeController(
-  {
+const checkKey = forgeController
+  .route("GET /key-exists")
+  .description("Check if OpenAI API key exists")
+  .schema({
+    response: z.boolean(),
+  })
+  .callback(async ({ pb }) => !!(await getAPIKey("openai", pb)));
+
+const generateImage = forgeController
+  .route("POST /generate-image")
+  .description("Generate an image from a text prompt")
+  .schema({
     body: z.object({
       prompt: z.string().min(1, "Prompt cannot be empty"),
     }),
     response: z.string(),
-  },
-  async ({ pb, body: { prompt } }) =>
+  })
+  .callback(async ({ pb, body: { prompt } }) =>
     ImageGenerationService.generateImage(pb, prompt),
-);
+  );
+
+bulkRegisterControllers(imageGenerationRouter, [checkKey, generateImage]);
+
+export default imageGenerationRouter;

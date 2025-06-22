@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,28 +10,34 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as CategoriesService from "../services/categories.service";
 import { WalletCategorySchema } from "../typescript/wallet_interfaces";
 
-export const getAllCategories = forgeController(
-  {
-    response: z.array(WithPBSchema(WalletCategorySchema)),
-  },
-  async ({ pb }) => await CategoriesService.getAllCategories(pb),
-);
+const walletCategoriesRouter = express.Router();
 
-export const createCategory = forgeController(
-  {
+const getAllCategories = forgeController
+  .route("GET /")
+  .description("Get all wallet categories")
+  .schema({
+    response: z.array(WithPBSchema(WalletCategorySchema)),
+  })
+  .callback(async ({ pb }) => await CategoriesService.getAllCategories(pb));
+
+const createCategory = forgeController
+  .route("POST /")
+  .description("Create a new wallet category")
+  .schema({
     body: WalletCategorySchema.omit({
       amount: true,
     }),
     response: WithPBSchema(WalletCategorySchema),
-  },
-  async ({ pb, body }) => await CategoriesService.createCategory(pb, body),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(
+    async ({ pb, body }) => await CategoriesService.createCategory(pb, body),
+  );
 
-export const updateCategory = forgeController(
-  {
+const updateCategory = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing wallet category")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -35,33 +45,38 @@ export const updateCategory = forgeController(
       amount: true,
     }),
     response: WithPBSchema(WalletCategorySchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await CategoriesService.updateCategory(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_categories",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wallet_categories",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await CategoriesService.updateCategory(pb, id, body),
+  );
 
-export const deleteCategory = forgeController(
-  {
+const deleteCategory = forgeController
+  .route("DELETE /:id")
+  .description("Delete a wallet category")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) =>
-    await CategoriesService.deleteCategory(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_categories",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wallet_categories",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) =>
+      await CategoriesService.deleteCategory(pb, id),
+  );
+
+bulkRegisterControllers(walletCategoriesRouter, [
+  getAllCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+]);
+
+export default walletCategoriesRouter;

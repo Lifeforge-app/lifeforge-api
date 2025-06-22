@@ -1,11 +1,19 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import * as UtilsService from "../services/utils.service";
 import { WalletIncomeExpensesSummarySchema } from "../wallet_interfaces";
 
-export const getTypesCount = forgeController(
-  {
+const walletUtilsRouter = express.Router();
+
+const getTypesCount = forgeController
+  .route("GET /types-count")
+  .description("Get wallet transaction types count and accumulation")
+  .schema({
     response: z.record(
       z.string(),
       z.object({
@@ -13,24 +21,28 @@ export const getTypesCount = forgeController(
         accumulate: z.number(),
       }),
     ),
-  },
-  async ({ pb }) => await UtilsService.getTypesCount(pb),
-);
+  })
+  .callback(async ({ pb }) => await UtilsService.getTypesCount(pb));
 
-export const getIncomeExpensesSummary = forgeController(
-  {
+const getIncomeExpensesSummary = forgeController
+  .route("GET /income-expenses-summary")
+  .description("Get income and expenses summary for a specific month/year")
+  .schema({
     query: z.object({
       year: z.string(),
       month: z.string(),
     }),
     response: WalletIncomeExpensesSummarySchema,
-  },
-  async ({ pb, query: { year, month } }) =>
-    await UtilsService.getIncomeExpensesSummary(pb, year, month),
-);
+  })
+  .callback(
+    async ({ pb, query: { year, month } }) =>
+      await UtilsService.getIncomeExpensesSummary(pb, year, month),
+  );
 
-export const getExpensesBreakdown = forgeController(
-  {
+const getExpensesBreakdown = forgeController
+  .route("GET /expenses-breakdown")
+  .description("Get expenses breakdown by category for a specific month/year")
+  .schema({
     query: z.object({
       year: z
         .string()
@@ -47,7 +59,16 @@ export const getExpensesBreakdown = forgeController(
         percentage: z.number(),
       }),
     ),
-  },
-  async ({ pb, query: { year, month } }) =>
-    await UtilsService.getExpensesBreakdown(pb, year, month),
-);
+  })
+  .callback(
+    async ({ pb, query: { year, month } }) =>
+      await UtilsService.getExpensesBreakdown(pb, year, month),
+  );
+
+bulkRegisterControllers(walletUtilsRouter, [
+  getTypesCount,
+  getIncomeExpensesSummary,
+  getExpensesBreakdown,
+]);
+
+export default walletUtilsRouter;

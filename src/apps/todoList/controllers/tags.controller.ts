@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,58 +10,65 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as tagsService from "../services/tags.service";
 import { TodoListTagSchema } from "../typescript/todo_list_interfaces";
 
-export const getAllTags = forgeController(
-  {
+const todoListTagsRouter = express.Router();
+
+const getAllTags = forgeController
+  .route("GET /")
+  .description("Get all todo tags")
+  .schema({
     response: z.array(
       WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
     ),
-  },
-  ({ pb }) => tagsService.getAllTags(pb),
-);
+  })
+  .callback(({ pb }) => tagsService.getAllTags(pb));
 
-export const createTag = forgeController(
-  {
+const createTag = forgeController
+  .route("POST /")
+  .description("Create a new todo tag")
+  .schema({
     body: TodoListTagSchema.pick({ name: true, color: true }),
     response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
-  },
-  ({ pb, body }) => tagsService.createTag(pb, body),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(({ pb, body }) => tagsService.createTag(pb, body));
 
-export const updateTag = forgeController(
-  {
+const updateTag = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing todo tag")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     body: TodoListTagSchema.pick({ name: true, color: true }),
     response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
-  },
-  ({ pb, params: { id }, body }) => tagsService.updateTag(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "todo_tags",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "todo_tags",
+  })
+  .callback(({ pb, params: { id }, body }) =>
+    tagsService.updateTag(pb, id, body),
+  );
 
-export const deleteTag = forgeController(
-  {
+const deleteTag = forgeController
+  .route("DELETE /:id")
+  .description("Delete a todo tag")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  ({ pb, params: { id } }) => tagsService.deleteTag(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "todo_tags",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "todo_tags",
+  })
+  .statusCode(204)
+  .callback(({ pb, params: { id } }) => tagsService.deleteTag(pb, id));
+
+bulkRegisterControllers(todoListTagsRouter, [
+  getAllTags,
+  createTag,
+  updateTag,
+  deleteTag,
+]);
+
+export default todoListTagsRouter;

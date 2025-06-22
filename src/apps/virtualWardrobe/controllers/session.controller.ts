@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,68 +10,77 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as sessionService from "../services/session.service";
 import { VirtualWardrobeEntrySchema } from "../typescript/virtual_wardrobe_interfaces";
 
-export const getCart = forgeController(
-  {
+const virtualWardrobeSessionRouter = express.Router();
+
+const getCart = forgeController
+  .route("GET /cart")
+  .description("Get session cart items")
+  .schema({
     response: z.array(WithPBSchema(VirtualWardrobeEntrySchema)),
-  },
-  async () => sessionService.getSessionCart(),
-);
+  })
+  .callback(async () => sessionService.getSessionCart());
 
-export const addToCart = forgeController(
-  {
+const addToCart = forgeController
+  .route("POST /cart/:id")
+  .description("Add item to session cart")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => {
+  })
+  .existenceCheck("params", {
+    id: "virtual_wardrobe_entries",
+  })
+  .callback(async ({ pb, params: { id } }) => {
     await sessionService.addToCart(pb, id);
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "virtual_wardrobe_entries",
-      },
-    },
-  },
-);
+  });
 
-export const removeFromCart = forgeController(
-  {
+const removeFromCart = forgeController
+  .route("DELETE /cart/:id")
+  .description("Remove item from session cart")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ params: { id } }) => {
+  })
+  .existenceCheck("params", {
+    id: "virtual_wardrobe_entries",
+  })
+  .callback(async ({ params: { id } }) => {
     sessionService.removeFromCart(id);
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "virtual_wardrobe_entries",
-      },
-    },
-  },
-);
+  });
 
-export const checkout = forgeController(
-  {
+const checkout = forgeController
+  .route("POST /checkout")
+  .description("Checkout session cart")
+  .schema({
     body: z.object({
       notes: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, body: { notes } }) => {
+  })
+  .callback(async ({ pb, body: { notes } }) => {
     await sessionService.checkout(pb, notes);
-  },
-);
+  });
 
-export const clearCart = forgeController(
-  {
+const clearCart = forgeController
+  .route("DELETE /cart")
+  .description("Clear session cart")
+  .schema({
     response: z.void(),
-  },
-  async () => {
+  })
+  .callback(async () => {
     sessionService.clearCart();
-  },
-);
+  });
+
+bulkRegisterControllers(virtualWardrobeSessionRouter, [
+  getCart,
+  addToCart,
+  removeFromCart,
+  checkout,
+  clearCart,
+]);
+
+export default virtualWardrobeSessionRouter;

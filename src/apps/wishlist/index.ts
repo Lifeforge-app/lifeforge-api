@@ -1,11 +1,11 @@
 import express from "express";
 
-import entriesRoutes from "./routes/entries.routes";
-import listsRoutes from "./routes/lists.routes";
+import wishlistEntriesRouter from "./controllers/entries.controller";
+import wishlistListsRouter from "./controllers/lists.controller";
 
 const router = express.Router();
 
-router.use("/lists", listsRoutes);
-router.use("/entries", entriesRoutes);
+router.use("/lists", wishlistListsRouter);
+router.use("/entries", wishlistEntriesRouter);
 
 export default router;

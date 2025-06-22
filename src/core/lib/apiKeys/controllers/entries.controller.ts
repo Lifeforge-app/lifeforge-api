@@ -1,5 +1,9 @@
 import { decrypt2 } from "@functions/encryption";
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -8,31 +12,39 @@ import { challenge } from "../services/auth.service";
 import getDecryptedMaster, * as entriesService from "../services/entries.service";
 import { APIKeyEntrySchema } from "../typescript/api_keys_interfaces";
 
-export const getAllEntries = forgeController(
-  {
+const apiKeysEntriesRouter = express.Router();
+
+const getAllEntries = forgeController
+  .route("GET /")
+  .description("Get all API key entries")
+  .schema({
     query: z.object({
       master: z.string(),
     }),
     response: z.array(WithPBSchema(APIKeyEntrySchema)),
-  },
-  async ({ pb, query: { master } }) => {
+  })
+  .callback(async ({ pb, query: { master } }) => {
     await getDecryptedMaster(pb, decodeURIComponent(master));
     return await entriesService.getAllEntries(pb);
-  },
-);
+  });
 
-export const checkKeys = forgeController(
-  {
+const checkKeys = forgeController
+  .route("GET /check")
+  .description("Check if API keys exist")
+  .schema({
     query: z.object({
       keys: z.string(),
     }),
     response: z.boolean(),
-  },
-  async ({ pb, query: { keys } }) => await entriesService.checkKeys(pb, keys),
-);
+  })
+  .callback(
+    async ({ pb, query: { keys } }) => await entriesService.checkKeys(pb, keys),
+  );
 
-export const getEntryById = forgeController(
-  {
+const getEntryById = forgeController
+  .route("GET /:id")
+  .description("Get API key entry by ID")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -40,31 +52,29 @@ export const getEntryById = forgeController(
       master: z.string(),
     }),
     response: z.string(),
-  },
-  async ({ pb, params: { id }, query: { master } }) => {
+  })
+  .existenceCheck("params", {
+    id: "api_keys_entries",
+  })
+  .callback(async ({ pb, params: { id }, query: { master } }) => {
     const decryptedMaster = await getDecryptedMaster(
       pb,
       decodeURIComponent(master),
     );
     return await entriesService.getEntryById(pb, id, decryptedMaster);
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "api_keys_entries",
-      },
-    },
-  },
-);
+  });
 
-export const createEntry = forgeController(
-  {
+const createEntry = forgeController
+  .route("POST /")
+  .description("Create a new API key entry")
+  .schema({
     body: z.object({
       data: z.string(),
     }),
     response: WithPBSchema(APIKeyEntrySchema),
-  },
-  async ({ pb, body: { data } }) => {
+  })
+  .statusCode(201)
+  .callback(async ({ pb, body: { data } }) => {
     const decryptedData = JSON.parse(decrypt2(data, challenge));
     const { keyId, name, description, icon, key, master } = decryptedData;
 
@@ -78,14 +88,12 @@ export const createEntry = forgeController(
       key,
       decryptedMaster,
     });
-  },
-  {
-    statusCode: 201,
-  },
-);
+  });
 
-export const updateEntry = forgeController(
-  {
+const updateEntry = forgeController
+  .route("PATCH /:id")
+  .description("Update an API key entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -93,8 +101,11 @@ export const updateEntry = forgeController(
       data: z.string(),
     }),
     response: WithPBSchema(APIKeyEntrySchema),
-  },
-  async ({ pb, params: { id }, body: { data } }) => {
+  })
+  .existenceCheck("params", {
+    id: "api_keys_entries",
+  })
+  .callback(async ({ pb, params: { id }, body: { data } }) => {
     const decryptedData = JSON.parse(decrypt2(data, challenge));
     const { keyId, name, description, icon, key, master } = decryptedData;
 
@@ -108,30 +119,32 @@ export const updateEntry = forgeController(
       key,
       decryptedMaster,
     });
-  },
-  {
-    existenceCheck: {
-      params: {
-        id: "api_keys_entries",
-      },
-    },
-  },
-);
+  });
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete an API key entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "api_keys_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "api_keys_entries",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await entriesService.deleteEntry(pb, id),
+  );
+
+bulkRegisterControllers(apiKeysEntriesRouter, [
+  getAllEntries,
+  checkKeys,
+  getEntryById,
+  createEntry,
+  updateEntry,
+  deleteEntry,
+]);
+
+export default apiKeysEntriesRouter;

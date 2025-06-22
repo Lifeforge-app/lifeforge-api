@@ -1,17 +1,17 @@
 import express from "express";
 
-import assetsRoutes from "./routes/assets.routes";
-import categoriesRoutes from "./routes/categories.routes";
-import ledgersRoutes from "./routes/ledgers.routes";
-import transactionsRoutes from "./routes/transactions.routes";
-import utilsRoutes from "./routes/utils.routes";
+import walletAssetsRouter from "./controllers/assets.controller";
+import walletCategoriesRouter from "./controllers/categories.controller";
+import walletLedgersRouter from "./controllers/ledgers.controller";
+import walletTransactionsRouter from "./controllers/transactions.controller";
+import walletUtilsRouter from "./controllers/utils.controller";
 
 const router = express.Router();
 
-router.use("/transactions", transactionsRoutes);
-router.use("/categories", categoriesRoutes);
-router.use("/assets", assetsRoutes);
-router.use("/ledgers", ledgersRoutes);
-router.use("/utils", utilsRoutes);
+router.use("/transactions", walletTransactionsRouter);
+router.use("/categories", walletCategoriesRouter);
+router.use("/assets", walletAssetsRouter);
+router.use("/ledgers", walletLedgersRouter);
+router.use("/utils", walletUtilsRouter);
 
 export default router;

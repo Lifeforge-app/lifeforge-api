@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,30 +10,34 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as AssetsService from "../services/assets.service";
 import { WalletAssetSchema } from "../typescript/wallet_interfaces";
 
-export const getAllAssets = forgeController(
-  {
-    response: z.array(WithPBSchema(WalletAssetSchema)),
-  },
-  async ({ pb }) => await AssetsService.getAllAssets(pb),
-);
+const walletAssetsRouter = express.Router();
 
-export const createAsset = forgeController(
-  {
+const getAllAssets = forgeController
+  .route("GET /")
+  .description("Get all wallet assets")
+  .schema({
+    response: z.array(WithPBSchema(WalletAssetSchema)),
+  })
+  .callback(async ({ pb }) => await AssetsService.getAllAssets(pb));
+
+const createAsset = forgeController
+  .route("POST /")
+  .description("Create a new wallet asset")
+  .schema({
     body: WalletAssetSchema.pick({
       name: true,
       icon: true,
       starting_balance: true,
     }),
     response: WithPBSchema(WalletAssetSchema),
-  },
-  async ({ pb, body }) => await AssetsService.createAsset(pb, body),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(async ({ pb, body }) => await AssetsService.createAsset(pb, body));
 
-export const updateAsset = forgeController(
-  {
+const updateAsset = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing wallet asset")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -39,32 +47,37 @@ export const updateAsset = forgeController(
       starting_balance: true,
     }),
     response: WithPBSchema(WalletAssetSchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await AssetsService.updateAsset(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_assets",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wallet_assets",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await AssetsService.updateAsset(pb, id, body),
+  );
 
-export const deleteAsset = forgeController(
-  {
+const deleteAsset = forgeController
+  .route("DELETE /:id")
+  .description("Delete a wallet asset")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await AssetsService.deleteAsset(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_assets",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wallet_assets",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await AssetsService.deleteAsset(pb, id),
+  );
+
+bulkRegisterControllers(walletAssetsRouter, [
+  getAllAssets,
+  createAsset,
+  updateAsset,
+  deleteAsset,
+]);
+
+export default walletAssetsRouter;

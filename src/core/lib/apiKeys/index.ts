@@ -1,11 +1,11 @@
 import express from "express";
 
-import authRoutes from "./routes/auth.routes";
-import entriesRoutes from "./routes/entries.routes";
+import apiKeysAuthRouter from "./controllers/auth.controller";
+import apiKeysEntriesRouter from "./controllers/entries.controller";
 
 const router = express.Router();
 
-router.use("/auth", authRoutes);
-router.use("/entries", entriesRoutes);
+router.use("/auth", apiKeysAuthRouter);
+router.use("/entries", apiKeysEntriesRouter);
 
 export default router;

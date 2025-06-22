@@ -1,10 +1,10 @@
 import express from "express";
 
-import authRoutes from "./routes/auth.routes";
-import oauthRoutes from "./routes/oauth.routes";
-import personalizationRoutes from "./routes/personalization.routes";
-import settingsRoutes from "./routes/settings.routes";
-import twoFARoutes from "./routes/twoFA.routes";
+import userAuthRouter from "./controllers/auth.controller";
+import userOAuthRouter from "./controllers/oauth.controller";
+import userPersonalizationRouter from "./controllers/personalization.controller";
+import userSettingsRouter from "./controllers/settings.controller";
+import userTwoFARouter from "./controllers/twoFA.controller";
 
 const router = express.Router();
 
@@ -15,10 +15,14 @@ export let currentSession = {
   otpId: "",
 };
 
-router.use("/auth", authRoutes);
-router.use("/oauth", oauthRoutes);
-router.use("/2fa", twoFARoutes);
-router.use("/settings", settingsRoutes);
-router.use("/personalization", personalizationRoutes);
+if (!process.env.MASTER_KEY) {
+  throw new Error("MASTER_KEY not found in environment variables");
+}
+
+router.use("/auth", userAuthRouter);
+router.use("/oauth", userOAuthRouter);
+router.use("/2fa", userTwoFARouter);
+router.use("/settings", userSettingsRouter);
+router.use("/personalization", userPersonalizationRouter);
 
 export default router;

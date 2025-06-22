@@ -1,20 +1,31 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
+
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import * as PersonalizationService from "../services/personalization.service";
 
-export const listGoogleFonts = forgeController(
-  {
+const userPersonalizationRouter = express.Router();
+
+const listGoogleFonts = forgeController
+  .route("GET /fonts")
+  .description("List available Google Fonts")
+  .schema({
     response: z.object({
       enabled: z.boolean(),
       items: z.array(z.any()).optional(),
     }),
-  },
-  async ({ pb }) => PersonalizationService.listGoogleFonts(pb),
-);
+  })
+  .callback(async ({ pb }) => PersonalizationService.listGoogleFonts(pb));
 
-export const getGoogleFont = forgeController(
-  {
+const getGoogleFont = forgeController
+  .route("GET /font")
+  .description("Get specific Google Font details")
+  .schema({
     query: z.object({
       family: z.string(),
     }),
@@ -22,35 +33,43 @@ export const getGoogleFont = forgeController(
       enabled: z.boolean(),
       items: z.array(z.any()).optional(),
     }),
-  },
-  async ({ pb, query: { family } }) =>
-    PersonalizationService.getGoogleFont(pb, family),
-);
+  })
+  .callback(
+    async ({ pb, query: { family } }) =>
+      PersonalizationService.getGoogleFont(pb, family),
+  );
 
-export const updateBgImage = forgeController(
-  {
+const updateBgImage = forgeController
+  .route("PUT /bg-image")
+  .description("Update background image")
+  .middlewares(singleUploadMiddleware)
+  .schema({
     body: z.object({
       url: z.string().optional(),
     }),
     response: z.string(),
-  },
-  async ({ pb, body: { url }, req }) =>
-    PersonalizationService.updateBgImage(pb, req.file, url),
-);
+  })
+  .callback(
+    async ({ pb, body: { url }, req }) =>
+      PersonalizationService.updateBgImage(pb, req.file, url),
+  );
 
-export const deleteBgImage = forgeController(
-  {
+const deleteBgImage = forgeController
+  .route("DELETE /bg-image")
+  .description("Delete background image")
+  .schema({
     response: z.void(),
-  },
-  async ({ pb }) =>
-    await PersonalizationService.deleteBgImage(pb, pb.authStore.record!.id),
-  {
-    statusCode: 204,
-  },
-);
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb }) =>
+      await PersonalizationService.deleteBgImage(pb, pb.authStore.record!.id),
+  );
 
-export const updatePersonalization = forgeController(
-  {
+const updatePersonalization = forgeController
+  .route("PATCH /")
+  .description("Update personalization settings")
+  .schema({
     body: z.object({
       data: z.object({
         fontFamily: z.string().optional(),
@@ -63,14 +82,23 @@ export const updatePersonalization = forgeController(
       }),
     }),
     response: z.void(),
-  },
-  async ({ pb, body: { data } }) =>
-    await PersonalizationService.updatePersonalization(
-      pb,
-      pb.authStore.record!.id,
-      data,
-    ),
-  {
-    statusCode: 204,
-  },
-);
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, body: { data } }) =>
+      await PersonalizationService.updatePersonalization(
+        pb,
+        pb.authStore.record!.id,
+        data,
+      ),
+  );
+
+bulkRegisterControllers(userPersonalizationRouter, [
+  listGoogleFonts,
+  getGoogleFont,
+  updateBgImage,
+  deleteBgImage,
+  updatePersonalization,
+]);
+
+export default userPersonalizationRouter;

@@ -1,7 +1,13 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
+
+import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import * as TransactionsService from "../services/transactions.service";
 import {
@@ -9,15 +15,20 @@ import {
   WalletTransactionEntrySchema,
 } from "../typescript/wallet_interfaces";
 
-export const getAllTransactions = forgeController(
-  {
-    response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
-  },
-  async ({ pb }) => await TransactionsService.getAllTransactions(pb),
-);
+const walletTransactionsRouter = express.Router();
 
-export const createTransaction = forgeController(
-  {
+const getAllTransactions = forgeController
+  .route("GET /")
+  .description("Get all wallet transactions")
+  .schema({
+    response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
+  })
+  .callback(async ({ pb }) => await TransactionsService.getAllTransactions(pb));
+
+const createTransaction = forgeController
+  .route("POST /")
+  .description("Create a new wallet transaction")
+  .schema({
     body: z.object({
       particulars: z.string(),
       date: z.string(),
@@ -31,25 +42,25 @@ export const createTransaction = forgeController(
       toAsset: z.string().optional(),
     }),
     response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
-  },
-  async ({ pb, body, req }) =>
-    await TransactionsService.createTransaction(pb, body, req.file),
-  {
-    statusCode: 201,
-    existenceCheck: {
-      body: {
-        category: "[wallet_categories]",
-        asset: "[wallet_assets]",
-        ledger: "[wallet_ledgers]",
-        fromAsset: "[wallet_assets]",
-        toAsset: "[wallet_assets]",
-      },
-    },
-  },
-);
+  })
+  .middlewares(singleUploadMiddleware)
+  .existenceCheck("body", {
+    category: "[wallet_categories]",
+    asset: "[wallet_assets]",
+    ledger: "[wallet_ledgers]",
+    fromAsset: "[wallet_assets]",
+    toAsset: "[wallet_assets]",
+  })
+  .statusCode(201)
+  .callback(
+    async ({ pb, body, req }) =>
+      await TransactionsService.createTransaction(pb, body, req.file),
+  );
 
-export const updateTransaction = forgeController(
-  {
+const updateTransaction = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing wallet transaction")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -69,57 +80,65 @@ export const updateTransaction = forgeController(
         .transform((val) => val === "true"),
     }),
     response: WithPBSchema(WalletTransactionEntrySchema),
-  },
-  async ({ pb, params: { id }, body, req }) =>
-    await TransactionsService.updateTransaction(
-      pb,
-      id,
-      body,
-      req.file,
-      body.removeReceipt ?? false,
-    ),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_transactions",
-      },
-      body: {
-        category: "wallet_categories",
-        asset: "wallet_assets",
-        ledger: "[wallet_ledgers]",
-      },
-    },
-  },
-);
+  })
+  .middlewares(singleUploadMiddleware)
+  .existenceCheck("params", {
+    id: "wallet_transactions",
+  })
+  .existenceCheck("body", {
+    category: "wallet_categories",
+    asset: "wallet_assets",
+    ledger: "[wallet_ledgers]",
+  })
+  .callback(
+    async ({ pb, params: { id }, body, req }) =>
+      await TransactionsService.updateTransaction(
+        pb,
+        id,
+        body,
+        req.file,
+        body.removeReceipt ?? false,
+      ),
+  );
 
-export const deleteTransaction = forgeController(
-  {
+const deleteTransaction = forgeController
+  .route("DELETE /:id")
+  .description("Delete a wallet transaction")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) =>
+  })
+  .existenceCheck("params", {
+    id: "wallet_transactions",
+  })
+  .statusCode(204)
+  .callback(async ({ pb, params: { id } }) =>
     TransactionsService.deleteTransaction(pb, id),
-  {
-    statusCode: 204,
-    existenceCheck: {
-      params: {
-        id: "wallet_transactions",
-      },
-    },
-  },
-);
+  );
 
-export const scanReceipt = forgeController(
-  {
+const scanReceipt = forgeController
+  .route("POST /scan-receipt")
+  .description("Scan receipt to extract transaction data")
+  .schema({
     response: WalletReceiptScanResultSchema,
-  },
-  async ({ pb, req }) => {
+  })
+  .middlewares(singleUploadMiddleware)
+  .callback(async ({ pb, req }) => {
     if (!req.file) {
       throw new Error("No file uploaded");
     }
 
     return await TransactionsService.scanReceipt(pb, req.file);
-  },
-);
+  });
+
+bulkRegisterControllers(walletTransactionsRouter, [
+  getAllTransactions,
+  createTransaction,
+  updateTransaction,
+  deleteTransaction,
+  scanReceipt,
+]);
+
+export default walletTransactionsRouter;

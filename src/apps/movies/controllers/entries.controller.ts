@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,57 +10,66 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as entriesService from "../services/entries.service";
 import { MovieEntrySchema } from "../typescript/movies_interfaces";
 
-export const getAllEntries = forgeController(
-  {
-    response: z.array(WithPBSchema(MovieEntrySchema)),
-  },
-  ({ pb }) => entriesService.getAllEntries(pb),
-);
+const moviesEntriesRouter = express.Router();
 
-export const createEntryFromTMDB = forgeController(
-  {
+const getAllEntries = forgeController
+  .route("GET /")
+  .description("Get all movie entries")
+  .schema({
+    response: z.array(WithPBSchema(MovieEntrySchema)),
+  })
+  .callback(({ pb }) => entriesService.getAllEntries(pb));
+
+const createEntryFromTMDB = forgeController
+  .route("POST /:id")
+  .description("Create a movie entry from TMDB")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(MovieEntrySchema),
-  },
-  ({ pb, params: { id } }) => entriesService.createEntryFromTMDB(pb, id),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .callback(({ pb, params: { id } }) =>
+    entriesService.createEntryFromTMDB(pb, id),
+  )
+  .statusCode(201);
 
-export const deleteEntry = forgeController(
-  {
+const deleteEntry = forgeController
+  .route("DELETE /:id")
+  .description("Delete a movie entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  ({ pb, params: { id } }) => entriesService.deleteEntry(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "movies_entries",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "movies_entries",
+  })
+  .callback(({ pb, params: { id } }) => entriesService.deleteEntry(pb, id))
+  .statusCode(204);
 
-export const toggleWatchStatus = forgeController(
-  {
+const toggleWatchStatus = forgeController
+  .route("PATCH /watch-status/:id")
+  .description("Toggle watch status of a movie entry")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: WithPBSchema(MovieEntrySchema),
-  },
-  ({ pb, params: { id } }) => entriesService.toggleWatchStatus(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "movies_entries",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "movies_entries",
+  })
+  .callback(({ pb, params: { id } }) =>
+    entriesService.toggleWatchStatus(pb, id),
+  );
+
+bulkRegisterControllers(moviesEntriesRouter, [
+  getAllEntries,
+  createEntryFromTMDB,
+  deleteEntry,
+  toggleWatchStatus,
+]);
+
+export default moviesEntriesRouter;

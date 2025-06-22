@@ -1,4 +1,8 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/newForgeController";
+import express from "express";
 import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
@@ -6,28 +10,34 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import * as LedgersService from "../services/ledgers.service";
 import { WalletLedgerSchema } from "../typescript/wallet_interfaces";
 
-export const getAllLedgers = forgeController(
-  {
-    response: z.array(WithPBSchema(WalletLedgerSchema)),
-  },
-  async ({ pb }) => await LedgersService.getAllLedgers(pb),
-);
+const walletLedgersRouter = express.Router();
 
-export const createLedger = forgeController(
-  {
+const getAllLedgers = forgeController
+  .route("GET /")
+  .description("Get all wallet ledgers")
+  .schema({
+    response: z.array(WithPBSchema(WalletLedgerSchema)),
+  })
+  .callback(async ({ pb }) => await LedgersService.getAllLedgers(pb));
+
+const createLedger = forgeController
+  .route("POST /")
+  .description("Create a new wallet ledger")
+  .schema({
     body: WalletLedgerSchema.omit({
       amount: true,
     }),
     response: WithPBSchema(WalletLedgerSchema),
-  },
-  async ({ pb, body }) => await LedgersService.createLedger(pb, body),
-  {
-    statusCode: 201,
-  },
-);
+  })
+  .statusCode(201)
+  .callback(
+    async ({ pb, body }) => await LedgersService.createLedger(pb, body),
+  );
 
-export const updateLedger = forgeController(
-  {
+const updateLedger = forgeController
+  .route("PATCH /:id")
+  .description("Update an existing wallet ledger")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
@@ -35,32 +45,37 @@ export const updateLedger = forgeController(
       amount: true,
     }),
     response: WithPBSchema(WalletLedgerSchema),
-  },
-  async ({ pb, params: { id }, body }) =>
-    await LedgersService.updateLedger(pb, id, body),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_ledgers",
-      },
-    },
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wallet_ledgers",
+  })
+  .callback(
+    async ({ pb, params: { id }, body }) =>
+      await LedgersService.updateLedger(pb, id, body),
+  );
 
-export const deleteLedger = forgeController(
-  {
+const deleteLedger = forgeController
+  .route("DELETE /:id")
+  .description("Delete a wallet ledger")
+  .schema({
     params: z.object({
       id: z.string(),
     }),
     response: z.void(),
-  },
-  async ({ pb, params: { id } }) => await LedgersService.deleteLedger(pb, id),
-  {
-    existenceCheck: {
-      params: {
-        id: "wallet_ledgers",
-      },
-    },
-    statusCode: 204,
-  },
-);
+  })
+  .existenceCheck("params", {
+    id: "wallet_ledgers",
+  })
+  .statusCode(204)
+  .callback(
+    async ({ pb, params: { id } }) => await LedgersService.deleteLedger(pb, id),
+  );
+
+bulkRegisterControllers(walletLedgersRouter, [
+  getAllLedgers,
+  createLedger,
+  updateLedger,
+  deleteLedger,
+]);
+
+export default walletLedgersRouter;

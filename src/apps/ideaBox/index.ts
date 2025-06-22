@@ -1,17 +1,17 @@
 import express from "express";
 
-import containersRoutes from "./routes/containers.routes";
-import foldersRoutes from "./routes/folders.routes";
-import ideasRoutes from "./routes/ideas.routes";
-import miscRoutes from "./routes/misc.routes";
-import tagsRoutes from "./routes/tags.routes";
+import ideaBoxContainersRouter from "./controllers/containers.controller";
+import ideaBoxFoldersRouter from "./controllers/folders.controller";
+import ideaBoxIdeasRouter from "./controllers/ideas.controller";
+import ideaBoxMiscRouter from "./controllers/misc.controller";
+import ideaBoxTagsRouter from "./controllers/tags.controller";
 
 const router = express.Router();
 
-router.use("/containers", containersRoutes);
-router.use("/folders", foldersRoutes);
-router.use("/ideas", ideasRoutes);
-router.use("/tags", tagsRoutes);
-router.use("/", miscRoutes);
+router.use("/containers", ideaBoxContainersRouter);
+router.use("/folders", ideaBoxFoldersRouter);
+router.use("/ideas", ideaBoxIdeasRouter);
+router.use("/tags", ideaBoxTagsRouter);
+router.use("/", ideaBoxMiscRouter);
 
 export default router;

@@ -1,11 +1,11 @@
 import express from "express";
 
-import entriesRoutes from "./routes/entries.routes";
-import transcriptionRoutes from "./routes/transcription.routes";
+import momentVaultEntriesRouter from "./controllers/entries.controller";
+import momentVaultTranscriptionRouter from "./controllers/transcription.controller";
 
 const router = express.Router();
 
-router.use("/entries", entriesRoutes);
-router.use("/transcribe", transcriptionRoutes);
+router.use("/entries", momentVaultEntriesRouter);
+router.use("/transcribe", momentVaultTranscriptionRouter);
 
 export default router;
