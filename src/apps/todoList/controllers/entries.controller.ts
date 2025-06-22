@@ -15,6 +15,14 @@ import {
 
 const todoListEntriesRouter = express.Router();
 
+const getStatusCounter = forgeController
+  .route("GET /status-counter")
+  .description("Get status counter for todo entries")
+  .schema({
+    response: TodoListStatusCounterSchema,
+  })
+  .callback(async ({ pb }) => await entriesService.getStatusCounter(pb));
+
 const getEntryById = forgeController
   .route("GET /:id")
   .description("Get todo entry by ID")
@@ -53,14 +61,6 @@ const getAllEntries = forgeController
     async ({ pb, query: { status, tag, list, priority } }) =>
       await entriesService.getAllEntries(pb, status, tag, list, priority),
   );
-
-const getStatusCounter = forgeController
-  .route("GET /status-counter")
-  .description("Get status counter for todo entries")
-  .schema({
-    response: TodoListStatusCounterSchema,
-  })
-  .callback(async ({ pb }) => await entriesService.getStatusCounter(pb));
 
 const createEntry = forgeController
   .route("POST /")

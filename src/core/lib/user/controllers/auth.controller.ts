@@ -23,7 +23,7 @@ const validateOTP = forgeController
   .callback(async ({ pb, body }) => await _validateOTP(pb, body));
 
 const generateOTP = forgeController
-  .route("POST /generate-otp")
+  .route("GET /otp")
   .description("Generate OTP")
   .schema({
     response: z.string(),
@@ -56,7 +56,7 @@ const login = forgeController
   );
 
 const verifySessionToken = forgeController
-  .route("GET /verify")
+  .route("POST /verify")
   .description("Verify session token")
   .schema({
     response: z.object({

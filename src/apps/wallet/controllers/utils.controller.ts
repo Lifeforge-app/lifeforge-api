@@ -25,7 +25,7 @@ const getTypesCount = forgeController
   .callback(async ({ pb }) => await UtilsService.getTypesCount(pb));
 
 const getIncomeExpensesSummary = forgeController
-  .route("GET /income-expenses-summary")
+  .route("GET /income-expenses")
   .description("Get income and expenses summary for a specific month/year")
   .schema({
     query: z.object({
