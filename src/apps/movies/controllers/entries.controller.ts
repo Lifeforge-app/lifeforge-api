@@ -16,9 +16,21 @@ const getAllEntries = forgeController
   .route("GET /")
   .description("Get all movie entries")
   .schema({
-    response: z.array(WithPBSchema(MovieEntrySchema)),
+    query: z.object({
+      watched: z
+        .enum(["true", "false"])
+        .optional()
+        .default("false")
+        .transform((val) => (val === "true" ? true : false)),
+    }),
+    response: z.object({
+      entries: z.array(WithPBSchema(MovieEntrySchema)),
+      total: z.number(),
+    }),
   })
-  .callback(({ pb }) => entriesService.getAllEntries(pb));
+  .callback(({ pb, query: { watched } }) =>
+    entriesService.getAllEntries(pb, watched),
+  );
 
 const createEntryFromTMDB = forgeController
   .route("POST /:id")

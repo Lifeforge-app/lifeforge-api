@@ -47,5 +47,9 @@
     "theatreShowtime": "Masa Tayangan Pawagam",
     "theatreNumber": "Nombor Pawagam",
     "category": "Kategori"
+  },
+  "tabs": {
+    "watched": "Ditonton",
+    "unwatched": "Belum ditonton"
   }
 }

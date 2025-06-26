@@ -117,7 +117,8 @@
     "receipts": {
       "scan": "Imbas Resit",
       "view": "Lihat Resit"
-    }
+    },
+    "assetsBalanceChart": "Carta Baki Asset"
   },
   "transactionTypes": {
     "income": "Pendapatan",

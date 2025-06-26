@@ -5,10 +5,41 @@ import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import { IMovieEntry } from "../typescript/movies_interfaces";
 
-export const getAllEntries = (pb: PocketBase): Promise<WithPB<IMovieEntry>[]> =>
-  pb.collection("movies_entries").getFullList<WithPB<IMovieEntry>>({
-    sort: "is_watched, -ticket_number, title",
-  });
+export const getAllEntries = async (
+  pb: PocketBase,
+  watched: boolean,
+): Promise<{
+  entries: WithPB<IMovieEntry>[];
+  total: number;
+}> => {
+  const entries = await pb
+    .collection("movies_entries")
+    .getFullList<WithPB<IMovieEntry>>({
+      filter: `is_watched = ${watched}`,
+    });
+
+  const total = (
+    await pb.collection("movies_entries").getList<WithPB<IMovieEntry>>(1, 1)
+  ).totalItems;
+
+  return {
+    total,
+    entries: entries.sort((a, b) => {
+      if (a.is_watched !== b.is_watched) {
+        return a.is_watched ? 1 : -1; // Unwatched entries come first
+      }
+
+      if (a.theatre_showtime && b.theatre_showtime) {
+        return (
+          new Date(b.theatre_showtime).getTime() -
+          new Date(a.theatre_showtime).getTime()
+        );
+      }
+
+      return a.title.localeCompare(b.title);
+    }),
+  };
+};
 
 export const createEntryFromTMDB = async (
   pb: PocketBase,

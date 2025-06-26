@@ -117,7 +117,8 @@
     "receipts": {
       "scan": "掃描收據",
       "view": "查看收據"
-    }
+    },
+    "assetsBalanceChart": "資產餘額圖表"
   },
   "transactionTypes": {
     "income": "收入",

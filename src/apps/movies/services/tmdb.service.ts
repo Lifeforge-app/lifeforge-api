@@ -1,6 +1,10 @@
 import { getAPIKey } from "@functions/getAPIKey";
 import Pocketbase from "pocketbase";
 
+import { WithPB } from "@typescript/pocketbase_interfaces";
+
+import { IMovieEntry } from "../typescript/movies_interfaces";
+
 export const searchMovies = async (pb: Pocketbase, q: string, page: number) => {
   const apiKey = await getAPIKey("tmdb", pb);
 
@@ -17,6 +21,19 @@ export const searchMovies = async (pb: Pocketbase, q: string, page: number) => {
       Authorization: `Bearer ${apiKey}`,
     },
   }).then((res) => res.json());
+
+  const allIds = await pb
+    .collection("movies_entries")
+    .getFullList<WithPB<IMovieEntry>>({
+      filter: response.results
+        .map((entry: { id: number }) => `tmdb_id = ${entry.id}`)
+        .join(" || "),
+      fields: "tmdb_id",
+    });
+
+  response.results.forEach((entry: any) => {
+    entry.existed = allIds.some((e) => e.tmdb_id === entry.id);
+  });
 
   return response;
 };

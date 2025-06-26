@@ -47,5 +47,9 @@
     "theatreShowtime": "影院放映時間",
     "theatreNumber": "影院號碼",
     "category": "類別"
+  },
+  "tabs": {
+    "watched": "已觀看",
+    "unwatched": "未觀看"
   }
 }

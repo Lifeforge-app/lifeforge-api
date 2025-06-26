@@ -117,7 +117,8 @@
     "receipts": {
       "scan": "Scan Receipt",
       "view": "View Receipt"
-    }
+    },
+    "assetsBalanceChart": "Assets Balance Chart"
   },
   "transactionTypes": {
     "income": "Income",

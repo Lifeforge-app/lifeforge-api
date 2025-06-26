@@ -47,5 +47,9 @@
     "theatreShowtime": "Theatre Showtime",
     "theatreNumber": "Theatre Number",
     "category": "Category"
+  },
+  "tabs": {
+    "watched": "Watched",
+    "unwatched": "Unwatched"
   }
 }

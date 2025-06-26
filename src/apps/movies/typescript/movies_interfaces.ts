@@ -11,7 +11,6 @@ const MovieEntrySchema = z.object({
   countries: z.array(z.string()),
   language: z.string(),
   release_date: z.string(),
-  watch_date: z.string(),
   ticket_number: z.string().optional(),
   theatre_seat: z.string().optional(),
   theatre_location: z.string().optional(),
