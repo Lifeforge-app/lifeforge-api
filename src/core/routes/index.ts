@@ -1,4 +1,7 @@
-import { forgeController } from "@functions/forgeController";
+import {
+  bulkRegisterControllers,
+  forgeController,
+} from "@functions/forgeController";
 import { successWithBaseResponse } from "@functions/response";
 import traceRouteStack from "@functions/traceRouteStack";
 import express from "express";
@@ -47,21 +50,23 @@ router.get("/", (_, res) => {
   successWithBaseResponse(res, true);
 });
 
-router.get(
-  "/media/:collectionId/:entriesId/:photoId",
-  forgeController(
-    {
-      params: z.object({
-        collectionId: z.string(),
-        entriesId: z.string(),
-        photoId: z.string(),
-      }),
-      query: z.object({
-        thumb: z.string().optional(),
-        token: z.string().optional(),
-      }),
-      response: z.any(),
-    },
+const getMedia = forgeController
+  .route("GET /media/:collectionId/:entriesId/:photoId")
+  .description("Get media file from PocketBase")
+  .schema({
+    params: z.object({
+      collectionId: z.string(),
+      entriesId: z.string(),
+      photoId: z.string(),
+    }),
+    query: z.object({
+      thumb: z.string().optional(),
+      token: z.string().optional(),
+    }),
+    response: z.any(),
+  })
+  .noDefaultResponse()
+  .callback(
     async ({
       params: { collectionId, entriesId, photoId },
       query: { thumb, token },
@@ -81,42 +86,36 @@ router.get(
         `${process.env.PB_HOST}/api/files/${collectionId}/${entriesId}/${photoId}?${searchParams.toString()}`,
       ).pipe(res);
     },
-    {
-      noDefaultResponse: true,
-    },
-  ),
-);
+  );
 
-router.get(
-  "/cors-anywhere",
-  forgeController(
-    {
-      query: z.object({
-        url: z.string().url(),
-      }),
-      response: z.any(),
-    },
-    async ({ query: { url }, res }) => {
-      const response = await fetch(url, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-        },
-      });
+const corsAnywhere = forgeController
+  .route("GET /cors-anywhere")
+  .description("Proxy request to bypass CORS")
+  .schema({
+    query: z.object({
+      url: z.string().url(),
+    }),
+    response: z.any(),
+  })
+  .callback(async ({ query: { url }, res }) => {
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+      },
+    });
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch URL: ${url}`);
-      }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch URL: ${url}`);
+    }
 
-      if (response.headers.get("content-type")?.includes("application/json")) {
-        const json = await response.json();
-        return json;
-      }
+    if (response.headers.get("content-type")?.includes("application/json")) {
+      const json = await response.json();
+      return json;
+    }
 
-      return response.text();
-    },
-  ),
-);
+    return response.text();
+  });
 
 router.get("/_routes", async (req, res) => {
   const routes = traceRouteStack(router.stack);
@@ -131,5 +130,7 @@ router.use((req, res) => {
     message: "Endpoint not found",
   });
 });
+
+bulkRegisterControllers(router, [getMedia, corsAnywhere]);
 
 export default router;

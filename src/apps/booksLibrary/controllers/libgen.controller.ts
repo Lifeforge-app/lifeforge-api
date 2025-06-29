@@ -1,7 +1,7 @@
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import express from "express";
 import request from "request";
 import { z } from "zod/v4";

@@ -1,7 +1,7 @@
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import express from "express";
 import { z } from "zod/v4";
 
@@ -18,8 +18,8 @@ const updateAvatar = forgeController
   .schema({
     response: z.string(),
   })
-  .callback(
-    async ({ req: { file }, pb }) => SettingsService.updateAvatar(pb, file),
+  .callback(async ({ req: { file }, pb }) =>
+    SettingsService.updateAvatar(pb, file),
   );
 
 const deleteAvatar = forgeController
@@ -49,8 +49,8 @@ const updateProfile = forgeController
     response: z.void(),
   })
   .statusCode(200)
-  .callback(
-    async ({ body: { data }, pb }) => SettingsService.updateProfile(pb, data),
+  .callback(async ({ body: { data }, pb }) =>
+    SettingsService.updateProfile(pb, data),
   );
 
 const requestPasswordReset = forgeController

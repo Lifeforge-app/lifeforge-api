@@ -1,7 +1,7 @@
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import express from "express";
 import { z } from "zod/v4";
 
@@ -16,7 +16,7 @@ import {
 const todoListEntriesRouter = express.Router();
 
 const getStatusCounter = forgeController
-  .route("GET /status-counter")
+  .route("GET /utils/status-counter")
   .description("Get status counter for todo entries")
   .schema({
     response: TodoListStatusCounterSchema,
@@ -124,7 +124,7 @@ const deleteEntry = forgeController
   );
 
 const toggleEntry = forgeController
-  .route("PATCH /toggle/:id")
+  .route("POST /toggle/:id")
   .description("Toggle completion status of a todo entry")
   .schema({
     params: z.object({

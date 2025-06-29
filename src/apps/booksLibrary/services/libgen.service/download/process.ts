@@ -44,61 +44,57 @@ export const addToLibrary = async (
       downloadLink,
     ]);
 
-    new Promise<boolean>((resolve, reject) => {
-      downloadProcess.stdout.on("data", (data) => {
-        data = data.toString();
-        if (/ETA:/.test(data)) {
-          const matches =
-            /\[#\w{6} (?<downloaded>.*?)\/(?<total>.*?)\((?<percentage>.*?%)\).*?DL:(?<speed>.*?) ETA:(?<ETA>.*?)s\]/g.exec(
-              data,
-            );
+    downloadProcess.stdout.on("data", (data) => {
+      data = data.toString();
+      if (/ETA:/.test(data)) {
+        const matches =
+          /\[#\w{6} (?<downloaded>.*?)\/(?<total>.*?)\((?<percentage>.*?%)\).*?DL:(?<speed>.*?) ETA:(?<ETA>.*?)s\]/g.exec(
+            data,
+          );
 
-          if (matches) {
-            const { downloaded, total, percentage, speed, ETA } =
-              matches.groups!;
+        if (matches) {
+          const { downloaded, total, percentage, speed, ETA } = matches.groups!;
 
-            downloadProcesses.set(md5, {
-              kill: downloadProcess.kill,
-              downloaded,
-              total,
-              percentage,
-              speed,
-              ETA,
-              metadata,
-            });
-          }
+          downloadProcesses.set(md5, {
+            kill: downloadProcess.kill,
+            downloaded,
+            total,
+            percentage,
+            speed,
+            ETA,
+            metadata,
+          });
         }
-      });
+      }
+    });
 
-      downloadProcess.stderr.on("data", (data) => {
+    downloadProcess.stderr.on("data", (data) => {
+      downloadProcesses.delete(md5);
+      throw "Failed to download file";
+    });
+
+    downloadProcess.on("error", (err) => {
+      downloadProcesses.delete(md5);
+      throw "Failed to download file";
+    });
+
+    downloadProcess.on("close", async () => {
+      if (!fs.existsSync(`./medium/${md5}.${metadata.extension}`)) {
         downloadProcesses.delete(md5);
-        reject("Failed to download file");
-      });
+        throw "Failed to download file";
+        return;
+      }
 
-      downloadProcess.on("error", (err) => {
+      try {
+        await processDownloadedFiles(pb, md5, metadata);
+
         downloadProcesses.delete(md5);
-        reject("Failed to download file");
-      });
-
-      downloadProcess.on("close", async () => {
-        if (!fs.existsSync(`./medium/${md5}.${metadata.extension}`)) {
-          downloadProcesses.delete(md5);
-          reject("Failed to download file");
-          return;
-        }
-
-        try {
-          await processDownloadedFiles(pb, md5, metadata);
-
-          downloadProcesses.delete(md5);
-          fs.unlinkSync(`./medium/${md5}.${metadata.extension}`);
-          resolve(true);
-        } catch (error) {
-          downloadProcesses.delete(md5);
-          fs.unlinkSync(`./medium/${md5}.${metadata.extension}`);
-          reject(error);
-        }
-      });
+        fs.unlinkSync(`./medium/${md5}.${metadata.extension}`);
+      } catch (error) {
+        downloadProcesses.delete(md5);
+        fs.unlinkSync(`./medium/${md5}.${metadata.extension}`);
+        throw error;
+      }
     });
 
     return { initiated: true };

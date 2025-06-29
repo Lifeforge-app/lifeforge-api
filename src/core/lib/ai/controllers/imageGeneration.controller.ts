@@ -1,8 +1,8 @@
-import { getAPIKey } from "@functions/getAPIKey";
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
+import { getAPIKey } from "@functions/getAPIKey";
 import express from "express";
 import { z } from "zod/v4";
 

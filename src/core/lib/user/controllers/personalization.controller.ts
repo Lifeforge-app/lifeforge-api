@@ -1,7 +1,7 @@
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import express from "express";
 import { z } from "zod/v4";
 
@@ -34,9 +34,8 @@ const getGoogleFont = forgeController
       items: z.array(z.any()).optional(),
     }),
   })
-  .callback(
-    async ({ pb, query: { family } }) =>
-      PersonalizationService.getGoogleFont(pb, family),
+  .callback(async ({ pb, query: { family } }) =>
+    PersonalizationService.getGoogleFont(pb, family),
   );
 
 const updateBgImage = forgeController
@@ -49,9 +48,8 @@ const updateBgImage = forgeController
     }),
     response: z.string(),
   })
-  .callback(
-    async ({ pb, body: { url }, req }) =>
-      PersonalizationService.updateBgImage(pb, req.file, url),
+  .callback(async ({ pb, body: { url }, req }) =>
+    PersonalizationService.updateBgImage(pb, req.file, url),
   );
 
 const deleteBgImage = forgeController

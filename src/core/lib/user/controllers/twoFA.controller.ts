@@ -2,7 +2,7 @@ import ClientError from "@functions/ClientError";
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import { default as _validateOTP } from "@functions/validateOTP";
 import express from "express";
 import { z } from "zod/v4";
@@ -31,7 +31,8 @@ const requestOTP = forgeController
     response: z.string(),
   })
   .callback(
-    async ({ pb, query: { email } }) => await twoFAService.requestOTP(pb, email),
+    async ({ pb, query: { email } }) =>
+      await twoFAService.requestOTP(pb, email),
   );
 
 const validateOTP = forgeController
@@ -136,9 +137,8 @@ const verify2FA = forgeController
       userData: z.record(z.string(), z.any()),
     }),
   })
-  .callback(
-    async ({ body: { otp, tid, type } }) =>
-      twoFAService.verify2FA(otp, tid, type),
+  .callback(async ({ body: { otp, tid, type } }) =>
+    twoFAService.verify2FA(otp, tid, type),
   );
 
 bulkRegisterControllers(userTwoFARouter, [

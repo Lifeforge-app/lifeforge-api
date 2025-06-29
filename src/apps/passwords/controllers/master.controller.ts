@@ -1,7 +1,7 @@
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import { default as _validateOTP } from "@functions/validateOTP";
 import express from "express";
 import { v4 } from "uuid";

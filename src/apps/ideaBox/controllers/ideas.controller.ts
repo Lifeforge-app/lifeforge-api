@@ -2,7 +2,7 @@ import ClientError from "@functions/ClientError";
 import {
   bulkRegisterControllers,
   forgeController,
-} from "@functions/newForgeController";
+} from "@functions/forgeController";
 import express from "express";
 import multer from "multer";
 import { z } from "zod/v4";
