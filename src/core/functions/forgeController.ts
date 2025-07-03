@@ -197,7 +197,6 @@ class ForgeControllerBuilder<
           }
 
           if (options.existenceCheck?.[type]) {
-            console.log(options.existenceCheck?.[type]);
             for (const [key, collection] of Object.entries(
               options.existenceCheck[type],
             ) as Array<[string, string]>) {

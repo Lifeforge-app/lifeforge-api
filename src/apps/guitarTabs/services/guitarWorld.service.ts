@@ -119,7 +119,10 @@ export const downloadTab = async (
   const writeStream = fs.createWriteStream("./medium/" + id + ".pdf");
   doc.pipe(writeStream);
 
-  const images = fs.readdirSync(folder).map((e) => folder + "/" + e);
+  const images = fs
+    .readdirSync(folder)
+    .sort((a, b) => parseInt(a) - parseInt(b))
+    .map((e) => folder + "/" + e);
 
   for (const image of images) {
     const imageBuffer = await sharp(image).png().toBuffer();

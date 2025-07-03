@@ -62,9 +62,11 @@ const getLocalLibraryData = forgeController
       md5: z.string(),
     }),
     response: BooksLibraryEntrySchema.omit({
-      category: true,
+      collection: true,
       file: true,
       is_favourite: true,
+      is_read: true,
+      time_finished: true,
     }),
   })
   .callback(

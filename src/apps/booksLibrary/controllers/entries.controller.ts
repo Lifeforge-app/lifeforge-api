@@ -32,12 +32,17 @@ const updateEntry = forgeController
     body: BooksLibraryEntrySchema.pick({
       title: true,
       authors: true,
-      category: true,
+      collection: true,
       edition: true,
       languages: true,
       isbn: true,
       publisher: true,
       year_published: true,
+    }).extend({
+      year_published: z.string().transform((val) => {
+        const year = parseInt(val, 10);
+        return isNaN(year) ? 0 : year;
+      }),
     }),
     response: WithPBSchema(BooksLibraryEntrySchema),
   })
@@ -66,6 +71,22 @@ const toggleFavouriteStatus = forgeController
   })
   .callback(({ pb, params: { id } }) =>
     EntriesService.toggleFavouriteStatus(pb, id),
+  );
+
+const toggleReadStatus = forgeController
+  .route("POST /read/:id")
+  .description("Toggle the read status of an entry in the books library")
+  .schema({
+    params: z.object({
+      id: z.string(),
+    }),
+    response: WithPBSchema(BooksLibraryEntrySchema),
+  })
+  .existenceCheck("params", {
+    id: "books_library_entries",
+  })
+  .callback(async ({ pb, params: { id } }) =>
+    EntriesService.toggleReadStatus(pb, id),
   );
 
 const sendToKindle = forgeController
@@ -123,6 +144,7 @@ bulkRegisterControllers(booksLibraryEntriesRouter, [
   getAllEntries,
   updateEntry,
   toggleFavouriteStatus,
+  toggleReadStatus,
   sendToKindle,
   deleteEntry,
 ]);

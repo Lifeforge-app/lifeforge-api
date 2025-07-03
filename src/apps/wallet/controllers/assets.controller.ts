@@ -28,6 +28,11 @@ const createAsset = forgeController
       name: true,
       icon: true,
       starting_balance: true,
+    }).extend({
+      starting_balance: z.string().transform((val) => {
+        const balance = parseFloat(val);
+        return isNaN(balance) ? 0 : balance;
+      }),
     }),
     response: WithPBSchema(WalletAssetSchema),
   })
@@ -62,6 +67,11 @@ const updateAsset = forgeController
       name: true,
       icon: true,
       starting_balance: true,
+    }).extend({
+      starting_balance: z.string().transform((val) => {
+        const balance = parseFloat(val);
+        return isNaN(balance) ? 0 : balance;
+      }),
     }),
     response: WithPBSchema(WalletAssetSchema),
   })

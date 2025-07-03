@@ -122,6 +122,8 @@ router.get("/_routes", async (req, res) => {
   successWithBaseResponse(res, routes);
 });
 
+bulkRegisterControllers(router, [getMedia, corsAnywhere]);
+
 router.use((req, res) => {
   res.status(404);
 
@@ -130,7 +132,5 @@ router.use((req, res) => {
     message: "Endpoint not found",
   });
 });
-
-bulkRegisterControllers(router, [getMedia, corsAnywhere]);
 
 export default router;

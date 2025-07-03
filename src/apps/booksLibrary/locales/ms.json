@@ -20,9 +20,9 @@
     "starred": "Berbintang",
     "allBooks": "Semua Buku",
     "favourite": "Buku Kegemaran",
-    "categories": "Kategori",
     "languages": "Bahasa",
-    "filetypes": "Jenis Fail"
+    "filetypes": "Jenis Fail",
+    "collections": "Koleksi"
   },
   "modals": {
     "libraryGenesis": "Library Genesis",
@@ -32,11 +32,11 @@
       "create": "Tambah Bahasa",
       "update": "Kemas kini Bahasa"
     },
-    "category": {
-      "create": "Tambah Kategori",
-      "update": "Kemas kini Kategori"
-    },
-    "sendToKindle": "Hantar ke Kindle"
+    "sendToKindle": "Hantar ke Kindle",
+    "collection": {
+      "create": "Cipta Koleksi",
+      "update": "Kemas kini Koleksi"
+    }
   },
   "buttons": {
     "addToLibrary": "Tambah ke Perpustakaan",
@@ -45,7 +45,9 @@
     "uploadFromDevice": "Muat naik dari Peranti",
     "downloadFromLibgen": "Muat turun dari Library Genesis",
     "downloading": "Sedang dimuat turun",
-    "sendToKindle": "Hantar ke Kindle"
+    "sendToKindle": "Hantar ke Kindle",
+    "markAsRead": "Tandakan sebagai Dibaca",
+    "markAsUnread": "Tandakan sebagai Belum Dibaca"
   },
   "inputs": {
     "isbn": "ISBN",
@@ -55,16 +57,16 @@
     "publicationYear": "Tahun Penerbitan",
     "fileSize": "Saiz Fail",
     "md5": "MD5 Checksum",
-    "category": "Kategori",
     "languages": "Bahasa",
-    "categoryName": "Nama Kategori",
-    "categoryIcon": "Ikon Kategori",
     "languageName": "Nama Bahasa",
     "languageIcon": "Ikon Bahasa",
     "authors": "Pengarang",
     "edition": "Edisi",
     "extension": "Jenis Fail",
-    "kindleEmail": "Alamat Emel Kindle"
+    "kindleEmail": "Alamat Emel Kindle",
+    "collection": "Koleksi Buku",
+    "collectionName": "Nama Koleksi",
+    "collectionIcon": "Ikon Koleksi"
   },
   "items": {
     "book": "Buku",
@@ -90,8 +92,12 @@
     "noSMTPKeys": {
       "title": "Tiada Kunci API SMTP Ditemui",
       "description": "Konfigurasi SMTP API yang betul tidak ditemui dalam vault kunci API anda. Sila pergi ke modul dan konfigurasi \"smtp-user\" dan \"smtp-pass\"."
-    }
+    },
+    "collections": "Tiada koleksi ditemui",
+    "languages": "Tiada bahasa tersedia",
+    "fileTypes": "Tiada jenis fail ditemui"
   },
   "checkingKeys": "Memeriksa kunci API SMTP...",
-  "kindleSent": "Proses dijalankan untuk menghantar dokumen yang dipilih ke alamat e-mel yang ditujukan."
+  "kindleSent": "Proses dijalankan untuk menghantar dokumen yang dipilih ke alamat e-mel yang ditujukan.",
+  "readLabel": "Dibaca"
 }

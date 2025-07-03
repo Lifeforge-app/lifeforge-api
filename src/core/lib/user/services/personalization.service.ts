@@ -141,7 +141,5 @@ export const updatePersonalization = async (
     throw new ClientError("No data to update");
   }
 
-  console.log(toBeUpdated);
-
   await pb.collection("users").update(userId, data);
 };

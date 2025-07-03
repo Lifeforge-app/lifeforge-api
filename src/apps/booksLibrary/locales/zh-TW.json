@@ -20,9 +20,9 @@
     "starred": "加星標",
     "allBooks": "所有書籍",
     "favourite": "最愛書籍",
-    "categories": "類別",
     "languages": "語言",
-    "filetypes": "文件類型"
+    "filetypes": "文件類型",
+    "collections": "收藏"
   },
   "modals": {
     "libraryGenesis": "Library Genesis",
@@ -32,11 +32,11 @@
       "create": "添加語言",
       "update": "更新語言"
     },
-    "category": {
-      "create": "添加類別",
-      "update": "更新類別"
-    },
-    "sendToKindle": "發送到Kindle"
+    "sendToKindle": "發送到Kindle",
+    "collection": {
+      "create": "建立收藏",
+      "update": "更新收藏"
+    }
   },
   "buttons": {
     "addToLibrary": "添加到圖書館",
@@ -45,7 +45,9 @@
     "uploadFromDevice": "從設備上傳",
     "downloadFromLibgen": "從 Library Genesis 下載",
     "downloading": "下載中",
-    "sendToKindle": "發送到 Kindle"
+    "sendToKindle": "發送到 Kindle",
+    "markAsRead": "標記為已讀",
+    "markAsUnread": "標記為未讀"
   },
   "inputs": {
     "isbn": "ISBN 碼",
@@ -55,16 +57,16 @@
     "publicationYear": "出版年份",
     "fileSize": "文件大小",
     "md5": "MD5 校驗碼",
-    "category": "類別",
     "languages": "語言",
-    "categoryName": "類別名稱",
-    "categoryIcon": "類別圖標",
     "languageName": "語言名稱",
     "languageIcon": "語言圖標",
     "authors": "作者",
     "edition": "版本",
     "extension": "文件類型",
-    "kindleEmail": "Kindle 電子郵件地址"
+    "kindleEmail": "Kindle 電子郵件地址",
+    "collection": "書籍收藏",
+    "collectionName": "收藏名稱",
+    "collectionIcon": "收藏圖標"
   },
   "items": {
     "book": "書籍",
@@ -90,8 +92,12 @@
     "noSMTPKeys": {
       "title": "未找到 SMTP API 金鑰",
       "description": "在您的API金鑰庫中未找到適當的SMTP API配置。請前往模組並配置\"smtp-user\"和\"smtp-pass\"。"
-    }
+    },
+    "collections": "未找到任何收藏",
+    "languages": "沒有可用的語言",
+    "fileTypes": "未找到檔案類型"
   },
   "checkingKeys": "正在檢查SMTP API金鑰...",
-  "kindleSent": "已啟動進程，以將選定的文件發送到目標電子郵件地址。"
+  "kindleSent": "已啟動進程，以將選定的文件發送到目標電子郵件地址。",
+  "readLabel": "已閱讀"
 }

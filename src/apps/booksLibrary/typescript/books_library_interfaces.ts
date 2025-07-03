@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 const BooksLibraryEntrySchema = z.object({
   md5: z.string(),
   authors: z.string(),
-  category: z.string(),
+  collection: z.string(),
   edition: z.string(),
   extension: z.string(),
   file: z.string(),
@@ -15,9 +15,11 @@ const BooksLibraryEntrySchema = z.object({
   title: z.string(),
   year_published: z.number(),
   is_favourite: z.boolean(),
+  is_read: z.boolean(),
+  time_finished: z.string(),
 });
 
-const BooksLibraryCategorySchema = z.object({
+const BooksLibraryCollectionSchema = z.object({
   name: z.string(),
   icon: z.string(),
   amount: z.number(),
@@ -52,7 +54,7 @@ const BooksLibraryLibgenSearchResultSchema = z.object({
 });
 
 type IBooksLibraryEntry = z.infer<typeof BooksLibraryEntrySchema>;
-type IBooksLibraryCategory = z.infer<typeof BooksLibraryCategorySchema>;
+type IBooksLibraryCollection = z.infer<typeof BooksLibraryCollectionSchema>;
 type IBooksLibraryLanguage = z.infer<typeof BooksLibraryLanguageSchema>;
 type IBooksLibraryFileType = z.infer<typeof BooksLibraryFileTypeSchema>;
 type IBooksLibraryDownloadProcess = Omit<
@@ -66,7 +68,7 @@ type IBooksLibraryLibgenSearchResult = z.infer<
 >;
 
 export {
-  BooksLibraryCategorySchema,
+  BooksLibraryCollectionSchema,
   BooksLibraryDownloadProcessSchema,
   BooksLibraryEntrySchema,
   BooksLibraryFileTypeSchema,
@@ -75,7 +77,7 @@ export {
 };
 
 export type {
-  IBooksLibraryCategory,
+  IBooksLibraryCollection,
   IBooksLibraryDownloadProcess,
   IBooksLibraryEntry,
   IBooksLibraryFileType,

@@ -26,33 +26,33 @@ export const getLocalLibraryData = async (md5: string) => {
 
   const everything = parseBookDetailsPage(document);
 
-  const final: Omit<IBooksLibraryEntry, "category" | "file" | "is_favourite"> =
-    {
-      md5: md5,
-      thumbnail: document.querySelector("img")?.src ?? "",
-      authors: everything["Author(s)"]
-        ?.split(",")
-        .map((e: string) => e.trim())
-        .join(", "),
-      edition: everything["Edition"],
-      extension: everything["Extension"],
-      isbn: everything["ISBN"]
-        ?.split(",")
-        .map((e: string) => e.trim())
-        .join(", "),
-      languages: everything["Language"]
-        ?.split(",")
-        .map((e: string) => e.trim()),
-      publisher: everything["Publisher"],
-      size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
-      title:
-        document
-          .querySelector(
-            'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)',
-          )
-          ?.textContent?.trim() ?? "",
-      year_published: everything["Year"],
-    };
+  const final: Omit<
+    IBooksLibraryEntry,
+    "collection" | "file" | "is_favourite" | "is_read" | "time_finished"
+  > = {
+    md5: md5,
+    thumbnail: document.querySelector("img")?.src ?? "",
+    authors: everything["Author(s)"]
+      ?.split(",")
+      .map((e: string) => e.trim())
+      .join(", "),
+    edition: everything["Edition"],
+    extension: everything["Extension"],
+    isbn: everything["ISBN"]
+      ?.split(",")
+      .map((e: string) => e.trim())
+      .join(", "),
+    languages: everything["Language"]?.split(",").map((e: string) => e.trim()),
+    publisher: everything["Publisher"],
+    size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
+    title:
+      document
+        .querySelector(
+          'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)',
+        )
+        ?.textContent?.trim() ?? "",
+    year_published: everything["Year"],
+  };
 
   return final;
 };

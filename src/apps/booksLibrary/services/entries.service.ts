@@ -22,7 +22,7 @@ export const updateEntry = (
     IBooksLibraryEntry,
     | "title"
     | "authors"
-    | "category"
+    | "collection"
     | "edition"
     | "languages"
     | "isbn"
@@ -46,6 +46,22 @@ export const toggleFavouriteStatus = async (
     .collection("books_library_entries")
     .update<WithPB<IBooksLibraryEntry>>(id, {
       is_favourite: !book.is_favourite,
+    });
+};
+
+export const toggleReadStatus = async (
+  pb: Pocketbase,
+  id: string,
+): Promise<WithPB<IBooksLibraryEntry>> => {
+  const book = await pb
+    .collection("books_library_entries")
+    .getOne<WithPB<IBooksLibraryEntry>>(id);
+
+  return await pb
+    .collection("books_library_entries")
+    .update<WithPB<IBooksLibraryEntry>>(id, {
+      is_read: !book.is_read,
+      time_finished: !book.is_read ? new Date().toISOString() : "",
     });
 };
 
