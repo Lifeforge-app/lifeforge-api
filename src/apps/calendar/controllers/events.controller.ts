@@ -61,6 +61,17 @@ const createEvent = forgeController
     body: CalendarEventSchema.omit({
       is_strikethrough: true,
       exceptions: true,
+    }).extend({
+      location: z
+        .union([
+          z.object({
+            displayName: z.object({
+              text: z.string(),
+            }),
+          }),
+          z.string(),
+        ])
+        .optional(),
     }),
     response: WithPBSchema(CalendarEventSchema),
   })

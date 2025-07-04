@@ -25,9 +25,23 @@ const getLocation = forgeController
       throw new ClientError("API key not found");
     }
 
-    return await fetch(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(q as string)}&key=${key}`,
-    ).then((response) => response.json());
+    const response = await fetch(
+      `https://places.googleapis.com/v1/places:searchText`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-FieldMask":
+            "places.displayName,places.location,places.formattedAddress",
+          "X-Goog-Api-Key": key,
+        },
+        body: JSON.stringify({
+          textQuery: q,
+        }),
+      },
+    ).then((res) => res.json());
+
+    return response.places;
   });
 
 const checkIsEnabled = forgeController

@@ -94,12 +94,15 @@
     "showStatement": "Show Statement",
     "hideStatement": "Hide Statement",
     "addManually": "Add Manually",
-    "manageCategories": "Manage Categories"
+    "manageCategories": "Manage Categories",
+    "viewBalanceChart": "View Balance Chart",
+    "viewReceipt": "View Receipt"
   },
   "modals": {
     "transactions": {
       "create": "Create Transaction",
-      "update": "Update Transaction"
+      "update": "Update Transaction",
+      "view": "Transaction Details"
     },
     "assets": {
       "create": "Create Asset",

@@ -65,17 +65,20 @@ export const getAllTransactions = (
 
 export const createTransaction = async (
   pb: Pocketbase,
-  data: {
-    particulars: string;
-    date: string;
-    amount: number;
-    category?: string;
-    location?: string;
+  data: Pick<
+    IWalletTransactionEntry,
+    "particulars" | "date" | "amount" | "type"
+  > & {
     asset?: string;
     ledger?: string;
-    type: "income" | "expenses" | "transfer";
+    category?: string;
     fromAsset?: string;
     toAsset?: string;
+    location_name?: string;
+    location_coords?: {
+      lon: number;
+      lat: number;
+    };
   },
   file: Express.Multer.File | undefined,
 ): Promise<WithPB<IWalletTransactionEntry>[]> => {
@@ -124,7 +127,8 @@ export const createTransaction = async (
       particulars,
       date,
       amount,
-      location: location || "",
+      location_name: data.location_name || "",
+      location_coords: data.location_coords ?? { lon: 0, lat: 0 },
       category: category || "",
       asset: asset || "",
       ledger: ledger || "",
@@ -148,7 +152,13 @@ export const createTransaction = async (
 
     const baseTransferData: Omit<
       IWalletTransactionEntry,
-      "receipt" | "category" | "ledger" | "location" | "fromAsset" | "toAsset"
+      | "receipt"
+      | "category"
+      | "ledger"
+      | "location_name"
+      | "location_coords"
+      | "fromAsset"
+      | "toAsset"
     > & {
       receipt: File | string;
     } = {
@@ -181,7 +191,6 @@ export const createTransaction = async (
     particulars,
     date,
     amount,
-    location,
     category,
     asset,
     ledger,
@@ -214,15 +223,18 @@ export const createTransaction = async (
 export const updateTransaction = async (
   pb: Pocketbase,
   id: string,
-  data: {
-    particulars: string;
-    date: string;
-    amount: number;
-    category?: string;
-    location?: string;
-    asset: string;
+  data: Pick<
+    IWalletTransactionEntry,
+    "particulars" | "date" | "amount" | "type"
+  > & {
+    asset?: string;
     ledger?: string;
-    type: "income" | "expenses" | "transfer";
+    category?: string;
+    location_name?: string;
+    location_coords?: {
+      lon: number;
+      lat: number;
+    };
   },
   file: Express.Multer.File | undefined,
   toRemoveReceipt: boolean,
@@ -264,14 +276,29 @@ export const updateTransaction = async (
     return foundTransaction.receipt;
   }
 
-  const { particulars, date, amount, category, location, asset, ledger, type } =
-    data;
+  const {
+    particulars,
+    date,
+    amount,
+    category,
+    location_name,
+    location_coords,
+    asset,
+    ledger,
+    type,
+  } = data;
 
   const foundTransaction = await pb
     .collection("wallet_transactions")
     .getOne<WithPB<IWalletTransactionEntry>>(id);
 
   const [targetFile, fileName] = await processFile();
+
+  if (!category || !asset) {
+    throw new Error(
+      "Category and Asset are required for updating a transaction",
+    );
+  }
 
   const updatedData: Omit<
     IWalletTransactionEntry,
@@ -282,10 +309,11 @@ export const updateTransaction = async (
     particulars,
     date,
     amount,
-    category: category || "",
-    location: location || "",
+    category: category,
+    location_name: location_name || "",
+    location_coords: location_coords ?? { lon: 0, lat: 0 },
     asset,
-    ledger: ledger || "",
+    ledger: ledger ?? "",
     type,
     side: type === "income" ? "debit" : "credit",
     receipt: getReceipt(),

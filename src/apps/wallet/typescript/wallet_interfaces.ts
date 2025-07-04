@@ -20,7 +20,11 @@ const WalletTransactionEntrySchema = z.object({
   side: z.enum(["debit", "credit"]),
   particulars: z.string(),
   amount: z.number(),
-  location: z.string().optional(),
+  location_name: z.string(),
+  location_coords: z.object({
+    lon: z.number(),
+    lat: z.number(),
+  }),
   date: z.string(),
   category: z.string(),
   asset: z.string(),

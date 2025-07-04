@@ -94,12 +94,15 @@
     "showStatement": "Tunjukkan Penyata",
     "hideStatement": "Sembunyikan Penyata",
     "addManually": "Tambah Secara Manual",
-    "manageCategories": "Urus Kategori"
+    "manageCategories": "Urus Kategori",
+    "viewBalanceChart": "Lihat Carta Saldo",
+    "viewReceipt": "Lihat Resit"
   },
   "modals": {
     "transactions": {
       "create": "Cipta Transaksi",
-      "update": "Kemas Kini Transaksi"
+      "update": "Kemas Kini Transaksi",
+      "view": "Butiran Transaksi"
     },
     "assets": {
       "create": "Cipta Aset",

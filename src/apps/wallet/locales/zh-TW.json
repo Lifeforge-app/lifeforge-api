@@ -94,12 +94,15 @@
     "showStatement": "查看報表",
     "hideStatement": "隱藏報表",
     "addManually": "手動添加",
-    "manageCategories": "管理類別"
+    "manageCategories": "管理類別",
+    "viewBalanceChart": "查看餘額圖表",
+    "viewReceipt": "查看收據"
   },
   "modals": {
     "transactions": {
       "create": "建立交易",
-      "update": "更新交易"
+      "update": "更新交易",
+      "view": "交易詳情"
     },
     "assets": {
       "create": "建立資產",

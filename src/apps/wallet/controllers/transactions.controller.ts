@@ -34,7 +34,22 @@ const createTransaction = forgeController
       date: z.string(),
       amount: z.string().transform((val) => parseFloat(val)),
       category: z.string().optional(),
-      location: z.string().optional(),
+      location_name: z.string().optional(),
+      location_coords: z
+        .string()
+        .optional()
+        .transform((val) => {
+          if (!val) return undefined;
+          try {
+            const coords = JSON.parse(val);
+            return {
+              lon: parseFloat(coords.longitude),
+              lat: parseFloat(coords.latitude),
+            };
+          } catch {
+            throw new Error("Invalid location coordinates format");
+          }
+        }),
       asset: z.string().optional(),
       ledger: z.string().optional(),
       type: z.enum(["income", "expenses", "transfer"]),
@@ -69,7 +84,25 @@ const updateTransaction = forgeController
       date: z.string(),
       amount: z.string().transform((val) => parseFloat(val)),
       category: z.string().optional(),
-      location: z.string().optional(),
+      location_name: z.string().optional(),
+      location_coords: z
+        .string()
+        .optional()
+        .transform((val) => {
+          if (!val) return undefined;
+          try {
+            const coords = JSON.parse(val);
+            return {
+              lon: parseFloat(coords.longitude),
+              lat: parseFloat(coords.latitude),
+            };
+          } catch {
+            return {
+              lon: 0,
+              lat: 0,
+            };
+          }
+        }),
       asset: z.string(),
       ledger: z.string().optional(),
       type: z.enum(["income", "expenses", "transfer"]),

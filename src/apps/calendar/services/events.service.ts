@@ -155,7 +155,12 @@ export const getTodayEvents = async (
 
 export const createEvent = async (
   pb: PocketBase,
-  eventData: Omit<ICalendarEvent, "is_strikethrough" | "exceptions">,
+  eventData: Omit<
+    ICalendarEvent,
+    "is_strikethrough" | "exceptions" | "location"
+  > & {
+    location?: string | { displayName: { text: string } };
+  },
 ): Promise<WithPB<ICalendarEvent>> => {
   if (eventData.type === "recurring") {
     eventData.end = "";
@@ -163,6 +168,10 @@ export const createEvent = async (
     eventData.recurring_rrule = "";
     eventData.recurring_duration_amount = "0";
     eventData.recurring_duration_unit = "";
+  }
+
+  if (typeof eventData.location === "object") {
+    eventData.location = (eventData.location as any).displayName.text || "";
   }
 
   return await pb
