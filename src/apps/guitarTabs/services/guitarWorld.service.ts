@@ -3,8 +3,14 @@ import { JSDOM } from "jsdom";
 import PDFDocument from "pdfkit";
 import PocketBase from "pocketbase";
 import sharp from "sharp";
+import { Server } from "socket.io";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
+
+import {
+  addToTaskPool,
+  updateTaskInPool,
+} from "@middlewares/taskPoolMiddleware";
 
 import {
   IGuitarTabsEntry,
@@ -67,6 +73,7 @@ export const getTabsList = async (
 };
 
 export const downloadTab = async (
+  io: Server,
   pb: PocketBase,
   {
     cookie,
@@ -83,96 +90,122 @@ export const downloadTab = async (
     mainArtist: string;
     audioUrl: string;
   },
-): Promise<WithPB<IGuitarTabsEntry>> => {
-  const rawHTML = await fetch(
-    "https://user.guitarworld.com.cn/user/pu/my/" + id,
-    {
-      method: "GET",
-      headers: {
-        cookie,
-      },
-    },
-  ).then((res) => res.text());
+): Promise<string> => {
+  const taskId = addToTaskPool(io, {
+    module: "guitarTabs",
+    description: `Downloading tab ${name} (${id}) from Guitar World`,
+    status: "pending",
+  });
 
-  const dom = new JSDOM(rawHTML);
-  const pics = Array.from(dom.window.document.querySelectorAll(".pic img")).map(
-    (e) => (e as HTMLImageElement).src,
-  );
+  (async () => {
+    try {
+      updateTaskInPool(io, taskId, {
+        status: "running",
+        progress: 0,
+      });
 
-  const folder = `./medium/${id}`;
-  if (!fs.existsSync(folder)) {
-    fs.mkdirSync(folder);
-  }
+      const rawHTML = await fetch(
+        "https://user.guitarworld.com.cn/user/pu/my/" + id,
+        {
+          method: "GET",
+          headers: {
+            cookie,
+          },
+        },
+      ).then((res) => res.text());
 
-  for (let i = 0; i < pics.length; i++) {
-    const arrayBuffer = await fetch(pics[i], {
-      method: "GET",
-      headers: {
-        cookie,
-      },
-    }).then((res) => res.arrayBuffer());
+      const dom = new JSDOM(rawHTML);
+      const pics = Array.from(
+        dom.window.document.querySelectorAll(".pic img"),
+      ).map((e) => (e as HTMLImageElement).src);
 
-    fs.writeFileSync(`./medium/${id}/${i}.jpg`, Buffer.from(arrayBuffer));
-  }
-
-  const doc = new PDFDocument({ autoFirstPage: false });
-  const writeStream = fs.createWriteStream("./medium/" + id + ".pdf");
-  doc.pipe(writeStream);
-
-  const images = fs
-    .readdirSync(folder)
-    .sort((a, b) => parseInt(a) - parseInt(b))
-    .map((e) => folder + "/" + e);
-
-  for (const image of images) {
-    const imageBuffer = await sharp(image).png().toBuffer();
-    const { width, height } = await sharp(imageBuffer).metadata();
-
-    doc.addPage({ size: [width!, height!] });
-    doc.image(imageBuffer, 0, 0, { width, height });
-  }
-
-  doc.end();
-
-  return new Promise((resolve, reject) => {
-    writeStream.on("finish", async () => {
-      const audioBuffer = await fetch(audioUrl).then((res) =>
-        res.arrayBuffer(),
-      );
-
-      if (!fs.existsSync(`./medium/${id}.pdf`)) {
-        reject(new Error("PDF file not found"));
-        return;
+      if (pics.length === 0) {
+        throw new Error("No pictures found for this tab");
       }
 
-      const newEntry = await pb
-        .collection("guitar_tabs_entries")
-        .create<WithPB<IGuitarTabsEntry>>({
-          name,
-          author: mainArtist,
-          pageCount: images.length,
-          audio: new File([Buffer.from(audioBuffer)], `${id}.mp3`),
-          pdf: new File([fs.readFileSync(`./medium/${id}.pdf`)], `${id}.pdf`),
-          type: (() => {
-            switch (category) {
-              case "弹唱吉他谱":
-                return "singalong";
-              case "指弹吉他谱":
-                return "fingerstyle";
-              default:
-                return "";
-            }
-          })(),
-          thumbnail: new File(
-            [fs.readFileSync(`./medium/${id}/0.jpg`)],
-            `${id}.jpeg`,
-          ),
+      const folder = `./medium/${id}`;
+      if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder);
+      }
+
+      for (let i = 0; i < pics.length; i++) {
+        const arrayBuffer = await fetch(pics[i], {
+          method: "GET",
+          headers: {
+            cookie,
+          },
+        }).then((res) => res.arrayBuffer());
+
+        fs.writeFileSync(`./medium/${id}/${i}.jpg`, Buffer.from(arrayBuffer));
+      }
+
+      const doc = new PDFDocument({ autoFirstPage: false });
+      const writeStream = fs.createWriteStream("./medium/" + id + ".pdf");
+      doc.pipe(writeStream);
+
+      const images = fs
+        .readdirSync(folder)
+        .sort((a, b) => parseInt(a) - parseInt(b))
+        .map((e) => folder + "/" + e);
+
+      for (const image of images) {
+        const imageBuffer = await sharp(image).png().toBuffer();
+        const { width, height } = await sharp(imageBuffer).metadata();
+
+        doc.addPage({ size: [width!, height!] });
+        doc.image(imageBuffer, 0, 0, { width, height });
+      }
+
+      doc.end();
+
+      writeStream.on("finish", async () => {
+        const audioBuffer = await fetch(audioUrl).then((res) =>
+          res.arrayBuffer(),
+        );
+
+        if (!fs.existsSync(`./medium/${id}.pdf`)) {
+          throw new Error("PDF file not found");
+        }
+
+        const newEntry = await pb
+          .collection("guitar_tabs_entries")
+          .create<WithPB<IGuitarTabsEntry>>({
+            name,
+            author: mainArtist,
+            pageCount: images.length,
+            audio: new File([Buffer.from(audioBuffer)], `${id}.mp3`),
+            pdf: new File([fs.readFileSync(`./medium/${id}.pdf`)], `${id}.pdf`),
+            type: (() => {
+              switch (category) {
+                case "弹唱吉他谱":
+                  return "singalong";
+                case "指弹吉他谱":
+                  return "fingerstyle";
+                default:
+                  return "";
+              }
+            })(),
+            thumbnail: new File(
+              [fs.readFileSync(`./medium/${id}/0.jpg`)],
+              `${id}.jpeg`,
+            ),
+          });
+
+        fs.rmdirSync(folder, { recursive: true });
+        fs.unlinkSync(`./medium/${id}.pdf`);
+
+        updateTaskInPool(io, taskId, {
+          status: "completed",
+          data: newEntry,
         });
+      });
+    } catch (error) {
+      updateTaskInPool(io, taskId, {
+        status: "failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  })();
 
-      fs.rmdirSync(folder, { recursive: true });
-      fs.unlinkSync(`./medium/${id}.pdf`);
-
-      resolve(newEntry);
-    });
-  });
+  return taskId;
 };

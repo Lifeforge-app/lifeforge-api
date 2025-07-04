@@ -8,7 +8,6 @@ import { z } from "zod/v4";
 
 import * as libgenService from "../services/libgen.service";
 import {
-  BooksLibraryDownloadProcessSchema,
   BooksLibraryEntrySchema,
   BooksLibraryLibgenSearchResultSchema,
 } from "../typescript/books_library_interfaces";
@@ -101,50 +100,26 @@ const addToLibrary = forgeController
     body: z.object({
       metadata: z.object({
         authors: z.string(),
-        category: z.string(),
+        collection: z.string(),
         extension: z.string(),
+        edition: z.string(),
         isbn: z.string(),
         languages: z.array(z.string()),
         md5: z.string(),
         publisher: z.string(),
-        size: z.string(),
+        size: z.string().transform((val) => parseInt(val, 10)),
         thumbnail: z.string(),
         title: z.string(),
-        year_published: z.string(),
+        year_published: z.string().transform((val) => parseInt(val, 10) || 0),
       }),
     }),
-    response: z.void(),
+    response: z.string(),
   })
   .statusCode(202)
   .callback(
-    async ({ pb, params: { md5 }, body: { metadata } }) =>
-      await libgenService.initiateDownload(pb, md5, metadata),
+    async ({ io, pb, params: { md5 }, body: { metadata } }) =>
+      await libgenService.addToLibrary(io, pb, md5, metadata),
   );
-
-const getDownloadProgresses = forgeController
-  .route("GET /download-progresses")
-  .description("Get download progresses for all downloads")
-  .schema({
-    response: z.record(
-      z.string(),
-      BooksLibraryDownloadProcessSchema.omit({
-        kill: true,
-      }),
-    ),
-  })
-  .callback(async () => libgenService.getDownloadProgresses());
-
-const cancelDownload = forgeController
-  .route("DELETE /download-progresses/:md5")
-  .description("Cancel a download")
-  .schema({
-    params: z.object({
-      md5: z.string(),
-    }),
-    response: z.void(),
-  })
-  .statusCode(204)
-  .callback(async ({ params: { md5 } }) => libgenService.cancelDownload(md5));
 
 bulkRegisterControllers(booksLibraryLibgenRouter, [
   getStatus,
@@ -153,8 +128,6 @@ bulkRegisterControllers(booksLibraryLibgenRouter, [
   getLocalLibraryData,
   fetchCover,
   addToLibrary,
-  getDownloadProgresses,
-  cancelDownload,
 ]);
 
 export default booksLibraryLibgenRouter;

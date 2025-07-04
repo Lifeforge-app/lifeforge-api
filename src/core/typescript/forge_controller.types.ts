@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import PocketBase from "pocketbase";
+import { Server } from "socket.io";
 import { ZodObject, ZodRawShape, ZodTypeAny, z } from "zod/v4";
 
 import { BaseResponse } from "@typescript/base_response";
@@ -27,6 +28,7 @@ type ControllerContext<
 > = {
   req: Request<InferZodType<P>, any, InferZodType<B>, InferZodType<Q>>;
   res: Response<BaseResponse<InferResponseType<R>>>;
+  io: Server;
   pb: PocketBase;
   params: InferZodType<P>;
   body: InferZodType<B>;

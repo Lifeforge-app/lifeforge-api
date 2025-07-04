@@ -46,10 +46,12 @@ const downloadTab = forgeController
       mainArtist: z.string(),
       audioUrl: z.string(),
     }),
-    response: WithPBSchema(GuitarTabsEntrySchema),
+    response: z.string(),
   })
+  .statusCode(202)
   .callback(
-    async ({ pb, body }) => await guitarWorldService.downloadTab(pb, body),
+    async ({ pb, body, io }) =>
+      await guitarWorldService.downloadTab(io, pb, body),
   );
 
 bulkRegisterControllers(guitarTabsGuitarWorldRouter, [

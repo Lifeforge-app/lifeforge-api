@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
 
+import taskPoolMiddleware from "@middlewares/taskPoolMiddleware";
+
 import { CORS_ALLOWED_ORIGINS } from "./constants/corsAllowedOrigins";
 import morganMiddleware from "./middlewares/morganMiddleware";
 import pocketbaseMiddleware from "./middlewares/pocketbaseMiddleware";
@@ -32,6 +34,7 @@ app.use(express.raw());
 app.use(express.json({ limit: "50mb" }));
 app.use(morganMiddleware);
 app.use(pocketbaseMiddleware);
+app.use(taskPoolMiddleware);
 app.use(rateLimitingMiddleware);
 
 app.use("/", router);

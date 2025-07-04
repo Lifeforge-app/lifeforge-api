@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import PocketBase from "pocketbase";
+import { Server } from "socket.io";
 import { ZodObject, ZodRawShape, ZodTypeAny } from "zod/v4";
 
 import { BaseResponse } from "@typescript/base_response";
@@ -42,7 +43,7 @@ class ForgeControllerBuilder<
   protected _description = "";
 
   private _handler?: (
-    this: { pb: PocketBase },
+    this: { pb: PocketBase; io: Server },
     req: Request<
       InferZodType<ParamsSchema>,
       any,
@@ -166,7 +167,7 @@ class ForgeControllerBuilder<
     };
 
     async function __handler(
-      this: { pb: PocketBase },
+      this: { pb: PocketBase; io: Server },
       req: Request<
         InferZodType<ParamsSchema>,
         any,
@@ -239,6 +240,7 @@ class ForgeControllerBuilder<
         const result = await cb({
           req,
           res,
+          io: req.io,
           pb: req.pb,
           params: req.params,
           body: req.body,
