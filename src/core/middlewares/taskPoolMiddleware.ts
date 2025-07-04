@@ -16,10 +16,7 @@ export interface ITaskPoolTask {
 export const globalTaskPool: Record<string, ITaskPoolTask> = {};
 
 const taskPoolMiddleware = (req: Request, _: Response, next: NextFunction) => {
-  // Initialize task pool for the request
   req.taskPool = globalTaskPool;
-
-  // Proceed to the next middleware or route handler
   next();
 };
 
