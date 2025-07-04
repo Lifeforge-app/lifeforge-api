@@ -95,7 +95,11 @@
     },
     "collections": "No collections found",
     "languages": "No languages available",
-    "fileTypes": "No file types found"
+    "fileTypes": "No file types found",
+    "libgenOffline": {
+      "title": "Libgen is Offline",
+      "description": "Unable to reach the current provider of Libgen. Please try another one."
+    }
   },
   "checkingKeys": "Checking SMTP API keys...",
   "kindleSent": "Fired process to send the selected document to the targeted email address.",

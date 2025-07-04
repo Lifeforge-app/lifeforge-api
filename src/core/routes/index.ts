@@ -2,7 +2,7 @@ import {
   bulkRegisterControllers,
   forgeController,
 } from "@functions/forgeController";
-import { successWithBaseResponse } from "@functions/response";
+import { serverError, successWithBaseResponse } from "@functions/response";
 import traceRouteStack from "@functions/traceRouteStack";
 import express from "express";
 import fs from "fs";
@@ -103,7 +103,13 @@ const corsAnywhere = forgeController
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
       },
+    }).catch((error) => {
+      console.error(`Error fetching URL: ${url}`, error);
     });
+
+    if (!response) {
+      return;
+    }
 
     if (!response.ok) {
       throw new Error(`Failed to fetch URL: ${url}`);

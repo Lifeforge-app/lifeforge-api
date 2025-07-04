@@ -95,7 +95,11 @@
     },
     "collections": "未找到任何收藏",
     "languages": "没有可用的语言",
-    "fileTypes": "未找到文件类型"
+    "fileTypes": "未找到文件类型",
+    "libgenOffline": {
+      "title": "Libgen 离线",
+      "description": "无法联系到当前的Libgen提供者。请尝试其他提供者。"
+    }
   },
   "checkingKeys": "正在检查SMTP API密钥...",
   "kindleSent": "已启动进程，将所选文档发送到目标电子邮件地址。",

@@ -95,7 +95,11 @@
     },
     "collections": "Tiada koleksi ditemui",
     "languages": "Tiada bahasa tersedia",
-    "fileTypes": "Tiada jenis fail ditemui"
+    "fileTypes": "Tiada jenis fail ditemui",
+    "libgenOffline": {
+      "title": "Libgen Tidak Dalam Talian",
+      "description": "Tidak dapat menghubungi penyedia Libgen semasa. Sila cuba yang lain."
+    }
   },
   "checkingKeys": "Memeriksa kunci API SMTP...",
   "kindleSent": "Proses dijalankan untuk menghantar dokumen yang dipilih ke alamat e-mel yang ditujukan.",

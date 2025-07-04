@@ -29,8 +29,8 @@ export const addToLibrary = async (
     description: `Adding book with title "${metadata.title}" to library`,
     status: "pending",
     data: {
+      ...metadata,
       md5,
-      metadata,
     },
     progress: {
       downloaded: "0B",
@@ -88,16 +88,26 @@ export const addToLibrary = async (
       });
 
       downloadProcess.stderr.on("data", (data) => {
-        throw "Failed to download file";
+        updateTaskInPool(io, taskId, {
+          status: "failed",
+          error: data.toString(),
+        });
       });
 
       downloadProcess.on("error", (err) => {
-        throw "Failed to download file";
+        updateTaskInPool(io, taskId, {
+          status: "failed",
+          error: err instanceof Error ? err.message : "Unknown error",
+        });
       });
 
       downloadProcess.on("close", async () => {
         if (!fs.existsSync(`./medium/${md5}.${metadata.extension}`)) {
-          throw "Failed to download file";
+          updateTaskInPool(io, taskId, {
+            status: "failed",
+            error: "Downloaded file not found",
+          });
+          return;
         }
 
         try {
@@ -137,20 +147,19 @@ const processDownloadedFiles = async (
     file?: File;
   },
 ): Promise<void> => {
-  await fetch(`http://libgen.is/${metadata.thumbnail}`).then(
-    async (response) => {
-      if (response.ok) {
-        const buffer = await response.arrayBuffer();
-        metadata.thumbnail = new File([buffer], "image.jpg", {
-          type: "image/jpeg",
-        });
-      }
-    },
-  );
+  await fetch(metadata.thumbnail as string).then(async (response) => {
+    if (response.ok) {
+      const buffer = await response.arrayBuffer();
+      metadata.thumbnail = new File([buffer], "image.jpg", {
+        type: "image/jpeg",
+      });
+    }
+  });
 
   const file = fs.readFileSync("./medium/" + md5 + "." + metadata.extension);
   if (!file) throw new Error("Failed to read file");
   metadata.file = new File([file], `${md5}.${metadata.extension}`);
+  metadata.size = file.byteLength;
 
   await pb.collection("books_library_entries").create(metadata);
 };

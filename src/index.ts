@@ -3,6 +3,8 @@ import { createServer } from "node:http";
 import Pocketbase from "pocketbase";
 import { Server } from "socket.io";
 
+import { globalTaskPool } from "@middlewares/taskPoolMiddleware";
+
 import app from "./core/app";
 
 const server = createServer(app);
@@ -37,11 +39,14 @@ io.use(async (socket, next) => {
 io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.emit("ping", { message: "Hello from server!" });
+  for (const task in globalTaskPool) {
+    const taskData = globalTaskPool[task];
 
-  socket.on("pong", (data) => {
-    console.log("Received pong:", data);
-  });
+    socket.emit("taskPoolUpdate", {
+      taskId: task,
+      ...taskData,
+    });
+  }
 });
 
 app.request.io = io;

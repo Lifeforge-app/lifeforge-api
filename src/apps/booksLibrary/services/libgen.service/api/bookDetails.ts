@@ -11,53 +11,33 @@ export const getBookDetails = async (md5: string) => {
   const dom = new JSDOM(data);
   const document = dom.window.document;
 
-  const final = parseBookDetailsPage(document);
+  const final = parseLibgenISBookDetailsPage(document);
 
   return final;
 };
 
-export const getLocalLibraryData = async (md5: string) => {
-  const target = new URL("http://libgen.is/book/index.php");
+export const getLocalLibraryData = async (provider: string, md5: string) => {
+  const target = new URL(
+    provider === "libgen.is"
+      ? "http://libgen.is/book/index.php"
+      : `https://${provider}/edition.php`,
+  );
   target.searchParams.set("md5", md5);
 
   const data = await fetch(target.href).then((res) => res.text());
   const dom = new JSDOM(data);
   const document = dom.window.document;
 
-  const everything = parseBookDetailsPage(document);
-
-  const final: Omit<
-    IBooksLibraryEntry,
-    "collection" | "file" | "is_favourite" | "is_read" | "time_finished"
-  > = {
-    md5: md5,
-    thumbnail: document.querySelector("img")?.src ?? "",
-    authors: everything["Author(s)"]
-      ?.split(",")
-      .map((e: string) => e.trim())
-      .join(", "),
-    edition: everything["Edition"],
-    extension: everything["Extension"],
-    isbn: everything["ISBN"]
-      ?.split(",")
-      .map((e: string) => e.trim())
-      .join(", "),
-    languages: everything["Language"]?.split(",").map((e: string) => e.trim()),
-    publisher: everything["Publisher"],
-    size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
-    title:
-      document
-        .querySelector(
-          'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)',
-        )
-        ?.textContent?.trim() ?? "",
-    year_published: everything["Year"],
-  };
-
-  return final;
+  if (provider === "libgen.is") {
+    return getLibgenISLocalLibraryData(document);
+  } else {
+    throw new Error(
+      "Only libgen.is is supported for local library data retrieval at the moment.",
+    );
+  }
 };
 
-function parseBookDetailsPage(document: Document) {
+function parseLibgenISBookDetailsPage(document: Document) {
   const final = Object.fromEntries(
     Array.from(
       document.querySelectorAll('body > table[rules="cols"] > tbody > tr'),
@@ -158,4 +138,33 @@ function parseBookDetailsPage(document: Document) {
     );
 
   return final;
+}
+
+function getLibgenISLocalLibraryData(document: Document) {
+  const everything = parseLibgenISBookDetailsPage(document);
+
+  return {
+    md5: everything["MD5"],
+    thumbnail: document.querySelector("img")?.src ?? "",
+    authors: everything["Author(s)"]
+      ?.split(",")
+      .map((e: string) => e.trim())
+      .join(", "),
+    edition: everything["Edition"],
+    extension: everything["Extension"],
+    isbn: everything["ISBN"]
+      ?.split(",")
+      .map((e: string) => e.trim())
+      .join(", "),
+    languages: everything["Language"]?.split(",").map((e: string) => e.trim()),
+    publisher: everything["Publisher"],
+    size: everything["Size"].match(/.*?\((\d+) bytes\)/)?.[1],
+    title:
+      document
+        .querySelector(
+          'body > table[rules="cols"] > tbody > tr:nth-child(2) > td:nth-child(3)',
+        )
+        ?.textContent?.trim() ?? "",
+    year_published: everything["Year"],
+  };
 }

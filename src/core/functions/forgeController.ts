@@ -255,7 +255,10 @@ class ForgeControllerBuilder<
         if (ClientError.isClientError(err)) {
           return clientError(res, err.message, err.code);
         }
-        console.error("Internal error:", err);
+        console.error(
+          "Internal error:",
+          err instanceof Error ? err.message : err,
+        );
         serverError(res, "Internal server error");
       }
     }

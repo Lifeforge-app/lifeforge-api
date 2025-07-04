@@ -3,7 +3,6 @@ import {
   forgeController,
 } from "@functions/forgeController";
 import express from "express";
-import request from "request";
 import { z } from "zod/v4";
 
 import * as libgenService from "../services/libgen.service";
@@ -27,14 +26,9 @@ const searchBooks = forgeController
   .description("Search books in libgen")
   .schema({
     query: z.object({
-      view: z.string(),
+      provider: z.string(),
       req: z.string(),
-      open: z.string(),
-      res: z.string(),
-      column: z.string(),
       page: z.string(),
-      sort: z.string(),
-      sortmode: z.string(),
     }),
     response: BooksLibraryLibgenSearchResultSchema,
   })
@@ -58,6 +52,7 @@ const getLocalLibraryData = forgeController
   .description("Get local library data for a book")
   .schema({
     params: z.object({
+      provider: z.string(),
       md5: z.string(),
     }),
     response: BooksLibraryEntrySchema.omit({
@@ -69,26 +64,9 @@ const getLocalLibraryData = forgeController
     }),
   })
   .callback(
-    async ({ params: { md5 } }) => await libgenService.getLocalLibraryData(md5),
+    async ({ params: { md5, provider } }) =>
+      await libgenService.getLocalLibraryData(provider, md5),
   );
-
-const fetchCover = forgeController
-  .route("GET /cover/:id/:name")
-  .description("Fetch book cover from libgen")
-  .schema({
-    params: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
-    response: z.void(),
-  })
-  .noDefaultResponse()
-  .callback(async ({ params: { id, name }, res }) => {
-    res.setHeader("Content-Type", "image/jpeg");
-    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-
-    request(`https://books.ms/covers/${id}/${name}`).pipe(res);
-  });
 
 const addToLibrary = forgeController
   .route("POST /add-to-library/:md5")
@@ -126,7 +104,6 @@ bulkRegisterControllers(booksLibraryLibgenRouter, [
   searchBooks,
   getBookDetails,
   getLocalLibraryData,
-  fetchCover,
   addToLibrary,
 ]);
 

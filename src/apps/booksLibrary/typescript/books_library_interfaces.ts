@@ -47,6 +47,7 @@ const BooksLibraryDownloadProcessSchema = z.object({
 });
 
 const BooksLibraryLibgenSearchResultSchema = z.object({
+  provider: z.string(),
   query: z.string(),
   resultsCount: z.string(),
   data: z.record(z.string(), z.any()),
