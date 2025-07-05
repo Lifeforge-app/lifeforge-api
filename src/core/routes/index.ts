@@ -26,18 +26,26 @@ const MODULE_ROUTES = JSON.parse(
 const router = express.Router();
 
 for (const [route, module] of Object.entries(LIB_ROUTES)) {
-  router.use(
-    route,
-    (await import(path.resolve(process.cwd(), `src/core/lib/${module}`)))
-      .default,
-  );
+  try {
+    router.use(
+      route,
+      (await import(path.resolve(process.cwd(), `src/core/lib/${module}`)))
+        .default,
+    );
+  } catch (error) {
+    console.error(`Failed to load module for route ${route}:`);
+  }
 }
 
 for (const [route, module] of Object.entries(MODULE_ROUTES)) {
-  router.use(
-    route,
-    (await import(path.resolve(process.cwd(), `src/apps/${module}`))).default,
-  );
+  try {
+    router.use(
+      route,
+      (await import(path.resolve(process.cwd(), `src/apps/${module}`))).default,
+    );
+  } catch (error) {
+    console.error(`Failed to load module for route ${route}:`, error);
+  }
 }
 
 router.get("/status", async (req, res) => {

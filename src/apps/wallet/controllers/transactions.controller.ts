@@ -47,7 +47,10 @@ const createTransaction = forgeController
               lat: parseFloat(coords.latitude),
             };
           } catch {
-            throw new Error("Invalid location coordinates format");
+            return {
+              lon: 0,
+              lat: 0,
+            };
           }
         }),
       asset: z.string().optional(),

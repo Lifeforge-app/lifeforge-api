@@ -41,6 +41,7 @@ class ForgeControllerBuilder<
   protected _noDefaultResponse = false;
   protected _existenceCheck: any = {};
   protected _description = "";
+  protected _isDownloadable = false;
 
   private _handler?: (
     this: { pb: PocketBase; io: Server },
@@ -151,6 +152,13 @@ class ForgeControllerBuilder<
     return this;
   }
 
+  isDownloadable() {
+    this._isDownloadable = true;
+    this._noDefaultResponse = true;
+    this._statusCode = 200;
+    return this;
+  }
+
   callback(
     cb: ControllerCallback<
       BodySchema,
@@ -164,6 +172,7 @@ class ForgeControllerBuilder<
       statusCode: this._statusCode,
       noDefaultResponse: this._noDefaultResponse,
       existenceCheck: this._existenceCheck,
+      isDownloadable: this._isDownloadable,
     };
 
     async function __handler(
@@ -235,6 +244,14 @@ class ForgeControllerBuilder<
               }
             }
           }
+        }
+
+        if (options.isDownloadable) {
+          res.setHeader("X-Lifeforge-Downloadable", "true");
+          res.setHeader(
+            "Access-Control-Expose-Headers",
+            "X-Lifeforge-Downloadable",
+          );
         }
 
         const result = await cb({
