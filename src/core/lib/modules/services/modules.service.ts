@@ -20,10 +20,23 @@ function traverse(path: string, rootPath: string, zip: JSZip) {
 }
 
 export const toggleModule = async (pb: PocketBase, id: string) => {
-  const entry = await pb.collection("modules_entries").getOne(id);
+  const user = pb.authStore.record;
+  if (!user) {
+    throw new ClientError("Unauthorized to toggle module");
+  }
 
-  await pb.collection("modules_entries").update(id, {
-    enabled: !entry.enabled,
+  const modules = user.enabledModules || [];
+  if (!modules.includes(id)) {
+    modules.push(id);
+  } else {
+    const index = modules.indexOf(id);
+    if (index > -1) {
+      modules.splice(index, 1);
+    }
+  }
+
+  await pb.collection("users").update(user.id, {
+    enabledModules: modules,
   });
 };
 

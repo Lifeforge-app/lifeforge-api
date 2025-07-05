@@ -29,9 +29,6 @@ const toggleModule = forgeController
     }),
     response: z.void(),
   })
-  .existenceCheck("params", {
-    id: "modules_entries",
-  })
   .callback(
     async ({ pb, params: { id } }) => await ModuleService.toggleModule(pb, id),
   );
