@@ -29,7 +29,7 @@ const getList = forgeController
   );
 
 const checkListExists = forgeController
-  .route("GET /exists/:id")
+  .route("GET /valid/:id")
   .description("Check if wishlist exists")
   .schema({
     params: z.object({

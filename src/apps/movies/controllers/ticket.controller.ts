@@ -18,12 +18,21 @@ const updateTicket = forgeController
   .schema({
     body: MovieEntrySchema.pick({
       ticket_number: true,
-      theatre_location: true,
       theatre_number: true,
       theatre_seat: true,
       theatre_showtime: true,
     }).extend({
       entry_id: z.string(),
+      theatre_location: z.object({
+        displayName: z.object({
+          text: z.string(),
+          languageCode: z.string(),
+        }),
+        location: z.object({
+          latitude: z.number(),
+          longitude: z.number(),
+        }),
+      }),
     }),
     response: WithPBSchema(MovieEntrySchema),
   })

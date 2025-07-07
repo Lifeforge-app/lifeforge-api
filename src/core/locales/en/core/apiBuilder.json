@@ -1,0 +1,63 @@
+{
+  "title": "API Builder",
+  "inputs": {
+    "schemaName": "Schema Name",
+    "fieldName": "Field Name",
+    "fieldType": "Field Type",
+    "optional": "Optional",
+    "addField": "Add Field"
+  },
+  "modals": {
+    "editSchemaBlock": "Edit Schema Block",
+    "newNode": "Add New Node"
+  },
+  "nodes": {
+    "route": "Route",
+    "router": "Router",
+    "schema": "Schema",
+    "withPocketBaseSchema": "Schema with PocketBase",
+    "controller": "Controller",
+    "schemaArray": "Schema Array",
+    "pickFieldsFromSchema": "Select Fields from Schema",
+    "requestSchema": "Request Schema",
+    "service": "Service",
+    "collection": "Collection",
+    "getFullList": "Get Full List",
+    "databaseCrudAction": "Database CRUD Action",
+    "filter": "Filter",
+    "value": "Value",
+    "sorter": "Sorter",
+    "collectionPickFields": "Field Selector"
+  },
+  "items": {
+    "node": "Node"
+  },
+  "nodeColumns": {
+    "httpMethod": "HTTP Method",
+    "routePath": "Route Path",
+    "routerPath": "Router Path",
+    "params": "Parameters",
+    "query": "Query",
+    "body": "Body",
+    "response": "Response",
+    "schemaName": "Schema Name",
+    "fields": "Fields",
+    "responseSchema": "Response Schema",
+    "action": "Action",
+    "databaseAction": "Database Action",
+    "field": "Field",
+    "comparator": "Comparator"
+  },
+  "empty": {
+    "noFields": "No fields available",
+    "noCollectionConnected": "No collection connected",
+    "pleaseSelect": "Please select an option"
+  },
+  "nodeCategories": {
+    "database": "Database",
+    "schema": "Schema",
+    "routing": "Routing",
+    "action": "Action",
+    "variables": "Variables"
+  }
+}

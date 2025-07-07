@@ -6,5 +6,6 @@
   "/locations": "locations",
   "/ai": "ai",
   "/modules": "modules",
-  "/backups": "backups"
+  "/backups": "backups",
+  "/database": "database"
 }

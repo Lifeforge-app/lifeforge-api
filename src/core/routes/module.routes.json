@@ -15,5 +15,6 @@
   "/movies": "movies",
   "/railway-map": "railwayMap",
   "/youtube-summarizer": "youtubeSummarizer",
-  "/achievements": "achievements"
+  "/achievements": "achievements",
+  "/blog": "blog"
 }

@@ -1,0 +1,63 @@
+{
+  "title": "Pembina API",
+  "inputs": {
+    "schemaName": "Nama Skema",
+    "fieldName": "Nama Field",
+    "fieldType": "Jenis Medan",
+    "optional": "Pilihan",
+    "addField": "Tambah Medan"
+  },
+  "modals": {
+    "editSchemaBlock": "Edit Skema Blok",
+    "newNode": "Tambah Node Baharu"
+  },
+  "nodes": {
+    "route": "Rute",
+    "router": "Penghala",
+    "schema": "Skema",
+    "withPocketBaseSchema": "Skema dengan PocketBase",
+    "controller": "Pengawal",
+    "schemaArray": "Array Skema",
+    "pickFieldsFromSchema": "Pilih Medan dari Skema",
+    "requestSchema": "Skema Permintaan",
+    "service": "Perkhidmatan",
+    "collection": "Koleksi",
+    "getFullList": "Dapatkan Senarai Penuh",
+    "databaseCrudAction": "Tindakan CRUD Pangkalan Data",
+    "filter": "Penapis",
+    "value": "Nilai",
+    "sorter": "Penyusun",
+    "collectionPickFields": "Penzilih Bidang"
+  },
+  "items": {
+    "node": "Node"
+  },
+  "nodeColumns": {
+    "httpMethod": "Kaedah HTTP",
+    "routePath": "Jalan Laluan",
+    "routerPath": "Jalur Penghala",
+    "params": "Parameter",
+    "query": "Pertanyaan",
+    "body": "Badan",
+    "response": "Respons",
+    "schemaName": "Nama Skema",
+    "fields": "Medan",
+    "responseSchema": "Skema Respons",
+    "action": "Tindakan",
+    "databaseAction": "Tindakan Pangkalan Data",
+    "field": "Medan",
+    "comparator": "Penyandar"
+  },
+  "empty": {
+    "noFields": "Tiada medan tersedia",
+    "noCollectionConnected": "Tiada koleksi yang disambungkan",
+    "pleaseSelect": "Sila pilih satu pilihan"
+  },
+  "nodeCategories": {
+    "database": "Pangkalan Data",
+    "schema": "Skema",
+    "routing": "Penghalaan",
+    "action": "Tindakan",
+    "variables": "Pemboleh ubah"
+  }
+}
