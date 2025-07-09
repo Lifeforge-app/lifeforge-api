@@ -26,7 +26,7 @@ const createTag = forgeController
   .route("POST /")
   .description("Create a new todo tag")
   .schema({
-    body: TodoListTagSchema.pick({ name: true, color: true }),
+    body: TodoListTagSchema,
     response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
   })
   .statusCode(201)
@@ -39,7 +39,7 @@ const updateTag = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: TodoListTagSchema.pick({ name: true, color: true }),
+    body: TodoListTagSchema,
     response: WithPBSchema(TodoListTagSchema.extend({ amount: z.number() })),
   })
   .existenceCheck("params", {

@@ -59,7 +59,6 @@ const createEvent = forgeController
   .description("Create a new event")
   .schema({
     body: CalendarEventSchema.omit({
-      is_strikethrough: true,
       exceptions: true,
     }).extend({
       location: z
@@ -135,7 +134,6 @@ const updateEvent = forgeController
       id: z.string(),
     }),
     body: CalendarEventSchema.partial().omit({
-      is_strikethrough: true,
       exceptions: true,
     }),
     response: WithPBSchema(CalendarEventSchema),

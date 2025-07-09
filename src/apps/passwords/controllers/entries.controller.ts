@@ -40,7 +40,6 @@ const createEntry = forgeController
   .description("Create a new password entry")
   .schema({
     body: PasswordsEntrySchema.omit({
-      decrypted: true,
       pinned: true,
     }).extend({
       master: z.string(),
@@ -61,7 +60,6 @@ const updateEntry = forgeController
       id: z.string(),
     }),
     body: PasswordsEntrySchema.omit({
-      decrypted: true,
       pinned: true,
     }).extend({
       master: z.string(),
