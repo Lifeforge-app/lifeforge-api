@@ -8,7 +8,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import * as listsService from "../services/lists.service";
-import { TodoListListSchema } from "../typescript/todo_list_interfaces";
+import { TodoListListSchema } from "../typescript/todo_list_list_interfaces";
 
 const todoListListsRouter = express.Router();
 
@@ -43,7 +43,7 @@ const updateList = forgeController
     response: WithPBSchema(TodoListListSchema.extend({ amount: z.number() })),
   })
   .existenceCheck("params", {
-    id: "todo_lists",
+    id: "todo_list_lists",
   })
   .callback(({ pb, params: { id }, body }) =>
     listsService.updateList(pb, id, body),
@@ -59,7 +59,7 @@ const deleteList = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "todo_lists",
+    id: "todo_list_lists",
   })
   .statusCode(204)
   .callback(({ pb, params: { id } }) => listsService.deleteList(pb, id));

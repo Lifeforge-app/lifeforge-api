@@ -11,7 +11,7 @@ import * as entriesService from "../services/entries.service";
 import {
   TodoListEntrySchema,
   TodoListStatusCounterSchema,
-} from "../typescript/todo_list_interfaces";
+} from "../typescript/todo_list_list_interfaces";
 
 const todoListEntriesRouter = express.Router();
 
@@ -33,7 +33,7 @@ const getEntryById = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("params", {
-    id: "todo_entries",
+    id: "todo_list_entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await entriesService.getEntryById(pb, id),
@@ -53,9 +53,9 @@ const getAllEntries = forgeController
     response: z.array(WithPBSchema(TodoListEntrySchema)),
   })
   .existenceCheck("query", {
-    tag: "[todo_tags]",
-    list: "[todo_lists]",
-    priority: "[todo_priorities]",
+    tag: "[todo_list_tags]",
+    list: "[todo_list_lists]",
+    priority: "[todo_list_priorities]",
   })
   .callback(
     async ({ pb, query: { status, tag, list, priority } }) =>
@@ -73,9 +73,9 @@ const createEntry = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("body", {
-    list: "[todo_lists]",
-    priority: "[todo_priorities]",
-    tags: "[todo_tags]",
+    list: "[todo_list_lists]",
+    priority: "[todo_list_priorities]",
+    tags: "[todo_list_tags]",
   })
   .statusCode(201)
   .callback(async ({ pb, body }) => await entriesService.createEntry(pb, body));
@@ -94,12 +94,12 @@ const updateEntry = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("params", {
-    id: "todo_entries",
+    id: "todo_list_entries",
   })
   .existenceCheck("body", {
-    list: "[todo_lists]",
-    priority: "[todo_priorities]",
-    tags: "[todo_tags]",
+    list: "[todo_list_lists]",
+    priority: "[todo_list_priorities]",
+    tags: "[todo_list_tags]",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -116,7 +116,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "todo_entries",
+    id: "todo_list_entries",
   })
   .statusCode(204)
   .callback(
@@ -133,7 +133,7 @@ const toggleEntry = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("params", {
-    id: "todo_entries",
+    id: "todo_list_entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await entriesService.toggleEntry(pb, id),

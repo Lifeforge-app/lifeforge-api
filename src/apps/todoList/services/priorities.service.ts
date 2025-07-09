@@ -13,7 +13,7 @@ export const getAllPriorities = (
     }
   >[]
 > =>
-  pb.collection("todo_priorities_aggregated").getFullList<
+  pb.collection("todo_list_priorities_aggregated").getFullList<
     WithPB<
       ITodoListPriority & {
         amount: number;
@@ -32,11 +32,11 @@ export const createPriority = async (
   >
 > => {
   const created = await pb
-    .collection("todo_priorities")
+    .collection("todo_list_priorities")
     .create<WithPB<ITodoListPriority>>(data);
 
   return pb
-    .collection("todo_priorities_aggregated")
+    .collection("todo_list_priorities_aggregated")
     .getOne<WithPB<ITodoListPriority & { amount: number }>>(created.id);
 };
 
@@ -52,11 +52,11 @@ export const updatePriority = async (
   >
 > => {
   const updated = await pb
-    .collection("todo_priorities")
+    .collection("todo_list_priorities")
     .update<WithPB<ITodoListPriority>>(id, data);
 
   return pb
-    .collection("todo_priorities_aggregated")
+    .collection("todo_list_priorities_aggregated")
     .getOne<WithPB<ITodoListPriority & { amount: number }>>(updated.id);
 };
 
@@ -64,5 +64,5 @@ export const deletePriority = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("todo_priorities").delete(id);
+  await pb.collection("todo_list_priorities").delete(id);
 };
