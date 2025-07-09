@@ -1,10 +1,13 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: user
-// Generated at: 2025-07-09T11:52:26.855Z
-// Contains: users
-import { z } from "zod/v4";
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: user
+ * Generated at: 2025-07-09T12:50:41.286Z
+ * Contains: users
+ */
 
-const UsersSchema = z.object({
+import { z } from "zod/v4";
+const UserSchema = z.object({
   password: z.string(),
   tokenKey: z.string(),
   email: z.email(),
@@ -14,13 +17,13 @@ const UsersSchema = z.object({
   name: z.string(),
   avatar: z.string(),
   dateOfBirth: z.string(),
-  theme: z.enum(["system", "light", "dark"]),
+  theme: z.enum(["system","light","dark"]),
   color: z.string(),
   bgTemp: z.string(),
   bgImage: z.string(),
   backdropFilters: z.any(),
   fontFamily: z.string(),
-  language: z.enum(["zh-CN", "en", "ms", "zh-TW"]),
+  language: z.enum(["zh-CN","en","ms","zh-TW",""]),
   moduleConfigs: z.any(),
   enabledModules: z.any(),
   dashboardLayout: z.any(),
@@ -33,8 +36,16 @@ const UsersSchema = z.object({
   twoFASecret: z.string(),
 });
 
-type IUsers = z.infer<typeof UsersSchema>;
+type IUser = z.infer<typeof UserSchema>;
 
-export { UsersSchema };
+export {
+  UserSchema,
+};
 
-export type { IUsers };
+export type {
+  IUser,
+};
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+// Add your custom schemas here. They will not be overwritten by this script.

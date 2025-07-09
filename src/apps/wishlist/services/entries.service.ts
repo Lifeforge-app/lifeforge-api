@@ -41,7 +41,7 @@ export const scrapeExternal = async (
 
 export const createEntry = async (
   pb: PocketBase,
-  data: Omit<IWishlistEntry, "image"> & { image?: File },
+  data: Omit<IWishlistEntry, "image" | "bought_at"> & { image?: File },
 ): Promise<WithPB<IWishlistEntry>> => {
   const entry = await pb
     .collection("wishlist__entries")

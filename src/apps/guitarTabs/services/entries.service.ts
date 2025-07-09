@@ -7,7 +7,7 @@ import PocketBase, { ListResult } from "pocketbase";
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import {
-  IGuitarTabsAuthors,
+  IGuitarTabsAuthorAggregated,
   IGuitarTabsEntry,
   IGuitarTabsSidebarData,
 } from "../schema";
@@ -34,7 +34,7 @@ export const getSidebarData = async (
     .getFullList<WithPB<IGuitarTabsEntry>>();
   const allAuthors = await pb
     .collection("guitar_tabs__authors")
-    .getFullList<WithPB<IGuitarTabsAuthors>>();
+    .getFullList<WithPB<IGuitarTabsAuthorAggregated>>();
 
   return {
     total: allScores.length,

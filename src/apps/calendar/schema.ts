@@ -1,10 +1,13 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: calendar
-// Generated at: 2025-07-09T11:52:26.853Z
-// Contains: calendar__events, calendar__categories, calendar__categories_aggregated, calendar__calendars
-import { z } from "zod/v4";
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: calendar
+ * Generated at: 2025-07-09T12:50:41.282Z
+ * Contains: calendar__events, calendar__categories, calendar__categories_aggregated, calendar__calendars
+ */
 
-const CalendarEventsSchema = z.object({
+import { z } from "zod/v4";
+const CalendarEventSchema = z.object({
   start: z.string(),
   end: z.string(),
   title: z.string(),
@@ -16,48 +19,50 @@ const CalendarEventsSchema = z.object({
   is_striktethrough: z.boolean(),
   is_recurring: z.boolean(),
   use_google_map: z.boolean(),
-  type: z.enum(["single", "recurring"]),
+  type: z.enum(["single","recurring",""]),
   recurring_rrule: z.string(),
   recurring_duration_unit: z.string(),
   recurring_duration_amount: z.number(),
   exceptions: z.any(),
 });
 
-const CalendarCategoriesSchema = z.object({
+const CalendarCategorySchema = z.object({
   name: z.string(),
   color: z.string(),
   icon: z.string(),
 });
 
-const CalendarCategoriesAggregatedSchema = z.object({
+const CalendarCategoryAggregatedSchema = z.object({
   name: z.string(),
   icon: z.string(),
   color: z.string(),
   amount: z.number(),
 });
 
-const CalendarCalendarsSchema = z.object({
+const CalendarCalendarSchema = z.object({
   name: z.string(),
   color: z.string(),
 });
 
-type ICalendarEvents = z.infer<typeof CalendarEventsSchema>;
-type ICalendarCategories = z.infer<typeof CalendarCategoriesSchema>;
-type ICalendarCategoriesAggregated = z.infer<
-  typeof CalendarCategoriesAggregatedSchema
->;
-type ICalendarCalendars = z.infer<typeof CalendarCalendarsSchema>;
+type ICalendarEvent = z.infer<typeof CalendarEventSchema>;
+type ICalendarCategory = z.infer<typeof CalendarCategorySchema>;
+type ICalendarCategoryAggregated = z.infer<typeof CalendarCategoryAggregatedSchema>;
+type ICalendarCalendar = z.infer<typeof CalendarCalendarSchema>;
 
 export {
-  CalendarEventsSchema,
-  CalendarCategoriesSchema,
-  CalendarCategoriesAggregatedSchema,
-  CalendarCalendarsSchema,
+  CalendarEventSchema,
+  CalendarCategorySchema,
+  CalendarCategoryAggregatedSchema,
+  CalendarCalendarSchema,
 };
 
 export type {
-  ICalendarEvents,
-  ICalendarCategories,
-  ICalendarCategoriesAggregated,
-  ICalendarCalendars,
+  ICalendarEvent,
+  ICalendarCategory,
+  ICalendarCategoryAggregated,
+  ICalendarCalendar,
 };
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+// Add your custom schemas here. They will not be overwritten by this script.

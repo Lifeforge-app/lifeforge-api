@@ -2,12 +2,12 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMovieEntry } from "../schema";
+import { IMoviesEntry } from "../schema";
 
 export const updateTicket = (
   pb: PocketBase,
   ticketData: Pick<
-    IMovieEntry,
+    IMoviesEntry,
     "ticket_number" | "theatre_number" | "theatre_seat" | "theatre_showtime"
   > & {
     entry_id: string;
@@ -22,20 +22,20 @@ export const updateTicket = (
       };
     };
   },
-): Promise<WithPB<IMovieEntry>> => {
+): Promise<WithPB<IMoviesEntry>> => {
   (ticketData as any).theatre_location =
     ticketData.theatre_location.displayName.text;
 
   return pb
     .collection("movies__entries")
-    .update<WithPB<IMovieEntry>>(ticketData.entry_id, ticketData);
+    .update<WithPB<IMoviesEntry>>(ticketData.entry_id, ticketData);
 };
 
 export const clearTicket = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("movies__entries").update<WithPB<IMovieEntry>>(id, {
+  await pb.collection("movies__entries").update<WithPB<IMoviesEntry>>(id, {
     ticket_number: "",
     theatre_location: "",
     theatre_number: "",

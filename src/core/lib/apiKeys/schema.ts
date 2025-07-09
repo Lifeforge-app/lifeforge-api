@@ -1,10 +1,13 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: apiKeys
-// Generated at: 2025-07-09T11:52:26.855Z
-// Contains: api_keys__entries
-import { z } from "zod/v4";
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: apiKeys
+ * Generated at: 2025-07-09T12:50:41.286Z
+ * Contains: api_keys__entries
+ */
 
-const ApiKeysEntriesSchema = z.object({
+import { z } from "zod/v4";
+const ApiKeysEntrySchema = z.object({
   keyId: z.string(),
   name: z.string(),
   description: z.string(),
@@ -12,8 +15,16 @@ const ApiKeysEntriesSchema = z.object({
   key: z.string(),
 });
 
-type IApiKeysEntries = z.infer<typeof ApiKeysEntriesSchema>;
+type IApiKeysEntry = z.infer<typeof ApiKeysEntrySchema>;
 
-export { ApiKeysEntriesSchema };
+export {
+  ApiKeysEntrySchema,
+};
 
-export type { IApiKeysEntries };
+export type {
+  IApiKeysEntry,
+};
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+// Add your custom schemas here. They will not be overwritten by this script.

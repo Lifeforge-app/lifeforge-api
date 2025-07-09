@@ -24,9 +24,7 @@ const createLedger = forgeController
   .route("POST /")
   .description("Create a new wallet ledger")
   .schema({
-    body: WalletLedgerSchema.omit({
-      amount: true,
-    }),
+    body: WalletLedgerSchema,
     response: WithPBSchema(WalletLedgerSchema),
   })
   .statusCode(201)
@@ -41,9 +39,7 @@ const updateLedger = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: WalletLedgerSchema.omit({
-      amount: true,
-    }),
+    body: WalletLedgerSchema,
     response: WithPBSchema(WalletLedgerSchema),
   })
   .existenceCheck("params", {

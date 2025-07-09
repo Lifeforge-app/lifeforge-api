@@ -1,10 +1,13 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: virtualWardrobe
-// Generated at: 2025-07-09T11:52:26.852Z
-// Contains: virtual_wardrobe__entries, virtual_wardrobe__histories
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: virtualWardrobe
+ * Generated at: 2025-07-09T12:50:41.279Z
+ * Contains: virtual_wardrobe__entries, virtual_wardrobe__histories
+ */
 import { z } from "zod/v4";
 
-const VirtualWardrobeEntriesSchema = z.object({
+const VirtualWardrobeEntrySchema = z.object({
   name: z.string(),
   category: z.string(),
   subcategory: z.string(),
@@ -21,14 +24,34 @@ const VirtualWardrobeEntriesSchema = z.object({
   is_favourite: z.boolean(),
 });
 
-const VirtualWardrobeHistoriesSchema = z.object({
-  entries: z.string(),
+const VirtualWardrobeHistorySchema = z.object({
+  entries: z.array(z.string()),
   notes: z.string(),
 });
 
-type IVirtualWardrobeEntries = z.infer<typeof VirtualWardrobeEntriesSchema>;
-type IVirtualWardrobeHistories = z.infer<typeof VirtualWardrobeHistoriesSchema>;
+type IVirtualWardrobeEntry = z.infer<typeof VirtualWardrobeEntrySchema>;
+type IVirtualWardrobeHistory = z.infer<typeof VirtualWardrobeHistorySchema>;
 
-export { VirtualWardrobeEntriesSchema, VirtualWardrobeHistoriesSchema };
+export { VirtualWardrobeEntrySchema, VirtualWardrobeHistorySchema };
 
-export type { IVirtualWardrobeEntries, IVirtualWardrobeHistories };
+export type { IVirtualWardrobeEntry, IVirtualWardrobeHistory };
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+const VirtualWardrobeSidebarDataSchema = z.object({
+  total: z.number(),
+  favourites: z.number(),
+  categories: z.record(z.string(), z.number()),
+  subcategories: z.record(z.string(), z.number()),
+  brands: z.record(z.string(), z.number()),
+  sizes: z.record(z.string(), z.number()),
+  colors: z.record(z.string(), z.number()),
+});
+
+type IVirtualWardrobeSidebarData = z.infer<
+  typeof VirtualWardrobeSidebarDataSchema
+>;
+
+export { VirtualWardrobeSidebarDataSchema };
+
+export type { IVirtualWardrobeSidebarData };

@@ -23,7 +23,7 @@ export const getAllPriorities = (
 
 export const createPriority = async (
   pb: PocketBase,
-  data: ITodoListPriority,
+  data: Omit<ITodoListPriority, "amount">,
 ): Promise<
   WithPB<
     ITodoListPriority & {
@@ -43,7 +43,7 @@ export const createPriority = async (
 export const updatePriority = async (
   pb: PocketBase,
   id: string,
-  data: ITodoListPriority,
+  data: Omit<ITodoListPriority, "amount">,
 ): Promise<
   WithPB<
     ITodoListPriority & {

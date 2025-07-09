@@ -3,23 +3,23 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMovieEntry } from "../schema";
+import { IMoviesEntry } from "../schema";
 
 export const getAllEntries = async (
   pb: PocketBase,
   watched: boolean,
 ): Promise<{
-  entries: WithPB<IMovieEntry>[];
+  entries: WithPB<IMoviesEntry>[];
   total: number;
 }> => {
   const entries = await pb
     .collection("movies__entries")
-    .getFullList<WithPB<IMovieEntry>>({
+    .getFullList<WithPB<IMoviesEntry>>({
       filter: `is_watched = ${watched}`,
     });
 
   const total = (
-    await pb.collection("movies__entries").getList<WithPB<IMovieEntry>>(1, 1)
+    await pb.collection("movies__entries").getList<WithPB<IMoviesEntry>>(1, 1)
   ).totalItems;
 
   return {
@@ -44,7 +44,7 @@ export const getAllEntries = async (
 export const createEntryFromTMDB = async (
   pb: PocketBase,
   id: string,
-): Promise<WithPB<IMovieEntry>> => {
+): Promise<WithPB<IMoviesEntry>> => {
   const apiKey = await getAPIKey("tmdb", pb);
   if (!apiKey) {
     throw new Error("API key not found");
@@ -52,7 +52,7 @@ export const createEntryFromTMDB = async (
 
   const existedData = await pb
     .collection("movies__entries")
-    .getFirstListItem<WithPB<IMovieEntry>>(`tmdb_id = ${id}`)
+    .getFirstListItem<WithPB<IMoviesEntry>>(`tmdb_id = ${id}`)
     .catch(() => null);
 
   if (existedData) {
@@ -84,7 +84,7 @@ export const createEntryFromTMDB = async (
 
   return await pb
     .collection("movies__entries")
-    .create<WithPB<IMovieEntry>>(entryData);
+    .create<WithPB<IMoviesEntry>>(entryData);
 };
 
 export const deleteEntry = async (
@@ -97,14 +97,14 @@ export const deleteEntry = async (
 export const toggleWatchStatus = async (
   pb: PocketBase,
   id: string,
-): Promise<WithPB<IMovieEntry>> => {
+): Promise<WithPB<IMoviesEntry>> => {
   const entry = await pb
     .collection("movies__entries")
-    .getOne<WithPB<IMovieEntry>>(id);
+    .getOne<WithPB<IMoviesEntry>>(id);
 
   const updatedEntry = await pb
     .collection("movies__entries")
-    .update<WithPB<IMovieEntry>>(id, {
+    .update<WithPB<IMoviesEntry>>(id, {
       is_watched: !entry.is_watched,
     });
 

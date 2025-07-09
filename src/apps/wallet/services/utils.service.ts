@@ -6,8 +6,8 @@ import { WithPB } from "@typescript/pocketbase_interfaces";
 import {
   IWalletCategory,
   IWalletIncomeExpensesSummary,
-  IWalletTransactionEntry,
-  IWalletTransactionType,
+  IWalletTransaction,
+  IWalletTransactionTypeAggregated,
 } from "../schema";
 
 export const getTypesCount = async (
@@ -20,7 +20,7 @@ export const getTypesCount = async (
 }> => {
   const types = await pb
     .collection("wallet__transaction_types_aggregated")
-    .getFullList<WithPB<IWalletTransactionType>>();
+    .getFullList<WithPB<IWalletTransactionTypeAggregated>>();
 
   const typesCount: {
     [key: string]: {
@@ -51,7 +51,7 @@ export const getIncomeExpensesSummary = async (
 
   const transactions = await pb
     .collection("wallet__transactions")
-    .getFullList<WithPB<IWalletTransactionEntry>>({
+    .getFullList<WithPB<IWalletTransaction>>({
       filter: "type = 'income' || type = 'expenses'",
       sort: "-date,-created",
     });
@@ -130,7 +130,7 @@ export const getExpensesBreakdown = async (
     .format("YYYY-MM-DD");
 
   const expenses = await pb.collection("wallet__transactions").getFullList<
-    WithPB<IWalletTransactionEntry> & {
+    WithPB<IWalletTransaction> & {
       expand?: { category: WithPB<IWalletCategory> };
     }
   >({

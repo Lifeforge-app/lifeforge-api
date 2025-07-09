@@ -1,17 +1,20 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: wishlist
-// Generated at: 2025-07-09T11:52:26.855Z
-// Contains: wishlist__lists, wishlist__entries, wishlist__lists_aggregated
-import { z } from "zod/v4";
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: wishlist
+ * Generated at: 2025-07-09T12:50:41.285Z
+ * Contains: wishlist__lists, wishlist__entries, wishlist__lists_aggregated
+ */
 
-const WishlistListsSchema = z.object({
+import { z } from "zod/v4";
+const WishlistListSchema = z.object({
   name: z.string(),
   description: z.string(),
   color: z.string(),
   icon: z.string(),
 });
 
-const WishlistEntriesSchema = z.object({
+const WishlistEntrySchema = z.object({
   name: z.string(),
   url: z.string(),
   price: z.number(),
@@ -21,7 +24,7 @@ const WishlistEntriesSchema = z.object({
   bought_at: z.string(),
 });
 
-const WishlistListsAggregatedSchema = z.object({
+const WishlistListAggregatedSchema = z.object({
   name: z.string(),
   description: z.string(),
   color: z.string(),
@@ -32,14 +35,22 @@ const WishlistListsAggregatedSchema = z.object({
   bought_amount: z.any(),
 });
 
-type IWishlistLists = z.infer<typeof WishlistListsSchema>;
-type IWishlistEntries = z.infer<typeof WishlistEntriesSchema>;
-type IWishlistListsAggregated = z.infer<typeof WishlistListsAggregatedSchema>;
+type IWishlistList = z.infer<typeof WishlistListSchema>;
+type IWishlistEntry = z.infer<typeof WishlistEntrySchema>;
+type IWishlistListAggregated = z.infer<typeof WishlistListAggregatedSchema>;
 
 export {
-  WishlistListsSchema,
-  WishlistEntriesSchema,
-  WishlistListsAggregatedSchema,
+  WishlistListSchema,
+  WishlistEntrySchema,
+  WishlistListAggregatedSchema,
 };
 
-export type { IWishlistLists, IWishlistEntries, IWishlistListsAggregated };
+export type {
+  IWishlistList,
+  IWishlistEntry,
+  IWishlistListAggregated,
+};
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+// Add your custom schemas here. They will not be overwritten by this script.

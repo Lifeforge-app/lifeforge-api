@@ -86,6 +86,8 @@ const createIdea = forgeController
       let data: Omit<IIdeaBoxEntry, "image" | "archived" | "pinned"> & {
         image?: File;
       } = {
+        title: "",
+        content: "",
         type,
         container,
         folder,

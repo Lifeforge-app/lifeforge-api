@@ -11,7 +11,7 @@ import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
 import {
   WalletReceiptScanResultSchema,
-  WalletTransactionEntrySchema,
+  WalletTransactionSchema,
 } from "../schema";
 import * as TransactionsService from "../services/transactions.service";
 
@@ -21,7 +21,7 @@ const getAllTransactions = forgeController
   .route("GET /")
   .description("Get all wallet transactions")
   .schema({
-    response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
+    response: z.array(WithPBSchema(WalletTransactionSchema)),
   })
   .callback(async ({ pb }) => await TransactionsService.getAllTransactions(pb));
 
@@ -59,7 +59,7 @@ const createTransaction = forgeController
       fromAsset: z.string().optional(),
       toAsset: z.string().optional(),
     }),
-    response: z.array(WithPBSchema(WalletTransactionEntrySchema)),
+    response: z.array(WithPBSchema(WalletTransactionSchema)),
   })
   .middlewares(singleUploadMiddleware)
   .existenceCheck("body", {
@@ -115,7 +115,7 @@ const updateTransaction = forgeController
         .default("false")
         .transform((val) => val === "true"),
     }),
-    response: WithPBSchema(WalletTransactionEntrySchema),
+    response: WithPBSchema(WalletTransactionSchema),
   })
   .middlewares(singleUploadMiddleware)
   .existenceCheck("params", {

@@ -1,26 +1,29 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: booksLibrary
-// Generated at: 2025-07-09T11:52:26.854Z
-// Contains: books_library__collections, books_library__languages, books_library__entries, books_library__file_types, books_library__file_types_aggregated, books_library__languages_aggregated, books_library__collections_aggregated
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: booksLibrary
+ * Generated at: 2025-07-09T12:50:41.285Z
+ * Contains: books_library__collections, books_library__languages, books_library__entries, books_library__file_types, books_library__file_types_aggregated, books_library__languages_aggregated, books_library__collections_aggregated
+ */
 import { z } from "zod/v4";
 
-const BooksLibraryCollectionsSchema = z.object({
+const BooksLibraryCollectionSchema = z.object({
   name: z.string(),
   icon: z.string(),
 });
 
-const BooksLibraryLanguagesSchema = z.object({
+const BooksLibraryLanguageSchema = z.object({
   name: z.string(),
   icon: z.string(),
 });
 
-const BooksLibraryEntriesSchema = z.object({
+const BooksLibraryEntrySchema = z.object({
   title: z.string(),
   authors: z.string(),
   md5: z.string(),
   year_published: z.number(),
   publisher: z.string(),
-  languages: z.string(),
+  languages: z.array(z.string()),
   collection: z.string(),
   extension: z.string(),
   edition: z.string(),
@@ -33,57 +36,75 @@ const BooksLibraryEntriesSchema = z.object({
   time_finished: z.string(),
 });
 
-const BooksLibraryFileTypesSchema = z.object({
+const BooksLibraryFileTypeSchema = z.object({
   name: z.string(),
 });
 
-const BooksLibraryFileTypesAggregatedSchema = z.object({
+const BooksLibraryFileTypeAggregatedSchema = z.object({
   name: z.string(),
   amount: z.number(),
 });
 
-const BooksLibraryLanguagesAggregatedSchema = z.object({
+const BooksLibraryLanguageAggregatedSchema = z.object({
   name: z.string(),
   icon: z.string(),
   amount: z.number(),
 });
 
-const BooksLibraryCollectionsAggregatedSchema = z.object({
+const BooksLibraryCollectionAggregatedSchema = z.object({
   name: z.string(),
   icon: z.string(),
   amount: z.number(),
 });
 
-type IBooksLibraryCollections = z.infer<typeof BooksLibraryCollectionsSchema>;
-type IBooksLibraryLanguages = z.infer<typeof BooksLibraryLanguagesSchema>;
-type IBooksLibraryEntries = z.infer<typeof BooksLibraryEntriesSchema>;
-type IBooksLibraryFileTypes = z.infer<typeof BooksLibraryFileTypesSchema>;
-type IBooksLibraryFileTypesAggregated = z.infer<
-  typeof BooksLibraryFileTypesAggregatedSchema
+type IBooksLibraryCollection = z.infer<typeof BooksLibraryCollectionSchema>;
+type IBooksLibraryLanguage = z.infer<typeof BooksLibraryLanguageSchema>;
+type IBooksLibraryEntry = z.infer<typeof BooksLibraryEntrySchema>;
+type IBooksLibraryFileType = z.infer<typeof BooksLibraryFileTypeSchema>;
+type IBooksLibraryFileTypeAggregated = z.infer<
+  typeof BooksLibraryFileTypeAggregatedSchema
 >;
-type IBooksLibraryLanguagesAggregated = z.infer<
-  typeof BooksLibraryLanguagesAggregatedSchema
+type IBooksLibraryLanguageAggregated = z.infer<
+  typeof BooksLibraryLanguageAggregatedSchema
 >;
-type IBooksLibraryCollectionsAggregated = z.infer<
-  typeof BooksLibraryCollectionsAggregatedSchema
+type IBooksLibraryCollectionAggregated = z.infer<
+  typeof BooksLibraryCollectionAggregatedSchema
 >;
 
 export {
-  BooksLibraryCollectionsSchema,
-  BooksLibraryLanguagesSchema,
-  BooksLibraryEntriesSchema,
-  BooksLibraryFileTypesSchema,
-  BooksLibraryFileTypesAggregatedSchema,
-  BooksLibraryLanguagesAggregatedSchema,
-  BooksLibraryCollectionsAggregatedSchema,
+  BooksLibraryCollectionSchema,
+  BooksLibraryLanguageSchema,
+  BooksLibraryEntrySchema,
+  BooksLibraryFileTypeSchema,
+  BooksLibraryFileTypeAggregatedSchema,
+  BooksLibraryLanguageAggregatedSchema,
+  BooksLibraryCollectionAggregatedSchema,
 };
 
 export type {
-  IBooksLibraryCollections,
-  IBooksLibraryLanguages,
-  IBooksLibraryEntries,
-  IBooksLibraryFileTypes,
-  IBooksLibraryFileTypesAggregated,
-  IBooksLibraryLanguagesAggregated,
-  IBooksLibraryCollectionsAggregated,
+  IBooksLibraryCollection,
+  IBooksLibraryLanguage,
+  IBooksLibraryEntry,
+  IBooksLibraryFileType,
+  IBooksLibraryFileTypeAggregated,
+  IBooksLibraryLanguageAggregated,
+  IBooksLibraryCollectionAggregated,
 };
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+const BooksLibraryLibgenSearchResultSchema = z.object({
+  provider: z.string(),
+  query: z.string(),
+  resultsCount: z.string(),
+  data: z.record(z.string(), z.any()),
+  page: z.number(),
+});
+
+type IBooksLibraryLibgenSearchResult = z.infer<
+  typeof BooksLibraryLibgenSearchResultSchema
+>;
+
+export { BooksLibraryLibgenSearchResultSchema };
+
+export type { IBooksLibraryLibgenSearchResult };

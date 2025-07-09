@@ -23,7 +23,7 @@ const getEventsByDateRange = forgeController
       start: z.string(),
       end: z.string(),
     }),
-    response: z.array(WithPBSchema(CalendarEventSchema)),
+    response: z.array(WithPBSchema(CalendarEventSchema.partial())),
   })
   .callback(
     async ({ pb, query: { start, end } }) =>
@@ -34,7 +34,7 @@ const getEventsToday = forgeController
   .route("GET /today")
   .description("Get today's events")
   .schema({
-    response: z.array(WithPBSchema(CalendarEventSchema)),
+    response: z.array(WithPBSchema(CalendarEventSchema.partial())),
   })
   .callback(async ({ pb }) => await EventsService.getTodayEvents(pb));
 

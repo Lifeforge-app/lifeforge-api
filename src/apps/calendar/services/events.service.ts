@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMovieEntry } from "../../movies/schema";
+import { IMoviesEntry } from "../../movies/schema";
 import { ITodoListEntry } from "../../todoList/schema";
 import { ICalendarCategory, ICalendarEvent } from "../schema";
 
@@ -15,7 +15,7 @@ export const getEventsByDateRange = async (
   pb: PocketBase,
   startDate: string,
   endDate: string,
-): Promise<WithPB<ICalendarEvent>[]> => {
+): Promise<WithPB<Partial<ICalendarEvent>>[]> => {
   const start = moment(startDate).startOf("day").toISOString();
   const end = moment(endDate).endOf("day").toISOString();
 
@@ -58,7 +58,7 @@ export const getEventsByDateRange = async (
 
       if (
         event.exceptions?.some(
-          (exception) =>
+          (exception: string[]) =>
             moment(exception).format("YYYY-MM-DD HH:mm:ss") === start,
         )
       ) {
@@ -99,7 +99,7 @@ export const getEventsByDateRange = async (
       description: entry.notes,
       reference_link: `/todo-list?entry=${entry.id}`,
       is_strikethrough: entry.done,
-    } as WithPB<ICalendarEvent>;
+    } as Partial<WithPB<ICalendarEvent>>;
   });
 
   allEvents.push(...todoEntries);
@@ -107,7 +107,7 @@ export const getEventsByDateRange = async (
   const movieEntries = (
     await pb
       .collection("movies__entries")
-      .getFullList<WithPB<IMovieEntry>>({
+      .getFullList<WithPB<IMoviesEntry>>({
         filter: `theatre_showtime >= '${start}' && theatre_showtime <= '${end}'`,
       })
       .catch(() => [])
@@ -137,12 +137,12 @@ ${entry.theatre_seat}
 
   allEvents.push(...movieEntries);
 
-  return allEvents;
+  return allEvents as any;
 };
 
 export const getTodayEvents = async (
   pb: PocketBase,
-): Promise<WithPB<ICalendarEvent>[]> => {
+): Promise<WithPB<Partial<ICalendarEvent>>[]> => {
   const day = moment().format("YYYY-MM-DD");
 
   const events = await getEventsByDateRange(pb, day, day);
@@ -163,7 +163,7 @@ export const createEvent = async (
     eventData.end = "";
   } else {
     eventData.recurring_rrule = "";
-    eventData.recurring_duration_amount = "0";
+    eventData.recurring_duration_amount = 0;
     eventData.recurring_duration_unit = "";
   }
 

@@ -57,7 +57,7 @@ export const getSidebarData = async (
 
   const colors = allEntries.reduce(
     (acc, curr) => {
-      curr.colors.forEach((color) => {
+      curr.colors.forEach((color: string) => {
         if (!acc[color]) {
           acc[color] = 0;
         }

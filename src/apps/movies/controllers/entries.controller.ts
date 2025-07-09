@@ -7,7 +7,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { MovieEntrySchema } from "../schema";
+import { MoviesEntrySchema } from "../schema";
 import * as entriesService from "../services/entries.service";
 
 const moviesEntriesRouter = express.Router();
@@ -24,7 +24,7 @@ const getAllEntries = forgeController
         .transform((val) => (val === "true" ? true : false)),
     }),
     response: z.object({
-      entries: z.array(WithPBSchema(MovieEntrySchema)),
+      entries: z.array(WithPBSchema(MoviesEntrySchema)),
       total: z.number(),
     }),
   })
@@ -39,7 +39,7 @@ const createEntryFromTMDB = forgeController
     params: z.object({
       id: z.string(),
     }),
-    response: WithPBSchema(MovieEntrySchema),
+    response: WithPBSchema(MoviesEntrySchema),
   })
   .callback(({ pb, params: { id } }) =>
     entriesService.createEntryFromTMDB(pb, id),
@@ -68,7 +68,7 @@ const toggleWatchStatus = forgeController
     params: z.object({
       id: z.string(),
     }),
-    response: WithPBSchema(MovieEntrySchema),
+    response: WithPBSchema(MoviesEntrySchema),
   })
   .existenceCheck("params", {
     id: "movies__entries",

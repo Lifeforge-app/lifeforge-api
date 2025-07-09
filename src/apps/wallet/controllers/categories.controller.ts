@@ -24,9 +24,7 @@ const createCategory = forgeController
   .route("POST /")
   .description("Create a new wallet category")
   .schema({
-    body: WalletCategorySchema.omit({
-      amount: true,
-    }),
+    body: WalletCategorySchema,
     response: WithPBSchema(WalletCategorySchema),
   })
   .statusCode(201)
@@ -41,9 +39,7 @@ const updateCategory = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: WalletCategorySchema.omit({
-      amount: true,
-    }),
+    body: WalletCategorySchema,
     response: WithPBSchema(WalletCategorySchema),
   })
   .existenceCheck("params", {

@@ -26,7 +26,7 @@ const createPriority = forgeController
   .route("POST /")
   .description("Create a new todo priority")
   .schema({
-    body: TodoListPrioritySchema.pick({ name: true, color: true }),
+    body: TodoListPrioritySchema,
     response: WithPBSchema(
       TodoListPrioritySchema.extend({ amount: z.number() }),
     ),

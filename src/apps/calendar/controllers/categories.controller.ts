@@ -42,9 +42,7 @@ const createCategory = forgeController
   .route("POST /")
   .description("Create a new calendar category")
   .schema({
-    body: CalendarCategorySchema.omit({
-      amount: true,
-    }),
+    body: CalendarCategorySchema,
     response: WithPBSchema(CalendarCategorySchema),
   })
   .statusCode(201)
@@ -72,9 +70,7 @@ const updateCategory = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: CalendarCategorySchema.omit({
-      amount: true,
-    }),
+    body: CalendarCategorySchema,
     response: WithPBSchema(CalendarCategorySchema),
   })
   .existenceCheck("params", {

@@ -8,7 +8,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { PasswordEntrySchema } from "../schema";
+import { PasswordsEntrySchema } from "../schema";
 import * as EntriesService from "../services/entries.service";
 
 const passwordsEntriesRouter = express.Router();
@@ -31,7 +31,7 @@ const getAllEntries = forgeController
   .route("GET /")
   .description("Get all password entries")
   .schema({
-    response: z.array(WithPBSchema(PasswordEntrySchema)),
+    response: z.array(WithPBSchema(PasswordsEntrySchema)),
   })
   .callback(async ({ pb }) => await EntriesService.getAllEntries(pb));
 
@@ -39,13 +39,13 @@ const createEntry = forgeController
   .route("POST /")
   .description("Create a new password entry")
   .schema({
-    body: PasswordEntrySchema.omit({
+    body: PasswordsEntrySchema.omit({
       decrypted: true,
       pinned: true,
     }).extend({
       master: z.string(),
     }),
-    response: WithPBSchema(PasswordEntrySchema),
+    response: WithPBSchema(PasswordsEntrySchema),
   })
   .callback(
     async ({ pb, body }) =>
@@ -60,13 +60,13 @@ const updateEntry = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: PasswordEntrySchema.omit({
+    body: PasswordsEntrySchema.omit({
       decrypted: true,
       pinned: true,
     }).extend({
       master: z.string(),
     }),
-    response: WithPBSchema(PasswordEntrySchema),
+    response: WithPBSchema(PasswordsEntrySchema),
   })
   .existenceCheck("params", {
     id: "passwords__entries",
@@ -120,7 +120,7 @@ const togglePin = forgeController
     params: z.object({
       id: z.string(),
     }),
-    response: WithPBSchema(PasswordEntrySchema),
+    response: WithPBSchema(PasswordsEntrySchema),
   })
   .existenceCheck("params", {
     id: "passwords__entries",

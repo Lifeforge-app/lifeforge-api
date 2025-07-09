@@ -26,7 +26,7 @@ export const getTabsList = async (
     data: {
       list: {
         qupu: {
-          id: string;
+          id: number;
           name: string;
           sub_title: string;
           category_txt: string;
@@ -52,18 +52,15 @@ export const getTabsList = async (
   return {
     data: data.data.list
       .map((item) => item.qupu)
-      .map(
-        (item) =>
-          ({
-            id: item.id,
-            name: item.name,
-            subtitle: item.sub_title,
-            category: item.category_txt,
-            mainArtist: item.main_artist,
-            uploader: item.creator_name,
-            audioUrl: item.audio,
-          }) satisfies IGuitarTabsGuitarWorldEntry,
-      ),
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        subtitle: item.sub_title,
+        category: item.category_txt,
+        mainArtist: item.main_artist,
+        uploader: item.creator_name,
+        audioUrl: item.audio,
+      })),
     totalItems: data.data.total,
     perPage: data.data.page_size,
   };

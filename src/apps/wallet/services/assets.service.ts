@@ -4,8 +4,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IWalletAsset } from "../schema";
-import { IWalletTransactionEntry } from "../schema";
+import { IWalletAsset, IWalletTransaction } from "../schema";
 
 export const getAllAssets = (pb: PocketBase): Promise<WithPB<IWalletAsset>[]> =>
   pb.collection("wallet__assets_aggregated").getFullList<WithPB<IWalletAsset>>({
@@ -27,9 +26,7 @@ export const getAssetAccumulatedBalance = async (
 
   const allTransactions = await pb
     .collection("wallet__transactions")
-    .getFullList<
-      Pick<WithPB<IWalletTransactionEntry>, "amount" | "date" | "side">
-    >({
+    .getFullList<Pick<WithPB<IWalletTransaction>, "amount" | "date" | "side">>({
       filter: `asset = '${assetId}'`,
       sort: "-date",
       fields: "amount,date,side",

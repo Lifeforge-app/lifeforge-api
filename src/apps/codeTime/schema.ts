@@ -1,22 +1,25 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: codeTime
-// Generated at: 2025-07-09T11:52:26.854Z
-// Contains: code_time__projects, code_time__languages, code_time__daily_entries
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: codeTime
+ * Generated at: 2025-07-09T12:50:41.285Z
+ * Contains: code_time__projects, code_time__languages, code_time__daily_entries
+ */
 import { z } from "zod/v4";
 
-const CodeTimeProjectsSchema = z.object({
+const CodeTimeProjectSchema = z.object({
   name: z.string(),
   duration: z.number(),
 });
 
-const CodeTimeLanguagesSchema = z.object({
+const CodeTimeLanguageSchema = z.object({
   name: z.string(),
   icon: z.string(),
   color: z.string(),
   duration: z.number(),
 });
 
-const CodeTimeDailyEntriesSchema = z.object({
+const CodeTimeDailyEntrySchema = z.object({
   date: z.string(),
   relative_files: z.any(),
   projects: z.any(),
@@ -25,14 +28,42 @@ const CodeTimeDailyEntriesSchema = z.object({
   languages: z.any(),
 });
 
-type ICodeTimeProjects = z.infer<typeof CodeTimeProjectsSchema>;
-type ICodeTimeLanguages = z.infer<typeof CodeTimeLanguagesSchema>;
-type ICodeTimeDailyEntries = z.infer<typeof CodeTimeDailyEntriesSchema>;
+type ICodeTimeProject = z.infer<typeof CodeTimeProjectSchema>;
+type ICodeTimeLanguage = z.infer<typeof CodeTimeLanguageSchema>;
+type ICodeTimeDailyEntry = z.infer<typeof CodeTimeDailyEntrySchema>;
 
 export {
-  CodeTimeProjectsSchema,
-  CodeTimeLanguagesSchema,
-  CodeTimeDailyEntriesSchema,
+  CodeTimeProjectSchema,
+  CodeTimeLanguageSchema,
+  CodeTimeDailyEntrySchema,
 };
 
-export type { ICodeTimeProjects, ICodeTimeLanguages, ICodeTimeDailyEntries };
+export type { ICodeTimeProject, ICodeTimeLanguage, ICodeTimeDailyEntry };
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+const CodeTimeActivitiesSchema = z.object({
+  data: z.array(
+    z.object({
+      date: z.string(),
+      count: z.number(),
+      level: z.number(),
+    }),
+  ),
+  firstYear: z.number(),
+});
+
+const CodeTimeStatisticsSchema = z.object({
+  "Most time spent": z.number(),
+  "Total time spent": z.number(),
+  "Average time spent": z.number(),
+  "Longest streak": z.number(),
+  "Current streak": z.number(),
+});
+
+type ICodeTimeActivities = z.infer<typeof CodeTimeActivitiesSchema>;
+type ICodeTimeStatistics = z.infer<typeof CodeTimeStatisticsSchema>;
+
+export { CodeTimeActivitiesSchema, CodeTimeStatisticsSchema };
+
+export type { ICodeTimeActivities, ICodeTimeStatistics };

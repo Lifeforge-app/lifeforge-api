@@ -24,7 +24,7 @@ const createCollection = forgeController
   .route("POST /")
   .description("Create a new collection for the books library")
   .schema({
-    body: BooksLibraryCollectionSchema.omit({ amount: true }),
+    body: BooksLibraryCollectionSchema,
     response: WithPBSchema(BooksLibraryCollectionSchema),
   })
   .statusCode(201)
@@ -37,7 +37,7 @@ const updateCollection = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: BooksLibraryCollectionSchema.omit({ amount: true }),
+    body: BooksLibraryCollectionSchema,
     response: WithPBSchema(BooksLibraryCollectionSchema),
   })
   .existenceCheck("params", {

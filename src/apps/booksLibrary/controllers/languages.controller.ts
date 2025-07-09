@@ -24,7 +24,7 @@ const createLanguage = forgeController
   .route("POST /")
   .description("Create a new language for the books library")
   .schema({
-    body: BooksLibraryLanguageSchema.omit({ amount: true }),
+    body: BooksLibraryLanguageSchema,
     response: WithPBSchema(BooksLibraryLanguageSchema),
   })
   .statusCode(201)
@@ -39,7 +39,7 @@ const updateLanguage = forgeController
     params: z.object({
       id: z.string(),
     }),
-    body: BooksLibraryLanguageSchema.omit({ amount: true }),
+    body: BooksLibraryLanguageSchema,
     response: WithPBSchema(BooksLibraryLanguageSchema),
   })
   .existenceCheck("params", {

@@ -8,7 +8,7 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { APIKeyEntrySchema } from "../schema";
+import { ApiKeysEntrySchema } from "../schema";
 import { challenge } from "../services/auth.service";
 import getDecryptedMaster, * as entriesService from "../services/entries.service";
 
@@ -21,7 +21,7 @@ const getAllEntries = forgeController
     query: z.object({
       master: z.string(),
     }),
-    response: z.array(WithPBSchema(APIKeyEntrySchema)),
+    response: z.array(WithPBSchema(ApiKeysEntrySchema)),
   })
   .callback(async ({ pb, query: { master } }) => {
     await getDecryptedMaster(pb, decodeURIComponent(master));
@@ -71,7 +71,7 @@ const createEntry = forgeController
     body: z.object({
       data: z.string(),
     }),
-    response: WithPBSchema(APIKeyEntrySchema),
+    response: WithPBSchema(ApiKeysEntrySchema),
   })
   .statusCode(201)
   .callback(async ({ pb, body: { data } }) => {
@@ -100,7 +100,7 @@ const updateEntry = forgeController
     body: z.object({
       data: z.string(),
     }),
-    response: WithPBSchema(APIKeyEntrySchema),
+    response: WithPBSchema(ApiKeysEntrySchema),
   })
   .existenceCheck("params", {
     id: "api_keys__entries",

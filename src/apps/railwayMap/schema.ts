@@ -1,10 +1,13 @@
-// This file is auto-generated. DO NOT EDIT IT MANUALLY.
-// Generated for module: railwayMap
-// Generated at: 2025-07-09T11:52:26.854Z
-// Contains: railway_map__lines, railway_map__stations
-import { z } from "zod/v4";
+/**
+ * This file is auto-generated. DO NOT EDIT IT MANUALLY.
+ * If you want to add custom schemas, you will find a dedicated space at the end of this file.
+ * Generated for module: railwayMap
+ * Generated at: 2025-07-09T12:50:41.284Z
+ * Contains: railway_map__lines, railway_map__stations
+ */
 
-const RailwayMapLinesSchema = z.object({
+import { z } from "zod/v4";
+const RailwayMapLineSchema = z.object({
   country: z.string(),
   type: z.string(),
   code: z.string(),
@@ -14,10 +17,10 @@ const RailwayMapLinesSchema = z.object({
   map_paths: z.any(),
 });
 
-const RailwayMapStationsSchema = z.object({
+const RailwayMapStationSchema = z.object({
   name: z.string(),
   desc: z.string(),
-  lines: z.string(),
+  lines: z.array(z.string()),
   codes: z.any(),
   coords: z.any(),
   map_data: z.any(),
@@ -26,9 +29,19 @@ const RailwayMapStationsSchema = z.object({
   map_image: z.string(),
 });
 
-type IRailwayMapLines = z.infer<typeof RailwayMapLinesSchema>;
-type IRailwayMapStations = z.infer<typeof RailwayMapStationsSchema>;
+type IRailwayMapLine = z.infer<typeof RailwayMapLineSchema>;
+type IRailwayMapStation = z.infer<typeof RailwayMapStationSchema>;
 
-export { RailwayMapLinesSchema, RailwayMapStationsSchema };
+export {
+  RailwayMapLineSchema,
+  RailwayMapStationSchema,
+};
 
-export type { IRailwayMapLines, IRailwayMapStations };
+export type {
+  IRailwayMapLine,
+  IRailwayMapStation,
+};
+
+// -------------------- CUSTOM SCHEMAS --------------------
+
+// Add your custom schemas here. They will not be overwritten by this script.
