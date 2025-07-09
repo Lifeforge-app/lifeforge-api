@@ -1,35 +1,34 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: railwayMap
+// Generated at: 2025-07-09T11:52:26.854Z
+// Contains: railway_map__lines, railway_map__stations
 import { z } from "zod/v4";
 
-const RailwayMapLineSchema = z.object({
+const RailwayMapLinesSchema = z.object({
   country: z.string(),
   type: z.string(),
   code: z.string(),
   name: z.string(),
   color: z.string(),
-  ways: z.array(z.array(z.array(z.number()))),
-  stations: z.array(z.array(z.array(z.string()))),
+  ways: z.any(),
+  map_paths: z.any(),
 });
 
-const RailwayMapStationSchema = z.object({
+const RailwayMapStationsSchema = z.object({
   name: z.string(),
   desc: z.string(),
-  lines: z.array(z.string()),
-  codes: z.array(z.string()),
-  coords: z.array(z.number()),
-  map_data: z.object({
-    text: z.string(),
-    textOffsetX: z.number(),
-    textOffsetY: z.number(),
-    x: z.number(),
-    y: z.number(),
-  }),
-  type: z.enum(["station", "interchange"]),
-  distances: z.record(z.string(), z.number()),
+  lines: z.string(),
+  codes: z.any(),
+  coords: z.any(),
+  map_data: z.any(),
+  type: z.string(),
+  distances: z.any(),
+  map_image: z.string(),
 });
 
-type IRailwayMapLine = z.infer<typeof RailwayMapLineSchema>;
-type IRailwayMapStation = z.infer<typeof RailwayMapStationSchema>;
+type IRailwayMapLines = z.infer<typeof RailwayMapLinesSchema>;
+type IRailwayMapStations = z.infer<typeof RailwayMapStationsSchema>;
 
-export type { IRailwayMapLine, IRailwayMapStation };
+export { RailwayMapLinesSchema, RailwayMapStationsSchema };
 
-export { RailwayMapLineSchema, RailwayMapStationSchema };
+export type { IRailwayMapLines, IRailwayMapStations };

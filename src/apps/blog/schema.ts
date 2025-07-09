@@ -1,24 +1,29 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: blog
+// Generated at: 2025-07-09T11:52:26.853Z
+// Contains: blog__entries, blog__categories
 import { z } from "zod/v4";
 
-const BlogEntrySchema = z.object({
-  title: z.string(),
+const BlogEntriesSchema = z.object({
   content: z.string(),
-  media: z.array(z.string()),
+  title: z.string(),
+  media: z.string(),
   excerpt: z.string(),
-  visibility: z.enum(["public", "private", "unlisted"]),
+  visibility: z.enum(["private", "public", "unlisted"]),
   featured_image: z.string(),
-  labels: z.array(z.string()),
+  labels: z.any(),
   category: z.string(),
 });
 
-const BlogCategorySchema = z.object({
+const BlogCategoriesSchema = z.object({
   name: z.string(),
   color: z.string(),
   icon: z.string(),
 });
 
-type IBlogEntry = z.infer<typeof BlogEntrySchema>;
-type IBlogCategory = z.infer<typeof BlogCategorySchema>;
+type IBlogEntries = z.infer<typeof BlogEntriesSchema>;
+type IBlogCategories = z.infer<typeof BlogCategoriesSchema>;
 
-export { BlogEntrySchema, BlogCategorySchema };
-export type { IBlogEntry, IBlogCategory };
+export { BlogEntriesSchema, BlogCategoriesSchema };
+
+export type { IBlogEntries, IBlogCategories };

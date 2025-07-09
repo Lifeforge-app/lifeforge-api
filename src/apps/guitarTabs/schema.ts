@@ -1,14 +1,18 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: guitarTabs
+// Generated at: 2025-07-09T11:52:26.853Z
+// Contains: guitar_tabs__entries, guitar_tabs__authors
 import { z } from "zod/v4";
 
-const GuitarTabsEntrySchema = z.object({
+const GuitarTabsEntriesSchema = z.object({
   name: z.string(),
-  author: z.string(),
+  type: z.enum(["fingerstyle", "singalong"]),
+  pageCount: z.string(),
   thumbnail: z.string(),
-  pageCount: z.number(),
+  author: z.string(),
   pdf: z.string(),
   audio: z.string(),
   musescore: z.string(),
-  type: z.enum(["fingerstyle", "singalong", ""]),
   isFavourite: z.boolean(),
 });
 
@@ -17,44 +21,9 @@ const GuitarTabsAuthorsSchema = z.object({
   amount: z.number(),
 });
 
-const GuitarTabsSidebarDataSchema = z.object({
-  total: z.number(),
-  favourites: z.number(),
-  categories: z.object({
-    fingerstyle: z.number(),
-    singalong: z.number(),
-    uncategorized: z.number(),
-  }),
-  authors: z.record(z.string(), z.number()),
-});
-
-const GuitarTabsGuitarWorldEntrySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  subtitle: z.string(),
-  category: z.string(),
-  mainArtist: z.string(),
-  uploader: z.string(),
-  audioUrl: z.string(),
-});
-
-type IGuitarTabsEntry = z.infer<typeof GuitarTabsEntrySchema>;
+type IGuitarTabsEntries = z.infer<typeof GuitarTabsEntriesSchema>;
 type IGuitarTabsAuthors = z.infer<typeof GuitarTabsAuthorsSchema>;
-type IGuitarTabsSidebarData = z.infer<typeof GuitarTabsSidebarDataSchema>;
-type IGuitarTabsGuitarWorldEntry = z.infer<
-  typeof GuitarTabsGuitarWorldEntrySchema
->;
 
-export type {
-  IGuitarTabsEntry,
-  IGuitarTabsAuthors,
-  IGuitarTabsSidebarData,
-  IGuitarTabsGuitarWorldEntry,
-};
+export { GuitarTabsEntriesSchema, GuitarTabsAuthorsSchema };
 
-export {
-  GuitarTabsEntrySchema,
-  GuitarTabsAuthorsSchema,
-  GuitarTabsSidebarDataSchema,
-  GuitarTabsGuitarWorldEntrySchema,
-};
+export type { IGuitarTabsEntries, IGuitarTabsAuthors };

@@ -1,59 +1,82 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: todoList
+// Generated at: 2025-07-09T11:52:26.853Z
+// Contains: todo_list__lists, todo_list__tags, todo_list__entries, todo_list__priorities, todo_list__lists_aggregated, todo_list__tags_aggregated, todo_list__priorities_aggregated
 import { z } from "zod/v4";
 
-const TodoListEntrySchema = z.object({
-  due_date: z.string(),
-  due_date_has_time: z.boolean().optional(),
-  list: z.string(),
-  notes: z.string(),
-  priority: z.string(),
+const TodoListListsSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+  color: z.string(),
+});
+
+const TodoListTagsSchema = z.object({
+  name: z.string(),
+  amount: z.number(),
+});
+
+const TodoListEntriesSchema = z.object({
   summary: z.string(),
-  tags: z.array(z.string()),
+  notes: z.string(),
+  due_date: z.string(),
+  due_date_has_time: z.boolean(),
+  list: z.string(),
+  tags: z.string(),
+  priority: z.string(),
   done: z.boolean(),
   completed_at: z.string(),
 });
 
-const TodoListListSchema = z.object({
+const TodoListPrioritiesSchema = z.object({
+  name: z.string(),
+  color: z.string(),
+  amount: z.number(),
+});
+
+const TodoListListsAggregatedSchema = z.object({
+  name: z.string(),
   color: z.string(),
   icon: z.string(),
-  name: z.string(),
+  amount: z.number(),
 });
 
-const TodoListPrioritySchema = z.object({
+const TodoListTagsAggregatedSchema = z.object({
+  name: z.string(),
+  amount: z.number(),
+});
+
+const TodoListPrioritiesAggregatedSchema = z.object({
+  name: z.string(),
   color: z.string(),
-  name: z.string(),
+  amount: z.number(),
 });
 
-const TodoListTagSchema = z.object({
-  color: z.string(),
-  name: z.string(),
-});
-
-const TodoListStatusCounterSchema = z.object({
-  all: z.number(),
-  today: z.number(),
-  scheduled: z.number(),
-  overdue: z.number(),
-  completed: z.number(),
-});
-
-type ITodoListEntry = z.infer<typeof TodoListEntrySchema>;
-type ITodoListList = z.infer<typeof TodoListListSchema>;
-type ITodoListPriority = z.infer<typeof TodoListPrioritySchema>;
-type ITodoListTag = z.infer<typeof TodoListTagSchema>;
-type ITodoListStatusCounter = z.infer<typeof TodoListStatusCounterSchema>;
+type ITodoListLists = z.infer<typeof TodoListListsSchema>;
+type ITodoListTags = z.infer<typeof TodoListTagsSchema>;
+type ITodoListEntries = z.infer<typeof TodoListEntriesSchema>;
+type ITodoListPriorities = z.infer<typeof TodoListPrioritiesSchema>;
+type ITodoListListsAggregated = z.infer<typeof TodoListListsAggregatedSchema>;
+type ITodoListTagsAggregated = z.infer<typeof TodoListTagsAggregatedSchema>;
+type ITodoListPrioritiesAggregated = z.infer<
+  typeof TodoListPrioritiesAggregatedSchema
+>;
 
 export {
-  TodoListEntrySchema,
-  TodoListListSchema,
-  TodoListPrioritySchema,
-  TodoListTagSchema,
-  TodoListStatusCounterSchema,
+  TodoListListsSchema,
+  TodoListTagsSchema,
+  TodoListEntriesSchema,
+  TodoListPrioritiesSchema,
+  TodoListListsAggregatedSchema,
+  TodoListTagsAggregatedSchema,
+  TodoListPrioritiesAggregatedSchema,
 };
 
 export type {
-  ITodoListEntry,
-  ITodoListList,
-  ITodoListStatusCounter,
-  ITodoListTag,
-  ITodoListPriority,
+  ITodoListLists,
+  ITodoListTags,
+  ITodoListEntries,
+  ITodoListPriorities,
+  ITodoListListsAggregated,
+  ITodoListTagsAggregated,
+  ITodoListPrioritiesAggregated,
 };

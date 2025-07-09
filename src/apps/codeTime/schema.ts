@@ -1,41 +1,38 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: codeTime
+// Generated at: 2025-07-09T11:52:26.854Z
+// Contains: code_time__projects, code_time__languages, code_time__daily_entries
 import { z } from "zod/v4";
 
-const CodeTimeDailyEntrySchema = z.object({
+const CodeTimeProjectsSchema = z.object({
+  name: z.string(),
+  duration: z.number(),
+});
+
+const CodeTimeLanguagesSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+  color: z.string(),
+  duration: z.number(),
+});
+
+const CodeTimeDailyEntriesSchema = z.object({
   date: z.string(),
-  relative_files: z.record(z.string(), z.number()),
-  projects: z.record(z.string(), z.number()),
+  relative_files: z.any(),
+  projects: z.any(),
   total_minutes: z.number(),
   last_timestamp: z.number(),
-  languages: z.record(z.string(), z.number()),
+  languages: z.any(),
 });
 
-const CodeTimeActivitiesSchema = z.object({
-  data: z.array(
-    z.object({
-      date: z.string(),
-      count: z.number(),
-      level: z.number(),
-    }),
-  ),
-  firstYear: z.number(),
-});
-
-const CodeTimeStatisticsSchema = z.object({
-  "Most time spent": z.number(),
-  "Total time spent": z.number(),
-  "Average time spent": z.number(),
-  "Longest streak": z.number(),
-  "Current streak": z.number(),
-});
-
-type ICodeTimeActivities = z.infer<typeof CodeTimeActivitiesSchema>;
-type ICodeTimeDailyEntry = z.infer<typeof CodeTimeDailyEntrySchema>;
-type ICodeTimeStatistics = z.infer<typeof CodeTimeStatisticsSchema>;
-
-export type { ICodeTimeActivities, ICodeTimeDailyEntry, ICodeTimeStatistics };
+type ICodeTimeProjects = z.infer<typeof CodeTimeProjectsSchema>;
+type ICodeTimeLanguages = z.infer<typeof CodeTimeLanguagesSchema>;
+type ICodeTimeDailyEntries = z.infer<typeof CodeTimeDailyEntriesSchema>;
 
 export {
-  CodeTimeActivitiesSchema,
-  CodeTimeDailyEntrySchema,
-  CodeTimeStatisticsSchema,
+  CodeTimeProjectsSchema,
+  CodeTimeLanguagesSchema,
+  CodeTimeDailyEntriesSchema,
 };
+
+export type { ICodeTimeProjects, ICodeTimeLanguages, ICodeTimeDailyEntries };

@@ -1,27 +1,19 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: music
+// Generated at: 2025-07-09T11:52:26.853Z
+// Contains: music__entries
 import { z } from "zod/v4";
 
-const MusicEntrySchema = z.object({
+const MusicEntriesSchema = z.object({
   name: z.string(),
-  author: z.string(),
   duration: z.string(),
+  author: z.string(),
   file: z.string(),
   is_favourite: z.boolean(),
 });
 
-const YoutubeDataSchema = z.object({
-  title: z.string(),
-  uploadDate: z.string(),
-  uploader: z.string(),
-  uploaderUrl: z.string().optional(),
-  duration: z.string(),
-  viewCount: z.number(),
-  likeCount: z.number(),
-  thumbnail: z.string(),
-});
+type IMusicEntries = z.infer<typeof MusicEntriesSchema>;
 
-type IMusicEntry = z.infer<typeof MusicEntrySchema>;
-type IYoutubeData = z.infer<typeof YoutubeDataSchema>;
+export { MusicEntriesSchema };
 
-export type { IMusicEntry, IYoutubeData };
-
-export { MusicEntrySchema, YoutubeDataSchema };
+export type { IMusicEntries };

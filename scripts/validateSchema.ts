@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import fs from "fs";
 import _ from "lodash";
 import path from "path";
-import Pocketbase from "pocketbase";
+import Pocketbase, { CollectionModel } from "pocketbase";
+import { z } from "zod/v4";
 
 dotenv.config({
   path: path.resolve(__dirname, "../env/.env.local"),
@@ -32,37 +33,12 @@ try {
   process.exit(1);
 }
 
-function getAllTSFiles(dir: string): string[] {
-  const files = fs.readdirSync(dir, { withFileTypes: true });
-  let tsFiles: string[] = [];
-
-  for (const file of files) {
-    if (file.isDirectory()) {
-      tsFiles = tsFiles.concat(getAllTSFiles(path.join(dir, file.name)));
-    } else if (file.name.endsWith(".ts") && !file.name.endsWith(".d.ts")) {
-      tsFiles.push(path.join(dir, file.name));
-    }
-  }
-
-  return tsFiles;
-}
-
-const tsFiles = getAllTSFiles("./src/apps").concat(
-  getAllTSFiles("./src/core/lib"),
-);
-
 const allModules = [
   ...fs.readdirSync("./src/apps", { withFileTypes: true }),
   ...fs.readdirSync("./src/core/lib", { withFileTypes: true }),
 ];
 
-const modulesMap: Record<
-  string,
-  {
-    collections: string[];
-    interfacesFile: string;
-  }
-> = {};
+const modulesMap: Record<string, CollectionModel[]> = {};
 
 const allCollections = await pb.collections.getFullList();
 const collections = allCollections.filter((e) => !e.system);
@@ -80,53 +56,139 @@ for (const collection of collections) {
   }
 
   if (!modulesMap[module.name]) {
-    modulesMap[module.name] = {
-      collections: [],
-      interfacesFile: "",
-    };
+    modulesMap[module.name] = [];
   }
-  modulesMap[module.name].collections.push(collection.name);
+  modulesMap[module.name].push(collection);
 }
 
 console.log(
   chalk.green("[INFO]") +
-    ` Found ${Object.values(modulesMap)
-      .map((e) => e.collections.length)
-      .reduce(
-        (a, b) => a + b,
-      )} collections across ${Object.keys(modulesMap).length} modules.`,
+    ` Found ${Object.values(modulesMap).flat().length} collections across ${Object.keys(modulesMap).length} modules.`,
 );
 
-console.log(
-  chalk.green("[INFO]") +
-    ` Found ${
-      Object.values(modulesMap)
-        .map((e) => e.interfacesFile)
-        .filter((e) => e).length
-    } interface files across ${Object.keys(modulesMap).length} modules.`,
-);
-for (const [moduleName, moduleData] of Object.entries(modulesMap)) {
-  if (moduleData.collections.length === 0) {
-    console.log(
-      chalk.yellow("[WARNING]") +
-        ` Module ${moduleName} does not have any collections.`,
-    );
-
-    delete modulesMap[moduleName];
+for (const module of allModules) {
+  if (!modulesMap[module.name]) {
     continue;
   }
 
-  if (!moduleData.interfacesFile) {
-    console.log(
-      chalk.yellow("[WARNING]") +
-        ` Module ${moduleName} does not have an interface file.`,
+  const moduleName = _.camelCase(module.name);
+  const collections = modulesMap[module.name];
+
+  let finalString = `// This file is auto-generated. DO NOT EDIT IT MANUALLY.\n// Generated for module: ${moduleName}\n// Generated at: ${new Date().toISOString()}\n// Contains: ${collections
+    .map((e) => e.name)
+    .join(", ")}\n\nimport { z } from "zod/v4";\n\n`;
+
+  for (const collection of collections) {
+    collection.fields = collection.fields.filter(
+      (e) =>
+        ![
+          "id",
+          "created",
+          "updated",
+          "collectionId",
+          "collectionName",
+        ].includes(e.name),
     );
+    console.log(
+      chalk.blue("[INFO]") +
+        ` Found ${collection.fields.length} fields in collection ${chalk.bold(
+          collection.name,
+        )} in module ${chalk.bold(moduleName)}.`,
+    );
+    const zodSchemaObject: Record<string, string> = {};
 
-    delete modulesMap[moduleName];
+    for (const field of collection.fields) {
+      switch (field.type) {
+        case "text":
+          zodSchemaObject[field.name] = "z.string()";
+          break;
+        case "richtext":
+          zodSchemaObject[field.name] = "z.string()";
+          break;
+        case "number":
+          zodSchemaObject[field.name] = "z.number()";
+          break;
+        case "bool":
+          zodSchemaObject[field.name] = "z.boolean()";
+          break;
+        case "email":
+          zodSchemaObject[field.name] = "z.email()";
+          break;
+        case "url":
+          zodSchemaObject[field.name] = "z.url()";
+          break;
+        case "date":
+          zodSchemaObject[field.name] = "z.string()";
+          break;
+        case "autodate":
+          zodSchemaObject[field.name] = "z.string()";
+          break;
+        case "select":
+          zodSchemaObject[field.name] = field.multiple
+            ? `z.array(z.enum(${JSON.stringify(field.values)}))`
+            : `z.enum(${JSON.stringify(field.values)})`;
+          break;
+        case "file":
+          zodSchemaObject[field.name] = field.multiple
+            ? "z.array(z.string())"
+            : "z.string()";
+          break;
+        case "relation":
+          zodSchemaObject[field.name] = field.multiple
+            ? `z.array(z.string())`
+            : `z.string()`;
+          break;
+        case "json":
+          zodSchemaObject[field.name] = "z.any()";
+          break;
+        case "geoPoint":
+          zodSchemaObject[field.name] =
+            "z.object({ lat: z.number(), lon: z.number() })";
+          break;
+        case "password":
+          zodSchemaObject[field.name] = "z.string()";
+          break;
+        default:
+          console.warn(
+            chalk.yellow("[WARNING]") +
+              ` Unknown field type ${field.type} for field ${field.name} in collection ${collection.name}.`,
+          );
+          continue;
+      }
+    }
+
+    const zodSchemaString = `const ${_.upperFirst(
+      _.camelCase(collection.name),
+    )}Schema = z.object({\n${Object.entries(zodSchemaObject)
+      .map(([key, value]) => `  ${key}: ${value},`)
+      .join("\n")}\n});`;
+    finalString += `${zodSchemaString}\n\n`;
+
+    console.log(
+      chalk.green("[INFO]") +
+        ` Generated Zod schema for collection ${chalk.bold(
+          collection.name,
+        )} in module ${chalk.bold(moduleName)}.`,
+    );
   }
-}
 
-console.log(
-  chalk.green("[INFO]") +
-    ` Linked the interface files location and collections of ${Object.keys(modulesMap).length} modules.`,
-);
+  finalString += `${collections
+    .map(
+      (e) =>
+        `type I${_.upperFirst(_.camelCase(e.name))} = z.infer<typeof ${_.upperFirst(
+          _.camelCase(e.name),
+        )}Schema>;`,
+    )
+    .join("\n")}\n\nexport {\n${collections
+    .map((e) => `  ${_.upperFirst(_.camelCase(e.name))}Schema,`)
+    .join("\n")}\n};\n\nexport type {\n${collections
+    .map((e) => `  I${_.upperFirst(_.camelCase(e.name))},`)
+    .join("\n")}\n};\n`;
+
+  const outputPath = path.resolve(module.parentPath, module.name, "schema.ts");
+  fs.writeFileSync(outputPath, finalString, "utf-8");
+  console.log(
+    chalk.green("[INFO]") +
+      ` Successfully wrote schema for module ${chalk.bold(moduleName)} to ${chalk.bold(outputPath)}.`,
+  );
+}

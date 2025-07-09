@@ -1,38 +1,63 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: calendar
+// Generated at: 2025-07-09T11:52:26.853Z
+// Contains: calendar__events, calendar__categories, calendar__categories_aggregated, calendar__calendars
 import { z } from "zod/v4";
 
-const CalendarEventSchema = z.object({
-  title: z.string(),
+const CalendarEventsSchema = z.object({
   start: z.string(),
   end: z.string(),
+  title: z.string(),
   category: z.string(),
   calendar: z.string(),
   location: z.string(),
   reference_link: z.string(),
   description: z.string(),
-  is_strikethrough: z.boolean(),
+  is_striktethrough: z.boolean(),
+  is_recurring: z.boolean(),
+  use_google_map: z.boolean(),
   type: z.enum(["single", "recurring"]),
   recurring_rrule: z.string(),
-  recurring_duration_amount: z.string(),
   recurring_duration_unit: z.string(),
-  exceptions: z.array(z.string()).optional(),
+  recurring_duration_amount: z.number(),
+  exceptions: z.any(),
 });
 
-const CalendarCategorySchema = z.object({
+const CalendarCategoriesSchema = z.object({
+  name: z.string(),
   color: z.string(),
   icon: z.string(),
+});
+
+const CalendarCategoriesAggregatedSchema = z.object({
   name: z.string(),
+  icon: z.string(),
+  color: z.string(),
   amount: z.number(),
 });
 
-const CalendarCalendarSchema = z.object({
+const CalendarCalendarsSchema = z.object({
   name: z.string(),
   color: z.string(),
 });
 
-type ICalendarCategory = z.infer<typeof CalendarCategorySchema>;
-type ICalendarCalendar = z.infer<typeof CalendarCalendarSchema>;
-type ICalendarEvent = z.infer<typeof CalendarEventSchema>;
+type ICalendarEvents = z.infer<typeof CalendarEventsSchema>;
+type ICalendarCategories = z.infer<typeof CalendarCategoriesSchema>;
+type ICalendarCategoriesAggregated = z.infer<
+  typeof CalendarCategoriesAggregatedSchema
+>;
+type ICalendarCalendars = z.infer<typeof CalendarCalendarsSchema>;
 
-export type { ICalendarCalendar, ICalendarCategory, ICalendarEvent };
+export {
+  CalendarEventsSchema,
+  CalendarCategoriesSchema,
+  CalendarCategoriesAggregatedSchema,
+  CalendarCalendarsSchema,
+};
 
-export { CalendarEventSchema, CalendarCategorySchema, CalendarCalendarSchema };
+export type {
+  ICalendarEvents,
+  ICalendarCategories,
+  ICalendarCategoriesAggregated,
+  ICalendarCalendars,
+};

@@ -1,12 +1,17 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: achievements
+// Generated at: 2025-07-09T11:52:26.853Z
+// Contains: achievements__entries
 import { z } from "zod/v4";
 
-const AchievementsEntrySchema = z.object({
-  title: z.string().min(1).max(100).trim(),
-  thoughts: z.string().min(0).max(500).trim(),
+const AchievementsEntriesSchema = z.object({
+  title: z.string(),
+  thoughts: z.string(),
   difficulty: z.enum(["easy", "medium", "hard", "impossible"]),
 });
 
-type IAchievementEntry = z.infer<typeof AchievementsEntrySchema>;
+type IAchievementsEntries = z.infer<typeof AchievementsEntriesSchema>;
 
-export { AchievementsEntrySchema };
-export type { IAchievementEntry };
+export { AchievementsEntriesSchema };
+
+export type { IAchievementsEntries };

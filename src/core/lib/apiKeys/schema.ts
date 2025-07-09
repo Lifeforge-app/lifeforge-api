@@ -1,6 +1,10 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: apiKeys
+// Generated at: 2025-07-09T11:52:26.855Z
+// Contains: api_keys__entries
 import { z } from "zod/v4";
 
-const APIKeyEntrySchema = z.object({
+const ApiKeysEntriesSchema = z.object({
   keyId: z.string(),
   name: z.string(),
   description: z.string(),
@@ -8,8 +12,8 @@ const APIKeyEntrySchema = z.object({
   key: z.string(),
 });
 
-type IAPIKeyEntry = z.infer<typeof APIKeyEntrySchema>;
+type IApiKeysEntries = z.infer<typeof ApiKeysEntriesSchema>;
 
-export type { IAPIKeyEntry };
+export { ApiKeysEntriesSchema };
 
-export { APIKeyEntrySchema };
+export type { IApiKeysEntries };

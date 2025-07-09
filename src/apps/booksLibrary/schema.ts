@@ -1,87 +1,89 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: booksLibrary
+// Generated at: 2025-07-09T11:52:26.854Z
+// Contains: books_library__collections, books_library__languages, books_library__entries, books_library__file_types, books_library__file_types_aggregated, books_library__languages_aggregated, books_library__collections_aggregated
 import { z } from "zod/v4";
 
-const BooksLibraryEntrySchema = z.object({
-  md5: z.string(),
-  authors: z.string(),
-  collection: z.string(),
-  edition: z.string(),
-  extension: z.string(),
-  file: z.string(),
-  isbn: z.string(),
-  languages: z.array(z.string()),
-  publisher: z.string(),
-  size: z.number(),
-  thumbnail: z.string(),
+const BooksLibraryCollectionsSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+});
+
+const BooksLibraryLanguagesSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+});
+
+const BooksLibraryEntriesSchema = z.object({
   title: z.string(),
+  authors: z.string(),
+  md5: z.string(),
   year_published: z.number(),
+  publisher: z.string(),
+  languages: z.string(),
+  collection: z.string(),
+  extension: z.string(),
+  edition: z.string(),
+  size: z.number(),
+  isbn: z.string(),
+  file: z.string(),
+  thumbnail: z.string(),
   is_favourite: z.boolean(),
   is_read: z.boolean(),
   time_finished: z.string(),
 });
 
-const BooksLibraryCollectionSchema = z.object({
+const BooksLibraryFileTypesSchema = z.object({
+  name: z.string(),
+});
+
+const BooksLibraryFileTypesAggregatedSchema = z.object({
+  name: z.string(),
+  amount: z.number(),
+});
+
+const BooksLibraryLanguagesAggregatedSchema = z.object({
   name: z.string(),
   icon: z.string(),
   amount: z.number(),
 });
 
-const BooksLibraryLanguageSchema = z.object({
+const BooksLibraryCollectionsAggregatedSchema = z.object({
   name: z.string(),
   icon: z.string(),
   amount: z.number(),
 });
 
-const BooksLibraryFileTypeSchema = z.object({
-  name: z.string(),
-  amount: z.number(),
-});
-
-const BooksLibraryDownloadProcessSchema = z.object({
-  kill: z.function().output(z.void()),
-  downloaded: z.string(),
-  total: z.string(),
-  percentage: z.string(),
-  speed: z.string(),
-  ETA: z.string(),
-  metadata: z.any(),
-});
-
-const BooksLibraryLibgenSearchResultSchema = z.object({
-  provider: z.string(),
-  query: z.string(),
-  resultsCount: z.string(),
-  data: z.record(z.string(), z.any()),
-  page: z.number(),
-});
-
-type IBooksLibraryEntry = z.infer<typeof BooksLibraryEntrySchema>;
-type IBooksLibraryCollection = z.infer<typeof BooksLibraryCollectionSchema>;
-type IBooksLibraryLanguage = z.infer<typeof BooksLibraryLanguageSchema>;
-type IBooksLibraryFileType = z.infer<typeof BooksLibraryFileTypeSchema>;
-type IBooksLibraryDownloadProcess = Omit<
-  z.infer<typeof BooksLibraryDownloadProcessSchema>,
-  "kill"
-> & {
-  kill: () => void;
-};
-type IBooksLibraryLibgenSearchResult = z.infer<
-  typeof BooksLibraryLibgenSearchResultSchema
+type IBooksLibraryCollections = z.infer<typeof BooksLibraryCollectionsSchema>;
+type IBooksLibraryLanguages = z.infer<typeof BooksLibraryLanguagesSchema>;
+type IBooksLibraryEntries = z.infer<typeof BooksLibraryEntriesSchema>;
+type IBooksLibraryFileTypes = z.infer<typeof BooksLibraryFileTypesSchema>;
+type IBooksLibraryFileTypesAggregated = z.infer<
+  typeof BooksLibraryFileTypesAggregatedSchema
+>;
+type IBooksLibraryLanguagesAggregated = z.infer<
+  typeof BooksLibraryLanguagesAggregatedSchema
+>;
+type IBooksLibraryCollectionsAggregated = z.infer<
+  typeof BooksLibraryCollectionsAggregatedSchema
 >;
 
 export {
-  BooksLibraryCollectionSchema,
-  BooksLibraryDownloadProcessSchema,
-  BooksLibraryEntrySchema,
-  BooksLibraryFileTypeSchema,
-  BooksLibraryLanguageSchema,
-  BooksLibraryLibgenSearchResultSchema,
+  BooksLibraryCollectionsSchema,
+  BooksLibraryLanguagesSchema,
+  BooksLibraryEntriesSchema,
+  BooksLibraryFileTypesSchema,
+  BooksLibraryFileTypesAggregatedSchema,
+  BooksLibraryLanguagesAggregatedSchema,
+  BooksLibraryCollectionsAggregatedSchema,
 };
 
 export type {
-  IBooksLibraryCollection,
-  IBooksLibraryDownloadProcess,
-  IBooksLibraryEntry,
-  IBooksLibraryFileType,
-  IBooksLibraryLanguage,
-  IBooksLibraryLibgenSearchResult,
+  IBooksLibraryCollections,
+  IBooksLibraryLanguages,
+  IBooksLibraryEntries,
+  IBooksLibraryFileTypes,
+  IBooksLibraryFileTypesAggregated,
+  IBooksLibraryLanguagesAggregated,
+  IBooksLibraryCollectionsAggregated,
 };

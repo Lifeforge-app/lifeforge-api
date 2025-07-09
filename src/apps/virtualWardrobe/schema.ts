@@ -1,49 +1,34 @@
+// This file is auto-generated. DO NOT EDIT IT MANUALLY.
+// Generated for module: virtualWardrobe
+// Generated at: 2025-07-09T11:52:26.852Z
+// Contains: virtual_wardrobe__entries, virtual_wardrobe__histories
 import { z } from "zod/v4";
 
-const VirtualWardrobeEntrySchema = z.object({
+const VirtualWardrobeEntriesSchema = z.object({
   name: z.string(),
   category: z.string(),
   subcategory: z.string(),
-  brand: z.string(),
+  colors: z.any(),
   size: z.string(),
-  colors: z.array(z.string()),
-  price: z.number(),
-  notes: z.string(),
+  brand: z.string(),
   front_image: z.string(),
   back_image: z.string(),
+  last_worn: z.string(),
+  times_worn: z.number(),
+  purchase_date: z.string(),
+  price: z.number(),
+  notes: z.string(),
   is_favourite: z.boolean(),
-  times_worn: z.number().optional(),
-  last_worn: z.string().optional(),
 });
 
-const VirtualWardrobeHistorySchema = z.object({
-  entries: z.array(z.string()),
+const VirtualWardrobeHistoriesSchema = z.object({
+  entries: z.string(),
   notes: z.string(),
 });
 
-const VirtualWardrobeSidebarDataSchema = z.object({
-  total: z.number(),
-  favourites: z.number(),
-  categories: z.record(z.string(), z.number()),
-  subcategories: z.record(z.string(), z.number()),
-  brands: z.record(z.string(), z.number()),
-  sizes: z.record(z.string(), z.number()),
-  colors: z.record(z.string(), z.number()),
-});
+type IVirtualWardrobeEntries = z.infer<typeof VirtualWardrobeEntriesSchema>;
+type IVirtualWardrobeHistories = z.infer<typeof VirtualWardrobeHistoriesSchema>;
 
-type IVirtualWardrobeEntry = z.infer<typeof VirtualWardrobeEntrySchema>;
-type IVirtualWardrobeHistory = z.infer<typeof VirtualWardrobeHistorySchema>;
-type IVirtualWardrobeSidebarData = z.infer<
-  typeof VirtualWardrobeSidebarDataSchema
->;
+export { VirtualWardrobeEntriesSchema, VirtualWardrobeHistoriesSchema };
 
-export {
-  VirtualWardrobeEntrySchema,
-  VirtualWardrobeHistorySchema,
-  VirtualWardrobeSidebarDataSchema,
-};
-export type {
-  IVirtualWardrobeEntry,
-  IVirtualWardrobeHistory,
-  IVirtualWardrobeSidebarData,
-};
+export type { IVirtualWardrobeEntries, IVirtualWardrobeHistories };
