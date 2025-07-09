@@ -27,7 +27,9 @@
     "filter": "Filter",
     "value": "Value",
     "sorter": "Sorter",
-    "collectionPickFields": "Field Selector"
+    "collectionPickFields": "Field Selector",
+    "valueFromRequest": "Value from Request",
+    "createRecord": "Create Record"
   },
   "items": {
     "node": "Node"
@@ -46,12 +48,18 @@
     "action": "Action",
     "databaseAction": "Database Action",
     "field": "Field",
-    "comparator": "Comparator"
+    "comparator": "Comparator",
+    "fieldIDs": "Field IDs",
+    "direction": "Direction"
   },
   "empty": {
     "noFields": "No fields available",
     "noCollectionConnected": "No collection connected",
-    "pleaseSelect": "Please select an option"
+    "pleaseSelect": "Please select an option",
+    "noSchemaConnected": "No schema connected",
+    "noFieldsInSchema": "No available fields in the schema",
+    "noRequestSchemaConnected": "No request schema connected",
+    "noFieldSelected": "No field selected"
   },
   "nodeCategories": {
     "database": "Database",
@@ -59,5 +67,9 @@
     "routing": "Routing",
     "action": "Action",
     "variables": "Variables"
+  },
+  "misc": {
+    "asc": "Ascending",
+    "desc": "Descending"
   }
 }

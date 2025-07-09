@@ -8,7 +8,7 @@ export const getAllFileTypes = (
   pb: PocketBase,
 ): Promise<WithPB<IBooksLibraryFileType>[]> =>
   pb
-    .collection("books_library_file_types_with_amount")
+    .collection("books_library_file_types_aggregated")
     .getFullList<WithPB<IBooksLibraryFileType>>({
       sort: "name",
     });

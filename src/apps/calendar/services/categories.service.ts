@@ -8,7 +8,7 @@ export const getAllCategories = (
   pb: PocketBase,
 ): Promise<WithPB<ICalendarCategory>[]> =>
   pb
-    .collection("calendar_categories_with_amount")
+    .collection("calendar_categories_aggregated")
     .getFullList<WithPB<ICalendarCategory>>({
       sort: "+name",
     });
@@ -22,7 +22,7 @@ export const createCategory = async (
     .create<WithPB<Omit<ICalendarCategory, "amount">>>(categoryData);
 
   return await pb
-    .collection("calendar_categories_with_amount")
+    .collection("calendar_categories_aggregated")
     .getOne<WithPB<ICalendarCategory>>(createdEntry.id);
 };
 
@@ -36,7 +36,7 @@ export const updateCategory = async (
     .update<WithPB<Omit<ICalendarCategory, "amount">>>(id, categoryData);
 
   return await pb
-    .collection("calendar_categories_with_amount")
+    .collection("calendar_categories_aggregated")
     .getOne<WithPB<ICalendarCategory>>(updatedEntry.id);
 };
 

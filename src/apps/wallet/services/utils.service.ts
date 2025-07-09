@@ -19,7 +19,7 @@ export const getTypesCount = async (
   };
 }> => {
   const types = await pb
-    .collection("wallet_transaction_types_with_amount")
+    .collection("wallet_transaction_types_aggregated")
     .getFullList<WithPB<IWalletTransactionType>>();
 
   const typesCount: {

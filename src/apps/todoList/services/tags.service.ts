@@ -13,7 +13,7 @@ export const getAllTags = (
     }
   >[]
 > =>
-  pb.collection("todo_tags_with_amount").getFullList<
+  pb.collection("todo_tags_aggregated").getFullList<
     WithPB<
       ITodoListTag & {
         amount: number;
@@ -36,7 +36,7 @@ export const createTag = async (
     .create<WithPB<ITodoListTag>>(data);
 
   return pb
-    .collection("todo_tags_with_amount")
+    .collection("todo_tags_aggregated")
     .getOne<WithPB<ITodoListTag & { amount: number }>>(created.id);
 };
 
@@ -56,7 +56,7 @@ export const updateTag = async (
     .update<WithPB<ITodoListTag>>(id, data);
 
   return pb
-    .collection("todo_tags_with_amount")
+    .collection("todo_tags_aggregated")
     .getOne<WithPB<ITodoListTag & { amount: number }>>(updated.id);
 };
 

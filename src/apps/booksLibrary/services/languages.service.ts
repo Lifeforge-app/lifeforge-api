@@ -8,7 +8,7 @@ export const getAllLanguages = (
   pb: PocketBase,
 ): Promise<WithPB<IBooksLibraryLanguage>[]> =>
   pb
-    .collection("books_library_languages_with_amount")
+    .collection("books_library_languages_aggregated")
     .getFullList<WithPB<IBooksLibraryLanguage>>();
 
 export const createLanguage = (

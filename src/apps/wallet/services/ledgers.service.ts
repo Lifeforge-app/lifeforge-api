@@ -8,7 +8,7 @@ export const getAllLedgers = (
   pb: PocketBase,
 ): Promise<WithPB<IWalletLedger>[]> =>
   pb
-    .collection("wallet_ledgers_with_amount")
+    .collection("wallet_ledgers_aggregated")
     .getFullList<WithPB<IWalletLedger>>({
       sort: "name",
     });

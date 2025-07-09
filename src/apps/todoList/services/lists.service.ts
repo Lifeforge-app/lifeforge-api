@@ -13,7 +13,7 @@ export const getAllLists = (
     }
   >[]
 > =>
-  pb.collection("todo_lists_with_amount").getFullList<
+  pb.collection("todo_lists_aggregated").getFullList<
     WithPB<ITodoListList> & {
       amount: number;
     }
@@ -33,7 +33,7 @@ export const createList = async (
     .collection("todo_lists")
     .create<WithPB<ITodoListList>>(data);
 
-  return pb.collection("todo_lists_with_amount").getOne<
+  return pb.collection("todo_lists_aggregated").getOne<
     WithPB<ITodoListList> & {
       amount: number;
     }
@@ -55,7 +55,7 @@ export const updateList = async (
     .collection("todo_lists")
     .update<WithPB<ITodoListList>>(id, data);
 
-  return pb.collection("todo_lists_with_amount").getOne<
+  return pb.collection("todo_lists_aggregated").getOne<
     WithPB<
       ITodoListList & {
         amount: number;

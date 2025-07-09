@@ -8,7 +8,7 @@ export const getTags = (
   pb: PocketBase,
   container: string,
 ): Promise<WithPB<IIdeaBoxTag>[]> =>
-  pb.collection("idea_box_tags_with_amount").getFullList<WithPB<IIdeaBoxTag>>({
+  pb.collection("idea_box_tags_aggregated").getFullList<WithPB<IIdeaBoxTag>>({
     filter: `container = "${container}"`,
   });
 

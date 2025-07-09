@@ -17,7 +17,7 @@ export const getContainers = async (
   pb: PocketBase,
 ): Promise<WithPB<IIdeaBoxContainer>[]> =>
   (
-    await pb.collection("idea_box_containers_with_amount").getFullList<
+    await pb.collection("idea_box_containers_aggregated").getFullList<
       WithPB<
         IIdeaBoxContainer & {
           text_count: number;

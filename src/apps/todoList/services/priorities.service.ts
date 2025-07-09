@@ -13,7 +13,7 @@ export const getAllPriorities = (
     }
   >[]
 > =>
-  pb.collection("todo_priorities_with_amount").getFullList<
+  pb.collection("todo_priorities_aggregated").getFullList<
     WithPB<
       ITodoListPriority & {
         amount: number;
@@ -36,7 +36,7 @@ export const createPriority = async (
     .create<WithPB<ITodoListPriority>>(data);
 
   return pb
-    .collection("todo_priorities_with_amount")
+    .collection("todo_priorities_aggregated")
     .getOne<WithPB<ITodoListPriority & { amount: number }>>(created.id);
 };
 
@@ -56,7 +56,7 @@ export const updatePriority = async (
     .update<WithPB<ITodoListPriority>>(id, data);
 
   return pb
-    .collection("todo_priorities_with_amount")
+    .collection("todo_priorities_aggregated")
     .getOne<WithPB<ITodoListPriority & { amount: number }>>(updated.id);
 };
 

@@ -7,7 +7,6 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import * as EntriesService from "../services/entries.service";
 import { AchievementsEntrySchema } from "../typescript/achievements_interfaces";
 
 const achievementsEntriesRouter = express.Router();
@@ -22,7 +21,10 @@ const getAllEntriesByDifficulty = forgeController
     response: z.array(WithPBSchema(AchievementsEntrySchema)),
   })
   .callback(({ pb, params: { difficulty } }) =>
-    EntriesService.getAllEntriesByDifficulty(pb, difficulty),
+    pb.collection("achievements_entries").getFullList({
+      filter: `difficulty = "${difficulty}"`,
+      sort: "-created",
+    }),
   );
 
 const createEntry = forgeController
@@ -33,7 +35,9 @@ const createEntry = forgeController
     response: WithPBSchema(AchievementsEntrySchema),
   })
   .statusCode(201)
-  .callback(({ pb, body }) => EntriesService.createEntry(pb, body));
+  .callback(({ pb, body }) =>
+    pb.collection("achievements_entries").create(body),
+  );
 
 const updateEntry = forgeController
   .route("PATCH /:id")
@@ -49,7 +53,7 @@ const updateEntry = forgeController
     id: "achievements_entries",
   })
   .callback(({ pb, params: { id }, body }) =>
-    EntriesService.updateEntry(pb, id, body),
+    pb.collection("achievements_entries").update(id, body),
   );
 
 const deleteEntry = forgeController
@@ -65,7 +69,9 @@ const deleteEntry = forgeController
     id: "achievements_entries",
   })
   .statusCode(204)
-  .callback(({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id));
+  .callback(async ({ pb, params: { id } }) => {
+    await pb.collection("achievements_entries").delete(id);
+  });
 
 bulkRegisterControllers(achievementsEntriesRouter, [
   getAllEntriesByDifficulty,

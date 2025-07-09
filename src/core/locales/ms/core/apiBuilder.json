@@ -27,7 +27,9 @@
     "filter": "Penapis",
     "value": "Nilai",
     "sorter": "Penyusun",
-    "collectionPickFields": "Penzilih Bidang"
+    "collectionPickFields": "Penzilih Bidang",
+    "valueFromRequest": "Nilai dari Permintaan",
+    "createRecord": "Cipta Rekod"
   },
   "items": {
     "node": "Node"
@@ -46,12 +48,18 @@
     "action": "Tindakan",
     "databaseAction": "Tindakan Pangkalan Data",
     "field": "Medan",
-    "comparator": "Penyandar"
+    "comparator": "Penyandar",
+    "fieldIDs": "ID Bidang",
+    "direction": "Arah"
   },
   "empty": {
     "noFields": "Tiada medan tersedia",
     "noCollectionConnected": "Tiada koleksi yang disambungkan",
-    "pleaseSelect": "Sila pilih satu pilihan"
+    "pleaseSelect": "Sila pilih satu pilihan",
+    "noSchemaConnected": "Tiada skema yang disambungkan",
+    "noFieldsInSchema": "Tiada medan tersedia dalam skema",
+    "noRequestSchemaConnected": "Tiada skema permintaan yang disambungkan",
+    "noFieldSelected": "Tiada bidang dipilih"
   },
   "nodeCategories": {
     "database": "Pangkalan Data",
@@ -59,5 +67,9 @@
     "routing": "Penghalaan",
     "action": "Tindakan",
     "variables": "Pemboleh ubah"
+  },
+  "misc": {
+    "asc": "Menaik",
+    "desc": "Menurun"
   }
 }

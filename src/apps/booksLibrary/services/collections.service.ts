@@ -8,7 +8,7 @@ export const getAllCollections = (
   pb: PocketBase,
 ): Promise<WithPB<IBooksLibraryCollection>[]> =>
   pb
-    .collection("books_library_collections_with_amount")
+    .collection("books_library_collections_aggregated")
     .getFullList<WithPB<IBooksLibraryCollection>>({
       sort: "name",
     });

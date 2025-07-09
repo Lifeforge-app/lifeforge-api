@@ -8,7 +8,7 @@ export const getAllCategories = (
   pb: PocketBase,
 ): Promise<WithPB<IWalletCategory>[]> =>
   pb
-    .collection("wallet_categories_with_amount")
+    .collection("wallet_categories_aggregated")
     .getFullList<WithPB<IWalletCategory>>({
       sort: "name",
     });

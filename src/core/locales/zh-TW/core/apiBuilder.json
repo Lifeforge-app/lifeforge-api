@@ -27,7 +27,9 @@
     "filter": "過濾器",
     "value": "值",
     "sorter": "排序器",
-    "collectionPickFields": "字段選擇器"
+    "collectionPickFields": "字段選擇器",
+    "valueFromRequest": "來自請求的值",
+    "createRecord": "建立記錄"
   },
   "items": {
     "node": "節點"
@@ -46,12 +48,18 @@
     "action": "操作",
     "databaseAction": "資料庫操作",
     "field": "欄位",
-    "comparator": "比較器"
+    "comparator": "比較器",
+    "fieldIDs": "欄位 ID",
+    "direction": "方向"
   },
   "empty": {
     "noFields": "沒有可用的欄位",
     "noCollectionConnected": "未連接任何集合",
-    "pleaseSelect": "請選擇一個選項"
+    "pleaseSelect": "請選擇一個選項",
+    "noSchemaConnected": "未連接任何架構",
+    "noFieldsInSchema": "架構中沒有可用字段",
+    "noRequestSchemaConnected": "未連接任何請求架構",
+    "noFieldSelected": "尚未選擇字段"
   },
   "nodeCategories": {
     "database": "資料庫",
@@ -59,5 +67,9 @@
     "routing": "路由",
     "action": "行動",
     "variables": "變數"
+  },
+  "misc": {
+    "asc": "升序",
+    "desc": "降序"
   }
 }
