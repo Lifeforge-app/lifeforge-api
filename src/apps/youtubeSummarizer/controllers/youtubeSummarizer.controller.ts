@@ -5,8 +5,8 @@ import {
 import express from "express";
 import { z } from "zod/v4";
 
+import { YoutubeInfoSchema } from "../schema";
 import * as YoutubeSummarizerService from "../services/youtubeSummarizer.service";
-import { YoutubeInfoSchema } from "../typescript/youtube_summarizer_interfaces";
 
 const youtubeSummarizerRouter = express.Router();
 

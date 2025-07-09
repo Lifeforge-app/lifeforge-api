@@ -10,8 +10,8 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { singleUploadMiddlewareOfKey } from "@middlewares/uploadMiddleware";
 
+import { IdeaBoxContainerSchema } from "../schema";
 import * as containersService from "../services/containers.service";
-import { IdeaBoxContainerSchema } from "../typescript/idea_box_interfaces";
 
 const ideaBoxContainersRouter = express.Router();
 

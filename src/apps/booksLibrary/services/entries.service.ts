@@ -4,7 +4,7 @@ import Pocketbase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IBooksLibraryEntry } from "../typescript/books_library_interfaces";
+import { IBooksLibraryEntry } from "../schema";
 
 export const getAllEntries = (
   pb: Pocketbase,

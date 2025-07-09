@@ -7,7 +7,7 @@ import { getAPIKey } from "@functions/getAPIKey";
 import express from "express";
 import { z } from "zod/v4";
 
-import { PixabaySearchResultSchema } from "../typescript/pixabay_interfaces";
+import { PixabaySearchResultSchema } from "../schema";
 
 const pixabayRouter = express.Router();
 

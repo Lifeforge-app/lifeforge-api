@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { ITodoListPriority } from "../typescript/todo_list_interfaces";
+import { ITodoListPriority } from "../schema";
 
 export const getAllPriorities = (
   pb: PocketBase,

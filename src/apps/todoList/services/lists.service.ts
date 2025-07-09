@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { ITodoListList } from "../typescript/todo_list_interfaces";
+import { ITodoListList } from "../schema";
 
 export const getAllLists = (
   pb: PocketBase,

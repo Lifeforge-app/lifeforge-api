@@ -3,7 +3,7 @@ import { readFileSync, readdirSync, unlinkSync } from "fs";
 import Pocketbase from "pocketbase";
 import { v4 } from "uuid";
 
-import { IYoutubeData } from "../typescript/music_interfaces";
+import { IYoutubeData } from "../schema";
 
 let downloadStatus: "empty" | "in_progress" | "completed" | "failed" = "empty";
 

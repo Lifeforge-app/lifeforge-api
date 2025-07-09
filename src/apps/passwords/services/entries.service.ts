@@ -3,7 +3,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IPasswordEntry } from "../typescript/passwords_interfaces";
+import { IPasswordEntry } from "../schema";
 import { getDecryptedMaster } from "./master.service";
 
 export const getAllEntries = async (

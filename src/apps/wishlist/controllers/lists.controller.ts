@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { WishlistListSchema } from "../schema";
 import * as listsService from "../services/lists.service";
-import { WishlistListSchema } from "../typescript/wishlist_interfaces";
 
 const wishlistListsRouter = express.Router();
 

@@ -5,8 +5,8 @@ import {
 import express from "express";
 import { z } from "zod/v4";
 
+import { WalletIncomeExpensesSummarySchema } from "../schema";
 import * as UtilsService from "../services/utils.service";
-import { WalletIncomeExpensesSummarySchema } from "../wallet_interfaces";
 
 const walletUtilsRouter = express.Router();
 

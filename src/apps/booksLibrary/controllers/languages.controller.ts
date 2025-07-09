@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { BooksLibraryLanguageSchema } from "../schema";
 import * as LanguagesService from "../services/languages.service";
-import { BooksLibraryLanguageSchema } from "../typescript/books_library_interfaces";
 
 const booksLibraryLanguagesRouter = express.Router();
 

@@ -10,8 +10,8 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
+import { CalendarEventSchema } from "../schema";
 import * as EventsService from "../services/events.service";
-import { CalendarEventSchema } from "../typescript/calendar_interfaces";
 
 const calendarEventsRouter = express.Router();
 

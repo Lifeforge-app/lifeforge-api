@@ -12,10 +12,7 @@ import {
   updateTaskInPool,
 } from "@middlewares/taskPoolMiddleware";
 
-import {
-  IGuitarTabsEntry,
-  IGuitarTabsGuitarWorldEntry,
-} from "../typescript/guitar_tabs_interfaces";
+import { IGuitarTabsEntry, IGuitarTabsGuitarWorldEntry } from "../schema";
 
 export const getTabsList = async (
   cookie: string,

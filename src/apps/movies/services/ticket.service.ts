@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMovieEntry } from "../typescript/movies_interfaces";
+import { IMovieEntry } from "../schema";
 
 export const updateTicket = (
   pb: PocketBase,

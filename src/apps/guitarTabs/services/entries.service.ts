@@ -10,7 +10,7 @@ import {
   IGuitarTabsAuthors,
   IGuitarTabsEntry,
   IGuitarTabsSidebarData,
-} from "../typescript/guitar_tabs_interfaces";
+} from "../schema";
 
 let processing = "empty";
 let left = 0;

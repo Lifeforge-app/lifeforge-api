@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { MovieEntrySchema } from "../schema";
 import * as entriesService from "../services/entries.service";
-import { MovieEntrySchema } from "../typescript/movies_interfaces";
 
 const moviesEntriesRouter = express.Router();
 

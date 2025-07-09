@@ -5,8 +5,8 @@ import {
 import express from "express";
 import { z } from "zod/v4";
 
+import { GuitarTabsGuitarWorldEntrySchema } from "../schema";
 import * as guitarWorldService from "../services/guitarWorld.service";
-import { GuitarTabsGuitarWorldEntrySchema } from "../typescript/guitar_tabs_interfaces";
 
 const guitarTabsGuitarWorldRouter = express.Router();
 

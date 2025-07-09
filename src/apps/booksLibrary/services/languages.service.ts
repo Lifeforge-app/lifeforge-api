@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IBooksLibraryLanguage } from "../typescript/books_library_interfaces";
+import { IBooksLibraryLanguage } from "../schema";
 
 export const getAllLanguages = (
   pb: PocketBase,

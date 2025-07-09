@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IBooksLibraryFileType } from "../typescript/books_library_interfaces";
+import { IBooksLibraryFileType } from "../schema";
 
 export const getAllFileTypes = (
   pb: PocketBase,

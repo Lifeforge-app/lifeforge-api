@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { TodoListPrioritySchema } from "../schema";
 import * as prioritiesService from "../services/priorities.service";
-import { TodoListPrioritySchema } from "../typescript/todo_list_interfaces";
 
 const todoListPrioritiesRouter = express.Router();
 

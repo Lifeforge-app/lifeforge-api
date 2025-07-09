@@ -9,11 +9,11 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
-import * as TransactionsService from "../services/transactions.service";
 import {
   WalletReceiptScanResultSchema,
   WalletTransactionEntrySchema,
-} from "../typescript/wallet_interfaces";
+} from "../schema";
+import * as TransactionsService from "../services/transactions.service";
 
 const walletTransactionsRouter = express.Router();
 

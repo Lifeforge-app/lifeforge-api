@@ -8,7 +8,7 @@ import {
   updateTaskInPool,
 } from "@middlewares/taskPoolMiddleware";
 
-import { IBooksLibraryEntry } from "../../../typescript/books_library_interfaces";
+import { IBooksLibraryEntry } from "../../../schema";
 
 export const addToLibrary = async (
   io: Server,

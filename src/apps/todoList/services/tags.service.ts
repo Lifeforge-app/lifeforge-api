@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { ITodoListTag } from "../typescript/todo_list_interfaces";
+import { ITodoListTag } from "../schema";
 
 export const getAllTags = (
   pb: PocketBase,

@@ -10,8 +10,8 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { singleUploadMiddleware } from "@middlewares/uploadMiddleware";
 
+import { WishlistEntrySchema } from "../schema";
 import * as entriesService from "../services/entries.service";
-import { WishlistEntrySchema } from "../typescript/wishlist_interfaces";
 
 const wishlistEntriesRouter = express.Router();
 

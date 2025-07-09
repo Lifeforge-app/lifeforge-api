@@ -2,10 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import {
-  IVirtualWardrobeEntry,
-  IVirtualWardrobeSidebarData,
-} from "../typescript/virtual_wardrobe_interfaces";
+import { IVirtualWardrobeEntry, IVirtualWardrobeSidebarData } from "../schema";
 
 export const getSidebarData = async (
   pb: PocketBase,

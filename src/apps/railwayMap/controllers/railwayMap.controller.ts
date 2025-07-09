@@ -7,11 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { RailwayMapLineSchema, RailwayMapStationSchema } from "../schema";
 import * as RailwayMapServices from "../services/railwayMap.service";
-import {
-  RailwayMapLineSchema,
-  RailwayMapStationSchema,
-} from "../typescript/railway_map_interfaces";
 
 const railwayMapRouter = express.Router();
 

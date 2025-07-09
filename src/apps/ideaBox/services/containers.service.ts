@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IIdeaBoxContainer } from "../typescript/idea_box_interfaces";
+import { IIdeaBoxContainer } from "../schema";
 
 export const checkContainerExists = async (
   pb: PocketBase,

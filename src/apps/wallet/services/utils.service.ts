@@ -8,7 +8,7 @@ import {
   IWalletIncomeExpensesSummary,
   IWalletTransactionEntry,
   IWalletTransactionType,
-} from "../wallet_interfaces";
+} from "../schema";
 
 export const getTypesCount = async (
   pb: Pocketbase,

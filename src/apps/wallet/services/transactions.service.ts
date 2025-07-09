@@ -7,10 +7,7 @@ import { z } from "zod";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import {
-  IWalletReceiptScanResult,
-  IWalletTransactionEntry,
-} from "../typescript/wallet_interfaces";
+import { IWalletReceiptScanResult, IWalletTransactionEntry } from "../schema";
 
 function convertPDFToImage(path: string): Promise<File | undefined> {
   return new Promise(async (resolve, reject) => {

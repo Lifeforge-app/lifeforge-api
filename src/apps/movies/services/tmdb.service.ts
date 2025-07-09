@@ -3,7 +3,7 @@ import Pocketbase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMovieEntry } from "../typescript/movies_interfaces";
+import { IMovieEntry } from "../schema";
 
 export const searchMovies = async (pb: Pocketbase, q: string, page: number) => {
   const apiKey = await getAPIKey("tmdb", pb);

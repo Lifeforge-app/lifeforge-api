@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IVirtualWardrobeEntry } from "../typescript/virtual_wardrobe_interfaces";
+import { IVirtualWardrobeEntry } from "../schema";
 
 const sessionCart = new Set<WithPB<IVirtualWardrobeEntry>>();
 

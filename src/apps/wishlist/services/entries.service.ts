@@ -3,7 +3,7 @@ import PocketBase from "pocketbase";
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
 import scrapeProviders from "../helpers/scrapers/index";
-import { IWishlistEntry } from "../typescript/wishlist_interfaces";
+import { IWishlistEntry } from "../schema";
 
 export const getCollectionId = (pb: PocketBase): string =>
   pb.collection("wishlist__entries").collectionIdOrName;

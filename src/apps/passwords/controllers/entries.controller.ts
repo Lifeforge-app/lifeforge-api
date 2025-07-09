@@ -8,8 +8,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { PasswordEntrySchema } from "../schema";
 import * as EntriesService from "../services/entries.service";
-import { PasswordEntrySchema } from "../typescript/passwords_interfaces";
 
 const passwordsEntriesRouter = express.Router();
 

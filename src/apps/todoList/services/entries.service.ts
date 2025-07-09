@@ -3,10 +3,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import {
-  ITodoListEntry,
-  ITodoListStatusCounter,
-} from "../typescript/todo_list_interfaces";
+import { ITodoListEntry, ITodoListStatusCounter } from "../schema";
 
 export const getEntryById = (
   pb: PocketBase,

@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { BooksLibraryCollectionSchema } from "../schema";
 import * as CollectionsService from "../services/collections.service";
-import { BooksLibraryCollectionSchema } from "../typescript/books_library_interfaces";
 
 const booksLibraryCollectionsRouter = express.Router();
 

@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IWalletCategory } from "../typescript/wallet_interfaces";
+import { IWalletCategory } from "../schema";
 
 export const getAllCategories = (
   pb: PocketBase,

@@ -4,7 +4,7 @@ import Client from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
+import { IMomentVaultEntry } from "../schema";
 import { convertToMp3 } from "../utils/convertToMP3";
 
 export async function getEntryById(

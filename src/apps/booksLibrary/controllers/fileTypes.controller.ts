@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { BooksLibraryFileTypeSchema } from "../schema";
 import * as FileTypesService from "../services/fileTypes.service";
-import { BooksLibraryFileTypeSchema } from "../typescript/books_library_interfaces";
 
 const booksLibraryFileTypesRouter = express.Router();
 

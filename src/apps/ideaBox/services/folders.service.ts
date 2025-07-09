@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IIdeaBoxFolder } from "../typescript/idea_box_interfaces";
+import { IIdeaBoxFolder } from "../schema";
 
 export const getFolders = (
   pb: PocketBase,

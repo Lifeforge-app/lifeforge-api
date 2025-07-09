@@ -8,12 +8,12 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import * as CodeTimeService from "../services/codeTime.service";
 import {
   CodeTimeActivitiesSchema,
   CodeTimeDailyEntrySchema,
   CodeTimeStatisticsSchema,
-} from "../typescript/code_time_interfaces";
+} from "../schema";
+import * as CodeTimeService from "../services/codeTime.service";
 
 const codeTimeRouter = express.Router();
 

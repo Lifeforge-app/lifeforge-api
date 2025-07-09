@@ -3,10 +3,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import {
-  IRailwayMapLine,
-  IRailwayMapStation,
-} from "../typescript/railway_map_interfaces";
+import { IRailwayMapLine, IRailwayMapStation } from "../schema";
 import dijkstraWithTransfers from "../utils/pathFinding";
 
 export const getLines = (pb: PocketBase): Promise<WithPB<IRailwayMapLine>[]> =>

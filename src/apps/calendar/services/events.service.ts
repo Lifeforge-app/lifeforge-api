@@ -7,12 +7,9 @@ import { z } from "zod";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMovieEntry } from "../../movies/typescript/movies_interfaces";
-import { ITodoListEntry } from "../../todoList/typescript/todo_list_interfaces";
-import {
-  ICalendarCategory,
-  ICalendarEvent,
-} from "../typescript/calendar_interfaces";
+import { IMovieEntry } from "../../movies/schema";
+import { ITodoListEntry } from "../../todoList/schema";
+import { ICalendarCategory, ICalendarEvent } from "../schema";
 
 export const getEventsByDateRange = async (
   pb: PocketBase,

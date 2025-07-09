@@ -5,11 +5,11 @@ import {
 import express from "express";
 import { z } from "zod/v4";
 
-import * as libgenService from "../services/libgen.service";
 import {
   BooksLibraryEntrySchema,
   BooksLibraryLibgenSearchResultSchema,
-} from "../typescript/books_library_interfaces";
+} from "../schema";
+import * as libgenService from "../services/libgen.service";
 
 const booksLibraryLibgenRouter = express.Router();
 

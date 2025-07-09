@@ -9,11 +9,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { IIdeaBoxEntry, IdeaBoxEntrySchema } from "../schema";
 import * as ideasService from "../services/ideas.service";
-import {
-  IIdeaBoxEntry,
-  IdeaBoxEntrySchema,
-} from "../typescript/idea_box_interfaces";
 
 const ideaBoxIdeasRouter = express.Router();
 

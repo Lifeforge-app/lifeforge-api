@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IWalletLedger } from "../typescript/wallet_interfaces";
+import { IWalletLedger } from "../schema";
 
 export const getAllLedgers = (
   pb: PocketBase,

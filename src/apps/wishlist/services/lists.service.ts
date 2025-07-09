@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IWishlistList } from "../typescript/wishlist_interfaces";
+import { IWishlistList } from "../schema";
 
 export const checkListExists = async (
   pb: PocketBase,

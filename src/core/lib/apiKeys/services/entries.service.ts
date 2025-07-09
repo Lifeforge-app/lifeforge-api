@@ -5,7 +5,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IAPIKeyEntry } from "../typescript/api_keys_interfaces";
+import { IAPIKeyEntry } from "../schema";
 import { challenge } from "./auth.service";
 
 export default async function getDecryptedMaster(

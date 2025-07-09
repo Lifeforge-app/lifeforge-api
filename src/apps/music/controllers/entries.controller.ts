@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { MusicEntrySchema } from "../schema";
 import * as EntriesService from "../services/entries.service";
-import { MusicEntrySchema } from "../typescript/music_interfaces";
 
 const musicEntriesRouter = express.Router();
 

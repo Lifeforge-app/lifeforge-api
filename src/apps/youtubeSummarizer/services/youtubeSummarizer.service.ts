@@ -2,7 +2,7 @@ import { fetchAI } from "@functions/fetchAI";
 import { exec } from "child_process";
 import Pocketbase from "pocketbase";
 
-import { IYoutubeInfo } from "../typescript/youtube_summarizer_interfaces";
+import { IYoutubeInfo } from "../schema";
 
 export const getYoutubeVideoInfo = (videoId: string): Promise<IYoutubeInfo> => {
   return new Promise((resolve, reject) => {

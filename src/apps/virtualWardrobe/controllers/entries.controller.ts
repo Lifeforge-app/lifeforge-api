@@ -10,12 +10,12 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import { fieldsUploadMiddleware } from "@middlewares/uploadMiddleware";
 
-import * as entriesService from "../services/entries.service";
-import * as visionService from "../services/vision.service";
 import {
   VirtualWardrobeEntrySchema,
   VirtualWardrobeSidebarDataSchema,
-} from "../typescript/virtual_wardrobe_interfaces";
+} from "../schema";
+import * as entriesService from "../services/entries.service";
+import * as visionService from "../services/vision.service";
 
 const virtualWardrobeEntriesRouter = express.Router();
 

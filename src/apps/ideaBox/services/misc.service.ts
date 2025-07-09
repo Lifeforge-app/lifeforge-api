@@ -7,11 +7,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import {
-  IIdeaBoxContainer,
-  IIdeaBoxEntry,
-  IIdeaBoxFolder,
-} from "../typescript/idea_box_interfaces";
+import { IIdeaBoxContainer, IIdeaBoxEntry, IIdeaBoxFolder } from "../schema";
 
 const OGCache = new Map<string, any>();
 

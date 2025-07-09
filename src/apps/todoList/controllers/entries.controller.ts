@@ -7,11 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { TodoListEntrySchema, TodoListStatusCounterSchema } from "../schema";
 import * as entriesService from "../services/entries.service";
-import {
-  TodoListEntrySchema,
-  TodoListStatusCounterSchema,
-} from "../typescript/todo_list_interfaces";
 
 const todoListEntriesRouter = express.Router();
 

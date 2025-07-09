@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { WalletAssetSchema } from "../schema";
 import * as AssetsService from "../services/assets.service";
-import { WalletAssetSchema } from "../typescript/wallet_interfaces";
 
 const walletAssetsRouter = express.Router();
 

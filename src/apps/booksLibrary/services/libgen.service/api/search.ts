@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 
-import { IBooksLibraryLibgenSearchResult } from "../../../typescript/books_library_interfaces";
+import { IBooksLibraryLibgenSearchResult } from "../../../schema";
 
 export const searchBooks = async (queries: {
   provider: string;

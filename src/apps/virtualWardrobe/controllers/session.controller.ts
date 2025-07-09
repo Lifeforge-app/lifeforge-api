@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { VirtualWardrobeEntrySchema } from "../schema";
 import * as sessionService from "../services/session.service";
-import { VirtualWardrobeEntrySchema } from "../typescript/virtual_wardrobe_interfaces";
 
 const virtualWardrobeSessionRouter = express.Router();
 

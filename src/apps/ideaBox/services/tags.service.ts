@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IIdeaBoxTag } from "../typescript/idea_box_interfaces";
+import { IIdeaBoxTag } from "../schema";
 
 export const getTags = (
   pb: PocketBase,

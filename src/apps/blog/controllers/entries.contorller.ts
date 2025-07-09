@@ -7,7 +7,7 @@ import z from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
-import { BlogEntrySchema } from "../typescript/blog_interfaces";
+import { BlogEntrySchema } from "../schema";
 
 const blogEntriesRouter = express.Router();
 

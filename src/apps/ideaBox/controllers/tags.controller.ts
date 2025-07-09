@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { IdeaBoxTagSchema } from "../schema";
 import * as tagsService from "../services/tags.service";
-import { IdeaBoxTagSchema } from "../typescript/idea_box_interfaces";
 
 const ideaBoxTagsRouter = express.Router();
 

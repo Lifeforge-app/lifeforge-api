@@ -2,7 +2,7 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { ICalendarCalendar } from "../typescript/calendar_interfaces";
+import { ICalendarCalendar } from "../schema";
 
 export const getAllCalendars = (
   pb: PocketBase,

@@ -13,8 +13,8 @@ import {
 
 import { uploadMiddleware } from "@middlewares/uploadMiddleware";
 
+import { MomentVaultEntrySchema } from "../schema";
 import * as EntriesServices from "../services/entries.service";
-import { MomentVaultEntrySchema } from "../typescript/moment_vault_interfaces";
 
 const momentVaultEntriesRouter = express.Router();
 

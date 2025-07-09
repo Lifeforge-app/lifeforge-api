@@ -9,8 +9,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { BooksLibraryEntrySchema } from "../schema";
 import * as EntriesService from "../services/entries.service";
-import { BooksLibraryEntrySchema } from "../typescript/books_library_interfaces";
 
 const booksLibraryEntriesRouter = express.Router();
 

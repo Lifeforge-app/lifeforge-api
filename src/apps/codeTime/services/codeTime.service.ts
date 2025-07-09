@@ -8,7 +8,7 @@ import {
   ICodeTimeActivities,
   ICodeTimeDailyEntry,
   ICodeTimeStatistics,
-} from "../typescript/code_time_interfaces";
+} from "../schema";
 
 export const addDays = (date: Date, days: number): Date => {
   const newDate = new Date(date.valueOf());

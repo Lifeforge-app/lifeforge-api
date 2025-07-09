@@ -8,9 +8,9 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { APIKeyEntrySchema } from "../schema";
 import { challenge } from "../services/auth.service";
 import getDecryptedMaster, * as entriesService from "../services/entries.service";
-import { APIKeyEntrySchema } from "../typescript/api_keys_interfaces";
 
 const apiKeysEntriesRouter = express.Router();
 

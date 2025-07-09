@@ -7,8 +7,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { WalletCategorySchema } from "../schema";
 import * as CategoriesService from "../services/categories.service";
-import { WalletCategorySchema } from "../typescript/wallet_interfaces";
 
 const walletCategoriesRouter = express.Router();
 

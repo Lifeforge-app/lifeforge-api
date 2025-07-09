@@ -88,38 +88,6 @@ for (const collection of collections) {
   modulesMap[module.name].collections.push(collection.name);
 }
 
-const interfaceFiles = tsFiles.filter((e) => e.includes("interfaces"));
-
-for (const file of interfaceFiles) {
-  const moduleName = path.basename(
-    file
-      .split("/")
-      .pop()!
-      .replace(/_interfaces.ts$/, ""),
-  );
-
-  const targetModule = allModules.find(
-    (e) => _.snakeCase(e.name) === moduleName,
-  );
-
-  if (!targetModule) {
-    console.log(
-      chalk.yellow("[WARNING]") +
-        ` Interface file ${file} does not have a corresponding module.`,
-    );
-    continue;
-  }
-
-  if (!modulesMap[targetModule.name]) {
-    modulesMap[targetModule.name] = {
-      collections: [],
-      interfacesFile: file,
-    };
-  } else {
-    modulesMap[targetModule.name].interfacesFile = file;
-  }
-}
-
 console.log(
   chalk.green("[INFO]") +
     ` Found ${Object.values(modulesMap)
@@ -143,6 +111,9 @@ for (const [moduleName, moduleData] of Object.entries(modulesMap)) {
       chalk.yellow("[WARNING]") +
         ` Module ${moduleName} does not have any collections.`,
     );
+
+    delete modulesMap[moduleName];
+    continue;
   }
 
   if (!moduleData.interfacesFile) {
@@ -150,5 +121,12 @@ for (const [moduleName, moduleData] of Object.entries(modulesMap)) {
       chalk.yellow("[WARNING]") +
         ` Module ${moduleName} does not have an interface file.`,
     );
+
+    delete modulesMap[moduleName];
   }
 }
+
+console.log(
+  chalk.green("[INFO]") +
+    ` Linked the interface files location and collections of ${Object.keys(modulesMap).length} modules.`,
+);

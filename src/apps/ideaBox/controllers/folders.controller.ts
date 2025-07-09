@@ -8,8 +8,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { IdeaBoxFolderSchema } from "../schema";
 import * as foldersService from "../services/folders.service";
-import { IdeaBoxFolderSchema } from "../typescript/idea_box_interfaces";
 
 const ideaBoxFoldersRouter = express.Router();
 

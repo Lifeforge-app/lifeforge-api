@@ -5,8 +5,8 @@ import {
 import express from "express";
 import { z } from "zod/v4";
 
+import { YoutubeDataSchema } from "../schema";
 import * as YoutubeService from "../services/youtube.service";
-import { YoutubeDataSchema } from "../typescript/music_interfaces";
 
 const musicYoutubeRouter = express.Router();
 

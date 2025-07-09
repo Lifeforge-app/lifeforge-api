@@ -8,8 +8,8 @@ import { z } from "zod/v4";
 
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
+import { CalendarCategorySchema } from "../schema";
 import * as CategoriesService from "../services/categories.service";
-import { CalendarCategorySchema } from "../typescript/calendar_interfaces";
 
 const calendarCategoriesRouter = express.Router();
 

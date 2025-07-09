@@ -13,11 +13,8 @@ import {
 
 import { uploadMiddleware } from "@middlewares/uploadMiddleware";
 
+import { GuitarTabsEntrySchema, GuitarTabsSidebarDataSchema } from "../schema";
 import * as entriesService from "../services/entries.service";
-import {
-  GuitarTabsEntrySchema,
-  GuitarTabsSidebarDataSchema,
-} from "../typescript/guitar_tabs_interfaces";
 
 const guitarTabsEntriesRouter = express.Router();
 

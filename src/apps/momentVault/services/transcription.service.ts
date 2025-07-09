@@ -5,7 +5,7 @@ import Groq from "groq-sdk";
 import PocketBase from "pocketbase";
 import request from "request";
 
-import { IMomentVaultEntry } from "../typescript/moment_vault_interfaces";
+import { IMomentVaultEntry } from "../schema";
 
 const getTranscription = async (
   filePath: string,

@@ -4,8 +4,8 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IWalletAsset } from "../typescript/wallet_interfaces";
-import { IWalletTransactionEntry } from "../wallet_interfaces";
+import { IWalletAsset } from "../schema";
+import { IWalletTransactionEntry } from "../schema";
 
 export const getAllAssets = (pb: PocketBase): Promise<WithPB<IWalletAsset>[]> =>
   pb.collection("wallet__assets_aggregated").getFullList<WithPB<IWalletAsset>>({

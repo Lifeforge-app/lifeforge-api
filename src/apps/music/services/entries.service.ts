@@ -2,7 +2,7 @@ import Pocketbase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IMusicEntry } from "../typescript/music_interfaces";
+import { IMusicEntry } from "../schema";
 
 let importProgress: "in_progress" | "completed" | "failed" | "empty" = "empty";
 
