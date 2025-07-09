@@ -13,7 +13,7 @@ export const getAllLists = (
     }
   >[]
 > =>
-  pb.collection("todo_list_lists_aggregated").getFullList<
+  pb.collection("todo_list__lists_aggregated").getFullList<
     WithPB<ITodoListList> & {
       amount: number;
     }
@@ -30,10 +30,10 @@ export const createList = async (
   >
 > => {
   const created = await pb
-    .collection("todo_list_lists")
+    .collection("todo_list__lists")
     .create<WithPB<ITodoListList>>(data);
 
-  return pb.collection("todo_list_lists_aggregated").getOne<
+  return pb.collection("todo_list__lists_aggregated").getOne<
     WithPB<ITodoListList> & {
       amount: number;
     }
@@ -52,10 +52,10 @@ export const updateList = async (
   >
 > => {
   const updated = await pb
-    .collection("todo_list_lists")
+    .collection("todo_list__lists")
     .update<WithPB<ITodoListList>>(id, data);
 
-  return pb.collection("todo_list_lists_aggregated").getOne<
+  return pb.collection("todo_list__lists_aggregated").getOne<
     WithPB<
       ITodoListList & {
         amount: number;
@@ -65,5 +65,5 @@ export const updateList = async (
 };
 
 export const deleteList = async (pb: PocketBase, id: string): Promise<void> => {
-  await pb.collection("todo_list_lists").delete(id);
+  await pb.collection("todo_list__lists").delete(id);
 };

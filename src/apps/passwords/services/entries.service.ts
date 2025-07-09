@@ -3,15 +3,17 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IPasswordEntry } from "../typescript/password_interfaces";
+import { IPasswordEntry } from "../typescript/passwords_interfaces";
 import { getDecryptedMaster } from "./master.service";
 
 export const getAllEntries = async (
   pb: PocketBase,
 ): Promise<WithPB<IPasswordEntry>[]> =>
-  await pb.collection("passwords_entries").getFullList<WithPB<IPasswordEntry>>({
-    sort: "-pinned, name",
-  });
+  await pb
+    .collection("passwords__entries")
+    .getFullList<WithPB<IPasswordEntry>>({
+      sort: "-pinned, name",
+    });
 
 export const createEntry = async (
   pb: PocketBase,
@@ -35,7 +37,7 @@ export const createEntry = async (
   );
 
   const entry = await pb
-    .collection("passwords_entries")
+    .collection("passwords__entries")
     .create<WithPB<IPasswordEntry>>({
       name,
       icon,
@@ -71,7 +73,7 @@ export const updateEntry = async (
   );
 
   const entry = await pb
-    .collection("passwords_entries")
+    .collection("passwords__entries")
     .update<WithPB<IPasswordEntry>>(id, {
       name,
       icon,
@@ -93,7 +95,7 @@ export const decryptEntry = async (
   const decryptedMaster = await getDecryptedMaster(pb, master, challenge);
 
   const password: IPasswordEntry = await pb
-    .collection("passwords_entries")
+    .collection("passwords__entries")
     .getOne(id);
 
   const decryptedPassword = decrypt(
@@ -105,7 +107,7 @@ export const decryptEntry = async (
 };
 
 export const deleteEntry = async (pb: PocketBase, id: string) => {
-  await pb.collection("passwords_entries").delete(id);
+  await pb.collection("passwords__entries").delete(id);
 };
 
 export const togglePin = async (
@@ -113,11 +115,11 @@ export const togglePin = async (
   id: string,
 ): Promise<WithPB<IPasswordEntry>> => {
   const entry = await pb
-    .collection("passwords_entries")
+    .collection("passwords__entries")
     .getOne<WithPB<IPasswordEntry>>(id);
 
   return await pb
-    .collection("passwords_entries")
+    .collection("passwords__entries")
     .update<WithPB<IPasswordEntry>>(id, {
       pinned: !entry.pinned,
     });

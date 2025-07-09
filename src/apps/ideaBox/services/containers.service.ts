@@ -2,14 +2,14 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IIdeaBoxContainer } from "../typescript/ideabox_interfaces";
+import { IIdeaBoxContainer } from "../typescript/idea_box_interfaces";
 
 export const checkContainerExists = async (
   pb: PocketBase,
   id: string,
 ): Promise<boolean> =>
   !!(await pb
-    .collection("idea_box_containers")
+    .collection("idea_box__containers")
     .getOne(id)
     .catch(() => {}));
 
@@ -17,7 +17,7 @@ export const getContainers = async (
   pb: PocketBase,
 ): Promise<WithPB<IIdeaBoxContainer>[]> =>
   (
-    await pb.collection("idea_box_containers_aggregated").getFullList<
+    await pb.collection("idea_box__containers_aggregated").getFullList<
       WithPB<
         IIdeaBoxContainer & {
           text_count: number;
@@ -59,7 +59,7 @@ export const createContainer = async (
   }
 
   return await pb
-    .collection("idea_box_containers")
+    .collection("idea_box__containers")
     .create<WithPB<IIdeaBoxContainer>>(containerData);
 };
 
@@ -84,10 +84,10 @@ export const updateContainer = async (
   }
 
   return await pb
-    .collection("idea_box_containers")
+    .collection("idea_box__containers")
     .update<WithPB<IIdeaBoxContainer>>(id, containerData);
 };
 
 export const deleteContainer = async (pb: PocketBase, id: string) => {
-  await pb.collection("idea_box_containers").delete(id);
+  await pb.collection("idea_box__containers").delete(id);
 };

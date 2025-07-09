@@ -6,14 +6,14 @@ import scrapeProviders from "../helpers/scrapers/index";
 import { IWishlistEntry } from "../typescript/wishlist_interfaces";
 
 export const getCollectionId = (pb: PocketBase): string =>
-  pb.collection("wishlist_entries").collectionIdOrName;
+  pb.collection("wishlist__entries").collectionIdOrName;
 
 export const getEntriesByListId = (
   pb: PocketBase,
   listId: string,
   bought?: boolean,
 ): Promise<WithPB<IWishlistEntry>[]> =>
-  pb.collection("wishlist_entries").getFullList<WithPB<IWishlistEntry>>({
+  pb.collection("wishlist__entries").getFullList<WithPB<IWishlistEntry>>({
     filter: `list = "${listId}" ${
       typeof bought !== "undefined" ? `&& bought = ${bought}` : ""
     }`,
@@ -44,7 +44,7 @@ export const createEntry = async (
   data: Omit<IWishlistEntry, "image"> & { image?: File },
 ): Promise<WithPB<IWishlistEntry>> => {
   const entry = await pb
-    .collection("wishlist_entries")
+    .collection("wishlist__entries")
     .create<WithPB<IWishlistEntry>>(data);
 
   return entry;
@@ -62,7 +62,7 @@ export const updateEntry = async (
   },
 ): Promise<WithPB<IWishlistEntry>> => {
   const entry = await pb
-    .collection("wishlist_entries")
+    .collection("wishlist__entries")
     .update<WithPB<IWishlistEntry>>(id, data);
 
   return entry;
@@ -73,7 +73,7 @@ export const getEntry = async (
   id: string,
 ): Promise<WithPB<IWishlistEntry>> => {
   return await pb
-    .collection("wishlist_entries")
+    .collection("wishlist__entries")
     .getOne<WithPB<IWishlistEntry>>(id);
 };
 
@@ -82,11 +82,11 @@ export const updateEntryBoughtStatus = async (
   id: string,
 ): Promise<WithPB<IWishlistEntry>> => {
   const oldEntry = await pb
-    .collection("wishlist_entries")
+    .collection("wishlist__entries")
     .getOne<WithPB<IWishlistEntry>>(id);
 
   const entry = await pb
-    .collection("wishlist_entries")
+    .collection("wishlist__entries")
     .update<WithPB<IWishlistEntry>>(id, {
       bought: !oldEntry.bought,
       bought_at: oldEntry.bought ? null : new Date().toISOString(),
@@ -99,5 +99,5 @@ export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("wishlist_entries").delete(id);
+  await pb.collection("wishlist__entries").delete(id);
 };

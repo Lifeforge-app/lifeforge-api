@@ -10,7 +10,7 @@ export const getAllEntries = (
   pb: Pocketbase,
 ): Promise<WithPB<IBooksLibraryEntry>[]> =>
   pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .getFullList<WithPB<IBooksLibraryEntry>>({
       sort: "-is_favourite,-created",
     });
@@ -31,7 +31,7 @@ export const updateEntry = (
   >,
 ): Promise<WithPB<IBooksLibraryEntry>> =>
   pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .update<WithPB<IBooksLibraryEntry>>(id, data);
 
 export const toggleFavouriteStatus = async (
@@ -39,11 +39,11 @@ export const toggleFavouriteStatus = async (
   id: string,
 ): Promise<WithPB<IBooksLibraryEntry>> => {
   const book = await pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .getOne<WithPB<IBooksLibraryEntry>>(id);
 
   return await pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .update<WithPB<IBooksLibraryEntry>>(id, {
       is_favourite: !book.is_favourite,
     });
@@ -54,11 +54,11 @@ export const toggleReadStatus = async (
   id: string,
 ): Promise<WithPB<IBooksLibraryEntry>> => {
   const book = await pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .getOne<WithPB<IBooksLibraryEntry>>(id);
 
   return await pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .update<WithPB<IBooksLibraryEntry>>(id, {
       is_read: !book.is_read,
       time_finished: !book.is_read ? new Date().toISOString() : "",
@@ -85,7 +85,7 @@ export const sendToKindle = async (
   }
 
   const entry = await pb
-    .collection("books_library_entries")
+    .collection("books_library__entries")
     .getOne<IBooksLibraryEntry>(id);
 
   const fileLink = pb.files.getURL(entry, entry.file);
@@ -116,5 +116,5 @@ export const sendToKindle = async (
 };
 
 export const deleteEntry = async (pb: Pocketbase, id: string) => {
-  await pb.collection("books_library_entries").delete(id);
+  await pb.collection("books_library__entries").delete(id);
 };

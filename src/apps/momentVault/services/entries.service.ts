@@ -12,7 +12,7 @@ export async function getEntryById(
   id: string,
 ): Promise<IMomentVaultEntry> {
   return await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .getOne<IMomentVaultEntry>(id);
 }
 
@@ -21,7 +21,7 @@ export const getAllEntries = async (
   page: number = 1,
 ): Promise<ListResult<WithPB<IMomentVaultEntry>>> => {
   const entries = await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .getList<WithPB<IMomentVaultEntry>>(page, 10, {
       sort: "-created",
     });
@@ -54,7 +54,7 @@ export const createAudioEntry = async (
   const fileBuffer = fs.readFileSync(file.path);
 
   const entry = await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .create<WithPB<IMomentVaultEntry>>({
       type: "audio",
       file: new File([fileBuffer], file.path.split("/").pop() || "audio.mp3"),
@@ -77,7 +77,7 @@ export const createTextEntry = async (
   content: string,
 ): Promise<WithPB<IMomentVaultEntry>> => {
   return await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .create<WithPB<IMomentVaultEntry>>({
       type: "text",
       content,
@@ -94,7 +94,7 @@ export const createPhotosEntry = async (
   });
 
   const entry = await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .create<WithPB<IMomentVaultEntry>>({
       type: "photos",
       file: allImages,
@@ -119,11 +119,11 @@ export const updateEntry = async (
   content: string,
 ): Promise<WithPB<IMomentVaultEntry>> =>
   await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .update<WithPB<IMomentVaultEntry>>(id, {
       content,
     });
 
 export async function deleteEntry(pb: Client, id: string): Promise<void> {
-  await pb.collection("moment_vault_entries").delete(id);
+  await pb.collection("moment_vault__entries").delete(id);
 }

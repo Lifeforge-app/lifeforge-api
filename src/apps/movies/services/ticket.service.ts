@@ -27,7 +27,7 @@ export const updateTicket = (
     ticketData.theatre_location.displayName.text;
 
   return pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .update<WithPB<IMovieEntry>>(ticketData.entry_id, ticketData);
 };
 
@@ -35,7 +35,7 @@ export const clearTicket = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("movies_entries").update<WithPB<IMovieEntry>>(id, {
+  await pb.collection("movies__entries").update<WithPB<IMovieEntry>>(id, {
     ticket_number: "",
     theatre_location: "",
     theatre_number: "",

@@ -161,5 +161,5 @@ const processDownloadedFiles = async (
   metadata.file = new File([file], `${md5}.${metadata.extension}`);
   metadata.size = file.byteLength;
 
-  await pb.collection("books_library_entries").create(metadata);
+  await pb.collection("books_library__entries").create(metadata);
 };

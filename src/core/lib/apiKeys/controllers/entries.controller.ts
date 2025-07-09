@@ -54,7 +54,7 @@ const getEntryById = forgeController
     response: z.string(),
   })
   .existenceCheck("params", {
-    id: "api_keys_entries",
+    id: "api_keys__entries",
   })
   .callback(async ({ pb, params: { id }, query: { master } }) => {
     const decryptedMaster = await getDecryptedMaster(
@@ -103,7 +103,7 @@ const updateEntry = forgeController
     response: WithPBSchema(APIKeyEntrySchema),
   })
   .existenceCheck("params", {
-    id: "api_keys_entries",
+    id: "api_keys__entries",
   })
   .callback(async ({ pb, params: { id }, body: { data } }) => {
     const decryptedData = JSON.parse(decrypt2(data, challenge));
@@ -131,7 +131,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "api_keys_entries",
+    id: "api_keys__entries",
   })
   .statusCode(204)
   .callback(

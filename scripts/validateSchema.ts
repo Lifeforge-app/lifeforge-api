@@ -56,9 +56,16 @@ const allModules = [
   ...fs.readdirSync("./src/core/lib", { withFileTypes: true }),
 ];
 
+const modulesMap: Record<
+  string,
+  {
+    collections: string[];
+    interfacesFile: string;
+  }
+> = {};
+
 const allCollections = await pb.collections.getFullList();
 const collections = allCollections.filter((e) => !e.system);
-const modulesCollectionsMap: Record<string, string[]> = {};
 for (const collection of collections) {
   const module = allModules.find((e) =>
     collection.name.startsWith(_.snakeCase(e.name)),
@@ -72,32 +79,76 @@ for (const collection of collections) {
     continue;
   }
 
-  if (!modulesCollectionsMap[module.name]) {
-    modulesCollectionsMap[module.name] = [];
+  if (!modulesMap[module.name]) {
+    modulesMap[module.name] = {
+      collections: [],
+      interfacesFile: "",
+    };
   }
-  modulesCollectionsMap[module.name].push(collection.name);
+  modulesMap[module.name].collections.push(collection.name);
+}
+
+const interfaceFiles = tsFiles.filter((e) => e.includes("interfaces"));
+
+for (const file of interfaceFiles) {
+  const moduleName = path.basename(
+    file
+      .split("/")
+      .pop()!
+      .replace(/_interfaces.ts$/, ""),
+  );
+
+  const targetModule = allModules.find(
+    (e) => _.snakeCase(e.name) === moduleName,
+  );
+
+  if (!targetModule) {
+    console.log(
+      chalk.yellow("[WARNING]") +
+        ` Interface file ${file} does not have a corresponding module.`,
+    );
+    continue;
+  }
+
+  if (!modulesMap[targetModule.name]) {
+    modulesMap[targetModule.name] = {
+      collections: [],
+      interfacesFile: file,
+    };
+  } else {
+    modulesMap[targetModule.name].interfacesFile = file;
+  }
 }
 
 console.log(
-  chalk.green("[SUCCESS]") +
-    ` Found ${Object.keys(modulesCollectionsMap).length} modules with collections.`,
+  chalk.green("[INFO]") +
+    ` Found ${Object.values(modulesMap)
+      .map((e) => e.collections.length)
+      .reduce(
+        (a, b) => a + b,
+      )} collections across ${Object.keys(modulesMap).length} modules.`,
 );
 
-Object.entries(modulesCollectionsMap)
-  .map(([module, collections]) => {
-    return `"${_.snakeCase(module)}_(${collections
-      .map((e) => e.replace(new RegExp(`^${_.snakeCase(module)}_`), ""))
-      .join("|")})"`;
-  })
-  .forEach((e) => {
-    for (const file of tsFiles) {
-      const content = fs.readFileSync(file, "utf-8");
-      const occurences = content.match(new RegExp(e, "g"));
-      if (!occurences) continue;
+console.log(
+  chalk.green("[INFO]") +
+    ` Found ${
+      Object.values(modulesMap)
+        .map((e) => e.interfacesFile)
+        .filter((e) => e).length
+    } interface files across ${Object.keys(modulesMap).length} modules.`,
+);
+for (const [moduleName, moduleData] of Object.entries(modulesMap)) {
+  if (moduleData.collections.length === 0) {
+    console.log(
+      chalk.yellow("[WARNING]") +
+        ` Module ${moduleName} does not have any collections.`,
+    );
+  }
 
-      console.log(
-        chalk.blue("[INFO]") +
-          ` File ${file} contains ${occurences.length} occurences of the collection name.`,
-      );
-    }
-  });
+  if (!moduleData.interfacesFile) {
+    console.log(
+      chalk.yellow("[WARNING]") +
+        ` Module ${moduleName} does not have an interface file.`,
+    );
+  }
+}

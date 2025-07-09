@@ -11,7 +11,7 @@ import * as RailwayMapServices from "../services/railwayMap.service";
 import {
   RailwayMapLineSchema,
   RailwayMapStationSchema,
-} from "../typescript/railwayMap.types";
+} from "../typescript/railway_map_interfaces";
 
 const railwayMapRouter = express.Router();
 

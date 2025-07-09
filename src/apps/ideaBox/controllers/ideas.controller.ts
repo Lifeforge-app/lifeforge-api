@@ -13,7 +13,7 @@ import * as ideasService from "../services/ideas.service";
 import {
   IIdeaBoxEntry,
   IdeaBoxEntrySchema,
-} from "../typescript/ideabox_interfaces";
+} from "../typescript/idea_box_interfaces";
 
 const ideaBoxIdeasRouter = express.Router();
 
@@ -34,7 +34,7 @@ const getIdeas = forgeController
     response: z.array(WithPBSchema(IdeaBoxEntrySchema)),
   })
   .existenceCheck("params", {
-    container: "idea_box_containers",
+    container: "idea_box__containers",
   })
   .callback(
     async ({
@@ -76,7 +76,7 @@ const createIdea = forgeController
   })
   .middlewares(multer().single("image") as any)
   .existenceCheck("body", {
-    container: "idea_box_containers",
+    container: "idea_box__containers",
   })
   .callback(
     async ({
@@ -145,7 +145,7 @@ const updateIdea = forgeController
     response: WithPBSchema(IdeaBoxEntrySchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .callback(
     async ({ pb, params: { id }, body: { title, content, type, tags } }) => {
@@ -183,7 +183,7 @@ const deleteIdea = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await ideasService.deleteIdea(pb, id),
@@ -200,7 +200,7 @@ const pinIdea = forgeController
     response: WithPBSchema(IdeaBoxEntrySchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -217,7 +217,7 @@ const archiveIdea = forgeController
     response: WithPBSchema(IdeaBoxEntrySchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -237,10 +237,10 @@ const moveIdea = forgeController
     response: WithPBSchema(IdeaBoxEntrySchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .existenceCheck("query", {
-    target: "idea_box_folders",
+    target: "idea_box__folders",
   })
   .callback(
     async ({ pb, params: { id }, query: { target } }) =>
@@ -257,7 +257,7 @@ const removeFromFolder = forgeController
     response: WithPBSchema(IdeaBoxEntrySchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>

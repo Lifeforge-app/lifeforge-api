@@ -22,7 +22,7 @@ const getList = forgeController
     response: WithPBSchema(WishlistListSchema),
   })
   .existenceCheck("params", {
-    id: "wishlist_lists",
+    id: "wishlist__lists",
   })
   .callback(
     async ({ pb, params: { id } }) => await listsService.getList(pb, id),
@@ -80,7 +80,7 @@ const updateList = forgeController
     response: WithPBSchema(WishlistListSchema),
   })
   .existenceCheck("params", {
-    id: "wishlist_lists",
+    id: "wishlist__lists",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -97,7 +97,7 @@ const deleteList = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "wishlist_lists",
+    id: "wishlist__lists",
   })
   .statusCode(204)
   .callback(

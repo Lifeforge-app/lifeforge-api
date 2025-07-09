@@ -20,7 +20,7 @@ export const getRandomEntry = async (
   pb: PocketBase,
 ): Promise<WithPB<IGuitarTabsEntry>> => {
   const allScores = await pb
-    .collection("guitar_tabs_entries")
+    .collection("guitar_tabs__entries")
     .getFullList<WithPB<IGuitarTabsEntry>>();
 
   return allScores[Math.floor(Math.random() * allScores.length)];
@@ -30,10 +30,10 @@ export const getSidebarData = async (
   pb: PocketBase,
 ): Promise<IGuitarTabsSidebarData> => {
   const allScores = await pb
-    .collection("guitar_tabs_entries")
+    .collection("guitar_tabs__entries")
     .getFullList<WithPB<IGuitarTabsEntry>>();
   const allAuthors = await pb
-    .collection("guitar_tabs_authors")
+    .collection("guitar_tabs__authors")
     .getFullList<WithPB<IGuitarTabsAuthors>>();
 
   return {
@@ -70,7 +70,7 @@ export const getEntries = (
   },
 ): Promise<ListResult<WithPB<IGuitarTabsEntry>>> => {
   return pb
-    .collection("guitar_tabs_entries")
+    .collection("guitar_tabs__entries")
     .getList<WithPB<IGuitarTabsEntry>>(page, 20, {
       filter: `(name~"${query}" || author~"${query}") 
         ${category ? `&& type="${category === "uncategorized" ? "" : category}"` : ""} 
@@ -210,7 +210,7 @@ const processFiles = async (
           }
 
           await pb
-            .collection("guitar_tabs_entries")
+            .collection("guitar_tabs__entries")
             .create<WithPB<IGuitarTabsEntry>>(
               {
                 name,
@@ -268,14 +268,14 @@ export const updateEntry = (
   id: string,
   { name, author, type }: Pick<IGuitarTabsEntry, "name" | "author" | "type">,
 ): Promise<WithPB<IGuitarTabsEntry>> =>
-  pb.collection("guitar_tabs_entries").update<WithPB<IGuitarTabsEntry>>(id, {
+  pb.collection("guitar_tabs__entries").update<WithPB<IGuitarTabsEntry>>(id, {
     name,
     author,
     type,
   });
 
 export const deleteEntry = async (pb: PocketBase, id: string) => {
-  await pb.collection("guitar_tabs_entries").delete(id);
+  await pb.collection("guitar_tabs__entries").delete(id);
 };
 
 export const toggleFavorite = async (
@@ -283,11 +283,11 @@ export const toggleFavorite = async (
   id: string,
 ): Promise<WithPB<IGuitarTabsEntry>> => {
   const entry = await pb
-    .collection("guitar_tabs_entries")
+    .collection("guitar_tabs__entries")
     .getOne<WithPB<IGuitarTabsEntry>>(id);
 
   return await pb
-    .collection("guitar_tabs_entries")
+    .collection("guitar_tabs__entries")
     .update<WithPB<IGuitarTabsEntry>>(id, {
       isFavourite: !entry.isFavourite,
     });

@@ -30,7 +30,7 @@ const addToCart = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "virtual_wardrobe_entries",
+    id: "virtual_wardrobe__entries",
   })
   .callback(async ({ pb, params: { id } }) => {
     await sessionService.addToCart(pb, id);
@@ -46,7 +46,7 @@ const removeFromCart = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "virtual_wardrobe_entries",
+    id: "virtual_wardrobe__entries",
   })
   .callback(async ({ params: { id } }) => {
     sessionService.removeFromCart(id);

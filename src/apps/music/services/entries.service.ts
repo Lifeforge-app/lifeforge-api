@@ -23,7 +23,7 @@ export const setImportProgress = (
 export const getAllEntries = async (
   pb: Pocketbase,
 ): Promise<WithPB<IMusicEntry>[]> =>
-  await pb.collection("music_entries").getFullList<WithPB<IMusicEntry>>({
+  await pb.collection("music__entries").getFullList<WithPB<IMusicEntry>>({
     sort: "-is_favourite, name",
   });
 
@@ -32,18 +32,18 @@ export const updateEntry = async (
   id: string,
   data: { name: string; author: string },
 ): Promise<WithPB<IMusicEntry>> =>
-  await pb.collection("music_entries").update<WithPB<IMusicEntry>>(id, data);
+  await pb.collection("music__entries").update<WithPB<IMusicEntry>>(id, data);
 
 export const deleteEntry = async (pb: Pocketbase, id: string) => {
-  await pb.collection("music_entries").delete(id);
+  await pb.collection("music__entries").delete(id);
 };
 
 export const toggleFavorite = async (
   pb: Pocketbase,
   id: string,
 ): Promise<WithPB<IMusicEntry>> => {
-  const entry = await pb.collection("music_entries").getOne(id);
-  return await pb.collection("music_entries").update(id, {
+  const entry = await pb.collection("music__entries").getOne(id);
+  return await pb.collection("music__entries").update(id, {
     is_favourite: !entry.is_favourite,
   });
 };

@@ -11,7 +11,7 @@ import {
   IIdeaBoxContainer,
   IIdeaBoxEntry,
   IIdeaBoxFolder,
-} from "../typescript/ideabox_interfaces";
+} from "../typescript/idea_box_interfaces";
 
 const OGCache = new Map<string, any>();
 
@@ -28,14 +28,14 @@ export const getPath = async (
   const containerExists = await checkExistence(
     req,
     res,
-    "idea_box_containers",
+    "idea_box__containers",
     container,
   );
 
   if (!containerExists) return null;
 
   const containerEntry = await pb
-    .collection("idea_box_containers")
+    .collection("idea_box__containers")
     .getOne<WithPB<IIdeaBoxContainer>>(container);
 
   containerEntry.cover = pb.files
@@ -46,12 +46,12 @@ export const getPath = async (
   const fullPath: WithPB<IIdeaBoxFolder>[] = [];
 
   for (const folder of path) {
-    if (!(await checkExistence(req, res, "idea_box_folders", folder))) {
+    if (!(await checkExistence(req, res, "idea_box__folders", folder))) {
       return null;
     }
 
     const folderEntry = await pb
-      .collection("idea_box_folders")
+      .collection("idea_box__folders")
       .getOne<WithPB<IIdeaBoxFolder>>(folder);
 
     if (
@@ -82,7 +82,7 @@ export const checkValid = async (
   const containerExists = await checkExistence(
     req,
     res,
-    "idea_box_containers",
+    "idea_box__containers",
     container,
     false,
   );
@@ -95,13 +95,13 @@ export const checkValid = async (
   let lastFolder = "";
 
   for (const folder of path) {
-    if (!(await checkExistence(req, res, "idea_box_folders", folder, false))) {
+    if (!(await checkExistence(req, res, "idea_box__folders", folder, false))) {
       folderExists = false;
       break;
     }
 
     const folderEntry = await pb
-      .collection("idea_box_folders")
+      .collection("idea_box__folders")
       .getOne<IIdeaBoxFolder>(folder);
 
     if (
@@ -123,7 +123,7 @@ export const getOgData = async (
   id: string,
 ): Promise<any | null> => {
   const data = await pb
-    .collection("idea_box_entries")
+    .collection("idea_box__entries")
     .getOne<IIdeaBoxEntry>(id);
 
   if (data.type !== "link") {
@@ -172,13 +172,13 @@ async function recursivelySearchFolder(
   })[]
 > {
   const folderInsideFolder = await pb
-    .collection("idea_box_folders")
+    .collection("idea_box__folders")
     .getFullList<WithPB<IIdeaBoxFolder>>({
       filter: `parent = "${folderId}"`,
     });
 
   const allResults = (
-    await pb.collection("idea_box_entries").getFullList<
+    await pb.collection("idea_box__entries").getFullList<
       Omit<WithPB<IIdeaBoxEntry>, "folder"> & {
         folder: WithPB<IIdeaBoxFolder>;
         expand?: {
@@ -242,7 +242,7 @@ export const search = async (
     const containerExists = await checkExistence(
       req,
       res,
-      "idea_box_containers",
+      "idea_box__containers",
       container,
       false,
     );

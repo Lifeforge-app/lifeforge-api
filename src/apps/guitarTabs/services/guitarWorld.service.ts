@@ -168,7 +168,7 @@ export const downloadTab = async (
         }
 
         const newEntry = await pb
-          .collection("guitar_tabs_entries")
+          .collection("guitar_tabs__entries")
           .create<WithPB<IGuitarTabsEntry>>({
             name,
             author: mainArtist,

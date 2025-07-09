@@ -1,6 +1,5 @@
 import { JSDOM } from "jsdom";
 
-import { IBooksLibraryEntry } from "../../../typescript/books_library_interfaces";
 import { zip } from "../utils/parsing";
 
 export const getBookDetails = async (md5: string) => {

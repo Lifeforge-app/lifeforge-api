@@ -13,7 +13,7 @@ export const getAllTags = (
     }
   >[]
 > =>
-  pb.collection("todo_list_tags_aggregated").getFullList<
+  pb.collection("todo_list__tags_aggregated").getFullList<
     WithPB<
       ITodoListTag & {
         amount: number;
@@ -32,11 +32,11 @@ export const createTag = async (
   >
 > => {
   const created = await pb
-    .collection("todo_list_tags")
+    .collection("todo_list__tags")
     .create<WithPB<ITodoListTag>>(data);
 
   return pb
-    .collection("todo_list_tags_aggregated")
+    .collection("todo_list__tags_aggregated")
     .getOne<WithPB<ITodoListTag & { amount: number }>>(created.id);
 };
 
@@ -52,14 +52,14 @@ export const updateTag = async (
   >
 > => {
   const updated = await pb
-    .collection("todo_list_tags")
+    .collection("todo_list__tags")
     .update<WithPB<ITodoListTag>>(id, data);
 
   return pb
-    .collection("todo_list_tags_aggregated")
+    .collection("todo_list__tags_aggregated")
     .getOne<WithPB<ITodoListTag & { amount: number }>>(updated.id);
 };
 
 export const deleteTag = async (pb: PocketBase, id: string): Promise<void> => {
-  await pb.collection("todo_list_tags").delete(id);
+  await pb.collection("todo_list__tags").delete(id);
 };

@@ -82,7 +82,7 @@ export const downloadVideo = (
 
         const fileBuffer = readFileSync(`${process.cwd()}/medium/${mp3File}`);
 
-        await pb.collection("music_entries").create({
+        await pb.collection("music__entries").create({
           name: metadata.title,
           author: metadata.uploader,
           duration: metadata.duration,

@@ -34,7 +34,7 @@ export const transcribeExisted = async (
   }
 
   const entry = await pb
-    .collection("moment_vault_entries")
+    .collection("moment_vault__entries")
     .getOne<IMomentVaultEntry>(id);
 
   if (!entry.file) {
@@ -61,7 +61,7 @@ export const transcribeExisted = async (
       throw new Error("Transcription failed");
     }
 
-    await pb.collection("moment_vault_entries").update<IMomentVaultEntry>(id, {
+    await pb.collection("moment_vault__entries").update<IMomentVaultEntry>(id, {
       transcription: response,
     });
 

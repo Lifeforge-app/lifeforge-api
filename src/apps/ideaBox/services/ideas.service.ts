@@ -5,7 +5,7 @@ import { WithPB } from "@typescript/pocketbase_interfaces";
 import {
   IIdeaBoxEntry,
   IIdeaBoxFolder,
-} from "../typescript/ideabox_interfaces";
+} from "../typescript/idea_box_interfaces";
 
 export const getIdeas = (
   pb: PocketBase,
@@ -13,7 +13,7 @@ export const getIdeas = (
   folder: string,
   archived: boolean,
 ): Promise<WithPB<IIdeaBoxEntry>[]> =>
-  pb.collection("idea_box_entries").getFullList<WithPB<IIdeaBoxEntry>>({
+  pb.collection("idea_box__entries").getFullList<WithPB<IIdeaBoxEntry>>({
     filter: `container = "${container}" && archived = ${archived} ${
       folder ? `&& folder = "${folder}"` : "&& folder=''"
     }`,
@@ -34,7 +34,7 @@ export const validateFolderPath = async (
   for (const folder of path) {
     try {
       const folderEntry = await pb
-        .collection("idea_box_folders")
+        .collection("idea_box__folders")
         .getOne<IIdeaBoxFolder>(folder);
 
       if (
@@ -61,26 +61,26 @@ export const createIdea = (
     image?: File;
   },
 ): Promise<WithPB<IIdeaBoxEntry>> =>
-  pb.collection("idea_box_entries").create<WithPB<IIdeaBoxEntry>>(data);
+  pb.collection("idea_box__entries").create<WithPB<IIdeaBoxEntry>>(data);
 
 export const updateIdea = async (
   pb: PocketBase,
   id: string,
   data: Partial<IIdeaBoxEntry>,
 ): Promise<WithPB<IIdeaBoxEntry>> =>
-  pb.collection("idea_box_entries").update<WithPB<IIdeaBoxEntry>>(id, data);
+  pb.collection("idea_box__entries").update<WithPB<IIdeaBoxEntry>>(id, data);
 
 export const deleteIdea = async (pb: PocketBase, id: string) => {
-  await pb.collection("idea_box_entries").delete(id);
+  await pb.collection("idea_box__entries").delete(id);
 };
 
 export const updatePinStatus = async (pb: PocketBase, id: string) => {
   const idea = await pb
-    .collection("idea_box_entries")
+    .collection("idea_box__entries")
     .getOne<WithPB<IIdeaBoxEntry>>(id);
 
   const entry = await pb
-    .collection("idea_box_entries")
+    .collection("idea_box__entries")
     .update<WithPB<IIdeaBoxEntry>>(id, {
       pinned: !idea.pinned,
     });
@@ -90,11 +90,11 @@ export const updatePinStatus = async (pb: PocketBase, id: string) => {
 
 export const updateArchiveStatus = async (pb: PocketBase, id: string) => {
   const idea = await pb
-    .collection("idea_box_entries")
+    .collection("idea_box__entries")
     .getOne<WithPB<IIdeaBoxEntry>>(id);
 
   const entry = await pb
-    .collection("idea_box_entries")
+    .collection("idea_box__entries")
     .update<WithPB<IIdeaBoxEntry>>(id, {
       archived: !idea.archived,
       pinned: false,
@@ -108,7 +108,7 @@ export const moveIdea = async (
   id: string,
   target: string,
 ): Promise<WithPB<IIdeaBoxEntry>> =>
-  pb.collection("idea_box_entries").update<WithPB<IIdeaBoxEntry>>(id, {
+  pb.collection("idea_box__entries").update<WithPB<IIdeaBoxEntry>>(id, {
     folder: target,
   });
 
@@ -116,6 +116,6 @@ export const removeFromFolder = (
   pb: PocketBase,
   id: string,
 ): Promise<WithPB<IIdeaBoxEntry>> =>
-  pb.collection("idea_box_entries").update<WithPB<IIdeaBoxEntry>>(id, {
+  pb.collection("idea_box__entries").update<WithPB<IIdeaBoxEntry>>(id, {
     folder: "",
   });

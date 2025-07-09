@@ -21,7 +21,7 @@ const getAllEntriesByDifficulty = forgeController
     response: z.array(WithPBSchema(AchievementsEntrySchema)),
   })
   .callback(({ pb, params: { difficulty } }) =>
-    pb.collection("achievements_entries").getFullList({
+    pb.collection("achievements__entries").getFullList({
       filter: `difficulty = "${difficulty}"`,
       sort: "-created",
     }),
@@ -36,7 +36,7 @@ const createEntry = forgeController
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.collection("achievements_entries").create(body),
+    pb.collection("achievements__entries").create(body),
   );
 
 const updateEntry = forgeController
@@ -50,10 +50,10 @@ const updateEntry = forgeController
     response: WithPBSchema(AchievementsEntrySchema),
   })
   .existenceCheck("params", {
-    id: "achievements_entries",
+    id: "achievements__entries",
   })
   .callback(({ pb, params: { id }, body }) =>
-    pb.collection("achievements_entries").update(id, body),
+    pb.collection("achievements__entries").update(id, body),
   );
 
 const deleteEntry = forgeController
@@ -66,11 +66,11 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "achievements_entries",
+    id: "achievements__entries",
   })
   .statusCode(204)
   .callback(async ({ pb, params: { id } }) => {
-    await pb.collection("achievements_entries").delete(id);
+    await pb.collection("achievements__entries").delete(id);
   });
 
 bulkRegisterControllers(achievementsEntriesRouter, [

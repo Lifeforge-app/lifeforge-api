@@ -19,7 +19,7 @@ export const getTypesCount = async (
   };
 }> => {
   const types = await pb
-    .collection("wallet_transaction_types_aggregated")
+    .collection("wallet__transaction_types_aggregated")
     .getFullList<WithPB<IWalletTransactionType>>();
 
   const typesCount: {
@@ -50,7 +50,7 @@ export const getIncomeExpensesSummary = async (
   const end = moment(`${year}-${month}-01`).endOf("month").format("YYYY-MM-DD");
 
   const transactions = await pb
-    .collection("wallet_transactions")
+    .collection("wallet__transactions")
     .getFullList<WithPB<IWalletTransactionEntry>>({
       filter: "type = 'income' || type = 'expenses'",
       sort: "-date,-created",
@@ -129,7 +129,7 @@ export const getExpensesBreakdown = async (
     .endOf("month")
     .format("YYYY-MM-DD");
 
-  const expenses = await pb.collection("wallet_transactions").getFullList<
+  const expenses = await pb.collection("wallet__transactions").getFullList<
     WithPB<IWalletTransactionEntry> & {
       expand?: { category: WithPB<IWalletCategory> };
     }

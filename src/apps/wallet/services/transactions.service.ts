@@ -58,7 +58,7 @@ export const getAllTransactions = (
   pb: Pocketbase,
 ): Promise<WithPB<IWalletTransactionEntry>[]> =>
   pb
-    .collection("wallet_transactions")
+    .collection("wallet__transactions")
     .getFullList<WithPB<IWalletTransactionEntry>>({
       sort: "-date,-created",
     });
@@ -138,7 +138,7 @@ export const createTransaction = async (
     };
 
     const transaction = await pb
-      .collection("wallet_transactions")
+      .collection("wallet__transactions")
       .create<WithPB<IWalletTransactionEntry>>(newData);
 
     return [transaction];
@@ -147,8 +147,8 @@ export const createTransaction = async (
   async function createTransferTransactions(): Promise<
     WithPB<IWalletTransactionEntry>[]
   > {
-    const _from = await pb.collection("wallet_assets").getOne(fromAsset!);
-    const _to = await pb.collection("wallet_assets").getOne(toAsset!);
+    const _from = await pb.collection("wallet__assets").getOne(fromAsset!);
+    const _to = await pb.collection("wallet__assets").getOne(toAsset!);
 
     const baseTransferData: Omit<
       IWalletTransactionEntry,
@@ -174,14 +174,14 @@ export const createTransaction = async (
     baseTransferData.particulars = `Transfer from ${_from.name}`;
     baseTransferData.asset = toAsset!;
     const debit = await pb
-      .collection("wallet_transactions")
+      .collection("wallet__transactions")
       .create<WithPB<IWalletTransactionEntry>>(baseTransferData);
 
     baseTransferData.particulars = `Transfer to ${_to.name}`;
     baseTransferData.side = "credit";
     baseTransferData.asset = fromAsset!;
     const credit = await pb
-      .collection("wallet_transactions")
+      .collection("wallet__transactions")
       .create<WithPB<IWalletTransactionEntry>>(baseTransferData);
 
     return [debit, credit];
@@ -289,7 +289,7 @@ export const updateTransaction = async (
   } = data;
 
   const foundTransaction = await pb
-    .collection("wallet_transactions")
+    .collection("wallet__transactions")
     .getOne<WithPB<IWalletTransactionEntry>>(id);
 
   const [targetFile, fileName] = await processFile();
@@ -320,7 +320,7 @@ export const updateTransaction = async (
   };
 
   const transaction = await pb
-    .collection("wallet_transactions")
+    .collection("wallet__transactions")
     .update<WithPB<IWalletTransactionEntry>>(id, updatedData);
 
   if (file && fs.existsSync(file.path)) {
@@ -334,7 +334,7 @@ export const deleteTransaction = async (
   pb: Pocketbase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("wallet_transactions").delete(id);
+  await pb.collection("wallet__transactions").delete(id);
 };
 
 export const scanReceipt = async (

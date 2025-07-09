@@ -11,7 +11,7 @@ import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 import { singleUploadMiddlewareOfKey } from "@middlewares/uploadMiddleware";
 
 import * as containersService from "../services/containers.service";
-import { IdeaBoxContainerSchema } from "../typescript/ideabox_interfaces";
+import { IdeaBoxContainerSchema } from "../typescript/idea_box_interfaces";
 
 const ideaBoxContainersRouter = express.Router();
 
@@ -98,7 +98,7 @@ const updateContainer = forgeController
   })
   .middlewares(singleUploadMiddlewareOfKey("cover"))
   .existenceCheck("params", {
-    id: "idea_box_containers",
+    id: "idea_box__containers",
   })
   .callback(
     async ({ pb, params: { id }, body: { name, icon, color, cover }, req }) => {
@@ -155,7 +155,7 @@ const deleteContainer = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "idea_box_containers",
+    id: "idea_box__containers",
   })
   .callback(async ({ pb, params: { id } }) =>
     containersService.deleteContainer(pb, id),

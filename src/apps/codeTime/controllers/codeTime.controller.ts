@@ -13,7 +13,7 @@ import {
   CodeTimeActivitiesSchema,
   CodeTimeDailyEntrySchema,
   CodeTimeStatisticsSchema,
-} from "../typescript/codetime_interfaces";
+} from "../typescript/code_time_interfaces";
 
 const codeTimeRouter = express.Router();
 

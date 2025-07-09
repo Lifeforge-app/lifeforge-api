@@ -12,7 +12,7 @@ export const getEntryById = (
   pb: PocketBase,
   id: string,
 ): Promise<WithPB<ITodoListEntry>> =>
-  pb.collection("todo_list_entries").getOne<WithPB<ITodoListEntry>>(id);
+  pb.collection("todo_list__entries").getOne<WithPB<ITodoListEntry>>(id);
 
 export const getAllEntries = async (
   pb: PocketBase,
@@ -47,7 +47,7 @@ export const getAllEntries = async (
   if (priority) finalFilter += ` && priority = "${priority}"`;
 
   return await pb
-    .collection("todo_list_entries")
+    .collection("todo_list__entries")
     .getFullList<WithPB<ITodoListEntry>>({
       filter: finalFilter,
       sort: "-created",
@@ -86,7 +86,7 @@ export const getStatusCounter = async (
 
   for (const type of Object.keys(filters) as (keyof typeof filters)[]) {
     const { totalItems } = await pb
-      .collection("todo_list_entries")
+      .collection("todo_list__entries")
       .getList(1, 1, {
         filter: filters[type],
       });
@@ -108,7 +108,7 @@ export const createEntry = async (
   delete data.due_date_has_time;
 
   return await pb
-    .collection("todo_list_entries")
+    .collection("todo_list__entries")
     .create<WithPB<ITodoListEntry>>(data);
 };
 
@@ -123,14 +123,14 @@ export const updateEntry = async (
 
   delete data.due_date_has_time;
 
-  return await pb.collection("todo_list_entries").update(id, data);
+  return await pb.collection("todo_list__entries").update(id, data);
 };
 
 export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("todo_list_entries").delete(id);
+  await pb.collection("todo_list__entries").delete(id);
 };
 
 export const toggleEntry = async (
@@ -138,11 +138,11 @@ export const toggleEntry = async (
   id: string,
 ): Promise<WithPB<ITodoListEntry>> => {
   const entry = await pb
-    .collection("todo_list_entries")
+    .collection("todo_list__entries")
     .getOne<WithPB<ITodoListEntry>>(id);
 
   return await pb
-    .collection("todo_list_entries")
+    .collection("todo_list__entries")
     .update<WithPB<ITodoListEntry>>(id, {
       done: !entry.done,
       completed_at: entry.done

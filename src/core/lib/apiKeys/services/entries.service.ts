@@ -34,7 +34,7 @@ export const getAllEntries = async (
   pb: PocketBase,
 ): Promise<WithPB<IAPIKeyEntry>[]> => {
   const entries = await pb
-    .collection("api_keys_entries")
+    .collection("api_keys__entries")
     .getFullList<WithPB<IAPIKeyEntry>>({
       sort: "name",
     });
@@ -52,7 +52,7 @@ export const checkKeys = async (
   pb: PocketBase,
   keys: string,
 ): Promise<boolean> => {
-  const allEntries = await pb.collection("api_keys_entries").getFullList();
+  const allEntries = await pb.collection("api_keys__entries").getFullList();
 
   return keys
     .split(",")
@@ -64,7 +64,7 @@ export const getEntryById = async (
   id: string,
   decryptedMaster: string,
 ): Promise<string> => {
-  const entry = await pb.collection("api_keys_entries").getOne(id);
+  const entry = await pb.collection("api_keys__entries").getOne(id);
 
   if (!entry) {
     throw new Error("Entry not found");
@@ -99,7 +99,7 @@ export const createEntry = async (
   const encryptedKey = encrypt2(decryptedKey, process.env.MASTER_KEY!);
 
   const entry = await pb
-    .collection("api_keys_entries")
+    .collection("api_keys__entries")
     .create<WithPB<IAPIKeyEntry>>({
       keyId,
       name,
@@ -136,7 +136,7 @@ export const updateEntry = async (
   const encryptedKey = encrypt2(decryptedKey, process.env.MASTER_KEY!);
 
   const updatedEntry = await pb
-    .collection("api_keys_entries")
+    .collection("api_keys__entries")
     .update<WithPB<IAPIKeyEntry>>(id, {
       keyId,
       name,
@@ -154,5 +154,5 @@ export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("api_keys_entries").delete(id);
+  await pb.collection("api_keys__entries").delete(id);
 };

@@ -8,7 +8,7 @@ export const getAllLanguages = (
   pb: PocketBase,
 ): Promise<WithPB<IBooksLibraryLanguage>[]> =>
   pb
-    .collection("books_library_languages_aggregated")
+    .collection("books_library__languages_aggregated")
     .getFullList<WithPB<IBooksLibraryLanguage>>();
 
 export const createLanguage = (
@@ -16,7 +16,7 @@ export const createLanguage = (
   languageData: { name: string; icon: string },
 ): Promise<WithPB<IBooksLibraryLanguage>> =>
   pb
-    .collection("books_library_languages")
+    .collection("books_library__languages")
     .create<WithPB<IBooksLibraryLanguage>>(languageData);
 
 export const updateLanguage = (
@@ -25,9 +25,9 @@ export const updateLanguage = (
   languageData: { name: string; icon: string },
 ): Promise<WithPB<IBooksLibraryLanguage>> =>
   pb
-    .collection("books_library_languages")
+    .collection("books_library__languages")
     .update<WithPB<IBooksLibraryLanguage>>(id, languageData);
 
 export const deleteLanguage = async (pb: PocketBase, id: string) => {
-  await pb.collection("books_library_languages").delete(id);
+  await pb.collection("books_library__languages").delete(id);
 };

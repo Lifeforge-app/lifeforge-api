@@ -8,7 +8,7 @@ export const getAllCategories = (
   pb: PocketBase,
 ): Promise<WithPB<IWalletCategory>[]> =>
   pb
-    .collection("wallet_categories_aggregated")
+    .collection("wallet__categories_aggregated")
     .getFullList<WithPB<IWalletCategory>>({
       sort: "name",
     });
@@ -17,18 +17,18 @@ export const createCategory = (
   pb: PocketBase,
   data: Omit<IWalletCategory, "amount">,
 ): Promise<WithPB<IWalletCategory>> =>
-  pb.collection("wallet_categories").create<WithPB<IWalletCategory>>(data);
+  pb.collection("wallet__categories").create<WithPB<IWalletCategory>>(data);
 
 export const updateCategory = (
   pb: PocketBase,
   id: string,
   data: Omit<IWalletCategory, "amount">,
 ): Promise<WithPB<IWalletCategory>> =>
-  pb.collection("wallet_categories").update<WithPB<IWalletCategory>>(id, data);
+  pb.collection("wallet__categories").update<WithPB<IWalletCategory>>(id, data);
 
 export const deleteCategory = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("wallet_categories").delete(id);
+  await pb.collection("wallet__categories").delete(id);
 };

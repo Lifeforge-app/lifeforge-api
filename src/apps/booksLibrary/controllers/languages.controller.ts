@@ -43,7 +43,7 @@ const updateLanguage = forgeController
     response: WithPBSchema(BooksLibraryLanguageSchema),
   })
   .existenceCheck("params", {
-    id: "books_library_languages",
+    id: "books_library__languages",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -60,7 +60,7 @@ const deleteLanguage = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "books_library_languages",
+    id: "books_library__languages",
   })
   .statusCode(204)
   .callback(

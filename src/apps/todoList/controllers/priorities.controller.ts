@@ -8,7 +8,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import * as prioritiesService from "../services/priorities.service";
-import { TodoListPrioritySchema } from "../typescript/todo_list_list_interfaces";
+import { TodoListPrioritySchema } from "../typescript/todo_list_interfaces";
 
 const todoListPrioritiesRouter = express.Router();
 
@@ -47,7 +47,7 @@ const updatePriority = forgeController
     ),
   })
   .existenceCheck("params", {
-    id: "todo_list_priorities",
+    id: "todo_list__priorities",
   })
   .callback(({ pb, params: { id }, body }) =>
     prioritiesService.updatePriority(pb, id, body),
@@ -63,7 +63,7 @@ const deletePriority = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "todo_list_priorities",
+    id: "todo_list__priorities",
   })
   .statusCode(204)
   .callback(({ pb, params: { id } }) =>

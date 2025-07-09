@@ -11,7 +11,7 @@ import * as entriesService from "../services/entries.service";
 import {
   TodoListEntrySchema,
   TodoListStatusCounterSchema,
-} from "../typescript/todo_list_list_interfaces";
+} from "../typescript/todo_list_interfaces";
 
 const todoListEntriesRouter = express.Router();
 
@@ -33,7 +33,7 @@ const getEntryById = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("params", {
-    id: "todo_list_entries",
+    id: "todo_list__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await entriesService.getEntryById(pb, id),
@@ -94,7 +94,7 @@ const updateEntry = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("params", {
-    id: "todo_list_entries",
+    id: "todo_list__entries",
   })
   .existenceCheck("body", {
     list: "[todo_list_lists]",
@@ -116,7 +116,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "todo_list_entries",
+    id: "todo_list__entries",
   })
   .statusCode(204)
   .callback(
@@ -133,7 +133,7 @@ const toggleEntry = forgeController
     response: WithPBSchema(TodoListEntrySchema),
   })
   .existenceCheck("params", {
-    id: "todo_list_entries",
+    id: "todo_list__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await entriesService.toggleEntry(pb, id),

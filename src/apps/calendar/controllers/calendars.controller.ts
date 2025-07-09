@@ -31,7 +31,7 @@ const getCalendarById = forgeController
     response: WithPBSchema(CalendarCalendarSchema),
   })
   .existenceCheck("params", {
-    id: "calendar_calendars",
+    id: "calendar__calendars",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -49,7 +49,7 @@ const createCalendar = forgeController
   .callback(async ({ pb, body }) => {
     if (
       await pb
-        .collection("calendar_calendars")
+        .collection("calendar__calendars")
         .getFirstListItem(`name="${body.name}"`)
         .catch(() => null)
     ) {
@@ -70,12 +70,12 @@ const updateCalendar = forgeController
     response: WithPBSchema(CalendarCalendarSchema),
   })
   .existenceCheck("params", {
-    id: "calendar_calendars",
+    id: "calendar__calendars",
   })
   .callback(async ({ pb, params: { id }, body }) => {
     if (
       await pb
-        .collection("calendar_calendars")
+        .collection("calendar__calendars")
         .getFirstListItem(`name="${body.name}" && id != "${id}"`)
         .catch(() => null)
     ) {
@@ -95,7 +95,7 @@ const deleteCalendar = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "calendar_calendars",
+    id: "calendar__calendars",
   })
   .statusCode(204)
   .callback(

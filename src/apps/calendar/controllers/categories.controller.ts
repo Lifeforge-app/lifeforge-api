@@ -31,7 +31,7 @@ const getCategoryById = forgeController
     response: WithPBSchema(CalendarCategorySchema),
   })
   .existenceCheck("params", {
-    id: "calendar_categories",
+    id: "calendar__categories",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -55,7 +55,7 @@ const createCategory = forgeController
 
     if (
       await pb
-        .collection("calendar_categories")
+        .collection("calendar__categories")
         .getFirstListItem(`name="${body.name}"`)
         .catch(() => null)
     ) {
@@ -78,7 +78,7 @@ const updateCategory = forgeController
     response: WithPBSchema(CalendarCategorySchema),
   })
   .existenceCheck("params", {
-    id: "calendar_categories",
+    id: "calendar__categories",
   })
   .callback(async ({ pb, params: { id }, body }) => {
     if (body.name.startsWith("_")) {
@@ -87,7 +87,7 @@ const updateCategory = forgeController
 
     if (
       await pb
-        .collection("calendar_categories")
+        .collection("calendar__categories")
         .getFirstListItem(`name="${body.name}" && id != "${id}"`)
         .catch(() => null)
     ) {
@@ -107,7 +107,7 @@ const deleteCategory = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "calendar_categories",
+    id: "calendar__categories",
   })
   .statusCode(204)
   .callback(

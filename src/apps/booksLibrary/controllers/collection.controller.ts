@@ -41,7 +41,7 @@ const updateCollection = forgeController
     response: WithPBSchema(BooksLibraryCollectionSchema),
   })
   .existenceCheck("params", {
-    id: "books_library_collections",
+    id: "books_library__collections",
   })
   .callback(({ pb, params: { id }, body }) =>
     CollectionsService.updateCollection(pb, id, body),
@@ -57,7 +57,7 @@ const deleteCollection = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "books_library_collections",
+    id: "books_library__collections",
   })
   .statusCode(204)
   .callback(({ pb, params: { id } }) =>

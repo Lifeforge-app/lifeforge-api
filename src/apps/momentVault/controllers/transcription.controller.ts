@@ -23,7 +23,7 @@ const transcribeExisted = forgeController
     response: z.string(),
   })
   .existenceCheck("params", {
-    id: "moment_vault_entries",
+    id: "moment_vault__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>

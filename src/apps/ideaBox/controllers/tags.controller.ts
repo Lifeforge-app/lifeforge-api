@@ -8,7 +8,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import * as tagsService from "../services/tags.service";
-import { IdeaBoxTagSchema } from "../typescript/ideabox_interfaces";
+import { IdeaBoxTagSchema } from "../typescript/idea_box_interfaces";
 
 const ideaBoxTagsRouter = express.Router();
 
@@ -22,7 +22,7 @@ const getTags = forgeController
     response: z.array(WithPBSchema(IdeaBoxTagSchema)),
   })
   .existenceCheck("params", {
-    container: "idea_box_containers",
+    container: "idea_box__containers",
   })
   .callback(
     async ({ pb, params: { container } }) =>
@@ -40,7 +40,7 @@ const createTag = forgeController
     response: WithPBSchema(IdeaBoxTagSchema),
   })
   .existenceCheck("params", {
-    container: "idea_box_containers",
+    container: "idea_box__containers",
   })
   .callback(
     async ({ pb, params: { container }, body }) =>
@@ -59,7 +59,7 @@ const updateTag = forgeController
     response: WithPBSchema(IdeaBoxTagSchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_tags",
+    id: "idea_box__tags",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -76,7 +76,7 @@ const deleteTag = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "idea_box_tags",
+    id: "idea_box__tags",
   })
   .callback(
     async ({ pb, params: { id } }) => await tagsService.deleteTag(pb, id),

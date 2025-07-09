@@ -114,7 +114,7 @@ const updateEntry = forgeController
     response: WithPBSchema(GuitarTabsEntrySchema),
   })
   .existenceCheck("params", {
-    id: "guitar_tabs_entries",
+    id: "guitar_tabs__entries",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -131,7 +131,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "guitar_tabs_entries",
+    id: "guitar_tabs__entries",
   })
   .statusCode(204)
   .callback(
@@ -148,7 +148,7 @@ const toggleFavorite = forgeController
     response: WithPBSchema(GuitarTabsEntrySchema),
   })
   .existenceCheck("params", {
-    id: "guitar_tabs_entries",
+    id: "guitar_tabs__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>

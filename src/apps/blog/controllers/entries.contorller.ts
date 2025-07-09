@@ -17,7 +17,7 @@ const getAllEntries = forgeController
   .schema({
     response: z.array(WithPBSchema(BlogEntrySchema)),
   })
-  .callback(({ pb }) => pb.collection("blog_entries").getFullList());
+  .callback(({ pb }) => pb.collection("blog__entries").getFullList());
 
 bulkRegisterControllers(blogEntriesRouter, [getAllEntries]);
 

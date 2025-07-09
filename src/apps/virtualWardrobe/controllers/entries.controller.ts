@@ -123,7 +123,7 @@ const updateEntry = forgeController
     response: WithPBSchema(VirtualWardrobeEntrySchema),
   })
   .existenceCheck("params", {
-    id: "virtual_wardrobe_entries",
+    id: "virtual_wardrobe__entries",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -140,7 +140,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "virtual_wardrobe_entries",
+    id: "virtual_wardrobe__entries",
   })
   .statusCode(204)
   .callback(
@@ -157,7 +157,7 @@ const toggleFavourite = forgeController
     response: WithPBSchema(VirtualWardrobeEntrySchema),
   })
   .existenceCheck("params", {
-    id: "virtual_wardrobe_entries",
+    id: "virtual_wardrobe__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>

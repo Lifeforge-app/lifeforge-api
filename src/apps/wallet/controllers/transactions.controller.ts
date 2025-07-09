@@ -119,11 +119,11 @@ const updateTransaction = forgeController
   })
   .middlewares(singleUploadMiddleware)
   .existenceCheck("params", {
-    id: "wallet_transactions",
+    id: "wallet__transactions",
   })
   .existenceCheck("body", {
-    category: "wallet_categories",
-    asset: "wallet_assets",
+    category: "wallet__categories",
+    asset: "wallet__assets",
     ledger: "[wallet_ledgers]",
   })
   .callback(
@@ -147,7 +147,7 @@ const deleteTransaction = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "wallet_transactions",
+    id: "wallet__transactions",
   })
   .statusCode(204)
   .callback(async ({ pb, params: { id } }) =>

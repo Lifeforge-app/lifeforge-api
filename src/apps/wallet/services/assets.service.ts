@@ -8,7 +8,7 @@ import { IWalletAsset } from "../typescript/wallet_interfaces";
 import { IWalletTransactionEntry } from "../wallet_interfaces";
 
 export const getAllAssets = (pb: PocketBase): Promise<WithPB<IWalletAsset>[]> =>
-  pb.collection("wallet_assets_aggregated").getFullList<WithPB<IWalletAsset>>({
+  pb.collection("wallet__assets_aggregated").getFullList<WithPB<IWalletAsset>>({
     sort: "name",
   });
 
@@ -20,13 +20,13 @@ export const getAssetAccumulatedBalance = async (
   assetId: string,
 ): Promise<Record<string, number>> => {
   const asset = await pb
-    .collection("wallet_assets")
+    .collection("wallet__assets")
     .getOne<Pick<WithPB<IWalletAsset>, "starting_balance">>(assetId, {
       fields: "starting_balance",
     });
 
   const allTransactions = await pb
-    .collection("wallet_transactions")
+    .collection("wallet__transactions")
     .getFullList<
       Pick<WithPB<IWalletTransactionEntry>, "amount" | "date" | "side">
     >({
@@ -68,18 +68,18 @@ export const createAsset = (
   pb: PocketBase,
   data: Pick<IWalletAsset, "name" | "icon" | "starting_balance">,
 ): Promise<WithPB<IWalletAsset>> =>
-  pb.collection("wallet_assets").create<WithPB<IWalletAsset>>(data);
+  pb.collection("wallet__assets").create<WithPB<IWalletAsset>>(data);
 
 export const updateAsset = (
   pb: PocketBase,
   id: string,
   data: Pick<IWalletAsset, "name" | "icon" | "starting_balance">,
 ): Promise<WithPB<IWalletAsset>> =>
-  pb.collection("wallet_assets").update<WithPB<IWalletAsset>>(id, data);
+  pb.collection("wallet__assets").update<WithPB<IWalletAsset>>(id, data);
 
 export const deleteAsset = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("wallet_assets").delete(id);
+  await pb.collection("wallet__assets").delete(id);
 };

@@ -23,7 +23,7 @@ export const searchMovies = async (pb: Pocketbase, q: string, page: number) => {
   }).then((res) => res.json());
 
   const allIds = await pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .getFullList<WithPB<IMovieEntry>>({
       filter: response.results
         .map((entry: { id: number }) => `tmdb_id = ${entry.id}`)

@@ -13,13 +13,13 @@ export const getAllEntries = async (
   total: number;
 }> => {
   const entries = await pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .getFullList<WithPB<IMovieEntry>>({
       filter: `is_watched = ${watched}`,
     });
 
   const total = (
-    await pb.collection("movies_entries").getList<WithPB<IMovieEntry>>(1, 1)
+    await pb.collection("movies__entries").getList<WithPB<IMovieEntry>>(1, 1)
   ).totalItems;
 
   return {
@@ -51,7 +51,7 @@ export const createEntryFromTMDB = async (
   }
 
   const existedData = await pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .getFirstListItem<WithPB<IMovieEntry>>(`tmdb_id = ${id}`)
     .catch(() => null);
 
@@ -83,7 +83,7 @@ export const createEntryFromTMDB = async (
   };
 
   return await pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .create<WithPB<IMovieEntry>>(entryData);
 };
 
@@ -91,7 +91,7 @@ export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("movies_entries").delete(id);
+  await pb.collection("movies__entries").delete(id);
 };
 
 export const toggleWatchStatus = async (
@@ -99,11 +99,11 @@ export const toggleWatchStatus = async (
   id: string,
 ): Promise<WithPB<IMovieEntry>> => {
   const entry = await pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .getOne<WithPB<IMovieEntry>>(id);
 
   const updatedEntry = await pb
-    .collection("movies_entries")
+    .collection("movies__entries")
     .update<WithPB<IMovieEntry>>(id, {
       is_watched: !entry.is_watched,
     });

@@ -37,7 +37,7 @@ const updateTicket = forgeController
     response: WithPBSchema(MovieEntrySchema),
   })
   .existenceCheck("body", {
-    entry_id: "movies_entries",
+    entry_id: "movies__entries",
   })
   .callback(({ pb, body }) => TicketService.updateTicket(pb, body));
 
@@ -58,7 +58,7 @@ const updateTicketPatch = forgeController
     response: WithPBSchema(MovieEntrySchema),
   })
   .existenceCheck("params", {
-    id: "movies_entries",
+    id: "movies__entries",
   })
   .callback(({ pb, params: { id }, body }) =>
     TicketService.updateTicket(pb, { ...body, entry_id: id }),
@@ -74,7 +74,7 @@ const clearTicket = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "movies_entries",
+    id: "movies__entries",
   })
   .callback(({ pb, params: { id } }) => TicketService.clearTicket(pb, id))
   .statusCode(204);

@@ -104,7 +104,7 @@ const updateEntry = forgeController
     response: WithPBSchema(MomentVaultEntrySchema),
   })
   .existenceCheck("params", {
-    id: "moment_vault_entries",
+    id: "moment_vault__entries",
   })
   .callback(
     async ({ pb, params: { id }, body: { content } }) =>
@@ -121,7 +121,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "moment_vault_entries",
+    id: "moment_vault__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await EntriesServices.deleteEntry(pb, id),

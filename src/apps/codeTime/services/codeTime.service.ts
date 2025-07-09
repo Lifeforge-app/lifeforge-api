@@ -8,7 +8,7 @@ import {
   ICodeTimeActivities,
   ICodeTimeDailyEntry,
   ICodeTimeStatistics,
-} from "../typescript/codetime_interfaces";
+} from "../typescript/code_time_interfaces";
 
 export const addDays = (date: Date, days: number): Date => {
   const newDate = new Date(date.valueOf());
@@ -33,7 +33,7 @@ export const getActivities = async (
   const yearValue = Number(year) || new Date().getFullYear();
 
   const data = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getFullList<WithPB<ICodeTimeDailyEntry>>({
       filter: `date >= "${yearValue}-01-01 00:00:00.000Z" && date <= "${yearValue}-12-31 23:59:59.999Z"`,
     });
@@ -85,7 +85,7 @@ export const getActivities = async (
   }
 
   const firstRecordEver = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getList<WithPB<ICodeTimeDailyEntry>>(1, 1, {
       sort: "+date",
     });
@@ -100,7 +100,7 @@ export const getStatistics = async (
   pb: PocketBase,
 ): Promise<ICodeTimeStatistics> => {
   const everything = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getFullList({
       sort: "date",
     });
@@ -202,7 +202,7 @@ export const getLastXDays = async (
   const lastXDays = moment().subtract(days, "days").format("YYYY-MM-DD");
 
   const data = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getFullList<WithPB<ICodeTimeDailyEntry>>({
       filter: `date >= "${lastXDays} 00:00:00.000Z"`,
     });
@@ -224,7 +224,7 @@ export const getProjectsStats = async (
     .subtract(params[0], params[1] as moment.unitOfTime.DurationConstructor)
     .format("YYYY-MM-DD");
 
-  const data = await pb.collection("code_time_daily_entries").getFullList({
+  const data = await pb.collection("code_time__daily_entries").getFullList({
     filter: `date >= "${date} 00:00:00.000Z"`,
   });
 
@@ -262,7 +262,7 @@ export const getLanguagesStats = async (
     .subtract(params[0], params[1] as moment.unitOfTime.DurationConstructor)
     .format("YYYY-MM-DD");
 
-  const data = await pb.collection("code_time_daily_entries").getFullList({
+  const data = await pb.collection("code_time__daily_entries").getFullList({
     filter: `date >= "${date} 00:00:00.000Z"`,
   });
 
@@ -293,7 +293,7 @@ export const getEachDay = async (
   const firstDay = moment().subtract(30, "days").format("YYYY-MM-DD");
 
   const data = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getFullList<WithPB<ICodeTimeDailyEntry>>({
       filter: `date >= "${firstDay} 00:00:00.000Z" && date <= "${lastDay} 23:59:59.999Z"`,
     });
@@ -318,7 +318,7 @@ export const getUserMinutes = async (
   const minTime = moment().subtract(minutes, "minutes").format("YYYY-MM-DD");
 
   const items = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getFullList<WithPB<ICodeTimeDailyEntry>>({
       filter: `date >= "${minTime}"`,
     });
@@ -337,13 +337,13 @@ export const logEvent = async (
   const date = moment(data.eventTime).format("YYYY-MM-DD");
 
   const lastData = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getList(1, 1, {
       filter: `date~"${date}"`,
     });
 
   if (lastData.totalItems === 0) {
-    await pb.collection("code_time_daily_entries").create({
+    await pb.collection("code_time__daily_entries").create({
       date,
       projects: {
         [data.project]: 1,
@@ -385,7 +385,7 @@ export const logEvent = async (
       languages[data.language] = 1;
     }
 
-    await pb.collection("code_time_daily_entries").update(lastRecord.id, {
+    await pb.collection("code_time__daily_entries").update(lastRecord.id, {
       projects,
       relative_files: relativeFiles,
       languages,
@@ -403,7 +403,7 @@ export const getReadmeImage = async (
   const statistics = await getStatistics(pb);
   const today = moment().format("YYYY-MM-DD");
   const todayRecord = await pb
-    .collection("code_time_daily_entries")
+    .collection("code_time__daily_entries")
     .getList(1, 1, {
       filter: `date="${today} 00:00:00.000Z"`,
     });

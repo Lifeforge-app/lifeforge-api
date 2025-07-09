@@ -9,7 +9,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import * as foldersService from "../services/folders.service";
-import { IdeaBoxFolderSchema } from "../typescript/ideabox_interfaces";
+import { IdeaBoxFolderSchema } from "../typescript/idea_box_interfaces";
 
 const ideaBoxFoldersRouter = express.Router();
 
@@ -24,7 +24,7 @@ const getFolders = forgeController
     response: z.array(WithPBSchema(IdeaBoxFolderSchema)),
   })
   .existenceCheck("params", {
-    container: "idea_box_containers",
+    container: "idea_box__containers",
   })
   .callback(async ({ pb, params }) => {
     const { container } = params;
@@ -56,7 +56,7 @@ const createFolder = forgeController
     response: WithPBSchema(IdeaBoxFolderSchema),
   })
   .existenceCheck("body", {
-    container: "idea_box_containers",
+    container: "idea_box__containers",
   })
   .callback(async ({ pb, body }) => await foldersService.createFolder(pb, body))
   .statusCode(201);
@@ -76,7 +76,7 @@ const updateFolder = forgeController
     response: WithPBSchema(IdeaBoxFolderSchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_folders",
+    id: "idea_box__folders",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -96,10 +96,10 @@ const moveFolder = forgeController
     response: WithPBSchema(IdeaBoxFolderSchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_folders",
+    id: "idea_box__folders",
   })
   .existenceCheck("query", {
-    target: "idea_box_folders",
+    target: "idea_box__folders",
   })
   .callback(
     async ({ pb, params: { id }, query: { target } }) =>
@@ -116,7 +116,7 @@ const removeFromFolder = forgeController
     response: WithPBSchema(IdeaBoxFolderSchema),
   })
   .existenceCheck("params", {
-    id: "idea_box_folders",
+    id: "idea_box__folders",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -133,7 +133,7 @@ const deleteFolder = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "idea_box_folders",
+    id: "idea_box__folders",
   })
   .callback(
     async ({ pb, params: { id } }) => await foldersService.deleteFolder(pb, id),

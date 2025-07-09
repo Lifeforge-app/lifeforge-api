@@ -49,7 +49,7 @@ const getAssetAccumulatedBalance = forgeController
     response: z.record(z.string(), z.number()),
   })
   .existenceCheck("params", {
-    id: "wallet_assets",
+    id: "wallet__assets",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -76,7 +76,7 @@ const updateAsset = forgeController
     response: WithPBSchema(WalletAssetSchema),
   })
   .existenceCheck("params", {
-    id: "wallet_assets",
+    id: "wallet__assets",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -93,7 +93,7 @@ const deleteAsset = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "wallet_assets",
+    id: "wallet__assets",
   })
   .statusCode(204)
   .callback(

@@ -48,7 +48,7 @@ const getEventById = forgeController
     response: WithPBSchema(CalendarEventSchema),
   })
   .existenceCheck("params", {
-    id: "calendar_events",
+    id: "calendar__events",
   })
   .callback(
     async ({ pb, params: { id } }) => await EventsService.getEventById(pb, id),
@@ -120,7 +120,7 @@ const addException = forgeController
     response: z.boolean(),
   })
   .existenceCheck("params", {
-    id: "calendar_events",
+    id: "calendar__events",
   })
   .callback(
     async ({ pb, params: { id }, body: { date } }) =>
@@ -141,7 +141,7 @@ const updateEvent = forgeController
     response: WithPBSchema(CalendarEventSchema),
   })
   .existenceCheck("params", {
-    id: "calendar_events",
+    id: "calendar__events",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -158,7 +158,7 @@ const deleteEvent = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "calendar_events",
+    id: "calendar__events",
   })
   .statusCode(204)
   .callback(

@@ -11,7 +11,7 @@ export const getSidebarData = async (
   pb: PocketBase,
 ): Promise<IVirtualWardrobeSidebarData> => {
   const allEntries = await pb
-    .collection("virtual_wardrobe_entries")
+    .collection("virtual_wardrobe__entries")
     .getFullList<IVirtualWardrobeEntry>();
 
   const categories = allEntries.reduce(
@@ -106,7 +106,7 @@ export const getEntries = async (
   ].filter((e) => e);
 
   const entries = await pb
-    .collection("virtual_wardrobe_entries")
+    .collection("virtual_wardrobe__entries")
     .getFullList<WithPB<IVirtualWardrobeEntry>>({
       filter: filterArray.join(" && "),
       sort: "-created",
@@ -135,7 +135,7 @@ export const createEntry = async (
   },
 ): Promise<WithPB<IVirtualWardrobeEntry>> => {
   const newEntry = await pb
-    .collection("virtual_wardrobe_entries")
+    .collection("virtual_wardrobe__entries")
     .create<WithPB<IVirtualWardrobeEntry>>(data);
 
   return {
@@ -155,7 +155,7 @@ export const updateEntry = async (
   data: Partial<IVirtualWardrobeEntry>,
 ): Promise<WithPB<IVirtualWardrobeEntry>> => {
   const updatedEntry = await pb
-    .collection("virtual_wardrobe_entries")
+    .collection("virtual_wardrobe__entries")
     .update<WithPB<IVirtualWardrobeEntry>>(id, data);
 
   return {
@@ -173,7 +173,7 @@ export const deleteEntry = async (
   pb: PocketBase,
   id: string,
 ): Promise<void> => {
-  await pb.collection("virtual_wardrobe_entries").delete(id);
+  await pb.collection("virtual_wardrobe__entries").delete(id);
 };
 
 export const toggleFavourite = async (
@@ -181,7 +181,7 @@ export const toggleFavourite = async (
   id: string,
 ): Promise<WithPB<IVirtualWardrobeEntry>> => {
   const entry = await pb
-    .collection("virtual_wardrobe_entries")
+    .collection("virtual_wardrobe__entries")
     .getOne<WithPB<IVirtualWardrobeEntry>>(id);
 
   return await updateEntry(pb, id, {

@@ -6,17 +6,17 @@ import { WithPB } from "@typescript/pocketbase_interfaces";
 import {
   IRailwayMapLine,
   IRailwayMapStation,
-} from "../typescript/railwayMap.types";
+} from "../typescript/railway_map_interfaces";
 import dijkstraWithTransfers from "../utils/pathFinding";
 
 export const getLines = (pb: PocketBase): Promise<WithPB<IRailwayMapLine>[]> =>
-  pb.collection("railway_map_lines").getFullList<WithPB<IRailwayMapLine>>();
+  pb.collection("railway_map__lines").getFullList<WithPB<IRailwayMapLine>>();
 
 export const getStations = (
   pb: PocketBase,
 ): Promise<WithPB<IRailwayMapStation>[]> =>
   pb
-    .collection("railway_map_stations")
+    .collection("railway_map__stations")
     .getFullList<WithPB<IRailwayMapStation>>();
 
 export const getShortestPath = async (
@@ -25,7 +25,7 @@ export const getShortestPath = async (
   end: string,
 ): Promise<WithPB<IRailwayMapStation>[]> => {
   const allStations = await pb
-    .collection("railway_map_stations")
+    .collection("railway_map__stations")
     .getFullList<WithPB<IRailwayMapStation>>();
 
   if (

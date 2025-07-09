@@ -66,7 +66,7 @@ const getOgData = forgeController
     response: z.record(z.string(), z.any()),
   })
   .existenceCheck("params", {
-    id: "idea_box_entries",
+    id: "idea_box__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await miscService.getOgData(pb, id),

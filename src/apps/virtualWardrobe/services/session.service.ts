@@ -19,7 +19,7 @@ export const addToCart = async (
   }
 
   const item = await pb
-    .collection("virtual_wardrobe_entries")
+    .collection("virtual_wardrobe__entries")
     .getOne<WithPB<IVirtualWardrobeEntry>>(entryId);
 
   const processedItem = {
@@ -53,13 +53,13 @@ export const checkout = async (
 
   const entryIds = cart.map((entry) => entry.id);
 
-  await pb.collection("virtual_wardrobe_histories").create({
+  await pb.collection("virtual_wardrobe__histories").create({
     entries: entryIds,
     notes,
   });
 
   for (const entry of cart) {
-    await pb.collection("virtual_wardrobe_entries").update(entry.id, {
+    await pb.collection("virtual_wardrobe__entries").update(entry.id, {
       "times_worn+": 1,
       last_worn: new Date(),
     });

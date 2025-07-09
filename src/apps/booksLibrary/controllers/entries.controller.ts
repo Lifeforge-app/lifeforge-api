@@ -47,7 +47,7 @@ const updateEntry = forgeController
     response: WithPBSchema(BooksLibraryEntrySchema),
   })
   .existenceCheck("params", {
-    id: "books_library_entries",
+    id: "books_library__entries",
   })
   .existenceCheck("body", {
     category: "[books_library_categories]",
@@ -67,7 +67,7 @@ const toggleFavouriteStatus = forgeController
     response: WithPBSchema(BooksLibraryEntrySchema),
   })
   .existenceCheck("params", {
-    id: "books_library_entries",
+    id: "books_library__entries",
   })
   .callback(({ pb, params: { id } }) =>
     EntriesService.toggleFavouriteStatus(pb, id),
@@ -83,7 +83,7 @@ const toggleReadStatus = forgeController
     response: WithPBSchema(BooksLibraryEntrySchema),
   })
   .existenceCheck("params", {
-    id: "books_library_entries",
+    id: "books_library__entries",
   })
   .callback(async ({ pb, params: { id } }) =>
     EntriesService.toggleReadStatus(pb, id),
@@ -102,7 +102,7 @@ const sendToKindle = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "books_library_entries",
+    id: "books_library__entries",
   })
   .callback(async ({ pb, params: { id }, body: { target } }) => {
     const smtpUser = await getAPIKey("smtp-user", pb);
@@ -135,7 +135,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "books_library_entries",
+    id: "books_library__entries",
   })
   .statusCode(204)
   .callback(({ pb, params: { id } }) => EntriesService.deleteEntry(pb, id));

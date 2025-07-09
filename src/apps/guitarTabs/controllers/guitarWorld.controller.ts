@@ -5,13 +5,8 @@ import {
 import express from "express";
 import { z } from "zod/v4";
 
-import { WithPBSchema } from "@typescript/pocketbase_interfaces";
-
 import * as guitarWorldService from "../services/guitarWorld.service";
-import {
-  GuitarTabsEntrySchema,
-  GuitarTabsGuitarWorldEntrySchema,
-} from "../typescript/guitar_tabs_interfaces";
+import { GuitarTabsGuitarWorldEntrySchema } from "../typescript/guitar_tabs_interfaces";
 
 const guitarTabsGuitarWorldRouter = express.Router();
 

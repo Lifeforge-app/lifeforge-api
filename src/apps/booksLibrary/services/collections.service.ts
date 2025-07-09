@@ -8,7 +8,7 @@ export const getAllCollections = (
   pb: PocketBase,
 ): Promise<WithPB<IBooksLibraryCollection>[]> =>
   pb
-    .collection("books_library_collections_aggregated")
+    .collection("books_library__collections_aggregated")
     .getFullList<WithPB<IBooksLibraryCollection>>({
       sort: "name",
     });
@@ -18,7 +18,7 @@ export const createCollection = (
   data: Omit<IBooksLibraryCollection, "amount">,
 ): Promise<WithPB<IBooksLibraryCollection>> =>
   pb
-    .collection("books_library_collections")
+    .collection("books_library__collections")
     .create<WithPB<IBooksLibraryCollection>>(data);
 
 export const updateCollection = (
@@ -27,9 +27,9 @@ export const updateCollection = (
   data: Omit<IBooksLibraryCollection, "amount">,
 ): Promise<WithPB<IBooksLibraryCollection>> =>
   pb
-    .collection("books_library_collections")
+    .collection("books_library__collections")
     .update<WithPB<IBooksLibraryCollection>>(id, data);
 
 export const deleteCollection = async (pb: PocketBase, id: string) => {
-  await pb.collection("books_library_collections").delete(id);
+  await pb.collection("books_library__collections").delete(id);
 };

@@ -45,7 +45,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "music_entries",
+    id: "music__entries",
   })
   .callback(async ({ pb, params: { id } }) =>
     EntriesService.deleteEntry(pb, id),
@@ -62,7 +62,7 @@ const toggleFavorite = forgeController
     response: WithPBSchema(MusicEntrySchema),
   })
   .existenceCheck("params", {
-    id: "music_entries",
+    id: "music__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>

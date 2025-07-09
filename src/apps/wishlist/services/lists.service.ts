@@ -9,7 +9,7 @@ export const checkListExists = async (
   id: string,
 ): Promise<boolean> => {
   try {
-    await pb.collection("wishlist_lists").getOne(id);
+    await pb.collection("wishlist__lists").getOne(id);
     return true;
   } catch (error) {
     return false;
@@ -29,7 +29,7 @@ export const getList = (
     }
   >
 > =>
-  pb.collection("wishlist_lists_aggregated").getOne<
+  pb.collection("wishlist__lists_aggregated").getOne<
     WithPB<
       IWishlistList & {
         total_count: number;
@@ -52,7 +52,7 @@ export const getAllLists = (
     }
   >[]
 > =>
-  pb.collection("wishlist_lists_aggregated").getFullList<
+  pb.collection("wishlist__lists_aggregated").getFullList<
     WithPB<
       IWishlistList & {
         total_count: number;
@@ -69,15 +69,15 @@ export const createList = (
   pb: PocketBase,
   data: IWishlistList,
 ): Promise<WithPB<IWishlistList>> =>
-  pb.collection("wishlist_lists").create<WithPB<IWishlistList>>(data);
+  pb.collection("wishlist__lists").create<WithPB<IWishlistList>>(data);
 
 export const updateList = async (
   pb: PocketBase,
   id: string,
   data: IWishlistList,
 ): Promise<WithPB<IWishlistList>> =>
-  pb.collection("wishlist_lists").update<WithPB<IWishlistList>>(id, data);
+  pb.collection("wishlist__lists").update<WithPB<IWishlistList>>(id, data);
 
 export const deleteList = async (pb: PocketBase, id: string): Promise<void> => {
-  await pb.collection("wishlist_lists").delete(id);
+  await pb.collection("wishlist__lists").delete(id);
 };

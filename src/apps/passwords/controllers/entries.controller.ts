@@ -9,7 +9,7 @@ import { z } from "zod/v4";
 import { WithPBSchema } from "@typescript/pocketbase_interfaces";
 
 import * as EntriesService from "../services/entries.service";
-import { PasswordEntrySchema } from "../typescript/password_interfaces";
+import { PasswordEntrySchema } from "../typescript/passwords_interfaces";
 
 const passwordsEntriesRouter = express.Router();
 
@@ -69,7 +69,7 @@ const updateEntry = forgeController
     response: WithPBSchema(PasswordEntrySchema),
   })
   .existenceCheck("params", {
-    id: "passwords_entries",
+    id: "passwords__entries",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -89,7 +89,7 @@ const decryptEntry = forgeController
     response: z.string(),
   })
   .existenceCheck("params", {
-    id: "passwords_entries",
+    id: "passwords__entries",
   })
   .callback(
     async ({ pb, params: { id }, query: { master } }) =>
@@ -106,7 +106,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "passwords_entries",
+    id: "passwords__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await EntriesService.deleteEntry(pb, id),
@@ -123,7 +123,7 @@ const togglePin = forgeController
     response: WithPBSchema(PasswordEntrySchema),
   })
   .existenceCheck("params", {
-    id: "passwords_entries",
+    id: "passwords__entries",
   })
   .callback(
     async ({ pb, params: { id } }) => await EntriesService.togglePin(pb, id),

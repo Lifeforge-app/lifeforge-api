@@ -47,7 +47,7 @@ const updateLedger = forgeController
     response: WithPBSchema(WalletLedgerSchema),
   })
   .existenceCheck("params", {
-    id: "wallet_ledgers",
+    id: "wallet__ledgers",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -64,7 +64,7 @@ const deleteLedger = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "wallet_ledgers",
+    id: "wallet__ledgers",
   })
   .statusCode(204)
   .callback(

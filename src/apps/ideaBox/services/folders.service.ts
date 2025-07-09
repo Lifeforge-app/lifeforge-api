@@ -2,14 +2,14 @@ import PocketBase from "pocketbase";
 
 import { WithPB } from "@typescript/pocketbase_interfaces";
 
-import { IIdeaBoxFolder } from "../typescript/ideabox_interfaces";
+import { IIdeaBoxFolder } from "../typescript/idea_box_interfaces";
 
 export const getFolders = (
   pb: PocketBase,
   container: string,
   lastFolder: string,
 ): Promise<WithPB<IIdeaBoxFolder>[]> =>
-  pb.collection("idea_box_folders").getFullList<WithPB<IIdeaBoxFolder>>({
+  pb.collection("idea_box__folders").getFullList<WithPB<IIdeaBoxFolder>>({
     filter: `container = "${container}" && parent = "${lastFolder}"`,
     sort: "name",
   });
@@ -30,7 +30,7 @@ export const createFolder = async (
     color: string;
   },
 ): Promise<WithPB<IIdeaBoxFolder>> =>
-  pb.collection("idea_box_folders").create<WithPB<IIdeaBoxFolder>>({
+  pb.collection("idea_box__folders").create<WithPB<IIdeaBoxFolder>>({
     name,
     container,
     parent,
@@ -43,7 +43,7 @@ export const updateFolder = (
   id: string,
   { name, icon, color }: { name: string; icon: string; color: string },
 ): Promise<WithPB<IIdeaBoxFolder>> =>
-  pb.collection("idea_box_folders").update<WithPB<IIdeaBoxFolder>>(id, {
+  pb.collection("idea_box__folders").update<WithPB<IIdeaBoxFolder>>(id, {
     name,
     icon,
     color,
@@ -54,7 +54,7 @@ export const moveFolder = (
   id: string,
   target: string,
 ): Promise<WithPB<IIdeaBoxFolder>> =>
-  pb.collection("idea_box_folders").update<WithPB<IIdeaBoxFolder>>(id, {
+  pb.collection("idea_box__folders").update<WithPB<IIdeaBoxFolder>>(id, {
     parent: target,
   });
 
@@ -62,12 +62,12 @@ export const removeFromFolder = (
   pb: PocketBase,
   id: string,
 ): Promise<WithPB<IIdeaBoxFolder>> =>
-  pb.collection("idea_box_folders").update<WithPB<IIdeaBoxFolder>>(id, {
+  pb.collection("idea_box__folders").update<WithPB<IIdeaBoxFolder>>(id, {
     parent: "",
   });
 
 export const deleteFolder = async (pb: PocketBase, id: string) => {
-  await pb.collection("idea_box_folders").delete(id);
+  await pb.collection("idea_box__folders").delete(id);
 };
 
 export const validateFolderPath = async (
@@ -83,7 +83,7 @@ export const validateFolderPath = async (
 
     try {
       const folderEntry = await pb
-        .collection("idea_box_folders")
+        .collection("idea_box__folders")
         .getOne<WithPB<IIdeaBoxFolder>>(folder);
 
       if (

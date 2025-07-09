@@ -56,7 +56,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "movies_entries",
+    id: "movies__entries",
   })
   .callback(({ pb, params: { id } }) => entriesService.deleteEntry(pb, id))
   .statusCode(204);
@@ -71,7 +71,7 @@ const toggleWatchStatus = forgeController
     response: WithPBSchema(MovieEntrySchema),
   })
   .existenceCheck("params", {
-    id: "movies_entries",
+    id: "movies__entries",
   })
   .callback(({ pb, params: { id } }) =>
     entriesService.toggleWatchStatus(pb, id),

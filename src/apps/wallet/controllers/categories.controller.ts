@@ -47,7 +47,7 @@ const updateCategory = forgeController
     response: WithPBSchema(WalletCategorySchema),
   })
   .existenceCheck("params", {
-    id: "wallet_categories",
+    id: "wallet__categories",
   })
   .callback(
     async ({ pb, params: { id }, body }) =>
@@ -64,7 +64,7 @@ const deleteCategory = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "wallet_categories",
+    id: "wallet__categories",
   })
   .statusCode(204)
   .callback(

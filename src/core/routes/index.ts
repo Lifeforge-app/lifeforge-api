@@ -2,7 +2,7 @@ import {
   bulkRegisterControllers,
   forgeController,
 } from "@functions/forgeController";
-import { serverError, successWithBaseResponse } from "@functions/response";
+import { successWithBaseResponse } from "@functions/response";
 import traceRouteStack from "@functions/traceRouteStack";
 import express from "express";
 import fs from "fs";

@@ -39,7 +39,7 @@ const getEntriesByListId = forgeController
     response: z.array(WithPBSchema(WishlistEntrySchema)),
   })
   .existenceCheck("params", {
-    id: "wishlist_lists",
+    id: "wishlist__lists",
   })
   .callback(
     async ({ pb, params: { id }, query: { bought } }) =>
@@ -76,7 +76,7 @@ const createEntry = forgeController
   })
   .middlewares(singleUploadMiddleware)
   .existenceCheck("body", {
-    list: "wishlist_lists",
+    list: "wishlist__lists",
   })
   .statusCode(201)
   .callback(async ({ pb, body, req }) => {
@@ -124,10 +124,10 @@ const updateEntry = forgeController
   })
   .middlewares(singleUploadMiddleware)
   .existenceCheck("params", {
-    id: "wishlist_entries",
+    id: "wishlist__entries",
   })
   .existenceCheck("body", {
-    list: "wishlist_lists",
+    list: "wishlist__lists",
   })
   .callback(
     async ({
@@ -173,7 +173,7 @@ const updateEntryBoughtStatus = forgeController
     response: WithPBSchema(WishlistEntrySchema),
   })
   .existenceCheck("params", {
-    id: "wishlist_entries",
+    id: "wishlist__entries",
   })
   .callback(
     async ({ pb, params: { id } }) =>
@@ -190,7 +190,7 @@ const deleteEntry = forgeController
     response: z.void(),
   })
   .existenceCheck("params", {
-    id: "wishlist_entries",
+    id: "wishlist__entries",
   })
   .statusCode(204)
   .callback(
