@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.284Z
  * Contains: idea_box__containers, idea_box__entries, idea_box__folders, idea_box__tags, idea_box__tags_aggregated, idea_box__containers_aggregated
  */
-
 import { z } from "zod/v4";
+
 const IdeaBoxContainerSchema = z.object({
   icon: z.string(),
   color: z.string(),
@@ -15,7 +15,7 @@ const IdeaBoxContainerSchema = z.object({
 });
 
 const IdeaBoxEntrySchema = z.object({
-  type: z.enum(["text","image","link"]),
+  type: z.enum(["text", "image", "link"]),
   image: z.string(),
   title: z.string(),
   content: z.string(),
@@ -64,7 +64,9 @@ type IIdeaBoxEntry = z.infer<typeof IdeaBoxEntrySchema>;
 type IIdeaBoxFolder = z.infer<typeof IdeaBoxFolderSchema>;
 type IIdeaBoxTag = z.infer<typeof IdeaBoxTagSchema>;
 type IIdeaBoxTagAggregated = z.infer<typeof IdeaBoxTagAggregatedSchema>;
-type IIdeaBoxContainerAggregated = z.infer<typeof IdeaBoxContainerAggregatedSchema>;
+type IIdeaBoxContainerAggregated = z.infer<
+  typeof IdeaBoxContainerAggregatedSchema
+>;
 
 export {
   IdeaBoxContainerSchema,

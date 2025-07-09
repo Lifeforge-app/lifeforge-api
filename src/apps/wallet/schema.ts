@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.284Z
  * Contains: wallet__assets, wallet__ledgers, wallet__categories, wallet__transactions, wallet__categories_aggregated, wallet__assets_aggregated, wallet__ledgers_aggregated, wallet__transaction_types_aggregated
  */
-
 import { z } from "zod/v4";
+
 const WalletAssetSchema = z.object({
   name: z.string(),
   icon: z.string(),
@@ -23,12 +23,12 @@ const WalletCategorySchema = z.object({
   name: z.string(),
   icon: z.string(),
   color: z.string(),
-  type: z.enum(["income","expenses",""]),
+  type: z.enum(["income", "expenses", ""]),
 });
 
 const WalletTransactionSchema = z.object({
-  type: z.enum(["income","expenses","transfer",""]),
-  side: z.enum(["debit","credit",""]),
+  type: z.enum(["income", "expenses", "transfer", ""]),
+  side: z.enum(["debit", "credit", ""]),
   particulars: z.string(),
   amount: z.number(),
   date: z.string(),
@@ -41,7 +41,7 @@ const WalletTransactionSchema = z.object({
 });
 
 const WalletCategoryAggregatedSchema = z.object({
-  type: z.enum(["income","expenses",""]),
+  type: z.enum(["income", "expenses", ""]),
   name: z.string(),
   icon: z.string(),
   color: z.string(),
@@ -64,7 +64,7 @@ const WalletLedgerAggregatedSchema = z.object({
 });
 
 const WalletTransactionTypeAggregatedSchema = z.object({
-  name: z.enum(["income","expenses","transfer",""]),
+  name: z.enum(["income", "expenses", "transfer", ""]),
   amount: z.number(),
   accumulate: z.any(),
 });
@@ -76,7 +76,9 @@ type IWalletTransaction = z.infer<typeof WalletTransactionSchema>;
 type IWalletCategoryAggregated = z.infer<typeof WalletCategoryAggregatedSchema>;
 type IWalletAssetAggregated = z.infer<typeof WalletAssetAggregatedSchema>;
 type IWalletLedgerAggregated = z.infer<typeof WalletLedgerAggregatedSchema>;
-type IWalletTransactionTypeAggregated = z.infer<typeof WalletTransactionTypeAggregatedSchema>;
+type IWalletTransactionTypeAggregated = z.infer<
+  typeof WalletTransactionTypeAggregatedSchema
+>;
 
 export {
   WalletAssetSchema,

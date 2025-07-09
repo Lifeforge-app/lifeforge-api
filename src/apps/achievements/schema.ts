@@ -5,23 +5,19 @@
  * Generated at: 2025-07-09T12:50:41.282Z
  * Contains: achievements__entries
  */
-
 import { z } from "zod/v4";
+
 const AchievementsEntrySchema = z.object({
   title: z.string(),
   thoughts: z.string(),
-  difficulty: z.enum(["easy","medium","hard","impossible",""]),
+  difficulty: z.enum(["easy", "medium", "hard", "impossible", ""]),
 });
 
 type IAchievementsEntry = z.infer<typeof AchievementsEntrySchema>;
 
-export {
-  AchievementsEntrySchema,
-};
+export { AchievementsEntrySchema };
 
-export type {
-  IAchievementsEntry,
-};
+export type { IAchievementsEntry };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.285Z
  * Contains: wishlist__lists, wishlist__entries, wishlist__lists_aggregated
  */
-
 import { z } from "zod/v4";
+
 const WishlistListSchema = z.object({
   name: z.string(),
   description: z.string(),
@@ -45,11 +45,7 @@ export {
   WishlistListAggregatedSchema,
 };
 
-export type {
-  IWishlistList,
-  IWishlistEntry,
-  IWishlistListAggregated,
-};
+export type { IWishlistList, IWishlistEntry, IWishlistListAggregated };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

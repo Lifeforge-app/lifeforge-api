@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.282Z
  * Contains: calendar__events, calendar__categories, calendar__categories_aggregated, calendar__calendars
  */
-
 import { z } from "zod/v4";
+
 const CalendarEventSchema = z.object({
   start: z.string(),
   end: z.string(),
@@ -19,7 +19,7 @@ const CalendarEventSchema = z.object({
   is_striktethrough: z.boolean(),
   is_recurring: z.boolean(),
   use_google_map: z.boolean(),
-  type: z.enum(["single","recurring",""]),
+  type: z.enum(["single", "recurring", ""]),
   recurring_rrule: z.string(),
   recurring_duration_unit: z.string(),
   recurring_duration_amount: z.number(),
@@ -46,7 +46,9 @@ const CalendarCalendarSchema = z.object({
 
 type ICalendarEvent = z.infer<typeof CalendarEventSchema>;
 type ICalendarCategory = z.infer<typeof CalendarCategorySchema>;
-type ICalendarCategoryAggregated = z.infer<typeof CalendarCategoryAggregatedSchema>;
+type ICalendarCategoryAggregated = z.infer<
+  typeof CalendarCategoryAggregatedSchema
+>;
 type ICalendarCalendar = z.infer<typeof CalendarCalendarSchema>;
 
 export {

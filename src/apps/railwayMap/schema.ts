@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.284Z
  * Contains: railway_map__lines, railway_map__stations
  */
-
 import { z } from "zod/v4";
+
 const RailwayMapLineSchema = z.object({
   country: z.string(),
   type: z.string(),
@@ -32,15 +32,9 @@ const RailwayMapStationSchema = z.object({
 type IRailwayMapLine = z.infer<typeof RailwayMapLineSchema>;
 type IRailwayMapStation = z.infer<typeof RailwayMapStationSchema>;
 
-export {
-  RailwayMapLineSchema,
-  RailwayMapStationSchema,
-};
+export { RailwayMapLineSchema, RailwayMapStationSchema };
 
-export type {
-  IRailwayMapLine,
-  IRailwayMapStation,
-};
+export type { IRailwayMapLine, IRailwayMapStation };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.284Z
  * Contains: movies__entries
  */
-
 import { z } from "zod/v4";
+
 const MoviesEntrySchema = z.object({
   tmdb_id: z.number(),
   title: z.string(),
@@ -29,13 +29,9 @@ const MoviesEntrySchema = z.object({
 
 type IMoviesEntry = z.infer<typeof MoviesEntrySchema>;
 
-export {
-  MoviesEntrySchema,
-};
+export { MoviesEntrySchema };
 
-export type {
-  IMoviesEntry,
-};
+export type { IMoviesEntry };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

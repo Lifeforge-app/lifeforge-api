@@ -5,10 +5,10 @@
  * Generated at: 2025-07-09T12:50:41.283Z
  * Contains: moment_vault__entries
  */
-
 import { z } from "zod/v4";
+
 const MomentVaultEntrySchema = z.object({
-  type: z.enum(["text","audio","video","photos",""]),
+  type: z.enum(["text", "audio", "video", "photos", ""]),
   file: z.array(z.string()),
   content: z.string(),
   transcription: z.string(),
@@ -16,13 +16,9 @@ const MomentVaultEntrySchema = z.object({
 
 type IMomentVaultEntry = z.infer<typeof MomentVaultEntrySchema>;
 
-export {
-  MomentVaultEntrySchema,
-};
+export { MomentVaultEntrySchema };
 
-export type {
-  IMomentVaultEntry,
-};
+export type { IMomentVaultEntry };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

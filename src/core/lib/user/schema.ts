@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.286Z
  * Contains: users
  */
-
 import { z } from "zod/v4";
+
 const UserSchema = z.object({
   password: z.string(),
   tokenKey: z.string(),
@@ -17,13 +17,13 @@ const UserSchema = z.object({
   name: z.string(),
   avatar: z.string(),
   dateOfBirth: z.string(),
-  theme: z.enum(["system","light","dark"]),
+  theme: z.enum(["system", "light", "dark"]),
   color: z.string(),
   bgTemp: z.string(),
   bgImage: z.string(),
   backdropFilters: z.any(),
   fontFamily: z.string(),
-  language: z.enum(["zh-CN","en","ms","zh-TW",""]),
+  language: z.enum(["zh-CN", "en", "ms", "zh-TW", ""]),
   moduleConfigs: z.any(),
   enabledModules: z.any(),
   dashboardLayout: z.any(),
@@ -38,13 +38,9 @@ const UserSchema = z.object({
 
 type IUser = z.infer<typeof UserSchema>;
 
-export {
-  UserSchema,
-};
+export { UserSchema };
 
-export type {
-  IUser,
-};
+export type { IUser };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

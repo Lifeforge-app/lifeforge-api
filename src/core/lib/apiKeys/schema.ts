@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.286Z
  * Contains: api_keys__entries
  */
-
 import { z } from "zod/v4";
+
 const ApiKeysEntrySchema = z.object({
   keyId: z.string(),
   name: z.string(),
@@ -17,13 +17,9 @@ const ApiKeysEntrySchema = z.object({
 
 type IApiKeysEntry = z.infer<typeof ApiKeysEntrySchema>;
 
-export {
-  ApiKeysEntrySchema,
-};
+export { ApiKeysEntrySchema };
 
-export type {
-  IApiKeysEntry,
-};
+export type { IApiKeysEntry };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 

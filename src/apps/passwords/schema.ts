@@ -5,8 +5,8 @@
  * Generated at: 2025-07-09T12:50:41.283Z
  * Contains: passwords__entries
  */
-
 import { z } from "zod/v4";
+
 const PasswordsEntrySchema = z.object({
   name: z.string(),
   website: z.string(),
@@ -19,13 +19,9 @@ const PasswordsEntrySchema = z.object({
 
 type IPasswordsEntry = z.infer<typeof PasswordsEntrySchema>;
 
-export {
-  PasswordsEntrySchema,
-};
+export { PasswordsEntrySchema };
 
-export type {
-  IPasswordsEntry,
-};
+export type { IPasswordsEntry };
 
 // -------------------- CUSTOM SCHEMAS --------------------
 
