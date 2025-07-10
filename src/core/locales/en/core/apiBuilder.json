@@ -29,7 +29,10 @@
     "sorter": "Sorter",
     "collectionPickFields": "Field Selector",
     "valueFromRequest": "Value from Request",
-    "createRecord": "Create Record"
+    "createRecord": "Create Record",
+    "deriveSchemaFromCollection": "Derive Schema from Collection",
+    "updateRecord": "Update Record",
+    "deleteRecord": "Delete Record"
   },
   "items": {
     "node": "Node"
@@ -50,7 +53,9 @@
     "field": "Field",
     "comparator": "Comparator",
     "fieldIDs": "Field IDs",
-    "direction": "Direction"
+    "direction": "Direction",
+    "typeScriptInterfaceName": "TypeScript Interface Name",
+    "recordId": "Record ID"
   },
   "empty": {
     "noFields": "No fields available",

@@ -33,7 +33,7 @@ export const getSidebarData = async (
     .collection("guitar_tabs__entries")
     .getFullList<WithPB<IGuitarTabsEntry>>();
   const allAuthors = await pb
-    .collection("guitar_tabs__authors")
+    .collection("guitar_tabs__authors_aggregated")
     .getFullList<WithPB<IGuitarTabsAuthorAggregated>>();
 
   return {

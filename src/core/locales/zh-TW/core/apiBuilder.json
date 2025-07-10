@@ -29,7 +29,10 @@
     "sorter": "排序器",
     "collectionPickFields": "字段選擇器",
     "valueFromRequest": "來自請求的值",
-    "createRecord": "建立記錄"
+    "createRecord": "建立記錄",
+    "deriveSchemaFromCollection": "從集合推導架構",
+    "updateRecord": "更新記錄",
+    "deleteRecord": "刪除記錄"
   },
   "items": {
     "node": "節點"
@@ -50,7 +53,9 @@
     "field": "欄位",
     "comparator": "比較器",
     "fieldIDs": "欄位 ID",
-    "direction": "方向"
+    "direction": "方向",
+    "typeScriptInterfaceName": "TypeScript 介面名稱",
+    "recordId": "記錄 ID"
   },
   "empty": {
     "noFields": "沒有可用的欄位",

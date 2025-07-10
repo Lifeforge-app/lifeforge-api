@@ -29,7 +29,10 @@
     "sorter": "排序器",
     "collectionPickFields": "字段选择器",
     "valueFromRequest": "来自请求的值",
-    "createRecord": "创建记录"
+    "createRecord": "创建记录",
+    "deriveSchemaFromCollection": "从集合推导架构",
+    "updateRecord": "更新记录",
+    "deleteRecord": "删除记录"
   },
   "items": {
     "node": "节点"
@@ -42,7 +45,7 @@
     "query": "查询",
     "body": "正文",
     "response": "响应",
-    "schemaName": "模式名称",
+    "schemaName": "架构名称",
     "fields": "字段",
     "responseSchema": "响应架构",
     "action": "操作",
@@ -50,7 +53,9 @@
     "field": "字段",
     "comparator": "比较器",
     "fieldIDs": "字段 ID",
-    "direction": "方向"
+    "direction": "方向",
+    "typeScriptInterfaceName": "TypeScript 接口名称",
+    "recordId": "记录 ID"
   },
   "empty": {
     "noFields": "没有可用字段",

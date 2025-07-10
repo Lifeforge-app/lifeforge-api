@@ -29,7 +29,10 @@
     "sorter": "Penyusun",
     "collectionPickFields": "Penzilih Bidang",
     "valueFromRequest": "Nilai dari Permintaan",
-    "createRecord": "Cipta Rekod"
+    "createRecord": "Cipta Rekod",
+    "deriveSchemaFromCollection": "Turunkan Skema daripada Koleksi",
+    "updateRecord": "Kemas kini Rekod",
+    "deleteRecord": "Padam Rekod"
   },
   "items": {
     "node": "Node"
@@ -50,7 +53,9 @@
     "field": "Medan",
     "comparator": "Penyandar",
     "fieldIDs": "ID Bidang",
-    "direction": "Arah"
+    "direction": "Arah",
+    "typeScriptInterfaceName": "Nama Antara Muka TypeScript",
+    "recordId": "ID Rekod"
   },
   "empty": {
     "noFields": "Tiada medan tersedia",
