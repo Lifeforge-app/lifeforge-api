@@ -63,11 +63,11 @@ const createTransaction = forgeController
   })
   .middlewares(singleUploadMiddleware)
   .existenceCheck("body", {
-    category: "[wallet_categories]",
-    asset: "[wallet_assets]",
-    ledger: "[wallet_ledgers]",
-    fromAsset: "[wallet_assets]",
-    toAsset: "[wallet_assets]",
+    category: "[wallet__categories]",
+    asset: "[wallet__assets]",
+    ledger: "[wallet__ledgers]",
+    fromAsset: "[wallet__assets]",
+    toAsset: "[wallet__assets]",
   })
   .statusCode(201)
   .callback(
@@ -124,7 +124,7 @@ const updateTransaction = forgeController
   .existenceCheck("body", {
     category: "wallet__categories",
     asset: "wallet__assets",
-    ledger: "[wallet_ledgers]",
+    ledger: "[wallet__ledgers]",
   })
   .callback(
     async ({ pb, params: { id }, body, req }) =>

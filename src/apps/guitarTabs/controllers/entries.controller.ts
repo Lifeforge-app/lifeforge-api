@@ -66,35 +66,22 @@ const uploadFiles = forgeController
   .description("Upload guitar tab files")
   .middlewares(uploadMiddleware)
   .schema({
-    response: z.boolean(),
+    response: z.string(),
   })
   .statusCode(202)
-  .callback(async ({ pb, req }) => {
+  .callback(async ({ io, pb, req }) => {
     const files = req.files;
 
     if (!files) {
       throw new ClientError("No files provided");
     }
 
-    const result = await entriesService.uploadFiles(
+    return await entriesService.uploadFiles(
+      io,
       pb,
       files as Express.Multer.File[],
     );
-
-    if (result.status === "error") {
-      throw new Error(result.message);
-    }
-
-    return true;
   });
-
-const getProcessStatus = forgeController
-  .route("GET /process-status")
-  .description("Get file processing status")
-  .schema({
-    response: z.any(),
-  })
-  .callback(async () => entriesService.getProcessStatus());
 
 const updateEntry = forgeController
   .route("PATCH /:id")
@@ -157,7 +144,6 @@ bulkRegisterControllers(guitarTabsEntriesRouter, [
   getEntries,
   getRandomEntry,
   uploadFiles,
-  getProcessStatus,
   updateEntry,
   deleteEntry,
   toggleFavorite,

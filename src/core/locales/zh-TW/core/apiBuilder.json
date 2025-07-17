@@ -5,11 +5,14 @@
     "fieldName": "欄位名稱",
     "fieldType": "欄位類型",
     "optional": "可選",
-    "addField": "新增欄位"
+    "addField": "新增欄位",
+    "groupName": "群組名稱",
+    "groupIcon": "群組圖標"
   },
   "modals": {
     "editSchemaBlock": "編輯架構區塊",
-    "newNode": "新增節點"
+    "newNode": "新增節點",
+    "groupConfiguration": "群組配置"
   },
   "nodes": {
     "route": "路由",

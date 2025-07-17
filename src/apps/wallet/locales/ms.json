@@ -6,7 +6,8 @@
     "transactions": "Transaksi",
     "assets": "Aset",
     "ledgers": "Lejar",
-    "financialStatements": "Penyata Kewangan"
+    "financialStatements": "Penyata Kewangan",
+    "spendingHeatmap": "Peta Suhu Perbelanjaan"
   },
   "header": {
     "allTransactions": "Semua Transaksi",
@@ -58,6 +59,10 @@
     "ledger": {
       "title": "Tiada Lejar Dijumpai",
       "description": "Anda belum mencipta sebarang lejar lagi. Klik butang di atas untuk menambah satu."
+    },
+    "location": {
+      "title": "Tiada Lokasi Tersedia",
+      "description": "Tiada data lokasi dijumpai dalam mana-mana transaksi. Sila tambah transaksi dengan lokasi."
     }
   },
   "sidebar": {
@@ -182,6 +187,10 @@
     "financialStatements": {
       "title": "Penyata Kewangan",
       "description": "Lihat penyata kewangan terperinci yang memberikan pandangan mengenai transaksi dan baki akaun anda."
+    },
+    "spendingHeatmap": {
+      "title": "Peta Panas Perbelanjaan",
+      "description": "Representasi visual tentang tabiat perbelanjaan anda dari semasa ke semasa."
     }
   }
 }

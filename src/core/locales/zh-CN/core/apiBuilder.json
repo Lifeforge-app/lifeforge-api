@@ -5,11 +5,14 @@
     "fieldName": "字段名称",
     "fieldType": "字段类型",
     "optional": "可选",
-    "addField": "添加字段"
+    "addField": "添加字段",
+    "groupName": "群组名称",
+    "groupIcon": "群组图标"
   },
   "modals": {
     "editSchemaBlock": "编辑架构块",
-    "newNode": "添加新节点"
+    "newNode": "添加新节点",
+    "groupConfiguration": "分组配置"
   },
   "nodes": {
     "route": "路由",

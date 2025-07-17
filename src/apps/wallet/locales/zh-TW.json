@@ -6,7 +6,8 @@
     "transactions": "交易",
     "assets": "資產",
     "ledgers": "帳本",
-    "financialStatements": "財務報表"
+    "financialStatements": "財務報表",
+    "spendingHeatmap": "消費熱力圖"
   },
   "header": {
     "allTransactions": "所有交易",
@@ -58,6 +59,10 @@
     "ledger": {
       "title": "未找到帳本",
       "description": "您尚未創建任何帳本。點擊上面的按鈕添加一個。"
+    },
+    "location": {
+      "title": "沒有可用的位置",
+      "description": "在任何交易中找不到位置數據。請添加包含位置的交易。"
     }
   },
   "sidebar": {
@@ -182,6 +187,10 @@
     "financialStatements": {
       "title": "財務報表",
       "description": "查看詳細的財務報表，以了解您帳戶的交易和餘額情況。"
+    },
+    "spendingHeatmap": {
+      "title": "消費熱力圖",
+      "description": "顯示您隨時間變化的消費習慣的可視化圖形。"
     }
   }
 }

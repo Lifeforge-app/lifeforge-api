@@ -6,7 +6,8 @@
     "transactions": "Transactions",
     "assets": "Assets",
     "ledgers": "Ledgers",
-    "financialStatements": "Financial Statements"
+    "financialStatements": "Financial Statements",
+    "spendingHeatmap": "Spending Heatmap"
   },
   "header": {
     "allTransactions": "All Transactions",
@@ -58,6 +59,10 @@
     "ledger": {
       "title": "No Ledgers Found",
       "description": "You haven't created any ledgers yet. Click the button above to add one."
+    },
+    "location": {
+      "title": "No Location Available",
+      "description": "No location data found in any transactions. Please add a transaction with a location."
     }
   },
   "sidebar": {
@@ -182,6 +187,10 @@
     "financialStatements": {
       "title": "Financial Statements",
       "description": "View detailed financial statements that provide insights into your account's transactions and balances."
+    },
+    "spendingHeatmap": {
+      "title": "Spending Heatmap",
+      "description": "Visual representation of your spending habits over time."
     }
   }
 }

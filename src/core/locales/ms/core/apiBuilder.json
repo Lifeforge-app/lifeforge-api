@@ -5,11 +5,14 @@
     "fieldName": "Nama Field",
     "fieldType": "Jenis Medan",
     "optional": "Pilihan",
-    "addField": "Tambah Medan"
+    "addField": "Tambah Medan",
+    "groupName": "Nama Kumpulan",
+    "groupIcon": "Ikon Kumpulan"
   },
   "modals": {
     "editSchemaBlock": "Edit Skema Blok",
-    "newNode": "Tambah Node Baharu"
+    "newNode": "Tambah Node Baharu",
+    "groupConfiguration": "Konfigurasi Kumpulan"
   },
   "nodes": {
     "route": "Rute",

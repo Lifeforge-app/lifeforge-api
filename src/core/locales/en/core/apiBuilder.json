@@ -5,11 +5,14 @@
     "fieldName": "Field Name",
     "fieldType": "Field Type",
     "optional": "Optional",
-    "addField": "Add Field"
+    "addField": "Add Field",
+    "groupName": "Group Name",
+    "groupIcon": "Group Icon"
   },
   "modals": {
     "editSchemaBlock": "Edit Schema Block",
-    "newNode": "Add New Node"
+    "newNode": "Add New Node",
+    "groupConfiguration": "Group Configuration"
   },
   "nodes": {
     "route": "Route",
